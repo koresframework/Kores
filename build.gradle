@@ -1,0 +1,136 @@
+plugins {
+    id 'com.github.hierynomus.license' version '0.11.0'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+group 'com.github.jonathanxd'
+version '1.0-SNAPSHOT'
+
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'license'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    license {
+        header rootProject.file("LICENSE_HEADER")
+    }
+
+}
+
+idea {
+    targetVersion = "16"
+}
+
+defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
+
+sourceCompatibility = 1.8
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+
+// Setup
+
+ext {
+    description = "Framework to generate Java code and Bytecode code."
+}
+
+subprojects {
+
+    shadowJar {
+        dependencies {
+            include(project(rootProject.getPath()))
+        }
+    }
+}
+
+allprojects {
+    shadowJar {
+        dependencies {
+            include(dependency("com.github.JonathanxD:JwIUtils"))
+        }
+    }
+}
+
+
+// Tasks
+allprojects {
+    jar {
+        from "$rootProject.rootDir/LICENSE"
+
+        manifest {
+            attributes 'Implementation-Title': baseName,
+                    'Implementation-Version': version
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+}
+
+subprojects {
+
+    dependencies {
+        compile rootProject
+        testCompile rootProject.sourceSets.test.output
+    }
+}
+
+allprojects{
+    dependencies {
+        compile 'com.github.JonathanxD:JwIUtils:78e73f6d2d'
+        testCompile group: 'junit', name:'junit', version: '4.11'
+    }
+
+    test {
+        useJUnit()
+    }
+}
+
+allprojects{
+    license {
+        String name = project.getName()
+        String description = project.ext.description
+
+        ext.name = "$name"
+        ext.organization = 'TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/)'
+        ext.description = "$description"
+        ext.url = 'https://github.com/JonathanxD/CodeAPI'
+        ext.year = Calendar.getInstance().get(Calendar.YEAR)
+        ext.email = 'jonathan.scripter@programmer.net'
+
+        exclude "**/*.info"
+        exclude "**/*.md"
+        exclude "res/**"
+        exclude "src/main/resources/**"
+        exclude "src/test/resources/**"
+
+        header rootProject.file('LICENSE_HEADER')
+
+        sourceSets = project.sourceSets
+
+        ignoreFailures false
+        strictCheck true
+
+        mapping {
+            java = 'SLASHSTAR_STYLE'
+        }
+    }
+}
