@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.storage;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
@@ -40,6 +41,7 @@ public final class StorageKeys {
     public static final StorageKey<CodeModifier> MODIFIERS = new StorageKey<>("MODIFIERS", CodeModifier.class);
     public static final StorageKey<CodeSource> BODIES = new StorageKey<>("BODIES", CodeSource.class);
     public static final StorageKey<CodeParameter> PARAMETERS = new StorageKey<>("PARAMETERS", CodeParameter.class);
+    public static final StorageKey<CodeArgument> ARGUMENTS = new StorageKey<>("ARGUMENTS", CodeArgument.class);
     public static final StorageKey<CodeType> IMPLEMENTATIONS = new StorageKey<>("IMPLEMENTATIONS", CodeType.class);
 
 

@@ -30,33 +30,58 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.Parent;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public class ArgumenterizableSourceGenerator implements Generator<Argumenterizable<?>, String, PlainSourceGenerator> {
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
+    public static final ArgumenterizableSourceGenerator INSTANCE = new ArgumenterizableSourceGenerator();
 
-    private CodeParameterSourceGenerator() {
+    private ArgumenterizableSourceGenerator() {
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(Argumenterizable<?> argumenterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        StringBuilder sb = new StringBuilder();
+        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
+        values.add(StringValue.create("("));
 
-        return Collections.singletonList(StringValue.create(sb.toString()));
+        Collection<CodeArgument> arguments = argumenterizable.getArguments();
+
+        Iterator<CodeArgument> iterator = arguments.iterator();
+
+        while(iterator.hasNext()) {
+            CodeArgument argument = iterator.next();
+
+            if(argument.isCasted()) {
+                values.add(StringValue.create("("+argument.getType().getType()+")"));
+            }
+
+            values.add(TargetValue.create(argument.getValue().getClass(), argument.getValue(), parents));
+
+            if(iterator.hasNext())
+                values.add(StringValue.create(", "));
+
+        }
+
+        values.add(StringValue.create(")"));
+
+        return values;
     }
+
 }

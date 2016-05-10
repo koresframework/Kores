@@ -27,17 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.util.Lambda;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,19 +52,34 @@ public class BodiableSourceGenerator implements Generator<Bodiable, String, Plai
     private BodiableSourceGenerator() {
     }
 
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Bodiable bodiable, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
-        java.util.List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
-                StringValue.create("{")
-        ));
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(Bodiable bodiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        java.util.List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         Collection<CodeSource> bodies = bodiable.getBodies();
 
-        for (CodeSource bodySource : bodies) {
+        //parents = Parent.create(this, parents);
 
-            values.add(StringValue.create(plainSourceGenerator.gen(bodySource)));
+        boolean isExpression = Lambda.testCast(bodiable, CodePart.class, CodePart::isExpression);
+
+        if (!isExpression && bodies.isEmpty()) {
+            values.add(StringValue.create(";"));
         }
 
-        values.add(StringValue.create("}"));
+        if(isExpression || !bodies.isEmpty()) {
+            values.add(StringValue.create("{"));
+        }
+
+        for (CodeSource bodySource : bodies) {
+
+            values.add(CodeSourceValue.create(bodySource, parents));
+
+            //values.add(StringValue.create(plainSourceGenerator.gen(bodySource)));
+        }
+
+        if (isExpression || !bodies.isEmpty()) {
+            values.add(StringValue.create("}"));
+
+        }
         return values;
     }
 }

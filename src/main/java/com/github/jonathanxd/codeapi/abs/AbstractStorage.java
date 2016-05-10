@@ -46,11 +46,11 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractStore implements Storage {
+public abstract class AbstractStorage implements Storage {
 
     private Map<StorageKey<?>, Collection<?>> store = null;
 
-    public AbstractStore() {
+    public AbstractStorage() {
 
     }
 

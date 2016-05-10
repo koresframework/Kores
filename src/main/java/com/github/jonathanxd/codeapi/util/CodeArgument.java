@@ -25,40 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 07/05/16.
  */
-public final class Helper {
+public class CodeArgument {
+    private final CodePart value;
+    private final boolean casted;
+    private final CodeType type;
 
-    public static CodeSource sourceOf(CodePart... parts) {
-        CodeSource source = new CodeSource();
-
-        for (CodePart part : parts) {
-            source.add(part);
-        }
-
-        return source;
+    public CodeArgument(CodePart value, boolean casted, CodeType type) {
+        this.value = value;
+        this.casted = casted;
+        this.type = type;
     }
 
-
-    public static CodeType getJavaType(Class<?> aClass) {
-        return new JavaType(aClass);
+    public CodePart getValue() {
+        return value;
     }
 
-    final private static class JavaType implements CodeType {
-        private final Class<?> type;
+    public boolean isCasted() {
+        return casted;
+    }
 
-        private JavaType(Class<?> type) {
-            this.type = type;
-        }
-
-        @Override
-        public String getType() {
-            return type.getCanonicalName();
-        }
+    public final CodeType getType() {
+        return type;
     }
 }

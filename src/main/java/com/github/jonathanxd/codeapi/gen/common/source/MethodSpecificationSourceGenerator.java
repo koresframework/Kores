@@ -30,33 +30,47 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.TargetClassValue;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public class MethodSpecificationSourceGenerator implements Generator<MethodSpecification<?>, String, PlainSourceGenerator> {
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
+    public static final MethodSpecificationSourceGenerator INSTANCE = new MethodSpecificationSourceGenerator();
 
-    private CodeParameterSourceGenerator() {
+    private MethodSpecificationSourceGenerator() {
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(MethodSpecification<?> methodSpecification, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        StringBuilder sb = new StringBuilder();
+        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
+        if (methodSpecification.getReturnType() != null) {
 
-        return Collections.singletonList(StringValue.create(sb.toString()));
+            values.add(TargetValue.create(methodSpecification.getReturnType().getClass(), methodSpecification.getReturnType(), parents));
+        }
+
+        values.addAll(Arrays.asList(
+                StringValue.create(methodSpecification.getMethodName()),
+                TargetValue.create(Argumenterizable.class, methodSpecification, parents)
+        ));
+
+        if (!methodSpecification.isExpression()) {
+            values.add(StringValue.create(";"));
+        }
+
+        return values;
+
     }
 }

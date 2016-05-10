@@ -115,4 +115,8 @@ public class CodeInterface extends AbstractBodiable implements Modifierable, Cod
         this.modifiers.clear();
     }
 
+    @Override
+    public boolean isExpression() {
+        return true;
+    }
 }

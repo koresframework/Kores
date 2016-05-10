@@ -40,7 +40,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractValuableModifierable extends AbstractStore implements Valuable, Modifierable {
+public abstract class AbstractValuableModifierable extends AbstractStorage implements Valuable, Modifierable {
 
     @Store(CodeModifier.class)
     private final Collection<CodeModifier> modifiers = new ArrayList<>();

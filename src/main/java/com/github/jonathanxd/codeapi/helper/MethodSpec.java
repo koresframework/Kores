@@ -25,38 +25,57 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.Store;
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 10/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public class MethodSpec extends AbstractStorage implements MethodSpecification<MethodSpec>, GenericGenerator {
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
+    @Store(CodeArgument.class)
+    private final Collection<CodeArgument> arguments = new ArrayList<>();
+    private final String methodName;
+    private final CodeType returnType;
 
-    private CodeParameterSourceGenerator() {
+    public MethodSpec(String methodName, CodeType returnType) {
+        this.methodName = methodName;
+        this.returnType = returnType;
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public String getMethodName() {
+        return methodName;
+    }
 
-        StringBuilder sb = new StringBuilder();
+    @Override
+    public CodeType getReturnType() {
+        return returnType;
+    }
 
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
+    @Override
+    public MethodSpec addArgument(CodeArgument argument) {
+        this.arguments.add(argument);
+        return this;
+    }
 
-        return Collections.singletonList(StringValue.create(sb.toString()));
+    @Override
+    public Collection<CodeArgument> getArguments() {
+        return this.arguments;
+    }
+
+    @Override
+    public MethodSpec clearArguments() {
+        this.arguments.clear();
+        return this;
     }
 }

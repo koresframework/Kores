@@ -222,7 +222,7 @@ public class StrBuilder {
         StringJoiner sj = new StringJoiner(", ");
 
         for (CodeParameter parameter : parameters) {
-            sj.add("(" + parameter.getType().getCanonicalName() + ") " + parameter.getName());
+            sj.add("(" + parameter.getType().getType() + ") " + parameter.getName());
         }
 
         sb.append(sj.toString());

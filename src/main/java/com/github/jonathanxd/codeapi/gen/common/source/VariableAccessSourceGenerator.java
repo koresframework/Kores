@@ -27,36 +27,43 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.TargetClassValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.util.Parent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public class VariableAccessSourceGenerator implements Generator<VariableAccess, String, PlainSourceGenerator> {
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
+    public static final VariableAccessSourceGenerator INSTANCE = new VariableAccessSourceGenerator();
 
-    private CodeParameterSourceGenerator() {
+    private VariableAccessSourceGenerator() {
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(VariableAccess variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        StringBuilder sb = new StringBuilder();
+        if(variableAccess.getLocalization() != null) {
+            values.add(CodePartValue.create(variableAccess.getLocalization(), parents));
+            values.add(StringValue.create("."));
+        }
 
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
+        values.add(StringValue.create(variableAccess.getName()));
 
-        return Collections.singletonList(StringValue.create(sb.toString()));
+        return values;
     }
 }

@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +48,7 @@ public class CodeTypeSourceGenerator implements Generator<CodeType, String, Plai
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeType codeType, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeType codeType, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         return Collections.singletonList(
                 StringValue.create(codeType.getType())

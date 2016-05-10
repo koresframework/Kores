@@ -29,12 +29,14 @@ package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -42,14 +44,16 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> implements CodeGenerator<T> {
 
+    static final Logger logger = Logger.getLogger("AbstractGenerator");
+
     @SuppressWarnings("unchecked")
     public static <T, C> void helpApply(GenValue<?, T, C> genValue, Object target, Object instance, Appender<T> appender) {
         genValue.apply((T) target, (C) instance, appender);
     }
 
     @SuppressWarnings("unchecked")
-    private static <E, T, C> List<GenValue<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Generator<?, T, C> parent) {
-        return generator.gen((E) target, (C) instance, parent);
+    private static <E, T, C> List<GenValue<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents) {
+        return generator.gen((E) target, (C) instance, parents);
     }
 
     @SuppressWarnings("UnnecessaryQualifiedReference")
@@ -67,13 +71,6 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
                 for (GenValue<?, T, C> genValue : call) {
                     AbstractGenerator.helpApply(genValue, part, instance, appender);
                 }
-                //appender.add(call)
-                    /*for (Generator<?, T, C> generator : elems) {
-                        T res = AbstractGenerator.help(generator, part, instance);
-
-                        appender.add(res);
-                    }*/
-
             } else {
                 throw new IllegalStateException("Cannot find generator for '"+part.getClass().getCanonicalName()+"'");
             }
@@ -85,19 +82,32 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     public abstract Appender<T> createAppender();
 
     @SuppressWarnings("unchecked")
-    List<GenValue<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Generator<?, T, C> parent) {
+    List<GenValue<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents) {
         Map<Class<?>, Generator<?, T, C>> registry = getRegistry();
 
         EntryComparator entryComparator = new EntryComparator(generatorTargetClass);
 
 
-        Generator<?, T, C> get = registry.entrySet().stream().filter((entry) -> entry.getKey() == generatorTargetClass).sorted(entryComparator).map(Map.Entry::getValue).findFirst().orElse(null);
+        Map.Entry<Class<?>, Generator<?, T, C>> filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey() == generatorTargetClass).sorted(entryComparator).findFirst().orElse(null);
 
-        if (get != null) {
-            return new ArrayList<>(AbstractGenerator.help(get, target, this, parent));
+        if(filterEntry == null) {
+            filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey().isAssignableFrom(generatorTargetClass)).sorted(entryComparator).findFirst().orElse(null);
         }
 
-        throw new IllegalStateException("Cannot find generator for '"+generatorTargetClass.getCanonicalName()+"' while processing '"+target.getClass().getCanonicalName()+"'. Parent = "+parent);
+        Generator<?, T, C> get = filterEntry != null ? filterEntry.getValue() : null;
+
+        if (get != null) {
+
+            if(filterEntry.getKey() != generatorTargetClass && !(target instanceof GenericGenerator))
+                logger.warning("Processor of '"+generatorTargetClass.getCanonicalName()+"' isn't registered, using generic generator: '"+filterEntry.getKey()+"'!");
+            try{
+                return new ArrayList<>(AbstractGenerator.help(get, target, this, Parent.create(get, target, parents)));
+            }catch (Throwable t) {
+                throw new RuntimeException("Cannot parse! See parents: '"+parents+"'. ", t);
+            }
+        }
+
+        throw new IllegalStateException("Cannot find generator for '"+generatorTargetClass.getCanonicalName()+"' while processing '"+target.getClass().getCanonicalName()+"'. Parents = "+parents);
     }
 
     @Deprecated
@@ -123,8 +133,8 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
         @Override
         public int compare(Map.Entry<Class<?>, Generator<?, T, C>> o1, Map.Entry<Class<?>, Generator<?, T, C>> o2) {
-            //LEGACY return Integer.compare(o1.getValue().priority(), o2.getValue().priority());
-            return o1.getKey() == currentClass ? 1 : o2.getKey() == currentClass ? -1 : 1;
+            //LEGACY return Integer.compare(o1.getCurrent().priority(), o2.getCurrent().priority());
+            return o1.getKey() == currentClass ? 1 : o2.getKey() == currentClass ? -1 : 0;
         }
     }
 }

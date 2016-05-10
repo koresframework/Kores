@@ -37,7 +37,7 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractBodiable extends AbstractStore implements Bodiable {
+public abstract class AbstractBodiable extends AbstractStorage implements Bodiable {
     @Store(CodeSource.class)
     private final Collection<CodeSource> bodies = new ArrayList<>();
 

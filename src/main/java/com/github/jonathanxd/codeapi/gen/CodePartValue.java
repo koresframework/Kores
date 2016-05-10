@@ -25,38 +25,51 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<CodePart, TARGET, C> {
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
+    private final CodePart part;
+    private final Parent<Generator<?, TARGET, C>> current;
 
-    private CodeParameterSourceGenerator() {
+    public CodePartValue(CodePart part, Parent<Generator<?, TARGET, C>> current) {
+        this.part = part;
+        this.current = current;
+    }
+
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<CodePart, TARGET, C> create(CodePart part, Parent<Generator<?, TARGET, C>> current) {
+        return new CodePartValue<>(part, current);
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
 
-        StringBuilder sb = new StringBuilder();
+        List<GenValue<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current);
 
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
-
-        return Collections.singletonList(StringValue.create(sb.toString()));
+        if (call != null && !call.isEmpty()) {
+            for (GenValue<?, TARGET, C> genValue : call) {
+                AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender);
+            }
+        } else {
+            throw new IllegalStateException("Cannot find generator for '" + part.getClass().getCanonicalName() + "'");
+        }
     }
+
+    public Parent<Generator<?, TARGET, C>> getParents() {
+        return current;
+    }
+
+    @Override
+    public CodePart getValue() {
+        return part;
+    }
+
 }

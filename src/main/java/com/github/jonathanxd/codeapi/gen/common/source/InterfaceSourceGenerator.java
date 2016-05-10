@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
@@ -40,10 +39,10 @@ import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -57,15 +56,15 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         java.util.List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetClassValue.create(Modifierable.class, this),
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), this),
-                TargetClassValue.create(Named.class, this),
-                TargetClassValue.create(Implementer.class, this),
+                TargetClassValue.create(Modifierable.class, parents),
+                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
+                TargetClassValue.create(Named.class, parents),
+                TargetClassValue.create(Implementer.class, parents),
                 StringValue.create("{"),
-                TargetClassValue.create(Bodiable.class, this),
+                TargetClassValue.create(Bodiable.class, parents),
                 StringValue.create("}")
         ));
 

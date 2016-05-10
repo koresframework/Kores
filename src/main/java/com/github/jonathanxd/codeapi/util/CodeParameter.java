@@ -27,14 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.codeapi.types.CodeType;
+
 /**
  * Created by jonathan on 07/05/16.
  */
 public class CodeParameter {
     private final String name;
-    private final Class<?> type;
+    private final CodeType type;
 
-    public CodeParameter(String name, Class<?> type) {
+    public CodeParameter(String name, CodeType type) {
         this.name = name;
         this.type = type;
     }
@@ -43,7 +45,7 @@ public class CodeParameter {
         return name;
     }
 
-    public final Class<?> getType() {
+    public final CodeType getType() {
         return type;
     }
 }

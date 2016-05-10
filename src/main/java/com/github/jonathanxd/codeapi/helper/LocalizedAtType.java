@@ -25,38 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 10/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public final class LocalizedAtType implements LocalizedAt, CodePart, Typed, GenericGenerator {
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
+    private CodeType type;
 
-    private CodeParameterSourceGenerator() {
+    LocalizedAtType(CodeType type) {
+        this.type = type;
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public void setType(CodeType type) {
+        this.type = type;
+    }
 
-        StringBuilder sb = new StringBuilder();
+    public Optional<CodeType> getType() {
+        return Optional.ofNullable(type);
+    }
 
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
-
-        return Collections.singletonList(StringValue.create(sb.toString()));
+    @Override
+    public void removeType() {
+        this.type = null;
     }
 }

@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.gen.StringValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +49,7 @@ public class ModifierSourceGenerator implements Generator<Modifierable, String, 
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Modifierable modifierable, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(Modifierable modifierable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
         return Arrays.asList(StringValue.create(CodeModifier.toString(modifierable.getModifiers())));
     }
 }

@@ -25,38 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.Parent;
-
-import java.util.Collections;
-import java.util.List;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 10/05/16.
  */
-public class CodeParameterSourceGenerator implements Generator<CodeParameter, String, PlainSourceGenerator> {
+public class SimpleVariableAccess implements CodePart, VariableAccess {
+    private final CodePart localization;
+    private final String name;
 
-    public static final CodeParameterSourceGenerator INSTANCE = new CodeParameterSourceGenerator();
-
-    private CodeParameterSourceGenerator() {
+    public SimpleVariableAccess(CodePart localization, String name) {
+        this.localization = localization;
+        this.name = name;
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public CodePart getLocalization() {
+        return localization;
+    }
 
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(codeParameter.getType().getType());
-        sb.append(" ");
-        sb.append(codeParameter.getName());
-
-        return Collections.singletonList(StringValue.create(sb.toString()));
+    @Override
+    public String getName() {
+        return name;
     }
 }

@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.Parent;
+
 import java.util.List;
 
 /**
@@ -36,19 +38,19 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
 
     private final V val;
 
-    TargetValue(Class<?> value, V val, Generator<?, TARGET, C> current) {
-        super(value, current);
+    TargetValue(Class<?> value, V val, Parent<Generator<?, TARGET, C>> parents) {
+        super(value, parents);
         this.val = val;
     }
 
-    public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, V val, Generator<?, TARGET, C> current) {
-        return new TargetValue<Object, TARGET, C>(targetClass, val, current);
+    public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, V val, Parent<Generator<?, TARGET, C>> parents) {
+        return new TargetValue<Object, TARGET, C>(targetClass, val, parents);
     }
 
     @Override
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
 
-        List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), this.getVal(), this.getCurrent());
+        List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), this.getVal(), this.getParents());
         to.forEach(d -> d.apply(value, abstractGenerator, appender));
     }
 

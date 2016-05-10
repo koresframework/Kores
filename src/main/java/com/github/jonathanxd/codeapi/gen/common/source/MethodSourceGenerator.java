@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,17 +54,17 @@ public class MethodSourceGenerator implements Generator<CodeMethod, String, Plai
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeMethod codeMethod, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeMethod codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetClassValue.create(Modifierable.class, this),
-                TargetClassValue.create(Returnable.class, this),
-                TargetClassValue.create(Named.class, this),
-                TargetClassValue.create(Parameterizable.class, this),
-                TargetClassValue.create(Bodiable.class, this)
+                TargetClassValue.create(Modifierable.class, parents),
+                TargetClassValue.create(Returnable.class, parents),
+                TargetClassValue.create(Named.class, parents),
+                TargetClassValue.create(Parameterizable.class, parents),
+                TargetClassValue.create(Bodiable.class, parents)
         ));
-
 
         return values;
     }
+
 }

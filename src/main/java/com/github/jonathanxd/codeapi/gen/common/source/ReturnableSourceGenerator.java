@@ -27,13 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.Helper;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ReturnableSourceGenerator implements Generator<Returnable, String, 
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Returnable returnable, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
-        return Collections.singletonList(TargetValue.create(CodeType.class, returnable.getReturnType().orElse(Helper.getJavaType(Void.TYPE)), this));
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(Returnable returnable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        return Collections.singletonList(TargetValue.create(CodeType.class, returnable.getReturnType().orElse(Helper.getJavaType(Void.TYPE)), parents));
     }
 }

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.abs;
 
+import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
@@ -37,6 +38,7 @@ import java.util.Collection;
  * Created by jonathan on 09/05/16.
  */
 public abstract class AbstractBodiableParam extends AbstractBodiable implements Parameterizable {
+    @Store(CodeParameter.class)
     private final Collection<CodeParameter> parameters = new ArrayList<>();
 
     @Override

@@ -27,11 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.Parent;
+
 import java.util.List;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 public interface Generator<INP, OUT, C> {
-    List<GenValue<?, OUT, C>> gen(INP inp, C c, Generator<?, OUT, C> parent);
+    List<GenValue<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents);
 }

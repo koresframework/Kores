@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,7 @@ public class NamedSourceGenerator implements Generator<Named, String, PlainSourc
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Generator<?, String, PlainSourceGenerator> parent) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
         return Arrays.asList(StringValue.create(genStr(named, plainSourceGenerator)));
     }
 }

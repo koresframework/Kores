@@ -68,13 +68,18 @@ public class CodeMethod extends AbstractBodiableParam implements CodeElement, Re
         this.returnType = null;
     }
 
-    public final String getName() {
+    public String getName() {
         return name;
     }
 
     @Override
     public void addModifier(CodeModifier modifier) {
         modifiers.add(modifier);
+    }
+
+    @Override
+    public boolean isExpression() {
+        return true;
     }
 
     @Override
