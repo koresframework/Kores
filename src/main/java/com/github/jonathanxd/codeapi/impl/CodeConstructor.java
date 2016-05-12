@@ -25,27 +25,47 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.impl;
+
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Optional;
 
 /**
  * Created by jonathan on 07/05/16.
  */
-public interface CodeType {
-    String getType();
+public class CodeConstructor extends CodeMethod implements GenericGenerator {
 
-    default String getSimpleName() {
-        String type = getType();
-
-        return type.substring(type.lastIndexOf('.') + 1);
+    public CodeConstructor(CodeType declaringClass) {
+        super(declaringClass.getSimpleName());
     }
 
     /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
+     * Constructor return type is always declaring class type
      *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
+     * Constructor return type is immutable
      */
-    default boolean isVirtual() {
-        return true;
+    @Override
+    public Optional<CodeType> getReturnType() {
+        return Optional.empty();
+    }
+
+    /**
+     * Constructor return type is always declaring class type
+     *
+     * Constructor return type is immutable
+     */
+    @Override
+    public void setReturnType(CodeType returnType) {
+    }
+
+    /**
+     * Constructor return type is always declaring class type
+     *
+     * Constructor return type is immutable
+     */
+    @Override
+    public void removeReturnType() {
     }
 }

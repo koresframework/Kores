@@ -25,27 +25,55 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.Store;
+import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface CodeType {
-    String getType();
+public class SimpleIfBlock extends AbstractStorage implements IfBlock {
 
-    default String getSimpleName() {
-        String type = getType();
+    private CodeSource body;
 
-        return type.substring(type.lastIndexOf('.') + 1);
+    @Store
+    private final Collection<Group> groups = new ArrayList<>();
+
+    @Override
+    public void addGroup(Group group) {
+        this.groups.add(group);
     }
 
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
+    @Override
+    public Collection<Group> getGroups() {
+        return this.groups;
+    }
+
+    @Override
+    public void clearGroups() {
+        this.groups.clear();
+    }
+
+    @Override
+    public void setBody(CodeSource body) {
+        this.body = body;
+    }
+
+    @Override
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
+    }
+
+    @Override
+    public void removeBody() {
+        this.body = null;
     }
 }

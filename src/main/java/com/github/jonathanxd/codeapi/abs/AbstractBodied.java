@@ -25,11 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.abs;
+
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 11/05/16.
+ * Created by jonathan on 09/05/16.
  */
-public interface CatchExpression extends Bodiable, Parameterizable {
+public abstract class AbstractBodied extends AbstractStorage implements Bodied {
+    private CodeSource body;
 
+    @Override
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
+    }
+
+    @Override
+    public void setBody(CodeSource body) {
+        this.body = body;
+    }
+
+    @Override
+    public void removeBody() {
+        this.body = null;
+    }
 }

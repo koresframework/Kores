@@ -83,7 +83,7 @@ public class Keywords {
     public static final Keyword VOLATILE = new SimpleKeyword("volatile");
     public static final Keyword WHILE = new SimpleKeyword("while");
 
-    final private static class SimpleKeyword extends Keyword implements GenericGenerator {
+    private final static class SimpleKeyword extends Keyword implements GenericGenerator {
         public SimpleKeyword(String name) {
             super(name);
         }

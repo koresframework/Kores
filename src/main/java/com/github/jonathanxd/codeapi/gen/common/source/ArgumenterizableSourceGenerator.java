@@ -27,22 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -55,11 +52,11 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Argumenterizable<?> argumenterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Argumenterizable<?> argumenterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(StringValue.create("("));
+        values.add(ValueImpl.create("("));
 
         Collection<CodeArgument> arguments = argumenterizable.getArguments();
 
@@ -69,17 +66,17 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
             CodeArgument argument = iterator.next();
 
             if(argument.isCasted()) {
-                values.add(StringValue.create("("+argument.getType().getType()+")"));
+                values.add(ValueImpl.create("("+argument.getType().getType()+")"));
             }
 
             values.add(TargetValue.create(argument.getValue().getClass(), argument.getValue(), parents));
 
             if(iterator.hasNext())
-                values.add(StringValue.create(", "));
+                values.add(ValueImpl.create(", "));
 
         }
 
-        values.add(StringValue.create(")"));
+        values.add(ValueImpl.create(")"));
 
         return values;
     }

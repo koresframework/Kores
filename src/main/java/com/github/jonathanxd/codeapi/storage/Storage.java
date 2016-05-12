@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.exceptions.UnsupportedElementTypeException;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Optional;
 
 /**
@@ -82,6 +83,25 @@ public interface Storage {
         Collection<T> unchecked = getUnchecked(elementKey);
         try {
             return unchecked.addAll(element);
+        } catch (Throwable t) {
+            throw new UnsupportedElementTypeException(elementKey.getType(), t);
+        }
+    }
+
+    default <T> boolean addAll(StorageKey<T> elementKey, Iterator<? extends T> elementIterator) throws UnsupportedElementTypeException {
+        Collection<T> unchecked = getUnchecked(elementKey);
+
+
+        try {
+            boolean res = false;
+
+            while (elementIterator.hasNext()) {
+                T next = elementIterator.next();
+
+                res |= unchecked.add(next);
+            }
+
+            return res;
         } catch (Throwable t) {
             throw new UnsupportedElementTypeException(elementKey.getType(), t);
         }

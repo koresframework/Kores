@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
@@ -35,7 +37,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeClass extends CodeInterface implements Extender {
+public class CodeClass extends CodeInterface implements Extender  {
 
     private CodeType superType;
 
@@ -58,4 +60,13 @@ public class CodeClass extends CodeInterface implements Extender {
         this.superType = null;
     }
 
+    @Override
+    public boolean isExpression() {
+        return true;
+    }
+
+    @Override
+    public Keyword getKeyword() {
+        return Keywords.CLASS;
+    }
 }

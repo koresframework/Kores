@@ -27,23 +27,18 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 import com.github.jonathanxd.codeapi.util.Parent;
-import com.github.jonathanxd.iutils.collection.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
@@ -59,11 +54,11 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CatchBlock catchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(CatchBlock catchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(StringValue.create("catch"));
+        values.add(ValueImpl.create("catch"));
 
         // TODO EXPRESSIONS: AND, OR, BITWISE, BITWISE EXCLUSIVE OR, BITWISE INCLUSIVE OR
         Collection<CodeParameter> parameters = catchBlock.getParameters();
@@ -88,7 +83,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
             }
         }
 
-        values.add(StringValue.create(sj.toString()));
+        values.add(ValueImpl.create(sj.toString()));
 
         values.add(TargetValue.create(Bodiable.class, catchBlock, parents));
 

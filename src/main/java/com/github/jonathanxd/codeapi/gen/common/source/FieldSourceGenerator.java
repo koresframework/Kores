@@ -27,26 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -59,19 +52,19 @@ public class FieldSourceGenerator implements Generator<CodeField, String, PlainS
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeField codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(CodeField codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
                 TargetValue.create(Modifierable.class, codeField, parents)
         ));
 
         codeField.getType().ifPresent(type -> values.add(TargetValue.create(type.getClass(), type, parents)));
 
-        values.add(StringValue.create(codeField.getName()));
+        values.add(ValueImpl.create(codeField.getName()));
 
-        codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(StringValue.create("="), TargetValue.create(value.getClass(), value, parents))));
+        codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(ValueImpl.create("="), TargetValue.create(value.getClass(), value, parents))));
 
-        values.add(StringValue.create(";"));
+        values.add(ValueImpl.create(";"));
 
         return values;
     }

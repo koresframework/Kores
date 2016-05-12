@@ -28,19 +28,14 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,15 +49,15 @@ public class VariableAccessSourceGenerator implements Generator<VariableAccess, 
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(VariableAccess variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableAccess variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         if(variableAccess.getLocalization() != null) {
             values.add(CodePartValue.create(variableAccess.getLocalization(), parents));
-            values.add(StringValue.create("."));
+            values.add(ValueImpl.create("."));
         }
 
-        values.add(StringValue.create(variableAccess.getName()));
+        values.add(ValueImpl.create(variableAccess.getName()));
 
         return values;
     }

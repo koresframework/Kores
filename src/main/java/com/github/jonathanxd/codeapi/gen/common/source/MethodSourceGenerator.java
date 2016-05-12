@@ -27,12 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetClassValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
@@ -54,14 +56,14 @@ public class MethodSourceGenerator implements Generator<CodeMethod, String, Plai
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeMethod codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(CodeMethod codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetClassValue.create(Modifierable.class, parents),
-                TargetClassValue.create(Returnable.class, parents),
-                TargetClassValue.create(Named.class, parents),
-                TargetClassValue.create(Parameterizable.class, parents),
-                TargetClassValue.create(Bodiable.class, parents)
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
+                TargetValue.create(Modifierable.class, codeMethod, parents),
+                TargetValue.create(Returnable.class, codeMethod, parents),
+                TargetValue.create(Named.class, codeMethod, parents),
+                TargetValue.create(Parameterizable.class, codeMethod, parents),
+                TargetValue.create(Bodied.class, codeMethod, parents)
         ));
 
         return values;

@@ -25,35 +25,51 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.abs;
+package com.github.jonathanxd.codeapi.literals;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractBodiableModifierable extends AbstractBodiable implements Modifierable {
-    private final Collection<CodeModifier> modifiers = new ArrayList<>();
+public class Literal implements CodePart, Named, Typed {
 
-    @Override
-    public void addModifier(CodeModifier modifier) {
-        this.modifiers.add(modifier);
+    private final String name;
+    private CodeType dataType;
+
+    public Literal(String name, CodeType dataType) {
+        this.name = name;
+        this.dataType = dataType;
     }
 
     @Override
-    public Collection<CodeModifier> getModifiers() {
-        return modifiers;
+    public String getName() {
+        return name;
     }
 
     @Override
-    public void clearModifiers() {
-        this.modifiers.clear();
+    public boolean isExpression() {
+        return false;
     }
 
+
+    @Override
+    public void setType(CodeType type) {
+        this.dataType = type;
+    }
+
+    @Override
+    public Optional<CodeType> getType() {
+        return Optional.ofNullable(this.dataType);
+    }
+
+    @Override
+    public void removeType() {
+        this.dataType = null;
+    }
 }

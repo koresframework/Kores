@@ -25,27 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.gen;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 09/05/16.
  */
-public interface CodeType {
-    String getType();
+public class ValueImpl<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<TARGET, TARGET, C> {
 
-    default String getSimpleName() {
-        String type = getType();
+    private final TARGET value;
 
-        return type.substring(type.lastIndexOf('.') + 1);
+    public ValueImpl(TARGET value) {
+        this.value = value;
     }
 
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<TARGET, TARGET, C> create(TARGET value) {
+        return new ValueImpl<>(value);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void apply(TARGET value, C generator, Appender<TARGET> appender) {
+        appender.add((TARGET) this.getValue());
+    }
+
+    @Override
+    public TARGET getValue() {
+        return value;
     }
 }

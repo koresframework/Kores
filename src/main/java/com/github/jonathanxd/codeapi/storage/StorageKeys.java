@@ -27,7 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.storage;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
@@ -44,6 +46,8 @@ public final class StorageKeys {
     public static final StorageKey<CodeArgument> ARGUMENTS = new StorageKey<>("ARGUMENTS", CodeArgument.class);
     public static final StorageKey<CodeType> IMPLEMENTATIONS = new StorageKey<>("IMPLEMENTATIONS", CodeType.class);
     public static final StorageKey<CodeType> CATCH_EXCEPTIONS = new StorageKey<>("CATCH_EXCEPTIONS", CodeType.class);
+    public static final StorageKey<Group> GROUPS = new StorageKey<>("GROUPS", Group.class);
+    public static final StorageKey<CodePart> OPERATORS = new StorageKey<>("OPERATORS", CodePart.class);
 
     StorageKeys() {
     }

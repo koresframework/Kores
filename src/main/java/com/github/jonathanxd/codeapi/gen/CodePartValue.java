@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<CodePart, TARGET, C> {
+public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<CodePart, TARGET, C> {
 
     private final CodePart part;
     private final Parent<Generator<?, TARGET, C>> current;
@@ -45,17 +45,17 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
         this.current = current;
     }
 
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<CodePart, TARGET, C> create(CodePart part, Parent<Generator<?, TARGET, C>> current) {
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<CodePart, TARGET, C> create(CodePart part, Parent<Generator<?, TARGET, C>> current) {
         return new CodePartValue<>(part, current);
     }
 
     @Override
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
         try{
-            List<GenValue<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current);
+            List<Value<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current);
 
             if (call != null && !call.isEmpty()) {
-                for (GenValue<?, TARGET, C> genValue : call) {
+                for (Value<?, TARGET, C> genValue : call) {
                     AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender);
                 }
             } else {

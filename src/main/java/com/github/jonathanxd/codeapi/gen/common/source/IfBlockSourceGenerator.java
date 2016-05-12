@@ -29,54 +29,40 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.interfaces.Groupable;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<CodeInterface, String, PlainSourceGenerator> {
+public class IfBlockSourceGenerator implements Generator<IfBlock, String, PlainSourceGenerator> {
 
-    public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
+    public static final IfBlockSourceGenerator INSTANCE = new IfBlockSourceGenerator();
 
-    private InterfaceSourceGenerator() {
+    private IfBlockSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(IfBlock ifBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        java.util.List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetValue.create(Modifierable.class, codeInterface, parents),
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
+        values.add(ValueImpl.create("if"));
 
-                TargetValue.create(Named.class, codeInterface, parents),
-                TargetValue.create(Implementer.class, codeInterface, parents),
+        values.add(TargetValue.create(Groupable.class, ifBlock, parents));
 
-                TargetValue.create(Bodied.class, codeInterface, parents)
-        ));
+        values.add(TargetValue.create(Bodied.class, ifBlock, parents));
+
+
 
         return values;
-        /*
-        plainSourceGenerator.generateTo(Modifierable.class, codeInterface) +
-                " interface " +
-                plainSourceGenerator.generateTo(Named.class, codeInterface) + " " +
-                plainSourceGenerator.generateTo(Implementer.class, codeInterface);
-                */
     }
-
 }

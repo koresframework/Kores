@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
@@ -49,7 +49,7 @@ public class ModifierSourceGenerator implements Generator<Modifierable, String, 
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Modifierable modifierable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
-        return Arrays.asList(StringValue.create(CodeModifier.toString(modifierable.getModifiers())));
+    public List<Value<?, String, PlainSourceGenerator>> gen(Modifierable modifierable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        return Arrays.asList(ValueImpl.create(CodeModifier.toString(modifierable.getModifiers())));
     }
 }

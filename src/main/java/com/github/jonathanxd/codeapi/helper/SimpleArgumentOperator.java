@@ -25,27 +25,46 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.Store;
+import com.github.jonathanxd.codeapi.interfaces.ArgumentOperator;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.util.PredicatedArrayList;
+
+import java.util.Collection;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface CodeType {
-    String getType();
+public class SimpleArgumentOperator extends AbstractStorage implements ArgumentOperator<SimpleArgumentOperator> {
 
-    default String getSimpleName() {
-        String type = getType();
+    @Store
+    private final Collection<CodePart> operators = new PredicatedArrayList<>(operator -> operator instanceof CodeArgument || operator instanceof Operator);
 
-        return type.substring(type.lastIndexOf('.') + 1);
+    @Override
+    public SimpleArgumentOperator addArgument(CodeArgument argument) {
+        this.operators.add(argument);
+        return this;
     }
 
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
+    @Override
+    public SimpleArgumentOperator addOperator(Operator operator) {
+        this.operators.add(operator);
+        return this;
     }
+
+    @Override
+    public Collection<CodePart> getArgumentsAndOperators() {
+        return this.operators;
+    }
+
+    @Override
+    public void clearArgumentsAndOperators() {
+        this.operators.clear();
+    }
+
 }

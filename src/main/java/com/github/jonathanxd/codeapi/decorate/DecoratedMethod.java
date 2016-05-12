@@ -98,21 +98,6 @@ public final class DecoratedMethod extends CodeMethod {
     }
 
     @Override
-    public void addBody(CodeSource body) {
-        codeMethod.addBody(body);
-    }
-
-    @Override
-    public Collection<CodeSource> getBodies() {
-        return codeMethod.getBodies();
-    }
-
-    @Override
-    public void clearBodies() {
-        codeMethod.clearBodies();
-    }
-
-    @Override
     public <T> Optional<Collection<T>> getStore(StorageKey<? extends T> elementType) {
         return codeMethod.getStore(elementType);
     }

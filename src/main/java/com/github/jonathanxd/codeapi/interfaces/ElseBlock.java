@@ -25,31 +25,12 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.interfaces;
+
+import com.github.jonathanxd.codeapi.CodePart;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public class StringValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<String, TARGET, C> {
-
-    private final String value;
-
-    public StringValue(String value) {
-        this.value = value;
-    }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<String, TARGET, C> create(String value) {
-        return new StringValue<>(value);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void apply(TARGET value, C generator, Appender<TARGET> appender) {
-        appender.add((TARGET) this.getValue());
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
+public interface ElseBlock extends Bodiable, CodePart {
 }

@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<Class<?>, TARGET, C> {
+public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<Class<?>, TARGET, C> {
 
     private final Class<?> value;
     private final Parent<Generator<?, TARGET, C>> current;
@@ -47,7 +47,7 @@ public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> im
     @Override
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
         try {
-            List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
+            List<Value<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
             to.forEach(d -> d.apply(value, abstractGenerator, appender));
         }catch (Exception e) {
             throw new RuntimeException("Parents: "+current, e);
@@ -63,7 +63,7 @@ public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> im
         return value;
     }
 
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
         return new TargetClassValue<>(targetClass, current);
     }
 

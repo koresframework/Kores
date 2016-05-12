@@ -25,35 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.abs;
+package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.annotation.Store;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public abstract class AbstractBodiable extends AbstractStorage implements Bodiable {
-    @Store(CodeSource.class)
-    private final Collection<CodeSource> bodies = new ArrayList<>();
+public interface Bodied extends CodePart {
 
-    @Override
-    public void addBody(CodeSource body) {
-        this.bodies.add(body);
-    }
+    void setBody(CodeSource body);
 
-    @Override
-    public Collection<CodeSource> getBodies() {
-        return bodies;
-    }
+    Optional<CodeSource> getBody();
 
-    @Override
-    public void clearBodies() {
-        this.bodies.clear();
-    }
+    void removeBody();
 
 }

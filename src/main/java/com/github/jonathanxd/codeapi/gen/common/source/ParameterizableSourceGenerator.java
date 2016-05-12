@@ -27,22 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -55,11 +52,11 @@ public class ParameterizableSourceGenerator implements Generator<Parameterizable
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Parameterizable parameterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Parameterizable parameterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(StringValue.create("("));
+        values.add(ValueImpl.create("("));
 
         Collection<CodeParameter> parameters = parameterizable.getParameters();
 
@@ -71,11 +68,11 @@ public class ParameterizableSourceGenerator implements Generator<Parameterizable
             values.add(TargetValue.create(CodeParameter.class, next, parents));
 
             if(iterator.hasNext())
-                values.add(StringValue.create(", "));
+                values.add(ValueImpl.create(", "));
 
         }
 
-        values.add(StringValue.create(")"));
+        values.add(ValueImpl.create(")"));
 
         return values;
     }

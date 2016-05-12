@@ -36,12 +36,18 @@ import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
 
@@ -77,7 +83,7 @@ public class CodeAPITest {
 
 
         // Add method to body
-        codeClass.add(StorageKeys.BODIES, Helper.sourceOf(method));
+        codeClass.setBody(Helper.sourceOf(method));
 
         // Generator instance
         PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
@@ -89,6 +95,23 @@ public class CodeAPITest {
         // Print source
         System.out.println("source = "+source);
         // Generate: public interface MyClass implements javax.annotation.processing.Processor { { public static void println ( java.lang.Object msg ) { java.lang.System . out . println ( msg ) ; } } }
+
+        //if(x) { } else { }
+
+        // Helper.ifExpression(Keywords.IF,
+        //   Helper.expressions(
+        //     Helper.accessVariable(local(), "x")
+        //   )
+        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
+
+        // if(x || y) { } else { }
+
+        // Helper.ifExpression(Keywords.IF,
+        //   Helper.expressions(
+        //     Helper.accessVariable(local(), "x"),
+        //     Helper.operator(Operators.OR) // Operators.BITWISE_AND
+        //   )
+        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
 
     }
 
@@ -103,6 +126,14 @@ public class CodeAPITest {
         //throw new RuntimeException(e);
 
         return source;
+    }
+
+    private static CodePart invokePrintlnMethod(CodePart varToPrint) {
+        MethodSpec methodSpec = new MethodSpec("println");
+
+        methodSpec.add(StorageKeys.ARGUMENTS, new CodeArgument(varToPrint));
+
+        return Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), methodSpec);
     }
 
     private static CodeMethod createMethod() {
@@ -123,6 +154,16 @@ public class CodeAPITest {
         // Create method body source
         CodeSource source = new CodeSource();
 
+        MultiVal<Group> groups = MultiVal.create(Group.class, Helper.group(
+                Helper.expression(
+                        Helper.accessLocalVariable("msg"),
+                        Helper.expression(Operators.NOT_EQUAL_TO, Helper.expression(Literals.NULL))
+                )
+        ));
+
+        IfBlock ifBlock = Helper.ifExpression(groups, Helper.sourceOf(invokePrintlnMethod(Helper.accessLocalVariable("msg"))));
+
+        source.add(ifBlock);
 
         // 'Localization' of a variable
         CodePart localization = Helper.localizedAtType(Helper.getJavaType(System.class));
@@ -163,7 +204,7 @@ public class CodeAPITest {
         CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))));
 
         // Add body to method source
-        codeMethod.add(StorageKeys.BODIES, Helper.sourceOf(surround));
+        codeMethod.setBody(Helper.sourceOf(surround));
 
         return codeMethod;
     }

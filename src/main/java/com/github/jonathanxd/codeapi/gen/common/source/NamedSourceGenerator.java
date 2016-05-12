@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -52,7 +52,7 @@ public class NamedSourceGenerator implements Generator<Named, String, PlainSourc
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
-        return Arrays.asList(StringValue.create(genStr(named, plainSourceGenerator)));
+    public List<Value<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        return Arrays.asList(ValueImpl.create(genStr(named, plainSourceGenerator)));
     }
 }

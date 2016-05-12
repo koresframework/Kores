@@ -31,15 +31,20 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.gen.GenericGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.operators.Operators;
+import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.NullType;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import java.util.Collection;
 
@@ -59,12 +64,34 @@ public final class Helper {
         return new MethodInvocationImpl(expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR));
     }
 
+    public static CodePart accessLocalVariable(String name) {
+        return accessVariable(accessLocal(), name);
+    }
+
     public static CodePart accessVariable(CodePart localization, String name) {
         return new SimpleVariableAccess(localization, name);
     }
 
     public static CodePart simpleVariable(String name) {
         return new SimpleVariableAccess(null, name);
+    }
+
+    public static CodePart setVariable(CodePart localization, String variable, CodePart value) {
+        CodePart var = new SimpleVariableAccess(localization, variable);
+        return expression(var, expression(Operators.ASSIGNMENT, new NonExpressionExpr(value)));
+    }
+
+    public static CodePart setVariableInline(CodePart localization, String variable, CodePart value) {
+        CodePart var = new SimpleVariableAccess(localization, variable);
+        return expression(var, expression(Operators.ASSIGNMENT, expression(value)));
+    }
+
+    public static Group group(Expression expression) {
+        return new SimpleGroup(expression);
+    }
+
+    public static CodeType nullType() {
+        return NullType.getNullType();
     }
 
     @SuppressWarnings("unchecked")
@@ -76,6 +103,16 @@ public final class Helper {
         exBlock.addBody(body);
 
         return exBlock;
+    }
+
+    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body /*, ElseBlock else*/) {
+        IfBlock ifBlock = new SimpleIfBlock();
+
+        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
+
+        ifBlock.setBody(body);
+
+        return ifBlock;
     }
 
     public static CodePart tryCatchBlock(CodePart expression) {
@@ -155,6 +192,10 @@ public final class Helper {
         return new JavaType(aClass);
     }
 
+    public static CodePart declarePackage(String packageName) {
+        return expression(Keywords.PACKAGE, expression(Literals.STRING(packageName)));
+    }
+
     final private static class JavaType implements CodeType, GenericGenerator {
         private final Class<?> type;
 
@@ -178,6 +219,22 @@ public final class Helper {
         @Override
         public boolean isExpression() {
             throw new IllegalStateException("Empty element");
+        }
+    }
+
+    private static final class NonExpressionExpr extends SimpleExpression implements GenericGenerator {
+
+        public NonExpressionExpr(CodePart expression) {
+            this(expression, null);
+        }
+
+        public NonExpressionExpr(CodePart expression, Expression nextExpression) {
+            super(expression, nextExpression);
+        }
+
+        @Override
+        public boolean isExpression() {
+            return false;
         }
     }
 

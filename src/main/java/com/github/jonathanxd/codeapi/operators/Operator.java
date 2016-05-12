@@ -25,27 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.operators;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.interfaces.Named;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 09/05/16.
  */
-public interface CodeType {
-    String getType();
+public class Operator implements CodePart, Named {
 
-    default String getSimpleName() {
-        String type = getType();
+    private final String name;
 
-        return type.substring(type.lastIndexOf('.') + 1);
+    public Operator(String name) {
+        this.name = name;
     }
 
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isExpression() {
         return true;
     }
+
+
 }

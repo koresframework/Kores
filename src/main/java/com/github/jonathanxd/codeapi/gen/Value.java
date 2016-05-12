@@ -25,27 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.gen;
 
 /**
  * Created by jonathan on 07/05/16.
  */
-public interface CodeType {
-    String getType();
+public interface Value<T, TARGET, C> {
+    T getValue();
 
-    default String getSimpleName() {
-        String type = getType();
-
-        return type.substring(type.lastIndexOf('.') + 1);
-    }
-
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
-    }
+    void apply(TARGET value, C generator, Appender<TARGET> appender);
 }

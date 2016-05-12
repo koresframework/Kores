@@ -25,27 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.interfaces;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface CodeType {
-    String getType();
 
-    default String getSimpleName() {
-        String type = getType();
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.storage.Storage;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
 
-        return type.substring(type.lastIndexOf('.') + 1);
-    }
+import java.util.Collection;
 
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
-    }
+/**
+ * Arguments, Operators and Groups
+ */
+public interface ArgumentOperator<T extends ArgumentOperator<T>> extends CodePart, Storage {
+
+    T addArgument(CodeArgument argument);
+    T addOperator(Operator operator);
+
+    Collection<CodePart> getArgumentsAndOperators();
+
+    void clearArgumentsAndOperators();
+
 }

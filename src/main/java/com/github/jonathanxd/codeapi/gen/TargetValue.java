@@ -43,14 +43,14 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
         this.val = val;
     }
 
-    public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, V val, Parent<Generator<?, TARGET, C>> parents) {
+    public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(Class<?> targetClass, V val, Parent<Generator<?, TARGET, C>> parents) {
         return new TargetValue<Object, TARGET, C>(targetClass, val, parents);
     }
 
     @Override
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
 
-        List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), this.getVal(), this.getParents());
+        List<Value<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), this.getVal(), this.getParents());
         to.forEach(d -> d.apply(value, abstractGenerator, appender));
     }
 

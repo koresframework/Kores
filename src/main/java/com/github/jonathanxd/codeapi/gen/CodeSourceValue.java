@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeSourceValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<CodeSource, TARGET, C> {
+public class CodeSourceValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<CodeSource, TARGET, C> {
 
     private final CodeSource source;
     private final Parent<Generator<?, TARGET, C>> current;
@@ -45,7 +45,7 @@ public class CodeSourceValue<TARGET, C extends AbstractGenerator<TARGET, C>> imp
         this.current = current;
     }
 
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<CodeSource, TARGET, C> create(CodeSource source, Parent<Generator<?, TARGET, C>> current) {
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<CodeSource, TARGET, C> create(CodeSource source, Parent<Generator<?, TARGET, C>> current) {
         return new CodeSourceValue<>(source, current);
     }
 
@@ -53,10 +53,10 @@ public class CodeSourceValue<TARGET, C extends AbstractGenerator<TARGET, C>> imp
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
 
         source.forEach((part) -> {
-            List<GenValue<?, TARGET, C>> call = abstractGenerator.generateTo(part.getClass() /*as Class<? extends CodePart>*/, part, current);
+            List<Value<?, TARGET, C>> call = abstractGenerator.generateTo(part.getClass() /*as Class<? extends CodePart>*/, part, current);
 
             if (call != null && !call.isEmpty()) {
-                for (GenValue<?, TARGET, C> genValue : call) {
+                for (Value<?, TARGET, C> genValue : call) {
                     AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender);
                 }
             } else {

@@ -27,56 +27,49 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
-import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<CodeInterface, String, PlainSourceGenerator> {
+public class BodiedSourceGenerator implements Generator<Bodied, String, PlainSourceGenerator> {
 
-    public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
+    public static final BodiedSourceGenerator INSTANCE = new BodiedSourceGenerator();
 
-    private InterfaceSourceGenerator() {
+    private BodiedSourceGenerator() {
     }
 
-    @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Bodied bodied, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        java.util.List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetValue.create(Modifierable.class, codeInterface, parents),
+        CodeSource body = bodied.getBody().orElse(new CodeSource());
 
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
+        boolean isExpr = bodied.isExpression();
 
-                TargetValue.create(Named.class, codeInterface, parents),
-                TargetValue.create(Implementer.class, codeInterface, parents),
+        if (isExpr) {
+            values.add(ValueImpl.create("{"));
+        }
 
-                TargetValue.create(Bodied.class, codeInterface, parents)
-        ));
+        if(body.isEmpty() && !isExpr) {
+            values.add(ValueImpl.create(";"));
+        }
+
+        values.add(CodeSourceValue.create(body, parents));
+
+        if (isExpr || !body.isEmpty()) {
+            values.add(ValueImpl.create("}"));
+        }
 
         return values;
-        /*
-        plainSourceGenerator.generateTo(Modifierable.class, codeInterface) +
-                " interface " +
-                plainSourceGenerator.generateTo(Named.class, codeInterface) + " " +
-                plainSourceGenerator.generateTo(Implementer.class, codeInterface);
-                */
     }
-
 }

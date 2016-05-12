@@ -32,5 +32,5 @@ import java.util.ArrayList;
 /**
  * Created by jonathan on 07/05/16.
  */
-public class CodeSource extends ArrayList<CodePart> {
+public class CodeSource extends ArrayList<CodePart> implements CodePart {
 }

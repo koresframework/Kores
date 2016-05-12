@@ -25,27 +25,12 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.interfaces;
+
+import com.github.jonathanxd.codeapi.CodePart;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface CodeType {
-    String getType();
-
-    default String getSimpleName() {
-        String type = getType();
-
-        return type.substring(type.lastIndexOf('.') + 1);
-    }
-
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
-    }
+public interface IfBlock extends Bodied, Groupable, CodePart {
 }

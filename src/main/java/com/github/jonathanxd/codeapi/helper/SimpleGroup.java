@@ -25,13 +25,35 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.Group;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface GenValue<T, TARGET, C> {
-    T getValue();
+public class SimpleGroup implements Group {
 
-    void apply(TARGET value, C generator, Appender<TARGET> appender);
+    private final Expression expression;
+    private final Expression outExpression;
+
+    public SimpleGroup(Expression expression) {
+        this(expression, null);
+    }
+
+    public SimpleGroup(Expression expression, Expression outExpression) {
+        this.expression = expression;
+        this.outExpression = outExpression;
+    }
+
+    @Override
+    public Expression getExpression() {
+        return this.expression;
+    }
+
+    @Override
+    public Expression getOutExpression() {
+        return outExpression;
+    }
 }

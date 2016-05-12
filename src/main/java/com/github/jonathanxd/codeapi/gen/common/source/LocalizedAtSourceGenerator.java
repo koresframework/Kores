@@ -27,14 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -53,7 +50,7 @@ public class LocalizedAtSourceGenerator implements Generator<LocalizedAt, String
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(LocalizedAt localizedAt, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(LocalizedAt localizedAt, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         Optional<CodeType> typeOpt = localizedAt.getType();
 
@@ -66,7 +63,7 @@ public class LocalizedAtSourceGenerator implements Generator<LocalizedAt, String
         }
 
         return Arrays.asList(
-                StringValue.create(type)
+                ValueImpl.create(type)
         );
     }
 }

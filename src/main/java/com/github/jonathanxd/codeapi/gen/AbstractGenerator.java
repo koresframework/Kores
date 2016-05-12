@@ -49,12 +49,12 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     static final Logger logger = Logger.getLogger("AbstractGenerator");
 
     @SuppressWarnings("unchecked")
-    public static <T, C> void helpApply(GenValue<?, T, C> genValue, Object target, Object instance, Appender<T> appender) {
-        genValue.apply((T) target, (C) instance, appender);
+    public static <T, C> void helpApply(Value<?, T, C> value, Object target, Object instance, Appender<T> appender) {
+        value.apply((T) target, (C) instance, appender);
     }
 
     @SuppressWarnings("unchecked")
-    private static <E, T, C> List<GenValue<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents) {
+    private static <E, T, C> List<Value<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents) {
         return generator.gen((E) target, (C) instance, parents);
     }
 
@@ -67,11 +67,11 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
         Object instance = this;
 
         source.forEach((part) -> {
-            List<GenValue<?, T, C>> call = generateTo(part.getClass() /*as Class<? extends CodePart>*/, part, null);
+            List<Value<?, T, C>> call = generateTo(part.getClass() /*as Class<? extends CodePart>*/, part, null);
 
             if (call != null && !call.isEmpty()) {
-                for (GenValue<?, T, C> genValue : call) {
-                    AbstractGenerator.helpApply(genValue, part, instance, appender);
+                for (Value<?, T, C> value : call) {
+                    AbstractGenerator.helpApply(value, part, instance, appender);
                 }
             } else {
                 throw new IllegalStateException("Cannot find generator for '"+part.getClass().getCanonicalName()+"'");
@@ -84,7 +84,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     public abstract Appender<T> createAppender();
 
     @SuppressWarnings("unchecked")
-    List<GenValue<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents) {
+    List<Value<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents) {
         Map<Class<?>, Generator<?, T, C>> registry = getRegistry();
 
         EntryComparator entryComparator = new EntryComparator(generatorTargetClass);

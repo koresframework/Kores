@@ -35,5 +35,5 @@ import java.util.List;
  * Created by jonathan on 07/05/16.
  */
 public interface Generator<INP, OUT, C> {
-    List<GenValue<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents);
+    List<Value<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents);
 }

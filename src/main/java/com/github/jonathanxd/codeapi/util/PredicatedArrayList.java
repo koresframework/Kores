@@ -25,71 +25,74 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
-
-import com.github.jonathanxd.codeapi.CodeElement;
-import com.github.jonathanxd.codeapi.abs.AbstractBodiedParam;
-import com.github.jonathanxd.codeapi.annotation.Store;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.interfaces.Returnable;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
+package com.github.jonathanxd.codeapi.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public class CodeMethod extends AbstractBodiedParam implements CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable {
-    private final String name;
-    @Store(CodeModifier.class)
-    private final Collection<CodeModifier> modifiers = new ArrayList<>();
-    private CodeType returnType;
+public class PredicatedArrayList<E> extends ArrayList<E> {
 
-    public CodeMethod(String name) {
-        this.name = name;
+    private final Predicate<E> predicate;
+
+    public PredicatedArrayList(int initialCapacity, Predicate<E> predicate) {
+        super(initialCapacity);
+        this.predicate = predicate;
     }
 
-    public Optional<CodeType> getReturnType() {
-        return Optional.ofNullable(returnType);
+    public PredicatedArrayList(Predicate<E> predicate) {
+        super();
+        this.predicate = predicate;
     }
 
-    public void setReturnType(CodeType returnType) {
-        this.returnType = returnType;
-    }
-
-    @Override
-    public void removeReturnType() {
-        this.returnType = null;
-    }
-
-    public String getName() {
-        return name;
+    public PredicatedArrayList(Collection<? extends E> c, Predicate<E> predicate) {
+        super(c);
+        this.predicate = predicate;
     }
 
     @Override
-    public void addModifier(CodeModifier modifier) {
-        modifiers.add(modifier);
+    public boolean add(E e) {
+        if(!predicate.test(e))
+            throw new IllegalArgumentException("Cannot accept element '"+e+"'");
+
+        return super.add(e);
     }
 
     @Override
-    public boolean isExpression() {
-        return true;
+    public void add(int index, E element) {
+        if(!predicate.test(element))
+            throw new IllegalArgumentException("Cannot accept element '"+element+"'");
+
+        super.add(index, element);
     }
 
     @Override
-    public Collection<CodeModifier> getModifiers() {
-        return modifiers;
+    public boolean addAll(Collection<? extends E> c) {
+
+        c.forEach(e -> {
+            if(!predicate.test(e))
+                throw new IllegalArgumentException("Cannot accept element '"+e+"' in collection '"+c+"'");
+        });
+
+        return super.addAll(c);
     }
 
     @Override
-    public void clearModifiers() {
-        modifiers.clear();
+    public boolean addAll(int index, Collection<? extends E> c) {
+        c.forEach(e -> {
+            if(!predicate.test(e))
+                throw new IllegalArgumentException("Cannot accept element '"+e+"' in collection '"+c+"'");
+        });
+
+        return super.addAll(index, c);
     }
 
+    @Override
+    public void replaceAll(UnaryOperator<E> operator) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -27,56 +27,64 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
-import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<CodeInterface, String, PlainSourceGenerator> {
+public class GroupableSourceGenerator implements Generator<Groupable, String, PlainSourceGenerator> {
 
-    public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
+    public static final GroupableSourceGenerator INSTANCE = new GroupableSourceGenerator();
 
-    private InterfaceSourceGenerator() {
+    private GroupableSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Groupable groupable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        java.util.List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetValue.create(Modifierable.class, codeInterface, parents),
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
+        values.add(ValueImpl.create("("));
 
-                TargetValue.create(Named.class, codeInterface, parents),
-                TargetValue.create(Implementer.class, codeInterface, parents),
+        Collection<Group> groups = groupable.getGroups();
 
-                TargetValue.create(Bodied.class, codeInterface, parents)
-        ));
+        Iterator<Group> iterator = groups.iterator();
+
+        while(iterator.hasNext()) {
+
+            values.add(ValueImpl.create("("));
+
+            Group group = iterator.next();
+
+            Expression expression = group.getExpression();
+
+            values.add(TargetValue.create(expression.getClass(), expression, parents));
+
+            values.add(ValueImpl.create(")"));
+
+            if(iterator.hasNext()) {
+                Expression outExpression = group.getOutExpression();
+                values.add(TargetValue.create(outExpression.getClass(), outExpression, parents));
+            }
+        }
+
+        values.add(ValueImpl.create(")"));
+
 
         return values;
-        /*
-        plainSourceGenerator.generateTo(Modifierable.class, codeInterface) +
-                " interface " +
-                plainSourceGenerator.generateTo(Named.class, codeInterface) + " " +
-                plainSourceGenerator.generateTo(Implementer.class, codeInterface);
-                */
     }
-
 }

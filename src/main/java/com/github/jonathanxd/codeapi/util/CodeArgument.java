@@ -33,10 +33,14 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 /**
  * Created by jonathan on 07/05/16.
  */
-public class CodeArgument {
+public class CodeArgument implements CodePart {
     private final CodePart value;
     private final boolean casted;
     private final CodeType type;
+
+    public CodeArgument(CodePart value) {
+        this(value, false, null);
+    }
 
     public CodeArgument(CodePart value, boolean casted, CodeType type) {
         this.value = value;

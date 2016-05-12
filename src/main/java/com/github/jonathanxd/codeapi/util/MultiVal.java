@@ -25,27 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.util;
+
+import com.github.jonathanxd.iutils.list.StaticList;
+
+import java.util.Iterator;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface CodeType {
-    String getType();
+public class MultiVal<T> implements Iterable<T> {
 
-    default String getSimpleName() {
-        String type = getType();
+    private final StaticList<T> staticList;
 
-        return type.substring(type.lastIndexOf('.') + 1);
+    private MultiVal(StaticList<T> staticList) {
+        this.staticList = staticList;
     }
 
-    /**
-     * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
-     *
-     * @return Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded
-     * by JVM)
-     */
-    default boolean isVirtual() {
-        return true;
+
+    @SafeVarargs
+    public static <T> MultiVal<T> create(Class<T> type, T... values) {
+
+        StaticList<T> staticList = StaticList.createStaticListOf(type, values.length);
+
+        for (T value : values) {
+            staticList.add(value);
+        }
+
+        return new MultiVal<>(staticList);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return staticList.iterator();
     }
 }

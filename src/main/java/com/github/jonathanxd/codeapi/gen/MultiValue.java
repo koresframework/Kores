@@ -32,28 +32,28 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MultiValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<List<GenValue<?, TARGET, C>>, TARGET, C>  {
+public class MultiValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<List<Value<?, TARGET, C>>, TARGET, C> {
 
-    private final List<GenValue<?, TARGET, C>> value;
+    private final List<Value<?, TARGET, C>> value;
 
-    public MultiValue(List<GenValue<?, TARGET, C>> value) {
+    public MultiValue(List<Value<?, TARGET, C>> value) {
         this.value = value;
     }
 
     @Override
     public void apply(TARGET value, C generator, Appender<TARGET> appender) {
         //println
-        for(GenValue<?, TARGET, C> g : this.getValue()) {
+        for(Value<?, TARGET, C> g : this.getValue()) {
             g.apply(value, generator, appender);
         }
     }
 
     @Override
-    public List<GenValue<?, TARGET, C>> getValue() {
+    public List<Value<?, TARGET, C>> getValue() {
         return value;
     }
 
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<List<GenValue<?, TARGET, C>>, TARGET, C> create(List<GenValue<?, TARGET, C>> value) {
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<List<Value<?, TARGET, C>>, TARGET, C> create(List<Value<?, TARGET, C>> value) {
         return new MultiValue<>(value);
     }
 }

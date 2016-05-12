@@ -29,9 +29,9 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
@@ -53,9 +53,9 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(MethodInvocation methodInvocationImpl, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(MethodInvocation methodInvocationImpl, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         CodePart target = methodInvocationImpl.getTarget();
         MethodSpec spec = methodInvocationImpl.getSpec();
@@ -63,7 +63,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
         if (target != null) {
             values.add(CodePartValue.create(target, parents));
             if (!target.isExpression()) {
-                values.add(StringValue.create("."));
+                values.add(ValueImpl.create("."));
             }
         }
 

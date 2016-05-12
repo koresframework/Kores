@@ -27,11 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -49,7 +48,7 @@ public class CodeParameterSourceGenerator implements Generator<CodeParameter, St
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -57,6 +56,6 @@ public class CodeParameterSourceGenerator implements Generator<CodeParameter, St
         sb.append(" ");
         sb.append(codeParameter.getName());
 
-        return Collections.singletonList(StringValue.create(sb.toString()));
+        return Collections.singletonList(ValueImpl.create(sb.toString()));
     }
 }

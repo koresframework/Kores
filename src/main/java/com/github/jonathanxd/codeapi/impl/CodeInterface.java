@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeRoot;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.abs.AbstractBodiable;
+import com.github.jonathanxd.codeapi.abs.AbstractBodied;
 import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeInterface extends AbstractBodiable implements Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer {
+public class CodeInterface extends AbstractBodied implements Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer {
 
     private final String name;
     private final String qualifiedName;
@@ -91,8 +91,8 @@ public class CodeInterface extends AbstractBodiable implements Modifierable, Cod
 
     @Override
     public Collection<CodeElement> getAllElements() {
-        Collection<CodeSource> sources = getBodies();
-        return sources.stream().flatMap(Collection::stream).filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
+        CodeSource sources = getBody().orElse(new CodeSource());
+        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
     }
 
     @Override

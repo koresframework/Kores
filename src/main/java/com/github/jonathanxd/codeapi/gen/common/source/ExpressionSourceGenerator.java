@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.CodeSourceValue;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -50,9 +50,9 @@ public class ExpressionSourceGenerator implements Generator<Expression, String, 
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(Expression expression, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Expression expression, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
 
         Expression current = expression;
@@ -60,6 +60,10 @@ public class ExpressionSourceGenerator implements Generator<Expression, String, 
         do {
             CodePart expr = current.getExpression();
             values.add(TargetValue.create(expr.getClass(), expr, parents));
+
+            if(current.getNextExpression() == null && !current.isExpression())
+                values.add(ValueImpl.create(";"));
+
         } while ((current = current.getNextExpression()) != null);
 
         return values;

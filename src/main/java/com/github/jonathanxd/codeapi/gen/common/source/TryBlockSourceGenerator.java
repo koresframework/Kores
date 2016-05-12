@@ -29,9 +29,9 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
@@ -54,19 +54,19 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(TryCatchBlock tryCatchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(TryCatchBlock tryCatchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(StringValue.create("try"));
+        values.add(ValueImpl.create("try"));
 
 
         CodePart expression = tryCatchBlock.getExpression().orElse(null);
 
         if(expression != null) {
-            values.add(StringValue.create("("));
+            values.add(ValueImpl.create("("));
             values.add(CodePartValue.create(expression, parents));
-            values.add(StringValue.create(")"));
+            values.add(ValueImpl.create(")"));
         }
 
         values.add(TargetValue.create(Bodiable.class, tryCatchBlock, parents));
@@ -80,7 +80,7 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
         Bodiable finallyBlock = tryCatchBlock.getFinallyBlock().orElse(null);
 
         if(finallyBlock != null) {
-            values.add(StringValue.create("finally"));
+            values.add(ValueImpl.create("finally"));
             values.add(TargetValue.create(Bodiable.class, finallyBlock, parents));
         }
 

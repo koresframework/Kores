@@ -28,10 +28,9 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.MethodType;
-import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
@@ -39,7 +38,6 @@ import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -53,18 +51,18 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(MethodSpecification<?> methodSpecification, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(MethodSpecification<?> methodSpecification, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         if (methodSpecification.getReturnType() != null) {
             if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create("("));
+                values.add(ValueImpl.create("("));
 
             values.add(TargetValue.create(methodSpecification.getReturnType().getClass(), methodSpecification.getReturnType(), parents));
 
             if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create(")"));
+                values.add(ValueImpl.create(")"));
         }
 
 
@@ -72,14 +70,14 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
             String methodName = methodSpecification.getMethodName();
 
             if (methodName != null) {
-                values.add(StringValue.create(methodSpecification.getMethodName()));
+                values.add(ValueImpl.create(methodSpecification.getMethodName()));
             }
         }
 
         values.add(TargetValue.create(Argumenterizable.class, methodSpecification, parents));
 
         if (!methodSpecification.isExpression()) {
-            values.add(StringValue.create(";"));
+            values.add(ValueImpl.create(";"));
         }
 
         return values;

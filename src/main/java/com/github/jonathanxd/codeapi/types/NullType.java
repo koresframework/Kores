@@ -25,34 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.abs;
-
-import com.github.jonathanxd.codeapi.annotation.Store;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-
-import java.util.ArrayList;
-import java.util.Collection;
+package com.github.jonathanxd.codeapi.types;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public abstract class AbstractBodiableParam extends AbstractBodiable implements Parameterizable {
-    @Store(CodeParameter.class)
-    private final Collection<CodeParameter> parameters = new ArrayList<>();
+public class NullType implements CodeType {
 
-    @Override
-    public void addParameter(CodeParameter parameter) {
-        this.parameters.add(parameter);
+    private static final NullType TYPE = new NullType();
+
+
+    private NullType() {
     }
 
     @Override
-    public void clearParameters() {
-        this.parameters.clear();
+    public String getType() {
+        return "null";
     }
 
-    @Override
-    public Collection<CodeParameter> getParameters() {
-        return parameters;
+    public static NullType getNullType() {
+        return TYPE;
     }
 }
