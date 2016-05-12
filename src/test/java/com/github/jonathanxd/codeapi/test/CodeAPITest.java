@@ -29,17 +29,24 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
 import org.junit.Test;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.annotation.processing.Processor;
 
@@ -66,8 +73,11 @@ public class CodeAPITest {
         // Implements Processor class
         codeClass.addImplementation(Helper.getJavaType(Processor.class));
 
+        CodeMethod method = createMethod();
+
+
         // Add method to body
-        codeClass.add(StorageKeys.BODIES, Helper.sourceOf(createMethod()));
+        codeClass.add(StorageKeys.BODIES, Helper.sourceOf(method));
 
         // Generator instance
         PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
@@ -75,10 +85,24 @@ public class CodeAPITest {
         // Generate source
         String source = plainSourceGenerator.gen(mySource);
 
+
         // Print source
         System.out.println("source = "+source);
         // Generate: public interface MyClass implements javax.annotation.processing.Processor { { public static void println ( java.lang.Object msg ) { java.lang.System . out . println ( msg ) ; } } }
 
+    }
+
+    private static CodeSource rethrow(String variable) {
+        CodeSource source = new CodeSource();
+
+        CodePart trNew = Helper.expression(Keywords.THROW, Helper.expression(Keywords.NEW));
+
+        source.add(Helper.invoke(trNew, new MethodSpec(Helper.getJavaType(RuntimeException.class), MethodType.CONSTRUCTOR)
+                .addArgument(new CodeArgument(Helper.accessVariable(Helper.accessLocal(), variable), false, Helper.getJavaType(Throwable.class)))));
+
+        //throw new RuntimeException(e);
+
+        return source;
     }
 
     private static CodeMethod createMethod() {
@@ -99,17 +123,32 @@ public class CodeAPITest {
         // Create method body source
         CodeSource source = new CodeSource();
 
+
         // 'Localization' of a variable
         CodePart localization = Helper.localizedAtType(Helper.getJavaType(System.class));
 
         // Access variable in 'localization'
         CodePart variable = Helper.accessVariable(localization, "out");
 
+        // ref local field
+        CodeField cf = new CodeField("ref");
+
+        // Type is Object
+        cf.setType(Helper.getJavaType(Object.class));
+
+        // Set as final
+        cf.addModifier(CodeModifier.FINAL);
+
+        // Value = variable (System.out)
+        cf.setValue(variable);
+
+        source.add(cf);
+
         // Access Local Variable 'msg'
         CodePart msgVar = Helper.accessVariable(Helper.accessLocal(), "msg");
 
         // Add Invocation of println method declared in 'System.out' ('variable')
-        source.add(Helper.invoke(variable, new MethodSpec("println", null).addArgument(
+        source.add(Helper.invoke(variable, new MethodSpec("println", null, MethodType.METHOD).addArgument(
                 // with argument 'msgVar' (Method msg parameter)
                 new CodeArgument(msgVar,
                         // Cast type? = false
@@ -117,8 +156,14 @@ public class CodeAPITest {
                         // Type to cast (if 'cast type' is set to true)
                         Helper.getJavaType(Object.class)))));
 
+
+        Collection<CodeType> catchExceptions = Collections.singletonList(Helper.getJavaType(Throwable.class));
+
+        // Surround 'source' with 'try-catch'
+        CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))));
+
         // Add body to method source
-        codeMethod.add(StorageKeys.BODIES, source);
+        codeMethod.add(StorageKeys.BODIES, Helper.sourceOf(surround));
 
         return codeMethod;
     }

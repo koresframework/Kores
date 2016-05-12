@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
@@ -37,5 +38,6 @@ public interface MethodSpecification<T extends MethodSpecification<T>> extends A
 
     String getMethodName();
     CodeType getReturnType();
+    MethodType getMethodType();
 
 }

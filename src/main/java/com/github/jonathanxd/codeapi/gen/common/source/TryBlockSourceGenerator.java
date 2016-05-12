@@ -27,62 +27,64 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodSpecificationSourceGenerator implements Generator<MethodSpecification<?>, String, PlainSourceGenerator> {
+public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String, PlainSourceGenerator> {
 
-    public static final MethodSpecificationSourceGenerator INSTANCE = new MethodSpecificationSourceGenerator();
+    public static final TryBlockSourceGenerator INSTANCE = new TryBlockSourceGenerator();
 
-    private MethodSpecificationSourceGenerator() {
+    private TryBlockSourceGenerator() {
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(MethodSpecification<?> methodSpecification, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(TryCatchBlock tryCatchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (methodSpecification.getReturnType() != null) {
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create("("));
+        values.add(StringValue.create("try"));
 
-            values.add(TargetValue.create(methodSpecification.getReturnType().getClass(), methodSpecification.getReturnType(), parents));
 
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create(")"));
+        CodePart expression = tryCatchBlock.getExpression().orElse(null);
+
+        if(expression != null) {
+            values.add(StringValue.create("("));
+            values.add(CodePartValue.create(expression, parents));
+            values.add(StringValue.create(")"));
         }
 
+        values.add(TargetValue.create(Bodiable.class, tryCatchBlock, parents));
 
-        if(methodSpecification.getMethodType() == MethodType.METHOD) {
-            String methodName = methodSpecification.getMethodName();
+        Collection<CatchBlock> catchBlocks = tryCatchBlock.getCatchBlocks();
 
-            if (methodName != null) {
-                values.add(StringValue.create(methodSpecification.getMethodName()));
-            }
+        for(CatchBlock catchBlock : catchBlocks) {
+            values.add(TargetValue.create(catchBlock.getClass(), catchBlock, parents));
         }
 
-        values.add(TargetValue.create(Argumenterizable.class, methodSpecification, parents));
+        Bodiable finallyBlock = tryCatchBlock.getFinallyBlock().orElse(null);
 
-        if (!methodSpecification.isExpression()) {
-            values.add(StringValue.create(";"));
+        if(finallyBlock != null) {
+            values.add(StringValue.create("finally"));
+            values.add(TargetValue.create(Bodiable.class, finallyBlock, parents));
         }
 
         return values;
-
     }
+
 }

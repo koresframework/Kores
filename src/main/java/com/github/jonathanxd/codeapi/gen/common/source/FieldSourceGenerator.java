@@ -27,62 +27,53 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.Modifierable;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodSpecificationSourceGenerator implements Generator<MethodSpecification<?>, String, PlainSourceGenerator> {
+public class FieldSourceGenerator implements Generator<CodeField, String, PlainSourceGenerator> {
 
-    public static final MethodSpecificationSourceGenerator INSTANCE = new MethodSpecificationSourceGenerator();
+    public static final FieldSourceGenerator INSTANCE = new FieldSourceGenerator();
 
-    private MethodSpecificationSourceGenerator() {
+    private FieldSourceGenerator() {
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(MethodSpecification<?> methodSpecification, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(CodeField codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
+                TargetValue.create(Modifierable.class, codeField, parents)
+        ));
 
-        if (methodSpecification.getReturnType() != null) {
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create("("));
+        codeField.getType().ifPresent(type -> values.add(TargetValue.create(type.getClass(), type, parents)));
 
-            values.add(TargetValue.create(methodSpecification.getReturnType().getClass(), methodSpecification.getReturnType(), parents));
+        values.add(StringValue.create(codeField.getName()));
 
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create(")"));
-        }
+        codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(StringValue.create("="), TargetValue.create(value.getClass(), value, parents))));
 
-
-        if(methodSpecification.getMethodType() == MethodType.METHOD) {
-            String methodName = methodSpecification.getMethodName();
-
-            if (methodName != null) {
-                values.add(StringValue.create(methodSpecification.getMethodName()));
-            }
-        }
-
-        values.add(TargetValue.create(Argumenterizable.class, methodSpecification, parents));
-
-        if (!methodSpecification.isExpression()) {
-            values.add(StringValue.create(";"));
-        }
+        values.add(StringValue.create(";"));
 
         return values;
-
     }
+
 }

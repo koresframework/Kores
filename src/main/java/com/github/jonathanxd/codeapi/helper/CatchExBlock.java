@@ -25,46 +25,57 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.Store;
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.util.CodeParameter;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 11/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<Class<?>, TARGET, C> {
+public class CatchExBlock extends AbstractStorage implements CatchBlock, GenericGenerator {
 
-    private final Class<?> value;
-    private final Parent<Generator<?, TARGET, C>> current;
+    @Store(CodeSource.class)
+    private final Collection<CodeSource> bodies = new ArrayList<>();
 
-    public TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
-        this.value = value;
-        this.current = current;
+    @Store(CodeParameter.class)
+    private final Collection<CodeParameter> parameters = new ArrayList<>();
+
+    @Override
+    public void addBody(CodeSource body) {
+        this.bodies.add(body);
     }
 
     @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
-        try {
-            List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
-            to.forEach(d -> d.apply(value, abstractGenerator, appender));
-        }catch (Exception e) {
-            throw new RuntimeException("Parents: "+current, e);
-        }
-    }
-
-    public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
+    public Collection<CodeSource> getBodies() {
+        return this.bodies;
     }
 
     @Override
-    public Class<?> getValue() {
-        return value;
+    public void clearBodies() {
+        this.bodies.clear();
     }
 
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
-        return new TargetClassValue<>(targetClass, current);
+    @Override
+    public void addParameter(CodeParameter parameter) {
+        this.parameters.add(parameter);
+    }
+
+    @Override
+    public Collection<CodeParameter> getParameters() {
+        return this.parameters;
+    }
+
+    @Override
+    public void clearParameters() {
+        this.parameters.clear();
     }
 
 }

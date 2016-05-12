@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.storage.Storage;
 import com.github.jonathanxd.codeapi.storage.StorageKey;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
+import com.github.jonathanxd.codeapi.util.StringUtil;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 import com.github.jonathanxd.iutils.object.TypeUtil;
 
@@ -77,7 +78,7 @@ public abstract class AbstractStorage implements Storage {
                     String id = store.id();
 
                     if(id.trim().isEmpty()) {
-                        id = field.getName().toUpperCase();
+                        id = StringUtil.toUpper(field.getName());
                     }
 
                     if (types.length == 1 && types[0] == Default.class) {

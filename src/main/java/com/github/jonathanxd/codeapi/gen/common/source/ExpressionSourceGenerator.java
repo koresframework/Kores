@@ -25,46 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodeSourceValue;
+import com.github.jonathanxd.codeapi.gen.GenValue;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.util.Parent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<Class<?>, TARGET, C> {
+public class ExpressionSourceGenerator implements Generator<Expression, String, PlainSourceGenerator> {
 
-    private final Class<?> value;
-    private final Parent<Generator<?, TARGET, C>> current;
+    public static final ExpressionSourceGenerator INSTANCE = new ExpressionSourceGenerator();
 
-    public TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
-        this.value = value;
-        this.current = current;
+    private ExpressionSourceGenerator() {
     }
 
     @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
-        try {
-            List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
-            to.forEach(d -> d.apply(value, abstractGenerator, appender));
-        }catch (Exception e) {
-            throw new RuntimeException("Parents: "+current, e);
-        }
-    }
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(Expression expression, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-    public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
-    }
+        List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-    @Override
-    public Class<?> getValue() {
-        return value;
-    }
 
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
-        return new TargetClassValue<>(targetClass, current);
+        Expression current = expression;
+
+        do {
+            CodePart expr = current.getExpression();
+            values.add(TargetValue.create(expr.getClass(), expr, parents));
+        } while ((current = current.getNextExpression()) != null);
+
+        return values;
     }
 
 }

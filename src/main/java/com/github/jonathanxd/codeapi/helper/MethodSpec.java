@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.gen.GenericGenerator;
@@ -46,10 +47,28 @@ public class MethodSpec extends AbstractStorage implements MethodSpecification<M
     private final Collection<CodeArgument> arguments = new ArrayList<>();
     private final String methodName;
     private final CodeType returnType;
+    private final MethodType methodType;
+
+    public MethodSpec(String methodName) {
+        this(methodName, null, MethodType.METHOD);
+    }
 
     public MethodSpec(String methodName, CodeType returnType) {
+        this(methodName, returnType, MethodType.METHOD);
+    }
+
+    public MethodSpec(CodeType returnType) {
+        this(null, returnType, MethodType.METHOD);
+    }
+
+    public MethodSpec(CodeType returnType, MethodType methodType) {
+        this(null, returnType, methodType);
+    }
+
+    public MethodSpec(String methodName, CodeType returnType, MethodType methodType) {
         this.methodName = methodName;
         this.returnType = returnType;
+        this.methodType = methodType;
     }
 
     @Override
@@ -77,5 +96,10 @@ public class MethodSpec extends AbstractStorage implements MethodSpecification<M
     public MethodSpec clearArguments() {
         this.arguments.clear();
         return this;
+    }
+
+    @Override
+    public MethodType getMethodType() {
+        return methodType;
     }
 }

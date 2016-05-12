@@ -51,15 +51,18 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
 
     @Override
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
+        try{
+            List<GenValue<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current);
 
-        List<GenValue<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current);
-
-        if (call != null && !call.isEmpty()) {
-            for (GenValue<?, TARGET, C> genValue : call) {
-                AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender);
+            if (call != null && !call.isEmpty()) {
+                for (GenValue<?, TARGET, C> genValue : call) {
+                    AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender);
+                }
+            } else {
+                throw new IllegalStateException("Cannot find generator for '" + part.getClass().getCanonicalName() + "'");
             }
-        } else {
-            throw new IllegalStateException("Cannot find generator for '" + part.getClass().getCanonicalName() + "'");
+        } catch (Throwable t) {
+            throw new RuntimeException("Parents: "+current, t);
         }
     }
 

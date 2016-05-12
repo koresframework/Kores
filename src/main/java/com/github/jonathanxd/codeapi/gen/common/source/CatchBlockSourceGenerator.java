@@ -27,62 +27,72 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.GenValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.StringValue;
-import com.github.jonathanxd.codeapi.gen.TargetClassValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.util.CodeParameter;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.collection.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodSpecificationSourceGenerator implements Generator<MethodSpecification<?>, String, PlainSourceGenerator> {
+public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, PlainSourceGenerator> {
 
-    public static final MethodSpecificationSourceGenerator INSTANCE = new MethodSpecificationSourceGenerator();
+    public static final CatchBlockSourceGenerator INSTANCE = new CatchBlockSourceGenerator();
 
-    private MethodSpecificationSourceGenerator() {
+    private CatchBlockSourceGenerator() {
     }
 
     @Override
-    public List<GenValue<?, String, PlainSourceGenerator>> gen(MethodSpecification<?> methodSpecification, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<GenValue<?, String, PlainSourceGenerator>> gen(CatchBlock catchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         List<GenValue<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (methodSpecification.getReturnType() != null) {
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create("("));
+        values.add(StringValue.create("catch"));
 
-            values.add(TargetValue.create(methodSpecification.getReturnType().getClass(), methodSpecification.getReturnType(), parents));
+        // TODO EXPRESSIONS: AND, OR, BITWISE, BITWISE EXCLUSIVE OR, BITWISE INCLUSIVE OR
+        Collection<CodeParameter> parameters = catchBlock.getParameters();
 
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(StringValue.create(")"));
-        }
+        StringJoiner sj = new StringJoiner(" | ", "(", ")");
 
+        if(!parameters.isEmpty()) {
+            CodeParameter first = parameters.iterator().next();
+            String name = first.getName();
 
-        if(methodSpecification.getMethodType() == MethodType.METHOD) {
-            String methodName = methodSpecification.getMethodName();
+            Iterator<CodeParameter> iterator = parameters.iterator();
 
-            if (methodName != null) {
-                values.add(StringValue.create(methodSpecification.getMethodName()));
+            while (iterator.hasNext()) {
+                CodeParameter parameter = iterator.next();
+
+                String append = parameter.getType().getType();
+
+                if(!iterator.hasNext())
+                    append += " ".concat(name);
+
+                sj.add(append);
             }
         }
 
-        values.add(TargetValue.create(Argumenterizable.class, methodSpecification, parents));
+        values.add(StringValue.create(sj.toString()));
 
-        if (!methodSpecification.isExpression()) {
-            values.add(StringValue.create(";"));
-        }
+        values.add(TargetValue.create(Bodiable.class, catchBlock, parents));
 
         return values;
-
     }
+
 }

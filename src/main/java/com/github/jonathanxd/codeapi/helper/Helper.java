@@ -29,10 +29,19 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeParameter;
+
+import java.util.Collection;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -46,6 +55,10 @@ public final class Helper {
         return new MethodInvocationImpl(target, methodSpec);
     }
 
+    public static CodePart construct(CodePart firstExpression, CodeType type) {
+        return new MethodInvocationImpl(expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR));
+    }
+
     public static CodePart accessVariable(CodePart localization, String name) {
         return new SimpleVariableAccess(localization, name);
     }
@@ -54,8 +67,51 @@ public final class Helper {
         return new SimpleVariableAccess(null, name);
     }
 
+    @SuppressWarnings("unchecked")
+    public static CatchBlock catchBlock(Collection<CodeType> catchExceptions, String variable, CodeSource body) {
+        CatchExBlock exBlock = new CatchExBlock();
+
+        catchExceptions.stream().map(ex -> new CodeParameter(variable, ex)).forEach(exBlock::addParameter);
+
+        exBlock.addBody(body);
+
+        return exBlock;
+    }
+
+    public static CodePart tryCatchBlock(CodePart expression) {
+        return new TryCatchBlock(expression);
+    }
+
+    public static CodePart tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
+        return new TryCatchBlock(expression, catchBlocks);
+    }
+
+    public static CodePart surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
+        TryCatchBlock tryCatchBlock = new TryCatchBlock(null, catchBlocks);
+
+        tryCatchBlock.addBody(sourceOf(toSurround));
+
+        return tryCatchBlock;
+    }
+
+    public static CodePart surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
+        TryCatchBlock tryCatchBlock = new TryCatchBlock(null, catchBlocks);
+
+        tryCatchBlock.addBody(toSurround);
+
+        return tryCatchBlock;
+    }
+
     public static CodePart localizedAtType(CodeType type) {
         return new LocalizedAtType(type);
+    }
+
+    public static Expression expression(CodePart expression, Expression nestedExpression) {
+        return new SimpleExpression(expression, nestedExpression);
+    }
+
+    public static Expression expression(CodePart expression) {
+        return new SimpleExpression(expression, null);
     }
 
     public static Keyword accessThis() {
@@ -99,7 +155,7 @@ public final class Helper {
         return new JavaType(aClass);
     }
 
-    final private static class JavaType implements CodeType {
+    final private static class JavaType implements CodeType, GenericGenerator {
         private final Class<?> type;
 
         private JavaType(Class<?> type) {

@@ -25,46 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.util.Parent;
-
-import java.util.List;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 11/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<Class<?>, TARGET, C> {
+public class SimpleExpression implements Expression, GenericGenerator {
 
-    private final Class<?> value;
-    private final Parent<Generator<?, TARGET, C>> current;
+    private final CodePart expression;
+    private final Expression nextExpression;
 
-    public TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
-        this.value = value;
-        this.current = current;
+    public SimpleExpression(CodePart expression, Expression nextExpression) {
+        this.expression = expression;
+        this.nextExpression = nextExpression;
     }
 
     @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
-        try {
-            List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
-            to.forEach(d -> d.apply(value, abstractGenerator, appender));
-        }catch (Exception e) {
-            throw new RuntimeException("Parents: "+current, e);
-        }
-    }
-
-    public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
+    public CodePart getExpression() {
+        return expression;
     }
 
     @Override
-    public Class<?> getValue() {
-        return value;
+    public Expression getNextExpression() {
+        return nextExpression;
     }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
-        return new TargetClassValue<>(targetClass, current);
-    }
-
 }

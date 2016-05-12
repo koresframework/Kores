@@ -25,46 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.codeapi.storage.Storage;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 11/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<Class<?>, TARGET, C> {
+public interface MultiTyped extends Storage {
 
-    private final Class<?> value;
-    private final Parent<Generator<?, TARGET, C>> current;
+    void addType(CodeType type);
 
-    public TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
-        this.value = value;
-        this.current = current;
-    }
+    Collection<CodeType> getTypes();
 
-    @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
-        try {
-            List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
-            to.forEach(d -> d.apply(value, abstractGenerator, appender));
-        }catch (Exception e) {
-            throw new RuntimeException("Parents: "+current, e);
-        }
-    }
-
-    public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
-    }
-
-    @Override
-    public Class<?> getValue() {
-        return value;
-    }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
-        return new TargetClassValue<>(targetClass, current);
-    }
+    void clearTypes();
 
 }

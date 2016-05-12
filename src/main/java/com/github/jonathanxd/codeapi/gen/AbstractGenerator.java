@@ -29,8 +29,10 @@ package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.util.ClassUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -91,7 +93,12 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
         Map.Entry<Class<?>, Generator<?, T, C>> filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey() == generatorTargetClass).sorted(entryComparator).findFirst().orElse(null);
 
         if(filterEntry == null) {
-            filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey().isAssignableFrom(generatorTargetClass)).sorted(entryComparator).findFirst().orElse(null);
+            for (Class<?> aClass : ClassUtil.getAllSubclasses(generatorTargetClass)) {
+                if(registry.containsKey(aClass)) {
+                    filterEntry = new AbstractMap.SimpleEntry<>(aClass, registry.get(aClass));
+                    break;
+                }
+            }
         }
 
         Generator<?, T, C> get = filterEntry != null ? filterEntry.getValue() : null;
@@ -126,14 +133,25 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     private class EntryComparator implements Comparator<Map.Entry<Class<?>, Generator<?, T, C>>> {
 
         private final Class<?> currentClass;
+        private final List<Class<?>> allSubClasses = new ArrayList<>();
 
         EntryComparator(Class<?> currentClass) {
             this.currentClass = currentClass;
+            allSubClasses.addAll(ClassUtil.getAllSubclasses(currentClass));
         }
 
         @Override
         public int compare(Map.Entry<Class<?>, Generator<?, T, C>> o1, Map.Entry<Class<?>, Generator<?, T, C>> o2) {
             //LEGACY return Integer.compare(o1.getCurrent().priority(), o2.getCurrent().priority());
+            for (Class<?> allSubClass : allSubClasses) {
+                if(allSubClass == o1.getKey()) {
+                    return 1;
+                }
+                if(allSubClass == o2.getKey()) {
+                    return -1;
+                }
+            }
+
             return o1.getKey() == currentClass ? 1 : o2.getKey() == currentClass ? -1 : 0;
         }
     }

@@ -43,7 +43,7 @@ public final class StorageKeys {
     public static final StorageKey<CodeParameter> PARAMETERS = new StorageKey<>("PARAMETERS", CodeParameter.class);
     public static final StorageKey<CodeArgument> ARGUMENTS = new StorageKey<>("ARGUMENTS", CodeArgument.class);
     public static final StorageKey<CodeType> IMPLEMENTATIONS = new StorageKey<>("IMPLEMENTATIONS", CodeType.class);
-
+    public static final StorageKey<CodeType> CATCH_EXCEPTIONS = new StorageKey<>("CATCH_EXCEPTIONS", CodeType.class);
 
     StorageKeys() {
     }

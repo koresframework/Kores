@@ -25,46 +25,10 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
-
-import com.github.jonathanxd.codeapi.util.Parent;
-
-import java.util.List;
+package com.github.jonathanxd.codeapi.interfaces;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 11/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements GenValue<Class<?>, TARGET, C> {
-
-    private final Class<?> value;
-    private final Parent<Generator<?, TARGET, C>> current;
-
-    public TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
-        this.value = value;
-        this.current = current;
-    }
-
-    @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
-        try {
-            List<GenValue<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), value, current);
-            to.forEach(d -> d.apply(value, abstractGenerator, appender));
-        }catch (Exception e) {
-            throw new RuntimeException("Parents: "+current, e);
-        }
-    }
-
-    public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
-    }
-
-    @Override
-    public Class<?> getValue() {
-        return value;
-    }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> GenValue<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
-        return new TargetClassValue<>(targetClass, current);
-    }
-
+public interface CatchBlock extends Bodiable, Parameterizable {
 }

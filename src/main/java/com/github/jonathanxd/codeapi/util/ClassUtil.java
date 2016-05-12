@@ -32,7 +32,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -211,4 +213,46 @@ public class ClassUtil {
 
         return fieldCollection;
     }
+
+    public static List<Class<?>> getAllInterfaces(Class<?> base) {
+
+        List<Class<?>> classes = new ArrayList<>();
+
+        Class<?>[] interfaces = base.getInterfaces();
+
+        for (Class<?> anInterface : interfaces) {
+            classes.add(anInterface);
+
+            classes.addAll(getAllInterfaces(anInterface));
+        }
+
+        return classes;
+    }
+
+    public static Collection<Class<?>> getAllSubclasses(Class<?> base) {
+
+        Set<Class<?>> classes = new LinkedHashSet<>();
+
+        Class<?> superClass = base.getSuperclass();
+
+        Collection<Runnable> nextActions = new ArrayList<>();
+
+        if(superClass != null && superClass != Object.class) {
+            classes.add(superClass);
+            nextActions.add(() -> classes.addAll(getAllSubclasses(superClass)));
+        }
+
+        Class<?>[] interfaces = base.getInterfaces();
+
+        for (Class<?> anInterface : interfaces) {
+            classes.add(anInterface);
+
+            nextActions.add(() -> classes.addAll(getAllInterfaces(anInterface)));
+        }
+
+        nextActions.forEach(Runnable::run);
+
+        return classes;
+    }
+
 }
