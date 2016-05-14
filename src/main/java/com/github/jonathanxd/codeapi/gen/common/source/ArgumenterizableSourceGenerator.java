@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *

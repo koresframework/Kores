@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -61,7 +61,7 @@ public class ExpressionSourceGenerator implements Generator<Expression, String, 
             CodePart expr = current.getExpression();
             values.add(TargetValue.create(expr.getClass(), expr, parents));
 
-            if(current.getNextExpression() == null && !current.isExpression())
+            if(current.isCodeBlock())
                 values.add(ValueImpl.create(";"));
 
         } while ((current = current.getNextExpression()) != null);

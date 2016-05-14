@@ -25,9 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface GenericGenerator {}
+public class SimpleElseBlock extends AbstractStorage implements ElseBlock {
+
+    private CodePart expression;
+
+    public SimpleElseBlock(CodePart expression) {
+        this.expression = expression;
+    }
+
+    @Override
+    public Optional<CodePart> getExpression() {
+        return Optional.ofNullable(expression);
+    }
+
+    @Override
+    public void setExpression(CodePart expression) {
+        this.expression = expression;
+    }
+
+    @Override
+    public void clearExpression() {
+        this.expression = null;
+    }
+}

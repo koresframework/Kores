@@ -25,9 +25,55 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 11/05/16.
  */
-public interface GenericGenerator {}
+public final class DynamicExpression implements Expression, GenericGenerator {
+
+    private CodePart expression;
+    private Expression nextExpression;
+    private boolean isCodeBlock = false;
+
+    public DynamicExpression(CodePart expression, Expression nextExpression) {
+        this.expression = expression;
+        this.nextExpression = nextExpression;
+    }
+
+    public void setExpression(CodePart expression) {
+        this.expression = expression;
+    }
+
+    public void setNextExpression(Expression nextExpression) {
+        this.nextExpression = nextExpression;
+    }
+
+    @Override
+    public CodePart getExpression() {
+        return expression;
+    }
+
+    @Override
+    public Expression getNextExpression() {
+        return nextExpression;
+    }
+
+    @Override
+    public void setCodeBlock(boolean isCodeBlock) {
+        this.isCodeBlock = isCodeBlock;
+    }
+
+    @Override
+    public boolean isCodeBlock() {
+        return this.isCodeBlock;
+    }
+
+    public SimpleExpression create() {
+        return new SimpleExpression(expression, nextExpression);
+    }
+}

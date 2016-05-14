@@ -27,43 +27,50 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+import com.github.jonathanxd.codeapi.interfaces.Groupable;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class LocalizedAtSourceGenerator implements Generator<LocalizedAt, String, PlainSourceGenerator> {
+public class ElseBlockSourceGenerator implements Generator<ElseBlock, String, PlainSourceGenerator> {
 
-    public static final LocalizedAtSourceGenerator INSTANCE = new LocalizedAtSourceGenerator();
+    public static final ElseBlockSourceGenerator INSTANCE = new ElseBlockSourceGenerator();
 
-    private LocalizedAtSourceGenerator() {
+    private ElseBlockSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(LocalizedAt localizedAt, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ElseBlock elseBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        Optional<CodeType> typeOpt = localizedAt.getType();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        String type;
+        values.add(ValueImpl.create("else"));
 
-        if(typeOpt.isPresent()) {
-            type = typeOpt.get().getType();
+        Optional<CodePart> expressionOpt = elseBlock.getExpression();
+
+        if(expressionOpt.isPresent()) {
+            values.add(CodePartValue.create(expressionOpt.get(), parents));
         } else {
-            type = "";
+            values.add(ValueImpl.create("{"));
+            values.add(ValueImpl.create("}"));
         }
 
-        return Arrays.asList(
-                ValueImpl.create(type)
-        );
+
+        return values;
     }
 }

@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -38,10 +38,21 @@ public class SimpleExpression implements Expression, GenericGenerator {
 
     private final CodePart expression;
     private final Expression nextExpression;
+    private boolean isCodeBlock = false;
 
     public SimpleExpression(CodePart expression, Expression nextExpression) {
         this.expression = expression;
         this.nextExpression = nextExpression;
+    }
+
+    @Override
+    public void setCodeBlock(boolean isCodeBlock) {
+        this.isCodeBlock = isCodeBlock;
+    }
+
+    @Override
+    public boolean isCodeBlock() {
+        return this.isCodeBlock;
     }
 
     @Override

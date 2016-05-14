@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -34,7 +34,9 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<Class<?>, TARGET, C> {
+
+// BUGS, and bugs, use TargetValue instead
+class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<Class<?>, TARGET, C> {
 
     private final Class<?> value;
     private final Parent<Generator<?, TARGET, C>> current;

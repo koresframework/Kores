@@ -25,9 +25,43 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.gen.common.source;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+import com.github.jonathanxd.codeapi.util.Parent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 09/05/16.
  */
-public interface GenericGenerator {}
+public class CodeSourceSourceGenerator implements Generator<CodeSource, String, PlainSourceGenerator> {
+
+    public static final CodeSourceSourceGenerator INSTANCE = new CodeSourceSourceGenerator();
+
+    private CodeSourceSourceGenerator() {
+    }
+
+    @Override
+    public List<Value<?, String, PlainSourceGenerator>> gen(CodeSource codeSource, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        values.add(ValueImpl.create("{"));
+
+        codeSource.forEach(codePart -> values.add(CodePartValue.create(codePart, parents)));
+
+        values.add(ValueImpl.create("}"));
+
+        return values;
+    }
+}

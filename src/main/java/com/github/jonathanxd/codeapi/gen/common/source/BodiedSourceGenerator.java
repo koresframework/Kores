@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -56,7 +56,7 @@ public class BodiedSourceGenerator implements Generator<Bodied, String, PlainSou
 
         boolean isExpr = bodied.isExpression();
 
-        if (isExpr) {
+        if (isExpr || !body.isEmpty()) {
             values.add(ValueImpl.create("{"));
         }
 

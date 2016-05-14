@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -122,7 +122,7 @@ public final class Literals {
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
         StringLiteral(String name) {
-            super(name, TYPE);
+            super('"'+name+'"', TYPE);
         }
     }
 }

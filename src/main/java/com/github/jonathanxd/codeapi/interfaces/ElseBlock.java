@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -32,5 +32,5 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface ElseBlock extends Bodiable, CodePart {
+public interface ElseBlock extends Expressionable, CodePart {
 }

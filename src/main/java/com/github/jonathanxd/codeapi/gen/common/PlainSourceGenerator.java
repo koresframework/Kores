@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common;
 
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.AbstractGenerator;
 import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.Generator;
@@ -35,6 +36,8 @@ import com.github.jonathanxd.codeapi.gen.common.source.BodiableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ElseBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GroupableSourceGenerator;
@@ -66,6 +69,7 @@ import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
@@ -114,7 +118,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         registry.put(Literal.class, LiteralSourceGenerator.INSTANCE);
         registry.put(Bodied.class, BodiedSourceGenerator.INSTANCE);
         registry.put(IfBlock.class, IfBlockSourceGenerator.INSTANCE);
+        registry.put(ElseBlock.class, ElseBlockSourceGenerator.INSTANCE);
         registry.put(Groupable.class, GroupableSourceGenerator.INSTANCE);
+        registry.put(CodeSource.class, CodeSourceSourceGenerator.INSTANCE);
 
         // Method body
         registry.put(MethodSpecification.class, MethodSpecificationSourceGenerator.INSTANCE);

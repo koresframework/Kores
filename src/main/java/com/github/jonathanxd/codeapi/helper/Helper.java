@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.gen.GenericGenerator;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.Named;
@@ -104,6 +105,22 @@ public final class Helper {
 
         return exBlock;
     }
+    /*
+    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
+        IfBlock ifBlock = new SimpleIfBlock();
+
+        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
+
+        ifBlock.setBody(body);
+
+
+
+        return ifBlock;
+    }*/
+
+    public static ElseBlock elseExpression(CodePart next) {
+        return new SimpleElseBlock(next);
+    }
 
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body /*, ElseBlock else*/) {
         IfBlock ifBlock = new SimpleIfBlock();
@@ -145,6 +162,29 @@ public final class Helper {
 
     public static Expression expression(CodePart expression, Expression nestedExpression) {
         return new SimpleExpression(expression, nestedExpression);
+    }
+
+    public static Expression expressions(CodePart expression, CodePart... moreExpressions) {
+
+        if(moreExpressions.length == 0)
+            return expression(expression);
+
+        DynamicExpression base = new DynamicExpression(expression, null);
+
+        DynamicExpression current = base;
+
+        for (int i = 0; i < moreExpressions.length; i++) {
+            CodePart atI = moreExpressions[i];
+
+            DynamicExpression newDynamicExpression = new DynamicExpression(atI, null);
+
+            current.setNextExpression(newDynamicExpression);
+
+            current = newDynamicExpression;
+
+        }
+
+        return base;
     }
 
     public static Expression expression(CodePart expression) {
@@ -233,9 +273,10 @@ public final class Helper {
         }
 
         @Override
-        public boolean isExpression() {
-            return false;
+        public boolean isCodeBlock() {
+            return true;
         }
+
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- *      ${expr} - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
@@ -36,6 +36,15 @@ public interface Expression extends CodePart {
     CodePart getExpression();
 
     Expression getNextExpression();
+
+    void setCodeBlock(boolean isCodeBlock);
+
+    boolean isCodeBlock();
+
+    default Expression end() {
+        setCodeBlock(true);
+        return this;
+    }
 
     @Override
     default boolean isExpression() {

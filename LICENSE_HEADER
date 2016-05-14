@@ -1,4 +1,4 @@
-     ${expr} - ${description} <${url}>
+     ${name} - ${description} <${url}>
 
         The MIT License (MIT)
 
