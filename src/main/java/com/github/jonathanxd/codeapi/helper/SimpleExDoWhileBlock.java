@@ -28,30 +28,18 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/05/16.
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+@GenerateTo(DoWhileBlock.class)
+public class SimpleExDoWhileBlock extends SimpleExWhileBlock implements DoWhileBlock {
 
-    private final CodePart target;
-    private final MethodSpec spec;
-
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
-    }
-
-    @Override
-    public CodePart getTarget() {
-        return target;
-    }
-
-    @Override
-    public MethodSpec getSpec() {
-        return spec;
+    public SimpleExDoWhileBlock(CodePart expression, CodeSource body) {
+        super(expression, body);
     }
 }

@@ -25,33 +25,49 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.impl.CodeConstructor;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.operators.Operators;
+import com.github.jonathanxd.codeapi.storage.StorageKeys;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.MultiVal;
+
+import org.junit.Test;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 12/05/16.
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+public class Perf1 {
 
-    private final CodePart target;
-    private final MethodSpec spec;
+    @Test
+    public void simpleTest() {
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
+        CodeSource source = new CodeSource();
+
+        CodePart packageDeclaration = Helper.declarePackage("me.jonathanscripter.codeapi.test");
+
+        PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
+
+        source.add(packageDeclaration);
+
+        
+
+        String gen = generator.gen(source);
+
+        System.out.println(gen);
     }
 
-    @Override
-    public CodePart getTarget() {
-        return target;
-    }
-
-    @Override
-    public MethodSpec getSpec() {
-        return spec;
-    }
 }

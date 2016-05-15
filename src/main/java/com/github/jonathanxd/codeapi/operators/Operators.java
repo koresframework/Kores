@@ -27,7 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.operators;
 
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Named;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -71,7 +72,8 @@ public class Operators {
     public static final Operator SIGNED_RIGHT_SHIFT = new SimpleOperator(">>");
     public static final Operator UNSIGNED_RIGHT_SHIFT = new SimpleOperator(">>>");
 
-    private final static class SimpleOperator extends Operator implements GenericGenerator {
+    @GenerateTo(Named.class)
+    private final static class SimpleOperator extends Operator {
 
         public SimpleOperator(String name) {
             super(name);

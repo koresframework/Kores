@@ -25,33 +25,40 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+import com.github.jonathanxd.codeapi.util.Parent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 09/05/16.
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+public class WhileBlockSourceGenerator implements Generator<WhileBlock, String, PlainSourceGenerator> {
 
-    private final CodePart target;
-    private final MethodSpec spec;
+    public static final WhileBlockSourceGenerator INSTANCE = new WhileBlockSourceGenerator();
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
+    private WhileBlockSourceGenerator() {
     }
 
     @Override
-    public CodePart getTarget() {
-        return target;
-    }
+    public List<Value<?, String, PlainSourceGenerator>> gen(WhileBlock whileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-    @Override
-    public MethodSpec getSpec() {
-        return spec;
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        values.add(TargetValue.create(SimpleWhileBlock.class, whileBlock, parents));
+
+        values.add(TargetValue.create(Bodied.class, whileBlock, parents));
+
+
+        return values;
     }
 }

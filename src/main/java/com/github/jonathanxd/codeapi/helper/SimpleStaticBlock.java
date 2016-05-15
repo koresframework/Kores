@@ -27,31 +27,33 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/05/16.
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+@GenerateTo(StaticBlock.class)
+public class SimpleStaticBlock implements StaticBlock {
 
-    private final CodePart target;
-    private final MethodSpec spec;
+    private CodeSource body;
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
+    @Override
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
     }
 
     @Override
-    public CodePart getTarget() {
-        return target;
+    public void setBody(CodeSource body) {
+        this.body = body;
     }
 
     @Override
-    public MethodSpec getSpec() {
-        return spec;
+    public void removeBody() {
+        this.body = null;
     }
 }

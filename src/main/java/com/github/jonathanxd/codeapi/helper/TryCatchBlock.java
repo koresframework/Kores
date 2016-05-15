@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
@@ -43,14 +44,15 @@ import java.util.Optional;
 /**
  * Created by jonathan on 11/05/16.
  */
+@GenerateTo(TryBlock.class)
 public class TryCatchBlock extends AbstractStorage implements TryBlock {
 
     @Store(CodeSource.class)
     private final List<CodeSource> bodies = new ArrayList<>();
-
-    private CodePart expression;
+    // TODO: Change, do it like If-Else
     private final Collection<CatchBlock> catchBlocks = new ArrayList<>();
     private final Bodiable finallyBlock;
+    private CodePart expression;
 
     public TryCatchBlock() {
         this(null, null, null);
@@ -67,7 +69,7 @@ public class TryCatchBlock extends AbstractStorage implements TryBlock {
     public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, Bodiable finallyBlock) {
         this.expression = expression;
 
-        if(catchBlocks != null)
+        if (catchBlocks != null)
             this.catchBlocks.addAll(catchBlocks);
 
         this.finallyBlock = finallyBlock;

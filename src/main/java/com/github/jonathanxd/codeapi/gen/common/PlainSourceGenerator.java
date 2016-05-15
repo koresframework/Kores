@@ -37,9 +37,11 @@ import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ElseBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ForBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GroupableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.HelperVASourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.IfBlockSourceGenerator;
@@ -57,8 +59,11 @@ import com.github.jonathanxd.codeapi.gen.common.source.NamedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ParameterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ReturnableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.SimpleWhileBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.StaticBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.TryBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.VariableAccessSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
 import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
@@ -69,8 +74,10 @@ import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
@@ -81,7 +88,10 @@ import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
+import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -100,42 +110,53 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
     private static final Map<Class<?>, Generator<?, String, PlainSourceGenerator>> registry = new HashMap<>();
 
     static {
-        registry.put(Implementer.class, ImplementerSourceGenerator.INSTANCE);
-        registry.put(Modifierable.class, ModifierSourceGenerator.INSTANCE);
-        registry.put(Named.class, NamedSourceGenerator.INSTANCE);
-        registry.put(Keyword.class, KeywordSourceGenerator.INSTANCE);
-        registry.put(CodeInterface.class, InterfaceSourceGenerator.INSTANCE);
-        registry.put(Bodiable.class, BodiableSourceGenerator.INSTANCE);
-        registry.put(CodeField.class, FieldSourceGenerator.INSTANCE);
-        registry.put(CodeMethod.class, MethodSourceGenerator.INSTANCE);
-        registry.put(Returnable.class, ReturnableSourceGenerator.INSTANCE);
-        registry.put(CodeType.class, CodeTypeSourceGenerator.INSTANCE);
-        registry.put(Parameterizable.class, ParameterizableSourceGenerator.INSTANCE);
-        registry.put(CodeParameter.class, CodeParameterSourceGenerator.INSTANCE);
-        registry.put(Expression.class, ExpressionSourceGenerator.INSTANCE);
-        registry.put(TryCatchBlock.class, TryBlockSourceGenerator.INSTANCE);
-        registry.put(CatchBlock.class, CatchBlockSourceGenerator.INSTANCE);
-        registry.put(Literal.class, LiteralSourceGenerator.INSTANCE);
-        registry.put(Bodied.class, BodiedSourceGenerator.INSTANCE);
-        registry.put(IfBlock.class, IfBlockSourceGenerator.INSTANCE);
-        registry.put(ElseBlock.class, ElseBlockSourceGenerator.INSTANCE);
-        registry.put(Groupable.class, GroupableSourceGenerator.INSTANCE);
-        registry.put(CodeSource.class, CodeSourceSourceGenerator.INSTANCE);
+        register(Implementer.class, ImplementerSourceGenerator.INSTANCE);
+        register(Modifierable.class, ModifierSourceGenerator.INSTANCE);
+        register(Named.class, NamedSourceGenerator.INSTANCE);
+        register(Keyword.class, KeywordSourceGenerator.INSTANCE);
+        register(CodeInterface.class, InterfaceSourceGenerator.INSTANCE);
+        register(Bodiable.class, BodiableSourceGenerator.INSTANCE);
+        register(CodeField.class, FieldSourceGenerator.INSTANCE);
+        register(CodeMethod.class, MethodSourceGenerator.INSTANCE);
+        register(Returnable.class, ReturnableSourceGenerator.INSTANCE);
+        register(CodeType.class, CodeTypeSourceGenerator.INSTANCE);
+        register(Parameterizable.class, ParameterizableSourceGenerator.INSTANCE);
+        register(CodeParameter.class, CodeParameterSourceGenerator.INSTANCE);
+        register(Expression.class, ExpressionSourceGenerator.INSTANCE);
+        register(TryCatchBlock.class, TryBlockSourceGenerator.INSTANCE);
+        register(CatchBlock.class, CatchBlockSourceGenerator.INSTANCE);
+        register(Literal.class, LiteralSourceGenerator.INSTANCE);
+        register(Bodied.class, BodiedSourceGenerator.INSTANCE);
+        register(IfBlock.class, IfBlockSourceGenerator.INSTANCE);
+        register(ElseBlock.class, ElseBlockSourceGenerator.INSTANCE);
+        register(Groupable.class, GroupableSourceGenerator.INSTANCE);
+        register(CodeSource.class, CodeSourceSourceGenerator.INSTANCE);
+        register(StaticBlock.class, StaticBlockSourceGenerator.INSTANCE);
+        register(ForBlock.class, ForBlockSourceGenerator.INSTANCE);
+
+        // While & Do
+        register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);
+        register(WhileBlock.class, WhileBlockSourceGenerator.INSTANCE);
+        register(SimpleWhileBlock.class, SimpleWhileBlockSourceGenerator.INSTANCE);
 
         // Method body
-        registry.put(MethodSpecification.class, MethodSpecificationSourceGenerator.INSTANCE);
-        registry.put(Argumenterizable.class, ArgumenterizableSourceGenerator.INSTANCE);
-        registry.put(LocalizedAt.class, LocalizedAtSourceGenerator.INSTANCE);
-        registry.put(VariableAccess.class, VariableAccessSourceGenerator.INSTANCE);
-        registry.put(MethodInvocation.class, MethodInvocationSourceGenerator.INSTANCE);
+        register(MethodSpecification.class, MethodSpecificationSourceGenerator.INSTANCE);
+        register(Argumenterizable.class, ArgumenterizableSourceGenerator.INSTANCE);
+        register(LocalizedAt.class, LocalizedAtSourceGenerator.INSTANCE);
+        register(VariableAccess.class, VariableAccessSourceGenerator.INSTANCE);
+        register(MethodInvocation.class, MethodInvocationSourceGenerator.INSTANCE);
 
         // Helper
-        registry.put(SimpleVariableAccess.class, HelperVASourceGenerator.INSTANCE);
-        registry.put(MethodInvocationImpl.class, HelperMISourceGenerator.INSTANCE);
+        register(SimpleVariableAccess.class, HelperVASourceGenerator.INSTANCE);
+        register(MethodInvocationImpl.class, HelperMISourceGenerator.INSTANCE);
     }
 
     public static PlainSourceGenerator singletonInstance() {
         return INSTANCE;
+    }
+
+    private static <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {
+        registry.put(tClass, generator);
     }
 
     @Override

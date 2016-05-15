@@ -27,31 +27,82 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.ForBlock;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/05/16.
  */
-@GenerateTo(VariableAccess.class)
-public class SimpleVariableAccess implements CodePart, VariableAccess {
-    private final CodePart localization;
-    private final String name;
+@GenerateTo(ForBlock.class)
+public class SimpleForBlock extends AbstractStorage implements ForBlock {
 
-    public SimpleVariableAccess(CodePart localization, String name) {
-        this.localization = localization;
-        this.name = name;
+    private Expression forInit;
+    private Expression forExpression;
+    private Expression forUpdate;
+    private CodeSource body;
+
+    @Override
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
     }
 
     @Override
-    public CodePart getLocalization() {
-        return localization;
+    public void setBody(CodeSource body) {
+        this.body = body;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public void removeBody() {
+        this.body = null;
+    }
+
+    @Override
+    public Optional<Expression> getForInit() {
+        return Optional.ofNullable(this.forInit);
+    }
+
+    @Override
+    public void setForInit(Expression expression) {
+        this.forInit = expression;
+    }
+
+    @Override
+    public Optional<Expression> getForExpression() {
+        return Optional.ofNullable(this.forExpression);
+    }
+
+    @Override
+    public void setForExpression(Expression expression) {
+        this.forExpression = expression;
+    }
+
+    @Override
+    public Optional<Expression> getForUpdate() {
+        return Optional.ofNullable(this.forUpdate);
+    }
+
+    @Override
+    public void setForUpdate(Expression expression) {
+        this.forUpdate = expression;
+    }
+
+    @Override
+    public void removeForInit() {
+        this.forInit = null;
+    }
+
+    @Override
+    public void removeForExpression() {
+        this.forExpression = null;
+    }
+
+    @Override
+    public void removeForUpdate() {
+        this.forUpdate = null;
     }
 }

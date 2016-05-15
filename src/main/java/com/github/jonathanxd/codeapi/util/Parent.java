@@ -76,12 +76,12 @@ public class Parent<T> {
         } while ((parent = parent.getParent()) != null);
     }
 
-    public Optional<Parent<T>> find(Class<? extends T> valueType) {
-        return find(t -> valueType.isAssignableFrom(t.getClass()));
+    public Optional<Parent<T>> find(Class<?> valueType) {
+        return find(t -> valueType.isAssignableFrom(t.getTarget().getClass()));
     }
 
-    public Optional<Parent<T>> findEqual(Class<? extends T> valueType) {
-        return find(t -> valueType == t.getClass());
+    public Optional<Parent<T>> findEqual(Class<?> valueType) {
+        return find(t -> valueType == t.getTarget().getClass());
     }
 
     /**
@@ -90,11 +90,11 @@ public class Parent<T> {
      * @param predicate Predicate to test elements value ({@link #getCurrent()})
      * @return Element or {@link Optional#empty} if element is not found
      */
-    public Optional<Parent<T>> find(Predicate<T> predicate) {
+    public Optional<Parent<T>> find(Predicate<Parent<T>> predicate) {
         Parent<T> parent = this;
 
         do {
-            if (predicate.test(parent.getCurrent())) {
+            if (predicate.test(parent)) {
                 return Optional.of(parent);
             }
         } while ((parent = parent.getParent()) != null);

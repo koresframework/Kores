@@ -25,33 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.storage.Storage;
+
+import java.util.Collection;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Multi-expressions
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+public interface MExpressionable extends Storage, CodePart {
 
-    private final CodePart target;
-    private final MethodSpec spec;
+    void add(Expression expression);
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
-    }
+    Collection<Expression> getExpressions();
 
-    @Override
-    public CodePart getTarget() {
-        return target;
-    }
-
-    @Override
-    public MethodSpec getSpec() {
-        return spec;
-    }
+    void clearExpressions();
 }

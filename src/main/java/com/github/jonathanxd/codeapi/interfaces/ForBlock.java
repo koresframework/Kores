@@ -25,33 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/05/16.
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+public interface ForBlock extends Bodied {
 
-    private final CodePart target;
-    private final MethodSpec spec;
+    void setForInit(Expression expression);
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
-    }
+    void setForExpression(Expression expression);
 
-    @Override
-    public CodePart getTarget() {
-        return target;
-    }
+    void setForUpdate(Expression expression);
 
-    @Override
-    public MethodSpec getSpec() {
-        return spec;
-    }
+    Optional<Expression> getForInit();
+
+    Optional<Expression> getForExpression();
+
+    Optional<Expression> getForUpdate();
+
+
+    void removeForInit();
+
+    void removeForExpression();
+
+    void removeForUpdate();
 }

@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.literals;
 
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
@@ -74,14 +74,16 @@ public final class Literals {
         return new SimpleLiteral(other.getName(), array);
     }
 
-    private final static class SimpleLiteral extends Literal implements GenericGenerator {
+    @GenerateTo(Literal.class)
+    private final static class SimpleLiteral extends Literal {
         SimpleLiteral(String name, CodeType dataType) {
             super(name, dataType);
         }
     }
 
 
-    private static final class IntLiteral extends Literal implements GenericGenerator {
+    @GenerateTo(Literal.class)
+    private static final class IntLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Integer.TYPE);
 
@@ -90,7 +92,8 @@ public final class Literals {
         }
     }
 
-    private static final class FloatLiteral extends Literal implements GenericGenerator {
+    @GenerateTo(Literal.class)
+    private static final class FloatLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Float.TYPE);
 
@@ -99,7 +102,8 @@ public final class Literals {
         }
     }
 
-    private static final class DoubleLiteral extends Literal implements GenericGenerator {
+    @GenerateTo(Literal.class)
+    private static final class DoubleLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Double.TYPE);
 
@@ -108,7 +112,8 @@ public final class Literals {
         }
     }
 
-    private static final class CharLiteral extends Literal implements GenericGenerator {
+    @GenerateTo(Literal.class)
+    private static final class CharLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Character.TYPE);
 
@@ -117,12 +122,13 @@ public final class Literals {
         }
     }
 
-    private static final class StringLiteral extends Literal implements GenericGenerator {
+    @GenerateTo(Literal.class)
+    private static final class StringLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
         StringLiteral(String name) {
-            super('"'+name+'"', TYPE);
+            super('"' + name + '"', TYPE);
         }
     }
 }

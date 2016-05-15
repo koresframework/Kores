@@ -27,50 +27,45 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+import com.github.jonathanxd.codeapi.util.OptionalUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class FieldSourceGenerator implements Generator<CodeField, String, PlainSourceGenerator> {
+public class DoWhileBlockSourceGenerator implements Generator<DoWhileBlock, String, PlainSourceGenerator> {
 
-    public static final FieldSourceGenerator INSTANCE = new FieldSourceGenerator();
+    public static final DoWhileBlockSourceGenerator INSTANCE = new DoWhileBlockSourceGenerator();
 
-    private FieldSourceGenerator() {
+    private DoWhileBlockSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeField codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(DoWhileBlock doWhileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
-                TargetValue.create(Modifierable.class, codeField, parents)
-        ));
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        codeField.getType().ifPresent(type -> values.add(TargetValue.create(type.getClass(), type, parents)));
+        values.add(ValueImpl.create("do"));
 
-        values.add(ValueImpl.create(codeField.getName()));
+        values.add(TargetValue.create(Bodied.class, doWhileBlock, parents));
 
-        codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(ValueImpl.create("="), TargetValue.create(value.getClass(), value, parents))));
+        values.add(TargetValue.create(SimpleWhileBlock.class, doWhileBlock, parents));
 
-        if(!parents.find(Expression.class).isPresent()) {
-
-            values.add(ValueImpl.create(";"));
-        }
+        values.add(ValueImpl.create(";"));
 
         return values;
     }
-
 }

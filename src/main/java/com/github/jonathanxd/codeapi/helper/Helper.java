@@ -27,16 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MethodType;
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -82,8 +87,36 @@ public final class Helper {
         return expression(var, expression(Operators.ASSIGNMENT, new NonExpressionExpr(value)));
     }
 
+    public static CodeElement staticBlock(CodeSource body) {
+        SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock();
+
+        simpleStaticBlock.setBody(body);
+
+        return simpleStaticBlock;
+    }
+
+    public static ForBlock createFor(Expression initialization, Expression expression, Expression update, CodeSource body) {
+        SimpleForBlock simpleForBlock = new SimpleForBlock();
+
+        simpleForBlock.setForInit(initialization);
+        simpleForBlock.setForExpression(expression);
+        simpleForBlock.setForUpdate(update);
+
+        simpleForBlock.setBody(body);
+
+        return simpleForBlock;
+    }
+
+    public static WhileBlock createWhile(Expression expression, CodeSource body) {
+        return new SimpleExWhileBlock(expression, body);
+    }
+
+    public static CodePart createDoWhile(Expression expression, CodeSource body) {
+        return new SimpleExDoWhileBlock(expression, body);
+    }
+
     public static CodePart setVariableInline(CodePart localization, String variable, CodePart value) {
-        CodePart var = new SimpleVariableAccess(localization, variable);
+        VariableAccess var = new SimpleVariableAccess(localization, variable);
         return expression(var, expression(Operators.ASSIGNMENT, expression(value)));
     }
 
@@ -132,15 +165,15 @@ public final class Helper {
         return ifBlock;
     }
 
-    public static CodePart tryCatchBlock(CodePart expression) {
+    public static TryBlock tryCatchBlock(CodePart expression) {
         return new TryCatchBlock(expression);
     }
 
-    public static CodePart tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
+    public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
         return new TryCatchBlock(expression, catchBlocks);
     }
 
-    public static CodePart surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
+    public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
         TryCatchBlock tryCatchBlock = new TryCatchBlock(null, catchBlocks);
 
         tryCatchBlock.addBody(sourceOf(toSurround));
@@ -148,7 +181,7 @@ public final class Helper {
         return tryCatchBlock;
     }
 
-    public static CodePart surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
+    public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
         TryCatchBlock tryCatchBlock = new TryCatchBlock(null, catchBlocks);
 
         tryCatchBlock.addBody(toSurround);
@@ -233,10 +266,11 @@ public final class Helper {
     }
 
     public static CodePart declarePackage(String packageName) {
-        return expression(Keywords.PACKAGE, expression(Literals.STRING(packageName)));
+        return expression(Keywords.PACKAGE, new NonExpressionExpr(Literals.STRING(packageName)));
     }
 
-    final private static class JavaType implements CodeType, GenericGenerator {
+    @GenerateTo(CodeType.class)
+    final private static class JavaType implements CodeType {
         private final Class<?> type;
 
         private JavaType(Class<?> type) {
@@ -262,7 +296,8 @@ public final class Helper {
         }
     }
 
-    private static final class NonExpressionExpr extends SimpleExpression implements GenericGenerator {
+    @GenerateTo(Expression.class)
+    private static final class NonExpressionExpr extends SimpleExpression {
 
         public NonExpressionExpr(CodePart expression) {
             this(expression, null);

@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
@@ -35,7 +35,8 @@ import java.util.Optional;
 /**
  * Created by jonathan on 07/05/16.
  */
-public class CodeConstructor extends CodeMethod implements GenericGenerator {
+@GenerateTo(CodeMethod.class)
+public class CodeConstructor extends CodeMethod {
 
     public CodeConstructor(CodeType declaringClass) {
         super(declaringClass.getSimpleName());

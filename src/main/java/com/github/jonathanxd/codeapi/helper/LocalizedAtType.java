@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -38,7 +38,8 @@ import java.util.Optional;
 /**
  * Created by jonathan on 10/05/16.
  */
-public final class LocalizedAtType implements LocalizedAt, CodePart, Typed, GenericGenerator {
+@GenerateTo(LocalizedAt.class)
+public final class LocalizedAtType implements LocalizedAt, CodePart, Typed {
 
     private CodeType type;
 
@@ -46,13 +47,13 @@ public final class LocalizedAtType implements LocalizedAt, CodePart, Typed, Gene
         this.type = type;
     }
 
+    public Optional<CodeType> getType() {
+        return Optional.ofNullable(type);
+    }
+
     @Override
     public void setType(CodeType type) {
         this.type = type;
-    }
-
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(type);
     }
 
     @Override

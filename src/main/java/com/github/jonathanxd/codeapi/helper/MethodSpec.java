@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
@@ -41,7 +41,8 @@ import java.util.Collection;
 /**
  * Created by jonathan on 10/05/16.
  */
-public class MethodSpec extends AbstractStorage implements MethodSpecification<MethodSpec>, GenericGenerator {
+@GenerateTo(MethodSpecification.class)
+public class MethodSpec extends AbstractStorage implements MethodSpecification<MethodSpec> {
 
     @Store(CodeArgument.class)
     private final Collection<CodeArgument> arguments = new ArrayList<>();

@@ -25,9 +25,11 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.interfaces;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/05/16.
  */
-public interface GenericGenerator {}
+public interface DoWhileBlock extends SimpleWhileBlock, Bodied {
+
+}

@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
@@ -40,7 +40,8 @@ import java.util.Collection;
 /**
  * Created by jonathan on 11/05/16.
  */
-public class CatchExBlock extends AbstractStorage implements CatchBlock, GenericGenerator {
+@GenerateTo(CatchBlock.class)
+public class CatchExBlock extends AbstractStorage implements CatchBlock {
 
     @Store(CodeSource.class)
     private final Collection<CodeSource> bodies = new ArrayList<>();

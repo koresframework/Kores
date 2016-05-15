@@ -27,8 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.keywords;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -83,7 +82,8 @@ public class Keywords {
     public static final Keyword VOLATILE = new SimpleKeyword("volatile");
     public static final Keyword WHILE = new SimpleKeyword("while");
 
-    private final static class SimpleKeyword extends Keyword implements GenericGenerator {
+    @GenerateTo(Keyword.class)
+    private final static class SimpleKeyword extends Keyword {
         public SimpleKeyword(String name) {
             super(name);
         }

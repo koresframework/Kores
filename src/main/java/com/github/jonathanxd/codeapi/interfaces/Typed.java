@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
@@ -35,6 +36,11 @@ import java.util.Optional;
  * Created by jonathan on 09/05/16.
  */
 public interface Typed {
+
+    default void setType(Class<?> aClass) {
+        setType(Helper.getJavaType(aClass));
+    }
+
     void setType(CodeType type);
     Optional<CodeType> getType();
 

@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,6 +54,6 @@ public class NamedSourceGenerator implements Generator<Named, String, PlainSourc
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
-        return Arrays.asList(ValueImpl.create(genStr(named, plainSourceGenerator)));
+        return Collections.singletonList(ValueImpl.create(genStr(named, plainSourceGenerator)));
     }
 }

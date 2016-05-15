@@ -29,7 +29,9 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 
@@ -40,6 +42,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 12/05/16.
  */
+@GenerateTo(IfBlock.class)
 public class SimpleIfBlock extends AbstractStorage implements IfBlock {
 
     private CodeSource body;

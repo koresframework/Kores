@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.annotation.Default;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -89,8 +91,17 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
         EntryComparator entryComparator = new EntryComparator(generatorTargetClass);
 
+        final Class<?> targetClass;
 
-        Map.Entry<Class<?>, Generator<?, T, C>> filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey() == generatorTargetClass).sorted(entryComparator).findFirst().orElse(null);
+        GenerateTo generateTo = generatorTargetClass.getDeclaredAnnotation(GenerateTo.class);
+
+        if(generateTo != null && generateTo.value() != Default.class) {
+            targetClass = generateTo.value();
+        } else {
+            targetClass = generatorTargetClass;
+        }
+
+        Map.Entry<Class<?>, Generator<?, T, C>> filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey() == targetClass).sorted(entryComparator).findFirst().orElse(null);
 
         if(filterEntry == null) {
             for (Class<?> aClass : ClassUtil.getAllSubclasses(generatorTargetClass)) {
@@ -105,8 +116,8 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
         if (get != null) {
 
-            if(filterEntry.getKey() != generatorTargetClass && !(target instanceof GenericGenerator))
-                logger.warning("Processor of '"+generatorTargetClass.getCanonicalName()+"' isn't registered, using generic generator: '"+filterEntry.getKey()+"'!");
+            if(filterEntry.getKey() != targetClass)
+                logger.warning("Processor of '"+targetClass.getCanonicalName()+"' isn't registered, using generic generator: '"+filterEntry.getKey()+"'!");
             try{
                 return new ArrayList<>(AbstractGenerator.help(get, target, this, Parent.create(get, target, parents)));
             }catch (Throwable t) {

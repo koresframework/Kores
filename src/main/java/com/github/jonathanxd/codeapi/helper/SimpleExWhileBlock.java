@@ -28,30 +28,54 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/05/16.
  */
-@GenerateTo(MethodInvocation.class)
-public class MethodInvocationImpl implements CodePart, MethodInvocation {
+@GenerateTo(WhileBlock.class)
+public class SimpleExWhileBlock implements WhileBlock {
 
-    private final CodePart target;
-    private final MethodSpec spec;
+    private CodePart expression;
+    private CodeSource body;
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
-        this.target = target;
-        this.spec = spec;
+    public SimpleExWhileBlock(CodePart expression, CodeSource body) {
+        this.expression = expression;
+        this.body = body;
     }
 
     @Override
-    public CodePart getTarget() {
-        return target;
+    public void setBody(CodeSource body) {
+        this.body = body;
     }
 
     @Override
-    public MethodSpec getSpec() {
-        return spec;
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
+    }
+
+    @Override
+    public void removeBody() {
+        this.body = null;
+    }
+
+    @Override
+    public Optional<CodePart> getExpression() {
+        return Optional.ofNullable(expression);
+    }
+
+    @Override
+    public void setExpression(CodePart expression) {
+        this.expression = expression;
+    }
+
+    @Override
+    public void clearExpression() {
+        this.expression = null;
     }
 }

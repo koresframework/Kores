@@ -47,6 +47,10 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
         return new TargetValue<Object, TARGET, C>(targetClass, val, parents);
     }
 
+    public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(V val, Parent<Generator<?, TARGET, C>> parents) {
+        return new TargetValue<Object, TARGET, C>(val.getClass(), val, parents);
+    }
+
     @Override
     public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
 

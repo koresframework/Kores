@@ -28,13 +28,14 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.GenericGenerator;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 /**
  * Created by jonathan on 11/05/16.
  */
-public class SimpleExpression implements Expression, GenericGenerator {
+@GenerateTo(Expression.class)
+public class SimpleExpression implements Expression {
 
     private final CodePart expression;
     private final Expression nextExpression;

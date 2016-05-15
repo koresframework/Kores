@@ -27,12 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 
 /**
  * Created by jonathan on 12/05/16.
  */
+@GenerateTo(Group.class)
 public class SimpleGroup implements Group {
 
     private final Expression expression;

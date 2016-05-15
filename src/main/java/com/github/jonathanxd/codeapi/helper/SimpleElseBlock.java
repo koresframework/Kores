@@ -29,13 +29,16 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 import java.util.Optional;
 
 /**
  * Created by jonathan on 12/05/16.
  */
+@GenerateTo(ElseBlock.class)
 public class SimpleElseBlock extends AbstractStorage implements ElseBlock {
 
     private CodePart expression;

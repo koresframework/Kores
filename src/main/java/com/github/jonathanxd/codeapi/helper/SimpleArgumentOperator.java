@@ -29,8 +29,10 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.ArgumentOperator;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.PredicatedArrayList;
@@ -40,6 +42,7 @@ import java.util.Collection;
 /**
  * Created by jonathan on 12/05/16.
  */
+@GenerateTo(ArgumentOperator.class)
 public class SimpleArgumentOperator extends AbstractStorage implements ArgumentOperator<SimpleArgumentOperator> {
 
     @Store

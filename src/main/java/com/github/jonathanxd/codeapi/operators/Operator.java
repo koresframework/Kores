@@ -28,11 +28,13 @@
 package com.github.jonathanxd.codeapi.operators;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 
 /**
  * Created by jonathan on 09/05/16.
  */
+@GenerateTo(Named.class)
 public class Operator implements CodePart, Named {
 
     private final String name;
