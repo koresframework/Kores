@@ -90,6 +90,7 @@ import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
@@ -123,7 +124,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Parameterizable.class, ParameterizableSourceGenerator.INSTANCE);
         register(CodeParameter.class, CodeParameterSourceGenerator.INSTANCE);
         register(Expression.class, ExpressionSourceGenerator.INSTANCE);
-        register(TryCatchBlock.class, TryBlockSourceGenerator.INSTANCE);
+        register(TryBlock.class, TryBlockSourceGenerator.INSTANCE);
         register(CatchBlock.class, CatchBlockSourceGenerator.INSTANCE);
         register(Literal.class, LiteralSourceGenerator.INSTANCE);
         register(Bodied.class, BodiedSourceGenerator.INSTANCE);
