@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
@@ -51,6 +52,7 @@ import static com.github.jonathanxd.codeapi.helper.Helper.*;
  * Created by jonathan on 12/05/16.
  */
 public class TestForLoop {
+    private static final TestForLoop TEST_FOR_LOOP = new TestForLoop();
 
     @Test
     public void simpleTest() {
@@ -101,7 +103,8 @@ public class TestForLoop {
 
         method.setBody(sourceOf(
                 createFor(expression(xField), expressions(accessLocalVariable(xField.getName()), Operators.LESS_THAN, accessLocalVariable("y")), addToX,
-                        sourceOf(invokePrintln))
+                        sourceOf(invokePrintln,
+                                end(Keywords.BREAK)))
         ));
 
 

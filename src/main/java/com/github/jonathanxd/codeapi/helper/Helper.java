@@ -224,6 +224,10 @@ public final class Helper {
         return new SimpleExpression(expression, null);
     }
 
+    public static Expression end(CodePart expression) {
+        return new NonExpressionExpr(expression);
+    }
+
     public static Keyword accessThis() {
         return Keywords.THIS;
     }

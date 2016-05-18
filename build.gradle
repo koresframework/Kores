@@ -1,10 +1,11 @@
 plugins {
     id 'com.github.hierynomus.license' version '0.11.0'
     id 'com.github.johnrengelman.shadow' version '1.2.3'
+    id "me.champeau.gradle.jmh" version "0.3.0"
 }
 
 group 'com.github.jonathanxd'
-version '1.0-SNAPSHOT'
+version '1.1-SNAPSHOT'
 
 allprojects {
     apply plugin: 'idea'
@@ -97,6 +98,8 @@ allprojects{
     dependencies {
         compile 'com.github.JonathanxD:JwIUtils:78e73f6d2d'
         testCompile group: 'junit', name:'junit', version: '4.11'
+        testCompile group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.12'
+        testCompile group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.12'
     }
 
     test {
