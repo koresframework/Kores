@@ -19,10 +19,6 @@ allprojects {
 
 }
 
-idea {
-    targetVersion = "16"
-}
-
 defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
 
 sourceCompatibility = 1.8
