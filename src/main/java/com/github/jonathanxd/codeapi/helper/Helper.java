@@ -66,6 +66,10 @@ public final class Helper {
         return new MethodInvocationImpl(target, methodSpec);
     }
 
+    public static CodePart invokeConstructor(CodePart target, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(expressions(Keywords.NEW, target), methodSpec);
+    }
+
     public static CodePart construct(CodePart firstExpression, CodeType type) {
         return new MethodInvocationImpl(expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR));
     }

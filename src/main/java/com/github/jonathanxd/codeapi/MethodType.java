@@ -32,5 +32,6 @@ package com.github.jonathanxd.codeapi;
  */
 public enum MethodType {
     METHOD,
-    CONSTRUCTOR
+    CONSTRUCTOR,
+    ARRAY_CONSTRUCTOR
 }

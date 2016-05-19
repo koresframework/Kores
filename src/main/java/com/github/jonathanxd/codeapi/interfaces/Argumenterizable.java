@@ -41,6 +41,10 @@ public interface Argumenterizable<T extends Argumenterizable<T>> extends Storage
     Collection<CodeArgument> getArguments();
 
     T clearArguments();
+
+    default boolean isArray() {
+        return false;
+    }
 }
 
 // if((d = get()) != -1) {

@@ -100,6 +100,11 @@ public class MethodSpec extends AbstractStorage implements MethodSpecification<M
     }
 
     @Override
+    public boolean isArray() {
+        return methodType == MethodType.ARRAY_CONSTRUCTOR;
+    }
+
+    @Override
     public MethodType getMethodType() {
         return methodType;
     }

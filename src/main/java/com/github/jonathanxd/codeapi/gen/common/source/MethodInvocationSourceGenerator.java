@@ -62,7 +62,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         if (target != null) {
             values.add(CodePartValue.create(target, parents));
-            if (!target.isExpression()) {
+            if (!target.isExpression() && !spec.isArray()) {
                 values.add(ValueImpl.create("."));
             }
         }

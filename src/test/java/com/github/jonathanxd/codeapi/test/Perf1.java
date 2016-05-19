@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
@@ -36,6 +37,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
@@ -63,7 +65,9 @@ public class Perf1 {
 
         source.add(packageDeclaration);
 
-        
+        source.add(Helper.invoke(Helper.expressions(Keywords.NEW, Helper.localizedAtType(Helper.getJavaType(Object[].class))),
+                new MethodSpec((String) null, null, MethodType.ARRAY_CONSTRUCTOR)
+                ));
 
         String gen = generator.gen(source);
 

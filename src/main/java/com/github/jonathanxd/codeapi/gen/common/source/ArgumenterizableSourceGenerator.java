@@ -48,6 +48,12 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
 
     public static final ArgumenterizableSourceGenerator INSTANCE = new ArgumenterizableSourceGenerator();
 
+    private static final String NORMAL_OPEN_TAG = "(";
+    private static final String NORMAL_CLOSE_TAG = ")";
+
+    private static final String ARRAY_OPEN_TAG = "{";
+    private static final String ARRAY_CLOSE_TAG = "}";
+
     private ArgumenterizableSourceGenerator() {
     }
 
@@ -56,7 +62,10 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(ValueImpl.create("("));
+        String OPEN_TOKEN = argumenterizable.isArray() ? ARRAY_OPEN_TAG : NORMAL_OPEN_TAG;
+        String CLOSE_TOKEN = argumenterizable.isArray() ? ARRAY_CLOSE_TAG : NORMAL_CLOSE_TAG;
+
+        values.add(ValueImpl.create(OPEN_TOKEN));
 
         Collection<CodeArgument> arguments = argumenterizable.getArguments();
 
@@ -66,7 +75,7 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
             CodeArgument argument = iterator.next();
 
             if(argument.isCasted()) {
-                values.add(ValueImpl.create("("+argument.getType().getType()+")"));
+                values.add(ValueImpl.create(OPEN_TOKEN+argument.getType().getType()+CLOSE_TOKEN));
             }
 
             values.add(TargetValue.create(argument.getValue().getClass(), argument.getValue(), parents));
@@ -76,7 +85,7 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
 
         }
 
-        values.add(ValueImpl.create(")"));
+        values.add(ValueImpl.create(CLOSE_TOKEN));
 
         return values;
     }
