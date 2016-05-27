@@ -51,13 +51,20 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 import com.github.jonathanxd.codeapi.util.MultiVal;
+import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 public final class Helper {
+
+    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
     private static final None NONE = new None();
 
@@ -268,8 +275,20 @@ public final class Helper {
         return source;
     }
 
+    public static CodePart cast(CodeType type, CodePart castedPart) {
+        return new CastedExPart(type, castedPart);
+    }
+
 
     public static CodeType getJavaType(Class<?> aClass) {
+
+        if(CODE_TYPES_CACHE.containsKey(aClass)) {
+            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
+
+            if(codeType != null)
+                return codeType;
+        }
+
         return new JavaType(aClass);
     }
 
@@ -288,6 +307,28 @@ public final class Helper {
         @Override
         public String getType() {
             return type.getCanonicalName();
+        }
+
+        @Override
+        public int hashCode() {
+            return type.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+
+            if(obj == null)
+                return false;
+
+            if(obj instanceof Class) {
+                return this.type.equals(obj);
+            }
+
+            if(obj instanceof JavaType) {
+                return this.type.equals(((JavaType) obj).type);
+            }
+
+            return super.equals(obj);
         }
     }
 

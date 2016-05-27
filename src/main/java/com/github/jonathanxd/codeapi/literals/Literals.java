@@ -69,6 +69,11 @@ public final class Literals {
         return new StringLiteral(s);
     }
 
+    // QuotedStringLiteral (") STRING (")
+    public static Literal QUOTED_STRING(String s) {
+        return new QuotedStringLiteral(s);
+    }
+
     // Array
     public static Literal ARRAY(Literal other, CodeType array) {
         return new SimpleLiteral(other.getName(), array);
@@ -128,6 +133,16 @@ public final class Literals {
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
         StringLiteral(String name) {
+            super(name, TYPE);
+        }
+    }
+
+    @GenerateTo(Literal.class)
+    private static final class QuotedStringLiteral extends Literal {
+
+        private static final CodeType TYPE = Helper.getJavaType(String.class);
+
+        QuotedStringLiteral(String name) {
             super('"' + name + '"', TYPE);
         }
     }

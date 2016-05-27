@@ -122,7 +122,9 @@ public class SimpleTest2 {
                         Helper.elseExpression(
                                 Helper.sourceOf(
                                         Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"),
-                                                new MethodSpec("println").addArgument(new CodeArgument(Literals.STRING("NULL VALUE")))
+                                                new MethodSpec("println").addArgument(new CodeArgument(
+                                                        Helper.cast(Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
+                                                ))
                                         )
                                 )
                         )

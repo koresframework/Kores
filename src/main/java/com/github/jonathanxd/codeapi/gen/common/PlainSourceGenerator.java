@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArgumenterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
@@ -73,6 +74,7 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
@@ -150,6 +152,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         // Helper
         register(SimpleVariableAccess.class, HelperVASourceGenerator.INSTANCE);
         register(MethodInvocationImpl.class, HelperMISourceGenerator.INSTANCE);
+
+        // Cast
+        register(Casted.class, CastedPartSourceGenerator.INSTANCE);
     }
 
     public static PlainSourceGenerator singletonInstance() {
