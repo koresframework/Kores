@@ -239,8 +239,20 @@ public final class Helper {
         return new NonExpressionExpr(expression);
     }
 
-    public static Keyword accessThis() {
-        return Keywords.THIS;
+    public static CodePart accessThis() {
+        return new AccessThisEx();
+    }
+
+    public static CodePart accessThis(CodeType at) {
+        return new AccessThisEx(at);
+    }
+
+    public static CodePart accessSuper() {
+        return new AccessSuperEx();
+    }
+
+    public static CodePart accessSuper(CodeType at) {
+        return new AccessSuperEx(at);
     }
 
     /**

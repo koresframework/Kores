@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
@@ -112,7 +111,7 @@ public class SimpleTest {
 
         // Algumas classes são Singleton, então você não precisa instanciar.
         PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
-        
+
         // Gera o codigo fonte em modo plano (plain, texto plano sem formatação).
         String gen = plainSourceGenerator.gen(source);
 

@@ -35,20 +35,33 @@ import java.util.Collection;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static com.github.jonathanxd.codeapi.util.ModifierType.ABSTRACTION;
+import static com.github.jonathanxd.codeapi.util.ModifierType.CONCURRENCY;
+import static com.github.jonathanxd.codeapi.util.ModifierType.OTHER;
+import static com.github.jonathanxd.codeapi.util.ModifierType.SERIALIZATION;
+import static com.github.jonathanxd.codeapi.util.ModifierType.VISIBILITY;
+
 /**
  * Created by jonathan on 07/05/16.
  */
 public enum CodeModifier implements CodePart {
-    PUBLIC, PROTECTED, PRIVATE, PACKAGE_PRIVATE(""), ABSTRACT, DEFAULT, STATIC, FINAL, TRANSIENT, VOLATILE, SYNCHRONIZED, NATIVE, STRICTFP;
+    PUBLIC(VISIBILITY), PROTECTED(VISIBILITY), PRIVATE(VISIBILITY), PACKAGE_PRIVATE("", VISIBILITY),
+    ABSTRACT(ABSTRACTION),  DEFAULT(ABSTRACTION),
+    STATIC(OTHER), FINAL(OTHER),
+    TRANSIENT(SERIALIZATION),
+    VOLATILE(CONCURRENCY), SYNCHRONIZED(CONCURRENCY),
+    NATIVE(OTHER), STRICTFP(OTHER);
 
     private final String expr;
+    private final ModifierType type;
 
-    CodeModifier() {
-        this(null);
+    CodeModifier(ModifierType type) {
+        this(null, type);
     }
 
-    CodeModifier(String expr) {
+    CodeModifier(String expr, ModifierType type) {
         this.expr = expr;
+        this.type = type;
     }
 
     public static Collection<CodeModifier> extractModifiers(Member member) {
@@ -124,6 +137,10 @@ public enum CodeModifier implements CodePart {
 
     public static String toString(Collection<CodeModifier> collection) {
         return collection.stream().sorted().map(CodeModifier::getExpr).collect(Collectors.joining(" "));
+    }
+
+    public ModifierType getType() {
+        return type;
     }
 
     @Override
