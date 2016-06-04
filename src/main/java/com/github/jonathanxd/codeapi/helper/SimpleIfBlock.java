@@ -31,28 +31,35 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 12/05/16.
  */
 @GenerateTo(IfBlock.class)
-public class SimpleIfBlock extends AbstractStorage implements IfBlock {
+public class SimpleIfBlock extends AbstractStorage implements IfBlock<SimpleIfBlock> {
 
-    private CodeSource body;
+    private final CodeSource body;
 
     @Store
-    private final Collection<Group> groups = new ArrayList<>();
+    private final Collection<Group> groups;
+
+    public SimpleIfBlock(CodeSource body, Collection<Group> groups) {
+        this.body = body;
+        this.groups = groups == null ? Collections.emptyList() : Collections.unmodifiableCollection(groups);
+    }
 
     @Override
-    public void addGroup(Group group) {
-        this.groups.add(group);
+    public SimpleIfBlock addGroup(Group group) {
+        return new SimpleIfBlock(body, new ArrayList<Group>(groups){{
+            add(group);
+        }});
     }
 
     @Override
@@ -61,13 +68,13 @@ public class SimpleIfBlock extends AbstractStorage implements IfBlock {
     }
 
     @Override
-    public void clearGroups() {
-        this.groups.clear();
+    public SimpleIfBlock clearGroups() {
+        return new SimpleIfBlock(body, Collections.emptyList());
     }
 
     @Override
-    public void setBody(CodeSource body) {
-        this.body = body;
+    public SimpleIfBlock setBody(CodeSource body) {
+        return new SimpleIfBlock(body, groups);
     }
 
     @Override
@@ -76,7 +83,7 @@ public class SimpleIfBlock extends AbstractStorage implements IfBlock {
     }
 
     @Override
-    public void removeBody() {
-        this.body = null;
+    public SimpleIfBlock removeBody() {
+        return new SimpleIfBlock(null, groups);
     }
 }

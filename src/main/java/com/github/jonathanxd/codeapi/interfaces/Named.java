@@ -30,6 +30,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Named {
+public interface Named<T extends Named<T>> {
     String getName();
 }

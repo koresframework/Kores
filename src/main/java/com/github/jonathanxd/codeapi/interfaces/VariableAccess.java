@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface VariableAccess extends CodePart {
+public interface VariableAccess<T extends VariableAccess<T>> extends CodePart {
     CodePart getLocalization();
     String getName();
 

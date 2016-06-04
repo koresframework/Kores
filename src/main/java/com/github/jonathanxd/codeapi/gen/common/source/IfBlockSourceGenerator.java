@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class IfBlockSourceGenerator implements Generator<IfBlock, String, PlainSourceGenerator> {
+public class IfBlockSourceGenerator implements Generator<IfBlock<?>, String, PlainSourceGenerator> {
 
     public static final IfBlockSourceGenerator INSTANCE = new IfBlockSourceGenerator();
 
@@ -51,7 +53,7 @@ public class IfBlockSourceGenerator implements Generator<IfBlock, String, PlainS
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(IfBlock ifBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(IfBlock<?> ifBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

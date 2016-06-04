@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.Group;
  * Created by jonathan on 12/05/16.
  */
 @GenerateTo(Group.class)
-public class SimpleGroup implements Group {
+public class SimpleGroup implements Group<SimpleGroup> {
 
     private final Expression expression;
     private final Expression outExpression;

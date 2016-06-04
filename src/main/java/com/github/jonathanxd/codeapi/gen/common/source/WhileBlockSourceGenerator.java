@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class WhileBlockSourceGenerator implements Generator<WhileBlock, String, PlainSourceGenerator> {
+public class WhileBlockSourceGenerator implements Generator<WhileBlock<?>, String, PlainSourceGenerator> {
 
     public static final WhileBlockSourceGenerator INSTANCE = new WhileBlockSourceGenerator();
 
@@ -50,7 +52,7 @@ public class WhileBlockSourceGenerator implements Generator<WhileBlock, String, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(WhileBlock whileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(WhileBlock<?> whileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

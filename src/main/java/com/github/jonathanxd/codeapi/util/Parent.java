@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.iutils.data.ReferenceData;
+import com.github.jonathanxd.iutils.object.GenericRepresentation;
+
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
@@ -39,6 +42,7 @@ public class Parent<T> {
 
     private final T current;
     private final Object target;
+    private final ReferenceData additionalData = new ReferenceData();
     private final Parent<T> parent;
 
     public Parent(T current, Object target, Parent<T> parent) {
@@ -102,6 +106,16 @@ public class Parent<T> {
         return Optional.empty();
     }
 
+    public Parent<T> addData(GenericRepresentation<?> data) {
+        additionalData.registerData(data);
+
+        return this;
+    }
+
+    public ReferenceData getAdditionalData() {
+        return additionalData;
+    }
+
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner(", ", "[", "]");
@@ -109,7 +123,7 @@ public class Parent<T> {
         Parent<T> parent = this;
 
         do {
-            sj.add(String.valueOf(parent.getCurrent()) +". Target -> "+parent.getTarget());
+            sj.add(String.valueOf(parent.getCurrent()) + ". Target -> " + parent.getTarget());
         } while ((parent = parent.getParent()) != null);
 
         return sj.toString();

@@ -51,7 +51,8 @@ public class AccessThisEx extends AccessEx<AccessThisEx> implements AccessThis<A
     }
 
     @Override
-    public AccessThisEx getThis() {
-        return this;
+    protected AccessThisEx newInstance(CodeType localization) {
+        return new AccessThisEx(localization);
     }
+
 }

@@ -33,6 +33,8 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Collections;
@@ -49,7 +51,7 @@ public class HelperMISourceGenerator implements Generator<MethodInvocationImpl, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(MethodInvocationImpl methodInvocationImpl, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(MethodInvocationImpl methodInvocationImpl, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         return Collections.singletonList(
                 TargetValue.create(MethodInvocation.class, methodInvocationImpl, parents)

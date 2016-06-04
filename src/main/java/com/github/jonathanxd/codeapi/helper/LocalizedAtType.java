@@ -39,9 +39,9 @@ import java.util.Optional;
  * Created by jonathan on 10/05/16.
  */
 @GenerateTo(LocalizedAt.class)
-public final class LocalizedAtType implements LocalizedAt, CodePart, Typed {
+public final class LocalizedAtType implements LocalizedAt<LocalizedAtType>, CodePart, Typed<LocalizedAtType> {
 
-    private CodeType type;
+    private final CodeType type;
 
     LocalizedAtType(CodeType type) {
         this.type = type;
@@ -52,12 +52,12 @@ public final class LocalizedAtType implements LocalizedAt, CodePart, Typed {
     }
 
     @Override
-    public void setType(CodeType type) {
-        this.type = type;
+    public LocalizedAtType setType(CodeType type) {
+        return new LocalizedAtType(type);
     }
 
     @Override
-    public void removeType() {
-        this.type = null;
+    public LocalizedAtType removeType() {
+        return new LocalizedAtType(null);
     }
 }

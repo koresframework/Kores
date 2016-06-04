@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.List;
@@ -52,10 +54,10 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
     }
 
     @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
+    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data) {
 
-        List<Value<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), this.getVal(), this.getParents());
-        to.forEach(d -> d.apply(value, abstractGenerator, appender));
+        List<Value<?, TARGET, C>> to = abstractGenerator.generateTo(this.getValue(), this.getVal(), this.getParents(), codeSourceData, data);
+        to.forEach(d -> d.apply(value, abstractGenerator, appender, codeSourceData, data));
     }
 
     public V getVal() {

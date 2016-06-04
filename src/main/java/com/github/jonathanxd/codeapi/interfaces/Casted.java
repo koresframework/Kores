@@ -34,10 +34,10 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Casted<T extends Casted<T>> extends CodePart, Typed {
+public interface Casted<T extends Casted<T>> extends CodePart, Typed<T> {
 
     T setCastedPart(CodePart castedPart);
     Optional<CodePart> getCastedPart();
 
-    void removeCastedPart();
+    T removeCastedPart();
 }

@@ -35,10 +35,10 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Implementer extends Storage {
-    void addImplementation(CodeType implementation);
+public interface Implementer<T extends Implementer<T>> extends Storage {
+    T addImplementation(CodeType implementation);
     Collection<CodeType> getImplementations();
 
-    void clearImplementations();
+    T clearImplementations();
 
 }

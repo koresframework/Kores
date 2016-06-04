@@ -34,9 +34,9 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Valuable {
-    void setValue(CodePart value);
+public interface Valuable<T extends Valuable<T>> {
+    T setValue(CodePart value);
     Optional<CodePart> getValue();
 
-    void removeValue();
+    T removeValue();
 }

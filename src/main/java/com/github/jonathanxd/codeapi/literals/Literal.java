@@ -37,10 +37,10 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class Literal implements CodePart, Named, Typed {
+public abstract class Literal<T extends Literal<T>> implements CodePart, Named, Typed<T> {
 
     private final String name;
-    private CodeType dataType;
+    private final CodeType dataType;
 
     public Literal(String name, CodeType dataType) {
         this.name = name;
@@ -59,8 +59,8 @@ public class Literal implements CodePart, Named, Typed {
 
 
     @Override
-    public void setType(CodeType type) {
-        this.dataType = type;
+    public T setType(CodeType type) {
+        return newInstance(name, type);
     }
 
     @Override
@@ -69,7 +69,13 @@ public class Literal implements CodePart, Named, Typed {
     }
 
     @Override
-    public void removeType() {
-        this.dataType = null;
+    public T removeType() {
+        return newInstance(name, null);
+    }
+
+    protected abstract T newInstance(String name);
+
+    protected T newInstance(String name, CodeType dataType) {
+        return newInstance(name);
     }
 }

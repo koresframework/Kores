@@ -32,26 +32,35 @@ import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(CatchBlock.class)
-public class CatchExBlock extends AbstractStorage implements CatchBlock {
+public class CatchExBlock extends AbstractStorage implements CatchBlock<CatchExBlock> {
 
     @Store(CodeSource.class)
-    private final Collection<CodeSource> bodies = new ArrayList<>();
+    private final Collection<CodeSource> bodies;
 
     @Store(CodeParameter.class)
-    private final Collection<CodeParameter> parameters = new ArrayList<>();
+    private final Collection<CodeParameter> parameters;
+
+    public CatchExBlock(Collection<CodeSource> bodies, Collection<CodeParameter> parameters) {
+        this.bodies = bodies == null ? Collections.emptyList() : Collections.unmodifiableCollection(bodies);
+        this.parameters = parameters == null ? Collections.emptyList() : Collections.unmodifiableCollection(parameters);
+    }
 
     @Override
-    public void addBody(CodeSource body) {
-        this.bodies.add(body);
+    public CatchExBlock addBody(CodeSource body) {
+        return new CatchExBlock(new ArrayList<CodeSource>(bodies){{
+            add(body);
+        }}, parameters);
     }
 
     @Override
@@ -60,13 +69,15 @@ public class CatchExBlock extends AbstractStorage implements CatchBlock {
     }
 
     @Override
-    public void clearBodies() {
-        this.bodies.clear();
+    public CatchExBlock clearBodies() {
+        return new CatchExBlock(Collections.emptyList(), parameters);
     }
 
     @Override
-    public void addParameter(CodeParameter parameter) {
-        this.parameters.add(parameter);
+    public Parameterizable addParameter(CodeParameter parameter) {
+        return new CatchExBlock(bodies, new ArrayList<CodeParameter>(parameters){{
+            add(parameter);
+        }});
     }
 
     @Override
@@ -75,8 +86,8 @@ public class CatchExBlock extends AbstractStorage implements CatchBlock {
     }
 
     @Override
-    public void clearParameters() {
-        this.parameters.clear();
+    public Parameterizable clearParameters() {
+        return new CatchExBlock(bodies, Collections.emptyList());
     }
 
 }

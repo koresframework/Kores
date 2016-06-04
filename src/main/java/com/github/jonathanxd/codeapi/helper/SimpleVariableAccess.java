@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
  * Created by jonathan on 10/05/16.
  */
 @GenerateTo(VariableAccess.class)
-public class SimpleVariableAccess implements CodePart, VariableAccess {
+public class SimpleVariableAccess implements CodePart, VariableAccess<SimpleVariableAccess> {
     private final CodePart localization;
     private final String name;
 

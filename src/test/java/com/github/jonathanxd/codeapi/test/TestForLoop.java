@@ -39,14 +39,23 @@ import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
 import org.junit.Test;
 
-import static com.github.jonathanxd.codeapi.helper.Helper.*;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static com.github.jonathanxd.codeapi.helper.Helper.accessLocalVariable;
+import static com.github.jonathanxd.codeapi.helper.Helper.createFor;
+import static com.github.jonathanxd.codeapi.helper.Helper.declarePackage;
+import static com.github.jonathanxd.codeapi.helper.Helper.end;
+import static com.github.jonathanxd.codeapi.helper.Helper.expression;
+import static com.github.jonathanxd.codeapi.helper.Helper.expressions;
+import static com.github.jonathanxd.codeapi.helper.Helper.getJavaType;
+import static com.github.jonathanxd.codeapi.helper.Helper.sourceOf;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -65,15 +74,13 @@ public class TestForLoop {
 
         source.add(packageDeclaration);
 
-        CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.Nomade");
-
-        codeClass.addModifier(CodeModifier.PUBLIC);
-
-
-
-        codeClass.setBody(sourceOf(
-                createMethod()
-        ));
+        CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.Nomade",
+                Arrays.asList(CodeModifier.PUBLIC),
+                null,
+                null,
+                sourceOf(
+                        createMethod()
+                ));
 
         source.add(codeClass);
         String gen = generator.gen(source);
@@ -83,29 +90,24 @@ public class TestForLoop {
 
     private CodePart createMethod() {
 
-        CodeMethod method = new CodeMethod("printX");
+        CodeSource methodSource = new CodeSource();
 
-        method.addParameter(new CodeParameter("y", getJavaType(Integer.TYPE)));
+        CodeMethod method = new CodeMethod("printX", Arrays.asList(),
+                Arrays.asList(new CodeParameter("y", getJavaType(Integer.TYPE)), new CodeParameter("obj", getJavaType(Object.class))),
+                getJavaType(Void.TYPE),
+                methodSource);
 
-        method.addParameter(new CodeParameter("obj", getJavaType(Object.class)));
+        CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Collections.emptyList(), Literals.INT(0));
 
-        method.setReturnType(getJavaType(Void.TYPE));
-
-        CodeField xField = new CodeField("x");
-
-        xField.setType(Integer.TYPE);
-
-        xField.setValue(Literals.INT(0));
-
-        CodePart invokePrintln = Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), new MethodSpec("println").addArgument(new CodeArgument(accessLocalVariable("obj"))));
+        CodePart invokePrintln = Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(accessLocalVariable("obj"))));
 
         Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName()));
 
-        method.setBody(sourceOf(
+        methodSource.add(
                 createFor(expression(xField), expressions(accessLocalVariable(xField.getName()), Operators.LESS_THAN, accessLocalVariable("y")), addToX,
                         sourceOf(invokePrintln,
                                 end(Keywords.BREAK)))
-        ));
+        );
 
 
         return method;

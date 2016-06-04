@@ -48,6 +48,6 @@ public interface ArgumentOperator<T extends ArgumentOperator<T>> extends CodePar
 
     Collection<CodePart> getArgumentsAndOperators();
 
-    void clearArgumentsAndOperators();
+    T clearArgumentsAndOperators();
 
 }

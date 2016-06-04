@@ -35,20 +35,30 @@ import com.github.jonathanxd.codeapi.util.CodeModifier;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractValuableModifierable extends AbstractStorage implements Valuable, Modifierable {
+public abstract class AbstractValuableModifierable<T extends AbstractValuableModifierable<T>> extends AbstractStorage implements Valuable<T>, Modifierable<T> {
 
     @Store(CodeModifier.class)
-    private final Collection<CodeModifier> modifiers = new ArrayList<>();
-    private CodePart value;
+    private final Collection<CodeModifier> modifiers;
+    private final CodePart value;
+
+    protected AbstractValuableModifierable(Collection<CodeModifier> modifiers, CodePart value) {
+        this.modifiers = modifiers;
+        this.value = value;
+    }
 
     @Override
-    public void addModifier(CodeModifier modifier) {
-        this.modifiers.add(modifier);
+    public T addModifier(CodeModifier modifier) {
+        //return newInstance(modifiers, value);
+        return newInstance(new ArrayList<CodeModifier>(modifiers){{
+            add(modifier);
+        }}, value);
+
     }
 
     @Override
@@ -57,8 +67,8 @@ public abstract class AbstractValuableModifierable extends AbstractStorage imple
     }
 
     @Override
-    public void clearModifiers() {
-        this.modifiers.clear();
+    public T clearModifiers() {
+        return newInstance(Collections.emptyList(), value);
     }
 
     @Override
@@ -67,13 +77,15 @@ public abstract class AbstractValuableModifierable extends AbstractStorage imple
     }
 
     @Override
-    public void setValue(CodePart value) {
-        this.value = value;
+    public T setValue(CodePart value) {
+        return newInstance(modifiers, value);
     }
 
     @Override
-    public void removeValue() {
-        this.value = null;
+    public T removeValue() {
+        return newInstance(modifiers, null);
     }
+
+    protected abstract T newInstance(Collection<CodeModifier> modifiers, CodePart value);
 
 }

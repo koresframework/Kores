@@ -33,6 +33,8 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.OptionalUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -42,7 +44,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class SimpleWhileBlockSourceGenerator implements Generator<SimpleWhileBlock, String, PlainSourceGenerator> {
+public class SimpleWhileBlockSourceGenerator implements Generator<SimpleWhileBlock<?>, String, PlainSourceGenerator> {
 
     public static final SimpleWhileBlockSourceGenerator INSTANCE = new SimpleWhileBlockSourceGenerator();
 
@@ -50,7 +52,7 @@ public class SimpleWhileBlockSourceGenerator implements Generator<SimpleWhileBlo
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(SimpleWhileBlock simpleWhileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(SimpleWhileBlock<?> simpleWhileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

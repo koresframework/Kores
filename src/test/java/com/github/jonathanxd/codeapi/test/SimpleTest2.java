@@ -47,11 +47,15 @@ import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Created by jonathan on 12/05/16.
  */
 public class SimpleTest2 {
 
+    // antes da refatoração: ~890ms
     @Test
     public void simpleTest() {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
@@ -63,33 +67,33 @@ public class SimpleTest2 {
         // Adiciona ao codigo fonte
         source.add(packageDeclaration);
 
-        // Crio uma classe com nome de CodeAPITest
-        CodeClass codeClass = new CodeClass("CodeAPITest");
+        // Cria o 'codigo-fonte' da classe
+        CodeSource classSource = new CodeSource();
 
-        // Adiciona o modifier publico
-        codeClass.addModifier(CodeModifier.PUBLIC);
+        // Crio uma classe com nome de CodeAPITest
+        CodeClass codeClass = new CodeClass("CodeAPITest",
+                // Adiciona o modifier publico
+                Arrays.asList(CodeModifier.PUBLIC),
+                null,
+                Collections.emptyList(),
+                classSource);
 
         // Adiciono a classe ao codigo fonte
         source.add(codeClass);
 
-
-        // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
-
         // Define qual é o código fonte da classe.
         codeClass.setBody(classSource);
-
-        // Cria uma field (campo)
-        CodeField codeField = new CodeField("myField");
 
         // Obtem um CodeType a partir de uma classe Java. Obs: Todas classes do CodeAPI são CodeType
         CodeType stringType = Helper.getJavaType(String.class);
 
-        // Define o tipo da field como String
-        codeField.setType(stringType);
+        // Cria uma field (campo)
+        CodeField codeField = new CodeField("myField",
+                // Define o tipo da field como String
+                stringType,
+                // Adiciona os modificadores public final
+                Arrays.asList(CodeModifier.PUBLIC, CodeModifier.FINAL));
 
-        // Adiciona os modificadores public final
-        codeField.addAll(StorageKeys.MODIFIERS, CodeModifier.PUBLIC, CodeModifier.FINAL);
 
         // Adiciona a field ao codigo fonte da classe
         classSource.add(codeField);
@@ -97,39 +101,39 @@ public class SimpleTest2 {
 
         // Cria um construtor para a classe 'codeClass' que criamos. CodeConstructor recebe CodeType
         // como parametro
-        CodeConstructor codeConstructor = new CodeConstructor(codeClass);
+        CodeConstructor codeConstructor = new CodeConstructor(codeClass,
 
-        // Adiciona o modificador publico
-        codeConstructor.addModifier(CodeModifier.PUBLIC);
+                // Adiciona o modificador publico
+                Collections.singletonList(CodeModifier.PUBLIC),
 
-        // Adiciona um parametro 'myField' do tipo String ao construtor
-        codeConstructor.addParameter(new CodeParameter("myField", stringType));
+                // Adiciona um parametro 'myField' do tipo String ao construtor
+                Collections.singletonList(new CodeParameter("myField", stringType)),
 
-        // Define o corpo (codigo fonte) do metodo
-        // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
-        codeConstructor.setBody(Helper.sourceOf(
-                Helper.setVariable(Helper.accessThis(), "myField", Helper.accessLocalVariable("myField")),
-                Helper.expressions(
-                        Helper.ifExpression(MultiVal.create(Group.class, Helper.group(
+                // Define o corpo (codigo fonte) do metodo
+                // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
+                Helper.sourceOf(
+                        Helper.setVariable(Helper.accessThis(), "myField", Helper.accessLocalVariable("myField")),
+                        Helper.expressions(
+                                Helper.ifExpression(MultiVal.create(Group.class, Helper.group(
 
-                                Helper.expressions(Helper.accessLocalVariable("myField"), Operators.NOT_EQUAL_TO, Literals.NULL)
-                        )), Helper.sourceOf(
-                                Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"),
-                                        new MethodSpec("println").addArgument(new CodeArgument(Helper.accessLocalVariable("myField")))
-                                )
-                        )),
-                        // Helper.elseExpression(Helper.ifExpression)... = else if (expr) { body }
-                        Helper.elseExpression(
-                                Helper.sourceOf(
+                                        Helper.expressions(Helper.accessLocalVariable("myField"), Operators.NOT_EQUAL_TO, Literals.NULL)
+                                )), Helper.sourceOf(
                                         Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"),
-                                                new MethodSpec("println").addArgument(new CodeArgument(
-                                                        Helper.cast(Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
-                                                ))
+                                                new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(Helper.accessLocalVariable("myField")))
+                                        )
+                                )),
+                                // Helper.elseExpression(Helper.ifExpression)... = else if (expr) { body }
+                                Helper.elseExpression(
+                                        Helper.sourceOf(
+                                                Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"),
+                                                        new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(
+                                                                Helper.cast(Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
+                                                        ))
+                                                )
                                         )
                                 )
                         )
-                )
-        ));
+                ));
 
         // Adiciona o construtor ao codigo fonte da classe
         classSource.add(codeConstructor);

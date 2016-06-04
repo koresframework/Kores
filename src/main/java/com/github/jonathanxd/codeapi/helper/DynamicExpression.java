@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.Expression;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Expression.class)
-public final class DynamicExpression implements Expression {
+public final class DynamicExpression implements Expression<DynamicExpression> {
 
     private CodePart expression;
     private Expression nextExpression;
@@ -65,8 +65,9 @@ public final class DynamicExpression implements Expression {
     }
 
     @Override
-    public void setCodeBlock(boolean isCodeBlock) {
+    public DynamicExpression setCodeBlock(boolean isCodeBlock) {
         this.isCodeBlock = isCodeBlock;
+        return this;
     }
 
     @Override
@@ -75,6 +76,6 @@ public final class DynamicExpression implements Expression {
     }
 
     public SimpleExpression create() {
-        return new SimpleExpression(expression, nextExpression);
+        return new SimpleExpression(expression, nextExpression, isCodeBlock);
     }
 }

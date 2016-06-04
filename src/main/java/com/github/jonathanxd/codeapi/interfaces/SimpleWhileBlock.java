@@ -30,6 +30,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 15/05/16.
  */
-public interface SimpleWhileBlock extends Expressionable {
+public interface SimpleWhileBlock<T extends SimpleWhileBlock<T>> extends Expressionable<T> {
 
 }

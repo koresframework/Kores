@@ -37,11 +37,13 @@ import com.github.jonathanxd.codeapi.gen.common.source.BodiableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ClassSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ElseBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ExtenderSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ForBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GroupableSourceGenerator;
@@ -69,6 +71,7 @@ import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
 import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
@@ -81,6 +84,7 @@ import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
@@ -139,6 +143,8 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(StaticBlock.class, StaticBlockSourceGenerator.INSTANCE);
         register(ForBlock.class, ForBlockSourceGenerator.INSTANCE);
         register(Access.class, AccessSourceGenerator.INSTANCE);
+        register(CodeClass.class, ClassSourceGenerator.INSTANCE);
+        register(Extender.class, ExtenderSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);

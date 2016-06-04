@@ -39,6 +39,18 @@ public interface CodeType {
         return type.substring(type.lastIndexOf('.') + 1);
     }
 
+    default String getJavaSpecName() {
+        return "L"+this.getType().replace('.', '/')+";";
+    }
+
+    default boolean isPrimitive() {
+        return false;
+    }
+
+    default boolean isInterface() {
+        return false;
+    }
+
     /**
      * Return true if is a {@code Virtual Type} (Virtual Types = Types that were not loaded by JVM)
      *

@@ -30,6 +30,8 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -37,12 +39,26 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 @GenerateTo(MethodInvocation.class)
 public class MethodInvocationImpl implements CodePart, MethodInvocation {
 
+    private final InvokeType invokeType;
+    private final CodeType localization;
     private final CodePart target;
     private final MethodSpec spec;
 
-    public MethodInvocationImpl(CodePart target, MethodSpec spec) {
+    public MethodInvocationImpl(InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+        this.invokeType = invokeType;
+        localization = codeType;
         this.target = target;
         this.spec = spec;
+    }
+
+    @Override
+    public CodeType getLocalization() {
+        return localization;
+    }
+
+    @Override
+    public InvokeType getInvokeType() {
+        return invokeType;
     }
 
     @Override

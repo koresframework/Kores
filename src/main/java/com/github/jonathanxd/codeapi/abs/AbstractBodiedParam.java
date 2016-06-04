@@ -27,32 +27,44 @@
  */
 package com.github.jonathanxd.codeapi.abs;
 
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractBodiedParam extends AbstractBodied implements Parameterizable {
+public abstract class AbstractBodiedParam<T extends AbstractBodiedParam<T>> extends AbstractBodied<T> implements Parameterizable<T> {
     @Store(CodeParameter.class)
-    private final Collection<CodeParameter> parameters = new ArrayList<>();
+    private final Collection<CodeParameter> parameters;
 
-    @Override
-    public void addParameter(CodeParameter parameter) {
-        this.parameters.add(parameter);
+    public AbstractBodiedParam(Collection<CodeParameter> parameters, CodeSource body) {
+        super(body);
+        this.parameters = parameters == null ? Collections.emptyList() : Collections.unmodifiableCollection(parameters);
     }
 
     @Override
-    public void clearParameters() {
-        this.parameters.clear();
+    public T addParameter(CodeParameter parameter) {
+        return newInstance(new ArrayList<CodeParameter>(parameters){{
+            add(parameter);
+        }}, getBody().orElse(null));
+    }
+
+    @Override
+    public T clearParameters() {
+        return newInstance(Collections.emptyList(), getBody().orElse(null));
+
     }
 
     @Override
     public Collection<CodeParameter> getParameters() {
         return parameters;
     }
+
+    protected abstract T newInstance(Collection<CodeParameter> parameters, CodeSource body);
 }

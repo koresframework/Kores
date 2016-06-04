@@ -35,14 +35,15 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Typed {
+public interface Typed<T extends Typed<T>> {
 
-    default void setType(Class<?> aClass) {
-        setType(Helper.getJavaType(aClass));
+    default T setType(Class<?> aClass) {
+        return setType(Helper.getJavaType(aClass));
     }
 
-    void setType(CodeType type);
+    T setType(CodeType type);
+
     Optional<CodeType> getType();
 
-    void removeType();
+    T removeType();
 }

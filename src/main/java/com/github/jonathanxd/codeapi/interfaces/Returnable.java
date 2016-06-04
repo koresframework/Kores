@@ -34,10 +34,10 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Returnable {
-    void setReturnType(CodeType returnType);
+public interface Returnable<T extends Returnable<T>> {
+    T setReturnType(CodeType returnType);
     Optional<CodeType> getReturnType();
 
-    void removeReturnType();
+    T removeReturnType();
 
 }

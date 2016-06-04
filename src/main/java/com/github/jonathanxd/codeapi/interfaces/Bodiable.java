@@ -35,10 +35,10 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Bodiable extends Storage {
-    void addBody(CodeSource body);
+public interface Bodiable<T extends Bodiable<T>> extends Storage {
+    T addBody(CodeSource body);
     Collection<CodeSource> getBodies();
 
-    void clearBodies();
+    T clearBodies();
 
 }

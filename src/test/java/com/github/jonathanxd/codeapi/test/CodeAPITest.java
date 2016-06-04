@@ -34,11 +34,13 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.impl.CodeFieldBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
@@ -47,10 +49,12 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -68,7 +72,9 @@ public class CodeAPITest {
         CodeSource mySource = new CodeSource();
 
         // Define a interface
-        CodeInterface codeClass = new CodeInterface("github.com.MyClass");
+        CodeInterface codeClass = CodeInterfaceBuilder.builder()
+                .withQualifiedName("github.com.MyClass")
+                .build();
 
         // Add 'public' modifier
         codeClass.addModifier(CodeModifier.PUBLIC);
@@ -120,7 +126,7 @@ public class CodeAPITest {
 
         CodePart trNew = Helper.expression(Keywords.THROW, Helper.expression(Keywords.NEW));
 
-        source.add(Helper.invoke(trNew, new MethodSpec(Helper.getJavaType(RuntimeException.class), MethodType.CONSTRUCTOR)
+        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/null, trNew, new MethodSpec(Helper.getJavaType(RuntimeException.class), MethodType.CONSTRUCTOR, Collections.emptyList())
                 .addArgument(new CodeArgument(Helper.accessVariable(Helper.accessLocal(), variable), false, Helper.getJavaType(Throwable.class)))));
 
         //throw new RuntimeException(e);
@@ -129,27 +135,24 @@ public class CodeAPITest {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println");
+        MethodSpec methodSpec = new MethodSpec("println", Collections.singleton(new CodeArgument(varToPrint)));
 
-        methodSpec.add(StorageKeys.ARGUMENTS, new CodeArgument(varToPrint));
-
-        return Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), methodSpec);
+        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), methodSpec);
     }
 
     private static CodeMethod createMethod() {
 
         // Declare 'println' method
 
-        CodeMethod codeMethod = new CodeMethod("println");
-
-        // Add parameter 'Object msg'
-        codeMethod.add(StorageKeys.PARAMETERS, new CodeParameter("msg", Helper.getJavaType(Object.class)));
-
-        // Add 'public static' modifier
-        codeMethod.addAll(StorageKeys.MODIFIERS, CodeModifier.PUBLIC, CodeModifier.STATIC);
-
-        // Set 'void' return type
-        codeMethod.setReturnType(Helper.getJavaType(Void.TYPE));
+        CodeMethod codeMethod = CodeMethodBuilder.builder()
+                .withName("println")
+                // Add parameter 'Object msg'
+                .withParameters(Collections.singleton(new CodeParameter("msg", Helper.getJavaType(Object.class))))
+                // Add 'public static' modifier
+                .withModifiers(Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC))
+                // Set 'void' return type
+                .withReturnType(Helper.getJavaType(Void.TYPE))
+                .build();
 
         // Create method body source
         CodeSource source = new CodeSource();
@@ -172,16 +175,15 @@ public class CodeAPITest {
         CodePart variable = Helper.accessVariable(localization, "out");
 
         // ref local field
-        CodeField cf = new CodeField("ref");
-
-        // Type is Object
-        cf.setType(Helper.getJavaType(Object.class));
-
-        // Set as final
-        cf.addModifier(CodeModifier.FINAL);
-
-        // Value = variable (System.out)
-        cf.setValue(variable);
+        CodeField cf = CodeFieldBuilder.builder()
+                .withName("ref")
+                // Type is Object
+                .withType(Helper.getJavaType(Object.class))
+                // Set as final
+                .withModifiers(Collections.singleton(CodeModifier.FINAL))
+                // Value = variable (System.out)
+                .withValue(variable)
+                .build();
 
         source.add(cf);
 
@@ -189,7 +191,7 @@ public class CodeAPITest {
         CodePart msgVar = Helper.accessVariable(Helper.accessLocal(), "msg");
 
         // Add Invocation of println method declared in 'System.out' ('variable')
-        source.add(Helper.invoke(variable, new MethodSpec("println", null, MethodType.METHOD).addArgument(
+        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/null, variable, new MethodSpec(Collections.emptyList(), "println", null, MethodType.METHOD).addArgument(
                 // with argument 'msgVar' (Method msg parameter)
                 new CodeArgument(msgVar,
                         // Cast type? = false

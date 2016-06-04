@@ -42,22 +42,21 @@ import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
-import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 import com.github.jonathanxd.codeapi.util.MultiVal;
 import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
 
+import org.objectweb.asm.Type;
+
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -69,16 +68,23 @@ public final class Helper {
     private static final None NONE = new None();
 
     //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
+    public static CodePart invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
+    }
+
+    @Deprecated
     public static CodePart invoke(CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(target, methodSpec);
+        return new MethodInvocationImpl(null, null, target, methodSpec);
     }
 
-    public static CodePart invokeConstructor(CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(expressions(Keywords.NEW, target), methodSpec);
+    public static CodePart invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(invokeType, localization, expressions(Keywords.NEW, target), methodSpec);
     }
 
-    public static CodePart construct(CodePart firstExpression, CodeType type) {
-        return new MethodInvocationImpl(expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR));
+    // TODO: need review: USING KEYWORDS, I CANNOT GENERATE BYTECODE USING KEYWORDS
+    @Deprecated
+    public static CodePart construct(InvokeType invokeType, CodeType localization, CodePart firstExpression, CodeType type) {
+        return new MethodInvocationImpl(invokeType, localization, expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR, Collections.emptyList()));
     }
 
     public static CodePart accessLocalVariable(String name) {
@@ -99,7 +105,7 @@ public final class Helper {
     }
 
     public static CodeElement staticBlock(CodeSource body) {
-        SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock();
+        SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock(body);
 
         simpleStaticBlock.setBody(body);
 
@@ -107,13 +113,7 @@ public final class Helper {
     }
 
     public static ForBlock createFor(Expression initialization, Expression expression, Expression update, CodeSource body) {
-        SimpleForBlock simpleForBlock = new SimpleForBlock();
-
-        simpleForBlock.setForInit(initialization);
-        simpleForBlock.setForExpression(expression);
-        simpleForBlock.setForUpdate(update);
-
-        simpleForBlock.setBody(body);
+        SimpleForBlock simpleForBlock = new SimpleForBlock(expression, expression, update, body);
 
         return simpleForBlock;
     }
@@ -141,11 +141,8 @@ public final class Helper {
 
     @SuppressWarnings("unchecked")
     public static CatchBlock catchBlock(Collection<CodeType> catchExceptions, String variable, CodeSource body) {
-        CatchExBlock exBlock = new CatchExBlock();
-
-        catchExceptions.stream().map(ex -> new CodeParameter(variable, ex)).forEach(exBlock::addParameter);
-
-        exBlock.addBody(body);
+        CatchExBlock exBlock = new CatchExBlock(Collections.singleton(body),
+                catchExceptions.stream().map(ex -> new CodeParameter(variable, ex)).collect(Collectors.toList()));
 
         return exBlock;
     }
@@ -167,37 +164,26 @@ public final class Helper {
     }
 
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body /*, ElseBlock else*/) {
-        IfBlock ifBlock = new SimpleIfBlock();
-
-        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
-
-        ifBlock.setBody(body);
-
+        IfBlock ifBlock = new SimpleIfBlock(body, groups.toCollection());
         return ifBlock;
     }
 
     public static TryBlock tryCatchBlock(CodePart expression) {
-        return new TryCatchBlock(expression);
+        return new TryCatchBlock(expression, Collections.emptyList());
     }
 
     public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
-        return new TryCatchBlock(expression, catchBlocks);
+        return new TryCatchBlock(expression, catchBlocks, Collections.emptyList());
     }
 
     public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
-        TryCatchBlock tryCatchBlock = new TryCatchBlock(null, catchBlocks);
 
-        tryCatchBlock.addBody(sourceOf(toSurround));
-
-        return tryCatchBlock;
+        return new TryCatchBlock(null, catchBlocks, Collections.singletonList(sourceOf(toSurround)));
     }
 
     public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
-        TryCatchBlock tryCatchBlock = new TryCatchBlock(null, catchBlocks);
 
-        tryCatchBlock.addBody(toSurround);
-
-        return tryCatchBlock;
+        return new TryCatchBlock(null, catchBlocks, Collections.singletonList(toSurround));
     }
 
     public static CodePart localizedAtType(CodeType type) {
@@ -205,7 +191,7 @@ public final class Helper {
     }
 
     public static Expression expression(CodePart expression, Expression nestedExpression) {
-        return new SimpleExpression(expression, nestedExpression);
+        return new SimpleExpression(expression, nestedExpression, false);
     }
 
     public static Expression expressions(CodePart expression, CodePart... moreExpressions) {
@@ -232,7 +218,7 @@ public final class Helper {
     }
 
     public static Expression expression(CodePart expression) {
-        return new SimpleExpression(expression, null);
+        return new SimpleExpression(expression, null, false);
     }
 
     public static Expression end(CodePart expression) {
@@ -305,7 +291,7 @@ public final class Helper {
     }
 
     public static CodePart declarePackage(String packageName) {
-        return expression(Keywords.PACKAGE, new NonExpressionExpr(Literals.STRING(packageName)));
+        return new PkgDclEx(packageName);
     }
 
     @GenerateTo(CodeType.class)
@@ -319,6 +305,11 @@ public final class Helper {
         @Override
         public String getType() {
             return type.getCanonicalName();
+        }
+
+        @Override
+        public String getJavaSpecName() {
+            return Type.getDescriptor(type);
         }
 
         @Override
@@ -341,6 +332,16 @@ public final class Helper {
             }
 
             return super.equals(obj);
+        }
+
+        @Override
+        public boolean isPrimitive() {
+            return type.isPrimitive();
+        }
+
+        @Override
+        public boolean isInterface() {
+            return type.isInterface();
         }
     }
 
@@ -365,7 +366,7 @@ public final class Helper {
         }
 
         public NonExpressionExpr(CodePart expression, Expression nextExpression) {
-            super(expression, nextExpression);
+            super(expression, nextExpression, true);
         }
 
         @Override

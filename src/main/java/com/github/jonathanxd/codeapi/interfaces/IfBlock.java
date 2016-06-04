@@ -32,5 +32,5 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface IfBlock extends Bodied, Groupable, CodePart {
+public interface IfBlock<T extends IfBlock<T>> extends Bodied<T>, Groupable<T>, CodePart {
 }

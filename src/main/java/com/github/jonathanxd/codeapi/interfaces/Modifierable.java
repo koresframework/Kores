@@ -35,10 +35,10 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Modifierable extends Storage {
-    void addModifier(CodeModifier modifier);
+public interface Modifierable<T extends Modifierable<T>> extends Storage {
+    T addModifier(CodeModifier modifier);
     Collection<CodeModifier> getModifiers();
 
-    void clearModifiers();
+    T clearModifiers();
 
 }

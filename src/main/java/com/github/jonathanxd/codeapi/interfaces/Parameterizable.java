@@ -35,9 +35,9 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Parameterizable extends Storage {
-    void addParameter(CodeParameter parameter);
+public interface Parameterizable<T extends Parameterizable<T>> extends Storage {
+    T addParameter(CodeParameter parameter);
     Collection<CodeParameter> getParameters();
 
-    void clearParameters();
+    T clearParameters();
 }

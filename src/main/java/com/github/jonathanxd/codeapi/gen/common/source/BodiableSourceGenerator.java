@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Lambda;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -47,14 +49,14 @@ import java.util.List;
  */
 
 // * TODO: Replace: Bodiable -> Bodied, Now CodeSource is a CodePart
-public class BodiableSourceGenerator implements Generator<Bodiable, String, PlainSourceGenerator> {
+public class BodiableSourceGenerator implements Generator<Bodiable<?>, String, PlainSourceGenerator> {
 
     public static final BodiableSourceGenerator INSTANCE = new BodiableSourceGenerator();
 
     private BodiableSourceGenerator() {
     }
 
-    public List<Value<?, String, PlainSourceGenerator>> gen(Bodiable bodiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Bodiable<?> bodiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         java.util.List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         Collection<CodeSource> bodies = bodiable.getBodies();

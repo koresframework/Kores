@@ -35,8 +35,12 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractBodied extends AbstractStorage implements Bodied {
-    private CodeSource body;
+public abstract class AbstractBodied<T extends AbstractBodied<T>> extends AbstractStorage implements Bodied<T> {
+    private final CodeSource body;
+
+    protected AbstractBodied(CodeSource body) {
+        this.body = body;
+    }
 
     @Override
     public Optional<CodeSource> getBody() {
@@ -44,12 +48,14 @@ public abstract class AbstractBodied extends AbstractStorage implements Bodied {
     }
 
     @Override
-    public void setBody(CodeSource body) {
-        this.body = body;
+    public T setBody(CodeSource body) {
+        return newInstance(body);
     }
 
     @Override
-    public void removeBody() {
-        this.body = null;
+    public T removeBody() {
+        return newInstance(null);
     }
+
+    protected abstract T newInstance(CodeSource body);
 }

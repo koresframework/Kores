@@ -35,12 +35,12 @@ import java.util.Collection;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface MultiTyped extends Storage {
+public interface MultiTyped<T extends MultiTyped<T>> extends Storage {
 
-    void addType(CodeType type);
+    T addType(CodeType type);
 
     Collection<CodeType> getTypes();
 
-    void clearTypes();
+    T clearTypes();
 
 }

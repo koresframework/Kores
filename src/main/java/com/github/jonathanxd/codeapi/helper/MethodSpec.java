@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.util.CodeArgument;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -45,28 +46,29 @@ import java.util.Collection;
 public class MethodSpec extends AbstractStorage implements MethodSpecification<MethodSpec> {
 
     @Store(CodeArgument.class)
-    private final Collection<CodeArgument> arguments = new ArrayList<>();
+    private final Collection<CodeArgument> arguments;
     private final String methodName;
     private final CodeType returnType;
     private final MethodType methodType;
 
-    public MethodSpec(String methodName) {
-        this(methodName, null, MethodType.METHOD);
+    public MethodSpec(String methodName, Collection<CodeArgument> arguments) {
+        this(arguments, methodName, null, MethodType.METHOD);
     }
 
-    public MethodSpec(String methodName, CodeType returnType) {
-        this(methodName, returnType, MethodType.METHOD);
+    public MethodSpec(String methodName, CodeType returnType, Collection<CodeArgument> arguments) {
+        this(arguments, methodName, returnType, MethodType.METHOD);
     }
 
-    public MethodSpec(CodeType returnType) {
-        this(null, returnType, MethodType.METHOD);
+    public MethodSpec(CodeType returnType, Collection<CodeArgument> arguments) {
+        this(arguments, null, returnType, MethodType.METHOD);
     }
 
-    public MethodSpec(CodeType returnType, MethodType methodType) {
-        this(null, returnType, methodType);
+    public MethodSpec(CodeType returnType, MethodType methodType, Collection<CodeArgument> arguments) {
+        this(arguments, null, returnType, methodType);
     }
 
-    public MethodSpec(String methodName, CodeType returnType, MethodType methodType) {
+    public MethodSpec(Collection<CodeArgument> arguments, String methodName, CodeType returnType, MethodType methodType) {
+        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableCollection(arguments);
         this.methodName = methodName;
         this.returnType = returnType;
         this.methodType = methodType;
@@ -84,8 +86,9 @@ public class MethodSpec extends AbstractStorage implements MethodSpecification<M
 
     @Override
     public MethodSpec addArgument(CodeArgument argument) {
-        this.arguments.add(argument);
-        return this;
+        return new MethodSpec(new ArrayList<CodeArgument>(arguments){{
+            add(argument);
+        }}, methodName, returnType, methodType);
     }
 
     @Override
@@ -95,8 +98,7 @@ public class MethodSpec extends AbstractStorage implements MethodSpecification<M
 
     @Override
     public MethodSpec clearArguments() {
-        this.arguments.clear();
-        return this;
+        return new MethodSpec(Collections.emptyList(), methodName, returnType, methodType);
     }
 
     @Override

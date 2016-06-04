@@ -27,19 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.util.CodeParameter;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 @GenerateTo(CodeMethod.class)
-public class CodeConstructor extends CodeMethod {
+public class CodeConstructor<T extends CodeConstructor<T>> extends CodeMethod<T> {
 
-    public CodeConstructor(CodeType declaringClass) {
-        super(declaringClass.getSimpleName());
+    public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeSource body) {
+        super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), body);
     }
 
     /**
@@ -58,7 +63,8 @@ public class CodeConstructor extends CodeMethod {
      * Constructor return type is immutable
      */
     @Override
-    public void setReturnType(CodeType returnType) {
+    public T setReturnType(CodeType returnType) {
+        return null;
     }
 
     /**
@@ -67,6 +73,7 @@ public class CodeConstructor extends CodeMethod {
      * Constructor return type is immutable
      */
     @Override
-    public void removeReturnType() {
+    public T removeReturnType() {
+        return null;
     }
 }

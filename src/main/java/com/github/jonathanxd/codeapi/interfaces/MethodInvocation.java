@@ -29,12 +29,19 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface MethodInvocation {
+public interface MethodInvocation<T extends MethodInvocation<T>> extends CodePart {
+
+    CodeType getLocalization();
+
     CodePart getTarget();
 
     MethodSpec getSpec();
+
+    InvokeType getInvokeType();
 }

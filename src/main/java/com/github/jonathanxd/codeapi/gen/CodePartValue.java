@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.List;
@@ -50,13 +52,13 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
     }
 
     @Override
-    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender) {
+    public void apply(TARGET value, C abstractGenerator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data) {
         try{
-            List<Value<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current);
+            List<Value<?, TARGET, C>> call = abstractGenerator.generateTo(getValue().getClass(), part, current, codeSourceData, data);
 
             if (call != null && !call.isEmpty()) {
                 for (Value<?, TARGET, C> genValue : call) {
-                    AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender);
+                    AbstractGenerator.helpApply(genValue, part, abstractGenerator, appender, codeSourceData, data);
                 }
             } else {
                 throw new IllegalStateException("Cannot find generator for '" + part.getClass().getCanonicalName() + "'");

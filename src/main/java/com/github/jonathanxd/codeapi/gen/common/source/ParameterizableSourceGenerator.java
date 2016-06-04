@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ParameterizableSourceGenerator implements Generator<Parameterizable, String, PlainSourceGenerator> {
+public class ParameterizableSourceGenerator implements Generator<Parameterizable<?>, String, PlainSourceGenerator> {
 
     public static final ParameterizableSourceGenerator INSTANCE = new ParameterizableSourceGenerator();
 
@@ -52,7 +54,7 @@ public class ParameterizableSourceGenerator implements Generator<Parameterizable
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Parameterizable parameterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Parameterizable<?> parameterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

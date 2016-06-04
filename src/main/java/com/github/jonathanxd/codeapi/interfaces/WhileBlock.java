@@ -30,6 +30,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 15/05/16.
  */
-public interface WhileBlock extends SimpleWhileBlock, Bodied {
+public interface WhileBlock<T extends WhileBlock<T>> extends SimpleWhileBlock<T>, Bodied<T> {
 
 }

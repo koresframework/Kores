@@ -31,7 +31,6 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 import java.util.Optional;
 
@@ -39,9 +38,11 @@ import java.util.Optional;
  * Created by jonathan on 12/05/16.
  */
 @GenerateTo(ElseBlock.class)
-public class SimpleElseBlock extends AbstractStorage implements ElseBlock {
+public class SimpleElseBlock extends AbstractStorage implements ElseBlock<SimpleElseBlock> {
 
-    private CodePart expression;
+    private static final SimpleElseBlock EMPTY = new SimpleElseBlock(null);
+
+    private final CodePart expression;
 
     public SimpleElseBlock(CodePart expression) {
         this.expression = expression;
@@ -53,12 +54,12 @@ public class SimpleElseBlock extends AbstractStorage implements ElseBlock {
     }
 
     @Override
-    public void setExpression(CodePart expression) {
-        this.expression = expression;
+    public SimpleElseBlock setExpression(CodePart expression) {
+        return new SimpleElseBlock(expression);
     }
 
     @Override
-    public void clearExpression() {
-        this.expression = null;
+    public SimpleElseBlock clearExpression() {
+        return EMPTY;
     }
 }

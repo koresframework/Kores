@@ -40,8 +40,8 @@ import java.util.Optional;
 @GenerateTo(Casted.class)
 public class CastedExPart implements Casted<CastedExPart> {
 
-    private CodeType type;
-    private CodePart castedPart;
+    private final CodeType type;
+    private final CodePart castedPart;
 
     public CastedExPart() {
         this(null, null);
@@ -62,8 +62,7 @@ public class CastedExPart implements Casted<CastedExPart> {
 
     @Override
     public CastedExPart setCastedPart(CodePart castedPart) {
-        this.castedPart = castedPart;
-        return this;
+        return new CastedExPart(type, castedPart);
     }
 
     @Override
@@ -72,13 +71,13 @@ public class CastedExPart implements Casted<CastedExPart> {
     }
 
     @Override
-    public void removeCastedPart() {
-        this.castedPart = null;
+    public CastedExPart removeCastedPart() {
+        return new CastedExPart(type, castedPart);
     }
 
     @Override
-    public void setType(CodeType type) {
-        this.type = type;
+    public CastedExPart setType(CodeType type) {
+        return new CastedExPart(type, castedPart);
     }
 
     @Override
@@ -87,7 +86,7 @@ public class CastedExPart implements Casted<CastedExPart> {
     }
 
     @Override
-    public void removeType() {
-        this.type = null;
+    public CastedExPart removeType() {
+        return new CastedExPart(null, castedPart);
     }
 }

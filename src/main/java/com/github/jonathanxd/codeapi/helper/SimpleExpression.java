@@ -35,20 +35,21 @@ import com.github.jonathanxd.codeapi.interfaces.Expression;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Expression.class)
-public class SimpleExpression implements Expression {
+public class SimpleExpression implements Expression<SimpleExpression> {
 
     private final CodePart expression;
     private final Expression nextExpression;
-    private boolean isCodeBlock = false;
+    private final boolean isCodeBlock;
 
-    public SimpleExpression(CodePart expression, Expression nextExpression) {
+    public SimpleExpression(CodePart expression, Expression nextExpression, boolean isCodeBlock) {
         this.expression = expression;
         this.nextExpression = nextExpression;
+        this.isCodeBlock = isCodeBlock;
     }
 
     @Override
-    public void setCodeBlock(boolean isCodeBlock) {
-        this.isCodeBlock = isCodeBlock;
+    public SimpleExpression setCodeBlock(boolean isCodeBlock) {
+        return new SimpleExpression(expression, nextExpression, isCodeBlock);
     }
 
     @Override

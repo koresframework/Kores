@@ -28,22 +28,31 @@
 package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractValuableModifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeModifier;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeField extends AbstractValuableModifierable implements CodeElement, Named, Typed {
+public class CodeField extends AbstractValuableModifierable<CodeField> implements CodeElement, Named<CodeField>, Typed<CodeField> {
     private final String name;
-    private CodeType type;
+    private final CodeType type;
 
-    public CodeField(String name) {
+    public CodeField(String name, CodeType type, Collection<CodeModifier> modifiers) {
+        this(name, type, modifiers, null);
+    }
+
+    public CodeField(String name, CodeType type, Collection<CodeModifier> modifiers, CodePart value) {
+        super(modifiers, value);
         this.name = name;
+        this.type = type;
     }
 
     public Optional<CodeType> getType() {
@@ -51,13 +60,14 @@ public class CodeField extends AbstractValuableModifierable implements CodeEleme
     }
 
     @Override
-    public void setType(CodeType type) {
-        this.type = type;
+    public CodeField setType(CodeType type) {
+        return new CodeField(name, type, getModifiers(), getValue().orElse(null));
     }
 
     @Override
-    public void removeType() {
-        this.type = null;
+    public CodeField removeType() {
+        return new CodeField(name, null, getModifiers(), getValue().orElse(null));
+
     }
 
     @Override
@@ -65,4 +75,8 @@ public class CodeField extends AbstractValuableModifierable implements CodeEleme
         return name;
     }
 
+    @Override
+    protected CodeField newInstance(Collection<CodeModifier> modifiers, CodePart value) {
+        return new CodeField(name, type, modifiers, value);
+    }
 }

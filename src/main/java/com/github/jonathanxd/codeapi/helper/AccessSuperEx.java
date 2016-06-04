@@ -47,8 +47,9 @@ public class AccessSuperEx extends AccessEx<AccessSuperEx> implements AccessSupe
         super(localization);
     }
 
+
     @Override
-    public AccessSuperEx getThis() {
-        return this;
+    protected AccessSuperEx newInstance(CodeType localization) {
+        return new AccessSuperEx(localization);
     }
 }

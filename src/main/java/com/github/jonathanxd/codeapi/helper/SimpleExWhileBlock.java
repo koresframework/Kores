@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 
 import java.util.Optional;
@@ -39,10 +38,10 @@ import java.util.Optional;
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(WhileBlock.class)
-public class SimpleExWhileBlock implements WhileBlock {
+public class SimpleExWhileBlock<T extends SimpleExWhileBlock<T>> implements WhileBlock<T> {
 
-    private CodePart expression;
-    private CodeSource body;
+    private final CodePart expression;
+    private final CodeSource body;
 
     public SimpleExWhileBlock(CodePart expression, CodeSource body) {
         this.expression = expression;
@@ -50,8 +49,8 @@ public class SimpleExWhileBlock implements WhileBlock {
     }
 
     @Override
-    public void setBody(CodeSource body) {
-        this.body = body;
+    public T setBody(CodeSource body) {
+        return newInstance(expression, body);
     }
 
     @Override
@@ -60,8 +59,8 @@ public class SimpleExWhileBlock implements WhileBlock {
     }
 
     @Override
-    public void removeBody() {
-        this.body = null;
+    public T removeBody() {
+        return newInstance(expression, null);
     }
 
     @Override
@@ -70,12 +69,17 @@ public class SimpleExWhileBlock implements WhileBlock {
     }
 
     @Override
-    public void setExpression(CodePart expression) {
-        this.expression = expression;
+    public T setExpression(CodePart expression) {
+        return newInstance(expression, body);
     }
 
     @Override
-    public void clearExpression() {
-        this.expression = null;
+    public T clearExpression() {
+        return newInstance(null, body);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T newInstance(CodePart expression, CodeSource body) {
+        return (T) new SimpleExWhileBlock<T>(expression, body);
     }
 }

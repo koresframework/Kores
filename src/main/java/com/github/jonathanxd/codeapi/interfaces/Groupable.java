@@ -34,12 +34,12 @@ import java.util.Collection;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface Groupable extends Storage {
+public interface Groupable<T extends Groupable<T>> extends Storage {
 
-    void addGroup(Group group);
+    T addGroup(Group group);
 
     Collection<Group> getGroups();
 
-    void clearGroups();
+    T clearGroups();
 
 }

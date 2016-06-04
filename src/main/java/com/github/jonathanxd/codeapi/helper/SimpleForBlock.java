@@ -39,12 +39,19 @@ import java.util.Optional;
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(ForBlock.class)
-public class SimpleForBlock extends AbstractStorage implements ForBlock {
+public class SimpleForBlock extends AbstractStorage implements ForBlock<SimpleForBlock> {
 
-    private Expression forInit;
-    private Expression forExpression;
-    private Expression forUpdate;
-    private CodeSource body;
+    private final Expression forInit;
+    private final Expression forExpression;
+    private final Expression forUpdate;
+    private final CodeSource body;
+
+    public SimpleForBlock(Expression forInit, Expression forExpression, Expression forUpdate, CodeSource body) {
+        this.forInit = forInit;
+        this.forExpression = forExpression;
+        this.forUpdate = forUpdate;
+        this.body = body;
+    }
 
     @Override
     public Optional<CodeSource> getBody() {
@@ -52,13 +59,13 @@ public class SimpleForBlock extends AbstractStorage implements ForBlock {
     }
 
     @Override
-    public void setBody(CodeSource body) {
-        this.body = body;
+    public SimpleForBlock setBody(CodeSource body) {
+        return new SimpleForBlock(forInit, forExpression, forUpdate, body);
     }
 
     @Override
-    public void removeBody() {
-        this.body = null;
+    public SimpleForBlock removeBody() {
+        return new SimpleForBlock(forInit, forExpression, forUpdate, null);
     }
 
     @Override
@@ -67,8 +74,8 @@ public class SimpleForBlock extends AbstractStorage implements ForBlock {
     }
 
     @Override
-    public void setForInit(Expression expression) {
-        this.forInit = expression;
+    public SimpleForBlock setForInit(Expression expression) {
+        return new SimpleForBlock(expression, forExpression, forUpdate, body);
     }
 
     @Override
@@ -77,8 +84,8 @@ public class SimpleForBlock extends AbstractStorage implements ForBlock {
     }
 
     @Override
-    public void setForExpression(Expression expression) {
-        this.forExpression = expression;
+    public SimpleForBlock setForExpression(Expression expression) {
+        return new SimpleForBlock(forInit, expression, forUpdate, body);
     }
 
     @Override
@@ -87,22 +94,22 @@ public class SimpleForBlock extends AbstractStorage implements ForBlock {
     }
 
     @Override
-    public void setForUpdate(Expression expression) {
-        this.forUpdate = expression;
+    public SimpleForBlock setForUpdate(Expression expression) {
+        return new SimpleForBlock(forInit, forExpression, expression, body);
     }
 
     @Override
-    public void removeForInit() {
-        this.forInit = null;
+    public SimpleForBlock removeForInit() {
+        return new SimpleForBlock(null, forExpression, forUpdate, body);
     }
 
     @Override
-    public void removeForExpression() {
-        this.forExpression = null;
+    public SimpleForBlock removeForExpression() {
+        return new SimpleForBlock(forInit, null, forUpdate, body);
     }
 
     @Override
-    public void removeForUpdate() {
-        this.forUpdate = null;
+    public SimpleForBlock removeForUpdate() {
+        return new SimpleForBlock(forInit, forExpression, null, body);
     }
 }

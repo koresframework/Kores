@@ -27,11 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
+
 /**
  * Created by jonathan on 07/05/16.
  */
 public interface Value<T, TARGET, C> {
     T getValue();
 
-    void apply(TARGET value, C generator, Appender<TARGET> appender);
+    void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data);
 }

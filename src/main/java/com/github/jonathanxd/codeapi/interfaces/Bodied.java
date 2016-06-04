@@ -35,12 +35,12 @@ import java.util.Optional;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface Bodied extends CodePart {
+public interface Bodied<T extends Bodied<T>> extends CodePart {
 
-    void setBody(CodeSource body);
+    T setBody(CodeSource body);
 
     Optional<CodeSource> getBody();
 
-    void removeBody();
+    T removeBody();
 
 }

@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 
 import java.util.Optional;
@@ -38,9 +37,13 @@ import java.util.Optional;
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(StaticBlock.class)
-public class SimpleStaticBlock implements StaticBlock {
+public class SimpleStaticBlock implements StaticBlock<SimpleStaticBlock> {
 
-    private CodeSource body;
+    private final CodeSource body;
+
+    public SimpleStaticBlock(CodeSource body) {
+        this.body = body;
+    }
 
     @Override
     public Optional<CodeSource> getBody() {
@@ -48,12 +51,12 @@ public class SimpleStaticBlock implements StaticBlock {
     }
 
     @Override
-    public void setBody(CodeSource body) {
-        this.body = body;
+    public SimpleStaticBlock setBody(CodeSource body) {
+        return new SimpleStaticBlock(body);
     }
 
     @Override
-    public void removeBody() {
-        this.body = null;
+    public SimpleStaticBlock removeBody() {
+        return new SimpleStaticBlock(null);
     }
 }

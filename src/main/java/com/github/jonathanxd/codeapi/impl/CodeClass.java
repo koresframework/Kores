@@ -27,24 +27,26 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeModifier;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-@GenerateTo(CodeInterface.class)
-public class CodeClass extends CodeInterface implements Extender  {
+public class CodeClass<T extends CodeClass<T>> extends CodeInterface<T> implements Extender<T> {
 
-    private CodeType superType;
+    private final CodeType superType;
 
-    public CodeClass(String qualifiedName) {
-        super(qualifiedName);
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
+        super(qualifiedName, modifiers, implementations, body);
+        this.superType = superType;
     }
 
     @Override
@@ -53,13 +55,13 @@ public class CodeClass extends CodeInterface implements Extender  {
     }
 
     @Override
-    public void setSuperType(CodeType superType) {
-        this.superType = superType;
+    public T setSuperType(CodeType superType) {
+        return newInstance(getQualifiedName(), getModifiers(), superType, getImplementations(), getBody().orElse(null));
     }
 
     @Override
-    public void removeSuperType() {
-        this.superType = null;
+    public T removeSuperType() {
+        return newInstance(getQualifiedName(), getModifiers(), null, getImplementations(), getBody().orElse(null));
     }
 
     @Override
@@ -71,4 +73,23 @@ public class CodeClass extends CodeInterface implements Extender  {
     public Keyword getKeyword() {
         return Keywords.CLASS;
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected T newInstance(CodeSource body) {
+        return (T) new CodeClass<>(getQualifiedName(), getModifiers(), superType, getImplementations(), body);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected T newInstance(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, CodeSource body) {
+        return (T) new CodeClass<>(qualifiedName, modifiers, superType, implementations, body);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T newInstance(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
+        return (T) new CodeClass<>(qualifiedName, modifiers, superType, implementations, body);
+    }
+
+
 }

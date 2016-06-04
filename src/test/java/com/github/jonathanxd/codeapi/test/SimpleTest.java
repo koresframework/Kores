@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.impl.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.storage.StorageKeys;
@@ -40,6 +41,9 @@ import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -57,33 +61,28 @@ public class SimpleTest {
         // Adiciona ao codigo fonte
         source.add(packageDeclaration);
 
-        // Crio uma classe com nome de CodeAPITest
-        CodeClass codeClass = new CodeClass("CodeAPITest");
+        // Cria o 'codigo-fonte' da classe
+        CodeSource classSource = new CodeSource();
 
-        // Adiciona o modifier publico
-        codeClass.addModifier(CodeModifier.PUBLIC);
+        // Crio uma classe com nome de CodeAPITest
+        CodeClass codeClass = CodeClassBuilder.builder()
+                .withQualifiedName("CodeAPITest")
+                // Adiciona o modifier publico
+                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
+                // Define qual é o código fonte da classe.
+                .withBody(classSource)
+                .build();
 
         // Adiciono a classe ao codigo fonte
         source.add(codeClass);
 
-
-        // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
-
-        // Define qual é o código fonte da classe.
-        codeClass.setBody(classSource);
-
-        // Cria uma field (campo)
-        CodeField codeField = new CodeField("myField");
-
         // Obtem um CodeType a partir de uma classe Java. Obs: Todas classes do CodeAPI são CodeType
         CodeType stringType = Helper.getJavaType(String.class);
 
+        // Cria uma field (campo)
         // Define o tipo da field como String
-        codeField.setType(stringType);
-
         // Adiciona os modificadores public final
-        codeField.addAll(StorageKeys.MODIFIERS, CodeModifier.PUBLIC, CodeModifier.FINAL);
+        CodeField codeField = new CodeField("myField", stringType, Arrays.asList(CodeModifier.PUBLIC, CodeModifier.FINAL));
 
         // Adiciona a field ao codigo fonte da classe
         classSource.add(codeField);
@@ -91,19 +90,16 @@ public class SimpleTest {
 
         // Cria um construtor para a classe 'codeClass' que criamos. CodeConstructor recebe CodeType
         // como parametro
-        CodeConstructor codeConstructor = new CodeConstructor(codeClass);
-
-        // Adiciona o modificador publico
-        codeConstructor.addModifier(CodeModifier.PUBLIC);
-
-        // Adiciona um parametro 'myField' do tipo String ao construtor
-        codeConstructor.addParameter(new CodeParameter("myField", stringType));
-
-        // Define o corpo (codigo fonte) do metodo
-        // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
-        codeConstructor.setBody(Helper.sourceOf(
-                Helper.setVariable(Helper.accessThis(), "myField", Helper.accessLocalVariable("myField"))
-        ));
+        CodeConstructor codeConstructor = new CodeConstructor(codeClass,
+                // Adiciona o modificador publico
+                Collections.singletonList(CodeModifier.PUBLIC),
+                // Adiciona um parametro 'myField' do tipo String ao construtor
+                Collections.singletonList(new CodeParameter("myField", stringType)),
+                // Define o corpo (codigo fonte) do metodo
+                // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
+                Helper.sourceOf(
+                        Helper.setVariable(Helper.accessThis(), "myField", Helper.accessLocalVariable("myField"))
+                ));
 
         // Adiciona o construtor ao codigo fonte da classe
         classSource.add(codeConstructor);

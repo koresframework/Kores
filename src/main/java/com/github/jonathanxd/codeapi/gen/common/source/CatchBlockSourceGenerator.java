@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ import java.util.StringJoiner;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, PlainSourceGenerator> {
+public class CatchBlockSourceGenerator implements Generator<CatchBlock<?>, String, PlainSourceGenerator> {
 
     public static final CatchBlockSourceGenerator INSTANCE = new CatchBlockSourceGenerator();
 
@@ -54,7 +56,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CatchBlock catchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(CatchBlock<?> catchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

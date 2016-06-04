@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Collections;
@@ -42,7 +44,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ReturnableSourceGenerator implements Generator<Returnable, String, PlainSourceGenerator> {
+public class ReturnableSourceGenerator implements Generator<Returnable<?>, String, PlainSourceGenerator> {
 
     public static final ReturnableSourceGenerator INSTANCE = new ReturnableSourceGenerator();
 
@@ -50,7 +52,7 @@ public class ReturnableSourceGenerator implements Generator<Returnable, String, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Returnable returnable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Returnable<?> returnable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         if(!returnable.getReturnType().isPresent())
             return Collections.emptyList();

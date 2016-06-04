@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
@@ -45,7 +47,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ImplementerSourceGenerator implements Generator<Implementer, String, PlainSourceGenerator> {
+public class ImplementerSourceGenerator implements Generator<Implementer<?>, String, PlainSourceGenerator> {
 
     public static final ImplementerSourceGenerator INSTANCE = new ImplementerSourceGenerator();
 
@@ -53,14 +55,14 @@ public class ImplementerSourceGenerator implements Generator<Implementer, String
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Implementer implementer, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Implementer<?> implementer, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         if(implementer.getImplementations().isEmpty())
             return Collections.emptyList();
 
 
         return Arrays.asList(
-        MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents/*Parent.create(this, parents)*/)), // Whitespace not needed
+        MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents,/*Parent.create(this, parents)*/codeSourceData, data)), // Whitespace not needed
                 ValueImpl.create(implementer.getImplementations().stream().map(CodeType::getType).collect(Collectors.joining(" ")))
         );
     }

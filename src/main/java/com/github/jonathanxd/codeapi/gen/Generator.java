@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.List;
@@ -35,5 +37,5 @@ import java.util.List;
  * Created by jonathan on 07/05/16.
  */
 public interface Generator<INP, OUT, C> {
-    List<Value<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents);
+    List<Value<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents, CodeSourceData codeSourceData, Data data);
 }

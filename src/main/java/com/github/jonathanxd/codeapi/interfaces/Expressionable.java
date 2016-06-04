@@ -34,11 +34,11 @@ import java.util.Optional;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface Expressionable {
+public interface Expressionable<T extends Expressionable<T>> {
 
     Optional<CodePart> getExpression();
 
-    void setExpression(CodePart expression);
+    T setExpression(CodePart expression);
 
-    void clearExpression();
+    T clearExpression();
 }

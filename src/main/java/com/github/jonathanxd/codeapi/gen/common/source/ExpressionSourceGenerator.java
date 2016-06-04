@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ExpressionSourceGenerator implements Generator<Expression, String, PlainSourceGenerator> {
+public class ExpressionSourceGenerator implements Generator<Expression<?>, String, PlainSourceGenerator> {
 
     public static final ExpressionSourceGenerator INSTANCE = new ExpressionSourceGenerator();
 
@@ -50,7 +52,7 @@ public class ExpressionSourceGenerator implements Generator<Expression, String, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Expression expression, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Expression<?> expression, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

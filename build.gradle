@@ -92,6 +92,8 @@ subprojects {
 
 allprojects{
     dependencies {
+        compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
+
         compile 'com.github.JonathanxD:JwIUtils:78e73f6d2d'
         testCompile group: 'junit', name:'junit', version: '4.11'
         testCompile group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.12'

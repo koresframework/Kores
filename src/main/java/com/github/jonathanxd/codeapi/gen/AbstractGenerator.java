@@ -32,7 +32,10 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.Default;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -51,34 +54,44 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     static final Logger logger = Logger.getLogger("AbstractGenerator");
 
     @SuppressWarnings("unchecked")
-    public static <T, C> void helpApply(Value<?, T, C> value, Object target, Object instance, Appender<T> appender) {
-        value.apply((T) target, (C) instance, appender);
+    public static <T, C> void helpApply(Value<?, T, C> value, Object target, Object instance, Appender<T> appender, CodeSourceData codeSourceData, Data processingData) {
+        value.apply((T) target, (C) instance, appender, codeSourceData, processingData);
     }
 
     @SuppressWarnings("unchecked")
-    private static <E, T, C> List<Value<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents) {
-        return generator.gen((E) target, (C) instance, parents);
+    private static <E, T, C> List<Value<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents, CodeSourceData codeSourceData, Data processingData) {
+        return generator.gen((E) target, (C) instance, parents, codeSourceData, processingData);
     }
 
     @SuppressWarnings("UnnecessaryQualifiedReference")
     @Override
     public synchronized T gen(CodeSource source) {
+        Data processingData = new Data();
 
         Appender<T> appender = createAppender();
 
         Object instance = this;
 
-        source.forEach((part) -> {
-            List<Value<?, T, C>> call = generateTo(part.getClass() /*as Class<? extends CodePart>*/, part, null);
+        IntContainer index = new IntContainer(-1);
+
+        CodeSourceData data = new CodeSourceData(source, index);
+
+
+        for (int i = 0; i < source.size(); i++) {
+            CodePart part = source.get(i);
+
+            index.set(i);
+
+            List<Value<?, T, C>> call = generateTo(part.getClass() /*as Class<? extends CodePart>*/, part, null, data, processingData);
 
             if (call != null && !call.isEmpty()) {
                 for (Value<?, T, C> value : call) {
-                    AbstractGenerator.helpApply(value, part, instance, appender);
+                    AbstractGenerator.helpApply(value, part, instance, appender, data, processingData);
                 }
             } else {
                 throw new IllegalStateException("Cannot find generator for '"+part.getClass().getCanonicalName()+"'");
             }
-        });
+        }
 
         return appender.get();
     }
@@ -86,7 +99,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     public abstract Appender<T> createAppender();
 
     @SuppressWarnings("unchecked")
-    List<Value<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents) {
+    List<Value<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents, CodeSourceData codeSourceData, Data processingData) {
         Map<Class<?>, Generator<?, T, C>> registry = getRegistry();
 
         EntryComparator entryComparator = new EntryComparator(generatorTargetClass);
@@ -119,7 +132,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
             if(filterEntry.getKey() != targetClass)
                 logger.warning("Processor of '"+targetClass.getCanonicalName()+"' isn't registered, using generic generator: '"+filterEntry.getKey()+"'!");
             try{
-                return new ArrayList<>(AbstractGenerator.help(get, target, this, Parent.create(get, target, parents)));
+                return new ArrayList<>(AbstractGenerator.help(get, target, this, Parent.create(get, target, parents), codeSourceData, processingData));
             }catch (Throwable t) {
                 throw new RuntimeException("Cannot parse! See parents: '"+parents+"'. ", t);
             }

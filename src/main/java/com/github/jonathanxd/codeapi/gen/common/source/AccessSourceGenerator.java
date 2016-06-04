@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeSourceData;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class AccessSourceGenerator implements Generator<Access<?>, String, Plain
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Access<?> access, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Access<?> access, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         Optional<CodeType> localizationOpt = access.getLocalization();

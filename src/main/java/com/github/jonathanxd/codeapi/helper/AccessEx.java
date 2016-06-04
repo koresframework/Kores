@@ -42,7 +42,7 @@ import java.util.Optional;
 @GenerateTo(Access.class)
 public abstract class AccessEx<T extends AccessEx<T>> implements Access<T> {
 
-    private CodeType localization;
+    private final CodeType localization;
 
     public AccessEx() {
         this(null);
@@ -55,9 +55,7 @@ public abstract class AccessEx<T extends AccessEx<T>> implements Access<T> {
 
     @Override
     public T setLocalization(CodeType localization) {
-        this.localization = localization;
-
-        return getThis();
+        return newInstance(localization);
     }
 
     @Override
@@ -66,9 +64,9 @@ public abstract class AccessEx<T extends AccessEx<T>> implements Access<T> {
     }
 
     @Override
-    public void removeLocalization() {
-        this.localization = null;
+    public T removeLocalization() {
+        return newInstance(null);
     }
 
-    public abstract T getThis();
+    protected abstract T newInstance(CodeType localization);
 }

@@ -32,18 +32,17 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface Expression extends CodePart {
+public interface Expression<T extends Expression<T>> extends CodePart {
     CodePart getExpression();
 
     Expression getNextExpression();
 
-    void setCodeBlock(boolean isCodeBlock);
+    T setCodeBlock(boolean isCodeBlock);
 
     boolean isCodeBlock();
 
-    default Expression end() {
-        setCodeBlock(true);
-        return this;
+    default T end() {
+        return setCodeBlock(true);
     }
 
     @Override

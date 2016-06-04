@@ -35,11 +35,11 @@ import java.util.Collection;
 /**
  * Multi-expressions
  */
-public interface MExpressionable extends Storage, CodePart {
+public interface MExpressionable<T extends MExpressionable<T>> extends Storage, CodePart {
 
-    void add(Expression expression);
+    T add(Expression expression);
 
     Collection<Expression> getExpressions();
 
-    void clearExpressions();
+    T clearExpressions();
 }

@@ -33,21 +33,11 @@ import com.github.jonathanxd.codeapi.MethodType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.storage.StorageKeys;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
+
+import java.util.Collections;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -66,7 +56,7 @@ public class Perf1 {
         source.add(packageDeclaration);
 
         source.add(Helper.invoke(Helper.expressions(Keywords.NEW, Helper.localizedAtType(Helper.getJavaType(Object[].class))),
-                new MethodSpec((String) null, null, MethodType.ARRAY_CONSTRUCTOR)
+                new MethodSpec(Collections.emptyList(), (String) null, null, MethodType.ARRAY_CONSTRUCTOR)
                 ));
 
         String gen = generator.gen(source);

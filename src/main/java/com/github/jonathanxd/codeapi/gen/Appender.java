@@ -33,5 +33,11 @@ package com.github.jonathanxd.codeapi.gen;
 public abstract class Appender<T> {
     public abstract void add(T elem);
 
+    public final void addAll(T[] elems) {
+        for (T elem : elems) {
+            add(elem);
+        }
+    }
+
     public abstract T get();
 }

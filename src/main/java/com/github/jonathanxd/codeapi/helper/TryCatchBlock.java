@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,29 +46,30 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(TryBlock.class)
-public class TryCatchBlock extends AbstractStorage implements TryBlock {
+public class TryCatchBlock extends AbstractStorage implements TryBlock<TryCatchBlock> {
 
     @Store(CodeSource.class)
-    private final List<CodeSource> bodies = new ArrayList<>();
+    private final List<CodeSource> bodies;
     // TODO: Change, do it like If-Else
     private final Collection<CatchBlock> catchBlocks = new ArrayList<>();
     private final Bodiable finallyBlock;
-    private CodePart expression;
+    private final CodePart expression;
 
-    public TryCatchBlock() {
-        this(null, null, null);
+    public TryCatchBlock(List<CodeSource> bodies) {
+        this(null, null, bodies, null);
     }
 
-    public TryCatchBlock(CodePart expression) {
-        this(expression, null, null);
+    public TryCatchBlock(CodePart expression, List<CodeSource> bodies) {
+        this(expression, null, bodies, null);
     }
 
-    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
-        this(expression, catchBlocks, null);
+    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, List<CodeSource> bodies) {
+        this(expression, catchBlocks, bodies, null);
     }
 
-    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, Bodiable finallyBlock) {
+    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, List<CodeSource> bodies, Bodiable finallyBlock) {
         this.expression = expression;
+        this.bodies = Collections.unmodifiableList(bodies);
 
         if (catchBlocks != null)
             this.catchBlocks.addAll(catchBlocks);
@@ -87,8 +89,10 @@ public class TryCatchBlock extends AbstractStorage implements TryBlock {
     }
 
     @Override
-    public void addBody(CodeSource body) {
-        this.bodies.add(body);
+    public TryCatchBlock addBody(CodeSource body) {
+        return new TryCatchBlock(expression, catchBlocks, new ArrayList<CodeSource>(bodies){{
+            add(body);
+        }}, finallyBlock);
     }
 
     @Override
@@ -97,8 +101,8 @@ public class TryCatchBlock extends AbstractStorage implements TryBlock {
     }
 
     @Override
-    public void clearBodies() {
-        this.bodies.clear();
+    public TryCatchBlock clearBodies() {
+        return new TryCatchBlock(expression, catchBlocks, Collections.emptyList(), finallyBlock);
     }
 
     @Override
@@ -107,12 +111,12 @@ public class TryCatchBlock extends AbstractStorage implements TryBlock {
     }
 
     @Override
-    public void setExpression(CodePart expression) {
-        this.expression = expression;
+    public TryCatchBlock setExpression(CodePart expression) {
+        return new TryCatchBlock(expression, catchBlocks, bodies, finallyBlock);
     }
 
     @Override
-    public void clearExpression() {
-        this.expression = null;
+    public TryCatchBlock clearExpression() {
+        return new TryCatchBlock(null, catchBlocks, bodies, finallyBlock);
     }
 }

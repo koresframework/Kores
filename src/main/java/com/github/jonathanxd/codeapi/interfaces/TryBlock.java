@@ -35,7 +35,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface TryBlock extends Bodiable, Expressionable, CodePart {
+public interface TryBlock<T extends TryBlock<T>> extends Bodiable<T>, Expressionable<T>, CodePart {
     Collection<CatchBlock> getCatchBlocks();
 
     Optional<Bodiable> getFinallyBlock();

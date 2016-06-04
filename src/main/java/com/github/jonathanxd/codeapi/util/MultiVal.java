@@ -29,7 +29,10 @@ package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.iutils.list.StaticList;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -58,5 +61,15 @@ public class MultiVal<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return staticList.iterator();
+    }
+
+    public Collection<T> toCollection() {
+        List<T> list = new ArrayList<>();
+
+        Iterator<T> iterator = iterator();
+
+        iterator.forEachRemaining(list::add);
+
+        return list;
     }
 }
