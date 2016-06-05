@@ -44,7 +44,6 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
@@ -92,15 +91,19 @@ public final class Helper {
     }
 
     public static CodePart accessVariable(CodePart localization, String name) {
-        return new SimpleVariableAccess(localization, name);
+        return new SimpleVariableAccess(localization, name, null);
+    }
+
+    public static CodePart accessVariable(CodePart localization, String name, CodeType variableType) {
+        return new SimpleVariableAccess(localization, name, variableType);
     }
 
     public static CodePart simpleVariable(String name) {
-        return new SimpleVariableAccess(null, name);
+        return new SimpleVariableAccess(null, name, null);
     }
 
     public static CodePart setVariable(CodePart localization, String variable, CodePart value) {
-        CodePart var = new SimpleVariableAccess(localization, variable);
+        CodePart var = new SimpleVariableAccess(localization, variable, null);
         return expression(var, expression(Operators.ASSIGNMENT, new NonExpressionExpr(value)));
     }
 
@@ -127,7 +130,7 @@ public final class Helper {
     }
 
     public static CodePart setVariableInline(CodePart localization, String variable, CodePart value) {
-        VariableAccess var = new SimpleVariableAccess(localization, variable);
+        VariableAccess var = new SimpleVariableAccess(localization, variable, null);
         return expression(var, expression(Operators.ASSIGNMENT, expression(value)));
     }
 

@@ -83,7 +83,7 @@ public class TestBytecode {
         MethodSpec spec = new MethodSpec("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(new CodeArgument(Literals.QUOTED_STRING("Hello"), false, Helper.getJavaType(String.class))));
 
         CodePart invokeTest = Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(OutputStream.class),
-                Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), spec);
+                Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), spec);
 
         CodeConstructor codeConstructor = CodeConstructorBuilder.builder()
                 .withDeclaringClass(codeClass)

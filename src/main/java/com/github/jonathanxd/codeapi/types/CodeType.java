@@ -27,10 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import com.github.jonathanxd.codeapi.CodePart;
+
 /**
  * Created by jonathan on 07/05/16.
  */
-public interface CodeType {
+public interface CodeType extends CodePart {
     String getType();
 
     default String getSimpleName() {

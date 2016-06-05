@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -35,5 +36,5 @@ import com.github.jonathanxd.codeapi.CodePart;
 public interface VariableAccess<T extends VariableAccess<T>> extends CodePart {
     CodePart getLocalization();
     String getName();
-
+    CodeType getVariableType();
 }

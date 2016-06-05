@@ -30,55 +30,70 @@ package com.github.jonathanxd.codeapi.generatorv2.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.generatorv2.Visitor;
 import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.util.InvokeType;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, MethodVisitor> {
+public class VariableAccessVisitor implements Visitor<VariableAccess<?>, Byte, MethodVisitor>, Opcodes {
 
-    public static final MethodInvocationVisitor INSTANCE = new MethodInvocationVisitor();
+    public static final VariableAccessVisitor INSTANCE = new VariableAccessVisitor();
+
+    public static final GenericRepresentation<CodeField> FIELDS_TO_ASSIGN = GenericRepresentation.aEnd(CodeField.class);
 
     @Override
-    public Byte[] visit(MethodInvocation methodInvocation,
+    public Byte[] visit(VariableAccess<?> variableAccess,
                         Data extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MethodVisitor additional) {
 
-        CodePart target = methodInvocation.getTarget();
 
-        if(target != null) {
-            visitorGenerator.generateTo(target.getClass(), target, extraData, navigator, null, additional);
+        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        ClassWriter required = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
+
+        Label l0 = new Label();
+        additional.visitLabel(l0);
+        if(variableAccess.getLocalization() == codeInterface) {
+
         }
 
-        MethodSpec spec = methodInvocation.getSpec();
+        CodePart localization = variableAccess.getLocalization();
 
-        additional.visitMethodInsn(
-                /*Type like invokestatic*/InvokeType.toAsm(methodInvocation.getInvokeType()),
-                /*Localization*/Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()),
-                /*Method name*/spec.getMethodName(),
-                /*(ARGUMENT)RETURN*/Common.specToAsm(spec),
-                false);
+        final CodeType loc;
 
+        if(localization instanceof CodeType) {
+            loc = (CodeType) localization;
+        }else if(localization instanceof LocalizedAt<?>) {
+            loc = ((LocalizedAt<?>) localization).getType().orElseThrow(() -> new IllegalStateException("Cannot get localization of variable"));
+        } else {
+            throw new IllegalStateException("Cannot get localization of variable");
+        }
+
+        additional.visitVarInsn(ALOAD, 0);
+        additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(loc), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
 
         return new Byte[0];
     }
 
     @Override
     public void endVisit(Byte[] r,
-                         MethodInvocation methodInvocation,
-                         Data extraData, Navigator<CodePart> navigator,
+                         VariableAccess<?> variableAccess,
+                         Data extraData,
+                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MethodVisitor additional) {
 

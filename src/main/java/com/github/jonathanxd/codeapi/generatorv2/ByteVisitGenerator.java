@@ -35,12 +35,14 @@ import com.github.jonathanxd.codeapi.generatorv2.bytecode.InterfaceVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.LiteralVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.MethodInvocationVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.PackageVisitor;
+import com.github.jonathanxd.codeapi.generatorv2.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.iutils.arrays.Arrays;
 
@@ -59,6 +61,7 @@ public class ByteVisitGenerator extends VisitorGenerator<Byte> {
         addVisitor(CodeConstructor.class, new ConstructorVisitor());
         addVisitor(Literal.class, new LiteralVisitor());
         addVisitor(MethodInvocation.class, new MethodInvocationVisitor());
+        addVisitor(VariableAccess.class, new VariableAccessVisitor());
     }
 
     @Override

@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -39,10 +39,12 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 public class SimpleVariableAccess implements CodePart, VariableAccess<SimpleVariableAccess> {
     private final CodePart localization;
     private final String name;
+    private final CodeType variableType;
 
-    public SimpleVariableAccess(CodePart localization, String name) {
+    public SimpleVariableAccess(CodePart localization, String name, CodeType variableType) {
         this.localization = localization;
         this.name = name;
+        this.variableType = variableType;
     }
 
     @Override
@@ -54,4 +56,10 @@ public class SimpleVariableAccess implements CodePart, VariableAccess<SimpleVari
     public String getName() {
         return name;
     }
+
+    @Override
+    public CodeType getVariableType() {
+        return variableType;
+    }
+
 }

@@ -34,6 +34,12 @@ public class Simple {
 
     final String FIELD = dummy("X");
 
+    public static void main(String[] args) {
+        Simple n = new Simple();
+
+        String field = n.FIELD;
+    }
+
     private static String dummy(String value) {
 
         System.out.println(1.7F);
@@ -41,6 +47,10 @@ public class Simple {
         return value;
     }
 
+    public String getFIELD() {
+        System.out.println(FIELD);
+        return FIELD;
+    }
 }
 
 /*
