@@ -25,27 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.common;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 07/05/16.
  */
-public enum InvokeType {
-    /**
-     * Invoke static methods
-     */
-    INVOKE_STATIC,
-    /**
-     * Invoke instance methods
-     */
-    INVOKE_VIRTUAL,
-    /**
-     * Invoke private and constructor methods
-     */
-    INVOKE_SPECIAL,
-    /**
-     * Invoke interface methods
-     */
-    INVOKE_INTERFACE
+public class CodeParameter implements CodePart {
+    private final String name;
+    private final CodeType type;
 
+    public CodeParameter(String name, CodeType type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public final String getName() {
+        return name;
+    }
+
+    public final CodeType getType() {
+        return type;
+    }
 }

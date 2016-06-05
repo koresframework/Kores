@@ -32,16 +32,10 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -53,7 +47,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ExtenderSourceGenerator implements Generator<Extender<?>, String, PlainSourceGenerator> {
+public class ExtenderSourceGenerator implements Generator<Extender, String, PlainSourceGenerator> {
 
     public static final ExtenderSourceGenerator INSTANCE = new ExtenderSourceGenerator();
 
@@ -61,7 +55,7 @@ public class ExtenderSourceGenerator implements Generator<Extender<?>, String, P
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Extender<?> extender, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Extender extender, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         Optional<CodeType> superTypeOpt = extender.getSuperType();
 

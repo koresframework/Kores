@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
@@ -39,7 +38,7 @@ import java.util.Optional;
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(ForBlock.class)
-public class SimpleForBlock extends AbstractStorage implements ForBlock<SimpleForBlock> {
+public class SimpleForBlock implements ForBlock {
 
     private final Expression forInit;
     private final Expression forExpression;
@@ -59,23 +58,8 @@ public class SimpleForBlock extends AbstractStorage implements ForBlock<SimpleFo
     }
 
     @Override
-    public SimpleForBlock setBody(CodeSource body) {
-        return new SimpleForBlock(forInit, forExpression, forUpdate, body);
-    }
-
-    @Override
-    public SimpleForBlock removeBody() {
-        return new SimpleForBlock(forInit, forExpression, forUpdate, null);
-    }
-
-    @Override
     public Optional<Expression> getForInit() {
         return Optional.ofNullable(this.forInit);
-    }
-
-    @Override
-    public SimpleForBlock setForInit(Expression expression) {
-        return new SimpleForBlock(expression, forExpression, forUpdate, body);
     }
 
     @Override
@@ -84,32 +68,8 @@ public class SimpleForBlock extends AbstractStorage implements ForBlock<SimpleFo
     }
 
     @Override
-    public SimpleForBlock setForExpression(Expression expression) {
-        return new SimpleForBlock(forInit, expression, forUpdate, body);
-    }
-
-    @Override
     public Optional<Expression> getForUpdate() {
         return Optional.ofNullable(this.forUpdate);
     }
 
-    @Override
-    public SimpleForBlock setForUpdate(Expression expression) {
-        return new SimpleForBlock(forInit, forExpression, expression, body);
-    }
-
-    @Override
-    public SimpleForBlock removeForInit() {
-        return new SimpleForBlock(null, forExpression, forUpdate, body);
-    }
-
-    @Override
-    public SimpleForBlock removeForExpression() {
-        return new SimpleForBlock(forInit, null, forUpdate, body);
-    }
-
-    @Override
-    public SimpleForBlock removeForUpdate() {
-        return new SimpleForBlock(forInit, forExpression, null, body);
-    }
 }

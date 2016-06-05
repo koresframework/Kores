@@ -38,7 +38,7 @@ import java.util.Optional;
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(WhileBlock.class)
-public class SimpleExWhileBlock<T extends SimpleExWhileBlock<T>> implements WhileBlock<T> {
+public class SimpleExWhileBlock implements WhileBlock {
 
     private final CodePart expression;
     private final CodeSource body;
@@ -49,18 +49,8 @@ public class SimpleExWhileBlock<T extends SimpleExWhileBlock<T>> implements Whil
     }
 
     @Override
-    public T setBody(CodeSource body) {
-        return newInstance(expression, body);
-    }
-
-    @Override
     public Optional<CodeSource> getBody() {
         return Optional.ofNullable(body);
-    }
-
-    @Override
-    public T removeBody() {
-        return newInstance(expression, null);
     }
 
     @Override
@@ -68,18 +58,4 @@ public class SimpleExWhileBlock<T extends SimpleExWhileBlock<T>> implements Whil
         return Optional.ofNullable(expression);
     }
 
-    @Override
-    public T setExpression(CodePart expression) {
-        return newInstance(expression, body);
-    }
-
-    @Override
-    public T clearExpression() {
-        return newInstance(null, body);
-    }
-
-    @SuppressWarnings("unchecked")
-    public T newInstance(CodePart expression, CodeSource body) {
-        return (T) new SimpleExWhileBlock<T>(expression, body);
-    }
 }

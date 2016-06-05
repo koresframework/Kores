@@ -31,16 +31,14 @@ import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeRoot;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodied;
-import com.github.jonathanxd.codeapi.annotation.Store;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.QualifiedNamed;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -48,13 +46,11 @@ import java.util.stream.Collectors;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeInterface<T extends CodeInterface<T>> extends AbstractBodied<T> implements Modifierable<T>, CodeRoot, CodeType, QualifiedNamed<T>, Implementer<T> {
+public class CodeInterface extends AbstractBodied implements Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer {
 
     private final String name;
     private final String qualifiedName;
-    @Store(value = CodeType.class)
     private final Collection<CodeType> implementations;
-    @Store(CodeModifier.class)
     private final Collection<CodeModifier> modifiers;
 
     public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, CodeSource body) {
@@ -64,7 +60,6 @@ public class CodeInterface<T extends CodeInterface<T>> extends AbstractBodied<T>
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);
         this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableCollection(implementations);
     }
-
 
 
     public Keyword getKeyword() {
@@ -103,31 +98,6 @@ public class CodeInterface<T extends CodeInterface<T>> extends AbstractBodied<T>
     }
 
     @Override
-    public T addImplementation(CodeType implementation) {
-        //return newInstance(qualifiedName, modifiers, implementations, getBody().orElse(null));
-        return newInstance(qualifiedName, modifiers, new ArrayList<CodeType>(implementations){{
-            add(implementation);
-        }}, getBody().orElse(null));
-    }
-
-    @Override
-    public T clearImplementations() {
-        return newInstance(qualifiedName, modifiers, Collections.emptyList(), getBody().orElse(null));
-    }
-
-    @Override
-    public T addModifier(CodeModifier modifier) {
-        return newInstance(qualifiedName, new ArrayList<CodeModifier>(modifiers){{
-            add(modifier);
-        }}, implementations, getBody().orElse(null));
-    }
-
-    @Override
-    public T clearModifiers() {
-        return newInstance(qualifiedName, Collections.emptyList(), implementations, getBody().orElse(null));
-    }
-
-    @Override
     public boolean isExpression() {
         return true;
     }
@@ -136,17 +106,5 @@ public class CodeInterface<T extends CodeInterface<T>> extends AbstractBodied<T>
     public boolean isInterface() {
         return this.getClass() == CodeInterface.class;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected T newInstance(CodeSource body) {
-        return (T) new CodeInterface<>(qualifiedName, modifiers, implementations, body);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected T newInstance(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, CodeSource body) {
-        return (T) new CodeInterface<>(qualifiedName, modifiers, implementations, body);
-    }
-
 
 }

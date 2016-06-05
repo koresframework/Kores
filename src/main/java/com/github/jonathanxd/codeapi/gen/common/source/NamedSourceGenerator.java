@@ -32,8 +32,8 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Collections;
@@ -42,19 +42,19 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class NamedSourceGenerator implements Generator<Named<?>, String, PlainSourceGenerator> {
+public class NamedSourceGenerator implements Generator<Named, String, PlainSourceGenerator> {
 
     public static final NamedSourceGenerator INSTANCE = new NamedSourceGenerator();
 
     private NamedSourceGenerator() {
     }
 
-    String genStr(Named named, PlainSourceGenerator plainSourceGenerator) {
+    private String genStr(Named named) {
         return (named.getName() != null ? named.getName() : "");
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Named<?> named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
-        return Collections.singletonList(ValueImpl.create(genStr(named, plainSourceGenerator)));
+    public List<Value<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        return Collections.singletonList(ValueImpl.create(genStr(named)));
     }
 }

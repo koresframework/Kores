@@ -36,13 +36,9 @@ import java.util.Optional;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface Access<T extends Access<T>> extends CodePart {
-
-    T setLocalization(CodeType localization);
+public interface Access extends CodePart {
 
     Optional<CodeType> getLocalization();
-
-    T removeLocalization();
 
     Keyword keyword();
 

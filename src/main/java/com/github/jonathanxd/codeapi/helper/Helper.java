@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
@@ -46,11 +46,11 @@ import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.InvokeType;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.util.MultiVal;
-import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
+import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 import com.github.jonathanxd.iutils.object.ASMType;
 
 import java.util.Arrays;
@@ -101,9 +101,6 @@ public final class Helper {
 
     public static CodeElement staticBlock(CodeSource body) {
         SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock(body);
-
-        simpleStaticBlock.setBody(body);
-
         return simpleStaticBlock;
     }
 
@@ -112,9 +109,8 @@ public final class Helper {
     }
 
     public static ForBlock createFor(Expression initialization, Expression expression, Expression update, CodeSource body) {
-        SimpleForBlock simpleForBlock = new SimpleForBlock(expression, expression, update, body);
 
-        return simpleForBlock;
+        return new SimpleForBlock(initialization, expression, update, body);
     }
 
     public static WhileBlock createWhile(Expression expression, CodeSource body) {
@@ -140,10 +136,9 @@ public final class Helper {
 
     @SuppressWarnings("unchecked")
     public static CatchBlock catchBlock(Collection<CodeType> catchExceptions, String variable, CodeSource body) {
-        CatchExBlock exBlock = new CatchExBlock(Collections.singleton(body),
-                catchExceptions.stream().map(ex -> new CodeParameter(variable, ex)).collect(Collectors.toList()));
 
-        return exBlock;
+        return new CatchExBlock(Collections.singleton(body),
+                catchExceptions.stream().map(ex -> new CodeParameter(variable, ex)).collect(Collectors.toList()));
     }
     /*
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
@@ -163,8 +158,7 @@ public final class Helper {
     }
 
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body /*, ElseBlock else*/) {
-        IfBlock ifBlock = new SimpleIfBlock(body, groups.toCollection());
-        return ifBlock;
+        return new SimpleIfBlock(body, groups.toCollection());
     }
 
     public static TryBlock tryCatchBlock(CodePart expression) {
@@ -202,9 +196,7 @@ public final class Helper {
 
         DynamicExpression current = base;
 
-        for (int i = 0; i < moreExpressions.length; i++) {
-            CodePart atI = moreExpressions[i];
-
+        for (CodePart atI : moreExpressions) {
             DynamicExpression newDynamicExpression = new DynamicExpression(atI, null);
 
             current.setNextExpression(newDynamicExpression);
@@ -246,7 +238,7 @@ public final class Helper {
      * @return Access to local variable. Same as {@code null}.
      */
     public static CodePart accessLocal() {
-        return null;
+        return new AccessLocalEx();
     }
 
     public static boolean isNone(CodePart codePart) {
@@ -265,9 +257,7 @@ public final class Helper {
     public static CodeSource sourceOf(CodePart... parts) {
         CodeSource source = new CodeSource();
 
-        for (CodePart part : parts) {
-            source.add(part);
-        }
+        Collections.addAll(source, parts);
 
         return source;
     }
@@ -285,8 +275,11 @@ public final class Helper {
             if (codeType != null)
                 return codeType;
         }
+        JavaType javaType = new JavaType(aClass);
+        CODE_TYPES_CACHE.put(aClass, javaType);
 
-        return new JavaType(aClass);
+        return javaType;
+
     }
 
     public static CodePart declarePackage(String packageName) {
@@ -341,6 +334,11 @@ public final class Helper {
         @Override
         public boolean isInterface() {
             return type.isInterface();
+        }
+
+        @Override
+        public boolean isVirtual() {
+            return false;
         }
     }
 

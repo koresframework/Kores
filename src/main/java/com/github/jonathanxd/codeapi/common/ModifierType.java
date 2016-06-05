@@ -25,30 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
-
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
+package com.github.jonathanxd.codeapi.common;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 02/06/16.
  */
-public class CodeSourceData {
+public enum ModifierType {
+    /**
+     * - No Visibility Modifiers
+     *
+     * - Public, Protected Private
+     */
+    VISIBILITY,
 
-    private final CodeSource source;
+    /**
+     * - Synchronized
+     *
+     * - Volatile
+     */
+    CONCURRENCY,
 
-    private IntContainer currentIndex;
+    /**
+     * - Transient
+     */
+    SERIALIZATION,
 
-    public CodeSourceData(CodeSource source, IntContainer currentIndex) {
-        this.source = source;
-        this.currentIndex = currentIndex;
-    }
+    /**
+     * - Default
+     *
+     * - Abstract
+     */
+    ABSTRACTION,
 
-    public CodeSource getSource() {
-        return source;
-    }
+    /**
+     * - Other Modifiers like: Static, Final
+     */
+    OTHER
 
-    public int getCurrentIndex() {
-        return currentIndex.get();
-    }
 }

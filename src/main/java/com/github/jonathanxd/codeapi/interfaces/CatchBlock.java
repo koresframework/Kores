@@ -30,5 +30,5 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface CatchBlock<T extends CatchBlock<T>> extends Bodiable<T>, Parameterizable {
+public interface CatchBlock extends Bodiable, Parameterizable {
 }

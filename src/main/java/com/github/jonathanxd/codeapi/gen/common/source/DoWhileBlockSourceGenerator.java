@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class DoWhileBlockSourceGenerator implements Generator<DoWhileBlock<?>, String, PlainSourceGenerator> {
+public class DoWhileBlockSourceGenerator implements Generator<DoWhileBlock, String, PlainSourceGenerator> {
 
     public static final DoWhileBlockSourceGenerator INSTANCE = new DoWhileBlockSourceGenerator();
 
@@ -53,7 +53,7 @@ public class DoWhileBlockSourceGenerator implements Generator<DoWhileBlock<?>, S
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(DoWhileBlock<?> doWhileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(DoWhileBlock doWhileBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

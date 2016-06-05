@@ -32,18 +32,19 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ModifierSourceGenerator implements Generator<Modifierable<?>, String, PlainSourceGenerator> {
+public class ModifierSourceGenerator implements Generator<Modifierable, String, PlainSourceGenerator> {
 
     public static final ModifierSourceGenerator INSTANCE = new ModifierSourceGenerator();
 
@@ -51,7 +52,7 @@ public class ModifierSourceGenerator implements Generator<Modifierable<?>, Strin
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Modifierable<?> modifierable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
-        return Arrays.asList(ValueImpl.create(CodeModifier.toString(modifierable.getModifiers())));
+    public List<Value<?, String, PlainSourceGenerator>> gen(Modifierable modifierable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        return Collections.singletonList(ValueImpl.create(CodeModifier.toString(modifierable.getModifiers())));
     }
 }

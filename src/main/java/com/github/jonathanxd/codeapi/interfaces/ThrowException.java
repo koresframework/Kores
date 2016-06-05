@@ -28,17 +28,14 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
 
-import java.util.Collection;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface ThrowException<T extends ThrowException<T>> extends CodePart, Argumenterizable<T> {
+public interface ThrowException extends CodePart, Argumenterizable {
 
     Optional<CodeType> getExceptionType();
 

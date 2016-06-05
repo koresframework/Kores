@@ -34,10 +34,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Extender<T extends Extender<T>> {
-    T setSuperType(CodeType superType);
+public interface Extender {
     Optional<CodeType> getSuperType();
-
-    T removeSuperType();
 
 }

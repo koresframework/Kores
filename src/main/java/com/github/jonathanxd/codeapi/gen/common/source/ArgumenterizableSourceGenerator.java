@@ -33,9 +33,9 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ArgumenterizableSourceGenerator implements Generator<Argumenterizable<?>, String, PlainSourceGenerator> {
+public class ArgumenterizableSourceGenerator implements Generator<Argumenterizable, String, PlainSourceGenerator> {
 
     public static final ArgumenterizableSourceGenerator INSTANCE = new ArgumenterizableSourceGenerator();
 
@@ -60,7 +60,7 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Argumenterizable<?> argumenterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Argumenterizable argumenterizable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

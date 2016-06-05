@@ -31,20 +31,15 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 
 /**
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(DoWhileBlock.class)
-public class SimpleExDoWhileBlock extends SimpleExWhileBlock<SimpleExDoWhileBlock> implements DoWhileBlock<SimpleExDoWhileBlock> {
+public class SimpleExDoWhileBlock extends SimpleExWhileBlock implements DoWhileBlock {
 
     public SimpleExDoWhileBlock(CodePart expression, CodeSource body) {
         super(expression, body);
     }
 
-    @Override
-    public SimpleExDoWhileBlock newInstance(CodePart expression, CodeSource body) {
-        return new SimpleExDoWhileBlock(expression, body);
-    }
 }

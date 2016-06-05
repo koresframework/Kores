@@ -27,17 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.storage.Storage;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.Collection;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Parameterizable<T extends Parameterizable<T>> extends Storage {
-    T addParameter(CodeParameter parameter);
+public interface Parameterizable {
     Collection<CodeParameter> getParameters();
-
-    T clearParameters();
 }

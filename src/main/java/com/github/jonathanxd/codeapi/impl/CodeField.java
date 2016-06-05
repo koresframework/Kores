@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.abs.AbstractValuableModifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -41,7 +41,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeField extends AbstractValuableModifierable<CodeField> implements CodeElement, Named<CodeField>, Typed<CodeField> {
+public class CodeField extends AbstractValuableModifierable implements CodeElement, Named, Typed {
     private final String name;
     private final CodeType type;
 
@@ -60,23 +60,8 @@ public class CodeField extends AbstractValuableModifierable<CodeField> implement
     }
 
     @Override
-    public CodeField setType(CodeType type) {
-        return new CodeField(name, type, getModifiers(), getValue().orElse(null));
-    }
-
-    @Override
-    public CodeField removeType() {
-        return new CodeField(name, null, getModifiers(), getValue().orElse(null));
-
-    }
-
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
-    protected CodeField newInstance(Collection<CodeModifier> modifiers, CodePart value) {
-        return new CodeField(name, type, modifiers, value);
-    }
 }

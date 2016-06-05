@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.Collection;
 
@@ -77,7 +77,6 @@ public final class CodeMethodBuilder {
     }
 
     public CodeMethod build() {
-        CodeMethod codeMethod = new CodeMethod(name, modifiers, parameters, returnType, body);
-        return codeMethod;
+        return new CodeMethod(name, modifiers, parameters, returnType, body);
     }
 }

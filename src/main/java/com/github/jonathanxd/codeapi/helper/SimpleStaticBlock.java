@@ -37,7 +37,7 @@ import java.util.Optional;
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(StaticBlock.class)
-public class SimpleStaticBlock implements StaticBlock<SimpleStaticBlock> {
+public class SimpleStaticBlock implements StaticBlock {
 
     private final CodeSource body;
 
@@ -50,13 +50,4 @@ public class SimpleStaticBlock implements StaticBlock<SimpleStaticBlock> {
         return Optional.ofNullable(body);
     }
 
-    @Override
-    public SimpleStaticBlock setBody(CodeSource body) {
-        return new SimpleStaticBlock(body);
-    }
-
-    @Override
-    public SimpleStaticBlock removeBody() {
-        return new SimpleStaticBlock(null);
-    }
 }

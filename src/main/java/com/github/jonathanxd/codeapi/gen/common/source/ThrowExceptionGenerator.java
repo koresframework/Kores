@@ -32,13 +32,11 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ThrowExceptionGenerator implements Generator<ThrowException<?>, String, PlainSourceGenerator> {
+public class ThrowExceptionGenerator implements Generator<ThrowException, String, PlainSourceGenerator> {
 
     public static final ThrowExceptionGenerator INSTANCE = new ThrowExceptionGenerator();
 
@@ -58,7 +56,7 @@ public class ThrowExceptionGenerator implements Generator<ThrowException<?>, Str
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(ThrowException<?> throwException, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ThrowException throwException, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         Optional<CodeType> exceptionType = throwException.getExceptionType();
 
         if(!exceptionType.isPresent())

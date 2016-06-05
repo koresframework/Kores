@@ -27,15 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.MethodType;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,9 +40,8 @@ import java.util.Collections;
  * Created by jonathan on 10/05/16.
  */
 @GenerateTo(MethodSpecification.class)
-public class MethodSpec extends AbstractStorage implements MethodSpecification<MethodSpec> {
+public class MethodSpec implements MethodSpecification {
 
-    @Store(CodeArgument.class)
     private final Collection<CodeArgument> arguments;
     private final String methodName;
     private final CodeType returnType;
@@ -85,20 +81,8 @@ public class MethodSpec extends AbstractStorage implements MethodSpecification<M
     }
 
     @Override
-    public MethodSpec addArgument(CodeArgument argument) {
-        return new MethodSpec(new ArrayList<CodeArgument>(arguments){{
-            add(argument);
-        }}, methodName, returnType, methodType);
-    }
-
-    @Override
     public Collection<CodeArgument> getArguments() {
         return this.arguments;
-    }
-
-    @Override
-    public MethodSpec clearArguments() {
-        return new MethodSpec(Collections.emptyList(), methodName, returnType, methodType);
     }
 
     @Override

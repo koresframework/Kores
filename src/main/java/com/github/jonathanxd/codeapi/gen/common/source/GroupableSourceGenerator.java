@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class GroupableSourceGenerator implements Generator<Groupable<?>, String, PlainSourceGenerator> {
+public class GroupableSourceGenerator implements Generator<Groupable, String, PlainSourceGenerator> {
 
     public static final GroupableSourceGenerator INSTANCE = new GroupableSourceGenerator();
 
@@ -55,7 +55,7 @@ public class GroupableSourceGenerator implements Generator<Groupable<?>, String,
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Groupable<?> groupable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Groupable groupable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

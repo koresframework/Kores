@@ -28,20 +28,14 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.storage.Storage;
 
-import java.util.Collection;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface PackageDeclaration<T extends PackageDeclaration<T>> extends CodePart {
-
-    T setPackage(String fullPackageName);
+public interface PackageDeclaration extends CodePart {
 
     Optional<String> getPackage();
 
-    T removePackage();
 }

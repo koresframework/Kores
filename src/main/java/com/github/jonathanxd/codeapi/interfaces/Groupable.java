@@ -27,19 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.storage.Storage;
-
 import java.util.Collection;
 
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface Groupable<T extends Groupable<T>> extends Storage {
-
-    T addGroup(Group group);
+public interface Groupable {
 
     Collection<Group> getGroups();
-
-    T clearGroups();
-
 }

@@ -29,12 +29,12 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
-import com.github.jonathanxd.codeapi.util.InvokeType;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 
 import org.junit.Test;
 

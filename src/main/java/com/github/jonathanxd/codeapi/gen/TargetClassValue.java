@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.List;

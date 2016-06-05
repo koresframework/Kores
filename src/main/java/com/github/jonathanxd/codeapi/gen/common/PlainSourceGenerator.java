@@ -72,7 +72,6 @@ import com.github.jonathanxd.codeapi.gen.common.source.VariableAccessSourceGener
 import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
-import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
@@ -108,7 +107,7 @@ import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -170,10 +169,6 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         // Cast
         register(Casted.class, CastedPartSourceGenerator.INSTANCE);
-    }
-
-    public static PlainSourceGenerator singletonInstance() {
-        return INSTANCE;
     }
 
     private static <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {

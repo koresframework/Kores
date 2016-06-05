@@ -35,10 +35,9 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import org.junit.Test;
 

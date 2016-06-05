@@ -30,5 +30,5 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface LocalizedAt<T extends LocalizedAt<T>> extends Typed<T> {
+public interface LocalizedAt extends Typed {
 }

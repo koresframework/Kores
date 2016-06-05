@@ -39,10 +39,10 @@ import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.InvokeType;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 
 import org.junit.Test;
 
@@ -101,7 +101,7 @@ public class TestForLoop {
 
         CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Collections.emptyList(), Literals.INT(0));
 
-        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class)))));
+        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class))))));
 
         Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)));
 

@@ -28,22 +28,18 @@
 package com.github.jonathanxd.codeapi.abs;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractValuableModifierable<T extends AbstractValuableModifierable<T>> extends AbstractStorage implements Valuable<T>, Modifierable<T> {
+public abstract class AbstractValuableModifierable implements Valuable, Modifierable {
 
-    @Store(CodeModifier.class)
     private final Collection<CodeModifier> modifiers;
     private final CodePart value;
 
@@ -53,39 +49,13 @@ public abstract class AbstractValuableModifierable<T extends AbstractValuableMod
     }
 
     @Override
-    public T addModifier(CodeModifier modifier) {
-        //return newInstance(modifiers, value);
-        return newInstance(new ArrayList<CodeModifier>(modifiers){{
-            add(modifier);
-        }}, value);
-
-    }
-
-    @Override
     public Collection<CodeModifier> getModifiers() {
         return modifiers;
-    }
-
-    @Override
-    public T clearModifiers() {
-        return newInstance(Collections.emptyList(), value);
     }
 
     @Override
     public Optional<CodePart> getValue() {
         return Optional.ofNullable(this.value);
     }
-
-    @Override
-    public T setValue(CodePart value) {
-        return newInstance(modifiers, value);
-    }
-
-    @Override
-    public T removeValue() {
-        return newInstance(modifiers, null);
-    }
-
-    protected abstract T newInstance(Collection<CodeModifier> modifiers, CodePart value);
 
 }

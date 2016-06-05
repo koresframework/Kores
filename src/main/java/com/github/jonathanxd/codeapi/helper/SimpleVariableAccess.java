@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
  * Created by jonathan on 10/05/16.
  */
 @GenerateTo(VariableAccess.class)
-public class SimpleVariableAccess implements CodePart, VariableAccess<SimpleVariableAccess> {
+public class SimpleVariableAccess implements CodePart, VariableAccess {
     private final CodePart localization;
     private final String name;
     private final CodeType variableType;

@@ -28,13 +28,13 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface MethodSpecification<T extends MethodSpecification<T>> extends Argumenterizable<T>, CodePart {
+public interface MethodSpecification extends Argumenterizable, CodePart {
 
     String getMethodName();
     CodeType getReturnType();

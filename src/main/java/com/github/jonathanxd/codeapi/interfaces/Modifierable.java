@@ -27,18 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.storage.Storage;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Modifierable<T extends Modifierable<T>> extends Storage {
-    T addModifier(CodeModifier modifier);
+public interface Modifierable {
     Collection<CodeModifier> getModifiers();
-
-    T clearModifiers();
 
 }

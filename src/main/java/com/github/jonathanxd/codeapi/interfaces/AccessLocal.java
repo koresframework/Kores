@@ -25,29 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.exceptions;
+package com.github.jonathanxd.codeapi.interfaces;
+
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 01/05/16.
+ * Created by jonathan on 10/05/16.
  */
-public class CodeErrorException extends Exception {
-    public CodeErrorException() {
-        super();
+@GenerateTo(Access.class)
+public interface AccessLocal extends Access {
+
+    @Override
+    default Optional<CodeType> getLocalization() {
+        return Optional.empty();
     }
 
-    public CodeErrorException(String message) {
-        super(message);
-    }
-
-    public CodeErrorException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CodeErrorException(Throwable cause) {
-        super(cause);
-    }
-
-    protected CodeErrorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    @Override
+    default Keyword keyword() {
+        return null;
     }
 }

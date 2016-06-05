@@ -35,11 +35,8 @@ import java.util.function.Predicate;
 public class Lambda {
 
     public static <T, E> boolean testCast(T t, Class<E> e, Predicate<E> element) {
-        if(e.isAssignableFrom(t.getClass())) {
-            return element.test(e.cast(t));
-        }
+        return e.isAssignableFrom(t.getClass()) && element.test(e.cast(t));
 
-        return false;
     }
 
 }

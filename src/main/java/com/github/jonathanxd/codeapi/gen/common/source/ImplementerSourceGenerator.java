@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ImplementerSourceGenerator implements Generator<Implementer<?>, String, PlainSourceGenerator> {
+public class ImplementerSourceGenerator implements Generator<Implementer, String, PlainSourceGenerator> {
 
     public static final ImplementerSourceGenerator INSTANCE = new ImplementerSourceGenerator();
 
@@ -55,7 +55,7 @@ public class ImplementerSourceGenerator implements Generator<Implementer<?>, Str
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Implementer<?> implementer, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Implementer implementer, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         if(implementer.getImplementations().isEmpty())
             return Collections.emptyList();

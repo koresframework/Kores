@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.keywords.Keywords;
  * Created by jonathan on 10/05/16.
  */
 @GenerateTo(Access.class)
-public interface AccessThis<T extends AccessThis<T>> extends Access<T> {
+public interface AccessThis extends Access {
 
     @Override
     default Keyword keyword() {

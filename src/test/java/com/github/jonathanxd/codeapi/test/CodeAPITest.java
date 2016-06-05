@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
@@ -41,15 +41,13 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.storage.StorageKeys;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
-import com.github.jonathanxd.codeapi.util.InvokeType;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
@@ -74,25 +72,22 @@ public class CodeAPITest {
         // Create a list of CodePart (source)
         CodeSource mySource = new CodeSource();
 
+        CodeMethod method = createMethod();
+
         // Define a interface
         CodeInterface codeClass = CodeInterfaceBuilder.builder()
                 .withQualifiedName("github.com.MyClass")
+                // Add 'public' modifier
+                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
+                // Implements Processor class
+                .withImplementations(Collections.singletonList(getJavaType(Processor.class)))
+                // Define body
+                .withBody(Helper.sourceOf(method))
                 .build();
-
-        // Add 'public' modifier
-        codeClass.addModifier(CodeModifier.PUBLIC);
 
         // Adds to source list
         mySource.add(codeClass);
 
-        // Implements Processor class
-        codeClass.addImplementation(getJavaType(Processor.class));
-
-        CodeMethod method = createMethod();
-
-
-        // Add method to body
-        codeClass.setBody(Helper.sourceOf(method));
 
         // Generator instance
         PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
@@ -143,6 +138,8 @@ public class CodeAPITest {
 
     private static CodeMethod createMethod() {
 
+        CodeSource methodSource = new CodeSource();
+
         // Declare 'println' method
 
         CodeMethod codeMethod = CodeMethodBuilder.builder()
@@ -153,6 +150,8 @@ public class CodeAPITest {
                 .withModifiers(Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC))
                 // Set 'void' return type
                 .withReturnType(getJavaType(Void.TYPE))
+                // Define method source
+                .withBody(methodSource)
                 .build();
 
         // Create method body source
@@ -192,13 +191,14 @@ public class CodeAPITest {
         CodePart msgVar = Helper.accessVariable(Helper.accessLocal(), "msg", getJavaType(String.class));
 
         // Add Invocation of println method declared in 'System.out' ('variable')
-        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/null, variable, new MethodSpec(Collections.emptyList(), "println", null, MethodType.METHOD).addArgument(
-                // with argument 'msgVar' (Method msg parameter)
-                new CodeArgument(msgVar,
-                        // Cast type? = false
-                        false,
-                        // Type to cast (if 'cast type' is set to true)
-                        getJavaType(Object.class)))));
+        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/null, variable, new MethodSpec(
+                Collections.singleton(
+                        // with argument 'msgVar' (Method msg parameter)
+                        new CodeArgument(msgVar,
+                                // Cast type? = false
+                                false,
+                                // Type to cast (if 'cast type' is set to true)
+                                getJavaType(Object.class))), "println", null, MethodType.METHOD)));
 
 
         Collection<CodeType> catchExceptions = Collections.singletonList(getJavaType(Throwable.class));
@@ -207,7 +207,7 @@ public class CodeAPITest {
         CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))));
 
         // Add body to method source
-        codeMethod.setBody(Helper.sourceOf(surround));
+        methodSource.add(Helper.sourceOf(surround));
 
         return codeMethod;
     }

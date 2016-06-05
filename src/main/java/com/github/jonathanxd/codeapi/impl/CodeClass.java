@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -40,7 +40,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeClass<T extends CodeClass<T>> extends CodeInterface<T> implements Extender<T> {
+public class CodeClass extends CodeInterface implements Extender {
 
     private final CodeType superType;
 
@@ -55,16 +55,6 @@ public class CodeClass<T extends CodeClass<T>> extends CodeInterface<T> implemen
     }
 
     @Override
-    public T setSuperType(CodeType superType) {
-        return newInstance(getQualifiedName(), getModifiers(), superType, getImplementations(), getBody().orElse(null));
-    }
-
-    @Override
-    public T removeSuperType() {
-        return newInstance(getQualifiedName(), getModifiers(), null, getImplementations(), getBody().orElse(null));
-    }
-
-    @Override
     public boolean isExpression() {
         return true;
     }
@@ -73,23 +63,5 @@ public class CodeClass<T extends CodeClass<T>> extends CodeInterface<T> implemen
     public Keyword getKeyword() {
         return Keywords.CLASS;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected T newInstance(CodeSource body) {
-        return (T) new CodeClass<>(getQualifiedName(), getModifiers(), superType, getImplementations(), body);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected T newInstance(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, CodeSource body) {
-        return (T) new CodeClass<>(qualifiedName, modifiers, superType, implementations, body);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected T newInstance(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
-        return (T) new CodeClass<>(qualifiedName, modifiers, superType, implementations, body);
-    }
-
 
 }

@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 
@@ -38,9 +37,7 @@ import java.util.Optional;
  * Created by jonathan on 12/05/16.
  */
 @GenerateTo(ElseBlock.class)
-public class SimpleElseBlock extends AbstractStorage implements ElseBlock<SimpleElseBlock> {
-
-    private static final SimpleElseBlock EMPTY = new SimpleElseBlock(null);
+public class SimpleElseBlock implements ElseBlock {
 
     private final CodePart expression;
 
@@ -53,13 +50,4 @@ public class SimpleElseBlock extends AbstractStorage implements ElseBlock<Simple
         return Optional.ofNullable(expression);
     }
 
-    @Override
-    public SimpleElseBlock setExpression(CodePart expression) {
-        return new SimpleElseBlock(expression);
-    }
-
-    @Override
-    public SimpleElseBlock clearExpression() {
-        return EMPTY;
-    }
 }

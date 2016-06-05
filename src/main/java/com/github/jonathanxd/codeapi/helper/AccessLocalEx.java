@@ -25,28 +25,20 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 
 /**
  * Created by jonathan on 11/05/16.
  */
-public class StringUtil {
+@GenerateTo(Access.class)
+public class AccessLocalEx extends AccessEx implements AccessLocal {
 
-    public static String toUpper(String another) {
-        char[] chars = another.toCharArray();
-
-        StringBuilder sb = new StringBuilder();
-
-        for (char aChar : chars) {
-            if (Character.isUpperCase(aChar)) {
-                sb.append('_').append(aChar);
-            } else {
-                sb.append(Character.toUpperCase(aChar));
-            }
-        }
-
-
-        return sb.toString();
+    AccessLocalEx() {
+        super(null);
     }
 
 }

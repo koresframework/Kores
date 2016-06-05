@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.storage.Storage;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
@@ -35,12 +34,7 @@ import java.util.Collection;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface MultiTyped<T extends MultiTyped<T>> extends Storage {
-
-    T addType(CodeType type);
+public interface MultiTyped {
 
     Collection<CodeType> getTypes();
-
-    T clearTypes();
-
 }

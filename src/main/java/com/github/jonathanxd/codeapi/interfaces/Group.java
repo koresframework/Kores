@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface Group<T extends Group<T>> {
+public interface Group {
     Expression getExpression();
 
     Expression getOutExpression();

@@ -32,5 +32,5 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface ElseBlock<T extends ElseBlock<T>> extends Expressionable<T>, CodePart {
+public interface ElseBlock extends Expressionable, CodePart {
 }

@@ -25,48 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.storage;
+package com.github.jonathanxd.codeapi.common;
 
-import java.util.Objects;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 07/05/16.
  */
-public class StorageKey<T> implements Key<T> {
+public class CodeArgument implements CodePart {
+    private final CodePart value;
+    private final boolean casted;
+    private final CodeType type;
 
-    private final String id;
-    private final Class<T> type;
+    public CodeArgument(CodePart value) {
+        this(value, false, null);
+    }
 
-    protected StorageKey(String id, Class<T> type) {
-        this.id = id;
+    public CodeArgument(CodePart value, boolean casted, CodeType type) {
+        this.value = value;
+        this.casted = casted;
         this.type = type;
     }
 
-    @Override
-    public Class<T> getType() {
+    public CodePart getValue() {
+        return value;
+    }
+
+    public boolean isCasted() {
+        return casted;
+    }
+
+    public final CodeType getType() {
         return type;
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, type);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null)
-            return false;
-
-        if(!(obj instanceof StorageKey))
-            return false;
-
-        StorageKey<?> key = ((StorageKey<?>) obj);
-
-        return this.getId().equals(key.getId()) && this.getType().equals(key.getType());
     }
 }

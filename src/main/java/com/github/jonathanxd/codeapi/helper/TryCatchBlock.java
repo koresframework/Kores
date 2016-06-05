@@ -29,9 +29,7 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
@@ -46,9 +44,8 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(TryBlock.class)
-public class TryCatchBlock extends AbstractStorage implements TryBlock<TryCatchBlock> {
+public class TryCatchBlock implements TryBlock {
 
-    @Store(CodeSource.class)
     private final List<CodeSource> bodies;
     // TODO: Change, do it like If-Else
     private final Collection<CatchBlock> catchBlocks = new ArrayList<>();
@@ -89,20 +86,8 @@ public class TryCatchBlock extends AbstractStorage implements TryBlock<TryCatchB
     }
 
     @Override
-    public TryCatchBlock addBody(CodeSource body) {
-        return new TryCatchBlock(expression, catchBlocks, new ArrayList<CodeSource>(bodies){{
-            add(body);
-        }}, finallyBlock);
-    }
-
-    @Override
     public Collection<CodeSource> getBodies() {
         return this.bodies;
-    }
-
-    @Override
-    public TryCatchBlock clearBodies() {
-        return new TryCatchBlock(expression, catchBlocks, Collections.emptyList(), finallyBlock);
     }
 
     @Override
@@ -110,13 +95,4 @@ public class TryCatchBlock extends AbstractStorage implements TryBlock<TryCatchB
         return Optional.ofNullable(expression);
     }
 
-    @Override
-    public TryCatchBlock setExpression(CodePart expression) {
-        return new TryCatchBlock(expression, catchBlocks, bodies, finallyBlock);
-    }
-
-    @Override
-    public TryCatchBlock clearExpression() {
-        return new TryCatchBlock(null, catchBlocks, bodies, finallyBlock);
-    }
 }

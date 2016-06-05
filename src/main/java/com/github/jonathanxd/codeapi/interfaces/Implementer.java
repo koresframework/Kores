@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.storage.Storage;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
@@ -35,10 +34,7 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Implementer<T extends Implementer<T>> extends Storage {
-    T addImplementation(CodeType implementation);
+public interface Implementer {
     Collection<CodeType> getImplementations();
-
-    T clearImplementations();
 
 }

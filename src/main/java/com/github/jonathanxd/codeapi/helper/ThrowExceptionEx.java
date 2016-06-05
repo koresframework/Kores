@@ -27,13 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -42,13 +40,13 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(ThrowException.class)
-public class ThrowExceptionEx extends AbstractStorage implements ThrowException<ThrowExceptionEx> {
+public class ThrowExceptionEx implements ThrowException {
 
     private final CodeType exceptionType;
     private final Collection<CodeArgument> arguments;
 
 
-    protected ThrowExceptionEx(CodeType exceptionType, Collection<CodeArgument> arguments) {
+    ThrowExceptionEx(CodeType exceptionType, Collection<CodeArgument> arguments) {
         this.exceptionType = exceptionType;
         this.arguments = Collections.unmodifiableCollection(arguments);
     }
@@ -59,19 +57,8 @@ public class ThrowExceptionEx extends AbstractStorage implements ThrowException<
     }
 
     @Override
-    public ThrowExceptionEx addArgument(CodeArgument argument) {
-        return new ThrowExceptionEx(exceptionType, new ArrayList<CodeArgument>(arguments) {{
-            add(argument);
-        }});
-    }
-
-    @Override
     public Collection<CodeArgument> getArguments() {
         return arguments;
     }
 
-    @Override
-    public ThrowExceptionEx clearArguments() {
-        return new ThrowExceptionEx(exceptionType, Collections.emptyList());
-    }
 }

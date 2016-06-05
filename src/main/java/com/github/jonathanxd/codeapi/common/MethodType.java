@@ -25,19 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.annotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package com.github.jonathanxd.codeapi.common;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 11/05/16.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
-public @interface Store {
-    String id() default "";
-    Class<?>[] value() default Default.class;
+public enum MethodType {
+    METHOD,
+    CONSTRUCTOR,
+    ARRAY_CONSTRUCTOR
 }

@@ -28,14 +28,11 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.ArgumentOperator;
 import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,42 +40,22 @@ import java.util.Collections;
  * Created by jonathan on 12/05/16.
  */
 @GenerateTo(ArgumentOperator.class)
-public class SimpleArgumentOperator extends AbstractStorage implements ArgumentOperator<SimpleArgumentOperator> {
+public class SimpleArgumentOperator implements ArgumentOperator {
 
-    @Store
     private final Collection<CodePart> operators;
 
     public SimpleArgumentOperator(Collection<CodePart> operators) {
-        if(!operators.stream().allMatch(operator -> operator instanceof CodeArgument || operator instanceof Operator)) {
+        if(operators == null || (!operators.stream().allMatch(operator -> operator instanceof CodeArgument || operator instanceof Operator))) {
             throw new IllegalArgumentException("Only accepts CodeArgument & Operator!");
         }
 
-        this.operators = operators == null ? Collections.emptyList() : Collections.unmodifiableCollection(operators);
+        this.operators = Collections.unmodifiableCollection(operators);
     }
 
-
-    @Override
-    public SimpleArgumentOperator addArgument(CodeArgument argument) {
-        return new SimpleArgumentOperator(new ArrayList<CodePart>(operators){{
-            add(argument);
-        }});
-    }
-
-    @Override
-    public SimpleArgumentOperator addOperator(Operator operator) {
-        return new SimpleArgumentOperator(new ArrayList<CodePart>(operators){{
-            add(operator);
-        }});
-    }
 
     @Override
     public Collection<CodePart> getArgumentsAndOperators() {
         return this.operators;
-    }
-
-    @Override
-    public SimpleArgumentOperator clearArgumentsAndOperators() {
-        return new SimpleArgumentOperator(Collections.emptyList());
     }
 
 }

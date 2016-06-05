@@ -40,9 +40,7 @@ import java.util.Optional;
  * Immutable package declaration
  */
 @GenerateTo(PackageDeclaration.class)
-public class PkgDclEx implements PackageDeclaration<PkgDclEx> {
-
-    private static final PkgDclEx EMPTY = new PkgDclEx(null);
+public class PkgDclEx implements PackageDeclaration {
 
     private final String fullPackageName;
 
@@ -51,17 +49,8 @@ public class PkgDclEx implements PackageDeclaration<PkgDclEx> {
     }
 
     @Override
-    public PkgDclEx setPackage(String fullPackageName) {
-        return new PkgDclEx(fullPackageName);
-    }
-
-    @Override
     public Optional<String> getPackage() {
         return Optional.ofNullable(this.fullPackageName);
     }
 
-    @Override
-    public PkgDclEx removePackage() {
-        return EMPTY;
-    }
 }

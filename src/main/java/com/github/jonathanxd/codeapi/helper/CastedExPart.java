@@ -38,7 +38,7 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Casted.class)
-public class CastedExPart implements Casted<CastedExPart> {
+public class CastedExPart implements Casted {
 
     private final CodeType type;
     private final CodePart castedPart;
@@ -61,23 +61,8 @@ public class CastedExPart implements Casted<CastedExPart> {
     }
 
     @Override
-    public CastedExPart setCastedPart(CodePart castedPart) {
-        return new CastedExPart(type, castedPart);
-    }
-
-    @Override
     public Optional<CodePart> getCastedPart() {
         return Optional.ofNullable(this.castedPart);
-    }
-
-    @Override
-    public CastedExPart removeCastedPart() {
-        return new CastedExPart(type, castedPart);
-    }
-
-    @Override
-    public CastedExPart setType(CodeType type) {
-        return new CastedExPart(type, castedPart);
     }
 
     @Override
@@ -85,8 +70,4 @@ public class CastedExPart implements Casted<CastedExPart> {
         return Optional.ofNullable(this.type);
     }
 
-    @Override
-    public CastedExPart removeType() {
-        return new CastedExPart(null, castedPart);
-    }
 }

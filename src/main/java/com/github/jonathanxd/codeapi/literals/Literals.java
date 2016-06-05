@@ -66,12 +66,8 @@ public final class Literals {
 
     // StringLiteral
 
-    /**
-     * @deprecated Use {@link #QUOTED_STRING} instead
-     */
-    @Deprecated
     public static Literal STRING(String s) {
-        return new StringLiteral(s);
+        return new QuotedStringLiteral(s);
     }
 
     // QuotedStringLiteral (") STRING (")

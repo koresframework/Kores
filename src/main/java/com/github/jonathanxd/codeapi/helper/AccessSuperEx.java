@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Access.class)
-public class AccessSuperEx extends AccessEx<AccessSuperEx> implements AccessSuper<AccessSuperEx> {
+public class AccessSuperEx extends AccessEx implements AccessSuper {
 
 
     public AccessSuperEx() {
@@ -47,9 +47,4 @@ public class AccessSuperEx extends AccessEx<AccessSuperEx> implements AccessSupe
         super(localization);
     }
 
-
-    @Override
-    protected AccessSuperEx newInstance(CodeType localization) {
-        return new AccessSuperEx(localization);
-    }
 }

@@ -35,7 +35,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class AbstractBodied<T extends AbstractBodied<T>> extends AbstractStorage implements Bodied<T> {
+public abstract class AbstractBodied implements Bodied {
     private final CodeSource body;
 
     protected AbstractBodied(CodeSource body) {
@@ -47,15 +47,4 @@ public abstract class AbstractBodied<T extends AbstractBodied<T>> extends Abstra
         return Optional.ofNullable(body);
     }
 
-    @Override
-    public T setBody(CodeSource body) {
-        return newInstance(body);
-    }
-
-    @Override
-    public T removeBody() {
-        return newInstance(null);
-    }
-
-    protected abstract T newInstance(CodeSource body);
 }

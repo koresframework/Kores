@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.Expression;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Expression.class)
-public class SimpleExpression implements Expression<SimpleExpression> {
+public class SimpleExpression implements Expression {
 
     private final CodePart expression;
     private final Expression nextExpression;
@@ -45,11 +45,6 @@ public class SimpleExpression implements Expression<SimpleExpression> {
         this.expression = expression;
         this.nextExpression = nextExpression;
         this.isCodeBlock = isCodeBlock;
-    }
-
-    @Override
-    public SimpleExpression setCodeBlock(boolean isCodeBlock) {
-        return new SimpleExpression(expression, nextExpression, isCodeBlock);
     }
 
     @Override

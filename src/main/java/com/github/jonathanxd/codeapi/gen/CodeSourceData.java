@@ -25,38 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 03/06/16.
  */
-public class CodeArgument implements CodePart {
-    private final CodePart value;
-    private final boolean casted;
-    private final CodeType type;
+public class CodeSourceData {
 
-    public CodeArgument(CodePart value) {
-        this(value, false, null);
+    private final CodeSource source;
+
+    private final IntContainer currentIndex;
+
+    public CodeSourceData(CodeSource source, IntContainer currentIndex) {
+        this.source = source;
+        this.currentIndex = currentIndex;
     }
 
-    public CodeArgument(CodePart value, boolean casted, CodeType type) {
-        this.value = value;
-        this.casted = casted;
-        this.type = type;
+    public CodeSource getSource() {
+        return source;
     }
 
-    public CodePart getValue() {
-        return value;
-    }
-
-    public boolean isCasted() {
-        return casted;
-    }
-
-    public final CodeType getType() {
-        return type;
+    public int getCurrentIndex() {
+        return currentIndex.get();
     }
 }

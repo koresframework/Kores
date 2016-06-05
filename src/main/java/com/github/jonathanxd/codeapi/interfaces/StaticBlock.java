@@ -32,5 +32,5 @@ import com.github.jonathanxd.codeapi.CodeElement;
 /**
  * Created by jonathan on 15/05/16.
  */
-public interface StaticBlock<T extends StaticBlock<T>> extends CodeElement, Bodied<T> {
+public interface StaticBlock extends CodeElement, Bodied {
 }

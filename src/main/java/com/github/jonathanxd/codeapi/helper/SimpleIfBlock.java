@@ -28,13 +28,10 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -43,11 +40,9 @@ import java.util.Optional;
  * Created by jonathan on 12/05/16.
  */
 @GenerateTo(IfBlock.class)
-public class SimpleIfBlock extends AbstractStorage implements IfBlock<SimpleIfBlock> {
+public class SimpleIfBlock implements IfBlock {
 
     private final CodeSource body;
-
-    @Store
     private final Collection<Group> groups;
 
     public SimpleIfBlock(CodeSource body, Collection<Group> groups) {
@@ -56,25 +51,8 @@ public class SimpleIfBlock extends AbstractStorage implements IfBlock<SimpleIfBl
     }
 
     @Override
-    public SimpleIfBlock addGroup(Group group) {
-        return new SimpleIfBlock(body, new ArrayList<Group>(groups){{
-            add(group);
-        }});
-    }
-
-    @Override
     public Collection<Group> getGroups() {
         return this.groups;
-    }
-
-    @Override
-    public SimpleIfBlock clearGroups() {
-        return new SimpleIfBlock(body, Collections.emptyList());
-    }
-
-    @Override
-    public SimpleIfBlock setBody(CodeSource body) {
-        return new SimpleIfBlock(body, groups);
     }
 
     @Override
@@ -82,8 +60,4 @@ public class SimpleIfBlock extends AbstractStorage implements IfBlock<SimpleIfBl
         return Optional.ofNullable(body);
     }
 
-    @Override
-    public SimpleIfBlock removeBody() {
-        return new SimpleIfBlock(null, groups);
-    }
 }

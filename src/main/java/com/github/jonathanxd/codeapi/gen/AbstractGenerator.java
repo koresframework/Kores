@@ -32,8 +32,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.Default;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 
@@ -51,7 +49,7 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> implements CodeGenerator<T> {
 
-    static final Logger logger = Logger.getLogger("AbstractGenerator");
+    private static final Logger logger = Logger.getLogger("AbstractGenerator");
 
     @SuppressWarnings("unchecked")
     public static <T, C> void helpApply(Value<?, T, C> value, Object target, Object instance, Appender<T> appender, CodeSourceData codeSourceData, Data processingData) {
@@ -151,7 +149,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
         return getRegistry().entrySet().stream().filter(entry -> entry.getKey().isAssignableFrom(currentClass)).sorted(entryComparator).map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
-    public abstract Map<Class<?>, Generator<?, T, C>> getRegistry();
+    protected abstract Map<Class<?>, Generator<?, T, C>> getRegistry();
 
 
     private class EntryComparator implements Comparator<Map.Entry<Class<?>, Generator<?, T, C>>> {

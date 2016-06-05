@@ -32,22 +32,14 @@ package com.github.jonathanxd.codeapi.interfaces;
  */
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.storage.Storage;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
 
 import java.util.Collection;
 
 /**
  * Arguments, Operators and Groups
  */
-public interface ArgumentOperator<T extends ArgumentOperator<T>> extends CodePart, Storage {
-
-    T addArgument(CodeArgument argument);
-    T addOperator(Operator operator);
+public interface ArgumentOperator extends CodePart {
 
     Collection<CodePart> getArgumentsAndOperators();
-
-    T clearArgumentsAndOperators();
 
 }

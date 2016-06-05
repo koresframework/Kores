@@ -37,8 +37,8 @@ import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        java.util.List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 TargetValue.create(Modifierable.class, codeInterface, parents),
 
                 TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
@@ -68,8 +68,6 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
 
                 TargetValue.create(Bodied.class, codeInterface, parents)
         ));
-
-        return values;
         /*
         plainSourceGenerator.generateTo(Modifierable.class, codeInterface) +
                 " interface " +

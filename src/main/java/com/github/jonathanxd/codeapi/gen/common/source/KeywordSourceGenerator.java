@@ -32,11 +32,12 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,6 +52,6 @@ public class KeywordSourceGenerator implements Generator<Keyword, String, PlainS
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(Keyword keyword, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
-        return Arrays.asList(ValueImpl.create(keyword.getName()));
+        return Collections.singletonList(ValueImpl.create(keyword.getName()));
     }
 }

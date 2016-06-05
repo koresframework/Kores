@@ -32,13 +32,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 15/05/16.
  */
-public interface ForBlock<T extends ForBlock<T>> extends Bodied<T> {
-
-    T setForInit(Expression expression);
-
-    T setForExpression(Expression expression);
-
-    T setForUpdate(Expression expression);
+public interface ForBlock extends Bodied {
 
     Optional<Expression> getForInit();
 
@@ -46,10 +40,4 @@ public interface ForBlock<T extends ForBlock<T>> extends Bodied<T> {
 
     Optional<Expression> getForUpdate();
 
-
-    T removeForInit();
-
-    T removeForExpression();
-
-    T removeForUpdate();
 }

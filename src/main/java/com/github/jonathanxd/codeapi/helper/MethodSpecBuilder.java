@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
 

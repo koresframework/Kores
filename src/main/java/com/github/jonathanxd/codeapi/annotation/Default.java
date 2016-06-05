@@ -28,7 +28,8 @@
 package com.github.jonathanxd.codeapi.annotation;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 05/06/16.
  */
 public final class Default {
+    private Default() {}
 }

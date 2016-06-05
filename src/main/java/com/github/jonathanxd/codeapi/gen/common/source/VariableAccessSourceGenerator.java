@@ -32,9 +32,10 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class VariableAccessSourceGenerator implements Generator<VariableAccess<?>, String, PlainSourceGenerator> {
+public class VariableAccessSourceGenerator implements Generator<VariableAccess, String, PlainSourceGenerator> {
 
     public static final VariableAccessSourceGenerator INSTANCE = new VariableAccessSourceGenerator();
 
@@ -51,10 +52,10 @@ public class VariableAccessSourceGenerator implements Generator<VariableAccess<?
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(VariableAccess<?> variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableAccess variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if(variableAccess.getLocalization() != null) {
+        if(variableAccess.getLocalization() != null && !(variableAccess.getLocalization() instanceof AccessLocal)) {
             values.add(CodePartValue.create(variableAccess.getLocalization(), parents));
             values.add(ValueImpl.create("."));
         }

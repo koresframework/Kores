@@ -30,6 +30,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface QualifiedNamed<T extends QualifiedNamed<T>> extends Named<T> {
+public interface QualifiedNamed extends Named {
     String getQualifiedName();
 }

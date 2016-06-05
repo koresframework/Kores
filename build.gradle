@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.github.jonathanxd'
-version '1.2-SNAPSHOT'
+version '1.0-RELEASE'
 
 allprojects {
     apply plugin: 'idea'
@@ -92,7 +92,7 @@ subprojects {
 
 allprojects{
     dependencies {
-        compile 'com.github.JonathanxD:JwIUtils:78e73f6d2d'
+        compile 'com.github.JonathanxD:JwIUtils:10fff5dd51'
         testCompile group: 'junit', name:'junit', version: '4.11'
         testCompile group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.12'
         testCompile group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.12'

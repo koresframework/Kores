@@ -25,7 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 

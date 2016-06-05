@@ -28,14 +28,10 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.abs.AbstractStorage;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.annotation.Store;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,12 +39,9 @@ import java.util.Collections;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(CatchBlock.class)
-public class CatchExBlock extends AbstractStorage implements CatchBlock<CatchExBlock> {
+public class CatchExBlock implements CatchBlock {
 
-    @Store(CodeSource.class)
     private final Collection<CodeSource> bodies;
-
-    @Store(CodeParameter.class)
     private final Collection<CodeParameter> parameters;
 
     public CatchExBlock(Collection<CodeSource> bodies, Collection<CodeParameter> parameters) {
@@ -57,37 +50,13 @@ public class CatchExBlock extends AbstractStorage implements CatchBlock<CatchExB
     }
 
     @Override
-    public CatchExBlock addBody(CodeSource body) {
-        return new CatchExBlock(new ArrayList<CodeSource>(bodies){{
-            add(body);
-        }}, parameters);
-    }
-
-    @Override
     public Collection<CodeSource> getBodies() {
         return this.bodies;
     }
 
     @Override
-    public CatchExBlock clearBodies() {
-        return new CatchExBlock(Collections.emptyList(), parameters);
-    }
-
-    @Override
-    public Parameterizable addParameter(CodeParameter parameter) {
-        return new CatchExBlock(bodies, new ArrayList<CodeParameter>(parameters){{
-            add(parameter);
-        }});
-    }
-
-    @Override
     public Collection<CodeParameter> getParameters() {
         return this.parameters;
-    }
-
-    @Override
-    public Parameterizable clearParameters() {
-        return new CatchExBlock(bodies, Collections.emptyList());
     }
 
 }

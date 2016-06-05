@@ -27,20 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.storage.Storage;
-import com.github.jonathanxd.codeapi.util.CodeArgument;
-import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Argumenterizable<T extends Argumenterizable<T>> extends Storage {
-    T addArgument(CodeArgument argument);
+public interface Argumenterizable {
     Collection<CodeArgument> getArguments();
-
-    T clearArguments();
 
     default boolean isArray() {
         return false;

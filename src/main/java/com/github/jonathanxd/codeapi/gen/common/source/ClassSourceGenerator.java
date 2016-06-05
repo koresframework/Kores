@@ -32,15 +32,14 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.util.CodeSourceData;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class ClassSourceGenerator implements Generator<CodeClass, String, PlainS
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeClass codeClass, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
+        return Arrays.asList(
                 TargetValue.create(Modifierable.class, codeClass, parents),
 
                 TargetValue.create(Keyword.class, codeClass.getKeyword(), parents),
@@ -70,9 +69,7 @@ public class ClassSourceGenerator implements Generator<CodeClass, String, PlainS
                 TargetValue.create(Implementer.class, codeClass, parents),
 
                 TargetValue.create(Bodied.class, codeClass, parents)
-        ));
-
-        return values;
+        );
         /*
         plainSourceGenerator.generateTo(Modifierable.class, codeInterface) +
                 " interface " +

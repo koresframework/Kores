@@ -30,16 +30,13 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
-import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Optional;
 
 /**
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Access.class)
-public class AccessThisEx extends AccessEx<AccessThisEx> implements AccessThis<AccessThisEx> {
+public class AccessThisEx extends AccessEx implements AccessThis {
 
 
     public AccessThisEx() {
@@ -48,11 +45,6 @@ public class AccessThisEx extends AccessEx<AccessThisEx> implements AccessThis<A
 
     public AccessThisEx(CodeType localization) {
         super(localization);
-    }
-
-    @Override
-    protected AccessThisEx newInstance(CodeType localization) {
-        return new AccessThisEx(localization);
     }
 
 }

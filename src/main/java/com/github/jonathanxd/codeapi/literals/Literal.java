@@ -37,7 +37,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public abstract class Literal<T extends Literal<T>> implements CodePart, Named, Typed<T> {
+public abstract class Literal<T extends Literal<T>> implements CodePart, Named, Typed {
 
     private final String name;
     private final CodeType dataType;
@@ -59,18 +59,8 @@ public abstract class Literal<T extends Literal<T>> implements CodePart, Named, 
 
 
     @Override
-    public T setType(CodeType type) {
-        return newInstance(name, type);
-    }
-
-    @Override
     public Optional<CodeType> getType() {
         return Optional.ofNullable(this.dataType);
-    }
-
-    @Override
-    public T removeType() {
-        return newInstance(name, null);
     }
 
     protected abstract T newInstance(String name);

@@ -25,7 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
 
@@ -35,11 +35,11 @@ import java.util.Collection;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import static com.github.jonathanxd.codeapi.util.ModifierType.ABSTRACTION;
-import static com.github.jonathanxd.codeapi.util.ModifierType.CONCURRENCY;
-import static com.github.jonathanxd.codeapi.util.ModifierType.OTHER;
-import static com.github.jonathanxd.codeapi.util.ModifierType.SERIALIZATION;
-import static com.github.jonathanxd.codeapi.util.ModifierType.VISIBILITY;
+import static com.github.jonathanxd.codeapi.common.ModifierType.ABSTRACTION;
+import static com.github.jonathanxd.codeapi.common.ModifierType.CONCURRENCY;
+import static com.github.jonathanxd.codeapi.common.ModifierType.OTHER;
+import static com.github.jonathanxd.codeapi.common.ModifierType.SERIALIZATION;
+import static com.github.jonathanxd.codeapi.common.ModifierType.VISIBILITY;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -79,7 +79,7 @@ public enum CodeModifier implements CodePart {
     }
 
     private static Collection<CodeModifier> from(int modifiers) {
-        Collection<CodeModifier> collection = new TreeSet<CodeModifier>();
+        Collection<CodeModifier> collection = new TreeSet<>();
 
         if (Modifier.isPublic(modifiers)) {
             collection.add(PUBLIC);

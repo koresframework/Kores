@@ -25,29 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.exceptions;
+package com.github.jonathanxd.codeapi.common;
 
 /**
- * Created by jonathan on 17/04/16.
+ * Created by jonathan on 03/06/16.
  */
-public class CodeCannotCompileException extends RuntimeException {
-    public CodeCannotCompileException() {
-        super();
-    }
+public enum InvokeType {
+    /**
+     * Invoke static methods
+     */
+    INVOKE_STATIC,
+    /**
+     * Invoke instance methods
+     */
+    INVOKE_VIRTUAL,
+    /**
+     * Invoke private and constructor methods
+     */
+    INVOKE_SPECIAL,
+    /**
+     * Invoke interface methods
+     */
+    INVOKE_INTERFACE
 
-    public CodeCannotCompileException(String message) {
-        super(message);
-    }
-
-    public CodeCannotCompileException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CodeCannotCompileException(Throwable cause) {
-        super(cause);
-    }
-
-    protected CodeCannotCompileException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

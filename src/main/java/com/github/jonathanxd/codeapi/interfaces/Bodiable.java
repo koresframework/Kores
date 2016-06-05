@@ -28,17 +28,13 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.storage.Storage;
 
 import java.util.Collection;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Bodiable<T extends Bodiable<T>> extends Storage {
-    T addBody(CodeSource body);
+public interface Bodiable {
     Collection<CodeSource> getBodies();
-
-    T clearBodies();
 
 }

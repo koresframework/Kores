@@ -27,11 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Access;
-import com.github.jonathanxd.codeapi.interfaces.Casted;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
@@ -40,22 +37,16 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(Access.class)
-public abstract class AccessEx<T extends AccessEx<T>> implements Access<T> {
+public abstract class AccessEx implements Access {
 
     private final CodeType localization;
 
-    public AccessEx() {
+    AccessEx() {
         this(null);
     }
 
-    public AccessEx(CodeType localization) {
+    AccessEx(CodeType localization) {
         this.localization = localization;
-    }
-
-
-    @Override
-    public T setLocalization(CodeType localization) {
-        return newInstance(localization);
     }
 
     @Override
@@ -63,10 +54,4 @@ public abstract class AccessEx<T extends AccessEx<T>> implements Access<T> {
         return Optional.ofNullable(this.localization);
     }
 
-    @Override
-    public T removeLocalization() {
-        return newInstance(null);
-    }
-
-    protected abstract T newInstance(CodeType localization);
 }
