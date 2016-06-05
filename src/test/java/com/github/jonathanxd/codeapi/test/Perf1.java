@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 
 import org.junit.Test;
 
@@ -55,7 +56,7 @@ public class Perf1 {
 
         source.add(packageDeclaration);
 
-        source.add(Helper.invoke(Helper.expressions(Keywords.NEW, Helper.localizedAtType(Helper.getJavaType(Object[].class))),
+        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, null, Helper.expressions(Keywords.NEW, Helper.localizedAtType(Helper.getJavaType(Object[].class))),
                 new MethodSpec(Collections.emptyList(), (String) null, null, MethodType.ARRAY_CONSTRUCTOR)
                 ));
 

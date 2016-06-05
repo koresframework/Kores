@@ -42,9 +42,11 @@ import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 
 import org.junit.Test;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -99,12 +101,12 @@ public class TestForLoop {
 
         CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Collections.emptyList(), Literals.INT(0));
 
-        CodePart invokePrintln = Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(accessLocalVariable("obj"))));
+        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class)))));
 
-        Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName()));
+        Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)));
 
         methodSource.add(
-                createFor(expression(xField), expressions(accessLocalVariable(xField.getName()), Operators.LESS_THAN, accessLocalVariable("y")), addToX,
+                createFor(expression(xField), expressions(accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)), Operators.LESS_THAN, accessLocalVariable("y", Helper.getJavaType(Integer.TYPE))), addToX,
                         sourceOf(invokePrintln,
                                 end(Keywords.BREAK)))
         );

@@ -25,43 +25,53 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.generatorv2.bytecode;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.generatorv2.Visitor;
-import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.codeapi.abs.AbstractStorage;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.ThrowException;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 11/05/16.
  */
-public class PackageVisitor implements Visitor<PackageDeclaration<?>, Byte, Object> {
+@GenerateTo(ThrowException.class)
+public class ThrowExceptionEx extends AbstractStorage implements ThrowException<ThrowExceptionEx> {
 
-    public static final PackageVisitor INSTANCE = new PackageVisitor();
+    private final CodeType exceptionType;
+    private final Collection<CodeArgument> arguments;
 
-    public static final GenericRepresentation<PackageDeclaration> PACKAGE_REPRESENTATION = GenericRepresentation.aEnd(PackageDeclaration.class);
 
-    @Override
-    public Byte[] visit(PackageDeclaration<?> packageDeclaration,
-                        Data extraData, Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        Object additional) {
-
-        extraData.registerData(PACKAGE_REPRESENTATION, packageDeclaration);
-
-        return new Byte[0];
+    protected ThrowExceptionEx(CodeType exceptionType, Collection<CodeArgument> arguments) {
+        this.exceptionType = exceptionType;
+        this.arguments = Collections.unmodifiableCollection(arguments);
     }
 
     @Override
-    public void endVisit(Byte[] r,
-                         PackageDeclaration<?> packageDeclaration,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         Object additional) {
+    public Optional<CodeType> getExceptionType() {
+        return Optional.ofNullable(exceptionType);
+    }
 
+    @Override
+    public ThrowExceptionEx addArgument(CodeArgument argument) {
+        return new ThrowExceptionEx(exceptionType, new ArrayList<CodeArgument>(arguments) {{
+            add(argument);
+        }});
+    }
+
+    @Override
+    public Collection<CodeArgument> getArguments() {
+        return arguments;
+    }
+
+    @Override
+    public ThrowExceptionEx clearArguments() {
+        return new ThrowExceptionEx(exceptionType, Collections.emptyList());
     }
 }

@@ -27,29 +27,25 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import org.objectweb.asm.Opcodes;
-
-import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-
 /**
  * Created by jonathan on 03/06/16.
  */
 public enum InvokeType {
+    /**
+     * Invoke static methods
+     */
     INVOKE_STATIC,
+    /**
+     * Invoke instance methods
+     */
     INVOKE_VIRTUAL,
+    /**
+     * Invoke private and constructor methods
+     */
     INVOKE_SPECIAL,
-    INVOKE_INTERFACE;
+    /**
+     * Invoke interface methods
+     */
+    INVOKE_INTERFACE
 
-    public static int toAsm(InvokeType invokeType) {
-        switch (invokeType) {
-            case INVOKE_INTERFACE: return INVOKEINTERFACE;
-            case INVOKE_SPECIAL: return INVOKESPECIAL;
-            case INVOKE_VIRTUAL: return INVOKEVIRTUAL;
-            case INVOKE_STATIC: return INVOKESTATIC;
-            default: throw new RuntimeException("Cannot determine opcode of '"+invokeType+"'");
-        }
-    }
 }

@@ -98,7 +98,7 @@ public class SimpleTest {
                 // Define o corpo (codigo fonte) do metodo
                 // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
                 Helper.sourceOf(
-                        Helper.setVariable(Helper.accessThis(), "myField", Helper.accessLocalVariable("myField"))
+                        Helper.setVariable(Helper.accessThis(), "myField", stringType, Helper.accessLocalVariable("myField", stringType))
                 ));
 
         // Adiciona o construtor ao codigo fonte da classe

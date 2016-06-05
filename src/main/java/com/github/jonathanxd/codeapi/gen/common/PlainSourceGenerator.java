@@ -60,11 +60,13 @@ import com.github.jonathanxd.codeapi.gen.common.source.MethodSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.MethodSpecificationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ModifierSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.NamedSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.PackageDeclarationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ParameterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ReturnableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.SimpleWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.StaticBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ThrowExceptionGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.TryBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.VariableAccessSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator;
@@ -94,10 +96,12 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
@@ -145,6 +149,8 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Access.class, AccessSourceGenerator.INSTANCE);
         register(CodeClass.class, ClassSourceGenerator.INSTANCE);
         register(Extender.class, ExtenderSourceGenerator.INSTANCE);
+        register(PackageDeclaration.class, PackageDeclarationSourceGenerator.INSTANCE);
+        register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);

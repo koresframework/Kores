@@ -29,8 +29,6 @@ package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.CodePart;
 
-import org.objectweb.asm.Opcodes;
-
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -42,14 +40,13 @@ import static com.github.jonathanxd.codeapi.util.ModifierType.CONCURRENCY;
 import static com.github.jonathanxd.codeapi.util.ModifierType.OTHER;
 import static com.github.jonathanxd.codeapi.util.ModifierType.SERIALIZATION;
 import static com.github.jonathanxd.codeapi.util.ModifierType.VISIBILITY;
-import static org.objectweb.asm.Opcodes.*;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 public enum CodeModifier implements CodePart {
     PUBLIC(VISIBILITY), PROTECTED(VISIBILITY), PRIVATE(VISIBILITY), PACKAGE_PRIVATE("", VISIBILITY),
-    ABSTRACT(ABSTRACTION),  DEFAULT(ABSTRACTION),
+    ABSTRACT(ABSTRACTION), DEFAULT(ABSTRACTION),
     STATIC(OTHER), FINAL(OTHER),
     TRANSIENT(SERIALIZATION),
     VOLATILE(CONCURRENCY), SYNCHRONIZED(CONCURRENCY),
@@ -148,7 +145,7 @@ public enum CodeModifier implements CodePart {
         for (CodeModifier modifier : modifiers) {
             int toJavaModifier = toJavaModifier(modifier);
 
-            if(toJavaModifier != 0) {
+            if (toJavaModifier != 0) {
                 end |= toJavaModifier;
             }
         }
@@ -158,49 +155,30 @@ public enum CodeModifier implements CodePart {
 
     public static int toJavaModifier(CodeModifier codeModifier) {
         switch (codeModifier) {
-            case ABSTRACT: return Modifier.ABSTRACT;
-            case FINAL: return Modifier.FINAL;
-            case NATIVE: return Modifier.NATIVE;
-            case PRIVATE: return Modifier.PRIVATE;
-            case PROTECTED: return Modifier.PROTECTED;
-            case PUBLIC: return Modifier.PUBLIC;
-            case STATIC: return Modifier.STATIC;
-            case STRICTFP: return Modifier.STRICT;
-            case SYNCHRONIZED: return Modifier.SYNCHRONIZED;
-            case TRANSIENT: return Modifier.TRANSIENT;
-            case VOLATILE: return Modifier.VOLATILE;
-            default: return 0;
-        }
-    }
-
-    public static int toAsmAccess(Collection<CodeModifier> modifiers) {
-        int end = 0;
-
-        for (CodeModifier modifier : modifiers) {
-            int toAsmAccess = toAsmAccess(modifier);
-
-            if(toAsmAccess != 0) {
-                end |= toAsmAccess;
-            }
-        }
-
-        return end;
-    }
-
-    public static int toAsmAccess(CodeModifier codeModifier) {
-        switch (codeModifier) {
-            case ABSTRACT: return ACC_ABSTRACT;
-            case FINAL: return ACC_FINAL;
-            case NATIVE: return ACC_NATIVE;
-            case PRIVATE: return ACC_PRIVATE;
-            case PROTECTED: return ACC_PROTECTED;
-            case PUBLIC: return ACC_PUBLIC;
-            case STATIC: return ACC_STATIC;
-            case STRICTFP: return ACC_STRICT;
-            case SYNCHRONIZED: return ACC_SYNCHRONIZED;
-            case TRANSIENT: return ACC_TRANSIENT;
-            case VOLATILE: return ACC_VOLATILE;
-            default: return 0;
+            case ABSTRACT:
+                return Modifier.ABSTRACT;
+            case FINAL:
+                return Modifier.FINAL;
+            case NATIVE:
+                return Modifier.NATIVE;
+            case PRIVATE:
+                return Modifier.PRIVATE;
+            case PROTECTED:
+                return Modifier.PROTECTED;
+            case PUBLIC:
+                return Modifier.PUBLIC;
+            case STATIC:
+                return Modifier.STATIC;
+            case STRICTFP:
+                return Modifier.STRICT;
+            case SYNCHRONIZED:
+                return Modifier.SYNCHRONIZED;
+            case TRANSIENT:
+                return Modifier.TRANSIENT;
+            case VOLATILE:
+                return Modifier.VOLATILE;
+            default:
+                return 0;
         }
     }
 

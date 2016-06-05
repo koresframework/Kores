@@ -37,8 +37,8 @@ import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
-import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
@@ -46,13 +46,14 @@ import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
 import com.github.jonathanxd.codeapi.util.InvokeType;
 import com.github.jonathanxd.codeapi.util.MultiVal;
 import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
+import com.github.jonathanxd.iutils.object.ASMType;
 
-import org.objectweb.asm.Type;
-
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -71,11 +72,6 @@ public final class Helper {
         return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
     }
 
-    @Deprecated
-    public static CodePart invoke(CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(null, null, target, methodSpec);
-    }
-
     public static CodePart invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
         return new MethodInvocationImpl(invokeType, localization, expressions(Keywords.NEW, target), methodSpec);
     }
@@ -86,24 +82,20 @@ public final class Helper {
         return new MethodInvocationImpl(invokeType, localization, expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR, Collections.emptyList()));
     }
 
-    public static CodePart accessLocalVariable(String name) {
-        return accessVariable(accessLocal(), name);
-    }
-
-    public static CodePart accessVariable(CodePart localization, String name) {
-        return new SimpleVariableAccess(localization, name, null);
+    public static CodePart accessLocalVariable(String name, CodeType type) {
+        return accessVariable(accessLocal(), name, type);
     }
 
     public static CodePart accessVariable(CodePart localization, String name, CodeType variableType) {
         return new SimpleVariableAccess(localization, name, variableType);
     }
 
-    public static CodePart simpleVariable(String name) {
-        return new SimpleVariableAccess(null, name, null);
+    public static CodePart simpleVariable(String name, CodeType type) {
+        return new SimpleVariableAccess(null, name, type);
     }
 
-    public static CodePart setVariable(CodePart localization, String variable, CodePart value) {
-        CodePart var = new SimpleVariableAccess(localization, variable, null);
+    public static CodePart setVariable(CodePart localization, String variable, CodeType varType, CodePart value) {
+        CodePart var = new SimpleVariableAccess(localization, variable, varType);
         return expression(var, expression(Operators.ASSIGNMENT, new NonExpressionExpr(value)));
     }
 
@@ -113,6 +105,10 @@ public final class Helper {
         simpleStaticBlock.setBody(body);
 
         return simpleStaticBlock;
+    }
+
+    public static CodePart throwException(CodeType exception, CodeArgument[] arguments) {
+        return new ThrowExceptionEx(exception, Arrays.asList(arguments));
     }
 
     public static ForBlock createFor(Expression initialization, Expression expression, Expression update, CodeSource body) {
@@ -199,7 +195,7 @@ public final class Helper {
 
     public static Expression expressions(CodePart expression, CodePart... moreExpressions) {
 
-        if(moreExpressions.length == 0)
+        if (moreExpressions.length == 0)
             return expression(expression);
 
         DynamicExpression base = new DynamicExpression(expression, null);
@@ -283,10 +279,10 @@ public final class Helper {
 
     public static CodeType getJavaType(Class<?> aClass) {
 
-        if(CODE_TYPES_CACHE.containsKey(aClass)) {
+        if (CODE_TYPES_CACHE.containsKey(aClass)) {
             CodeType codeType = CODE_TYPES_CACHE.get(aClass);
 
-            if(codeType != null)
+            if (codeType != null)
                 return codeType;
         }
 
@@ -312,7 +308,7 @@ public final class Helper {
 
         @Override
         public String getJavaSpecName() {
-            return Type.getDescriptor(type);
+            return ASMType.getDescriptor(type);
         }
 
         @Override
@@ -323,14 +319,14 @@ public final class Helper {
         @Override
         public boolean equals(Object obj) {
 
-            if(obj == null)
+            if (obj == null)
                 return false;
 
-            if(obj instanceof Class) {
+            if (obj instanceof Class) {
                 return this.type.equals(obj);
             }
 
-            if(obj instanceof JavaType) {
+            if (obj instanceof JavaType) {
                 return this.type.equals(((JavaType) obj).type);
             }
 

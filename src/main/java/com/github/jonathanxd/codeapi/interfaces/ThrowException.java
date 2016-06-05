@@ -25,47 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.generatorv2.bytecode;
+package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.generatorv2.Appender;
-import com.github.jonathanxd.codeapi.generatorv2.Visitor;
-import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.iutils.iterator.Navigator;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeArgument;
+
+import java.util.Collection;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 10/05/16.
  */
-public class CodeSourceVisitor implements Visitor<CodeSource, Byte, Object> {
+public interface ThrowException<T extends ThrowException<T>> extends CodePart, Argumenterizable<T> {
 
-    public static final CodeSourceVisitor INSTANCE = new CodeSourceVisitor();
-
-    @Override
-    public Byte[] visit(CodeSource codeSource, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
-        Appender<Byte> appender = visitorGenerator.createAppender();
-
-        for (int i = 0; i < codeSource.size(); i++) {
-            CodePart codePart = codeSource.get(i);
-
-            Navigator<CodePart> nav = new VisitorGenerator.Nav(codeSource);
-
-            nav.navigateTo(i);
-
-            Class<? extends CodePart> aClass = codePart.getClass();
+    Optional<CodeType> getExceptionType();
 
 
-            visitorGenerator.generateTo(aClass, codePart, extraData, nav, appender::addAll, additional);
-
-        }
-
-        return appender.get();
-    }
-
-    @Override
-    public void endVisit(Byte[] r, CodeSource codeSource, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
-    }
 }

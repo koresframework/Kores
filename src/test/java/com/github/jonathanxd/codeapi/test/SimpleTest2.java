@@ -43,10 +43,12 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeArgument;
 import com.github.jonathanxd.codeapi.util.CodeModifier;
 import com.github.jonathanxd.codeapi.util.CodeParameter;
+import com.github.jonathanxd.codeapi.util.InvokeType;
 import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -112,20 +114,21 @@ public class SimpleTest2 {
                 // Define o corpo (codigo fonte) do metodo
                 // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
                 Helper.sourceOf(
-                        Helper.setVariable(Helper.accessThis(), "myField", Helper.accessLocalVariable("myField")),
+                        Helper.setVariable(Helper.accessThis(), "myField", stringType, Helper.accessLocalVariable("myField", stringType)),
                         Helper.expressions(
                                 Helper.ifExpression(MultiVal.create(Group.class, Helper.group(
 
-                                        Helper.expressions(Helper.accessLocalVariable("myField"), Operators.NOT_EQUAL_TO, Literals.NULL)
+                                        Helper.expressions(Helper.accessLocalVariable("myField", stringType), Operators.NOT_EQUAL_TO, Literals.NULL)
                                 )), Helper.sourceOf(
-                                        Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"),
-                                                new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(Helper.accessLocalVariable("myField")))
+                                        Helper.invoke(InvokeType.INVOKE_STATIC, null,
+                                                Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
+                                                new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(Helper.accessLocalVariable("myField", stringType)))
                                         )
                                 )),
                                 // Helper.elseExpression(Helper.ifExpression)... = else if (expr) { body }
                                 Helper.elseExpression(
                                         Helper.sourceOf(
-                                                Helper.invoke(Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"),
+                                                Helper.invoke(InvokeType.INVOKE_STATIC, null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
                                                         new MethodSpec("println", Collections.emptyList()).addArgument(new CodeArgument(
                                                                 Helper.cast(Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
                                                         ))

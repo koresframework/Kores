@@ -54,11 +54,14 @@ import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
 import javax.annotation.processing.Processor;
+
+import static com.github.jonathanxd.codeapi.helper.Helper.getJavaType;
 
 /**
  * Created by jonathan on 02/05/16.
@@ -83,7 +86,7 @@ public class CodeAPITest {
         mySource.add(codeClass);
 
         // Implements Processor class
-        codeClass.addImplementation(Helper.getJavaType(Processor.class));
+        codeClass.addImplementation(getJavaType(Processor.class));
 
         CodeMethod method = createMethod();
 
@@ -124,11 +127,9 @@ public class CodeAPITest {
     private static CodeSource rethrow(String variable) {
         CodeSource source = new CodeSource();
 
-        CodePart trNew = Helper.expression(Keywords.THROW, Helper.expression(Keywords.NEW));
-
-        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/null, trNew, new MethodSpec(Helper.getJavaType(RuntimeException.class), MethodType.CONSTRUCTOR, Collections.emptyList())
-                .addArgument(new CodeArgument(Helper.accessVariable(Helper.accessLocal(), variable), false, Helper.getJavaType(Throwable.class)))));
-
+        source.add(Helper.throwException(getJavaType(RuntimeException.class), new CodeArgument[]{
+                new CodeArgument(Helper.accessVariable(Helper.accessLocal(), variable, getJavaType(String.class)), false, getJavaType(Throwable.class))
+        }));
         //throw new RuntimeException(e);
 
         return source;
@@ -137,7 +138,7 @@ public class CodeAPITest {
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
         MethodSpec methodSpec = new MethodSpec("println", Collections.singleton(new CodeArgument(varToPrint)));
 
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out"), methodSpec);
+        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpec);
     }
 
     private static CodeMethod createMethod() {
@@ -147,11 +148,11 @@ public class CodeAPITest {
         CodeMethod codeMethod = CodeMethodBuilder.builder()
                 .withName("println")
                 // Add parameter 'Object msg'
-                .withParameters(Collections.singleton(new CodeParameter("msg", Helper.getJavaType(Object.class))))
+                .withParameters(Collections.singleton(new CodeParameter("msg", getJavaType(Object.class))))
                 // Add 'public static' modifier
                 .withModifiers(Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC))
                 // Set 'void' return type
-                .withReturnType(Helper.getJavaType(Void.TYPE))
+                .withReturnType(getJavaType(Void.TYPE))
                 .build();
 
         // Create method body source
@@ -159,26 +160,26 @@ public class CodeAPITest {
 
         MultiVal<Group> groups = MultiVal.create(Group.class, Helper.group(
                 Helper.expression(
-                        Helper.accessLocalVariable("msg"),
+                        Helper.accessLocalVariable("msg", getJavaType(String.class)),
                         Helper.expression(Operators.NOT_EQUAL_TO, Helper.expression(Literals.NULL))
                 )
         ));
 
-        IfBlock ifBlock = Helper.ifExpression(groups, Helper.sourceOf(invokePrintlnMethod(Helper.accessLocalVariable("msg"))));
+        IfBlock ifBlock = Helper.ifExpression(groups, Helper.sourceOf(invokePrintlnMethod(Helper.accessLocalVariable("msg", getJavaType(String.class)))));
 
         source.add(ifBlock);
 
         // 'Localization' of a variable
-        CodePart localization = Helper.localizedAtType(Helper.getJavaType(System.class));
+        CodePart localization = Helper.localizedAtType(getJavaType(System.class));
 
         // Access variable in 'localization'
-        CodePart variable = Helper.accessVariable(localization, "out");
+        CodePart variable = Helper.accessVariable(localization, "out", getJavaType(OutputStream.class));
 
         // ref local field
         CodeField cf = CodeFieldBuilder.builder()
                 .withName("ref")
                 // Type is Object
-                .withType(Helper.getJavaType(Object.class))
+                .withType(getJavaType(Object.class))
                 // Set as final
                 .withModifiers(Collections.singleton(CodeModifier.FINAL))
                 // Value = variable (System.out)
@@ -188,7 +189,7 @@ public class CodeAPITest {
         source.add(cf);
 
         // Access Local Variable 'msg'
-        CodePart msgVar = Helper.accessVariable(Helper.accessLocal(), "msg");
+        CodePart msgVar = Helper.accessVariable(Helper.accessLocal(), "msg", getJavaType(String.class));
 
         // Add Invocation of println method declared in 'System.out' ('variable')
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/null, variable, new MethodSpec(Collections.emptyList(), "println", null, MethodType.METHOD).addArgument(
@@ -197,10 +198,10 @@ public class CodeAPITest {
                         // Cast type? = false
                         false,
                         // Type to cast (if 'cast type' is set to true)
-                        Helper.getJavaType(Object.class)))));
+                        getJavaType(Object.class)))));
 
 
-        Collection<CodeType> catchExceptions = Collections.singletonList(Helper.getJavaType(Throwable.class));
+        Collection<CodeType> catchExceptions = Collections.singletonList(getJavaType(Throwable.class));
 
         // Surround 'source' with 'try-catch'
         CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))));
