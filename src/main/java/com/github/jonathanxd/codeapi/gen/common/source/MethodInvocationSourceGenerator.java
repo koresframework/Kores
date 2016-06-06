@@ -64,14 +64,15 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
         CodePart target = methodInvocationImpl.getTarget();
         MethodSpec spec = methodInvocationImpl.getSpec();
 
-        if(spec.getMethodType() == MethodType.CONSTRUCTOR || spec.getMethodType() == MethodType.ARRAY_CONSTRUCTOR) {
+        boolean isCtr = spec.getMethodType() == MethodType.CONSTRUCTOR || spec.getMethodType() == MethodType.ARRAY_CONSTRUCTOR;
+        if(isCtr) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
         if (target != null) {
             values.add(CodePartValue.create(target, parents));
-            if (!target.isExpression() && !spec.isArray()) {
-                values.add(ValueImpl.create(".")); //TODO: REMOVE
+            if (!isCtr && !spec.isArray()) {
+                values.add(ValueImpl.create(".")); //TODO: REVIEW
             }
         }
 
