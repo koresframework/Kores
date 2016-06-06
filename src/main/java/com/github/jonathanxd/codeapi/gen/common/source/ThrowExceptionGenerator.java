@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Data;
@@ -57,15 +58,16 @@ public class ThrowExceptionGenerator implements Generator<ThrowException, String
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(ThrowException throwException, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
-        Optional<CodeType> exceptionType = throwException.getExceptionType();
 
-        if(!exceptionType.isPresent())
+        Optional<CodeType> type = throwException.getType();
+
+        if(!type.isPresent())
             return Collections.emptyList();
-
 
         return new ArrayList<>(Arrays.asList(
                 ValueImpl.create("throw"),
                 ValueImpl.create("new"),
+                TargetValue.create(CodeType.class, type.get(), parents),
                 TargetValue.create(Argumenterizable.class, throwException, parents)
         ));
     }

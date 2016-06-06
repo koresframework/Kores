@@ -52,7 +52,7 @@ public class ThrowExceptionEx implements ThrowException {
     }
 
     @Override
-    public Optional<CodeType> getExceptionType() {
+    public Optional<CodeType> getType() {
         return Optional.ofNullable(exceptionType);
     }
 

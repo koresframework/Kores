@@ -35,9 +35,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface ThrowException extends CodePart, Argumenterizable {
-
-    Optional<CodeType> getExceptionType();
+public interface ThrowException extends CodePart, Argumenterizable, Typed {
 
 
 }
