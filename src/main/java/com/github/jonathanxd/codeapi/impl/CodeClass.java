@@ -49,6 +49,14 @@ public class CodeClass extends CodeInterface implements Extender {
         this.superType = superType;
     }
 
+    public CodeClass(String qualifiedName, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
+        this(qualifiedName, null, superType, implementations, body);
+    }
+
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, CodeSource body) {
+        this(qualifiedName, modifiers, superType, null, body);
+    }
+
     @Override
     public Optional<CodeType> getSuperType() {
         return Optional.ofNullable(this.superType);

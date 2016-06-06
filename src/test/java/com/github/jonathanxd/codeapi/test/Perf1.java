@@ -56,9 +56,7 @@ public class Perf1 {
 
         source.add(packageDeclaration);
 
-        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, null, Helper.expressions(Keywords.NEW, Helper.localizedAtType(Helper.getJavaType(Object[].class))),
-                new MethodSpec(Collections.emptyList(), (String) null, null, MethodType.ARRAY_CONSTRUCTOR)
-                ));
+        source.add(Helper.invokeArrayConstructor(Helper.getJavaType(Object[].class)));
 
         String gen = generator.gen(source);
 

@@ -57,17 +57,6 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (methodSpecification.getReturnType() != null) {
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(ValueImpl.create("("));
-
-            values.add(TargetValue.create(methodSpecification.getReturnType().getClass(), methodSpecification.getReturnType(), parents));
-
-            if(methodSpecification.getMethodType() == MethodType.METHOD)
-                values.add(ValueImpl.create(")"));
-        }
-
-
         if(methodSpecification.getMethodType() == MethodType.METHOD) {
             String methodName = methodSpecification.getMethodName();
 
@@ -79,7 +68,7 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
         values.add(TargetValue.create(Argumenterizable.class, methodSpecification, parents));
 
         if (!methodSpecification.isExpression()) {
-            values.add(ValueImpl.create(";"));
+            values.add(ValueImpl.create(";")); // TODO: REMOVE
         }
 
         return values;

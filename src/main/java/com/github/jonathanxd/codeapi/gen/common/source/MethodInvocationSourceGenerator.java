@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
@@ -39,6 +40,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -62,10 +64,14 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
         CodePart target = methodInvocationImpl.getTarget();
         MethodSpec spec = methodInvocationImpl.getSpec();
 
+        if(spec.getMethodType() == MethodType.CONSTRUCTOR || spec.getMethodType() == MethodType.ARRAY_CONSTRUCTOR) {
+            values.add(TargetValue.create(Keywords.NEW, parents));
+        }
+
         if (target != null) {
             values.add(CodePartValue.create(target, parents));
             if (!target.isExpression() && !spec.isArray()) {
-                values.add(ValueImpl.create("."));
+                values.add(ValueImpl.create(".")); //TODO: REMOVE
             }
         }
 

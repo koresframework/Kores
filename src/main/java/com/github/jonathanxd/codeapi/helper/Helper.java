@@ -73,7 +73,23 @@ public final class Helper {
     }
 
     public static CodePart invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(invokeType, localization, expressions(Keywords.NEW, target), methodSpec);
+        return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
+    }
+
+    public static CodePart invokeConstructor(CodeType type) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.CONSTRUCTOR));
+    }
+
+    public static CodePart invokeArrayConstructor(CodeType type) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.ARRAY_CONSTRUCTOR));
+    }
+
+    public static CodePart invokeConstructor(CodeType type, CodeArgument[] arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.CONSTRUCTOR, Arrays.asList(arguments)));
+    }
+
+    public static CodePart invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.ARRAY_CONSTRUCTOR, Arrays.asList(arguments)));
     }
 
     // TODO: need review: USING KEYWORDS, I CANNOT GENERATE BYTECODE USING KEYWORDS
@@ -100,8 +116,7 @@ public final class Helper {
     }
 
     public static CodeElement staticBlock(CodeSource body) {
-        SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock(body);
-        return simpleStaticBlock;
+        return new SimpleStaticBlock(body);
     }
 
     public static CodePart throwException(CodeType exception, CodeArgument[] arguments) {

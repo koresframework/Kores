@@ -47,6 +47,14 @@ public class MethodSpec implements MethodSpecification {
     private final CodeType returnType;
     private final MethodType methodType;
 
+    public MethodSpec(MethodType methodType) {
+        this(null, null, null, methodType);
+    }
+
+    public MethodSpec(MethodType methodType, Collection<CodeArgument> arguments) {
+        this(arguments, null, null, methodType);
+    }
+
     public MethodSpec(String methodName, Collection<CodeArgument> arguments) {
         this(arguments, methodName, null, MethodType.METHOD);
     }

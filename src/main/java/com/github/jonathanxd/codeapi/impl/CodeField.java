@@ -49,8 +49,18 @@ public class CodeField extends AbstractValuableModifierable implements CodeEleme
         this(name, type, modifiers, null);
     }
 
+    public CodeField(String name, CodeType type) {
+        this(name, type, null, null);
+    }
+
     public CodeField(String name, CodeType type, Collection<CodeModifier> modifiers, CodePart value) {
         super(modifiers, value);
+        this.name = name;
+        this.type = type;
+    }
+
+    public CodeField(String name, CodeType type, CodePart value) {
+        super(null, value);
         this.name = name;
         this.type = type;
     }
