@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.Data;
+
 import java.util.List;
 
 /**
@@ -40,10 +42,14 @@ public class MultiValue<TARGET, C extends AbstractGenerator<TARGET, C>> implemen
         this.value = value;
     }
 
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<List<Value<?, TARGET, C>>, TARGET, C> create(List<Value<?, TARGET, C>> value) {
+        return new MultiValue<>(value);
+    }
+
     @Override
     public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data) {
         //println
-        for(Value<?, TARGET, C> g : this.getValue()) {
+        for (Value<?, TARGET, C> g : this.getValue()) {
             g.apply(value, generator, appender, codeSourceData, data);
         }
     }
@@ -51,9 +57,5 @@ public class MultiValue<TARGET, C extends AbstractGenerator<TARGET, C>> implemen
     @Override
     public List<Value<?, TARGET, C>> getValue() {
         return value;
-    }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<List<Value<?, TARGET, C>>, TARGET, C> create(List<Value<?, TARGET, C>> value) {
-        return new MultiValue<>(value);
     }
 }

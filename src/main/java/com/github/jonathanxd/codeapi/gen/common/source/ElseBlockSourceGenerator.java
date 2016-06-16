@@ -28,14 +28,17 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -59,15 +62,16 @@ public class ElseBlockSourceGenerator implements Generator<ElseBlock, String, Pl
 
         values.add(ValueImpl.create("else"));
 
-        Optional<CodePart> expressionOpt = elseBlock.getExpression();
+        Optional<CodeSource> expressionOpt = elseBlock.getBody();
 
-        if(expressionOpt.isPresent()) {
-            values.add(CodePartValue.create(expressionOpt.get(), parents));
-        } else {
-            values.add(ValueImpl.create("{"));
-            values.add(ValueImpl.create("}"));
-        }
-
+        expressionOpt.ifPresent(codeSource -> {
+            if(codeSource.size() == 1 && codeSource.get(0) instanceof IfBlock) {
+                CodePart at0 = codeSource.get(0);
+                values.add(TargetValue.create(at0.getClass(), at0, parents));
+            } else {
+                values.add(TargetValue.create(CodeSource.class, codeSource, parents));
+            }
+        });
 
         return values;
     }

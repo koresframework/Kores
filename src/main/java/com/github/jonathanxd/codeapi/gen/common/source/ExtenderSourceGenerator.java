@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
@@ -34,8 +35,7 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class ExtenderSourceGenerator implements Generator<Extender, String, Plai
 
         Optional<CodeType> superTypeOpt = extender.getSuperType();
 
-        if(!superTypeOpt.isPresent())
+        if (!superTypeOpt.isPresent())
             return Collections.emptyList();
 
         return new ArrayList<>(Arrays.asList(

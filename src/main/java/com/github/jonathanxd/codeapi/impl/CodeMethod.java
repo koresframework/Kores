@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.iutils.string.ToString;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -78,4 +79,9 @@ public class CodeMethod extends AbstractBodiedParam implements CodeElement, Retu
         return modifiers;
     }
 
+
+    @Override
+    public String toString() {
+        return ToString.toString(this);
+    }
 }

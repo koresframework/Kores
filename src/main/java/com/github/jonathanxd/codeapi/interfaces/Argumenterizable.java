@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ import java.util.Collection;
 /**
  * Created by jonathan on 09/05/16.
  */
-public interface Argumenterizable {
+public interface Argumenterizable extends CodePart {
     Collection<CodeArgument> getArguments();
 
     default boolean isArray() {

@@ -29,8 +29,13 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 
+import java.util.Optional;
+
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface IfBlock extends Bodied, Groupable, CodePart {
+public interface IfBlock extends Bodied, IfExpressionable, CodePart {
+
+    Optional<ElseBlock> getElseBlock();
+
 }

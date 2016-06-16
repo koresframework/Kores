@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
@@ -35,8 +38,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -67,9 +70,11 @@ public class ForBlockSourceGenerator implements Generator<ForBlock, String, Plai
 
         values.add(ValueImpl.create(";"));
 
-        Optional<Expression> forExpressionOpt = forBlock.getForExpression();
+        List<CodePart> forExpressionOpt = forBlock.getForExpression();
 
-        forExpressionOpt.ifPresent(expression -> values.add(TargetValue.create(expression, parents)));
+        if(!forExpressionOpt.isEmpty()) {
+            values.add(TargetValue.create(IfExpressionable.class, forBlock, parents));
+        }
 
         values.add(ValueImpl.create(";"));
 

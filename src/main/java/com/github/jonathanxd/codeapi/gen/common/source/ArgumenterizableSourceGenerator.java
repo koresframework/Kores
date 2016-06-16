@@ -27,15 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
-import com.github.jonathanxd.codeapi.gen.TargetValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -73,16 +73,16 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
 
         Iterator<CodeArgument> iterator = arguments.iterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             CodeArgument argument = iterator.next();
 
-            if(argument.isCasted()) {
-                values.add(ValueImpl.create(OPEN_TOKEN+argument.getType().getType()+CLOSE_TOKEN));
+            if (argument.isCasted()) {
+                values.add(ValueImpl.create(OPEN_TOKEN + argument.getType().getType() + CLOSE_TOKEN));
             }
 
             values.add(TargetValue.create(argument.getValue().getClass(), argument.getValue(), parents));
 
-            if(iterator.hasNext())
+            if (iterator.hasNext())
                 values.add(ValueImpl.create(", "));
 
         }

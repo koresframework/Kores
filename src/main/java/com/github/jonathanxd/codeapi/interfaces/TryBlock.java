@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -35,8 +36,8 @@ import java.util.Optional;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface TryBlock extends Bodiable, Expressionable, CodePart {
+public interface TryBlock extends Bodied, Expressionable, CodePart {
     Collection<CatchBlock> getCatchBlocks();
 
-    Optional<Bodiable> getFinallyBlock();
+    Optional<CodeSource> getFinallyBlock();
 }

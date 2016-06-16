@@ -28,19 +28,21 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -63,19 +65,31 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         CodePart target = methodInvocationImpl.getTarget();
         MethodSpec spec = methodInvocationImpl.getSpec();
+        InvokeType invokeType = methodInvocationImpl.getInvokeType();
+
+        CodeType localization = methodInvocationImpl.getLocalization();
 
         boolean isCtr = spec.getMethodType() == MethodType.CONSTRUCTOR || spec.getMethodType() == MethodType.ARRAY_CONSTRUCTOR;
-        if(isCtr) {
+        if (isCtr) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
         if (target != null) {
+
+
             values.add(CodePartValue.create(target, parents));
             if (!isCtr && !spec.isArray()) {
                 values.add(ValueImpl.create(".")); //TODO: REVIEW
             }
         }
 
+        if(localization != null && invokeType == InvokeType.INVOKE_STATIC) {
+            values.add(CodePartValue.create(localization, parents));
+
+            if (!isCtr && !spec.isArray()) {
+                values.add(ValueImpl.create("."));
+            }
+        }
 
         values.add(TargetValue.create(MethodSpecification.class, spec, parents));
 

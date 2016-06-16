@@ -29,6 +29,10 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
@@ -39,10 +43,7 @@ import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import org.junit.Test;
 
@@ -99,18 +100,20 @@ public class TestForLoop {
                 getJavaType(Void.TYPE),
                 methodSource);
 
-        CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Collections.emptyList(), Literals.INT(0));
+        CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Literals.INT(0), Collections.emptyList());
 
-        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class))))));
+        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class))))));
 
         Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)));
 
         methodSource.add(
-                createFor(expression(xField), expressions(accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)), Operators.LESS_THAN, accessLocalVariable("y", Helper.getJavaType(Integer.TYPE))), addToX,
+                createFor(expression(xField),
+                        Helper.createIfVal().add1(
+                                Helper.check(accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)), Operators.LESS_THAN, accessLocalVariable("y", Helper.getJavaType(Integer.TYPE)))
+                        ).make(), addToX,
                         sourceOf(invokePrintln,
                                 end(Keywords.BREAK)))
         );
-
 
         return method;
     }

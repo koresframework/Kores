@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
@@ -39,13 +40,25 @@ public class CodeArgument implements CodePart {
     private final CodeType type;
 
     public CodeArgument(CodePart value) {
-        this(value, false, null);
+        this(value, false, (CodeType) null);
     }
 
     public CodeArgument(CodePart value, boolean casted, CodeType type) {
         this.value = value;
         this.casted = casted;
         this.type = type;
+    }
+
+    public CodeArgument(CodePart value, CodeType type) {
+        this(value, false, type);
+    }
+
+    public CodeArgument(CodePart value, Class<?> type) {
+        this(value, false, Helper.getJavaType(type));
+    }
+
+    public CodeArgument(CodePart value, boolean casted, Class<?> type) {
+        this(value, casted, Helper.getJavaType(type));
     }
 
     public CodePart getValue() {

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
@@ -35,8 +36,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -56,17 +56,18 @@ public class AccessSourceGenerator implements Generator<Access, String, PlainSou
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(Access access, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
-        if(access.keyword() == null && !access.getLocalization().isPresent())
+        if (access.keyword() == null && !access.getLocalization().isPresent())
             return Collections.emptyList();
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
+        /*
         Optional<CodeType> localizationOpt = access.getLocalization();
 
         if (localizationOpt.isPresent()) {
             values.add(TargetValue.create(CodeType.class, localizationOpt.get(), parents));
             values.add(ValueImpl.create("."));
-        }
+        }*/
 
         values.add(TargetValue.create(Keyword.class, access.keyword(), parents));
 

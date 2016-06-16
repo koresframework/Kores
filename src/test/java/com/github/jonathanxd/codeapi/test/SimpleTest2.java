@@ -29,21 +29,19 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.util.MultiVal;
 
 import org.junit.Test;
 
@@ -112,28 +110,21 @@ public class SimpleTest2 {
                 // Define o corpo (codigo fonte) do metodo
                 // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
                 Helper.sourceOf(
-                        Helper.setVariable(Helper.accessThis(), "myField", stringType, Helper.accessLocalVariable("myField", stringType)),
-                        Helper.expressions(
-                                Helper.ifExpression(MultiVal.create(Group.class, Helper.group(
-
-                                        Helper.expressions(Helper.accessLocalVariable("myField", stringType), Operators.NOT_EQUAL_TO, Literals.NULL)
-                                )), Helper.sourceOf(
-                                        Helper.invoke(InvokeType.INVOKE_STATIC, null,
-                                                Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                                new MethodSpec("println", Arrays.asList(new CodeArgument(Helper.accessLocalVariable("myField", stringType))))
-                                        )
-                                )),
-                                // Helper.elseExpression(Helper.ifExpression)... = else if (expr) { body }
-                                Helper.elseExpression(
-                                        Helper.sourceOf(
-                                                Helper.invoke(InvokeType.INVOKE_STATIC, null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                                        new MethodSpec("println", Arrays.asList(new CodeArgument(
-                                                                Helper.cast(Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
-                                                        )))
-                                                )
-                                        )
+                        Helper.setVariable(null, Helper.accessThis(), "myField", stringType, Helper.accessLocalVariable("myField", stringType)),
+                        Helper.ifExpression(Helper.createIfVal().add1(Helper.check(
+                                Helper.accessLocalVariable("myField", stringType), Operators.NOT_EQUAL_TO, Literals.NULL
+                        )).make(), Helper.sourceOf(
+                                Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null,
+                                        Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
+                                        new MethodSpec("println", Arrays.asList(new CodeArgument(Helper.accessLocalVariable("myField", stringType))))
                                 )
-                        )
+                        ), Helper.elseExpression(Helper.sourceOf(
+                                Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
+                                        new MethodSpec("println", Arrays.asList(new CodeArgument(
+                                                Helper.cast(Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
+                                        )))
+                                ))
+                        ))
                 ));
 
         // Adiciona o construtor ao codigo fonte da classe

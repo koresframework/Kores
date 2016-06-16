@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 07/05/16.
  */
-public interface CodeType extends CodePart {
+public interface CodeType extends CodePart, Comparable<CodeType> {
     String getType();
 
     default String getSimpleName() {
@@ -61,5 +61,9 @@ public interface CodeType extends CodePart {
      */
     default boolean isVirtual() {
         return true;
+    }
+
+    default int compareTo(CodeType other) {
+        return this.getJavaSpecName().compareTo(other.getJavaSpecName());
     }
 }

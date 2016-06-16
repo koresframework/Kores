@@ -27,14 +27,17 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.OptionalUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -60,10 +63,13 @@ public class SimpleWhileBlockSourceGenerator implements Generator<SimpleWhileBlo
 
         values.add(ValueImpl.create("("));
 
-        OptionalUtil
-                .ifPresent(simpleWhileBlock.getExpression(),
-                        codePart -> values.add(CodePartValue.create(codePart, parents)))
-                .elseDo(() -> values.add(ValueImpl.create("true")));
+        List<CodePart> ifExprsAndOps = simpleWhileBlock.getIfExprsAndOps();
+
+        if(ifExprsAndOps.size() == 0) {
+            values.add(ValueImpl.create("true"));
+        } else {
+            values.add(TargetValue.create(IfExpressionable.class, simpleWhileBlock, parents));
+        }
 
         values.add(ValueImpl.create(")"));
 

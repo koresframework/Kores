@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.function.Predicate;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -44,8 +45,8 @@ public class SimpleArgumentOperator implements ArgumentOperator {
 
     private final Collection<CodePart> operators;
 
-    public SimpleArgumentOperator(Collection<CodePart> operators) {
-        if(operators == null || (!operators.stream().allMatch(operator -> operator instanceof CodeArgument || operator instanceof Operator))) {
+    public SimpleArgumentOperator(Collection<CodePart> operators, Predicate<CodePart> pred) {
+        if(operators == null || (!operators.stream().allMatch(pred))) {
             throw new IllegalArgumentException("Only accepts CodeArgument & Operator!");
         }
 

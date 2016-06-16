@@ -27,20 +27,22 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Groupable;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -59,11 +61,15 @@ public class IfBlockSourceGenerator implements Generator<IfBlock, String, PlainS
 
         values.add(ValueImpl.create("if"));
 
-        values.add(TargetValue.create(Groupable.class, ifBlock, parents));
+        values.add(TargetValue.create(IfExpressionable.class, ifBlock, parents));
 
         values.add(TargetValue.create(Bodied.class, ifBlock, parents));
 
+        Optional<ElseBlock> elseBlock = ifBlock.getElseBlock();
 
+        if(elseBlock.isPresent()) {
+            values.add(TargetValue.create(ElseBlock.class, elseBlock.get(), parents));
+        }
 
         return values;
     }

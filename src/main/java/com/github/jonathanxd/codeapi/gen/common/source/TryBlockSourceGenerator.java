@@ -28,17 +28,18 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -65,25 +66,25 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
 
         CodePart expression = tryCatchBlock.getExpression().orElse(null);
 
-        if(expression != null) {
+        if (expression != null) {
             values.add(ValueImpl.create("("));
             values.add(CodePartValue.create(expression, parents));
             values.add(ValueImpl.create(")"));
         }
 
-        values.add(TargetValue.create(Bodiable.class, tryCatchBlock, parents));
+        values.add(TargetValue.create(Bodied.class, tryCatchBlock, parents));
 
         Collection<CatchBlock> catchBlocks = tryCatchBlock.getCatchBlocks();
 
-        for(CatchBlock catchBlock : catchBlocks) {
+        for (CatchBlock catchBlock : catchBlocks) {
             values.add(TargetValue.create(catchBlock.getClass(), catchBlock, parents));
         }
 
-        Bodiable finallyBlock = tryCatchBlock.getFinallyBlock().orElse(null);
+        CodeSource finallyBlock = tryCatchBlock.getFinallyBlock().orElse(null);
 
-        if(finallyBlock != null) {
+        if (finallyBlock != null) {
             values.add(ValueImpl.create("finally"));
-            values.add(TargetValue.create(Bodiable.class, finallyBlock, parents));
+            values.add(TargetValue.create(CodeSource.class, finallyBlock, parents));
         }
 
         return values;

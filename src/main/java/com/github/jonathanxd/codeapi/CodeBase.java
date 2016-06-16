@@ -30,5 +30,5 @@ package com.github.jonathanxd.codeapi;
 /**
  * Created by jonathan on 07/05/16.
  */
-interface CodeBase {
+public interface CodeBase {
 }

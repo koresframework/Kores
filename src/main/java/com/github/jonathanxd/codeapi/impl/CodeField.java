@@ -30,8 +30,10 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractValuableModifierable;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 
@@ -41,19 +43,19 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeField extends AbstractValuableModifierable implements CodeElement, Named, Typed {
+public class CodeField extends AbstractValuableModifierable implements CodeElement, VariableStore, Named, Typed {
     private final String name;
     private final CodeType type;
 
     public CodeField(String name, CodeType type, Collection<CodeModifier> modifiers) {
-        this(name, type, modifiers, null);
+        this(name, type, null, modifiers);
     }
 
     public CodeField(String name, CodeType type) {
         this(name, type, null, null);
     }
 
-    public CodeField(String name, CodeType type, Collection<CodeModifier> modifiers, CodePart value) {
+    public CodeField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
         super(modifiers, value);
         this.name = name;
         this.type = type;
@@ -70,8 +72,23 @@ public class CodeField extends AbstractValuableModifierable implements CodeEleme
     }
 
     @Override
+    public CodeType getLocalization() {
+        return type;
+    }
+
+    @Override
+    public CodePart getAt() {
+        return Helper.accessLocal();
+    }
+
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public CodeType getVariableType() {
+        return type;
     }
 
 }

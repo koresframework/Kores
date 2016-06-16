@@ -29,14 +29,14 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class CastedPartSourceGenerator implements Generator<Casted, String, Plai
 
         Optional<CodePart> castedPart = casted.getCastedPart();
 
-        if(castedPart.isPresent()) {
+        if (castedPart.isPresent()) {
             casted.getType().ifPresent(type -> {
                 values.add(ValueImpl.create("("));
                 values.add(TargetValue.create(type, parents));

@@ -25,8 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import java.util.ArrayList;
@@ -42,9 +43,9 @@ import java.util.Optional;
  */
 public class Data {
 
-    private static final Map<GenericRepresentation<?>, List<Object>> map = new HashMap<>();
+    private final Map<ImmutableContainer<?>, List<Object>> map = new HashMap<>();
 
-    public <T> void registerData(GenericRepresentation<T> genericRepresentation, T object) {
+    public <T> void registerData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
 
         if(!map.containsKey(genericRepresentation)) {
             map.put(genericRepresentation, new ArrayList<>());
@@ -53,7 +54,7 @@ public class Data {
         map.get(genericRepresentation).add(object);
     }
 
-    public <T> void unregisterData(GenericRepresentation<T> genericRepresentation, T object) {
+    public <T> void unregisterData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
 
         if(!map.containsKey(genericRepresentation))
             return;
@@ -65,12 +66,12 @@ public class Data {
 
     }
 
-    public <T> void unregisterAllData(GenericRepresentation<T> genericRepresentation) {
+    public <T> void unregisterAllData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
         map.remove(genericRepresentation);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> getAll(GenericRepresentation<T> genericRepresentation) {
+    public <T> Collection<T> getAll(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
         Collection<T> ts = (Collection<T>) map.get(genericRepresentation);
 
         if(ts == null)
@@ -80,7 +81,7 @@ public class Data {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Optional<T> getOptional(GenericRepresentation<T> genericRepresentation) {
+    public <T> Optional<T> getOptional(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
         List<Object> objectList = map.get(genericRepresentation);
 
         if(objectList == null) {
@@ -91,7 +92,7 @@ public class Data {
     }
 
     @SuppressWarnings("unchecked")
-    public <T, U extends T> Optional<U> getOptionalCasted(GenericRepresentation<T> genericRepresentation) {
+    public <T, U extends T> Optional<U> getOptionalCasted(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
 
         List<Object> objectList = map.get(genericRepresentation);
 
@@ -102,19 +103,19 @@ public class Data {
         return Optional.ofNullable((U) objectList.get(objectList.size() - 1));
     }
 
-    public <T> T getRequired(GenericRepresentation<T> genericRepresentation) {
+    public <T> T getRequired(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
         return getOptional(genericRepresentation).get();
     }
 
-    public <T> T getRequired(GenericRepresentation<T> genericRepresentation, String message) {
+    public <T> T getRequired(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, String message) {
         return getOptional(genericRepresentation).orElseThrow(() -> new IllegalStateException(message));
     }
 
-    public <T, U extends T> U getRequiredCasted(GenericRepresentation<T> genericRepresentation) {
+    public <T, U extends T> U getRequiredCasted(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
         return this.<T, U>getOptionalCasted(genericRepresentation).get();
     }
 
-    public <T, U extends T> U getRequiredCasted(GenericRepresentation<T> genericRepresentation, String message) {
+    public <T, U extends T> U getRequiredCasted(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, String message) {
         return this.<T, U>getOptionalCasted(genericRepresentation).orElseThrow(() -> new IllegalStateException(message));
     }
 }

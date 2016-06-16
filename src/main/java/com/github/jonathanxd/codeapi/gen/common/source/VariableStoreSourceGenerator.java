@@ -27,63 +27,45 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.CodeSourceValue;
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
-import com.github.jonathanxd.codeapi.util.Lambda;
+import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
+public class VariableStoreSourceGenerator implements Generator<VariableStore, String, PlainSourceGenerator> {
 
-// * TODO: Replace: Bodiable -> Bodied, Now CodeSource is a CodePart
-public class BodiableSourceGenerator implements Generator<Bodiable, String, PlainSourceGenerator> {
+    public static final VariableStoreSourceGenerator INSTANCE = new VariableStoreSourceGenerator();
 
-    public static final BodiableSourceGenerator INSTANCE = new BodiableSourceGenerator();
-
-    private BodiableSourceGenerator() {
+    private VariableStoreSourceGenerator() {
     }
 
-    public List<Value<?, String, PlainSourceGenerator>> gen(Bodiable bodiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
-        java.util.List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+    @Override
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableStore variableStore, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        Collection<CodeSource> bodies = bodiable.getBodies();
-
-        //parents = Parent.create(this, parents);
-
-        boolean isExpression = Lambda.testCast(bodiable, CodePart.class, CodePart::isExpression);
-
-        if (!isExpression && bodies.isEmpty()) {
-            values.add(ValueImpl.create(";"));
+        if (variableStore.getLocalization() != null && !(variableStore.getLocalization() instanceof AccessLocal)) {
+            values.add(CodePartValue.create(variableStore.getLocalization(), parents));
+            values.add(ValueImpl.create("."));
         }
 
-        if(isExpression || !bodies.isEmpty()) {
-            values.add(ValueImpl.create("{"));
-        }
+        values.add(ValueImpl.create(variableStore.getName()));
+        values.add(ValueImpl.create("="));
+        values.add(TargetValue.create(variableStore.getValue().orElse(Literals.NULL), parents));
 
-        for (CodeSource bodySource : bodies) {
-
-            values.add(CodeSourceValue.create(bodySource, parents));
-
-            //values.add(ValueImpl.create(plainSourceGenerator.gen(bodySource)));
-        }
-
-        if (isExpression || !bodies.isEmpty()) {
-            values.add(ValueImpl.create("}"));
-
-        }
         return values;
     }
 }

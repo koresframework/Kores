@@ -27,8 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface CatchBlock extends Bodiable, Parameterizable {
+
+/**
+ * {@link Typed#getType()} will return first exception type.
+ */
+public interface CatchBlock extends Bodied, Typed, Named {
+    List<CodeType> getExceptionTypes();
+
+    @Override
+    default Optional<CodeType> getType() {
+        List<CodeType> exceptionTypes = getExceptionTypes();
+        if(exceptionTypes.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(exceptionTypes.get(0));
+    }
 }

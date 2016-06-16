@@ -30,10 +30,11 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -41,22 +42,28 @@ import java.util.Collections;
 @GenerateTo(CatchBlock.class)
 public class CatchExBlock implements CatchBlock {
 
-    private final Collection<CodeSource> bodies;
-    private final Collection<CodeParameter> parameters;
+    private final CodeSource body;
+    private final List<CodeType> exceptionTypes;
+    private final String name;
 
-    public CatchExBlock(Collection<CodeSource> bodies, Collection<CodeParameter> parameters) {
-        this.bodies = bodies == null ? Collections.emptyList() : Collections.unmodifiableCollection(bodies);
-        this.parameters = parameters == null ? Collections.emptyList() : Collections.unmodifiableCollection(parameters);
+    public CatchExBlock(String name, List<CodeType> exceptionTypes, CodeSource body) {
+        this.name = name;
+        this.exceptionTypes = exceptionTypes == null ? Collections.emptyList() : Collections.unmodifiableList(exceptionTypes);
+        this.body = body;
     }
 
     @Override
-    public Collection<CodeSource> getBodies() {
-        return this.bodies;
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
     }
 
     @Override
-    public Collection<CodeParameter> getParameters() {
-        return this.parameters;
+    public List<CodeType> getExceptionTypes() {
+        return this.exceptionTypes;
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
 }

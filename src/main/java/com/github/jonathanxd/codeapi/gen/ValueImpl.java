@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.util.Data;
+
 /**
  * Created by jonathan on 09/05/16.
  */

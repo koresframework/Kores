@@ -27,16 +27,29 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 15/05/16.
  */
-public interface ForBlock extends Bodied {
+public interface ForBlock extends Bodied, IfBlock {
 
     Optional<Expression> getForInit();
 
-    Optional<Expression> getForExpression();
+    @Override
+    default List<CodePart> getIfExprsAndOps() {
+        return getForExpression();
+    }
+
+    @Override
+    default Optional<ElseBlock> getElseBlock() {
+        return Optional.empty();
+    }
+
+    List<CodePart> getForExpression();
 
     Optional<Expression> getForUpdate();
 

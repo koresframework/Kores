@@ -27,13 +27,20 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,16 +50,26 @@ import java.util.Optional;
 public class SimpleIfBlock implements IfBlock {
 
     private final CodeSource body;
-    private final Collection<Group> groups;
+    private final List<CodePart> ifExprs;
+    private final ElseBlock elseBlock;
 
-    public SimpleIfBlock(CodeSource body, Collection<Group> groups) {
+    public SimpleIfBlock(CodeSource body, List<CodePart> ifExprs, ElseBlock elseBlock) {
         this.body = body;
-        this.groups = groups == null ? Collections.emptyList() : Collections.unmodifiableCollection(groups);
+        this.elseBlock = elseBlock;
+        this.ifExprs = ifExprs == null ? Collections.emptyList() : Collections.unmodifiableList(ifExprs);
     }
 
-    @Override
-    public Collection<Group> getGroups() {
-        return this.groups;
+    public SimpleIfBlock(CodeSource body, BiMultiVal<CodePart, IfExpr, Operator> ifExpressions, ElseBlock elseBlock) {
+        this.body = body;
+        this.elseBlock = elseBlock;
+
+        Collection<CodePart> ifExprs = ifExpressions == null ? null : ifExpressions.toCollection();
+
+        if(ifExpressions != null) {
+            ifExprs.stream().forEach(IfExpressionable::check);
+        }
+
+        this.ifExprs = ifExprs == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<>(ifExprs));
     }
 
     @Override
@@ -60,4 +77,21 @@ public class SimpleIfBlock implements IfBlock {
         return Optional.ofNullable(body);
     }
 
+    @Override
+    public List<CodePart> getIfExprsAndOps() {
+        return this.ifExprs;
+    }
+
+    @Override
+    public Optional<ElseBlock> getElseBlock() {
+        return Optional.ofNullable(elseBlock);
+    }
+
+    public static SimpleIfBlock instance(IfBlock ifBlock) {
+        return new SimpleIfBlock(ifBlock.getBody().orElse(null), ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
+    }
+
+    public static SimpleIfBlock instance(IfBlock ifBlock, CodeSource codeSource) {
+        return new SimpleIfBlock(codeSource, ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
+    }
 }

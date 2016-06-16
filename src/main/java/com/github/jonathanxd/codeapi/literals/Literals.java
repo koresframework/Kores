@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.literals;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -35,6 +36,36 @@ import com.github.jonathanxd.codeapi.types.CodeType;
  * Created by jonathan on 07/05/16.
  */
 public final class Literals {
+
+    public static boolean isPrimitive(CodePart codePart1, CodePart codePart2) {
+        return codePart1 instanceof Literal && codePart2 instanceof Literal && isPrimitive((Literal) codePart1, (Literal) codePart2);
+    }
+
+    /**
+     * Return true if {@code literal1} and {@code literal2} is primitive
+     * @param literal1 Literal 1
+     * @param literal2 Literal 2
+     * @return True if {@code literal1} and {@code literal2} is primitive
+     */
+    public static boolean isPrimitive(Literal literal1, Literal literal2) {
+        return (literal1 instanceof IntLiteral
+                || literal1 instanceof FloatLiteral
+                || literal1 instanceof DoubleLiteral
+                || literal1 instanceof CharLiteral)
+                &&
+                (literal2 instanceof IntLiteral
+                        || literal2 instanceof FloatLiteral
+                        || literal2 instanceof DoubleLiteral
+                        || literal2 instanceof CharLiteral);
+    }
+
+    public static boolean isPrimitive(Literal literal) {
+        return literal instanceof IntLiteral
+                || literal instanceof FloatLiteral
+                || literal instanceof DoubleLiteral
+                || literal instanceof CharLiteral;
+    }
+
     // NullLiteral
     public static final Literal NULL = new SimpleLiteral("null", Helper.nullType());
 
@@ -81,25 +112,16 @@ public final class Literals {
     }
 
     @GenerateTo(Literal.class)
-    private final static class SimpleLiteral extends Literal<SimpleLiteral> {
+    private final static class SimpleLiteral extends Literal {
         SimpleLiteral(String name, CodeType dataType) {
             super(name, dataType);
         }
 
-        @Override
-        protected SimpleLiteral newInstance(String name) {
-            return new SimpleLiteral(name, getType().orElse(null));
-        }
-
-        @Override
-        protected SimpleLiteral newInstance(String name, CodeType dataType) {
-            return new SimpleLiteral(name, dataType);
-        }
     }
 
 
     @GenerateTo(Literal.class)
-    public static final class IntLiteral extends Literal<IntLiteral> {
+    public static final class IntLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Integer.TYPE);
 
@@ -107,14 +129,10 @@ public final class Literals {
             super(name, TYPE);
         }
 
-        @Override
-        protected IntLiteral newInstance(String name) {
-            return new IntLiteral(name);
-        }
     }
 
     @GenerateTo(Literal.class)
-    public static final class FloatLiteral extends Literal<FloatLiteral> {
+    public static final class FloatLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Float.TYPE);
 
@@ -122,14 +140,10 @@ public final class Literals {
             super(name, TYPE);
         }
 
-        @Override
-        protected FloatLiteral newInstance(String name) {
-            return new FloatLiteral(name);
-        }
     }
 
     @GenerateTo(Literal.class)
-    public static final class DoubleLiteral extends Literal<DoubleLiteral> {
+    public static final class DoubleLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Double.TYPE);
 
@@ -137,14 +151,10 @@ public final class Literals {
             super(name, TYPE);
         }
 
-        @Override
-        protected DoubleLiteral newInstance(String name) {
-            return new DoubleLiteral(name);
-        }
     }
 
     @GenerateTo(Literal.class)
-    public static final class CharLiteral extends Literal<CharLiteral> {
+    public static final class CharLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(Character.TYPE);
 
@@ -152,14 +162,10 @@ public final class Literals {
             super(name, TYPE);
         }
 
-        @Override
-        protected CharLiteral newInstance(String name) {
-            return new CharLiteral(name);
-        }
     }
 
     @GenerateTo(Literal.class)
-    public static final class StringLiteral extends Literal<StringLiteral> {
+    public static final class StringLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
@@ -167,24 +173,15 @@ public final class Literals {
             super(name, TYPE);
         }
 
-        @Override
-        protected StringLiteral newInstance(String name) {
-            return new StringLiteral(name);
-        }
     }
 
     @GenerateTo(Literal.class)
-    public static final class QuotedStringLiteral extends Literal<QuotedStringLiteral> {
+    public static final class QuotedStringLiteral extends Literal {
 
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
         QuotedStringLiteral(String name) {
             super('"' + name + '"', TYPE);
-        }
-
-        @Override
-        protected QuotedStringLiteral newInstance(String name) {
-            return new QuotedStringLiteral(name);
         }
 
     }

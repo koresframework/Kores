@@ -28,18 +28,19 @@
 package com.github.jonathanxd.codeapi.gen.common;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.gen.AbstractGenerator;
 import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.source.AccessSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArgumenterizableSourceGenerator;
-import com.github.jonathanxd.codeapi.gen.common.source.BodiableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ClassSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ElseBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator;
@@ -47,28 +48,30 @@ import com.github.jonathanxd.codeapi.gen.common.source.ExtenderSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ForBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GroupableSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.HelperMISourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.HelperVASourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.IfBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.IfExpressionableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ImplementerSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.InterfaceSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.KeywordSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.LiteralSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.LocalizedAtSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.MethodInvocationSourceGenerator;
-import com.github.jonathanxd.codeapi.gen.common.source.HelperMISourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.MethodSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.MethodSpecificationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ModifierSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.NamedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.PackageDeclarationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ParameterizableSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ReturnSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ReturnableSourceGenerator;
-import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.SimpleWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.StaticBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ThrowExceptionGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.TryBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.VariableAccessSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.VariableStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
@@ -78,7 +81,6 @@ import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
@@ -89,6 +91,8 @@ import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -97,17 +101,18 @@ import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
+import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -127,7 +132,6 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Named.class, NamedSourceGenerator.INSTANCE);
         register(Keyword.class, KeywordSourceGenerator.INSTANCE);
         register(CodeInterface.class, InterfaceSourceGenerator.INSTANCE);
-        register(Bodiable.class, BodiableSourceGenerator.INSTANCE);
         register(CodeField.class, FieldSourceGenerator.INSTANCE);
         register(CodeMethod.class, MethodSourceGenerator.INSTANCE);
         register(Returnable.class, ReturnableSourceGenerator.INSTANCE);
@@ -150,6 +154,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Extender.class, ExtenderSourceGenerator.INSTANCE);
         register(PackageDeclaration.class, PackageDeclarationSourceGenerator.INSTANCE);
         register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);
+        register(Return.class, ReturnSourceGenerator.INSTANCE);
+        register(IfExpressionable.class, IfExpressionableSourceGenerator.INSTANCE);
+        register(VariableStore.class, VariableStoreSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);
@@ -169,6 +176,10 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         // Cast
         register(Casted.class, CastedPartSourceGenerator.INSTANCE);
+    }
+
+    public static PlainSourceGenerator singletonInstance() {
+        return INSTANCE;
     }
 
     private static <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {

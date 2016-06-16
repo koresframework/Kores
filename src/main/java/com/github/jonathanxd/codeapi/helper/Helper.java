@@ -30,130 +30,249 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.DynamicInvoke;
+import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.MethodType;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.util.MultiVal;
-import com.github.jonathanxd.iutils.map.WeakValueHashMap;
-import com.github.jonathanxd.iutils.object.ASMType;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
+
+import org.objectweb.asm.Type;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.List;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 public final class Helper {
 
-    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
+    private final static WeakValueHashMap<Class<?>, LoadedCodeType<?>> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
     private static final None NONE = new None();
 
-    //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
-    public static CodePart invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
+    /**
+     * Access local variable. Same as {@code null}.
+     *
+     * @return Access to local variable. Same as {@code null}.
+     */
+    public static Access accessLocal() {
+        return new AccessLocalEx();
     }
 
-    public static CodePart invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
+    public static VariableAccess accessLocalVariable(String name) {
+        return accessVariable(null, accessLocal(), name);
     }
 
-    public static CodePart invokeConstructor(CodeType type) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.CONSTRUCTOR));
+    public static VariableAccess accessLocalVariable(String name, CodeType type) {
+        return accessVariable(null, accessLocal(), name, type);
     }
 
-    public static CodePart invokeArrayConstructor(CodeType type) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.ARRAY_CONSTRUCTOR));
+    public static VariableAccess accessLocalVariable(String name, Class<?> type) {
+        return accessVariable(null, accessLocal(), name, Helper.getJavaType(type));
     }
 
-    public static CodePart invokeConstructor(CodeType type, CodeArgument[] arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.CONSTRUCTOR, Arrays.asList(arguments)));
+    public static VariableAccess accessLocalVariable(CodeField fieldVariable) {
+        return accessVariable(null, accessLocal(), fieldVariable.getName(), fieldVariable.getType().orElse(PredefinedTypes.OBJECT));
     }
 
-    public static CodePart invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.ARRAY_CONSTRUCTOR, Arrays.asList(arguments)));
+    public static VariableAccess accessLocalVariable(VariableStore variableStore) {
+        return accessVariable(null, accessLocal(), variableStore.getName(), variableStore.getVariableType());
+    }
+
+
+    public static VariableAccess accessStaticVariable(Class<?> localization, String name, Class<?> variableType) {
+        return new SimpleVariableAccess(getJavaType(localization), name, getJavaType(variableType));
+    }
+
+    public static VariableAccess accessStaticVariable(Class<?> localization, String name, CodeType variableType) {
+        return new SimpleVariableAccess(getJavaType(localization), name, variableType);
+    }
+
+    public static VariableAccess accessStaticVariable(CodeType localization, String name, CodeType variableType) {
+        return new SimpleVariableAccess(localization, name, variableType);
+    }
+
+    public static AccessSuper accessSuper() {
+        return new AccessSuperEx();
+    }
+
+    public static AccessSuper accessSuper(CodeType at) {
+        return new AccessSuperEx(at);
+    }
+
+    public static AccessThis accessThis() {
+        return new AccessThisEx();
+    }
+
+    public static AccessThis accessThis(CodeType at) {
+        return new AccessThisEx(at);
+    }
+
+    public static VariableAccess accessVariable(VariableStore variableStore) {
+        return accessVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType());
+    }
+
+    public static VariableAccess accessVariable(CodeType localization, CodePart at, String name) {
+        return new SimpleVariableAccess(localization, at, name, null);
+    }
+
+    public static VariableAccess accessVariable(CodeType localization, CodePart at, String name, CodeType variableType) {
+        return new SimpleVariableAccess(localization, at, name, variableType);
+    }
+
+    public static VariableAccess accessVariable(CodeType localization, String name) {
+        return new SimpleVariableAccess(localization, name, null);
+    }
+
+    public static VariableAccess accessVariable(CodeType localization, String name, CodeType variableType) {
+        return new SimpleVariableAccess(localization, name, variableType);
+    }
+
+    public static VariableAccess accessVariable(CodeType localization, String name, Class<?> variableType) {
+        return new SimpleVariableAccess(localization, name, getJavaType(variableType));
+    }
+
+    public static VariableAccess accessVariable(Class<?> localization, String name, Class<?> variableType) {
+        return new SimpleVariableAccess(getJavaType(localization), name, getJavaType(variableType));
+    }
+
+    /////////// OPERATE VARIABLES
+    public static VariableOperate operateVariable(VariableStore variableStore, Operator operation) {
+        return operateVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType(), operation);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation) {
+        return new SimpleVariableOperate(localization, at, name, variableType, operation, null);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, String name, Operator operation) {
+        return new SimpleVariableOperate(localization, name, null, operation, null);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, String name, CodeType variableType, Operator operation) {
+        return new SimpleVariableOperate(localization, name, variableType, operation, null);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, String name, Class<?> variableType, Operator operation) {
+        return new SimpleVariableOperate(localization, name, getJavaType(variableType), operation, null);
+    }
+
+    public static VariableOperate operateVariable(Class<?> localization, String name, Class<?> variableType, Operator operation) {
+        return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, null);
+    }
+
+    /////////// WITH VALUE
+
+    public static VariableOperate operateVariable(VariableStore variableStore, Operator operation, CodePart value) {
+        return operateVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType(), operation, value);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(localization, at, name, variableType, operation, value);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, String name, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(localization, name, null, operation, value);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, String name, CodeType variableType, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(localization, name, variableType, operation, value);
+    }
+
+    public static VariableOperate operateVariable(CodeType localization, String name, Class<?> variableType, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(localization, name, getJavaType(variableType), operation, value);
+    }
+
+    public static VariableOperate operateVariable(Class<?> localization, String name, Class<?> variableType, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, value);
+    }
+
+
+    //////////// Other
+
+    public static VariableOperate operateLocalVariable(String name, Class<?> variableType, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(null, accessLocal(), name, getJavaType(variableType), operation, value);
+    }
+
+    public static VariableOperate operateLocalVariable(String name, CodeType variableType, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(null, accessLocal(), name, variableType, operation, value);
+    }
+
+    public static VariableOperate operateLocalVariable(String name, Class<?> variableType, Operator operation) {
+        return new SimpleVariableOperate(null, accessLocal(), name, getJavaType(variableType), operation, null);
+    }
+
+    public static VariableOperate operateLocalVariable(String name, CodeType variableType, Operator operation) {
+        return new SimpleVariableOperate(null, accessLocal(), name, variableType, operation, null);
+    }
+
+    /////////// OPERATE VARIABLES
+
+    public static CodePart cast(CodeType type, CodePart castedPart) {
+        return new CastedExPart(type, castedPart);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static CatchBlock catchBlock(List<CodeType> catchExceptions, String variable, CodeSource body) {
+
+        return new CatchExBlock(variable, catchExceptions, body);
+    }
+
+    public static IfExpr check(CodePart expr1, Operator operation, CodePart expr2) {
+        return new IfExprEx(expr1, operation, expr2);
+    }
+
+    public static IfExpr checkNotNull(CodePart expr1) {
+        return check(expr1, Operators.NOT_EQUAL_TO, Literals.NULL);
     }
 
     // TODO: need review: USING KEYWORDS, I CANNOT GENERATE BYTECODE USING KEYWORDS
     @Deprecated
     public static CodePart construct(InvokeType invokeType, CodeType localization, CodePart firstExpression, CodeType type) {
-        return new MethodInvocationImpl(invokeType, localization, expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, MethodType.CONSTRUCTOR, Collections.emptyList()));
+        return new MethodInvocationImpl(invokeType, localization, expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, Collections.emptyList(), MethodType.CONSTRUCTOR));
     }
 
-    public static CodePart accessLocalVariable(String name, CodeType type) {
-        return accessVariable(accessLocal(), name, type);
+    public static CodePart createDoWhile(CodeSource body, BiMultiVal<CodePart, IfExpr, Operator> expression) {
+        return new SimpleExDoWhileBlock(expression, body);
     }
 
-    public static CodePart accessVariable(CodePart localization, String name, CodeType variableType) {
-        return new SimpleVariableAccess(localization, name, variableType);
-    }
-
-    public static CodePart simpleVariable(String name, CodeType type) {
-        return new SimpleVariableAccess(null, name, type);
-    }
-
-    public static CodePart setVariable(CodePart localization, String variable, CodeType varType, CodePart value) {
-        CodePart var = new SimpleVariableAccess(localization, variable, varType);
-        return expression(var, expression(Operators.ASSIGNMENT, new NonExpressionExpr(value)));
-    }
-
-    public static CodeElement staticBlock(CodeSource body) {
-        return new SimpleStaticBlock(body);
-    }
-
-    public static CodePart throwException(CodeType exception, CodeArgument[] arguments) {
-        return new ThrowExceptionEx(exception, Arrays.asList(arguments));
-    }
-
-    public static ForBlock createFor(Expression initialization, Expression expression, Expression update, CodeSource body) {
+    public static ForBlock createFor(Expression initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, Expression update, CodeSource body) {
 
         return new SimpleForBlock(initialization, expression, update, body);
     }
 
-    public static WhileBlock createWhile(Expression expression, CodeSource body) {
+    public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
         return new SimpleExWhileBlock(expression, body);
-    }
-
-    public static CodePart createDoWhile(Expression expression, CodeSource body) {
-        return new SimpleExDoWhileBlock(expression, body);
-    }
-
-    public static CodePart setVariableInline(CodePart localization, String variable, CodePart value) {
-        VariableAccess var = new SimpleVariableAccess(localization, variable, null);
-        return expression(var, expression(Operators.ASSIGNMENT, expression(value)));
-    }
-
-    public static Group group(Expression expression) {
-        return new SimpleGroup(expression);
-    }
-
-    public static CodeType nullType() {
-        return NullType.getNullType();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static CatchBlock catchBlock(Collection<CodeType> catchExceptions, String variable, CodeSource body) {
-
-        return new CatchExBlock(Collections.singleton(body),
-                catchExceptions.stream().map(ex -> new CodeParameter(variable, ex)).collect(Collectors.toList()));
     }
     /*
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
@@ -168,38 +287,25 @@ public final class Helper {
         return ifBlock;
     }*/
 
-    public static ElseBlock elseExpression(CodePart next) {
-        return new SimpleElseBlock(next);
+    public static CodePart declarePackage(String packageName) {
+        return new PkgDclEx(packageName);
     }
 
-    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body /*, ElseBlock else*/) {
-        return new SimpleIfBlock(body, groups.toCollection());
+    public static ElseBlock elseExpression(CodeSource elseSource) {
+        return new SimpleElseBlock(elseSource);
     }
 
-    public static TryBlock tryCatchBlock(CodePart expression) {
-        return new TryCatchBlock(expression, Collections.emptyList());
+    public static Expression end(CodePart expression) {
+        return new NonExpressionExpr(expression);
     }
 
-    public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
-        return new TryCatchBlock(expression, catchBlocks, Collections.emptyList());
-    }
-
-    public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
-
-        return new TryCatchBlock(null, catchBlocks, Collections.singletonList(sourceOf(toSurround)));
-    }
-
-    public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
-
-        return new TryCatchBlock(null, catchBlocks, Collections.singletonList(toSurround));
-    }
-
-    public static CodePart localizedAtType(CodeType type) {
-        return new LocalizedAtType(type);
-    }
-
+    // TODO: MISSION: REMOVE ALL EXPRESSIONS :D
     public static Expression expression(CodePart expression, Expression nestedExpression) {
         return new SimpleExpression(expression, nestedExpression, false);
+    }
+
+    public static Expression expression(CodePart expression) {
+        return new SimpleExpression(expression, null, false);
     }
 
     public static Expression expressions(CodePart expression, CodePart... moreExpressions) {
@@ -211,7 +317,9 @@ public final class Helper {
 
         DynamicExpression current = base;
 
-        for (CodePart atI : moreExpressions) {
+        for (int i = 0; i < moreExpressions.length; i++) {
+            CodePart atI = moreExpressions[i];
+
             DynamicExpression newDynamicExpression = new DynamicExpression(atI, null);
 
             current.setNextExpression(newDynamicExpression);
@@ -223,37 +331,81 @@ public final class Helper {
         return base;
     }
 
-    public static Expression expression(CodePart expression) {
-        return new SimpleExpression(expression, null, false);
+    @SuppressWarnings("unchecked")
+    public static <T> LoadedCodeType<T> getJavaType(Class<T> aClass) {
+
+        if (CODE_TYPES_CACHE.containsKey(aClass)) {
+            LoadedCodeType<?> codeType = CODE_TYPES_CACHE.get(aClass);
+
+            if (codeType != null)
+                return (LoadedCodeType<T>) codeType;
+        }
+
+        JavaType<T> javaType = new JavaType<>(aClass);
+
+        CODE_TYPES_CACHE.put(aClass, javaType);
+
+        return javaType;
+
     }
 
-    public static Expression end(CodePart expression) {
-        return new NonExpressionExpr(expression);
+    public static Group group(Expression expression) {
+        return new SimpleGroup(expression);
     }
 
-    public static CodePart accessThis() {
-        return new AccessThisEx();
+    public static BiMultiVal.Adder<CodePart, IfExpr, Operator> createIfVal() {
+        return BiMultiVal.create(CodePart.class, IfExpr.class, Operator.class);
     }
 
-    public static CodePart accessThis(CodeType at) {
-        return new AccessThisEx(at);
+    public static IfBlock ifExpression(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body /*, ElseBlock else*/) {
+        return new SimpleIfBlock(body, groups, null);
     }
 
-    public static CodePart accessSuper() {
-        return new AccessSuperEx();
+    public static IfBlock ifExpression(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, ElseBlock elseBlock) {
+        return new SimpleIfBlock(body, groups, elseBlock);
     }
 
-    public static CodePart accessSuper(CodeType at) {
-        return new AccessSuperEx(at);
+    //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
+
+    public static MethodInvocation invokeDynamic(DynamicInvoke dynamicInvoke, MethodInvocation methodInvocation) {
+        return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(), methodInvocation.getSpec());
     }
 
-    /**
-     * Access local variable. Same as {@code null}.
-     *
-     * @return Access to local variable. Same as {@code null}.
-     */
-    public static CodePart accessLocal() {
-        return new AccessLocalEx();
+    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
+    }
+
+    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(invokeType, getJavaType(localization), target, methodSpec);
+    }
+
+    public static MethodInvocation invokeSuper(CodeType localization, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(), methodSpec);
+    }
+
+    public static MethodInvocation invokeSuperInit(CodeType localization, CodeArgument[] arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
+                new MethodSpec("<init>", PredefinedTypes.VOID, Arrays.asList(arguments)));
+    }
+
+    public static MethodInvocation invokeArrayConstructor(CodeType type) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.ARRAY_CONSTRUCTOR));
+    }
+
+    public static MethodInvocation invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(Arrays.asList(arguments), MethodType.ARRAY_CONSTRUCTOR));
+    }
+
+    public static MethodInvocation invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
+        return new MethodInvocationImpl(invokeType, localization, expressions(Keywords.NEW, target), methodSpec);
+    }
+
+    public static MethodInvocation invokeConstructor(CodeType type) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.CONSTRUCTOR));
+    }
+
+    public static MethodInvocation invokeConstructor(CodeType type, CodeArgument[] arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(Arrays.asList(arguments), MethodType.CONSTRUCTOR));
     }
 
     public static boolean isNone(CodePart codePart) {
@@ -264,64 +416,128 @@ public final class Helper {
         return named == NONE;
     }
 
+    public static CodeType localizedAtType(CodeType type) {
+        return type;
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends CodePart & Named> T none() {
         return (T) NONE;
     }
 
+    public static CodeType nullType() {
+        return NullType.getNullType();
+    }
+
+    public static CodePart returnValue(CodeType returnType, CodePart value) {
+        return new ReturnEx(returnType, value);
+    }
+
+    public static VariableStore setVariable(CodeType localization, CodePart at, String variable, CodePart value) {
+        return new SimpleVariableStore(localization, at, variable, null, value);
+    }
+
+    public static VariableStore setVariable(CodeType localization, CodePart at, String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableStore(localization, at, variable, varType, value);
+    }
+
+    public static VariableStore setVariable(CodeType localization, String variable, CodePart value) {
+        return new SimpleVariableStore(localization, null, variable, null, value);
+    }
+
+    public static VariableStore setVariable(CodeType localization, String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableStore(localization, null, variable, varType, value);
+    }
+
+    public static VariableStore setLocalVariable(String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableStore(null, accessLocal(), variable, varType, value);
+    }
+
+    public static VariableStore setLocalVariable(String variable, Class<?> varType, CodePart value) {
+        return new SimpleVariableStore(null, accessLocal(), variable, Helper.getJavaType(varType), value);
+    }
+
+    public static VariableStore setThisVariable(String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableStore(null, accessThis(), variable, varType, value);
+    }
+
+    public static VariableStore setThisVariable(String variable, Class<?> varType, CodePart value) {
+        return new SimpleVariableStore(null, accessThis(), variable, Helper.getJavaType(varType), value);
+    }
+
+    public static VariableAccess simpleVariable(String name) {
+        return new SimpleVariableAccess(null, name, null);
+    }
+
+    public static CodePart simpleVariable(String name, CodeType type) {
+        return new SimpleVariableAccess(null, name, type);
+    }
+
     public static CodeSource sourceOf(CodePart... parts) {
         CodeSource source = new CodeSource();
 
-        Collections.addAll(source, parts);
+        for (CodePart part : parts) {
+            source.add(part);
+        }
 
         return source;
     }
 
-    public static CodePart cast(CodeType type, CodePart castedPart) {
-        return new CastedExPart(type, castedPart);
+    public static CodeElement staticBlock(CodeSource body) {
+        SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock(body);
+        return simpleStaticBlock;
     }
 
+    public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
 
-    public static CodeType getJavaType(Class<?> aClass) {
-
-        if (CODE_TYPES_CACHE.containsKey(aClass)) {
-            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
-
-            if (codeType != null)
-                return codeType;
-        }
-        JavaType javaType = new JavaType(aClass);
-        CODE_TYPES_CACHE.put(aClass, javaType);
-
-        return javaType;
-
+        return new TryCatchBlock(null, catchBlocks, sourceOf(toSurround));
     }
 
-    public static CodePart declarePackage(String packageName) {
-        return new PkgDclEx(packageName);
+    public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
+
+        return new TryCatchBlock(null, catchBlocks, toSurround);
+    }
+
+    public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks, CodeSource finallyBlock) {
+
+        return new TryCatchBlock(null, catchBlocks, sourceOf(toSurround), finallyBlock);
+    }
+
+    public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks, CodeSource finallyBlock) {
+
+        return new TryCatchBlock(null, catchBlocks, toSurround, finallyBlock);
+    }
+
+    public static ThrowException throwException(CodeType exception, CodeArgument[] arguments) {
+        return new ThrowExceptionEx(exception, Arrays.asList(arguments));
+    }
+
+    public static TryBlock tryCatchBlock(CodePart expression) {
+        return new TryCatchBlock(expression, new CodeSource());
+    }
+    /*
+    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
+        IfBlock ifBlock = new SimpleIfBlock();
+
+        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
+
+        ifBlock.setBody(body);
+
+
+
+        return ifBlock;
+    }*/
+
+    public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
+        return new TryCatchBlock(expression, catchBlocks, new CodeSource());
     }
 
     @GenerateTo(CodeType.class)
-    final private static class JavaType implements CodeType {
-        private final Class<?> type;
+    final private static class JavaType<T> implements LoadedCodeType<T> {
+        private final Class<T> type;
 
-        private JavaType(Class<?> type) {
+        private JavaType(Class<T> type) {
             this.type = type;
-        }
-
-        @Override
-        public String getType() {
-            return type.getCanonicalName();
-        }
-
-        @Override
-        public String getJavaSpecName() {
-            return ASMType.getDescriptor(type);
-        }
-
-        @Override
-        public int hashCode() {
-            return type.hashCode();
         }
 
         @Override
@@ -334,11 +550,35 @@ public final class Helper {
                 return this.type.equals(obj);
             }
 
-            if (obj instanceof JavaType) {
-                return this.type.equals(((JavaType) obj).type);
+            if (obj instanceof LoadedCodeType) {
+                return this.type.equals(((LoadedCodeType) obj).getLoadedType());
+            }
+
+            if (obj instanceof CodeType) {
+                return this.getJavaSpecName().equals(((CodeType) obj).getJavaSpecName());
             }
 
             return super.equals(obj);
+        }
+
+        @Override
+        public String getJavaSpecName() {
+            return Type.getDescriptor(type);
+        }
+
+        @Override
+        public String getType() {
+            return type.getCanonicalName();
+        }
+
+        @Override
+        public int hashCode() {
+            return type.hashCode();
+        }
+
+        @Override
+        public boolean isInterface() {
+            return type.isInterface();
         }
 
         @Override
@@ -347,8 +587,8 @@ public final class Helper {
         }
 
         @Override
-        public boolean isInterface() {
-            return type.isInterface();
+        public Class<T> getLoadedType() {
+            return this.type;
         }
 
         @Override

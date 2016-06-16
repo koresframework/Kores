@@ -27,13 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class LiteralSourceGenerator implements Generator<Literal, String, PlainS
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
         values.add(ValueImpl.create(literal.getName()));
 
-        if(!literal.isExpression())
+        if (!literal.isExpression())
             values.add(ValueImpl.create(";"));
 
         return values;

@@ -27,21 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
-import com.github.jonathanxd.codeapi.gen.TargetValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
-import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -63,31 +61,22 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
         values.add(ValueImpl.create("catch"));
 
         // TODO EXPRESSIONS: AND, OR, BITWISE, BITWISE EXCLUSIVE OR, BITWISE INCLUSIVE OR
-        Collection<CodeParameter> parameters = catchBlock.getParameters();
+        List<CodeType> parameters = catchBlock.getExceptionTypes();
 
-        StringJoiner sj = new StringJoiner(" | ", "(", ")");
+        StringJoiner sj = new StringJoiner(" | ");
 
-        if(!parameters.isEmpty()) {
-            CodeParameter first = parameters.iterator().next();
-            String name = first.getName();
+        if (!parameters.isEmpty()) {
 
-            Iterator<CodeParameter> iterator = parameters.iterator();
-
-            while (iterator.hasNext()) {
-                CodeParameter parameter = iterator.next();
-
-                String append = parameter.getType().getType();
-
-                if(!iterator.hasNext())
-                    append += " ".concat(name);
+            for (CodeType parameter : parameters) {
+                String append = parameter.getType();
 
                 sj.add(append);
             }
         }
 
-        values.add(ValueImpl.create(sj.toString()));
+        values.add(ValueImpl.create("("+sj.toString() + " " + catchBlock.getName()+")"));
 
-        values.add(TargetValue.create(Bodiable.class, catchBlock, parents));
+        values.add(TargetValue.create(Bodied.class, catchBlock, parents));
 
         return values;
     }

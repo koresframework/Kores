@@ -27,16 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class GroupableSourceGenerator implements Generator<Groupable, String, Pl
 
         Iterator<Group> iterator = groups.iterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
 
             values.add(ValueImpl.create("("));
 
@@ -77,7 +77,7 @@ public class GroupableSourceGenerator implements Generator<Groupable, String, Pl
 
             values.add(ValueImpl.create(")"));
 
-            if(iterator.hasNext()) {
+            if (iterator.hasNext()) {
                 Expression outExpression = group.getOutExpression();
                 values.add(TargetValue.create(outExpression.getClass(), outExpression, parents));
             }

@@ -27,14 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-
-import java.util.Collection;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.operators.Operator;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface Bodiable {
-    Collection<CodeSource> getBodies();
+public interface IfExpr extends CodePart {
+    CodePart getExpr1();
 
+    Operator getOperation();
+
+    CodePart getExpr2();
 }

@@ -27,25 +27,46 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import static org.objectweb.asm.Opcodes.H_INVOKEINTERFACE;
+import static org.objectweb.asm.Opcodes.H_INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.H_INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.H_INVOKEVIRTUAL;
+import static org.objectweb.asm.Opcodes.INVOKEDYNAMIC;
+import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
+import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+
 /**
  * Created by jonathan on 03/06/16.
  */
+@SuppressWarnings("Duplicates")
 public enum InvokeType {
-    /**
-     * Invoke static methods
-     */
     INVOKE_STATIC,
-    /**
-     * Invoke instance methods
-     */
     INVOKE_VIRTUAL,
-    /**
-     * Invoke private and constructor methods
-     */
     INVOKE_SPECIAL,
-    /**
-     * Invoke interface methods
-     */
-    INVOKE_INTERFACE
+    INVOKE_INTERFACE,
+    INVOKE_DYNAMIC;
 
+    public static int toAsm(InvokeType invokeType) {
+        switch (invokeType) {
+            case INVOKE_INTERFACE: return INVOKEINTERFACE;
+            case INVOKE_SPECIAL: return INVOKESPECIAL;
+            case INVOKE_VIRTUAL: return INVOKEVIRTUAL;
+            case INVOKE_STATIC: return INVOKESTATIC;
+            case INVOKE_DYNAMIC: return INVOKEDYNAMIC;
+            default: throw new RuntimeException("Cannot determine opcode of '"+invokeType+"'");
+        }
+    }
+
+    public static int toAsm_H(InvokeType invokeType) {
+        switch (invokeType) {
+            case INVOKE_INTERFACE: return H_INVOKEINTERFACE;
+            case INVOKE_SPECIAL: return H_INVOKESPECIAL;
+            case INVOKE_VIRTUAL: return H_INVOKEVIRTUAL;
+            case INVOKE_STATIC: return H_INVOKESTATIC;
+            case INVOKE_DYNAMIC: throw new RuntimeException("Cannot invoke dynamic 'dynamic invocation'!");
+            default: throw new RuntimeException("Cannot determine opcode of '"+invokeType+"'");
+        }
+    }
 }

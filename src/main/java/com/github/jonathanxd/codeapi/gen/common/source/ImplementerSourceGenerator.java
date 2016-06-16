@@ -27,16 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.MultiValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
@@ -57,12 +57,12 @@ public class ImplementerSourceGenerator implements Generator<Implementer, String
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(Implementer implementer, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        if(implementer.getImplementations().isEmpty())
+        if (implementer.getImplementations().isEmpty())
             return Collections.emptyList();
 
 
         return Arrays.asList(
-        MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents,/*Parent.create(this, parents)*/codeSourceData, data)), // Whitespace not needed
+                MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents,/*Parent.create(this, parents)*/codeSourceData, data)), // Whitespace not needed
                 ValueImpl.create(implementer.getImplementations().stream().map(CodeType::getType).collect(Collectors.joining(" ")))
         );
     }

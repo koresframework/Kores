@@ -33,8 +33,12 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface VariableAccess extends CodePart {
-    CodePart getLocalization();
+public interface VariableAccess extends CodePart, Typed {
+    CodeType getLocalization();
+
+    CodePart getAt();
+
     String getName();
+
     CodeType getVariableType();
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 
@@ -39,15 +40,15 @@ import java.util.Optional;
 @GenerateTo(ElseBlock.class)
 public class SimpleElseBlock implements ElseBlock {
 
-    private final CodePart expression;
+    private final CodeSource elseSource;
 
-    public SimpleElseBlock(CodePart expression) {
-        this.expression = expression;
+    public SimpleElseBlock(CodeSource elseSource) {
+        this.elseSource = elseSource;
     }
+
 
     @Override
-    public Optional<CodePart> getExpression() {
-        return Optional.ofNullable(expression);
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(elseSource);
     }
-
 }

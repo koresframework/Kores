@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.Default;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 
@@ -87,7 +88,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
                     AbstractGenerator.helpApply(value, part, instance, appender, data, processingData);
                 }
             } else {
-                throw new IllegalStateException("Cannot find generator for '"+part.getClass().getCanonicalName()+"'");
+                throw new IllegalStateException("Cannot find generator for '" + part.getClass().getCanonicalName() + "'");
             }
         }
 
@@ -106,7 +107,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
         GenerateTo generateTo = generatorTargetClass.getDeclaredAnnotation(GenerateTo.class);
 
-        if(generateTo != null && generateTo.value() != Default.class) {
+        if (generateTo != null && generateTo.value() != Default.class) {
             targetClass = generateTo.value();
         } else {
             targetClass = generatorTargetClass;
@@ -114,9 +115,9 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
         Map.Entry<Class<?>, Generator<?, T, C>> filterEntry = registry.entrySet().stream().filter((entry) -> entry.getKey() == targetClass).sorted(entryComparator).findFirst().orElse(null);
 
-        if(filterEntry == null) {
+        if (filterEntry == null) {
             for (Class<?> aClass : ClassUtil.getAllSubclasses(generatorTargetClass)) {
-                if(registry.containsKey(aClass)) {
+                if (registry.containsKey(aClass)) {
                     filterEntry = new AbstractMap.SimpleEntry<>(aClass, registry.get(aClass));
                     break;
                 }
@@ -127,16 +128,16 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
         if (get != null) {
 
-            if(filterEntry.getKey() != targetClass)
-                logger.warning("Processor of '"+targetClass.getCanonicalName()+"' isn't registered, using generic generator: '"+filterEntry.getKey()+"'!");
-            try{
+            if (filterEntry.getKey() != targetClass)
+                logger.warning("Processor of '" + targetClass.getCanonicalName() + "' isn't registered, using generic generator: '" + filterEntry.getKey() + "'!");
+            try {
                 return new ArrayList<>(AbstractGenerator.help(get, target, this, Parent.create(get, target, parents), codeSourceData, processingData));
-            }catch (Throwable t) {
-                throw new RuntimeException("Cannot parse! See parents: '"+parents+"'. ", t);
+            } catch (Throwable t) {
+                throw new RuntimeException("Cannot parse! See parents: '" + parents + "'. ", t);
             }
         }
 
-        throw new IllegalStateException("Cannot find generator for '"+generatorTargetClass.getCanonicalName()+"' while processing '"+target.getClass().getCanonicalName()+"'. Parents = "+parents);
+        throw new IllegalStateException("Cannot find generator for '" + generatorTargetClass.getCanonicalName() + "' while processing '" + target.getClass().getCanonicalName() + "'. Parents = " + parents);
     }
 
     @Deprecated
@@ -166,10 +167,10 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
         public int compare(Map.Entry<Class<?>, Generator<?, T, C>> o1, Map.Entry<Class<?>, Generator<?, T, C>> o2) {
             //LEGACY return Integer.compare(o1.getCurrent().priority(), o2.getCurrent().priority());
             for (Class<?> allSubClass : allSubClasses) {
-                if(allSubClass == o1.getKey()) {
+                if (allSubClass == o1.getKey()) {
                     return 1;
                 }
-                if(allSubClass == o2.getKey()) {
+                if (allSubClass == o2.getKey()) {
                     return -1;
                 }
             }

@@ -27,27 +27,31 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(ForBlock.class)
-public class SimpleForBlock implements ForBlock {
+public class SimpleForBlock extends SimpleIfBlock implements ForBlock {
 
     private final Expression forInit;
-    private final Expression forExpression;
     private final Expression forUpdate;
     private final CodeSource body;
 
-    public SimpleForBlock(Expression forInit, Expression forExpression, Expression forUpdate, CodeSource body) {
+    public SimpleForBlock(Expression forInit, BiMultiVal<CodePart, IfExpr, Operator> forExpression, Expression forUpdate, CodeSource body) {
+        super(body, forExpression, null);
         this.forInit = forInit;
-        this.forExpression = forExpression;
         this.forUpdate = forUpdate;
         this.body = body;
     }
@@ -63,8 +67,8 @@ public class SimpleForBlock implements ForBlock {
     }
 
     @Override
-    public Optional<Expression> getForExpression() {
-        return Optional.ofNullable(this.forExpression);
+    public List<CodePart> getForExpression() {
+        return super.getIfExprsAndOps();
     }
 
     @Override

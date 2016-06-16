@@ -70,6 +70,6 @@ public final class CodeFieldBuilder {
     }
 
     public CodeField build() {
-        return new CodeField(name, type, modifiers, value);
+        return new CodeField(name, type, value, modifiers);
     }
 }

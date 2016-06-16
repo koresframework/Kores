@@ -28,15 +28,15 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Data;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if(methodSpecification.getMethodType() == MethodType.METHOD) {
+        if (methodSpecification.getMethodType() == MethodType.METHOD) {
             String methodName = methodSpecification.getMethodName();
 
             if (methodName != null) {

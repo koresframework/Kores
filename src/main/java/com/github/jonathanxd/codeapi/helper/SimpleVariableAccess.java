@@ -32,24 +32,38 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
+import java.util.Optional;
+
 /**
  * Created by jonathan on 10/05/16.
  */
+//
 @GenerateTo(VariableAccess.class)
 public class SimpleVariableAccess implements CodePart, VariableAccess {
-    private final CodePart localization;
+    private final CodeType localization;
+    private final CodePart at;
     private final String name;
     private final CodeType variableType;
 
-    public SimpleVariableAccess(CodePart localization, String name, CodeType variableType) {
+    public SimpleVariableAccess(CodeType localization, String name, CodeType variableType) {
+        this(localization, null, name, variableType);
+    }
+
+    public SimpleVariableAccess(CodeType localization, CodePart at, String name, CodeType variableType) {
         this.localization = localization;
+        this.at = at;
         this.name = name;
         this.variableType = variableType;
     }
 
     @Override
-    public CodePart getLocalization() {
+    public CodeType getLocalization() {
         return localization;
+    }
+
+    @Override
+    public CodePart getAt() {
+        return at;
     }
 
     @Override
@@ -62,4 +76,8 @@ public class SimpleVariableAccess implements CodePart, VariableAccess {
         return variableType;
     }
 
+    @Override
+    public Optional<CodeType> getType() {
+        return Optional.ofNullable(variableType);
+    }
 }

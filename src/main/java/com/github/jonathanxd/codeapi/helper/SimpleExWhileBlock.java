@@ -30,32 +30,20 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-
-import java.util.Optional;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
 /**
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(WhileBlock.class)
-public class SimpleExWhileBlock implements WhileBlock {
+public class SimpleExWhileBlock extends SimpleIfBlock implements WhileBlock {
 
-    private final CodePart expression;
-    private final CodeSource body;
-
-    public SimpleExWhileBlock(CodePart expression, CodeSource body) {
-        this.expression = expression;
-        this.body = body;
+    public SimpleExWhileBlock(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
+        super(body, expression, null);
     }
 
-    @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(body);
-    }
-
-    @Override
-    public Optional<CodePart> getExpression() {
-        return Optional.ofNullable(expression);
-    }
 
 }

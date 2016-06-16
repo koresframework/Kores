@@ -30,14 +30,11 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Bodiable;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,27 +43,27 @@ import java.util.Optional;
 @GenerateTo(TryBlock.class)
 public class TryCatchBlock implements TryBlock {
 
-    private final List<CodeSource> bodies;
+    private final CodeSource body;
     // TODO: Change, do it like If-Else
     private final Collection<CatchBlock> catchBlocks = new ArrayList<>();
-    private final Bodiable finallyBlock;
+    private final CodeSource finallyBlock;
     private final CodePart expression;
 
-    public TryCatchBlock(List<CodeSource> bodies) {
-        this(null, null, bodies, null);
+    public TryCatchBlock(CodeSource body) {
+        this(null, null, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, List<CodeSource> bodies) {
-        this(expression, null, bodies, null);
+    public TryCatchBlock(CodePart expression, CodeSource body) {
+        this(expression, null, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, List<CodeSource> bodies) {
-        this(expression, catchBlocks, bodies, null);
+    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, CodeSource body) {
+        this(expression, catchBlocks, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, List<CodeSource> bodies, Bodiable finallyBlock) {
+    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
         this.expression = expression;
-        this.bodies = Collections.unmodifiableList(bodies);
+        this.body = body;
 
         if (catchBlocks != null)
             this.catchBlocks.addAll(catchBlocks);
@@ -81,13 +78,13 @@ public class TryCatchBlock implements TryBlock {
     }
 
     @Override
-    public Optional<Bodiable> getFinallyBlock() {
+    public Optional<CodeSource> getFinallyBlock() {
         return Optional.ofNullable(finallyBlock);
     }
 
     @Override
-    public Collection<CodeSource> getBodies() {
-        return this.bodies;
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(this.body);
     }
 
     @Override

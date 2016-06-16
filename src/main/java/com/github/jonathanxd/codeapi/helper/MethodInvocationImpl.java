@@ -29,9 +29,12 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.common.DynamicInvoke;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+
+import java.util.Optional;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -39,14 +42,24 @@ import com.github.jonathanxd.codeapi.common.InvokeType;
 @GenerateTo(MethodInvocation.class)
 public class MethodInvocationImpl implements CodePart, MethodInvocation {
 
+    private final DynamicInvoke dynamicInvoke;
     private final InvokeType invokeType;
     private final CodeType localization;
     private final CodePart target;
     private final MethodSpec spec;
 
     public MethodInvocationImpl(InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+        this.dynamicInvoke = null;
         this.invokeType = invokeType;
-        localization = codeType;
+        this.localization = codeType;
+        this.target = target;
+        this.spec = spec;
+    }
+
+    public MethodInvocationImpl(DynamicInvoke dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+        this.dynamicInvoke = dynamicInvoke;
+        this.invokeType = invokeType;
+        this.localization = codeType;
         this.target = target;
         this.spec = spec;
     }
@@ -59,6 +72,10 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
     @Override
     public InvokeType getInvokeType() {
         return invokeType;
+    }
+
+    public Optional<DynamicInvoke> getDynamicInvoke() {
+        return Optional.ofNullable(dynamicInvoke);
     }
 
     @Override

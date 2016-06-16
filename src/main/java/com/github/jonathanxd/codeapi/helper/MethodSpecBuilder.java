@@ -70,6 +70,6 @@ public final class MethodSpecBuilder {
     }
 
     public MethodSpec build() {
-        return new MethodSpec(arguments, methodName, returnType, methodType);
+        return new MethodSpec(methodName, arguments, returnType, methodType);
     }
 }

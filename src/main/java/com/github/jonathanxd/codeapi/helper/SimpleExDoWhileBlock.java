@@ -31,6 +31,9 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
 /**
  * Created by jonathan on 15/05/16.
@@ -38,7 +41,7 @@ import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 @GenerateTo(DoWhileBlock.class)
 public class SimpleExDoWhileBlock extends SimpleExWhileBlock implements DoWhileBlock {
 
-    public SimpleExDoWhileBlock(CodePart expression, CodeSource body) {
+    public SimpleExDoWhileBlock(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
         super(expression, body);
     }
 
