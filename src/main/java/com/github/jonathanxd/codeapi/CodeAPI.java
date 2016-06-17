@@ -54,27 +54,59 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName) {
-        return new CodeInterface(qualifiedName,
-                CodeModifier.extractModifiers(modifiers),
-                Collections.emptyList(),
-
-                new CodeSource());
+        return anInterface__uniq(modifiers, qualifiedName, new CodeSource());
     }
 
     public static CodeInterface anInterface(
             int modifiers,
             String qualifiedName,
-            Collection<CodeType> extensions) {
+            CodeType... extensions) {
 
-        return new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), extensions, new CodeSource());
+        return anInterface__uniq(modifiers, qualifiedName, new CodeSource(), extensions);
     }
 
     public static CodeInterface $anInterface(
             int modifiers,
             String qualifiedName,
-            Collection<Class<?>> extensions) {
+            Class<?>... extensions) {
 
-        return new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), extensions.stream().map(Helper::getJavaType).collect(Collectors.toList()), new CodeSource());
+        return anInterface__uniq(modifiers, qualifiedName, new CodeSource(), toCodeType(extensions));
+    }
+
+
+    /// SOURCE
+
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeSource source) {
+        return anInterface__uniq(modifiers, qualifiedName, source);
+    }
+
+    public static CodeInterface anInterface(
+            int modifiers,
+            String qualifiedName,
+            CodeSource source,
+            CodeType... extensions) {
+
+        return anInterface__uniq(modifiers, qualifiedName, source, extensions);
+    }
+
+    public static CodeInterface $anInterface(
+            int modifiers,
+            String qualifiedName,
+            CodeSource source,
+            Class<?>... extensions) {
+
+        return anInterface__uniq(modifiers, qualifiedName, source, toCodeType(extensions));
+    }
+
+    // UNIQ
+
+    private static CodeInterface anInterface__uniq(
+            int modifiers,
+            String qualifiedName,
+            CodeSource source,
+            CodeType... extensions) {
+
+        return new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(extensions), source);
     }
 
     // =========================================================
@@ -82,11 +114,7 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeClass aClass(int modifiers, String qualifiedName) {
-        return new CodeClass(qualifiedName,
-                CodeModifier.extractModifiers(modifiers),
-                null,
-                Collections.emptyList(),
-                new CodeSource());
+        return aClass__uniq(modifiers, qualifiedName, null, new CodeSource());
     }
 
     public static CodeClass aClass(
@@ -94,7 +122,7 @@ public class CodeAPI {
             String qualifiedName,
             CodeType... implementations) {
 
-        return new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), null, ArrayUtils.toList(implementations), new CodeSource());
+        return aClass__uniq(modifiers, qualifiedName, null, new CodeSource(), implementations);
     }
 
     public static CodeClass aClass(
@@ -102,7 +130,7 @@ public class CodeAPI {
             String qualifiedName,
             Class<?>... implementations) {
 
-        return new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), null, Arrays.stream(implementations).map(Helper::getJavaType).collect(Collectors.toList()), new CodeSource());
+        return aClass__uniq(modifiers, qualifiedName, null, new CodeSource(), toCodeType(implementations));
     }
 
     public static CodeClass aClass(
@@ -111,7 +139,7 @@ public class CodeAPI {
             CodeType superType,
             CodeType... implementations) {
 
-        return new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayUtils.toList(implementations), new CodeSource());
+        return aClass__uniq(modifiers, qualifiedName, superType, new CodeSource(), implementations);
     }
 
     public static CodeClass aClass(
@@ -120,7 +148,63 @@ public class CodeAPI {
             Class<?> superType,
             Class<?>... implementations) {
 
-        return new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), Helper.getJavaType(superType), Arrays.stream(implementations).map(Helper::getJavaType).collect(Collectors.toList()), new CodeSource());
+        return aClass__uniq(modifiers, qualifiedName, Helper.getJavaType(superType), new CodeSource(), toCodeType(implementations));
+    }
+
+    // Source
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, CodeSource source) {
+        return aClass__uniq(modifiers, qualifiedName, null, source);
+    }
+
+    public static CodeClass aClass(
+            int modifiers,
+            String qualifiedName,
+            CodeSource source,
+            CodeType... implementations) {
+
+        return aClass__uniq(modifiers, qualifiedName, null, source, implementations);
+    }
+
+    public static CodeClass aClass(
+            int modifiers,
+            String qualifiedName,
+            CodeSource source,
+            Class<?>... implementations) {
+
+        return aClass__uniq(modifiers, qualifiedName, null, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(
+            int modifiers,
+            String qualifiedName,
+            CodeType superType,
+            CodeSource source,
+            CodeType... implementations) {
+
+        return aClass__uniq(modifiers, qualifiedName, superType, source, implementations);
+    }
+
+    public static CodeClass aClass(
+            int modifiers,
+            String qualifiedName,
+            Class<?> superType,
+            CodeSource source,
+            Class<?>... implementations) {
+
+        return aClass__uniq(modifiers, qualifiedName, Helper.getJavaType(superType), source, toCodeType(implementations));
+    }
+
+    // Uniq
+
+    private static CodeClass aClass__uniq(
+            int modifiers,
+            String qualifiedName,
+            CodeType superType,
+            CodeSource source,
+            CodeType... implementations) {
+
+        return new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayUtils.toList(implementations), source);
     }
 
     // =========================================================
@@ -300,4 +384,22 @@ public class CodeAPI {
     // =========================================================
 
 
+
+
+
+    // =========================================================
+    //          Utils
+    // =========================================================
+
+    private static CodeType toCodeType(Class<?> aClass) {
+        return Helper.getJavaType(aClass);
+    }
+
+    private static CodeType[] toCodeType(Class<?>[] aClass) {
+        return Arrays.stream(aClass).map(Helper::getJavaType).toArray(CodeType[]::new);
+    }
+
+    private static Collection<CodeType> toCodeTypeCollection(Class<?>[] aClass) {
+        return Arrays.stream(aClass).map(Helper::getJavaType).collect(Collectors.toList());
+    }
 }

@@ -71,7 +71,7 @@ public enum CodeModifier implements CodePart {
 
         int modifiers = member.getModifiers();
 
-        Collection<CodeModifier> collection = from(modifiers);
+        Collection<CodeModifier> collection = extractModifiers(modifiers);
 
         if (member.getDeclaringClass().isInterface() && (Modifier.isPublic(modifiers) && !Modifier.isAbstract(modifiers) && !Modifier.isStatic(modifiers))) {
             collection.add(DEFAULT);

@@ -80,17 +80,11 @@ public class CodeAPITest_API {
 
         String name = this.getClass().getCanonicalName()+"_Generated";
 
-        CodeClass codeClass = aClass(PUBLIC, name);
+        CodeClass codeClass = aClass(PUBLIC, name, source(
+                method(PUBLIC, "printString", VOID, parameter(STRING, "string"))
+        ));
 
         mySource.add(codeClass);
-
-        CodeSource source = Require.require(codeClass.getBody());
-
-        CodeMethod method = method(PUBLIC, "printString", VOID, parameter(STRING, "string"));
-
-        source.add(method);
-
-        CodeSource methodSource = Require.require(method.getBody());
 
 
 
