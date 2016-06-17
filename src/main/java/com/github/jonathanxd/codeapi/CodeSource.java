@@ -28,9 +28,31 @@
 package com.github.jonathanxd.codeapi;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 public class CodeSource extends ArrayList<CodePart> implements CodePart {
+
+    public CodeSource(int initialCapacity) {
+        super(initialCapacity);
+    }
+
+    public CodeSource() {
+        super();
+    }
+
+    public CodeSource(Collection<? extends CodePart> c) {
+        super(c);
+    }
+
+    public CodeSource(CodePart[] a) {
+        super();
+
+        for (CodePart codePart : a) {
+            add(codePart);
+        }
+    }
+
 }

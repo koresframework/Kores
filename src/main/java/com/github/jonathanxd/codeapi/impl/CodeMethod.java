@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodiedParam;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;

@@ -35,6 +35,12 @@ import com.github.jonathanxd.codeapi.CodePart;
 public interface CodeType extends CodePart, Comparable<CodeType> {
     String getType();
 
+    default String getPackageName() {
+        String type = getType();
+
+        return type.substring(0, type.lastIndexOf('.'));
+    }
+
     default String getSimpleName() {
         String type = getType();
 

@@ -28,6 +28,9 @@
 package com.github.jonathanxd.codeapi.util;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 01/05/16.
@@ -54,6 +57,16 @@ public class ArrayUtils {
         }
 
         return array;
+    }
+
+    public static <E> List<E> toList(E[] parameters) {
+        if(parameters == null || parameters.length == 0)
+            return Collections.emptyList();
+
+        if(parameters.length == 1)
+            return Collections.singletonList(parameters[0]);
+
+        return Arrays.asList(parameters);
     }
 
 }
