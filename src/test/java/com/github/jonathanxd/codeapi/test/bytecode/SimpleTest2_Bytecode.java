@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
@@ -48,12 +48,9 @@ import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -68,16 +65,10 @@ public class SimpleTest2_Bytecode {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
         CodeSource source = new CodeSource();
 
-        // Declaro uma package
-        CodePart packageDeclaration = Helper.declarePackage("me.jonathanscripter.codeapi.test");
-
-        // Adiciona ao codigo fonte
-        source.add(packageDeclaration);
-
         // Cria o 'codigo-fonte' da classe
         CodeSource classSource = new CodeSource();
 
-        // Crio uma classe com nome de CodeAPITest
+        // Crio uma classe com nome de SimpleTest2_bytecode
         CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",
                 // Adiciona o modifier publico
                 Arrays.asList(CodeModifier.PUBLIC),
@@ -140,9 +131,9 @@ public class SimpleTest2_Bytecode {
 
 
         // Algumas classes são Singleton, então você não precisa instanciar.
-        ByteVisitGenerator byteVisitGenerator = new ByteVisitGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = byteVisitGenerator.gen(source);
+        Byte[] gen = bytecodeGenerator.gen(source);
 
         byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
 

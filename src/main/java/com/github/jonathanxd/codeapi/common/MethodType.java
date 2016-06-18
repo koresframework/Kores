@@ -31,6 +31,23 @@ package com.github.jonathanxd.codeapi.common;
  * Created by jonathan on 11/05/16.
  */
 public enum MethodType {
-    METHOD,
-    CONSTRUCTOR
+    DYNAMIC_METHOD,
+    DYNAMIC_CONSTRUCTOR,
+
+    METHOD(DYNAMIC_METHOD),
+    CONSTRUCTOR(DYNAMIC_CONSTRUCTOR);
+
+    private final MethodType dynamic;
+
+    MethodType() {
+        this.dynamic = null;
+    }
+
+    MethodType(MethodType dynamic) {
+        this.dynamic = dynamic;
+    }
+
+    public MethodType toDynamic() {
+        return this.dynamic != null ? this.dynamic : this;
+    }
 }

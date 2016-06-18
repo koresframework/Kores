@@ -74,7 +74,7 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
         return invokeType;
     }
 
-    public Optional<InvokeDynamic> getDynamicInvoke() {
+    public Optional<InvokeDynamic> getInvokeDynamic() {
         return Optional.ofNullable(dynamicInvoke);
     }
 

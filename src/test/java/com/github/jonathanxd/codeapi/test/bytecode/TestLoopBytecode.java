@@ -31,7 +31,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -44,6 +43,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
@@ -51,7 +51,6 @@ import org.junit.Test;
 import java.io.PrintStream;
 
 import static com.github.jonathanxd.codeapi.helper.Helper.accessStaticVariable;
-import static com.github.jonathanxd.codeapi.helper.Helper.declarePackage;
 import static com.github.jonathanxd.codeapi.helper.Helper.invoke;
 import static com.github.jonathanxd.codeapi.helper.Helper.sourceOf;
 import static java.util.Collections.singletonList;
@@ -65,11 +64,9 @@ public class TestLoopBytecode {
 
         CodeSource codeSource = new CodeSource();
 
-        codeSource.add(declarePackage("fullName"));
-
         CodeSource clSource = new CodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
                 singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
@@ -128,7 +125,7 @@ public class TestLoopBytecode {
 
         codeSource.add(codeClass);
 
-        ByteVisitGenerator bytecodeGenerator = new ByteVisitGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         Byte[] gen = bytecodeGenerator.gen(codeSource);
 
@@ -136,7 +133,7 @@ public class TestLoopBytecode {
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define("fullName."+this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
+        Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
 
         Object o;
         try {

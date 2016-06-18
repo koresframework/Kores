@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -76,8 +76,6 @@ public class TestBytecode {
     public void testBytecode() {
 
         CodeSource codeSource = new CodeSource();
-
-        codeSource.add(Helper.declarePackage("fullName"));
 
 
         CodeSource clSource = new CodeSource();
@@ -122,7 +120,7 @@ public class TestBytecode {
 
         codeSource.add(codeClass);
 
-        ByteVisitGenerator bytecodeGenerator = new ByteVisitGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         Byte[] gen = bytecodeGenerator.gen(codeSource);
 

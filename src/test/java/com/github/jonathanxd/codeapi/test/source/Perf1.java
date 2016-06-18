@@ -44,11 +44,7 @@ public class Perf1 {
 
         CodeSource source = new CodeSource();
 
-        CodePart packageDeclaration = Helper.declarePackage("me.jonathanscripter.codeapi.test");
-
         PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
-
-        source.add(packageDeclaration);
 
         source.add(Helper.invokeArrayConstructor(Helper.getJavaType(Object[].class)));
 

@@ -29,13 +29,12 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -46,6 +45,7 @@ import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.source;
+import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static com.github.jonathanxd.codeapi.literals.Literals.*;
 import static java.lang.reflect.Modifier.PUBLIC;
 
@@ -73,7 +73,7 @@ public class ArrayTest {
                 new CodeArgument(STRING("J"), PredefinedTypes.STRING)
         };
 
-        Require.require(codeClass.getBody()).addAll(source(
+        Require.require(codeClass.getBody()).addAll(sourceOfParts(
                 constructor(PUBLIC, codeClass, source(
                         new CodeField("array", PredefinedTypes.STRING.toArray(2),
                                 Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
@@ -93,9 +93,9 @@ public class ArrayTest {
                 )))
         );
 
-        ByteVisitGenerator byteVisitGenerator = new ByteVisitGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(byteVisitGenerator.gen(source(codeClass)));
+        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(codeClass)));
 
         ResultSaver.save(getClass(), bytes);
 

@@ -32,11 +32,13 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.PkgDclEx;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -58,7 +60,7 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        return new ArrayList<>(Arrays.asList(
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
                 TargetValue.create(Modifierable.class, codeInterface, parents),
 
                 TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
@@ -68,12 +70,15 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
 
                 TargetValue.create(Bodied.class, codeInterface, parents)
         ));
-        /*
-        plainSourceGenerator.generateTo(Modifierable.class, codeInterface) +
-                " interface " +
-                plainSourceGenerator.generateTo(Named.class, codeInterface) + " " +
-                plainSourceGenerator.generateTo(Implementer.class, codeInterface);
-                */
+
+        String packageName = codeInterface.getPackageName();
+
+        if(packageName != null && !packageName.isEmpty()) {
+            values.add(0, TargetValue.create(PackageDeclaration.class, new PkgDclEx(packageName), parents));
+        }
+
+
+        return values;
     }
 
 }

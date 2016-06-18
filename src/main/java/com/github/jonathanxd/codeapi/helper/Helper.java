@@ -300,10 +300,6 @@ public final class Helper {
         return ifBlock;
     }*/
 
-    public static CodePart declarePackage(String packageName) {
-        return new PkgDclEx(packageName);
-    }
-
     public static ElseBlock elseExpression(CodeSource elseSource) {
         return new SimpleElseBlock(elseSource);
     }
@@ -381,7 +377,12 @@ public final class Helper {
     //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
 
     public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
-        return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(), methodInvocation.getSpec());
+        MethodSpec spec = methodInvocation.getSpec();
+
+        MethodSpec newSpec = new MethodSpec(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
+
+        return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(),
+                newSpec);
     }
 
     public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {

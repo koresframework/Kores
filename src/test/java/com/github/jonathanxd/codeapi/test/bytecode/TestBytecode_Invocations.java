@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -89,9 +89,6 @@ public class TestBytecode_Invocations {
 
         CodeSource codeSource = new CodeSource();
 
-        codeSource.add(Helper.declarePackage("fullName"));
-
-
         CodeSource clSource = new CodeSource();
 
         CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
@@ -134,7 +131,7 @@ public class TestBytecode_Invocations {
 
         codeSource.add(codeClass);
 
-        ByteVisitGenerator bytecodeGenerator = new ByteVisitGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         Byte[] gen = bytecodeGenerator.gen(codeSource);
 

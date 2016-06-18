@@ -48,5 +48,5 @@ public interface MethodInvocation extends CodePart {
 
     InvokeType getInvokeType();
 
-    Optional<InvokeDynamic> getDynamicInvoke();
+    Optional<InvokeDynamic> getInvokeDynamic();
 }

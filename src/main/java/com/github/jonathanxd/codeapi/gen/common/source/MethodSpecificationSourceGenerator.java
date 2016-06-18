@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
@@ -34,6 +35,7 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.util.Data;
@@ -57,11 +59,24 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (methodSpecification.getMethodType() == MethodType.METHOD) {
+        List<CodeArgument> arguments = methodSpecification.getArguments();
+
+        if (methodSpecification.getMethodType() == MethodType.METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD) {
             String methodName = methodSpecification.getMethodName();
 
             if (methodName != null) {
                 values.add(ValueImpl.create(methodSpecification.getMethodName()));
+            }
+        }
+
+
+        if(methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_CONSTRUCTOR) {
+            if(arguments.isEmpty()) {
+                if (!methodSpecification.isExpression()) {
+                    values.add(ValueImpl.create(";")); // TODO: REMOVE
+                }
+
+                return values;
             }
         }
 

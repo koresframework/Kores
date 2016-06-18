@@ -53,7 +53,6 @@ import java.util.Collections;
 
 import static com.github.jonathanxd.codeapi.helper.Helper.accessLocalVariable;
 import static com.github.jonathanxd.codeapi.helper.Helper.createFor;
-import static com.github.jonathanxd.codeapi.helper.Helper.declarePackage;
 import static com.github.jonathanxd.codeapi.helper.Helper.end;
 import static com.github.jonathanxd.codeapi.helper.Helper.expression;
 import static com.github.jonathanxd.codeapi.helper.Helper.expressions;
@@ -71,11 +70,7 @@ public class TestForLoop {
 
         CodeSource source = new CodeSource();
 
-        CodePart packageDeclaration = declarePackage("me.jonathanscripter.codeapi.test");
-
         PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
-
-        source.add(packageDeclaration);
 
         CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.Nomade",
                 Arrays.asList(CodeModifier.PUBLIC),

@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.generatorv2.bytecode.Common;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
 /**
  * Created by jonathan on 18/06/16.

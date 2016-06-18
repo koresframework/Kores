@@ -30,12 +30,11 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.generatorv2.bytecode.Common;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

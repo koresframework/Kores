@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 
@@ -65,6 +66,7 @@ public final class PredefinedTypes {
     }
 
 
+    @GenerateTo(CodeType.class)
     private static class PredefinedType<T> implements LoadedCodeType<T> {
 
         private final Class<T> tClass;

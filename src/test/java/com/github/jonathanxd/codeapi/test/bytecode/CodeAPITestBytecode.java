@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -213,7 +213,7 @@ public class CodeAPITestBytecode {
         // Add method to body
         codeClassSource.add(method);
 
-        ByteVisitGenerator generator = new ByteVisitGenerator();
+        BytecodeGenerator generator = new BytecodeGenerator();
 
         Byte[] gen = generator.gen(mySource);
 

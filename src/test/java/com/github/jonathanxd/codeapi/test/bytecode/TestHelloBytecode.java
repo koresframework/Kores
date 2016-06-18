@@ -31,7 +31,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -40,6 +39,7 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
@@ -49,7 +49,6 @@ import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 
 import static com.github.jonathanxd.codeapi.helper.Helper.accessStaticVariable;
-import static com.github.jonathanxd.codeapi.helper.Helper.declarePackage;
 import static com.github.jonathanxd.codeapi.helper.Helper.invoke;
 import static com.github.jonathanxd.codeapi.helper.Helper.sourceOf;
 import static java.util.Collections.singletonList;
@@ -63,11 +62,9 @@ public class TestHelloBytecode {
 
         CodeSource codeSource = new CodeSource();
 
-        codeSource.add(declarePackage("fullName"));
-
         CodeSource clSource = new CodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
                 singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
@@ -95,7 +92,7 @@ public class TestHelloBytecode {
 
         codeSource.add(codeClass);
 
-        ByteVisitGenerator bytecodeGenerator = new ByteVisitGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         Byte[] gen = bytecodeGenerator.gen(codeSource);
 
@@ -103,7 +100,7 @@ public class TestHelloBytecode {
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define("fullName."+this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
+        Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
 
         Object o;
         try {
@@ -111,7 +108,7 @@ public class TestHelloBytecode {
 
             int i = (int) MethodHandles.lookup().findStaticGetter(define, "DEFAULT_VALUE", int.class).invoke();
 
-            System.out.println("DEFAULT_VALUE = "+i);
+            System.out.println("DEFAULT_VALUE = " + i);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (Throwable throwable) {

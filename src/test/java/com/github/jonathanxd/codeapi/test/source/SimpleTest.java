@@ -54,12 +54,6 @@ public class SimpleTest {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
         CodeSource source = new CodeSource();
 
-        // Declaro uma package
-        CodePart packageDeclaration = Helper.declarePackage("me.jonathanscripter.codeapi.test");
-
-        // Adiciona ao codigo fonte
-        source.add(packageDeclaration);
-
         // Cria o 'codigo-fonte' da classe
         CodeSource classSource = new CodeSource();
 

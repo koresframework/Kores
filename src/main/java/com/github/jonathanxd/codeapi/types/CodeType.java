@@ -38,6 +38,9 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     default String getPackageName() {
         String type = getType();
 
+        if(!type.contains("."))
+            return "";
+
         return type.substring(0, type.lastIndexOf('.'));
     }
 

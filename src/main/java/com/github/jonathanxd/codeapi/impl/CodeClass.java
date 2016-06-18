@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
@@ -40,6 +41,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
+@GenerateTo(CodeInterface.class)
 public class CodeClass extends CodeInterface implements Extender {
 
     private final CodeType superType;

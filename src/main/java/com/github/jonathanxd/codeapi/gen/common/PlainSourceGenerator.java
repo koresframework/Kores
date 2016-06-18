@@ -158,7 +158,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(StaticBlock.class, StaticBlockSourceGenerator.INSTANCE);
         register(ForBlock.class, ForBlockSourceGenerator.INSTANCE);
         register(Access.class, AccessSourceGenerator.INSTANCE);
-        register(CodeClass.class, ClassSourceGenerator.INSTANCE);
+        //register(CodeClass.class, ClassSourceGenerator.INSTANCE);
         register(Extender.class, ExtenderSourceGenerator.INSTANCE);
         register(PackageDeclaration.class, PackageDeclarationSourceGenerator.INSTANCE);
         register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);

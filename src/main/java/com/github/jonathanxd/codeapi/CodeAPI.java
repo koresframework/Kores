@@ -54,9 +54,11 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ArrayUtils;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -69,36 +71,41 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName) {
-        return anInterface__factory(modifiers, qualifiedName, new CodeSource());
+        return anInterface__factory(modifiers, qualifiedName, null);
     }
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeType... extensions) {
-        return anInterface__factory(modifiers, qualifiedName, new CodeSource(), extensions);
+        return anInterface__factory(modifiers, qualifiedName, null, extensions);
     }
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName, Class<?>... extensions) {
-        return anInterface__factory(modifiers, qualifiedName, new CodeSource(), toCodeType(extensions));
+        return anInterface__factory(modifiers, qualifiedName, null, toCodeType(extensions));
     }
 
 
     // ** Source **
 
-    public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeSource source) {
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, Function<CodeInterface, CodeSource> source) {
         return anInterface__factory(modifiers, qualifiedName, source);
     }
 
-    public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeType[] extensions, CodeSource source) {
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeType[] extensions, Function<CodeInterface, CodeSource> source) {
         return anInterface__factory(modifiers, qualifiedName, source, extensions);
     }
 
-    public static CodeInterface $anInterface(int modifiers, String qualifiedName, Class<?>[] extensions, CodeSource source) {
+    public static CodeInterface $anInterface(int modifiers, String qualifiedName, Class<?>[] extensions, Function<CodeInterface, CodeSource> source) {
         return anInterface__factory(modifiers, qualifiedName, source, toCodeType(extensions));
     }
 
     // Factory
 
-    private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, CodeSource source, CodeType... extensions) {
-        return new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(extensions), source);
+    private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, Function<CodeInterface, CodeSource> source, CodeType... extensions) {
+        CodeInterface codeInterface = new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(extensions), new CodeSource());
+
+        if(source != null)
+            Require.require(codeInterface.getBody()).addAll(source.apply(codeInterface));
+
+        return codeInterface;
     }
 
     // =========================================================
@@ -106,51 +113,56 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeClass aClass(int modifiers, String qualifiedName) {
-        return aClass__factory(modifiers, qualifiedName, null, new CodeSource());
+        return aClass__factory(modifiers, qualifiedName, null, null);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, new CodeSource(), implementations);
+        return aClass__factory(modifiers, qualifiedName, null, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, new CodeSource(), toCodeType(implementations));
+        return aClass__factory(modifiers, qualifiedName, null, null, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, superType, new CodeSource(), implementations);
+        return aClass__factory(modifiers, qualifiedName, superType, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), new CodeSource(), toCodeType(implementations));
+        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), null, toCodeType(implementations));
     }
 
     // ** Source **
 
-    public static CodeClass aClass(int modifiers, String qualifiedName, CodeSource source) {
+    public static CodeClass aClass(int modifiers, String qualifiedName, Function<CodeClass, CodeSource> source) {
         return aClass__factory(modifiers, qualifiedName, null, source);
     }
 
-    public static CodeClass aClass(int modifiers, String qualifiedName, CodeType[] implementations, CodeSource source) {
+    public static CodeClass aClass(int modifiers, String qualifiedName, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
         return aClass__factory(modifiers, qualifiedName, null, source, implementations);
     }
 
-    public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>[] implementations, CodeSource source) {
+    public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
         return aClass__factory(modifiers, qualifiedName, null, source, toCodeType(implementations));
     }
 
-    public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType[] implementations, CodeSource source) {
+    public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
         return aClass__factory(modifiers, qualifiedName, superType, source, implementations);
     }
 
-    public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>[] implementations, CodeSource source) {
+    public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
         return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), source, toCodeType(implementations));
     }
 
     // Factory
 
-    private static CodeClass aClass__factory(int modifiers, String qualifiedName, CodeType superType, CodeSource source, CodeType... implementations) {
-        return new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayUtils.toList(implementations), source);
+    private static CodeClass aClass__factory(int modifiers, String qualifiedName, CodeType superType, Function<CodeClass, CodeSource> source, CodeType... implementations) {
+        CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayUtils.toList(implementations), new CodeSource());
+
+        if(source != null)
+            Require.require(codeClass.getBody()).addAll(source.apply(codeClass));
+
+        return codeClass;
     }
 
     // =========================================================
@@ -158,81 +170,86 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeMethod method(int modifiers, String name, CodeType returnType, CodeParameter... parameters) {
-        return method__factory(modifiers, name, returnType, new CodeSource(), parameters);
+        return method__factory(modifiers, name, returnType, null, parameters);
     }
 
     public static CodeMethod method(int modifiers, String name, CodeType returnType) {
-        return method__factory(modifiers, name, returnType, new CodeSource());
+        return method__factory(modifiers, name, returnType, null);
     }
 
     public static CodeMethod method(String name, CodeType returnType, CodeParameter... parameters) {
-        return method__factory(0, name, returnType, new CodeSource(), parameters);
+        return method__factory(0, name, returnType, null, parameters);
     }
 
     public static CodeMethod method(String name, CodeType returnType) {
-        return method__factory(0, name, returnType, new CodeSource());
+        return method__factory(0, name, returnType, null);
     }
 
 
     /// Class
 
     public static CodeMethod method(int modifiers, String name, Class<?> returnType, CodeParameter... parameters) {
-        return method__factory(modifiers, name, Helper.getJavaType(returnType), new CodeSource(), parameters);
+        return method__factory(modifiers, name, Helper.getJavaType(returnType), null, parameters);
     }
 
     public static CodeMethod method(int modifiers, String name, Class<?> returnType) {
-        return method__factory(modifiers, name, Helper.getJavaType(returnType), new CodeSource());
+        return method__factory(modifiers, name, Helper.getJavaType(returnType), null);
     }
 
     public static CodeMethod method(String name, Class<?> returnType, CodeParameter... parameters) {
-        return method__factory(0, name, Helper.getJavaType(returnType), new CodeSource(), parameters);
+        return method__factory(0, name, Helper.getJavaType(returnType), null, parameters);
     }
 
     public static CodeMethod method(String name, Class<?> returnType) {
-        return method__factory(0, name, Helper.getJavaType(returnType), new CodeSource());
+        return method__factory(0, name, Helper.getJavaType(returnType), null);
     }
 
     // ** Source **
 
-    public static CodeMethod method(int modifiers, String name, CodeType returnType, CodeParameter[] parameters, CodeSource source) {
+    public static CodeMethod method(int modifiers, String name, CodeType returnType, CodeParameter[] parameters, Function<CodeMethod, CodeSource> source) {
         return method__factory(modifiers, name, returnType, source, parameters);
     }
 
-    public static CodeMethod method(int modifiers, String name, CodeType returnType, CodeSource source) {
+    public static CodeMethod method(int modifiers, String name, CodeType returnType, Function<CodeMethod, CodeSource> source) {
         return method__factory(modifiers, name, returnType, source);
     }
 
-    public static CodeMethod method(String name, CodeType returnType, CodeParameter[] parameters, CodeSource source) {
+    public static CodeMethod method(String name, CodeType returnType, CodeParameter[] parameters, Function<CodeMethod, CodeSource> source) {
         return method__factory(0, name, returnType, source, parameters);
     }
 
-    public static CodeMethod method(String name, CodeType returnType, CodeSource source) {
+    public static CodeMethod method(String name, CodeType returnType, Function<CodeMethod, CodeSource> source) {
         return method__factory(0, name, returnType, source);
     }
 
 
     /// Class
 
-    public static CodeMethod method(int modifiers, String name, Class<?> returnType, CodeParameter[] parameters, CodeSource source) {
+    public static CodeMethod method(int modifiers, String name, Class<?> returnType, CodeParameter[] parameters, Function<CodeMethod, CodeSource> source) {
         return method__factory(modifiers, name, Helper.getJavaType(returnType), source, parameters);
     }
 
-    public static CodeMethod method(int modifiers, String name, Class<?> returnType, CodeSource source) {
+    public static CodeMethod method(int modifiers, String name, Class<?> returnType, Function<CodeMethod, CodeSource> source) {
         return method__factory(modifiers, name, Helper.getJavaType(returnType), source);
     }
 
-    public static CodeMethod method(String name, Class<?> returnType, CodeParameter[] parameters, CodeSource source) {
+    public static CodeMethod method(String name, Class<?> returnType, CodeParameter[] parameters, Function<CodeMethod, CodeSource> source) {
         return method__factory(0, name, Helper.getJavaType(returnType), source, parameters);
     }
 
-    public static CodeMethod method(String name, Class<?> returnType, CodeSource source) {
+    public static CodeMethod method(String name, Class<?> returnType, Function<CodeMethod, CodeSource> source) {
         return method__factory(0, name, Helper.getJavaType(returnType), source);
     }
 
     // Factory
 
-    private static CodeMethod method__factory(int modifiers, String name, CodeType returnType, CodeSource source, CodeParameter... parameters) {
-        return new CodeMethod(name, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), returnType, source);
+    private static CodeMethod method__factory(int modifiers, String name, CodeType returnType, Function<CodeMethod, CodeSource> source, CodeParameter... parameters) {
+        CodeMethod method = new CodeMethod(name, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), returnType, new CodeSource());
+
+        if(source != null)
+            Require.require(method.getBody()).addAll(source.apply(method));
+
+        return method;
     }
 
     // =========================================================
@@ -240,48 +257,53 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeConstructor constructor(int modifiers, CodeType declaringClass, CodeParameter... parameters) {
-        return constructor__factory(modifiers, declaringClass, new CodeSource(), parameters);
+        return constructor__factory(modifiers, declaringClass, null, parameters);
     }
 
     public static CodeConstructor constructor(int modifiers, CodeType declaringClass) {
-        return constructor__factory(modifiers, declaringClass, new CodeSource());
+        return constructor__factory(modifiers, declaringClass, null);
     }
 
 
     /// Class
 
     public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, CodeParameter... parameters) {
-        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), new CodeSource(), parameters);
+        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), null, parameters);
     }
 
     public static CodeConstructor constructor(int modifiers, Class<?> declaringClass) {
-        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), new CodeSource());
+        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), null);
     }
 
     // ** Source **
 
-    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, CodeParameter[] parameters, CodeSource source) {
+    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, CodeParameter[] parameters, Function<CodeConstructor, CodeSource> source) {
         return constructor__factory(modifiers, declaringClass, source, parameters);
     }
 
-    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, CodeSource source) {
+    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, Function<CodeConstructor, CodeSource> source) {
         return constructor__factory(modifiers, declaringClass, source);
     }
 
 
     /// Class
 
-    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, CodeParameter[] parameters, CodeSource source) {
+    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, CodeParameter[] parameters, Function<CodeConstructor, CodeSource> source) {
         return constructor__factory(modifiers, Helper.getJavaType(declaringClass), source, parameters);
     }
 
-    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, CodeSource source) {
+    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, Function<CodeConstructor, CodeSource> source) {
         return constructor__factory(modifiers, Helper.getJavaType(declaringClass), source);
     }
 
     // Factory
-    private static CodeConstructor constructor__factory(int modifiers, CodeType declaringClass, CodeSource source, CodeParameter... parameters) {
-        return new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), source);
+    private static CodeConstructor constructor__factory(int modifiers, CodeType declaringClass, Function<CodeConstructor, CodeSource> source, CodeParameter... parameters) {
+        CodeConstructor codeConstructor = new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), new CodeSource());
+
+        if(source != null)
+            Require.require(codeConstructor.getBody()).addAll(source.apply(codeConstructor));
+
+        return codeConstructor;
     }
 
     // =========================================================
@@ -357,8 +379,20 @@ public class CodeAPI {
     //          Source
     // =========================================================
 
-    public static CodeSource source(CodePart... codeParts) {
+    public static CodeSource emptySource(CodePart... codeParts) {
+        return new CodeSource();
+    }
+
+    public static CodeSource sourceOfParts(CodePart... codeParts) {
         return new CodeSource(codeParts);
+    }
+
+    public static <T> Function<T, CodeSource> source(CodePart... codeParts) {
+        return (t) -> new CodeSource(codeParts);
+    }
+
+    public static <T> Function<T, CodeSource> source(Function<T, CodeSource> sourceFunction) {
+        return sourceFunction;
     }
 
     // =========================================================
@@ -472,7 +506,7 @@ public class CodeAPI {
                 spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
     }
 
-    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+    public static MethodInvocation invokeVirtual(CodePart target, Class<?> localization, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(localization), target,
                 spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
     }

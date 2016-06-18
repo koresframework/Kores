@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.CodePartValue;
@@ -47,6 +48,7 @@ import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -63,14 +65,40 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
+        Optional<InvokeDynamic> invokeDynamicOpt = methodInvocationImpl.getInvokeDynamic();
+
         CodePart target = methodInvocationImpl.getTarget();
         MethodSpec spec = methodInvocationImpl.getSpec();
         InvokeType invokeType = methodInvocationImpl.getInvokeType();
+        methodInvocationImpl.getSpec();
 
         CodeType localization = methodInvocationImpl.getLocalization();
 
+        final String METHOD_SEPARATOR;
+
+        if(invokeDynamicOpt.isPresent()) {
+
+            InvokeDynamic invokeDynamic = invokeDynamicOpt.get();
+
+            if(InvokeDynamic.isInvokeDynamicLambda(invokeDynamic)) {
+                if(spec.getArguments().isEmpty()) {
+                    METHOD_SEPARATOR = "::";
+                } else {
+                    values.add(ValueImpl.create("() ->")); // No arguments at time
+                    METHOD_SEPARATOR = ".";
+                }
+            } else {
+                throw new UnsupportedOperationException("Cannot generate source for dynamic method invocation, SourceGenerator only supports Lambda InvokeDynamic");
+            }
+        } else {
+            METHOD_SEPARATOR = ".";
+        }
+
+        boolean isRef = METHOD_SEPARATOR.equals("::");
+
+
         boolean isCtr = spec.getMethodType() == MethodType.CONSTRUCTOR;
-        if (isCtr) {
+        if (isCtr && !isRef) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
@@ -79,7 +107,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
             values.add(CodePartValue.create(target, parents));
             if (!isCtr && !spec.isArray()) {
-                values.add(ValueImpl.create(".")); //TODO: REVIEW
+                values.add(ValueImpl.create(METHOD_SEPARATOR)); //TODO: REVIEW
             }
         }
 
@@ -87,8 +115,12 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             values.add(CodePartValue.create(localization, parents));
 
             if (!isCtr && !spec.isArray()) {
-                values.add(ValueImpl.create("."));
+                values.add(ValueImpl.create(METHOD_SEPARATOR));
             }
+        }
+
+        if(isCtr && isRef) {
+            values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
         values.add(TargetValue.create(MethodSpecification.class, spec, parents));
