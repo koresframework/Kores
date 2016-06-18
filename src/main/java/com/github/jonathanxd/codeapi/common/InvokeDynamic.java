@@ -31,28 +31,8 @@ package com.github.jonathanxd.codeapi.common;
  * Created by jonathan on 03/06/16.
  */
 public class InvokeDynamic {
-    private final FullMethodSpec methodSpec;
-    private final TypeSpec expectedTypes;
 
-    // Helper.invokeDynamic("run", Runnable.class, Void.class, Void.class)
-    //                                    // Location   // Rethurn Type   // Method Name  // Parameter Types. MethodHandle?
-    /* Helper.invokeDynamic(
-          FullMethodSpec(Runnable.class, int.class,     "run",          Object.class, Object.class),
-          METODO....
-          TIPOS ESPERADOS ->          TypeSpec(int.class, Integer.class, Integer.class);
-          );
-    */
-    // Helper.invokeDynamic("compare". Comparator.class, Object.class, Object.class, Int.class
-    // mv.visitInvokeDynamicInsn("compare", "()Ljava/util/Comparator;",
-    // new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;"),
-    //
-    // new Object[]{Type.getType("(Ljava/lang/Object;Ljava/lang/Object;)I"),
-    // new Handle(Opcodes.H_INVOKEVIRTUAL, "java/lang/Integer", "compareTo", "(Ljava/lang/Integer;)I"),
-    // Type.getType("(Ljava/lang/Integer;Ljava/lang/Integer;)I")});
-
-    private InvokeDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-        this.methodSpec = fullMethodSpec;
-        this.expectedTypes = expectedTypes;
+    private InvokeDynamic() {
     }
 
     public static InvokeDynamic invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
@@ -60,8 +40,8 @@ public class InvokeDynamic {
     }
 
     // TODO
-    public static InvokeDynamic invokeDynamicBootstrap(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-        return new InvokeBootstrapDynamic(fullMethodSpec, expectedTypes);
+    public static InvokeDynamic invokeDynamicBootstrap(InvokeType invokeType, FullLoadedMethodSpec bootstrapMethodSpec) {
+        return new InvokeBootstrapDynamic(bootstrapMethodSpec, invokeType);
     }
 
     public static boolean isInvokeDynamicLambda(InvokeDynamic type) {
@@ -72,30 +52,55 @@ public class InvokeDynamic {
         return type instanceof InvokeBootstrapDynamic;
     }
 
-    public FullMethodSpec getMethodSpec() {
-        return methodSpec;
-    }
+    public static final class InvokeLambdaDynamic extends InvokeDynamic {
 
-    public TypeSpec getExpectedTypes() {
-        return expectedTypes;
-    }
+        private final FullMethodSpec methodSpec;
+        private final TypeSpec expectedTypes;
 
-    @Deprecated // TODO
-    public MethodType getMethodType() {
-        throw new AbstractMethodError();
-    }
-
-    private static final class InvokeLambdaDynamic extends InvokeDynamic {
         private InvokeLambdaDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-            super(fullMethodSpec, expectedTypes);
+            this.methodSpec = fullMethodSpec;
+            this.expectedTypes = expectedTypes;
+        }
+
+        public TypeSpec getExpectedTypes() {
+            return expectedTypes;
+        }
+
+        public FullMethodSpec getMethodSpec() {
+            return methodSpec;
         }
     }
 
-    private static final class InvokeBootstrapDynamic extends InvokeDynamic {
+    public static final class InvokeBootstrapDynamic extends InvokeDynamic {
 
-        private InvokeBootstrapDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-            super(fullMethodSpec, expectedTypes);
+        private final FullLoadedMethodSpec bootstrapMethodSpec;
+        private final InvokeType invokeType;
+
+        public InvokeBootstrapDynamic(FullLoadedMethodSpec bootstrapMethodSpec, InvokeType invokeType) {
+            this.bootstrapMethodSpec = bootstrapMethodSpec;
+            this.invokeType = invokeType;
         }
+
+        public FullLoadedMethodSpec getBootstrapMethodSpec() {
+            return bootstrapMethodSpec;
+        }
+
+        public java.lang.invoke.MethodType getMethodType() {
+            return bootstrapMethodSpec.toMethodType();
+        }
+
+        public InvokeType getInvokeType() {
+            return invokeType;
+        }
+
+        /*
+            MethodType mt = MethodType.methodType(CallSite.class,
+        MethodHandles.Lookup.class, String.class, MethodType.class);
+
+Handle bootstrap = new Handle(Opcodes.INVOKESTATIC, "package1/Test2",
+        "bootstrap", mt.toMethodDescriptorString());
+             */
+
 
 
         /*@Override

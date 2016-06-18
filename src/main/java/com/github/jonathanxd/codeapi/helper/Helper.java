@@ -75,6 +75,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -357,6 +358,14 @@ public final class Helper {
         return javaType;
 
     }
+
+    @SuppressWarnings("unchecked")
+    public static LoadedCodeType<?>[] getJavaTypes(Class<?>[] aClass) {
+
+        return Arrays.stream(aClass).map(Helper::getJavaType).toArray(LoadedCodeType[]::new);
+
+    }
+
 
     public static Group group(Expression expression) {
         return new SimpleGroup(expression);

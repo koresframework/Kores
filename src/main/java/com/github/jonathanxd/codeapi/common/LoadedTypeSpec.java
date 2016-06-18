@@ -28,41 +28,50 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 
 import java.lang.invoke.*;
-import java.lang.reflect.Method;
+import java.lang.invoke.MethodType;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 13/06/16.
  */
-public class TypeSpec {
+public class LoadedTypeSpec {
 
-    private final CodeType returnType;
-    private final List<CodeType> parameterSpec;
+    private final LoadedCodeType<?> returnType;
+    private final List<LoadedCodeType<?>> parameterSpec;
 
-    public TypeSpec(CodeType returnType, CodeType... parameterSpecs) {
+    public LoadedTypeSpec(LoadedCodeType<?> returnType, LoadedCodeType<?>... parameterSpecs) {
         this.returnType = returnType;
         this.parameterSpec = parameterSpecs.length <= 0 ? Collections.emptyList() : Collections.unmodifiableList(Arrays.asList(parameterSpecs));
     }
 
-    public TypeSpec(CodeType returnType, List<CodeType> parameterSpecs) {
+    public LoadedTypeSpec(LoadedCodeType<?> returnType, List<LoadedCodeType<?>> parameterSpecs) {
         this.returnType = returnType;
         this.parameterSpec = parameterSpecs == null ? Collections.emptyList() : Collections.unmodifiableList(parameterSpecs);
     }
 
-    public CodeType getReturnType() {
+    public LoadedCodeType<?> getReturnType() {
         return returnType;
     }
 
-    public List<CodeType> getParameterSpec() {
+    public List<LoadedCodeType<?>> getParameterSpec() {
         return parameterSpec;
     }
 
     @Override
     public String toString() {
         return "TypeSpec[returnType="+this.getReturnType()+", parameterSpec="+getParameterSpec()+"]";
+    }
+
+    public MethodType toMethodType() {
+        if(parameterSpec.isEmpty())
+            return MethodType.methodType(returnType.getLoadedType());
+
+        return MethodType.methodType(returnType.getLoadedType(), parameterSpec.stream().map(LoadedCodeType::getLoadedType).collect(Collectors.toList()));
     }
 }

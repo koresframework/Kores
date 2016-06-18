@@ -164,7 +164,7 @@ Bytecode generator cannot:
 
 - Generate Local Variables names (Variable names is stored in `common.MVData`)
 - Generate Variables with same name and type (for example, a `String value` inside Try-Chatch-Block and same variable outside of that: `try { String value; } catch(Exception e){} String value;`).
-- Generate Complex If Statements (if(x || y && (u && (i || v)))) (basic if statements is supported, like: x || y, y && x || z) (future implementation)
+- Generate Complex If Statements (`if(x || y && (u && (i || v)))`), at the time, basic if statements is supported, like: `x || y, y && x || z`.
 
 ### Performance
 

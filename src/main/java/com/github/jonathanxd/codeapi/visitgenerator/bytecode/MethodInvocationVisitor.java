@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.FullLoadedMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -67,7 +68,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
         InvokeType invokeType = methodInvocation.getInvokeType();
 
-        InvokeDynamic dynamicInvoke = methodInvocation.getInvokeDynamic().orElse(null);
+        InvokeDynamic invokeDynamic = methodInvocation.getInvokeDynamic().orElse(null);
 
         if(methodInvocation.getSpec().getMethodType() == MethodType.CONSTRUCTOR) {
             additional.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()));
@@ -98,36 +99,57 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
             additional.visitInvokeDynamicInsn("runDynamic", Common.specToAsm(spec), bootstrap);
         }*/
 
-        if(dynamicInvoke != null && InvokeDynamic.isInvokeDynamicLambda(dynamicInvoke)) {
+        if(invokeDynamic != null) {
 
-            FullMethodSpec methodSpec = dynamicInvoke.getMethodSpec();
-            TypeSpec expectedTypes = dynamicInvoke.getExpectedTypes();
+            if(InvokeDynamic.isInvokeDynamicLambda(invokeDynamic)) {
 
-            additional.visitInsn(DUP);
-            additional.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
-            additional.visitInsn(POP);
+                InvokeDynamic.InvokeLambdaDynamic lambdaDynamic = (InvokeDynamic.InvokeLambdaDynamic) invokeDynamic;
+
+                FullMethodSpec methodSpec = lambdaDynamic.getMethodSpec();
+                TypeSpec expectedTypes = lambdaDynamic.getExpectedTypes();
+
+                additional.visitInsn(DUP);
+                additional.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
+                additional.visitInsn(POP);
 
 
-            // ?
-            // LambdaMetafactory.metafactory(caller, name, invokedType, samMethodType, implMethod, instantiatedMethodType) : CallSite
-            Handle metafactory = new Handle(Opcodes.H_INVOKESTATIC,
-                    "java/lang/invoke/LambdaMetafactory",
-                    "metafactory",
-                    "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;");
+                // ?
+                // LambdaMetafactory.metafactory(caller, name, invokedType, samMethodType, implMethod, instantiatedMethodType) : CallSite
+                Handle metafactory = new Handle(Opcodes.H_INVOKESTATIC,
+                        "java/lang/invoke/LambdaMetafactory",
+                        "metafactory",
+                        "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+                        false);
 
-            Object[] objects = {
-                    Type.getType(Common.fullSpecToFullAsm(methodSpec)),
-                    new Handle(/*Opcodes.H_INVOKEINTERFACE*/ InvokeType.toAsm_H(invokeType),
-                            Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()),
-                            spec.getMethodName(), Common.typeSpecToAsm(spec.getMethodDescription()),
-                            methodInvocation.getInvokeType() == InvokeType.INVOKE_INTERFACE),
+                Object[] objects = {
+                        Type.getType(Common.fullSpecToFullAsm(methodSpec)),
+                        new Handle(/*Opcodes.H_INVOKEINTERFACE*/ InvokeType.toAsm_H(invokeType),
+                                Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()),
+                                spec.getMethodName(), Common.typeSpecToAsm(spec.getMethodDescription()),
+                                methodInvocation.getInvokeType() == InvokeType.INVOKE_INTERFACE),
 
                         Type.getType(Common.fullSpecToFullAsm(expectedTypes))
-            };
+                };
 
-            String local = "("+Common.codeTypeToFullAsm(methodInvocation.getLocalization())+")"+Common.codeTypeToFullAsm(methodSpec.getLocation());
+                String local = "(" + Common.codeTypeToFullAsm(methodInvocation.getLocalization()) + ")" + Common.codeTypeToFullAsm(methodSpec.getLocation());
 
-            additional.visitInvokeDynamicInsn(methodSpec.getMethodName(), local, metafactory, objects);
+                additional.visitInvokeDynamicInsn(methodSpec.getMethodName(), local, metafactory, objects);
+            } else if (InvokeDynamic.isInvokeDynamicBootstrap(invokeDynamic)){
+                InvokeDynamic.InvokeBootstrapDynamic dynamicBootstrap = (InvokeDynamic.InvokeBootstrapDynamic) invokeDynamic;
+
+                FullLoadedMethodSpec bootstrapMethodSpec = dynamicBootstrap.getBootstrapMethodSpec();
+
+                java.lang.invoke.MethodType methodType = dynamicBootstrap.getMethodType();
+
+                boolean isInterface = dynamicBootstrap.getInvokeType() == InvokeType.INVOKE_INTERFACE;
+
+                int invoke = InvokeType.toAsm_H(dynamicBootstrap.getInvokeType());
+
+                Handle bootstrap = new Handle(invoke, Common.codeTypeToSimpleAsm(bootstrapMethodSpec.getLocation()),
+                        bootstrapMethodSpec.getMethodName(), methodType.toMethodDescriptorString(), isInterface);
+
+                additional.visitInvokeDynamicInsn(spec.getMethodName(), Common.typeSpecToAsm(spec.getMethodDescription()), bootstrap, new Object[0]);
+            }
 
         }else {
 

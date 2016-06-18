@@ -27,42 +27,38 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 
-import java.lang.invoke.*;
-import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 13/06/16.
  */
-public class TypeSpec {
+public class FullLoadedMethodSpec extends LoadedTypeSpec {
 
-    private final CodeType returnType;
-    private final List<CodeType> parameterSpec;
+    private final LoadedCodeType<?> location;
+    private final String methodName;
 
-    public TypeSpec(CodeType returnType, CodeType... parameterSpecs) {
-        this.returnType = returnType;
-        this.parameterSpec = parameterSpecs.length <= 0 ? Collections.emptyList() : Collections.unmodifiableList(Arrays.asList(parameterSpecs));
+    public FullLoadedMethodSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterSpecs) {
+        this(Helper.getJavaType(location), Helper.getJavaType(returnType), methodName,
+                (LoadedCodeType[]) Helper.getJavaTypes(parameterSpecs));
     }
 
-    public TypeSpec(CodeType returnType, List<CodeType> parameterSpecs) {
-        this.returnType = returnType;
-        this.parameterSpec = parameterSpecs == null ? Collections.emptyList() : Collections.unmodifiableList(parameterSpecs);
+    public FullLoadedMethodSpec(LoadedCodeType<?> location, LoadedCodeType<?> returnType, String methodName, LoadedCodeType<?>... parameterSpecs) {
+        super(returnType, parameterSpecs);
+        this.location = location;
+        this.methodName = methodName;
     }
 
-    public CodeType getReturnType() {
-        return returnType;
+    public LoadedCodeType<?> getLocation() {
+        return location;
     }
 
-    public List<CodeType> getParameterSpec() {
-        return parameterSpec;
+    public String getMethodName() {
+        return methodName;
     }
 
-    @Override
-    public String toString() {
-        return "TypeSpec[returnType="+this.getReturnType()+", parameterSpec="+getParameterSpec()+"]";
-    }
+
 }
