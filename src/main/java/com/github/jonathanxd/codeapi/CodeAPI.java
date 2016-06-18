@@ -35,6 +35,9 @@ import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.ArrayConstructorEx;
+import com.github.jonathanxd.codeapi.helper.ArrayLengthEx;
+import com.github.jonathanxd.codeapi.helper.ArrayLoadEx;
+import com.github.jonathanxd.codeapi.helper.ArrayStoreEx;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -42,6 +45,9 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
@@ -305,6 +311,47 @@ public class CodeAPI {
     private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
         return new ArrayConstructorEx(arrayType, dimensions, ArrayUtils.toList(arguments));
     }
+
+    // =========================================================
+    //          Array Manipulate
+    // =========================================================
+
+    public static ArrayLength getArrayLength(VariableAccess access) {
+        return getArrayLength__factory(access);
+    }
+
+    public static ArrayLoad getArrayValue(CodeType arrayType, VariableAccess access, CodePart index) {
+        return getArrayValue__factory(index, access, arrayType);
+    }
+
+    public static ArrayStore setArrayValue(CodeType arrayType, VariableAccess access, CodePart index, CodePart value) {
+        return setArrayValue__factory(index, access, arrayType, value);
+    }
+
+    // Class
+
+    public static ArrayLoad getArrayValue(Class<?> arrayType, VariableAccess access, CodePart index) {
+        return getArrayValue__factory(index, access, Helper.getJavaType(arrayType));
+    }
+
+    public static ArrayStore setArrayValue(Class<?> arrayType, VariableAccess access, CodePart index, CodePart value) {
+        return setArrayValue__factory(index, access, Helper.getJavaType(arrayType), value);
+    }
+
+    // Factory
+
+    private static ArrayLength getArrayLength__factory(VariableAccess access) {
+        return new ArrayLengthEx(access);
+    }
+
+    private static ArrayLoad getArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType) {
+        return new ArrayLoadEx(index, access, arrayType);
+    }
+
+    private static ArrayStore setArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType, CodePart value) {
+        return new ArrayStoreEx(index, access, arrayType, value);
+    }
+
 
     // =========================================================
     //          Source
