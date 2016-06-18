@@ -29,8 +29,6 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.lang.invoke.*;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -63,6 +61,7 @@ public class TypeSpec {
 
     @Override
     public String toString() {
-        return "TypeSpec[returnType="+this.getReturnType()+", parameterSpec="+getParameterSpec()+"]";
+        return "TypeSpec[returnType=" + this.getReturnType() + ", parameterSpec=" + getParameterSpec() + "]";
     }
+
 }

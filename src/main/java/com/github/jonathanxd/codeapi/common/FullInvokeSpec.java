@@ -27,38 +27,26 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.types.LoadedCodeType;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 13/06/16.
  */
-public class FullLoadedMethodSpec extends LoadedTypeSpec {
+public class FullInvokeSpec extends FullMethodSpec {
 
-    private final LoadedCodeType<?> location;
-    private final String methodName;
+    private final InvokeType invokeType;
 
-    public FullLoadedMethodSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterSpecs) {
-        this(Helper.getJavaType(location), Helper.getJavaType(returnType), methodName,
-                (LoadedCodeType[]) Helper.getJavaTypes(parameterSpecs));
+    public FullInvokeSpec(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterSpecs) {
+        super(location, returnType, methodName, parameterSpecs);
+        this.invokeType = invokeType;
     }
 
-    public FullLoadedMethodSpec(LoadedCodeType<?> location, LoadedCodeType<?> returnType, String methodName, LoadedCodeType<?>... parameterSpecs) {
-        super(returnType, parameterSpecs);
-        this.location = location;
-        this.methodName = methodName;
+    public FullInvokeSpec(InvokeType invokeType, Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterSpecs) {
+        super(location, returnType, methodName, parameterSpecs);
+        this.invokeType = invokeType;
     }
 
-    public LoadedCodeType<?> getLocation() {
-        return location;
+    public InvokeType getInvokeType() {
+        return invokeType;
     }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-
 }

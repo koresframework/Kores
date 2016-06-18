@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.FullLoadedMethodSpec;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -56,7 +55,6 @@ import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.test.WorldGreeter;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.ArrayUtils;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
@@ -84,7 +82,7 @@ import static java.util.Collections.singletonList;
 public class TestBytecode_Invocations {
     public static final TestBytecode_Invocations INSTANCE = new TestBytecode_Invocations();
     public static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
-    public static final FullLoadedMethodSpec BOOTSTRAP_SPEC = new FullLoadedMethodSpec(
+    public static final FullMethodSpec BOOTSTRAP_SPEC = new FullMethodSpec(
             TestBytecode_Invocations.class,
             CallSite.class,
             "myBootstrap",
@@ -131,7 +129,7 @@ public class TestBytecode_Invocations {
     public static Object fallback(MyCallSite callSite, Object[] args) throws Throwable {
         MethodHandle virtual = LOOKUP.findVirtual(TestBytecode_Invocations.class, callSite.name, callSite.type()).bindTo(INSTANCE);
 
-        System.out.println("Invoking '"+callSite.name+"' type: '"+callSite.getTarget().type()+"', with args: '"+Arrays.toString(args)+"' ");
+        System.out.println("Invoking '" + callSite.name + "' type: '" + callSite.getTarget().type() + "', with args: '" + Arrays.toString(args) + "' ");
 
         return virtual.invokeWithArguments(args);
     }

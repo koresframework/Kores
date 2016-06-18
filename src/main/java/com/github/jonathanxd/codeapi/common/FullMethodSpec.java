@@ -27,7 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Arrays;
 
 /**
  * Created by jonathan on 13/06/16.
@@ -41,6 +44,12 @@ public class FullMethodSpec extends TypeSpec {
     public FullMethodSpec(CodeType location, CodeType returnType, String methodName, CodeType... parameterSpecs) {
         super(returnType, parameterSpecs);
         this.location = location;
+        this.methodName = methodName;
+    }
+
+    public FullMethodSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterSpecs) {
+        super(Helper.getJavaType(returnType), Arrays.stream(parameterSpecs).map(Helper::getJavaType).toArray(CodeType[]::new));
+        this.location = Helper.getJavaType(location);
         this.methodName = methodName;
     }
 
