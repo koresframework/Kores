@@ -94,11 +94,6 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
                 additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
             }
         } else {
-            /*
-            Only for ACESSTHIS
-            if(localization == null || localization == codeInterface) {
-                additional.visitVarInsn(ALOAD, 0);
-            }*/
             if(at instanceof AccessLocalEx) {
 
                 Optional<Variable> var = mvData.getVar(variableAccess.getName(), variableAccess.getVariableType());
@@ -123,7 +118,7 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
                 // THIS
                 additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
             } else {
-                throw new TODOException("VISIT INSTANCE FIELDS! at "+at+", loc ->"+localization);
+                additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
             }
 
 

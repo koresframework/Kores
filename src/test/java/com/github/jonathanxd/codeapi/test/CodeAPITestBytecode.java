@@ -49,6 +49,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
@@ -72,6 +73,8 @@ import java.util.List;
     // Generate for, while, do statements, switch, <clint> and improve if statements!
 @SuppressWarnings("Duplicates")
 public class CodeAPITestBytecode {
+
+    public final String b = "9";
 
     private static CodeSource rethrow(String variable) {
         CodeSource source = new CodeSource();
@@ -112,6 +115,14 @@ public class CodeAPITestBytecode {
                 // Set method source
                 .withBody(methodSource)
                 .build();
+
+        LoadedCodeType<CodeAPITestBytecode> javaType = Helper.getJavaType(CodeAPITestBytecode.class);
+
+        methodSource.add(new CodeField("test", javaType, Helper.invokeConstructor(javaType)));
+        methodSource.add(Predefined.invokePrintln(new CodeArgument(
+                Helper.accessVariable(javaType, Helper.accessLocalVariable("test", javaType), "b", PredefinedTypes.STRING),
+                String.class
+        )));
 
         // Create method body source
         CodeSource source = new CodeSource();

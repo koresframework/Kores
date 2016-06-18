@@ -81,7 +81,10 @@ public class CodeAPITest_API {
         String name = this.getClass().getCanonicalName()+"_Generated";
 
         CodeClass codeClass = aClass(PUBLIC, name, source(
-                method(PUBLIC, "printString", VOID, parameter(STRING, "string"))
+                method(PUBLIC | STATIC, "printString", VOID, new CodeParameter[]{parameter(STRING, "string")},
+                        source(
+                                Predefined.invokePrintln(argument(accessLocalVariable(STRING, "string"), STRING))
+                        ))
         ));
 
         mySource.add(codeClass);
@@ -91,15 +94,15 @@ public class CodeAPITest_API {
 
         byte[] bytes = generate(mySource);
 
-        Class<?> define = new BCLoader().define("github.com."+this.getClass().getSimpleName(), bytes);
+        Class<?> define = new BCLoader().define(name, bytes);
         try {
             define.newInstance();
 
             MethodHandles.Lookup lookup = MethodHandles.publicLookup();
 
-            MethodHandle println = lookup.findStatic(define, "println", java.lang.invoke.MethodType.methodType(Void.TYPE, Object.class));
+            MethodHandle println = lookup.findStatic(define, "printString", java.lang.invoke.MethodType.methodType(Void.TYPE, String.class));
 
-            println.invoke((Object) "nano");
+            println.invoke((Object) "Test");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

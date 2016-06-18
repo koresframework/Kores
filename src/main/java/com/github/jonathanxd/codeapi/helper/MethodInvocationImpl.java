@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.DynamicInvoke;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -42,7 +42,7 @@ import java.util.Optional;
 @GenerateTo(MethodInvocation.class)
 public class MethodInvocationImpl implements CodePart, MethodInvocation {
 
-    private final DynamicInvoke dynamicInvoke;
+    private final InvokeDynamic dynamicInvoke;
     private final InvokeType invokeType;
     private final CodeType localization;
     private final CodePart target;
@@ -56,7 +56,7 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
         this.spec = spec;
     }
 
-    public MethodInvocationImpl(DynamicInvoke dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+    public MethodInvocationImpl(InvokeDynamic dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
         this.dynamicInvoke = dynamicInvoke;
         this.invokeType = invokeType;
         this.localization = codeType;
@@ -74,7 +74,7 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
         return invokeType;
     }
 
-    public Optional<DynamicInvoke> getDynamicInvoke() {
+    public Optional<InvokeDynamic> getDynamicInvoke() {
         return Optional.ofNullable(dynamicInvoke);
     }
 

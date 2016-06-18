@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.generatorv2.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.DynamicInvoke;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
@@ -47,10 +47,6 @@ import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import java.lang.invoke.CallSite;
-import java.lang.invoke.LambdaMetafactory;
-import java.lang.invoke.MethodHandles;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -71,7 +67,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
         InvokeType invokeType = methodInvocation.getInvokeType();
 
-        DynamicInvoke dynamicInvoke = methodInvocation.getDynamicInvoke().orElse(null);
+        InvokeDynamic dynamicInvoke = methodInvocation.getDynamicInvoke().orElse(null);
 
         if(methodInvocation.getSpec().getMethodType() == MethodType.CONSTRUCTOR) {
             additional.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()));
@@ -102,7 +98,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
             additional.visitInvokeDynamicInsn("runDynamic", Common.specToAsm(spec), bootstrap);
         }*/
 
-        if(dynamicInvoke != null && DynamicInvoke.isInvokeDynamicLambda(dynamicInvoke)) {
+        if(dynamicInvoke != null && InvokeDynamic.isInvokeDynamicLambda(dynamicInvoke)) {
 
             FullMethodSpec methodSpec = dynamicInvoke.getMethodSpec();
             TypeSpec expectedTypes = dynamicInvoke.getExpectedTypes();

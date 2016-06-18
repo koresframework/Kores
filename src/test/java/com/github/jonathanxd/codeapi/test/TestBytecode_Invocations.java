@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.DynamicInvoke;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
@@ -250,7 +250,7 @@ public class TestBytecode_Invocations {
 
         CodeType supplierType = Helper.getJavaType(Supplier.class);
 
-        MethodInvocation dynamicGet = Helper.invokeDynamic(DynamicInvoke.invokeDynamicLambda(
+        MethodInvocation dynamicGet = Helper.invokeDynamic(InvokeDynamic.invokeDynamicLambda(
                 new FullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),
                 new TypeSpec(PredefinedTypes.STRING)
                 ),

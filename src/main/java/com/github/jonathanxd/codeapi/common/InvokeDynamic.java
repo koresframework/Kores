@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.common;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class DynamicInvoke {
+public class InvokeDynamic {
     private final FullMethodSpec methodSpec;
     private final TypeSpec expectedTypes;
 
@@ -50,26 +50,26 @@ public class DynamicInvoke {
     // new Handle(Opcodes.H_INVOKEVIRTUAL, "java/lang/Integer", "compareTo", "(Ljava/lang/Integer;)I"),
     // Type.getType("(Ljava/lang/Integer;Ljava/lang/Integer;)I")});
 
-    private DynamicInvoke(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+    private InvokeDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
         this.methodSpec = fullMethodSpec;
         this.expectedTypes = expectedTypes;
     }
 
-    public static DynamicInvoke invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-        return new InvokeDynamicLambda(fullMethodSpec, expectedTypes);
+    public static InvokeDynamic invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+        return new InvokeLambdaDynamic(fullMethodSpec, expectedTypes);
     }
 
     // TODO
-    public static DynamicInvoke invokeDynamicBootstrap(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-        return new InvokeDynamicBootstrap(fullMethodSpec, expectedTypes);
+    public static InvokeDynamic invokeDynamicBootstrap(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+        return new InvokeBootstrapDynamic(fullMethodSpec, expectedTypes);
     }
 
-    public static boolean isInvokeDynamicLambda(DynamicInvoke type) {
-        return type instanceof InvokeDynamicLambda;
+    public static boolean isInvokeDynamicLambda(InvokeDynamic type) {
+        return type instanceof InvokeLambdaDynamic;
     }
 
-    public static boolean isInvokeDynamicBootstrap(DynamicInvoke type) {
-        return type instanceof InvokeDynamicBootstrap;
+    public static boolean isInvokeDynamicBootstrap(InvokeDynamic type) {
+        return type instanceof InvokeBootstrapDynamic;
     }
 
     public FullMethodSpec getMethodSpec() {
@@ -85,15 +85,15 @@ public class DynamicInvoke {
         throw new AbstractMethodError();
     }
 
-    private static final class InvokeDynamicLambda extends DynamicInvoke {
-        private InvokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+    private static final class InvokeLambdaDynamic extends InvokeDynamic {
+        private InvokeLambdaDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
             super(fullMethodSpec, expectedTypes);
         }
     }
 
-    private static final class InvokeDynamicBootstrap extends DynamicInvoke {
+    private static final class InvokeBootstrapDynamic extends InvokeDynamic {
 
-        private InvokeDynamicBootstrap(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+        private InvokeBootstrapDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
             super(fullMethodSpec, expectedTypes);
         }
 

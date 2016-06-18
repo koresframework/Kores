@@ -102,7 +102,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
                 // THIS
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             } else {
-                throw new TODOException("VISIT INSTANCE FIELDS! at "+at+", loc ->"+localization);
+                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(localization), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }
 
 

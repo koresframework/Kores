@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.DynamicInvoke;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -48,5 +48,5 @@ public interface MethodInvocation extends CodePart {
 
     InvokeType getInvokeType();
 
-    Optional<DynamicInvoke> getDynamicInvoke();
+    Optional<InvokeDynamic> getDynamicInvoke();
 }

@@ -128,7 +128,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
                 // THIS
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             } else {
-                throw new TODOException("VISIT INSTANCE FIELDS! at "+at+", loc ->"+localization);
+                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(localization), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }
 
 

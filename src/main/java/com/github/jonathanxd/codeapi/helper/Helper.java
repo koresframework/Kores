@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.DynamicInvoke;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -368,7 +368,7 @@ public final class Helper {
 
     //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
 
-    public static MethodInvocation invokeDynamic(DynamicInvoke dynamicInvoke, MethodInvocation methodInvocation) {
+    public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
         return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(), methodInvocation.getSpec());
     }
 
