@@ -92,3 +92,52 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
 
     }
 }
+/*
+mv.visitIntInsn(BIPUSH, 8);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/String");
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_0);
+            mv.visitLdcInsn("A");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_1);
+            mv.visitLdcInsn("B");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_2);
+            mv.visitLdcInsn("C");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_3);
+            mv.visitLdcInsn("D");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_4);
+            mv.visitLdcInsn("E");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_5);
+            mv.visitLdcInsn("F");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitIntInsn(BIPUSH, 6);
+            mv.visitLdcInsn("G");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitIntInsn(BIPUSH, 7);
+            mv.visitLdcInsn("H");
+            mv.visitInsn(AASTORE);
+            mv.visitVarInsn(ASTORE, 1);
+            Label l1 = new Label();
+            mv.visitLabel(l1);
+            mv.visitLineNumber(66, l1);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitInsn(ARRAYLENGTH);
+            mv.visitVarInsn(ISTORE, 2);
+            Label l2 = new Label();
+            mv.visitLabel(l2);
+            mv.visitLineNumber(68, l2);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "[Ljava/lang/String;", "clone", "()Ljava/lang/Object;", false);
+            mv.visitInsn(POP);
+ */

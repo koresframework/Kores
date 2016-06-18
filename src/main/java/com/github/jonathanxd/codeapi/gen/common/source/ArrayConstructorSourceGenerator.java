@@ -27,19 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
@@ -51,48 +47,28 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodInvocationSourceGenerator implements Generator<MethodInvocation, String, PlainSourceGenerator> {
+public class ArrayConstructorSourceGenerator implements Generator<ArrayConstructor, String, PlainSourceGenerator> {
 
-    public static final MethodInvocationSourceGenerator INSTANCE = new MethodInvocationSourceGenerator();
+    public static final ArrayConstructorSourceGenerator INSTANCE = new ArrayConstructorSourceGenerator();
 
-    private MethodInvocationSourceGenerator() {
+    private ArrayConstructorSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(MethodInvocation methodInvocationImpl, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ArrayConstructor arrayConstructor, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        CodePart target = methodInvocationImpl.getTarget();
-        MethodSpec spec = methodInvocationImpl.getSpec();
-        InvokeType invokeType = methodInvocationImpl.getInvokeType();
+        values.add(TargetValue.create(Keyword.class, Keywords.NEW, parents));
+        values.add(TargetValue.create(CodeType.class, arrayConstructor.getArrayType(), parents));
 
-        CodeType localization = methodInvocationImpl.getLocalization();
-
-        boolean isCtr = spec.getMethodType() == MethodType.CONSTRUCTOR;
-        if (isCtr) {
-            values.add(TargetValue.create(Keywords.NEW, parents));
+        for (int i : arrayConstructor.getDimensions()) {
+            values.add(ValueImpl.create("[" + i + "]"));
         }
 
-        if (target != null) {
-
-
-            values.add(CodePartValue.create(target, parents));
-            if (!isCtr && !spec.isArray()) {
-                values.add(ValueImpl.create(".")); //TODO: REVIEW
-            }
-        }
-
-        if(localization != null && invokeType == InvokeType.INVOKE_STATIC) {
-            values.add(CodePartValue.create(localization, parents));
-
-            if (!isCtr && !spec.isArray()) {
-                values.add(ValueImpl.create("."));
-            }
-        }
-
-        values.add(TargetValue.create(MethodSpecification.class, spec, parents));
+        values.add(TargetValue.create(Argumenterizable.class, arrayConstructor, parents));
 
         return values;
+
     }
 }

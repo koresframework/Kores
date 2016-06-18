@@ -34,12 +34,14 @@ import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.helper.ArrayConstructorEx;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
@@ -274,6 +276,34 @@ public class CodeAPI {
     // Factory
     private static CodeConstructor constructor__factory(int modifiers, CodeType declaringClass, CodeSource source, CodeParameter... parameters) {
         return new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), source);
+    }
+
+    // =========================================================
+    //          Array Constructors
+    // =========================================================
+
+    public static ArrayConstructor arrayConstruct(CodeType arrayType, int[] dimensions, CodeArgument... arguments) {
+        return arrayConstruct__factory(arrayType, dimensions, arguments);
+    }
+
+    public static ArrayConstructor arrayConstruct(CodeType arrayType, int[] dimensions) {
+        return arrayConstruct__factory(arrayType, dimensions);
+    }
+
+    // Class
+
+    public static ArrayConstructor arrayConstruct(Class<?> arrayType, int[] dimensions) {
+        return arrayConstruct__factory(Helper.getJavaType(arrayType), dimensions);
+    }
+
+    public static ArrayConstructor arrayConstruct(Class<?> arrayType, int[] dimensions, CodeArgument... arguments) {
+        return arrayConstruct__factory(Helper.getJavaType(arrayType), dimensions, arguments);
+    }
+
+    // Factory
+
+    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, int[] dimensions, CodeArgument... arguments) {
+        return new ArrayConstructorEx(arrayType, dimensions, ArrayUtils.toList(arguments));
     }
 
     // =========================================================

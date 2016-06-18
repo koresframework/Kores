@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,12 +44,12 @@ import java.util.Optional;
 public class ThrowExceptionEx implements ThrowException {
 
     private final CodeType exceptionType;
-    private final Collection<CodeArgument> arguments;
+    private final List<CodeArgument> arguments;
 
 
-    ThrowExceptionEx(CodeType exceptionType, Collection<CodeArgument> arguments) {
+    ThrowExceptionEx(CodeType exceptionType, List<CodeArgument> arguments) {
         this.exceptionType = exceptionType;
-        this.arguments = Collections.unmodifiableCollection(arguments);
+        this.arguments = Collections.unmodifiableList(arguments);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ThrowExceptionEx implements ThrowException {
     }
 
     @Override
-    public Collection<CodeArgument> getArguments() {
+    public List<CodeArgument> getArguments() {
         return arguments;
     }
 

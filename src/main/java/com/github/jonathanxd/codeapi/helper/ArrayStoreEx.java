@@ -25,12 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 
 /**
  * Created by jonathan on 11/05/16.
  */
-public enum MethodType {
-    METHOD,
-    CONSTRUCTOR
+@GenerateTo(ArrayStore.class)
+public class ArrayStoreEx implements ArrayStore {
+
+    private final int index;
+    private final CodePart value;
+
+    public ArrayStoreEx(int index, CodePart value) {
+        this.index = index;
+        this.value = value;
+    }
+
+    @Override
+    public int getIndex() {
+        return 0;
+    }
+
+    @Override
+    public CodePart getValueToStore() {
+        return null;
+    }
 }

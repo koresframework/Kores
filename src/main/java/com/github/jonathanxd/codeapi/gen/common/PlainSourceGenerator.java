@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.source.AccessSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArgumenterizableSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ArrayConstructorSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
@@ -81,6 +82,7 @@ import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
@@ -157,6 +159,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Return.class, ReturnSourceGenerator.INSTANCE);
         register(IfExpressionable.class, IfExpressionableSourceGenerator.INSTANCE);
         register(VariableStore.class, VariableStoreSourceGenerator.INSTANCE);
+        register(ArrayConstructor.class, ArrayConstructorSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);

@@ -39,6 +39,8 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
@@ -389,12 +391,20 @@ public final class Helper {
                 new MethodSpec("<init>", PredefinedTypes.VOID, Arrays.asList(arguments)));
     }
 
-    public static MethodInvocation invokeArrayConstructor(CodeType type) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.ARRAY_CONSTRUCTOR));
+    public static ArrayConstructor invokeArrayConstructor(CodeType type) {
+        return new ArrayConstructorEx(type, new int[]{}, null);
     }
 
-    public static MethodInvocation invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(Arrays.asList(arguments), MethodType.ARRAY_CONSTRUCTOR));
+    public static ArrayConstructor invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
+        return new ArrayConstructorEx(type, new int[]{arguments.length}, Arrays.asList(arguments));
+    }
+
+    public static ArrayConstructor invokeArrayConstructor(CodeType type, int[] dimensions) {
+        return new ArrayConstructorEx(type, dimensions, null);
+    }
+
+    public static ArrayConstructor invokeArrayConstructor(CodeType type, int[] dimensions, CodeArgument[] arguments) {
+        return new ArrayConstructorEx(type, dimensions, Arrays.asList(arguments));
     }
 
     public static MethodInvocation invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
@@ -432,6 +442,10 @@ public final class Helper {
 
     public static Return returnValue(CodeType returnType, CodePart value) {
         return new ReturnEx(returnType, value);
+    }
+
+    public static ArrayStore setArrayValue(int index, CodePart value) {
+        return new ArrayStoreEx(index, value);
     }
 
     public static VariableStore setVariable(CodeType localization, CodePart at, String variable, CodePart value) {

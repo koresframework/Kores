@@ -31,6 +31,8 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Options;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.AccessVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.ArgumenterizabeVisitor;
+import com.github.jonathanxd.codeapi.generatorv2.bytecode.ArrayConstructVisitor;
+import com.github.jonathanxd.codeapi.generatorv2.bytecode.ArrayStoreVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.CastedVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.CodeMethodVisitor;
 import com.github.jonathanxd.codeapi.generatorv2.bytecode.CodeSourceVisitor;
@@ -61,6 +63,8 @@ import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
@@ -113,6 +117,8 @@ public class ByteVisitGenerator extends VisitorGenerator<Byte> {
         addVisitor(ForBlock.class, new ForIVisitor());
         addVisitor(Expression.class, new ExpressionVisitor());
         addVisitor(StaticBlock.class, new StaticBlockVisitor());
+        addVisitor(ArrayConstructor.class, new ArrayConstructVisitor());
+        addVisitor(ArrayStore.class, new ArrayStoreVisitor());
     }
 
     @Override

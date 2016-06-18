@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -44,7 +45,7 @@ import java.util.Collections;
 @GenerateTo(MethodSpecification.class)
 public class MethodSpec implements MethodSpecification {
 
-    private final Collection<CodeArgument> arguments;
+    private final List<CodeArgument> arguments;
     private final String methodName;
     private final TypeSpec methodDescription;
     private final MethodType methodType;
@@ -53,55 +54,55 @@ public class MethodSpec implements MethodSpecification {
         this(null, null, (CodeType) null, methodType);
     }
 
-    public MethodSpec(Collection<CodeArgument> arguments, MethodType methodType) {
+    public MethodSpec(List<CodeArgument> arguments, MethodType methodType) {
         this(null, arguments, (CodeType) null, methodType);
     }
 
-    public MethodSpec(String methodName, Collection<CodeArgument> arguments) {
+    public MethodSpec(String methodName, List<CodeArgument> arguments) {
         this(methodName, arguments, (CodeType) null, MethodType.METHOD);
     }
 
-    public MethodSpec(String methodName, CodeType returnType, Collection<CodeArgument> arguments) {
+    public MethodSpec(String methodName, CodeType returnType, List<CodeArgument> arguments) {
         this(methodName, arguments, returnType, MethodType.METHOD);
     }
 
-    public MethodSpec(String methodName, Class<?> returnType, Collection<CodeArgument> arguments) {
+    public MethodSpec(String methodName, Class<?> returnType, List<CodeArgument> arguments) {
         this(methodName, arguments, Helper.getJavaType(returnType), MethodType.METHOD);
     }
 
-    public MethodSpec(String methodName, Class<?> returnType, Collection<CodeArgument> arguments, MethodType methodType) {
+    public MethodSpec(String methodName, Class<?> returnType, List<CodeArgument> arguments, MethodType methodType) {
         this(methodName, arguments, Helper.getJavaType(returnType), methodType);
     }
 
-    public MethodSpec(String methodName, TypeSpec methodDescription, Collection<CodeArgument> arguments) {
+    public MethodSpec(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
         this(methodName, arguments, methodDescription, MethodType.METHOD);
     }
 
-    public MethodSpec(CodeType returnType, Collection<CodeArgument> arguments) {
+    public MethodSpec(CodeType returnType, List<CodeArgument> arguments) {
         this(null, arguments, returnType, MethodType.METHOD);
     }
 
-    public MethodSpec(CodeType returnType, Collection<CodeArgument> arguments, MethodType methodType) {
+    public MethodSpec(CodeType returnType, List<CodeArgument> arguments, MethodType methodType) {
         this(null, arguments, returnType, methodType);
     }
 
-    public MethodSpec(TypeSpec methodDescription, Collection<CodeArgument> arguments) {
+    public MethodSpec(TypeSpec methodDescription, List<CodeArgument> arguments) {
         this(null, arguments, methodDescription, MethodType.METHOD);
     }
 
-    public MethodSpec(TypeSpec methodDescription, Collection<CodeArgument> arguments, MethodType methodType) {
+    public MethodSpec(TypeSpec methodDescription, List<CodeArgument> arguments, MethodType methodType) {
         this(null, arguments, methodDescription, methodType);
     }
 
-    public MethodSpec(String methodName, Collection<CodeArgument> arguments, CodeType returnType, MethodType methodType) {
-        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableCollection(arguments);
+    public MethodSpec(String methodName, List<CodeArgument> arguments, CodeType returnType, MethodType methodType) {
+        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = Common.specFromLegacy(returnType, arguments);
         this.methodType = methodType;
     }
 
-    public MethodSpec(String methodName, Collection<CodeArgument> arguments, TypeSpec methodDescription, MethodType methodType) {
-        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableCollection(arguments);
+    public MethodSpec(String methodName, List<CodeArgument> arguments, TypeSpec methodDescription, MethodType methodType) {
+        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = methodDescription;
         this.methodType = methodType;
@@ -118,13 +119,13 @@ public class MethodSpec implements MethodSpecification {
     }
 
     @Override
-    public Collection<CodeArgument> getArguments() {
+    public List<CodeArgument> getArguments() {
         return this.arguments;
     }
 
     @Override
     public boolean isArray() {
-        return methodType == MethodType.ARRAY_CONSTRUCTOR;
+        return false;
     }
 
     @Override

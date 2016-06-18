@@ -31,32 +31,25 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.exceptions.TODOException;
 import com.github.jonathanxd.codeapi.generatorv2.Visitor;
 import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, MVData>, Opcodes {
+public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(Argumenterizable argumenterizable,
+    public Byte[] visit(ArrayStore arrayStore,
                         Data extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
@@ -64,35 +57,14 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        List<CodeArgument> arguments = argumenterizable.getArguments();
 
-        if(!argumenterizable.isArray()) {
+        Common.runForInt(arrayStore.getIndex(), additional); // Iconst, bipush, etc
 
-            for (CodeArgument argument : arguments) {
-                CodePart value = argument.getValue();
+        CodePart value = arrayStore.getValueToStore();
 
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
 
-                if (argument.isCasted()) {
-                    additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(argument.getType()));
-                }
-            }
-        } else {
-            for (int i = 0; i < arguments.size(); i++) {
-
-                Common.runForInt(i, additional); // Visit index
-
-                CodeArgument argument = arguments.get(i);
-
-                CodePart value = argument.getValue();
-
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
-
-                if (argument.isCasted()) {
-                    additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(argument.getType()));
-                }
-            }
-        }
+        additional.visitInsn(AASTORE);
 
         //additional.visitVarInsn(ALOAD, 0);
 
@@ -101,7 +73,7 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
 
     @Override
     public void endVisit(Byte[] r,
-                         Argumenterizable argumenterizable,
+                         ArrayStore arrayStore,
                          Data extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,

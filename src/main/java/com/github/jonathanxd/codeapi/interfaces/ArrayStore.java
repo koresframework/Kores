@@ -25,12 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.interfaces;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 11/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public enum MethodType {
-    METHOD,
-    CONSTRUCTOR
+public interface ArrayStore extends CodePart, Valuable {
+
+    @Override
+    default Optional<CodePart> getValue() {
+        return Optional.ofNullable(getValueToStore());
+    }
+
+    int getIndex();
+
+    CodePart getValueToStore();
 }

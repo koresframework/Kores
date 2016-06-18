@@ -25,12 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.interfaces;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 11/05/16.
+ * Created by jonathan on 12/05/16.
  */
-public enum MethodType {
-    METHOD,
-    CONSTRUCTOR
+public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
+
+    @Override
+    default Optional<CodeType> getType() {
+        return Optional.ofNullable(getArrayType());
+    }
+
+    CodeType getArrayType();
+
+    int[] getDimensions();
+
+    default List<ArrayStore> getArrayValues() {
+        List<CodeArgument> arguments = getArguments();
+        List<ArrayStore> arrayStores = new ArrayList<>();
+
+        for (int i = 0; i < arguments.size(); i++) {
+            arrayStores.add(Helper.setArrayValue(i, arguments.get(i)));
+        }
+
+        return arrayStores;
+    }
+
+    @Override
+    default boolean isArray() {
+        return true;
+    }
 }

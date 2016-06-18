@@ -28,84 +28,84 @@
 package com.github.jonathanxd.codeapi.generatorv2.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.exceptions.TODOException;
 import com.github.jonathanxd.codeapi.generatorv2.Visitor;
 import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
+import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.MVData;
+import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, MVData>, Opcodes {
+public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MVData>, Opcodes {
+
+    public static final ArrayConstructVisitor INSTANCE = new ArrayConstructVisitor();
 
     @Override
-    public Byte[] visit(Argumenterizable argumenterizable,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
+    public Byte[] visit(ArrayConstructor arrayConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
-        MethodVisitor additional = mvData.getMethodVisitor();
+        MethodVisitor mv = mvData.getMethodVisitor();
 
-        List<CodeArgument> arguments = argumenterizable.getArguments();
+        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
 
-        if(!argumenterizable.isArray()) {
+        List<CodeArgument> arguments = arrayConstructor.getArguments();
 
-            for (CodeArgument argument : arguments) {
-                CodePart value = argument.getValue();
+        boolean initialize = !arguments.isEmpty();
+        int[] dimensions = arrayConstructor.getDimensions();
+        boolean multi = dimensions.length > 1;
 
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
-
-                if (argument.isCasted()) {
-                    additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(argument.getType()));
-                }
-            }
-        } else {
-            for (int i = 0; i < arguments.size(); i++) {
-
-                Common.runForInt(i, additional); // Visit index
-
-                CodeArgument argument = arguments.get(i);
-
-                CodePart value = argument.getValue();
-
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
-
-                if (argument.isCasted()) {
-                    additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(argument.getType()));
-                }
-            }
+        for (int i : dimensions) {
+            Common.runForInt(i, mv); // visitInsn, visitInt...
         }
 
-        //additional.visitVarInsn(ALOAD, 0);
+        if(multi && !initialize) {
+            throw new TODOException("Multi-dimensional arrays not implemented yet!");
+            //mv.visitMultiANewArrayInsn(Common.codeTypeToArray(arrayConstructor.getArrayType(), dimensions.length), dimensions.length);
+        } else {
+            mv.visitTypeInsn(ANEWARRAY, Common.codeTypeToSimpleAsm(arrayConstructor.getArrayType()));
+        }
+
+        if(initialize) {
+            // Initialize
+
+            for (ArrayStore arrayStore : arrayConstructor.getArrayValues()) {
+                mv.visitInsn(DUP);
+                visitorGenerator.generateTo(ArrayStore.class, arrayStore, extraData, navigator, null, mvData);
+            }
+
+
+        }
 
         return new Byte[0];
     }
 
     @Override
-    public void endVisit(Byte[] r,
-                         Argumenterizable argumenterizable,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
+    public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
     }
+
+
+
+
 }

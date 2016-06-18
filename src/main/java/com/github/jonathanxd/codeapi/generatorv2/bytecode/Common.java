@@ -43,6 +43,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Variable;
 
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.Arrays;
@@ -58,6 +59,74 @@ import java.util.stream.Collectors;
  * Created by jonathan on 03/06/16.
  */
 public class Common {
+
+    public static String codeTypeToArray(CodeType codeType, int dimensions) {
+        String name = codeTypeToFullAsm(codeType);
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int x = 0; x < dimensions; ++x)
+            sb.append("[");
+
+        return sb.toString() + name;
+    }
+
+    public static void runForInt(int num, MethodVisitor mv) {
+        if(num == 0) {
+            mv.visitInsn(Opcodes.ICONST_0);
+        }else
+        if(num == 1) {
+            mv.visitInsn(Opcodes.ICONST_1);
+        }else
+        if(num == 2) {
+            mv.visitInsn(Opcodes.ICONST_2);
+        }else
+        if(num == 3) {
+            mv.visitInsn(Opcodes.ICONST_3);
+        }else
+        if(num == 4) {
+            mv.visitInsn(Opcodes.ICONST_4);
+        }else
+        if(num == 5) {
+            mv.visitInsn(Opcodes.ICONST_5);
+        }else
+        if(num > Byte.MIN_VALUE && num < Byte.MAX_VALUE) {
+            mv.visitIntInsn(Opcodes.BIPUSH, num);
+        } else if(num > Short.MIN_VALUE && num < Short.MAX_VALUE) {
+            mv.visitIntInsn(Opcodes.SIPUSH, num);
+        } else {
+            mv.visitLdcInsn(num);
+        }
+    }
+
+    public static int opcodeForInt(int num) {
+
+        if(num == 0) {
+            return Opcodes.ICONST_0;
+        }else
+        if(num == 1) {
+            return Opcodes.ICONST_1;
+        }else
+        if(num == 2) {
+            return Opcodes.ICONST_2;
+        }else
+        if(num == 3) {
+            return Opcodes.ICONST_3;
+        }else
+        if(num == 4) {
+            return Opcodes.ICONST_4;
+        }else
+        if(num == 5) {
+            return Opcodes.ICONST_5;
+        }else
+        if(num > Byte.MIN_VALUE && num < Byte.MAX_VALUE) {
+            return Opcodes.BIPUSH;
+        } else if(num > Short.MIN_VALUE && num < Short.MAX_VALUE) {
+            return Opcodes.SIPUSH;
+        } else {
+            return Integer.MIN_VALUE;
+        }
+    }
 
     public static boolean isPrimitive(CodePart codePart) {
         if (codePart instanceof Literal) {

@@ -31,12 +31,13 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
 public interface Argumenterizable extends CodePart {
-    Collection<CodeArgument> getArguments();
+    List<CodeArgument> getArguments();
 
     default boolean isArray() {
         return false;
