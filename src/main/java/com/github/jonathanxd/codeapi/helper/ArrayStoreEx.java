@@ -30,28 +30,23 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 11/05/16.
  */
 @GenerateTo(ArrayStore.class)
-public class ArrayStoreEx implements ArrayStore {
+public class ArrayStoreEx extends ArrayLoadEx implements ArrayStore {
 
-    private final int index;
     private final CodePart value;
 
-    public ArrayStoreEx(int index, CodePart value) {
-        this.index = index;
+    public ArrayStoreEx(CodePart index, CodePart target, CodeType valueType, CodePart value) {
+        super(index, target, valueType);
         this.value = value;
     }
 
     @Override
-    public int getIndex() {
-        return 0;
-    }
-
-    @Override
     public CodePart getValueToStore() {
-        return null;
+        return this.value;
     }
 }

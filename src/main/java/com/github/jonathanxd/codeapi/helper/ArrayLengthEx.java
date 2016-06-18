@@ -25,42 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.keywords.Keywords;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import org.junit.Test;
-
-import java.util.Collections;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Created by jonathan on 11/05/16.
  */
-public class Perf1 {
+@GenerateTo(ArrayLength.class)
+public class ArrayLengthEx implements ArrayLength {
 
-    @Test
-    public void simpleTest() {
+    private final CodePart target;
 
-        CodeSource source = new CodeSource();
+    public ArrayLengthEx(CodePart target) {
+        this.target = target;
+    }
 
-        CodePart packageDeclaration = Helper.declarePackage("me.jonathanscripter.codeapi.test");
-
-        PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
-
-        source.add(packageDeclaration);
-
-        source.add(Helper.invokeArrayConstructor(Helper.getJavaType(Object[].class)));
-
-        String gen = generator.gen(source);
-
-        System.out.println(gen);
+    @Override
+    public Optional<CodePart> getTarget() {
+        return Optional.ofNullable(this.target);
     }
 
 }

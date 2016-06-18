@@ -282,27 +282,27 @@ public class CodeAPI {
     //          Array Constructors
     // =========================================================
 
-    public static ArrayConstructor arrayConstruct(CodeType arrayType, int[] dimensions, CodeArgument... arguments) {
+    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
         return arrayConstruct__factory(arrayType, dimensions, arguments);
     }
 
-    public static ArrayConstructor arrayConstruct(CodeType arrayType, int[] dimensions) {
+    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions) {
         return arrayConstruct__factory(arrayType, dimensions);
     }
 
     // Class
 
-    public static ArrayConstructor arrayConstruct(Class<?> arrayType, int[] dimensions) {
+    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions) {
         return arrayConstruct__factory(Helper.getJavaType(arrayType), dimensions);
     }
 
-    public static ArrayConstructor arrayConstruct(Class<?> arrayType, int[] dimensions, CodeArgument... arguments) {
+    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions, CodeArgument... arguments) {
         return arrayConstruct__factory(Helper.getJavaType(arrayType), dimensions, arguments);
     }
 
     // Factory
 
-    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, int[] dimensions, CodeArgument... arguments) {
+    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
         return new ArrayConstructorEx(arrayType, dimensions, ArrayUtils.toList(arguments));
     }
 

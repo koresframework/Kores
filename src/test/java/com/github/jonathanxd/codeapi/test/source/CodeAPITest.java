@@ -25,7 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
@@ -131,7 +131,7 @@ public class CodeAPITest {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println", Collections.singleton(new CodeArgument(varToPrint)));
+        MethodSpec methodSpec = new MethodSpec("println", Collections.singletonList(new CodeArgument(varToPrint)));
 
         return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ (CodeType) null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpec);
     }
@@ -187,7 +187,7 @@ public class CodeAPITest {
 
         // Add Invocation of println method declared in 'System.out' ('variable')
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/PrintStream.class, variable, new MethodSpec(
-                "println", Collections.singleton(
+                "println", Collections.singletonList(
                         // with argument 'msgVar' (Method msg parameter)
                         new CodeArgument(msgVar,
                                 // Cast type? = false

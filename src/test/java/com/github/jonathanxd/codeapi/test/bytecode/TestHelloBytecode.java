@@ -25,29 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.generatorv2.ByteVisitGenerator;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.operators.Operators;
+import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
 import java.io.PrintStream;
+import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
 
 import static com.github.jonathanxd.codeapi.helper.Helper.accessStaticVariable;
 import static com.github.jonathanxd.codeapi.helper.Helper.declarePackage;
@@ -58,7 +57,7 @@ import static java.util.Collections.singletonList;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class TestLoopBytecode {
+public class TestHelloBytecode {
     @Test
     public void testBytecode() {
 
@@ -72,43 +71,12 @@ public class TestLoopBytecode {
                 singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
-        VariableAccess accessX = Helper.accessLocalVariable("x", PredefinedTypes.INT);
-        VariableAccess accessI = Helper.accessLocalVariable("i", PredefinedTypes.INT);
-        VariableAccess accessU = Helper.accessLocalVariable("u", PredefinedTypes.INT);
-
+        clSource.add(new CodeField("DEFAULT_VALUE", PredefinedTypes.INT, Literals.INT(17), Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC, CodeModifier.FINAL)));
 
         CodeConstructor codeConstructor = CodeConstructorBuilder.builder()
                 .withDeclaringClass(codeClass)
                 .withModifiers(singletonList(CodeModifier.PUBLIC))
                 .withBody(sourceOf(
-
-                        new CodeField("x", PredefinedTypes.INT, Literals.INT(0)),
-
-                        Helper.createWhile(
-                                Helper.createIfVal().add1(Helper.check(accessX, Operators.LESS_THAN, Literals.INT(17))).make(),
-                                Helper.sourceOf(
-                                        Predefined.invokePrintln(new CodeArgument(accessX, int.class)),
-                                        Helper.operateLocalVariable("x", PredefinedTypes.INT, Operators.INCREMENT)
-                                )
-                        ),
-
-                        Helper.createFor(Helper.expression(
-                                new CodeField("i", PredefinedTypes.INT, Literals.INT(0))
-                                ),
-                                Helper.createIfVal().add1(Helper.check(accessI, Operators.LESS_THAN, Literals.INT(100))).make(),
-                                Helper.expression(Helper.operateLocalVariable("i", PredefinedTypes.INT, Operators.INCREMENT)),
-                                Helper.sourceOf(
-                                        Predefined.invokePrintln(new CodeArgument(accessI, int.class))
-                                )),
-
-
-                        new CodeField("u", PredefinedTypes.INT, Literals.INT(0)),
-
-                        Helper.createDoWhile(Helper.sourceOf(
-                                Predefined.invokePrintln(new CodeArgument(accessU, int.class)),
-                                Helper.operateLocalVariable("u", PredefinedTypes.INT, Operators.INCREMENT)
-
-                        ), Helper.createIfVal().add1(Helper.check(accessU, Operators.LESS_THAN, Literals.INT(5))).make()),
                         // Chama um metodo Virtual (metodos de instancia) na Classe PrintStream
                         invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                                 // Acessa uma variavel estatica 'out' com tipo PrintStream na classe System
@@ -140,9 +108,16 @@ public class TestLoopBytecode {
         Object o;
         try {
             o = define.newInstance();
+
+            int i = (int) MethodHandles.lookup().findStaticGetter(define, "DEFAULT_VALUE", int.class).invoke();
+
+            System.out.println("DEFAULT_VALUE = "+i);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
+
 
     }
 

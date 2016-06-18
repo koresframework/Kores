@@ -139,7 +139,7 @@ public enum CodeModifier implements CodePart {
     }
 
     public static String toString(Collection<CodeModifier> collection) {
-        return collection.stream().sorted().map(CodeModifier::getExpr).collect(Collectors.joining(" "));
+        return collection != null ? collection.stream().sorted().map(CodeModifier::getExpr).collect(Collectors.joining(" ")) : "";
     }
 
     public static int toJavaModifier(Collection<CodeModifier> modifiers) {

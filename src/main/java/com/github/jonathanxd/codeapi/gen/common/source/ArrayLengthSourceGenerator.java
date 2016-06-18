@@ -25,52 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.generatorv2.bytecode;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.generatorv2.Visitor;
-import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.util.MVData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.codeapi.util.Parent;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 09/05/16.
  */
-public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
+public class ArrayLengthSourceGenerator implements Generator<ArrayLength, String, PlainSourceGenerator> {
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+    public static final ArrayLengthSourceGenerator INSTANCE = new ArrayLengthSourceGenerator();
 
-    @Override
-    public Byte[] visit(Literal literal,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
-
-        MethodVisitor mv = mvData.getMethodVisitor();
-
-        String name = literal.getName();
-
-        Common.runForLiteral(literal, mv);
-
-        return new Byte[0];
+    private ArrayLengthSourceGenerator() {
     }
 
     @Override
-    public void endVisit(Byte[] r,
-                         Literal literal,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ArrayLength arrayLength, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        arrayLength.getTarget().ifPresent(target -> values.add(TargetValue.create(target, parents)));
+
+        values.add(ValueImpl.create("."));
+        values.add(ValueImpl.create("length"));
+
+
+        return values;
 
     }
 }

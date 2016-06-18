@@ -25,46 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 11/05/16.
+ * Created by jonathan on 12/05/16.
  */
-@GenerateTo(ArrayConstructor.class)
-public class ArrayConstructorEx implements ArrayConstructor {
+public interface ArrayLength extends CodePart, ArrayAccess {
 
-    private final CodeType arrayType;
-    private final CodePart[] dimensions;
-    private final List<CodeArgument> arguments;
-
-    public ArrayConstructorEx(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
-        this.arrayType = arrayType;
-        this.dimensions = dimensions.clone();
-        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
-    }
-
-    @Override
-    public CodeType getArrayType() {
-        return this.arrayType;
-    }
-
-    @Override
-    public CodePart[] getDimensions() {
-        return this.dimensions;
-    }
-
-    @Override
-    public List<CodeArgument> getArguments() {
-        return this.arguments;
-    }
+    Optional<CodePart> getTarget();
 }

@@ -25,46 +25,59 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.types;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import com.github.jonathanxd.codeapi.generatorv2.bytecode.Common;
 
 /**
- * Created by jonathan on 11/05/16.
+ * Created by jonathan on 18/06/16.
  */
-@GenerateTo(ArrayConstructor.class)
-public class ArrayConstructorEx implements ArrayConstructor {
+@GenerateTo(CodeType.class)
+class CodeTypeArray implements CodeType {
 
-    private final CodeType arrayType;
-    private final CodePart[] dimensions;
-    private final List<CodeArgument> arguments;
+    private final CodeType component;
+    private final int size;
 
-    public ArrayConstructorEx(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
-        this.arrayType = arrayType;
-        this.dimensions = dimensions.clone();
-        this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
+    CodeTypeArray(CodeType component, int size) {
+        this.component = component;
+        this.size = size;
     }
 
     @Override
-    public CodeType getArrayType() {
-        return this.arrayType;
+    public String getType() {
+        String name = component.getType();
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int x = 0; x < size; ++x)
+            sb.append("[]");
+
+        return name + sb.toString();
     }
 
     @Override
-    public CodePart[] getDimensions() {
-        return this.dimensions;
+    public String getJavaSpecName() {
+        return Common.codeTypeToArray(component, size);
     }
 
     @Override
-    public List<CodeArgument> getArguments() {
-        return this.arguments;
+    public boolean isVirtual() {
+        return component.isVirtual();
+    }
+
+    @Override
+    public boolean isInterface() {
+        return component.isInterface();
+    }
+
+    @Override
+    public boolean isPrimitive() {
+        return component.isPrimitive();
+    }
+
+    @Override
+    public boolean isExpression() {
+        return component.isExpression();
     }
 }

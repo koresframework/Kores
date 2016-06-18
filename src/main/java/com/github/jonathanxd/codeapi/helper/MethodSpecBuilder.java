@@ -32,12 +32,13 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 04/06/16.
  */
 public final class MethodSpecBuilder {
-    private Collection<CodeArgument> arguments;
+    private List<CodeArgument> arguments;
     private String methodName;
     private CodeType returnType;
     private MethodType methodType;
@@ -49,7 +50,7 @@ public final class MethodSpecBuilder {
         return new MethodSpecBuilder();
     }
 
-    public MethodSpecBuilder withArguments(Collection<CodeArgument> arguments) {
+    public MethodSpecBuilder withArguments(List<CodeArgument> arguments) {
         this.arguments = arguments;
         return this;
     }

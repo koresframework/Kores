@@ -48,6 +48,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -66,10 +67,10 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
         MethodVisitor additional = mvData.getMethodVisitor();
 
         CodeType exceptionType = e.getType().orElseThrow(NullPointerException::new);
-        Collection<CodeArgument> arguments = e.getArguments();
+        List<CodeArgument> arguments = e.getArguments();
 
         MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType,
-                new MethodSpec(null, arguments,
+                new MethodSpec((String) null, arguments,
                         /*<init>*/
                         (CodeType) null/*PredefinedTypes#VOID*/,
                         MethodType.CONSTRUCTOR));

@@ -35,14 +35,12 @@ import java.util.Optional;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface ArrayStore extends CodePart, Valuable {
+public interface ArrayStore extends CodePart, Valuable, ArrayLoad {
 
     @Override
     default Optional<CodePart> getValue() {
         return Optional.ofNullable(getValueToStore());
     }
-
-    int getIndex();
 
     CodePart getValueToStore();
 }

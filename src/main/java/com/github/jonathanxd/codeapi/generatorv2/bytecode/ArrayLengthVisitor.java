@@ -30,13 +30,12 @@ package com.github.jonathanxd.codeapi.generatorv2.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.generatorv2.Visitor;
 import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -44,29 +43,27 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
-
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+public class ArrayLengthVisitor implements Visitor<ArrayLength, Byte, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(Literal literal,
+    public Byte[] visit(ArrayLength arrayLength,
                         Data extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        MethodVisitor additional = mvData.getMethodVisitor();
 
-        String name = literal.getName();
+        visitorGenerator.generateTo(ArrayAccess.class, arrayLength, extraData, navigator, null, mvData);
 
-        Common.runForLiteral(literal, mv);
+        additional.visitInsn(ARRAYLENGTH);
 
         return new Byte[0];
     }
 
     @Override
     public void endVisit(Byte[] r,
-                         Literal literal,
+                         ArrayLength arrayLength,
                          Data extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,

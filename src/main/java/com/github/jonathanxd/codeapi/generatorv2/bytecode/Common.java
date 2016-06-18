@@ -45,6 +45,7 @@ import com.github.jonathanxd.codeapi.util.Variable;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -71,7 +72,81 @@ public class Common {
         return sb.toString() + name;
     }
 
+    public static String codeTypeToSimpleArray(CodeType codeType, int dimensions) {
+        if(dimensions <= 1) {
+            return codeTypeToSimpleAsm(codeType);
+        }
+
+        String name = codeTypeToFullAsm(codeType);
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int x = 1; x < dimensions; ++x)
+            sb.append("[");
+
+        return sb.toString() + name;
+    }
+
+    public static int fromType(CodeType codeType) {
+        switch (codeType.getType()) {
+            case "int": return Opcodes.T_INT;
+            case "boolean": return Opcodes.T_BOOLEAN;
+            case "byte": return Opcodes.T_BYTE;
+            case "char": return Opcodes.T_CHAR;
+            case "double": return Opcodes.T_DOUBLE;
+            case "float": return Opcodes.T_FLOAT;
+            case "short": return Opcodes.T_SHORT;
+            case "long": return Opcodes.T_LONG;
+            default: return Integer.MIN_VALUE;
+        }
+    }
+
+    public static void runForArrayStore(CodeType arrayType, int dimensions, MethodVisitor mv) {
+        //mv.visitIntInsn(NEWARRAY, T_INT);
+        switch (arrayType.getType()) {
+            case "int": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_INT);
+                break;
+            }
+            case "boolean": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_BOOLEAN);
+                break;
+            }
+            case "byte": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_BYTE);
+                break;
+            }
+            case "char": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_CHAR);
+                break;
+            }
+            case "double": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_DOUBLE);
+                break;
+            }
+            case "float": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_FLOAT);
+                break;
+            }
+            case "short": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_SHORT);
+                break;
+            }
+            case "long": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_LONG);
+                break;
+            }
+            default:{
+                mv.visitTypeInsn(Opcodes.ANEWARRAY, Common.codeTypeToSimpleArray(arrayType, dimensions));
+                break;
+            }
+        }
+    }
+
     public static void runForInt(int num, MethodVisitor mv) {
+        if(num == -1) {
+            mv.visitInsn(Opcodes.ICONST_M1);
+        }else
         if(num == 0) {
             mv.visitInsn(Opcodes.ICONST_0);
         }else
@@ -96,6 +171,75 @@ public class Common {
             mv.visitIntInsn(Opcodes.SIPUSH, num);
         } else {
             mv.visitLdcInsn(num);
+        }
+    }
+
+    public static void runForLong(long num, MethodVisitor mv) {
+        if(num == 0) {
+            mv.visitInsn(Opcodes.LCONST_0);
+        }else
+        if(num == 1) {
+            mv.visitInsn(Opcodes.LCONST_1);
+        } else {
+            mv.visitLdcInsn(num);
+        }
+    }
+
+    public static void runForDouble(double num, MethodVisitor mv) {
+        if(num == 0) {
+            mv.visitInsn(Opcodes.DCONST_0);
+        }else
+        if(num == 1) {
+            mv.visitInsn(Opcodes.DCONST_1);
+        } else {
+            mv.visitLdcInsn(num);
+        }
+    }
+
+    public static void runForFloat(float num, MethodVisitor mv) {
+        if(num == 0) {
+            mv.visitInsn(Opcodes.FCONST_0);
+        }else
+        if(num == 1) {
+            mv.visitInsn(Opcodes.FCONST_1);
+        } else
+        if(num == 2) {
+            mv.visitInsn(Opcodes.FCONST_2);
+        } else {
+            mv.visitLdcInsn(num);
+        }
+    }
+
+    public static void runForLiteral(Literal num, MethodVisitor mv) {
+        String name = num.getName();
+
+        final Object o;
+        Runnable runnable = null;
+
+        if(num instanceof Literals.QuotedStringLiteral) {
+
+            mv.visitLdcInsn(name.substring(1, name.length()-1));
+
+        } else if (num instanceof Literals.IntLiteral) {
+
+            Common.runForInt(Integer.parseInt(name), mv);
+
+        } else if (num instanceof Literals.LongLiteral) {
+
+            Common.runForLong(Long.parseLong(name), mv);
+
+        } else if (num instanceof Literals.DoubleLiteral) {
+
+            Common.runForDouble(Double.parseDouble(name), mv);
+
+        } else if (num instanceof Literals.CharLiteral) {
+
+            mv.visitIntInsn(Opcodes.BIPUSH, name.charAt(0));
+
+        } else if (num instanceof Literals.FloatLiteral) {
+
+            Common.runForFloat(Float.parseFloat(name), mv);
+
         }
     }
 
@@ -216,6 +360,12 @@ public class Common {
     public static String fullSpecToSimpleAsm(TypeSpec typeSpec) {
         return "(" + codeTypesToSimpleAsm(typeSpec.getParameterSpec().stream().toArray(CodeType[]::new)) + ")"
                 + codeTypeToSimpleAsm(typeSpec.getReturnType());
+    }
+
+    public static int getOpcodeForType(CodeType type, int opcode) {
+        Type asmType = Type.getType(type.getJavaSpecName());
+
+        return asmType.getOpcode(opcode);
     }
 
     private static String primitiveCodeTypeToAsm(CodeType type) {

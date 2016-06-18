@@ -40,6 +40,8 @@ import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
@@ -90,6 +92,14 @@ public final class Helper {
      */
     public static Access accessLocal() {
         return new AccessLocalEx();
+    }
+
+    public static ArrayLoad accessArrayValue(CodePart target, CodePart index, CodeType valueType) {
+        return new ArrayLoadEx(index, target, valueType);
+    }
+
+    public static ArrayLength arrayLength(CodePart target) {
+        return new ArrayLengthEx(target);
     }
 
     public static VariableAccess accessLocalVariable(String name) {
@@ -392,18 +402,18 @@ public final class Helper {
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type) {
-        return new ArrayConstructorEx(type, new int[]{}, null);
+        return new ArrayConstructorEx(type, new CodePart[]{}, null);
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
-        return new ArrayConstructorEx(type, new int[]{arguments.length}, Arrays.asList(arguments));
+        return new ArrayConstructorEx(type, new CodePart[]{Literals.INT(arguments.length)}, Arrays.asList(arguments));
     }
 
-    public static ArrayConstructor invokeArrayConstructor(CodeType type, int[] dimensions) {
+    public static ArrayConstructor invokeArrayConstructor(CodeType type, CodePart[] dimensions) {
         return new ArrayConstructorEx(type, dimensions, null);
     }
 
-    public static ArrayConstructor invokeArrayConstructor(CodeType type, int[] dimensions, CodeArgument[] arguments) {
+    public static ArrayConstructor invokeArrayConstructor(CodeType type, CodePart[] dimensions, CodeArgument[] arguments) {
         return new ArrayConstructorEx(type, dimensions, Arrays.asList(arguments));
     }
 
@@ -444,8 +454,8 @@ public final class Helper {
         return new ReturnEx(returnType, value);
     }
 
-    public static ArrayStore setArrayValue(int index, CodePart value) {
-        return new ArrayStoreEx(index, value);
+    public static ArrayStore setArrayValue(CodePart target, CodePart index, CodeType valueType, CodePart value) {
+        return new ArrayStoreEx(index, target, valueType, value);
     }
 
     public static VariableStore setVariable(CodeType localization, CodePart at, String variable, CodePart value) {

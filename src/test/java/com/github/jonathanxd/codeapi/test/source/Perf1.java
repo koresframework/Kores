@@ -25,52 +25,36 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.generatorv2.bytecode;
+package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.generatorv2.Visitor;
-import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.util.MVData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.Helper;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import org.junit.Test;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 12/05/16.
  */
-public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
+public class Perf1 {
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+    @Test
+    public void simpleTest() {
 
-    @Override
-    public Byte[] visit(Literal literal,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
+        CodeSource source = new CodeSource();
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        CodePart packageDeclaration = Helper.declarePackage("me.jonathanscripter.codeapi.test");
 
-        String name = literal.getName();
+        PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
 
-        Common.runForLiteral(literal, mv);
+        source.add(packageDeclaration);
 
-        return new Byte[0];
+        source.add(Helper.invokeArrayConstructor(Helper.getJavaType(Object[].class)));
+
+        String gen = generator.gen(source);
+
+        System.out.println(gen);
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         Literal literal,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }

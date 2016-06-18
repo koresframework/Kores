@@ -25,52 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.generatorv2.bytecode;
+package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.generatorv2.Visitor;
-import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.util.MVData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 11/05/16.
  */
-public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
+@GenerateTo(ArrayLoad.class)
+public class ArrayLoadEx implements ArrayLoad {
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+    private final CodePart index;
+    private final CodePart target;
+    private final CodeType valueType;
 
-    @Override
-    public Byte[] visit(Literal literal,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
-
-        MethodVisitor mv = mvData.getMethodVisitor();
-
-        String name = literal.getName();
-
-        Common.runForLiteral(literal, mv);
-
-        return new Byte[0];
+    public ArrayLoadEx(CodePart index, CodePart target, CodeType valueType) {
+        this.index = index;
+        this.target = target;
+        this.valueType = valueType;
     }
 
     @Override
-    public void endVisit(Byte[] r,
-                         Literal literal,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
+    public CodePart getIndex() {
+        return this.index;
     }
+
+    @Override
+    public CodeType getValueType() {
+        return valueType;
+    }
+
+    @Override
+    public Optional<CodePart> getTarget() {
+        return Optional.ofNullable(this.target);
+    }
+
 }

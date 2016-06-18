@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.ArrayList;
@@ -48,14 +49,16 @@ public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
 
     CodeType getArrayType();
 
-    int[] getDimensions();
+    CodePart[] getDimensions();
 
     default List<ArrayStore> getArrayValues() {
         List<CodeArgument> arguments = getArguments();
         List<ArrayStore> arrayStores = new ArrayList<>();
 
         for (int i = 0; i < arguments.size(); i++) {
-            arrayStores.add(Helper.setArrayValue(i, arguments.get(i)));
+            CodeArgument argument = arguments.get(i);
+
+            arrayStores.add(Helper.setArrayValue(null, Literals.INT(i), argument.getType(), argument.getValue()));
         }
 
         return arrayStores;

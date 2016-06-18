@@ -39,6 +39,7 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
@@ -72,18 +73,26 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
         List<CodeArgument> arguments = arrayConstructor.getArguments();
 
         boolean initialize = !arguments.isEmpty();
-        int[] dimensions = arrayConstructor.getDimensions();
+        CodePart[] dimensions = arrayConstructor.getDimensions();
         boolean multi = dimensions.length > 1;
 
-        for (int i : dimensions) {
-            Common.runForInt(i, mv); // visitInsn, visitInt...
-        }
 
         if(multi && !initialize) {
-            throw new TODOException("Multi-dimensional arrays not implemented yet!");
-            //mv.visitMultiANewArrayInsn(Common.codeTypeToArray(arrayConstructor.getArrayType(), dimensions.length), dimensions.length);
+            for (CodePart i : dimensions) {
+                visitorGenerator.generateTo(i.getClass(), i, extraData, navigator, null, mvData);
+            }
+            //throw new TODOException("Multi-dimensional arrays not implemented yet!");
+            mv.visitMultiANewArrayInsn(Common.codeTypeToArray(arrayConstructor.getArrayType(), dimensions.length), dimensions.length);
         } else {
-            mv.visitTypeInsn(ANEWARRAY, Common.codeTypeToSimpleAsm(arrayConstructor.getArrayType()));
+            CodePart dimensionX = dimensions.length != 0 ? dimensions[0] : Literals.INT(0);
+
+            visitorGenerator.generateTo(dimensionX.getClass(), dimensionX, extraData, navigator, null, mvData);
+
+            //Common.codeTypeToSimpleAsm(arrayConstructor.getArrayType()
+
+            Common.runForArrayStore(arrayConstructor.getArrayType(), dimensions.length, mv); // ANEWARRAY, ANEWARRAY T_INT, etc...
+
+            //mv.visitTypeInsn(ANEWARRAY, Common.codeTypeToSimpleArray(arrayConstructor.getArrayType(), dimensions.length));
         }
 
         if(initialize) {

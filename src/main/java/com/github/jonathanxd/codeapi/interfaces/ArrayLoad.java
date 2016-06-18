@@ -25,52 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.generatorv2.bytecode;
+package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.generatorv2.Visitor;
-import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.util.MVData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 12/05/16.
  */
-public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
+public interface ArrayLoad extends CodePart, Typed, ArrayAccess {
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
-
-    @Override
-    public Byte[] visit(Literal literal,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
-
-        MethodVisitor mv = mvData.getMethodVisitor();
-
-        String name = literal.getName();
-
-        Common.runForLiteral(literal, mv);
-
-        return new Byte[0];
-    }
+    CodePart getIndex();
 
     @Override
-    public void endVisit(Byte[] r,
-                         Literal literal,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
+    default Optional<CodeType> getType() {
+        return Optional.ofNullable(getValueType());
     }
+
+    CodeType getValueType();
+
 }

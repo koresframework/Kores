@@ -72,4 +72,10 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     default int compareTo(CodeType other) {
         return this.getJavaSpecName().compareTo(other.getJavaSpecName());
     }
+
+    default CodeType toArray(int dimensions) {
+        return new CodeTypeArray(this, dimensions);
+    }
+
+
 }

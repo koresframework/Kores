@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.MVData;
@@ -42,6 +43,8 @@ import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
+import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -57,14 +60,21 @@ public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opc
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
+        visitorGenerator.generateTo(ArrayAccess.class, arrayStore, extraData, navigator, null, mvData);
 
-        Common.runForInt(arrayStore.getIndex(), additional); // Iconst, bipush, etc
+        CodePart index = arrayStore.getIndex();
+
+        visitorGenerator.generateTo(index.getClass(), index, extraData, navigator, null, mvData);
+
+        //Common.runForInt(arrayStore.getIndex(), additional); // Iconst, bipush, etc
 
         CodePart value = arrayStore.getValueToStore();
 
         visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
 
-        additional.visitInsn(AASTORE);
+        int opcode = Common.getOpcodeForType(arrayStore.getValueType(), IASTORE);
+
+        additional.visitInsn(opcode);
 
         //additional.visitVarInsn(ALOAD, 0);
 

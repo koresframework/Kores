@@ -51,19 +51,22 @@ public final class Literals {
         return (literal1 instanceof IntLiteral
                 || literal1 instanceof FloatLiteral
                 || literal1 instanceof DoubleLiteral
-                || literal1 instanceof CharLiteral)
+                || literal1 instanceof CharLiteral
+                || literal1 instanceof LongLiteral)
                 &&
                 (literal2 instanceof IntLiteral
                         || literal2 instanceof FloatLiteral
                         || literal2 instanceof DoubleLiteral
-                        || literal2 instanceof CharLiteral);
+                        || literal2 instanceof CharLiteral
+                        || literal2 instanceof LongLiteral);
     }
 
     public static boolean isPrimitive(Literal literal) {
         return literal instanceof IntLiteral
                 || literal instanceof FloatLiteral
                 || literal instanceof DoubleLiteral
-                || literal instanceof CharLiteral;
+                || literal instanceof CharLiteral
+                || literal instanceof LongLiteral;
     }
 
     // NullLiteral
@@ -78,6 +81,11 @@ public final class Literals {
     // IntegerLiteral
     public static Literal INT(int i) {
         return new IntLiteral(String.valueOf(i));
+    }
+
+    // LongLiteral
+    public static Literal LONG(long i) {
+        return new LongLiteral(String.valueOf(i));
     }
 
     // FloatLiteral
@@ -130,6 +138,18 @@ public final class Literals {
         }
 
     }
+
+    @GenerateTo(Literal.class)
+    public static final class LongLiteral extends Literal {
+
+        private static final CodeType TYPE = Helper.getJavaType(String.class);
+
+        LongLiteral(String name) {
+            super(name, TYPE);
+        }
+
+    }
+
 
     @GenerateTo(Literal.class)
     public static final class FloatLiteral extends Literal {

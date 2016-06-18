@@ -35,6 +35,9 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.source.AccessSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArgumenterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArrayConstructorSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ArrayLengthSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ArrayLoadSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ArrayStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
@@ -83,6 +86,9 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
@@ -160,6 +166,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(IfExpressionable.class, IfExpressionableSourceGenerator.INSTANCE);
         register(VariableStore.class, VariableStoreSourceGenerator.INSTANCE);
         register(ArrayConstructor.class, ArrayConstructorSourceGenerator.INSTANCE);
+        register(ArrayLoad.class, ArrayLoadSourceGenerator.INSTANCE);
+        register(ArrayStore.class, ArrayStoreSourceGenerator.INSTANCE);
+        register(ArrayLength.class, ArrayLengthSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);

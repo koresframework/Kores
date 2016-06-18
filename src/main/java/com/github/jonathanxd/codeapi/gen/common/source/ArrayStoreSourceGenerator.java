@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -43,45 +44,32 @@ import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ArrayConstructorSourceGenerator implements Generator<ArrayConstructor, String, PlainSourceGenerator> {
+public class ArrayStoreSourceGenerator implements Generator<ArrayStore, String, PlainSourceGenerator> {
 
-    public static final ArrayConstructorSourceGenerator INSTANCE = new ArrayConstructorSourceGenerator();
+    public static final ArrayStoreSourceGenerator INSTANCE = new ArrayStoreSourceGenerator();
 
-    private ArrayConstructorSourceGenerator() {
+    private ArrayStoreSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(ArrayConstructor arrayConstructor, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ArrayStore arrayStore, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(TargetValue.create(Keyword.class, Keywords.NEW, parents));
-        values.add(TargetValue.create(CodeType.class, arrayConstructor.getArrayType(), parents));
+        arrayStore.getTarget().ifPresent(target -> values.add(TargetValue.create(target, parents)));
 
-        boolean generateSizes = arrayConstructor.getArguments().isEmpty();
+        values.add(ValueImpl.create("["));
+        values.add(TargetValue.create(arrayStore.getIndex(), parents));
+        values.add(ValueImpl.create("]"));
 
-        if(!generateSizes) {
+        values.add(ValueImpl.create("="));
 
-            String collect = Arrays.stream(arrayConstructor.getDimensions()).map($ -> "[]").collect(Collectors.joining(""));
-
-            values.add(ValueImpl.create(collect));
-        }else {
-            for (CodePart i : arrayConstructor.getDimensions()) {
-                values.add(ValueImpl.create("["));
-                values.add(TargetValue.create(i, parents));
-                values.add(ValueImpl.create("]"));
-            }
-        }
-
-        values.add(TargetValue.create(Argumenterizable.class, arrayConstructor, parents));
+        values.add(TargetValue.create(arrayStore.getValueToStore(), parents));
 
         return values;
 

@@ -30,43 +30,45 @@ package com.github.jonathanxd.codeapi.generatorv2.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.generatorv2.Visitor;
 import com.github.jonathanxd.codeapi.generatorv2.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.util.Optional;
+
 /**
  * Created by jonathan on 03/06/16.
  */
-public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
-
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(Literal literal,
+    public Byte[] visit(ArrayAccess arrayAccess,
                         Data extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        MethodVisitor additional = mvData.getMethodVisitor();
 
-        String name = literal.getName();
+        Optional<CodePart> targetOpt = arrayAccess.getTarget();
 
-        Common.runForLiteral(literal, mv);
+        if(targetOpt.isPresent()) {
+            CodePart target = targetOpt.get();
+
+            visitorGenerator.generateTo(target.getClass(), target, extraData, navigator, null, mvData);
+        }
 
         return new Byte[0];
     }
 
     @Override
     public void endVisit(Byte[] r,
-                         Literal literal,
+                         ArrayAccess arrayAccess,
                          Data extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
