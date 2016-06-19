@@ -59,7 +59,7 @@ public class LocalizedAtSourceGenerator implements Generator<LocalizedAt, String
         String type;
 
         if (typeOpt.isPresent()) {
-            type = typeOpt.get().getType();
+            type = typeOpt.get().getCanonicalName();
         } else {
             type = "";
         }

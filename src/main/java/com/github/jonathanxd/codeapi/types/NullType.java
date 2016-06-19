@@ -43,6 +43,11 @@ public class NullType implements CodeType {
         return "null";
     }
 
+    @Override
+    public String getCanonicalName() {
+        return "null";
+    }
+
     public static NullType getNullType() {
         return TYPE;
     }

@@ -68,7 +68,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
         if (!parameters.isEmpty()) {
 
             for (CodeType parameter : parameters) {
-                String append = parameter.getType();
+                String append = parameter.getCanonicalName();
 
                 sj.add(append);
             }

@@ -82,6 +82,11 @@ public final class PredefinedTypes {
         }
 
         @Override
+        public String getCanonicalName() {
+            return this.tClass.getCanonicalName();
+        }
+
+        @Override
         public String getSimpleName() {
             return this.tClass.getSimpleName();
         }

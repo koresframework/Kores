@@ -53,7 +53,7 @@ public class CodeTypeSourceGenerator implements Generator<CodeType, String, Plai
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeType codeType, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         return Collections.singletonList(
-                ValueImpl.create(codeType.getType())
+                ValueImpl.create(codeType.getCanonicalName())
         );
     }
 

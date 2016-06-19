@@ -77,7 +77,7 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
             CodeArgument argument = iterator.next();
 
             if (argument.isCasted()) {
-                values.add(ValueImpl.create(OPEN_TOKEN + argument.getType().getType() + CLOSE_TOKEN));
+                values.add(ValueImpl.create(OPEN_TOKEN + argument.getType().getCanonicalName() + CLOSE_TOKEN));
             }
 
             values.add(TargetValue.create(argument.getValue().getClass(), argument.getValue(), parents));

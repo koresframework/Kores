@@ -80,4 +80,16 @@ class CodeTypeArray implements CodeType {
     public boolean isExpression() {
         return component.isExpression();
     }
+
+    @Override
+    public String getCanonicalName() {
+        String name = component.getCanonicalName();
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int x = 0; x < size; ++x)
+            sb.append("[]");
+
+        return name + sb.toString();
+    }
 }

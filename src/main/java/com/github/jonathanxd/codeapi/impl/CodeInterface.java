@@ -61,6 +61,10 @@ public class CodeInterface extends AbstractBodied implements Modifierable, CodeR
         this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableCollection(implementations);
     }
 
+    @Override
+    public String getCanonicalName() {
+        return this.getQualifiedName();
+    }
 
     public Keyword getKeyword() {
         return Keywords.INTERFACE;

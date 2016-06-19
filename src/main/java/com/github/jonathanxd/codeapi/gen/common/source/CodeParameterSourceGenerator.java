@@ -52,7 +52,7 @@ public class CodeParameterSourceGenerator implements Generator<CodeParameter, St
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        String sb = codeParameter.getType().getType() +
+        String sb = codeParameter.getType().getCanonicalName() +
                 " " +
                 codeParameter.getName();
 

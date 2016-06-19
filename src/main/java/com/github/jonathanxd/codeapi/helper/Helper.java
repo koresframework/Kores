@@ -612,6 +612,11 @@ public final class Helper {
         }
 
         @Override
+        public String getCanonicalName() {
+            return this.type.getCanonicalName();
+        }
+
+        @Override
         public int hashCode() {
             return type.hashCode();
         }

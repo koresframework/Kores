@@ -60,6 +60,11 @@ public class CodeClass extends CodeInterface implements Extender {
     }
 
     @Override
+    public String getCanonicalName() {
+        return this.getQualifiedName();
+    }
+
+    @Override
     public Optional<CodeType> getSuperType() {
         return Optional.ofNullable(this.superType);
     }

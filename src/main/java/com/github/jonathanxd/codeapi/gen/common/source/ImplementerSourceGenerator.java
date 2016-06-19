@@ -63,7 +63,7 @@ public class ImplementerSourceGenerator implements Generator<Implementer, String
 
         return Arrays.asList(
                 MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents,/*Parent.create(this, parents)*/codeSourceData, data)), // Whitespace not needed
-                ValueImpl.create(implementer.getImplementations().stream().map(CodeType::getType).collect(Collectors.joining(" ")))
+                ValueImpl.create(implementer.getImplementations().stream().map(CodeType::getCanonicalName).collect(Collectors.joining(" ")))
         );
     }
 }
