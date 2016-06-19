@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Return;
@@ -61,12 +62,16 @@ public class ReturnVisitor implements Visitor<Return, Byte, MVData>, Opcodes {
 
         CodeType toRet = aReturn.getType().orElse(null);
 
+
         int opcode = RETURN;
 
         if (toRet != null) {
-            Type type = Type.getType(toRet.getJavaSpecName());
 
-            opcode = type.getOpcode(IRETURN); // ARETURN
+            if(!(toRet.getType().equals("void") || toRet.getJavaSpecName().equals("V"))) {
+                Type type = Type.getType(toRet.getJavaSpecName());
+
+                opcode = type.getOpcode(IRETURN); // ARETURN
+            }
 
         }
 

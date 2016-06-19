@@ -63,7 +63,13 @@ public class ReturnSourceGenerator implements Generator<Return, String, PlainSou
 
         Optional<CodePart> value = aReturn.getValue();
 
-        if (!value.isPresent())
+        CodeType type = aReturn.getType().get();
+
+        if(type.getType().equals("void") || type.getJavaSpecName().equals("V")) {
+            return Collections.singletonList(TargetValue.create(value.get(), parents));
+        }
+
+        if (!value.isPresent() )
             return Collections.singletonList(ValueImpl.create("return"));
 
         return Arrays.asList(ValueImpl.create("return"), TargetValue.create(value.get(), parents));
