@@ -101,6 +101,7 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
         if(returnType.equals("V")) {
             mv.visitInsn(RETURN);
         } else {
+            /*
             bodyOpt.ifPresent(bodye -> {
                 if (!bodye.isEmpty()) {
                     CodePart codePart = bodye.get(bodye.size() - 1);
@@ -112,6 +113,7 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
                     System.err.println("Missing RETURN in method '" + codeMethod + "'");
                 }
             });
+            */
         }
 
         mv.visitMaxs(0, 0);
