@@ -39,8 +39,6 @@ import java.nio.file.StandardOpenOption;
  */
 public final class ResultSaver {
 
-    public static String[] marray = {""};
-
     public static void save(Class<?> ofClass, byte[] result) {
         try {
             File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_Result.class");
