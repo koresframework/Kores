@@ -27,12 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.iutils.object.Node;
 
 import org.objectweb.asm.MethodVisitor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +47,13 @@ public class MVData {
     private final MethodVisitor methodVisitor;
     private final List<Variable> variables;
     private final List<Variable> unmod;
+    private final List<TagLine<?, ?>> tagLines;
 
     public MVData(MethodVisitor methodVisitor, List<Variable> variables) {
         this.methodVisitor = methodVisitor;
         this.variables = variables;
         this.unmod = Collections.unmodifiableList(variables);
+        this.tagLines = new ArrayList<>();
     }
 
     public Variable getVar(int i) {
@@ -95,15 +99,21 @@ public class MVData {
         }
     }
 
+    public int visitLine(TagLine<?, ?> line) {
+        this.tagLines.add(line);
+
+        return this.tagLines.size()-1;
+    }
+
     public int currentPos() {
-        return variables.size() - 1;
+        return this.variables.size() - 1;
     }
 
     public List<Variable> getVariables() {
-        return unmod;
+        return this.unmod;
     }
 
     public MethodVisitor getMethodVisitor() {
-        return methodVisitor;
+        return this.methodVisitor;
     }
 }

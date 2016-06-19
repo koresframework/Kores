@@ -215,7 +215,7 @@ public class CodeAPITestBytecode {
 
         BytecodeGenerator generator = new BytecodeGenerator();
 
-        Byte[] gen = generator.gen(mySource);
+        Byte[] gen = generator.gen(mySource).getResult();
 
         byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
 

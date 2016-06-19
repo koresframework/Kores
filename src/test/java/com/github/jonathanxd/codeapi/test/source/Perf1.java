@@ -42,6 +42,10 @@ public class Perf1 {
     @Test
     public void simpleTest() {
 
+        Level : {
+            System.out.println("KL");
+        }
+
         CodeSource source = new CodeSource();
 
         PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;

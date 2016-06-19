@@ -72,6 +72,7 @@ import com.github.jonathanxd.codeapi.gen.common.source.ReturnSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ReturnableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.SimpleWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.StaticBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.TagLineSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ThrowExceptionGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.TryBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.VariableAccessSourceGenerator;
@@ -113,6 +114,7 @@ import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
@@ -169,6 +171,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(ArrayLoad.class, ArrayLoadSourceGenerator.INSTANCE);
         register(ArrayStore.class, ArrayStoreSourceGenerator.INSTANCE);
         register(ArrayLength.class, ArrayLengthSourceGenerator.INSTANCE);
+        register(TagLine.class, TagLineSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);

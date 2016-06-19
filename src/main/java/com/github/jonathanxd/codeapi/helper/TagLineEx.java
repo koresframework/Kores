@@ -25,50 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi.helper;
 
-import com.github.jonathanxd.codeapi.Options;
-import com.github.jonathanxd.codeapi.util.Data;
-
-import java.util.StringJoiner;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 11/05/16.
  */
-public class StringVisitGenerator extends VisitorGenerator<String> {
+@GenerateTo(TagLine.class)
+public class TagLineEx<ID, T extends CodePart> implements TagLine<ID, T> {
 
-    private final Options options = new Options();
+    private final ID identifier;
+    private final T value;
 
-    @Override
-    protected Data makeData() {
-        return new Data();
+    public TagLineEx(ID identifier, T value) {
+        this.identifier = identifier;
+        this.value = value;
     }
 
     @Override
-    public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
-    }
-
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
-
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
-        }
-
-        @Override
-        public void add(String elem) {
-            this.join.add(elem);
-        }
-
-        @Override
-        public String[] get() {
-            return new String[]{this.join.toString()};
-        }
+    public ID getIdentifier() {
+        return identifier;
     }
 
     @Override
-    public Options getOptions() {
-        return options;
+    public T getValue() {
+        return value;
     }
 }

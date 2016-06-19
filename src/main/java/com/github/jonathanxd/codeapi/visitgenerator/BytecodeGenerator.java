@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Options;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArgumenterizabeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayAccessVisitor;
@@ -54,6 +56,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.PackageVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ReturnVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.StaticBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.StoreVariableVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TagLineVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ThrowExceptionVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
@@ -87,6 +90,11 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.iutils.arrays.Arrays;
+import com.github.jonathanxd.iutils.containers.ImmutableContainer;
+import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
+import com.github.jonathanxd.iutils.object.GenericRepresentation;
+
+import java.util.function.Function;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -95,8 +103,14 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
     private final Options options = new Options();
 
+    public static final ImmutableContainer<GenericRepresentation<Function<CodeInterface, String>>> SOURCE_FILE_FUNCTION =
+            ImmutableContainer.of(new AbstractGenericRepresentation<Function<CodeInterface, String>>() {});
 
-    public BytecodeGenerator() {
+    private final Function<CodeInterface, String> sourceFile;
+
+    public BytecodeGenerator(Function<CodeInterface, String> sourceFile) {
+        this.sourceFile = sourceFile;
+
         addVisitor(PackageDeclaration.class, new PackageVisitor());
         addVisitor(CodeInterface.class, new InterfaceVisitor());
         addUncheckedVisitor(CodeClass.class, new InterfaceVisitor());
@@ -127,6 +141,20 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(ArrayLoad.class, new ArrayLoadVisitor());
         addVisitor(ArrayAccess.class, new ArrayAccessVisitor());
         addVisitor(ArrayLength.class, new ArrayLengthVisitor());
+        addVisitor(TagLine.class, new TagLineVisitor());
+    }
+
+    public BytecodeGenerator() {
+        this(null);
+    }
+
+    @Override
+    protected Data makeData() {
+        Data data = new Data();
+
+        data.registerData(SOURCE_FILE_FUNCTION, sourceFile);
+
+        return data;
     }
 
     @Override

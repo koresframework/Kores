@@ -82,11 +82,9 @@ public class Readme {
 
         System.out.println(plainSource);
 
-        Byte[] bytecode = bytecodeGenerator.gen(source);
+        Byte[] bytecode = bytecodeGenerator.gen(source).getResult();
         byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecode);
-
-
-
+        
         BCLoader bytecodeLoader = new BCLoader();
 
         Class<?> cl = bytecodeLoader.define(myClass, bytes);

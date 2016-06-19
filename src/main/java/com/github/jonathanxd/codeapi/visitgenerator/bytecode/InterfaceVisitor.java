@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
@@ -46,6 +47,7 @@ import org.objectweb.asm.Opcodes;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -68,6 +70,16 @@ public class InterfaceVisitor implements Visitor<CodeInterface, Byte, Object>, O
                         Object additional) {
 
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+
+        String sourceFile = codeInterface.getSimpleName()+".cai"; //CodeAPI Instructions
+
+        Optional<Function<CodeInterface, String>> optional = extraData.getOptional(BytecodeGenerator.SOURCE_FILE_FUNCTION);
+
+        if(optional.isPresent()) {
+            sourceFile = optional.get().apply(codeInterface);
+        }
+
+        cw.visitSource(sourceFile, null);
 
         extraData.registerData(CODE_INTERFACE_REPRESENTATION, codeInterface);
         extraData.registerData(CLASS_WRITER_REPRESENTATION, cw);

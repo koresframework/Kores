@@ -95,7 +95,7 @@ public class ArrayTest {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(codeClass)));
+        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(codeClass)).getResult());
 
         ResultSaver.save(getClass(), bytes);
 

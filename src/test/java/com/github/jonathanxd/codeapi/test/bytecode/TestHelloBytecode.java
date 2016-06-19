@@ -94,7 +94,7 @@ public class TestHelloBytecode {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(codeSource);
+        Byte[] gen = bytecodeGenerator.gen(codeSource).getResult();
 
         ResultSaver.save(this.getClass(), gen);
 

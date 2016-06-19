@@ -133,7 +133,7 @@ public class SimpleTest2_Bytecode {
         // Algumas classes são Singleton, então você não precisa instanciar.
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(source);
+        Byte[] gen = bytecodeGenerator.gen(source).getResult();
 
         byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
 

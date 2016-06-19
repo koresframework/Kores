@@ -45,13 +45,15 @@ public class Data {
 
     private final Map<ImmutableContainer<?>, List<Object>> map = new HashMap<>();
 
-    public <T> void registerData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
+    public <T> int registerData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
 
         if(!map.containsKey(genericRepresentation)) {
             map.put(genericRepresentation, new ArrayList<>());
         }
 
         map.get(genericRepresentation).add(object);
+
+        return map.get(genericRepresentation).size() - 1;
     }
 
     public <T> void unregisterData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
@@ -73,6 +75,15 @@ public class Data {
     @SuppressWarnings("unchecked")
     public <T> Collection<T> getAll(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
         Collection<T> ts = (Collection<T>) map.get(genericRepresentation);
+
+        if(ts == null)
+            return Collections.emptyList();
+
+        return ts;
+    }
+
+    public <T> List<T> getAllAsList(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
+        List<T> ts = (List<T>) map.get(genericRepresentation);
 
         if(ts == null)
             return Collections.emptyList();

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -46,6 +47,7 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -131,7 +133,8 @@ public class TestBytecode_Invocations {
 
         System.out.println("Invoking '" + callSite.name + "' type: '" + callSite.getTarget().type() + "', with args: '" + Arrays.toString(args) + "' ");
 
-        return virtual.invokeWithArguments(args);
+        //return virtual.invokeWithArguments(args);
+        throw new RuntimeException("Oops");
     }
 
     @Test
@@ -180,9 +183,11 @@ public class TestBytecode_Invocations {
 
         codeSource.add(codeClass);
 
-        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator((cl) -> cl.getSimpleName()+".cai");
 
-        Byte[] gen = bytecodeGenerator.gen(codeSource);
+        Result<Byte[]> result = bytecodeGenerator.gen(codeSource);
+
+        Byte[] gen = result.getResult();
 
         byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
 
@@ -216,6 +221,18 @@ public class TestBytecode_Invocations {
 
                 System.out.println("Invoke = " + invoke);
             } catch (Throwable throwable) {
+
+                for (StackTraceElement element : throwable.getStackTrace()) {
+                    if(element.getClassName().equals(codeClass.getQualifiedName())) {
+                        int line = element.getLineNumber();
+                        try {
+                            TagLine<?, ?> tagLine = result.findTagLine(line);
+
+                            System.out.println("Error occurred at tag: '"+tagLine.getIdentifier()+"'");
+                        }catch (Exception e) {}
+                    }
+                }
+
                 throwable.printStackTrace();
             }
 
@@ -330,7 +347,9 @@ public class TestBytecode_Invocations {
                         new MethodSpec("helloWorld", new TypeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
                                 singletonList(new CodeArgument(Literals.STRING("World"))))));
 
-        methodSource.add(methodInvocation);
+        methodSource.add(Helper.tagLine("Line 1", methodInvocation));
+
+        //methodSource.add(methodInvocation);
 
         methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic Bootstrap <-"), String.class)));
 

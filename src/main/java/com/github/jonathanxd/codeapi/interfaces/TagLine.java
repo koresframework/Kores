@@ -25,50 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.Options;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.StringJoiner;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 10/05/16.
  */
-public class StringVisitGenerator extends VisitorGenerator<String> {
+public interface TagLine<ID, T extends CodePart> extends CodePart {
 
-    private final Options options = new Options();
+    ID getIdentifier();
+    T getValue();
 
-    @Override
-    protected Data makeData() {
-        return new Data();
-    }
 
-    @Override
-    public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
-    }
-
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
-
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
-        }
-
-        @Override
-        public void add(String elem) {
-            this.join.add(elem);
-        }
-
-        @Override
-        public String[] get() {
-            return new String[]{this.join.toString()};
-        }
-    }
-
-    @Override
-    public Options getOptions() {
-        return options;
-    }
 }

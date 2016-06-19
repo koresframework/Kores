@@ -29,11 +29,14 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.iterator.Navigator;
+import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import java.util.ArrayList;
@@ -53,6 +56,8 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
             ImmutableContainer.of(GenericRepresentation.aEnd(Appender.class));
     public static final ImmutableContainer<GenericRepresentation<VisitorGenerator>> VISITOR_REPRESENTATION =
             ImmutableContainer.of(GenericRepresentation.aEnd(VisitorGenerator.class));
+    public static final ImmutableContainer<GenericRepresentation<TagLine<?, ?>>> LINES_REPRESENTATION =
+            ImmutableContainer.of(new AbstractGenericRepresentation<TagLine<?, ?>>() {});
 
     private final Map<Class<?>, Visitor<?, T, ?>> visitors = new HashMap<>();
 
@@ -68,10 +73,12 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
         visitors.put(cClass, ctVisitor);
     }
 
-    @Override
-    public T[] gen(CodeSource source) {
+    protected abstract Data makeData();
 
-        Data extraData = new Data();
+    @Override
+    public Result<T[]> gen(CodeSource source) {
+
+        Data extraData = makeData();
 
         Appender<T> appender = createAppender();
 
@@ -95,7 +102,8 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
         }
 
-        return appender.get();
+
+        return new Result<>(appender.get(), extraData);
     }
 
     public abstract Appender<T> createAppender();

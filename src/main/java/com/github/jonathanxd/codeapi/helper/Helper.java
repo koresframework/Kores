@@ -53,6 +53,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Return;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
@@ -364,6 +365,10 @@ public final class Helper {
 
         return Arrays.stream(aClass).map(Helper::getJavaType).toArray(LoadedCodeType[]::new);
 
+    }
+
+    public static <ID, T extends CodePart> TagLine<ID, T> tagLine(ID identification, T value) {
+        return new TagLineEx<>(identification, value);
     }
 
 

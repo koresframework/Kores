@@ -92,7 +92,7 @@ String plainSource = plainSourceGenerator.gen(source);
 ```Java
 BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-Byte[] bytecode = bytecodeGenerator.gen(source);
+Byte[] bytecode = bytecodeGenerator.gen(source).getResult();
 ```
 
 ###### Loading class

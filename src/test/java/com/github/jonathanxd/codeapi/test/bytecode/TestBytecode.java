@@ -122,7 +122,7 @@ public class TestBytecode {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(codeSource);
+        Byte[] gen = bytecodeGenerator.gen(codeSource).getResult();
 
         BCLoader bcLoader = new BCLoader();
 

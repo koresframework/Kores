@@ -25,50 +25,55 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi;
 
-import com.github.jonathanxd.codeapi.Options;
+import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.iutils.construct.CannotFindPropertyException;
 
-import java.util.StringJoiner;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 18/06/16.
  */
-public class StringVisitGenerator extends VisitorGenerator<String> {
+public class Result<OUT> {
 
-    private final Options options = new Options();
+    private final OUT result;
+    private final Data data;
 
-    @Override
-    protected Data makeData() {
-        return new Data();
+    public Result(OUT result, Data data) {
+        this.result = result;
+        this.data = data;
     }
 
-    @Override
-    public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
+    public OUT getResult() {
+        return result;
     }
 
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
-
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
-        }
-
-        @Override
-        public void add(String elem) {
-            this.join.add(elem);
-        }
-
-        @Override
-        public String[] get() {
-            return new String[]{this.join.toString()};
-        }
+    public Data getData() {
+        return data;
     }
 
-    @Override
-    public Options getOptions() {
-        return options;
+    public TagLine<?, ?> findTagLine(CodeInterface codeInterface, StackTraceElement[] stackTraceElements) throws IllegalArgumentException {
+        for (StackTraceElement stackTraceElement : stackTraceElements) {
+            if(stackTraceElement.getClassName().equals(codeInterface.getQualifiedName())) {
+                return findTagLine(stackTraceElement.getLineNumber());
+            }
+        }
+
+        throw new IllegalArgumentException("No tags in stack trace '"+ Arrays.toString(stackTraceElements)+"'");
+    }
+
+    public TagLine<?, ?> findTagLine(int line) throws IllegalArgumentException {
+        List<TagLine<?, ?>> allAsList = getData().getAllAsList(BytecodeGenerator.LINES_REPRESENTATION);
+
+        if(line < allAsList.size()) {
+            return allAsList.get(line);
+        }
+
+        throw new IllegalArgumentException("No tags in line '"+line+"'");
     }
 }

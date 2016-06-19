@@ -25,50 +25,40 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.Options;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.StringJoiner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 09/05/16.
  */
-public class StringVisitGenerator extends VisitorGenerator<String> {
+public class TagLineSourceGenerator implements Generator<TagLine<?, ?>, String, PlainSourceGenerator> {
 
-    private final Options options = new Options();
+    public static final TagLineSourceGenerator INSTANCE = new TagLineSourceGenerator();
 
-    @Override
-    protected Data makeData() {
-        return new Data();
+    private TagLineSourceGenerator() {
     }
 
     @Override
-    public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
-    }
+    public List<Value<?, String, PlainSourceGenerator>> gen(TagLine<?, ?> tagLine, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
+        CodePart part = tagLine.getValue();
 
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
-        }
+        return Collections.singletonList(TargetValue.create(part.getClass(), part, parents));
 
-        @Override
-        public void add(String elem) {
-            this.join.add(elem);
-        }
-
-        @Override
-        public String[] get() {
-            return new String[]{this.join.toString()};
-        }
-    }
-
-    @Override
-    public Options getOptions() {
-        return options;
     }
 }
