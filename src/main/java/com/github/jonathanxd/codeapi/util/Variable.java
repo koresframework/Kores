@@ -50,4 +50,14 @@ public final class Variable {
         return type;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null)
+            return false;
+        if(!(obj instanceof Variable))
+            return false;
+
+        return ((Variable) obj).getName().equals(this.getName()) && ((Variable) obj).getType().compareTo(this.getType()) == 0;
+
+    }
 }

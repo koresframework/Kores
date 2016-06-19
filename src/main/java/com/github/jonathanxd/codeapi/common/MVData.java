@@ -84,6 +84,12 @@ public class MVData {
     public int storeVar(final String name, final CodeType type) {
         Variable variable = new Variable(name, type);
 
+        for (int i = 0; i < this.variables.size(); i++) {
+            if(this.variables.get(i).equals(variable)) {
+                return i;
+            }
+        }
+
         this.variables.add(variable);
         // ? Last index with synchronized method is good!!!
         return getVarPos(variable);
