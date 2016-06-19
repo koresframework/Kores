@@ -78,7 +78,7 @@ public final class PredefinedTypes {
 
         @Override
         public String getType() {
-            return Type.getType(this.tClass).getInternalName();
+            return Type.getType(this.tClass).getClassName();
         }
 
         @Override

@@ -608,7 +608,7 @@ public final class Helper {
 
         @Override
         public String getType() {
-            return Type.getType(type).getInternalName();
+            return Type.getType(type).getClassName();
         }
 
         @Override
