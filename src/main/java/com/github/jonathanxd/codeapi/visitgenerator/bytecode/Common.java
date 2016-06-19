@@ -343,7 +343,7 @@ public class Common {
     public static String codeTypeToSimpleAsm(CodeType type) {
         return type.isPrimitive()
                 ? primitiveCodeTypeToAsm(type)
-                : type.getType();
+                : type.getType().replace('.', '/');
     }
 
     public static String codeTypeToFullAsm(CodeType type) {
