@@ -57,10 +57,15 @@ public class VariableStoreSourceGenerator implements Generator<VariableStore, St
     public List<Value<?, String, PlainSourceGenerator>> gen(VariableStore variableStore, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (variableStore.getLocalization() != null && !(variableStore.getLocalization() instanceof AccessLocal)) {
+        if (variableStore.getLocalization() != null && !(variableStore.getAt() instanceof AccessLocal)) {
             values.add(CodePartValue.create(variableStore.getLocalization(), parents));
             values.add(ValueImpl.create("."));
+        }else
+        if (variableStore.getAt() != null && !(variableStore.getAt() instanceof AccessLocal)) {
+            values.add(CodePartValue.create(variableStore.getAt(), parents));
+            values.add(ValueImpl.create("."));
         }
+
 
         values.add(ValueImpl.create(variableStore.getName()));
         values.add(ValueImpl.create("="));
