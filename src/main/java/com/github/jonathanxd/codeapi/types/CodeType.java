@@ -38,7 +38,7 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     default String getPackageName() {
         String type = getType();
 
-        if(!type.contains("."))
+        if (!type.contains("."))
             return "";
 
         return type.substring(0, type.lastIndexOf('.'));
@@ -51,7 +51,7 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     }
 
     default String getJavaSpecName() {
-        return "L"+this.getType().replace('.', '/')+";";
+        return "L" + this.getType().replace('.', '/') + ";";
     }
 
     default boolean isPrimitive() {
