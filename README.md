@@ -176,7 +176,7 @@ Bytecode:
 - Algumas instruções podem funcionar somente na geração de códigos-fonte e outras somente na geração de bytecode (invoke dynamic).
 - Erros na definição de instruções são dificeis de identificar pois a CodeAPI gera códigos por meio do processamento da estrutra.
 
-###### Geração de código fonte vs Geração de bytecode
+##### Geração de código fonte vs Geração de bytecode
 
 Recursos suportados somente pela geração de código-fonte:
 
@@ -193,10 +193,23 @@ Recursos suportados somente pela geração de Bytecode:
 - Nomes reservados como nomes de elementos. (Metodos, Campos (fields), Variaveis)
 - Bootstrap InvokeDyanmic (irei explicar futuramente).
 
-###### Limitações do gerator de Bytecode
+##### Limitações do gerator de Bytecode
 
 O gerador de bytecode não pode:
 
 - Gerar nomes de variaveis locais (Os nomes de variaveis (e tipos) são armazenadas em `common.MVData` durante a geração do bytecode para obter a posição das variaveis na stack.)
 - Gerar variaveis locais com nomes e tipos iguais em diferentes blocos de tipos (por exemplo, uma `String value` dentro do Try-Catch-Block e a mesma variavel fora do Try-Catch-Block, exemplo: `try { String value; } catch(Exception e){} String value;`).
 - Gerar ifs complexos (`if(x || y && (u && (i || v)))`), no momento, somente if's basicos são suportados, tipo: `x || y, y && x || z` (voce pode adotar estrategias para driblar isto).
+
+
+### Desempenho gerar código-fonte vs gerar bytecode
+
+A geração de código fonte é aproximadamente 25% mais lento que a geração de bytecode, primeiramente devido a forma qual é implementado, e por utilizar mais processos para gerar o código fonte, enquanto o gerador de bytecode tem 34 classes para geração das instruções, o gerador de código-fonte tem 46 classes.
+
+### Meio utiizado para gerar os códigos
+
+O gerador de bytecode utiliza visitas recursivas, talvez seja mudado para se adaptar melhor a forma qual o ASM funciona.
+
+O gerador de código-fonte utiliza processamento de valores.
+
+As classes do gerador de bytecode geram diretamente as instruções em bytecode, o gerador de código-fonte informa o núcleo (Generator) o que ele precisa fazer, e ele se encarrega da geração.
