@@ -1,104 +1,139 @@
+**English Version Soon**
+
 # CodeAPI
 
-Generate Java Source Code and Bytecode
+Framework para geração de código-fonte Java e bytecode para JVM.
 
-### Why?
+### Porque um Framework para isto?
 
-90% of the code generators give to you source manipulation (method bodies for example) and cannot generate Bytecode, CodeSource API only gives to you a Abstract Representation of the Instructions and generates bytecode (**Bytecode generation will be implemented after first stable release**).
+A maioria dos geradores de códigos (bytecode e Java) só podem gerar um deles, bytecode ou código-fonte, a CodeAPI tenta uma outra abordagem, gerar código-fonte e bytecode, mas porque? Para que processadores possam gerar códigos-fonte em *tempo de compilação* e bytecode para *tempo de execução*. (Gerar código-fonte e compilar é muito lento.)
 
-### Can I manipulate source code?
+### CodeAPI comparado a outros Frameworks
 
-Not, but you can implement your own Instructions and Generators.
-
-### Basic CodeAPI Classes
-
-- CodeSource
-  - Represents a collection of instructions
+A principal diferença do CodeAPI é sua capacidade de gerar códigos-fonte e a manipulação amigável ao programador Java. O projeto também tem o objetivo de facilitar ao máximo a geração de código-fonte e bytecode. CodeAPI futuramente também poderá traduzir bytecode e código-fonte para Instruções e facilitar a manipulação das instruções.
 
 
-- CodePart
-  - Represents a code instruction
+A geração de código-fonte da CodeAPI é feita pela tradução *plana* das instruções para texto, e a geração de bytecode é feita por meio do Framework [ASM](http://asm.ow2.org/).
 
+### Recursos
 
-- CodeElement
-  - Represents code elements, like Fields, Methods & static blocks.
+**Recursos já implementados**
 
+- Interfaces
+- Classes
+- Extends & Implements
+- Fields
+- Constructors
+- Methods
+- Method Invocation
+- Arrays
+- Primitive Types
+- Values (String, Numbers, Null) **as Literals**
+- Cast
+- If-Else
+- Try-Catch-Finally
+- For, While, Do-While
+- Static Blocks
+- Mathematical Operations (Add, Subtract, Divide, Multiply, Remainder)
+- Method Reference Lambdas
+- Invoke Dynamic
+- Geração de código-fonte
+- Geração de bytecode
 
-- CodeRoot
-  - Represents a holder of CodeElements
+**Recursos planejados**
 
-### Creating your first class
+- Enumerações
+- Anotações (Classe de Anotações e Anotações em elementos)
+- Melhorias para a facilitar a identificação dos locais de erros (TagLine)
+- All Lambdas (only Method Reference lambda is implemented yet)
+- Opções para diferentes meios de gerações de códigos para determinadas instruções
+- Suporte a genericos e generic type filling (Preenchimento de tipos genericos)
+- Gerar instruções a partir do código-fonte
+- Gerar instruções a partir do bytecode (.class)
 
-###### Static Imports
+### Criando sua primeira classe
+
+##### Importações estaticas
 ```Java
 import static com.github.jonathanxd.codeapi.CodeAPI.*;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.*;
 import static java.lang.reflect.Modifier.*;
 ```
 
-###### Creating a class
+##### Criando uma classe
 ```Java
 
 CodeSource source = source();
-// Modifiers, Full Qualified Name
+// Modificadores, Nome completo qualificado
 CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass");
-
+// Adiciona a lista de instruções
 source.add(myClass);
 
 ```
 
-###### Creating a class with constructor
+##### Criando uma classe com construtor
 ```Java
-// Modifiers, Full Qualified Name, CodeClass -> CodeSource
+// Modificadores, Nome completo qualificado, Classe -> Código Fonte (código fonte da classe)
 CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
-  // Modifiers, Declaring Class
+  // Modificadores, Classe que esta declarando o construtor
   constructor(PUBLIC, codeClass)
 ));
 ```
 
-###### Printing hello world in constructor
+##### Imprimindo Olá mundo no construtor
 ```Java
-// Modifiers, Full Qualified Name, CodeClass -> CodeSource
+// Modificadores, Nome completo qualificado, Classe -> Código Fonte (código fonte da classe)
 CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
-  // Modifiers, Declaring Class, CodeConstructor -> CodeSource
+  // Modificadores, Classe que esta declarando o construtor, Construtor -> Código Fonte (código fonte do construtor)
   constructor(PUBLIC, codeClass, codeConstructor -> sourceOfParts(
-    // Target (variable, method, etc...), Class of method, Method Description, Arguments
+    // Alvo (Variavel, Metodo, Variavel, Field, etc...), Classe do metodo, Descrição do metodo (tipo de retorno, tipo dos argumentos), Argumentos
+    // Ex:
+    // List list = ...;
+    // list.clear();
+    //Alvo: 'list', Classe do metodo: 'List', Nome do metodo: 'clear', Descrição do metodo: 'VOID'
     invokeVirtual(
-        // Class of Field, Type of Field, Name of field.
+        // ALVO: Classe do Campo (Field), Tipo do campo, Nome do campo. Mesmo que: System.out
         accessStaticField(System.class, PrintStream.class, "out"),
-        // Class of method
+        // Classe do metodo
         PrintStream.class,
-        // Method Name
+        // Nome do metodo
         "println",
-        // Method Description (ReturnType, ArgumentsTypes...)
+        // Descrição do metodo (Tipo De Retorno, Tipos dos argumentos...)
         new TypeSpec(VOID, STRING),
-        // Arguments (String Literal)
-        argument(Literals.STRING("Hello, world!")))
+        // Argumentos (String Literal)      
+        argument(Literals.STRING("Olá mundo!")))
   ))
 ));
 ```
 
-###### Generating PlainSource
+##### Gerando código fonte
 
 ```Java
+// Obtem a instancia do gerador de código fonte (O gerador de código-fonte é Singleton (Instancia Unica), isto será mudando quando implementar as 'Opções de geração de código')
 PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
-
+// Gera o código fonte
 String plainSource = plainSourceGenerator.gen(source);
 ```
 
-**Print Source**: `System.out.println(plainSource);`
+**Imprimir codigo fonte**: `System.out.println(plainSource);`
 
-###### Generating Bytecode
+##### Gerando bytecode
 ```Java
+// Cria uma instancia do gerador de bytecode (Suporta Opções).
 BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
+// Gera o bytecode e obtem o resultado.
 Byte[] bytecode = bytecodeGenerator.gen(source).getResult();
 ```
 
-###### Loading class
+###### Carregando a classe
 Class Loader:
 ```Java
 private static final class BCLoader extends ClassLoader {
+
+    protected BCLoader(ClassLoader parent) {
+        super(parent);
+    }
 
     public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
         return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
@@ -106,66 +141,62 @@ private static final class BCLoader extends ClassLoader {
 }
 ```
 
-**Define & Call Constructor**
+**Carregando classe & Chamando construtor**
 
 ```Java
+// Converte a Array de Bytes Wrapper para primitivo.
+// Metodo da library JwIUtils
 byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecode);
 
-BCLoader bytecodeLoader = new BCLoader();
+// Cria instancia do class loader ligado ao class loader desta classe.
+BCLoader bytecodeLoader = new BCLoader(this.getClass().getClassLoader());
 
+// Carrega a classe
 Class<?> cl = bytecodeLoader.define(myClass, bytes);
 
 try {
+  // Cria a instancia
   cl.newInstance();
 } catch (Throwable t) { throw new RuntimeException(t); }
 
 ```
 
-**Output**:
+**Saida**:
+Código-Fonte:
 ```Java
-package mypackage ; public class MyClass { public MyClass ( ) { java.lang.System . out . println ( "Hello, world!" ) ; } }
+package mypackage ; public class MyClass { public MyClass ( ) { java.lang.System . out . println ( "Olá mundo!" ) ; } }
 ```
+Bytecode:
+`Olá mundo!`
 
-`Hello, world!`
+### Limitações
 
-**Obs:** CodeAPI doens't format the code.
+- CodeAPI não formata códigos-fonte.
+- Nem todos elementos foram implementados nos dois geradores (código-fonte & bytecode)
+- Algumas instruções podem funcionar somente na geração de códigos-fonte e outras somente na geração de bytecode (invoke dynamic).
+- Erros na definição de instruções são dificeis de identificar pois a CodeAPI gera códigos por meio do processamento da estrutra.
 
-### The `Helper` Class
+###### Geração de código fonte vs Geração de bytecode
 
-Helper class works like a factory class, but only helps the object creation. With the Helper methods you can create Instructions. (method invocation, variable definition, if, else...).
+Recursos suportados somente pela geração de código-fonte:
 
-### Limitations
+- Classes dentro de classes (inner classes)
+- Expressões livres (expression(NEW, ...))
+- Variaveis com o mesmo nome em diferentes blocos de código (`try { String value; } catch(Exception e){} String value;`).
 
-Some `CodePart`s may not work in Bytecode Generator or Source Generator because it's not implemented (bytecode) or cannot be implemented (Java Lang Specification).
+Recursos suportados somente pela geração de Bytecode:
 
-###### InvokeDynamic
+- Sobrecarregar tipos de retornos
+- Sobrecarregar tipos de campos (fields)
+- Sobrecarregar tipos de Variaveis locais
+- Chamar metodos com exceções verificadas sem um try-catch-block.
+- Nomes reservados como nomes de elementos. (Metodos, Campos (fields), Variaveis)
+- Bootstrap InvokeDyanmic (irei explicar futuramente).
 
-CodeAPI supports invokedynamic instructions, at the time, invokedynamic is partially implemented, and CodeAPI only supports Lambdas InvokeDynamic. (generated as lambdas expressions in PlainSource Generator).
+###### Limitações do gerator de Bytecode
 
-###### Plain Source and Bytecode
+O gerador de bytecode não pode:
 
-Features supported only by Plain Source Generator:
-
-- Inner classes
-- Free Expressions (expression(NEW, ...))
-- Variables with same name in differents code blocks (`try { String value; } catch(Exception e){} String value;`).
-
-Features supported only by Bytecode Generator:
-
-- Overloaded Return Types
-- Overloaded Field Types
-- Overloaded Local Variable Types
-- Run method with checked exceptions without Try-Chatch-Block
-- Reserved Names as names of elements. (Methods, Fields, Variables)
-
-###### Bytecode Generator Limitations
-
-Bytecode generator cannot:
-
-- Generate Local Variables names (Variable names is stored in `common.MVData`)
-- Generate Variables with same name and type (for example, a `String value` inside Try-Chatch-Block and same variable outside of that: `try { String value; } catch(Exception e){} String value;`).
-- Generate Complex If Statements (`if(x || y && (u && (i || v)))`), at the time, basic if statements is supported, like: `x || y, y && x || z`.
-
-### Performance
-
-CodeAPI is an Abstract representation of ALL elements of Java, it has a cost, **complex classes** may take a **long** time to be generated.
+- Gerar nomes de variaveis locais (Os nomes de variaveis (e tipos) são armazenadas em `common.MVData` durante a geração do bytecode para obter a posição das variaveis na stack.)
+- Gerar variaveis locais com nomes e tipos iguais em diferentes blocos de tipos (por exemplo, uma `String value` dentro do Try-Catch-Block e a mesma variavel fora do Try-Catch-Block, exemplo: `try { String value; } catch(Exception e){} String value;`).
+- Gerar ifs complexos (`if(x || y && (u && (i || v)))`), no momento, somente if's basicos são suportados, tipo: `x || y, y && x || z` (voce pode adotar estrategias para driblar isto).

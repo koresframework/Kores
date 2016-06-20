@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.test.CommonGen;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -53,53 +54,16 @@ import static java.lang.reflect.Modifier.PUBLIC;
  * Created by jonathan on 18/06/16.
  */
 public class ArrayTest {
-    final String name = getClass().getCanonicalName() + "_Generated";
-
     @Test
     public void arrayTest() {
 
-
-        CodeClass codeClass = aClass(PUBLIC, name);
-
-        CodeArgument[] values = {
-                new CodeArgument(STRING("A"), PredefinedTypes.STRING), new CodeArgument(STRING("B"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("C"), PredefinedTypes.STRING), new CodeArgument(STRING("D"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("E"), PredefinedTypes.STRING)
-        };
-
-        CodeArgument[] values2 = {
-                new CodeArgument(STRING("F"), PredefinedTypes.STRING), new CodeArgument(STRING("G"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("H"), PredefinedTypes.STRING), new CodeArgument(STRING("I"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("J"), PredefinedTypes.STRING)
-        };
-
-        Require.require(codeClass.getBody()).addAll(sourceOfParts(
-                constructor(PUBLIC, codeClass, source(
-                        new CodeField("array", PredefinedTypes.STRING.toArray(2),
-                                Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
-                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values), PredefinedTypes.STRING.toArray(1)),
-                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1))
-                                })),
-                        Predefined.invokePrintln(new CodeArgument(Helper.accessArrayValue(
-                                Helper.accessArrayValue(Helper.accessLocalVariable("array",
-                                        PredefinedTypes.STRING.toArray(2)),
-                                        INT(0),
-                                        PredefinedTypes.STRING.toArray(1)),
-                                INT(0),
-                                PredefinedTypes.STRING),
-                                PredefinedTypes.STRING))
-
-
-                )))
-        );
-
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(codeClass)).getResult());
+        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(CommonGen.gen())).getResult());
 
         ResultSaver.save(getClass(), bytes);
 
-        Class<?> define = new BCLoader().define(name, bytes);
+        Class<?> define = new BCLoader().define(CommonGen.name, bytes);
 
         try {
             define.newInstance();

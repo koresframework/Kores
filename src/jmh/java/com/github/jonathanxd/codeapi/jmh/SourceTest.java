@@ -32,7 +32,7 @@ import org.openjdk.jmh.annotations.Benchmark;
 /**
  * Created by jonathan on 18/05/16.
  */
-public class MicroTest {
+public class SourceTest {
 
     @Benchmark
     public void bench() {

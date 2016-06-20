@@ -25,20 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.source;
+package com.github.jonathanxd.codeapi.jmh;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.test.CommonGen;
 import com.github.jonathanxd.iutils.optional.Require;
-
-import org.junit.Test;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
@@ -50,26 +47,46 @@ import static com.github.jonathanxd.codeapi.literals.Literals.STRING;
 import static java.lang.reflect.Modifier.PUBLIC;
 
 /**
- * Created by jonathan on 18/06/16.
+ * Created by jonathan on 18/05/16.
  */
-public class ArrayTest {
-    final String name = getClass().getCanonicalName() + "_Generated";
+public class CommonGen {
+    private static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
-    @Test
-    public void arrayTest() {
+    public static CodeSource gen() {
+        CodeClass codeClass = aClass(PUBLIC, name);
+
+        CodeArgument[] values = {
+                new CodeArgument(STRING("A"), PredefinedTypes.STRING), new CodeArgument(STRING("B"), PredefinedTypes.STRING),
+                new CodeArgument(STRING("C"), PredefinedTypes.STRING), new CodeArgument(STRING("D"), PredefinedTypes.STRING),
+                new CodeArgument(STRING("E"), PredefinedTypes.STRING)
+        };
+
+        CodeArgument[] values2 = {
+                new CodeArgument(STRING("F"), PredefinedTypes.STRING), new CodeArgument(STRING("G"), PredefinedTypes.STRING),
+                new CodeArgument(STRING("H"), PredefinedTypes.STRING), new CodeArgument(STRING("I"), PredefinedTypes.STRING),
+                new CodeArgument(STRING("J"), PredefinedTypes.STRING)
+        };
+
+        Require.require(codeClass.getBody()).addAll(sourceOfParts(
+                constructor(PUBLIC, codeClass, source(
+                        new CodeField("array", PredefinedTypes.STRING.toArray(2),
+                                Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
+                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values), PredefinedTypes.STRING.toArray(1)),
+                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1))
+                                })),
+                        Predefined.invokePrintln(new CodeArgument(Helper.accessArrayValue(
+                                Helper.accessArrayValue(Helper.accessLocalVariable("array",
+                                        PredefinedTypes.STRING.toArray(2)),
+                                        INT(0),
+                                        PredefinedTypes.STRING.toArray(1)),
+                                INT(0),
+                                PredefinedTypes.STRING),
+                                PredefinedTypes.STRING))
 
 
-        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
-        String source = plainSourceGenerator.gen(sourceOfParts(CommonGen.gen()));
+                )))
+        );
 
-        System.out.println(source);
-
-    }
-
-    private static final class BCLoader extends ClassLoader {
-
-        public Class<?> define(String name, byte[] bytes) {
-            return super.defineClass(name, bytes, 0, bytes.length);
-        }
+        return sourceOfParts(codeClass);
     }
 }
