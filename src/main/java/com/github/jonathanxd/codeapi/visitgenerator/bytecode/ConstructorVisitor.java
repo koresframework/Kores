@@ -30,14 +30,20 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.ClassWriter;
@@ -57,6 +63,35 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
 
     public static final ConstructorVisitor INSTANCE = new ConstructorVisitor();
 
+    public static boolean searchForSuper(CodeInterface codeInterface, CodeSource codeParts) {
+        if (codeParts == null)
+            return false;
+        for (CodePart codePart : codeParts) {
+            if (codePart instanceof Bodied) {
+                if (searchForSuper(codeInterface, ((Bodied) codePart).getBody().orElse(null))) {
+                    return true;
+                }
+            }
+
+            if (codePart instanceof MethodInvocation) {
+                MethodInvocation mi = (MethodInvocation) codePart;
+
+                boolean any = ((codeInterface instanceof CodeClass) && ((CodeClass) codeInterface).getSuperType().filter(c -> mi.getLocalization().compareTo(c) == 0).isPresent());
+
+                if (any
+                        && mi.getTarget() instanceof AccessSuper
+                        && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
+
+                        && mi.getSpec().getMethodName().equals("<init>")) {
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
     @Override
     public Byte[] visit(CodeConstructor codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
@@ -72,7 +107,7 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
 
         final List<Variable> vars = new ArrayList<>();
 
-        if(codeConstructor.getModifiers().contains(CodeModifier.STATIC)) {
+        if (codeConstructor.getModifiers().contains(CodeModifier.STATIC)) {
             Common.parametersToVars(codeConstructor.getParameters(),/* to */ vars);
         } else {
             vars.add(new Variable("this", codeInterface));
@@ -84,8 +119,20 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
         mv.visitCode();
         Label l0 = new Label();
         mv.visitLabel(l0);
-        mv.visitVarInsn(ALOAD, 0);
-        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+
+        if (codeInterface instanceof CodeClass) {
+            if (!searchForSuper(codeInterface, codeConstructor.getBody().orElse(null))) {
+                mv.visitVarInsn(ALOAD, 0);
+
+                CodeType superType = ((CodeClass) codeInterface).getSuperType().orElse(null);
+                if(superType == null) {
+                    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+                }else{
+                    mv.visitMethodInsn(INVOKESPECIAL, Common.codeTypeToSimpleAsm(superType), "<init>", "()V", false);
+                }
+            }
+        }
+
         /**
          * Declare variables
          */
@@ -124,5 +171,4 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
     public void endVisit(Byte[] r, CodeConstructor codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
-
 }

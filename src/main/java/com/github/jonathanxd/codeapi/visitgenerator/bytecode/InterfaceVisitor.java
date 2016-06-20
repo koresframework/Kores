@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -104,7 +105,7 @@ public class InterfaceVisitor implements Visitor<CodeInterface, Byte, Object>, O
 
             boolean constructor = body.stream().filter(c -> c instanceof CodeConstructor).findAny().isPresent();
 
-            if(!constructor) {
+            if(!constructor && codeInterface instanceof CodeClass) { // Interfaces has no super call.
                 CodeConstructor codeConstructor = new CodeConstructor(codeInterface, Collections.singleton(CodeModifier.PUBLIC), Collections.emptyList(), null);
                 visitorGenerator.generateTo(CodeConstructor.class, codeConstructor, extraData, navigator, null, null);
             }
