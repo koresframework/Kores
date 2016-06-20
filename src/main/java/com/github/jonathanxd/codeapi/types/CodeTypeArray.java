@@ -92,4 +92,9 @@ class CodeTypeArray implements CodeType {
 
         return name + sb.toString();
     }
+
+    @Override
+    public boolean isArray() {
+        return true;
+    }
 }

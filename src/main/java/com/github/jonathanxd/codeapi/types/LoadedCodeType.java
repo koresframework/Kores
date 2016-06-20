@@ -34,6 +34,11 @@ public interface LoadedCodeType<T> extends CodeType {
     Class<T> getLoadedType();
 
     @Override
+    default boolean isArray() {
+        return getLoadedType().isArray();
+    }
+
+    @Override
     default boolean isVirtual() {
         return false;
     }
