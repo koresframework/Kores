@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.iutils.data.ReferenceData;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.data.RepresentationData;
+import com.github.jonathanxd.iutils.object.HolderGenericRepresentation;
 
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -42,7 +42,7 @@ public class Parent<T> {
 
     private final T current;
     private final Object target;
-    private final ReferenceData additionalData = new ReferenceData();
+    private final RepresentationData additionalData = new RepresentationData();
     private final Parent<T> parent;
 
     public Parent(T current, Object target, Parent<T> parent) {
@@ -106,13 +106,13 @@ public class Parent<T> {
         return Optional.empty();
     }
 
-    public Parent<T> addData(GenericRepresentation<?> data) {
+    public Parent<T> addData(HolderGenericRepresentation<?> data) {
         additionalData.registerData(data);
 
         return this;
     }
 
-    public ReferenceData getAdditionalData() {
+    public RepresentationData getAdditionalData() {
         return additionalData;
     }
 

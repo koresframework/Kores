@@ -89,7 +89,7 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.iutils.arrays.Arrays;
+import com.github.jonathanxd.iutils.arrays.JwArray;
 import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
@@ -164,7 +164,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
     private static class ByteAppender extends Appender<Byte> {
 
-        Arrays<Byte> byteArrays = new Arrays<>();
+        JwArray<Byte> byteArrays = new JwArray<>();
 
         ByteAppender() {
 
