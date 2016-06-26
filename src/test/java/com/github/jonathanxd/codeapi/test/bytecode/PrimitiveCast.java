@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -79,7 +80,7 @@ public class PrimitiveCast {
                         source(
                                 Predefined.invokePrintln(argument(accessLocalVariable(STRING, "string"), STRING)),
 
-                                new CodeField("objectF", OBJECT, Helper.cast(INTEGER_TYPE, OBJECT, Helper.cast(INT, INTEGER_TYPE, Literals.INT(9)))),
+                                new CodeField("objectF", OBJECT, Helper.cast(INT, OBJECT, Literals.INT(9))),
 
                                 // Cast Integer to Int
                                 returnValue(int.class, Helper.cast(PredefinedTypes.INTEGER_TYPE, PredefinedTypes.INT, invokeConstructor(Integer.class, argument(Literals.INT(9), int.class))))
