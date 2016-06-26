@@ -333,8 +333,6 @@ public class Common {
     public static String typeSpecToAsm(TypeSpec typeSpec) {
         String s = codeTypeToFullAsm(Objects.requireNonNull(typeSpec.getReturnType(), "Null return type in Spec '" + typeSpec + "'"));
 
-        codeTypesToFullAsm(typeSpec.getParameterSpec().stream().toArray(CodeType[]::new));
-
         return "(" +
                 codeTypesToFullAsm(Objects.requireNonNull(typeSpec.getParameterSpec(), "Null method spec '" + typeSpec + "' arguments!").stream().toArray(CodeType[]::new))
                 + ")" + s;

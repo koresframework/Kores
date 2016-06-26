@@ -136,5 +136,10 @@ public final class PredefinedTypes {
 
             return super.equals(obj);
         }
+
+        @Override
+        public String toString() {
+            return this.getJavaSpecName();
+        }
     }
 }

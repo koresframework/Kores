@@ -65,8 +65,8 @@ public class ArrayParameterTest {
 
         Require.require(codeClass.getBody()).addAll(sourceOfParts(
                 constructor(PUBLIC, codeClass, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(
-                        new CodeField("cf", Helper.getJavaType(Object.class), Helper.cast(PredefinedTypes.OBJECT, Helper.accessLocalVariable("par", Text[].class))),
-                        new CodeField("lt", Helper.getJavaType(Text[].class), Helper.cast(Helper.getJavaType(Text[].class), Helper.accessLocalVariable("cf", Object.class)))
+                        new CodeField("cf", Helper.getJavaType(Object.class), Helper.cast(Helper.getJavaType(Text[].class), PredefinedTypes.OBJECT, Helper.accessLocalVariable("par", Text[].class))),
+                        new CodeField("lt", Helper.getJavaType(Text[].class), Helper.cast(PredefinedTypes.OBJECT, Helper.getJavaType(Text[].class), Helper.accessLocalVariable("cf", Object.class)))
                 )))
         );
 

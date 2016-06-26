@@ -48,7 +48,7 @@ public class TypeSpec {
 
     public TypeSpec(CodeType returnType, List<CodeType> parameterSpecs) {
         this.returnType = returnType;
-        this.parameterSpec = parameterSpecs == null ? Collections.emptyList() : Collections.unmodifiableList(parameterSpecs);
+        this.parameterSpec = parameterSpecs == null || parameterSpecs.stream().allMatch(c -> c == null) ? Collections.emptyList() : Collections.unmodifiableList(parameterSpecs);
     }
 
     public CodeType getReturnType() {

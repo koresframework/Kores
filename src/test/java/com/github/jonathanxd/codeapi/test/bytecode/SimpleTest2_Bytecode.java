@@ -120,7 +120,7 @@ public class SimpleTest2_Bytecode {
                         ), Helper.elseExpression(Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class, Helper.accessStaticVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(PrintStream.class)),
                                         new MethodSpec("println", PredefinedTypes.VOID, Arrays.asList(new CodeArgument(
-                                                Helper.cast(stringType, Literals.QUOTED_STRING("NULL VALUE")), stringType
+                                                Helper.cast(stringType, stringType, Literals.QUOTED_STRING("NULL VALUE")), stringType
                                         )))
                                 ))
                         ))

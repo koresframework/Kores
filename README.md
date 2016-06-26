@@ -169,6 +169,19 @@ package mypackage ; public class MyClass { public MyClass ( ) { java.lang.System
 Bytecode:
 `Olá mundo!`
 
+### Boxing e Unboxing
+
+CodeAPI pode fazer boxing e unboxing se souber quais tipos converter
+
+Método `Helper.cast(de, para, parteParaCastear)`
+
+
+Exemplo:
+
+`Helper.cast(INTEGER_TYPE, INT, invokeVirtual(accessLocalVariable(MyClass.class, "myClassInstance"), MyClass.class, "getNumber", new TypeSpec(INTEGER_TYPE)))`
+
+Isto irá fazer unboxing do retorno de `Integer myClassInstance.getNumber()` para `int`.
+
 ### Limitações
 
 - CodeAPI não formata códigos-fonte.

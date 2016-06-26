@@ -210,7 +210,7 @@ public class TestSource_Invocations {
 
         methodSource.add(supplierVar);
 
-        CodePart castedGet = Helper.cast(PredefinedTypes.STRING, Helper.invoke(InvokeType.INVOKE_INTERFACE, Supplier.class,
+        CodePart castedGet = Helper.cast(PredefinedTypes.OBJECT, PredefinedTypes.STRING, Helper.invoke(InvokeType.INVOKE_INTERFACE, Supplier.class,
                 Helper.accessLocalVariable(supplierVar),
                 new MethodSpec("get", PredefinedTypes.OBJECT, emptyList())));
 

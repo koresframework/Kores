@@ -76,7 +76,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -253,8 +252,8 @@ public final class Helper {
 
     /////////// OPERATE VARIABLES
 
-    public static CodePart cast(CodeType type, CodePart castedPart) {
-        return new CastedExPart(type, castedPart);
+    public static CodePart cast(CodeType originalType, CodeType type, CodePart castedPart) {
+        return new CastedExPart(originalType, type, castedPart);
     }
 
     @SuppressWarnings("unchecked")
@@ -639,6 +638,11 @@ public final class Helper {
         @Override
         public boolean isVirtual() {
             return false;
+        }
+
+        @Override
+        public String toString() {
+            return this.getJavaSpecName();
         }
     }
 

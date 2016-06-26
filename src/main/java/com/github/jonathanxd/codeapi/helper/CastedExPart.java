@@ -40,22 +40,12 @@ import java.util.Optional;
 @GenerateTo(Casted.class)
 public class CastedExPart implements Casted {
 
+    private final CodeType originalType;
     private final CodeType type;
     private final CodePart castedPart;
 
-    public CastedExPart() {
-        this(null, null);
-    }
-
-    public CastedExPart(CodeType type) {
-        this(type, null);
-    }
-
-    public CastedExPart(CodePart castedPart) {
-        this(null, castedPart);
-    }
-
-    public CastedExPart(CodeType type, CodePart castedPart) {
+    public CastedExPart(CodeType originalType, CodeType type, CodePart castedPart) {
+        this.originalType = originalType;
         this.type = type;
         this.castedPart = castedPart;
     }
@@ -70,4 +60,8 @@ public class CastedExPart implements Casted {
         return Optional.ofNullable(this.type);
     }
 
+    @Override
+    public CodeType getOriginalType() {
+        return originalType;
+    }
 }

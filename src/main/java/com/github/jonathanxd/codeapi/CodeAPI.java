@@ -399,11 +399,11 @@ public class CodeAPI {
     //          Return
     // =========================================================
 
-    public static Return returnValue(CodeType valueType, Literal value) {
+    public static Return returnValue(CodeType valueType, CodePart value) {
         return Helper.returnValue(valueType, value);
     }
 
-    public static Return returnValue(Class<?> valueType, Literal value) {
+    public static Return returnValue(Class<?> valueType, CodePart value) {
         return Helper.returnValue(Helper.getJavaType(valueType), value);
     }
 

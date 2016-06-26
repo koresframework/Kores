@@ -86,5 +86,12 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return new CodeTypeArray(this, dimensions);
     }
 
+    default CodeType getWrapperType() {
+        return null;
+    }
+
+    default CodeType getPrimitiveType() {
+        return null;
+    }
 
 }

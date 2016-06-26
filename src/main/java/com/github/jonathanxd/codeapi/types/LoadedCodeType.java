@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.iutils.object.Primitive;
+
 /**
  * Created by jonathan on 07/05/16.
  */
@@ -41,5 +44,27 @@ public interface LoadedCodeType<T> extends CodeType {
     @Override
     default boolean isVirtual() {
         return false;
+    }
+
+    @Override
+    default CodeType getWrapperType() {
+        Class<?> box = Primitive.box(getLoadedType());
+
+        if (box != null) {
+            return Helper.getJavaType(box);
+        }
+
+        return null;
+    }
+
+    @Override
+    default CodeType getPrimitiveType() {
+        Class<?> unbox = Primitive.unbox(getLoadedType());
+
+        if (unbox != null) {
+            return Helper.getJavaType(unbox);
+        }
+
+        return null;
     }
 }
