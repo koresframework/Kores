@@ -113,7 +113,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             }
         }
 
-        if(localization != null && invokeType == InvokeType.INVOKE_STATIC) {
+        if(localization != null && (invokeType == InvokeType.INVOKE_STATIC || isCtr)) {
             values.add(CodePartValue.create(localization, parents));
 
             if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
