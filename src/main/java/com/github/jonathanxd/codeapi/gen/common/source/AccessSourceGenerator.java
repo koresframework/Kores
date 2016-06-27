@@ -61,14 +61,6 @@ public class AccessSourceGenerator implements Generator<Access, String, PlainSou
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        /*
-        Optional<CodeType> localizationOpt = access.getLocalization();
-
-        if (localizationOpt.isPresent()) {
-            values.add(TargetValue.create(CodeType.class, localizationOpt.get(), parents));
-            values.add(ValueImpl.create("."));
-        }*/
-
         values.add(TargetValue.create(Keyword.class, access.keyword(), parents));
 
         return values;

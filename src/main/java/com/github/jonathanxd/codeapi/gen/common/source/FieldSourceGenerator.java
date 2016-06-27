@@ -34,7 +34,9 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -67,10 +69,29 @@ public class FieldSourceGenerator implements Generator<CodeField, String, PlainS
 
         codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(ValueImpl.create("="), TargetValue.create(value.getClass(), value, parents))));
 
-        if (!parents.find(Expression.class).isPresent()) {
+        Parent<Generator<?, String, PlainSourceGenerator>> generatorParent1 = parents.find(generatorParent -> {
+            if (MethodInvocation.class.isAssignableFrom(generatorParent.getCurrent().getClass())) {
+                return true;
+            }
 
+            if (CodeInterface.class.isAssignableFrom(generatorParent.getCurrent().getClass())) {
+                return true;
+            }
+
+            return false;
+        }).orElse(null);
+
+        if(generatorParent1 != null && CodeInterface.class.isAssignableFrom(generatorParent1.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
+        } else {
+
+            Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
+
+            if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+                values.add(ValueImpl.create(";"));
+            }
         }
+
 
         return values;
     }

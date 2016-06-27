@@ -83,8 +83,6 @@ public class Operators {
         }
     }
 
-    //TODO: Talvez eu tenha que inverter ja que provavelmente os elementos sao pegos da stack de forma inversa
-    //TODO: Se tiver tenho que inverter o LESS_* pelo GREATER_*
     public static int primitiveToAsm(Operator operator) {
         if(operator == EQUAL_TO) {
             // ==

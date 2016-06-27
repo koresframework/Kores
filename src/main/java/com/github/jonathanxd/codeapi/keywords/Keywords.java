@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
  * Created by jonathan on 07/05/16.
  */
 public class Keywords {
+
     public static final Keyword ABSTRACT = new SimpleKeyword("abstract");
     public static final Keyword ASSERT = new SimpleKeyword("assert");
     public static final Keyword BOOLEAN = new SimpleKeyword("boolean");

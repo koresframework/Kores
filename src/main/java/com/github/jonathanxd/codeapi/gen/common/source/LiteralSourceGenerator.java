@@ -60,9 +60,6 @@ public class LiteralSourceGenerator implements Generator<Literal, String, PlainS
             values.add(ValueImpl.create(literal.getName()));
         }
 
-        if (!literal.isExpression())
-            values.add(ValueImpl.create(";"));
-
         return values;
 
     }

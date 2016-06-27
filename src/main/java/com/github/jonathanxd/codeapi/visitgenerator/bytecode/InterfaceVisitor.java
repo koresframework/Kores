@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -46,6 +47,9 @@ import com.github.jonathanxd.iutils.object.GenericRepresentation;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Function;
@@ -86,8 +90,15 @@ public class InterfaceVisitor implements Visitor<CodeInterface, Byte, Object>, O
         extraData.registerData(CLASS_WRITER_REPRESENTATION, cw);
 
 
-        int modifiers = Common.modifierToAsm(codeInterface);
+        Collection<CodeModifier> interfaceModifiers = new ArrayList<>(codeInterface.getModifiers());
 
+        if(codeInterface.getKeyword() == Keywords.INTERFACE) {
+            if(!interfaceModifiers.contains(CodeModifier.ABSTRACT)) {
+                interfaceModifiers.add(CodeModifier.ABSTRACT);
+            }
+        }
+
+        int modifiers = Common.modifierToAsm(interfaceModifiers, codeInterface.getKeyword() == Keywords.INTERFACE);
 
         String className = Common.getClassName(codeInterface, extraData);
 

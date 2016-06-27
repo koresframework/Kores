@@ -410,7 +410,7 @@ public final class Helper {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(), methodSpec);
     }
 
-    public static MethodInvocation invokeSuperInit(CodeType localization, CodeArgument[] arguments) {
+    public static MethodInvocation invokeSuperInit(CodeType localization, CodeArgument... arguments) {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
                 new MethodSpec("<init>", PredefinedTypes.VOID, Arrays.asList(arguments)));
     }

@@ -180,7 +180,7 @@ public enum CodeModifier implements CodePart {
             int toAsmAccess = toAsmAccess(modifier);
 
             if(toAsmAccess != 0) {
-                end |= toAsmAccess;
+                end += toAsmAccess;
             }
         }
 

@@ -63,11 +63,19 @@ public class ThrowExceptionGenerator implements Generator<ThrowException, String
         if (!type.isPresent())
             return Collections.emptyList();
 
-        return new ArrayList<>(Arrays.asList(
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
                 ValueImpl.create("throw"),
                 ValueImpl.create("new"),
                 TargetValue.create(CodeType.class, type.get(), parents),
                 TargetValue.create(Argumenterizable.class, throwException, parents)
         ));
+
+        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
+
+        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+            values.add(ValueImpl.create(";"));
+        }
+
+        return values;
     }
 }

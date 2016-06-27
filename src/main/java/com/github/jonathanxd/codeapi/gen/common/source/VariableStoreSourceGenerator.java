@@ -71,6 +71,12 @@ public class VariableStoreSourceGenerator implements Generator<VariableStore, St
         values.add(ValueImpl.create("="));
         values.add(TargetValue.create(variableStore.getValue().orElse(Literals.NULL), parents));
 
+
+        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
+
+        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+            values.add(ValueImpl.create(";"));
+        }
         return values;
     }
 }

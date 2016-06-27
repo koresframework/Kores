@@ -64,7 +64,7 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
         if (methodSpecification.getMethodType() == MethodType.METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD) {
             String methodName = methodSpecification.getMethodName();
 
-            if (methodName != null) {
+            if (methodName != null && !methodName.equals("<init>")) {
                 values.add(ValueImpl.create(methodSpecification.getMethodName()));
             }
         }
@@ -72,19 +72,11 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
 
         if(methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_CONSTRUCTOR) {
             if(arguments.isEmpty()) {
-                if (!methodSpecification.isExpression()) {
-                    values.add(ValueImpl.create(";")); // TODO: REMOVE
-                }
-
                 return values;
             }
         }
 
         values.add(TargetValue.create(Argumenterizable.class, methodSpecification, parents));
-
-        if (!methodSpecification.isExpression()) {
-            values.add(ValueImpl.create(";")); // TODO: REMOVE
-        }
 
         return values;
 

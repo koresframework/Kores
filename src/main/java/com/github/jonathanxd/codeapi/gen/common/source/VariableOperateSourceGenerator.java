@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
@@ -35,49 +35,50 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Access;
-import com.github.jonathanxd.codeapi.interfaces.Return;
+import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.keywords.Keywords;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ReturnSourceGenerator implements Generator<Return, String, PlainSourceGenerator> {
+public class VariableOperateSourceGenerator implements Generator<VariableOperate, String, PlainSourceGenerator> {
 
-    public static final ReturnSourceGenerator INSTANCE = new ReturnSourceGenerator();
+    public static final VariableOperateSourceGenerator INSTANCE = new VariableOperateSourceGenerator();
 
-    private ReturnSourceGenerator() {
+    private VariableOperateSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Return aReturn, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableOperate operate, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        Optional<CodePart> value = aReturn.getValue();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        CodeType type = aReturn.getType().get();
-
-        if(type.getType().equals("void") || type.getJavaSpecName().equals("V")) {
-            return Collections.singletonList(TargetValue.create(value.get(), parents));
+        if (operate.getLocalization() != null && !(operate.getLocalization() instanceof AccessLocal)) {
+            values.add(CodePartValue.create(operate.getLocalization(), parents));
+            values.add(ValueImpl.create("."));
         }
 
-        if (!value.isPresent() )
-            return Collections.singletonList(ValueImpl.create("return"));
+        values.add(ValueImpl.create(operate.getName()));
 
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(
-                Arrays.asList(ValueImpl.create("return"), TargetValue.create(value.get(), parents)));
+        operate.getOperation().ifPresent(operator -> {
+            values.add(TargetValue.create(operator.getClass(), operator, parents));
+            operate.getValue().ifPresent(codePart -> {
+                values.add(ValueImpl.create("="));
+                values.add(TargetValue.create(codePart.getClass(), codePart, parents));
+            });
+        });
+
 
         Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
 
-        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
         }
 

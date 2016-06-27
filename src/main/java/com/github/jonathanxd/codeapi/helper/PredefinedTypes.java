@@ -52,6 +52,7 @@ public final class PredefinedTypes {
     public static final LoadedCodeType<Double> DOUBLE = new PredefinedType<>(Double.TYPE);
     public static final LoadedCodeType<Long> LONG = new PredefinedType<>(Long.TYPE);
     public static final LoadedCodeType<Character> CHAR = new PredefinedType<>(Character.TYPE);
+    public static final LoadedCodeType<Boolean> BOOLEAN = new PredefinedType<>(Boolean.TYPE);
 
     // Primitive Type
     public static final LoadedCodeType<Byte> BYTE_TYPE = new PredefinedType<>(Byte.class);
@@ -61,6 +62,7 @@ public final class PredefinedTypes {
     public static final LoadedCodeType<Double> DOUBLE_TYPE = new PredefinedType<>(Double.class);
     public static final LoadedCodeType<Long> LONG_TYPE = new PredefinedType<>(Long.class);
     public static final LoadedCodeType<Character> CHARACTER_TYPE = new PredefinedType<>(Character.class);
+    public static final LoadedCodeType<Boolean> BOOLEAN_TYPE = new PredefinedType<>(Boolean.class);
 
     PredefinedTypes() {
     }

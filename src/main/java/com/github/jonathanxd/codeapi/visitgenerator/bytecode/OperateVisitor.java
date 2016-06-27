@@ -102,32 +102,38 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
         if(at instanceof AccessLocal) {
             if (operation == Operators.INCREMENT) {
                 mv.visitIincInsn(i, 1);
+                return new Byte[0];
             }else
             if (operation == Operators.DECREMENT) {
                 mv.visitIincInsn(i, -1);
+                return new Byte[0];
             }else
             if (constantVal) {
                 if (operation == Operators.ADD) {
                     mv.visitIincInsn(i, constant);
+                    return new Byte[0];
                 }
                 if (operation == Operators.SUBTRACT) {
                     mv.visitIincInsn(i, -constant);
+                    return new Byte[0];
                 }
-
-                return new Byte[0];
             }
 
             visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, navigator, null, mvData);
 
+            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+
             operateVisit(variableOperate, operation, extraData, navigator, null, mvData);
 
-            OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
+            //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
         } else {
             visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, navigator, null, mvData);
 
+            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+
             operateVisit(variableOperate, operation, extraData, navigator, null, mvData);
 
-            OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
+            //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
 
         }
 
@@ -137,6 +143,7 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
     private void operateVisit(VariableOperate variableOperate, Operator operation, Data extraData, Navigator<CodePart> navigator, Object o, MVData mvData) {
         CodeType variableType = variableOperate.getVariableType();
+
 
         Type type = Type.getType(variableType.getJavaSpecName());
 

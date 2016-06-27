@@ -210,13 +210,33 @@ public class Common {
         }
     }
 
+    public static void runForBoolean(boolean num, MethodVisitor mv) {
+
+        // True -> 1
+        if(num) {
+            mv.visitInsn(Opcodes.ICONST_1);
+        } else {
+            // False -> 0
+            mv.visitInsn(Opcodes.ICONST_0);
+        }
+    }
+
     public static void runForLiteral(Literal num, MethodVisitor mv) {
         String name = num.getName();
 
-        final Object o;
-        Runnable runnable = null;
+        if (num == Literals.NULL) {
 
-        if(num instanceof Literals.QuotedStringLiteral) {
+            mv.visitInsn(Opcodes.ACONST_NULL);
+
+        } else if (num == Literals.TRUE) {
+
+            mv.visitInsn(Opcodes.ICONST_1);
+
+        } else if (num == Literals.FALSE) {
+
+            mv.visitInsn(Opcodes.ICONST_0);
+
+        } else if(num instanceof Literals.QuotedStringLiteral) {
 
             mv.visitLdcInsn(name.substring(1, name.length()-1));
 
@@ -240,6 +260,11 @@ public class Common {
 
             Common.runForFloat(Float.parseFloat(name), mv);
 
+        } else if (num instanceof Literals.ClassLiteral) {
+
+            Type type = Type.getType((((Literals.ClassLiteral) num).type).getJavaSpecName());
+
+            mv.visitLdcInsn(type);
         }
     }
 
@@ -288,11 +313,15 @@ public class Common {
         return CodeModifier.toAsmAccess(codeModifiers);
     }
 
+    public static int modifierToAsm(Collection<CodeModifier> codeModifiers, boolean isInterface) {
+        return (isInterface ? Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
+    }
+
     public static int modifierToAsm(CodeInterface codeInterface) {
         int asm = CodeModifier.toAsmAccess(codeInterface.getModifiers());
 
         if (!(codeInterface instanceof CodeClass)) {
-            asm |= Opcodes.ACC_INTERFACE;
+            asm += Opcodes.ACC_INTERFACE;
         }
 
         return asm;

@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.PkgDclEx;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
@@ -65,10 +66,7 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
 
                 TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
 
-                TargetValue.create(Named.class, codeInterface, parents),
-                TargetValue.create(Implementer.class, codeInterface, parents),
-
-                TargetValue.create(Bodied.class, codeInterface, parents)
+                TargetValue.create(Named.class, codeInterface, parents)
         ));
 
         String packageName = codeInterface.getPackageName();
@@ -77,6 +75,15 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
             values.add(0, TargetValue.create(PackageDeclaration.class, new PkgDclEx(packageName), parents));
         }
 
+        if(codeInterface instanceof Extender) {
+            values.add(TargetValue.create(Extender.class, codeInterface, parents));
+        }
+
+        values.addAll(Arrays.asList(
+                TargetValue.create(Implementer.class, codeInterface, parents),
+
+                TargetValue.create(Bodied.class, codeInterface, parents)
+        ));
 
         return values;
     }

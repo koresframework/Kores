@@ -102,19 +102,21 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
-        if (target != null) {
+        if(target != localization) {
+            if (target != null) {
 
 
-            values.add(CodePartValue.create(target, parents));
-            if (!isCtr && !spec.isArray()) {
-                values.add(ValueImpl.create(METHOD_SEPARATOR)); //TODO: REVIEW
+                values.add(CodePartValue.create(target, parents));
+                if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
+                    values.add(ValueImpl.create(METHOD_SEPARATOR)); //TODO: REVIEW
+                }
             }
         }
 
         if(localization != null && invokeType == InvokeType.INVOKE_STATIC) {
             values.add(CodePartValue.create(localization, parents));
 
-            if (!isCtr && !spec.isArray()) {
+            if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
                 values.add(ValueImpl.create(METHOD_SEPARATOR));
             }
         }
@@ -125,6 +127,17 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         values.add(TargetValue.create(MethodSpecification.class, spec, parents));
 
+        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
+
+        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+            values.add(ValueImpl.create(";"));
+        } else {
+            debug();
+        }
+
         return values;
     }
+
+
+    private void debug() {}
 }

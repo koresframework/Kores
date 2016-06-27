@@ -29,10 +29,14 @@ package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -44,10 +48,6 @@ import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
 
 import org.junit.Test;
 
@@ -65,59 +65,6 @@ import static com.github.jonathanxd.codeapi.helper.Helper.getJavaType;
  * Created by jonathan on 02/05/16.
  */
 public class CodeAPITest {
-
-    @Test
-    public void codeAPITest() {
-
-        // Create a list of CodePart (source)
-        CodeSource mySource = new CodeSource();
-
-        CodeMethod method = createMethod();
-
-        // Define a interface
-        CodeInterface codeClass = CodeInterfaceBuilder.builder()
-                .withQualifiedName("github.com.MyClass")
-                // Add 'public' modifier
-                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
-                // Implements Processor class
-                .withImplementations(Collections.singletonList(getJavaType(Processor.class)))
-                // Define body
-                .withBody(Helper.sourceOf(method))
-                .build();
-
-        // Adds to source list
-        mySource.add(codeClass);
-
-
-        // Generator instance
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
-
-        // Generate source
-        String source = plainSourceGenerator.gen(mySource);
-
-
-        // Print source
-        System.out.println("source = "+source);
-        // Generate: public interface MyClass implements javax.annotation.processing.Processor { { public static void println ( java.lang.Object msg ) { java.lang.System . out . println ( msg ) ; } } }
-
-        //if(x) { } else { }
-
-        // Helper.ifExpression(Keywords.IF,
-        //   Helper.expressions(
-        //     Helper.accessVariable(local(), "x")
-        //   )
-        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
-
-        // if(x || y) { } else { }
-
-        // Helper.ifExpression(Keywords.IF,
-        //   Helper.expressions(
-        //     Helper.accessVariable(local(), "x"),
-        //     Helper.operator(Operators.OR) // Operators.BITWISE_AND
-        //   )
-        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
-
-    }
 
     private static CodeSource rethrow(String variable) {
         CodeSource source = new CodeSource();
@@ -158,7 +105,7 @@ public class CodeAPITest {
         CodeSource source = new CodeSource();
 
         IfBlock ifBlock = Helper.ifExpression(Helper.createIfVal()
-                .add1(Helper.checkNotNull(Helper.accessLocalVariable("msg", getJavaType(String.class)))).make(),
+                        .add1(Helper.checkNotNull(Helper.accessLocalVariable("msg", getJavaType(String.class)))).make(),
                 Helper.sourceOf(invokePrintlnMethod(Helper.accessLocalVariable("msg", getJavaType(String.class)))));
 
         source.add(ifBlock);
@@ -188,12 +135,12 @@ public class CodeAPITest {
         // Add Invocation of println method declared in 'System.out' ('variable')
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/PrintStream.class, variable, new MethodSpec(
                 "println", Collections.singletonList(
-                        // with argument 'msgVar' (Method msg parameter)
-                        new CodeArgument(msgVar,
-                                // Cast type? = false
-                                false,
-                                // Type to cast (if 'cast type' is set to true)
-                                getJavaType(Object.class))), PredefinedTypes.VOID, MethodType.METHOD)));
+                // with argument 'msgVar' (Method msg parameter)
+                new CodeArgument(msgVar,
+                        // Cast type? = false
+                        false,
+                        // Type to cast (if 'cast type' is set to true)
+                        getJavaType(Object.class))), PredefinedTypes.VOID, MethodType.METHOD)));
 
         source.add(Helper.invoke(InvokeType.INVOKE_STATIC, CodeAPITest.class, null,
                 new MethodSpec("test",
@@ -211,8 +158,60 @@ public class CodeAPITest {
         return codeMethod;
     }
 
-
     public static void test(String aj) {
         System.out.println(aj);
+    }
+
+    @Test
+    public void codeAPITest() {
+
+        // Create a list of CodePart (source)
+        CodeSource mySource = new CodeSource();
+
+        CodeMethod method = createMethod();
+
+        // Define a interface
+        CodeInterface codeClass = CodeInterfaceBuilder.builder()
+                .withQualifiedName("github.com.MyClass")
+                // Add 'public' modifier
+                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
+                // Implements Processor class
+                .withImplementations(Collections.singletonList(getJavaType(Processor.class)))
+                // Define body
+                .withBody(Helper.sourceOf(method))
+                .build();
+
+        // Adds to source list
+        mySource.add(codeClass);
+
+
+        // Generator instance
+        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+
+        // Generate source
+        String source = plainSourceGenerator.gen(mySource);
+
+
+        // Print source
+        System.out.println("source = " + source);
+        // Generate: public interface MyClass implements javax.annotation.processing.Processor { { public static void println ( java.lang.Object msg ) { java.lang.System . out . println ( msg ) ; } } }
+
+        //if(x) { } else { }
+
+        // Helper.ifExpression(Keywords.IF,
+        //   Helper.expressions(
+        //     Helper.accessVariable(local(), "x")
+        //   )
+        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
+
+        // if(x || y) { } else { }
+
+        // Helper.ifExpression(Keywords.IF,
+        //   Helper.expressions(
+        //     Helper.accessVariable(local(), "x"),
+        //     Helper.operator(Operators.OR) // Operators.BITWISE_AND
+        //   )
+        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
+
     }
 }

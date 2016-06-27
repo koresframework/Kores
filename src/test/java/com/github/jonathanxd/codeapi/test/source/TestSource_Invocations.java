@@ -229,14 +229,14 @@ public class TestSource_Invocations {
                         .add1(Helper.check(Helper.accessLocalVariable("x", PredefinedTypes.INT), Operators.EQUAL_TO, Literals.INT(7)))
                         .make(),
                 Helper.sourceOf(
-                        Helper.returnValue(PredefinedTypes.INT, Literals.INT(0))
+                        Helper.returnValue(PredefinedTypes.BOOLEAN, Literals.INT(0))
                 )));
 
         methodSource.add(Predefined.invokePrintln(
                 new CodeArgument(Helper.accessLocalVariable("x", PredefinedTypes.INT), false, PredefinedTypes.INT)
         ));
 
-        methodSource.add(Helper.returnValue(PredefinedTypes.INT, Literals.INT(1)));
+        methodSource.add(Helper.returnValue(PredefinedTypes.BOOLEAN, Literals.INT(1)));
 
         return codeMethod;
     }

@@ -45,7 +45,9 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,16 +65,25 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         ClassWriter cw = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
 
-        int asm = Common.modifierToAsm(codeMethod.getModifiers());
+        Optional<CodeSource> bodyOpt = codeMethod.getBody();
+
+        Collection<CodeModifier> modifiers = new ArrayList<>(codeMethod.getModifiers());
+
+        if ((!bodyOpt.isPresent() || bodyOpt.get().size() == 0) && !modifiers.contains(CodeModifier.ABSTRACT)) {
+            modifiers.add(CodeModifier.ABSTRACT);
+        }
+
+        int asmModifiers = Common.modifierToAsm(modifiers);
+
 
         String asmParameters = Common.parametersToAsm(codeMethod.getParameters());
 
-        org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asm, codeMethod.getName(), "(" + asmParameters + ")"+codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), null, null);
+        org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asmModifiers, codeMethod.getName(), "(" + asmParameters + ")"+codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), null, null);
 
         //mv.visitVarInsn(ALOAD, 1);
         final List<Variable> vars = new ArrayList<>();
 
-        if(codeMethod.getModifiers().contains(CodeModifier.STATIC)) {
+        if(modifiers.contains(CodeModifier.STATIC)) {
             Common.parametersToVars(codeMethod.getParameters(),/* to */ vars);
         } else {
             vars.add(new Variable("this", codeInterface));
@@ -81,42 +92,28 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         MVData mvData = new MVData(mv, vars);
 
-        mv.visitCode();
-        Label l0 = new Label();
-        mv.visitLabel(l0);
-        /**
-         * Declare variables
-         */
-        Optional<CodeSource> bodyOpt = codeMethod.getBody();
 
-        if (bodyOpt.isPresent()) {
+        if (bodyOpt.isPresent() && bodyOpt.get().size() > 0) {
+            mv.visitCode();
+            Label l0 = new Label();
+            mv.visitLabel(l0);
+
             visitorGenerator.generateTo(CodeSource.class, bodyOpt.get(), extraData, navigator, null, mvData);
+
+            /**
+             * Instructions here
+             */
+
+            String returnType = codeMethod.getReturnType().orElse(null).getJavaSpecName();
+            if(returnType.equals("V")) {
+                mv.visitInsn(RETURN);
+            }
+
+            mv.visitMaxs(0, 0);
         }
 
-        /**
-         * Instructions here
-         */
 
-        String returnType = codeMethod.getReturnType().orElse(null).getJavaSpecName();
-        if(returnType.equals("V")) {
-            mv.visitInsn(RETURN);
-        } else {
-            /*
-            bodyOpt.ifPresent(bodye -> {
-                if (!bodye.isEmpty()) {
-                    CodePart codePart = bodye.get(bodye.size() - 1);
 
-                    if (!(codePart instanceof Return)) {
-                        System.err.println("Missing RETURN in method '" + codeMethod + "'");
-                    }
-                } else {
-                    System.err.println("Missing RETURN in method '" + codeMethod + "'");
-                }
-            });
-            */
-        }
-
-        mv.visitMaxs(0, 0);
         mv.visitEnd();
 
         return new Byte[0];

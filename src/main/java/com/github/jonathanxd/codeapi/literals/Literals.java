@@ -83,6 +83,11 @@ public final class Literals {
         return new IntLiteral(String.valueOf(i));
     }
 
+    // BooleanLiteral
+    public static Literal BOOLEAN(boolean b) {
+        if(b) return TRUE; else return FALSE;
+    }
+
     // LongLiteral
     public static Literal LONG(long i) {
         return new LongLiteral(String.valueOf(i));
@@ -119,6 +124,11 @@ public final class Literals {
         return new SimpleLiteral(other.getName(), array);
     }
 
+    // Class Literal
+    public static Literal CLASS(CodeType aClass) {
+        return new ClassLiteral(aClass);
+    }
+
     @GenerateTo(Literal.class)
     private final static class SimpleLiteral extends Literal {
         SimpleLiteral(String name, CodeType dataType) {
@@ -127,6 +137,18 @@ public final class Literals {
 
     }
 
+    @GenerateTo(Literal.class)
+    public final static class ClassLiteral extends Literal {
+        private static final CodeType TYPE = Helper.getJavaType(Integer.TYPE);
+
+        public final CodeType type;
+
+        ClassLiteral(CodeType codeType) {
+            super(codeType.getCanonicalName(), TYPE);
+            this.type = codeType;
+        }
+
+    }
 
     @GenerateTo(Literal.class)
     public static final class IntLiteral extends Literal {
@@ -142,7 +164,7 @@ public final class Literals {
     @GenerateTo(Literal.class)
     public static final class LongLiteral extends Literal {
 
-        private static final CodeType TYPE = Helper.getJavaType(String.class);
+        private static final CodeType TYPE = Helper.getJavaType(Long.TYPE);
 
         LongLiteral(String name) {
             super(name, TYPE);

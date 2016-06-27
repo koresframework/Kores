@@ -68,20 +68,29 @@ public class ArrayConstructorSourceGenerator implements Generator<ArrayConstruct
 
         boolean generateSizes = arrayConstructor.getArguments().isEmpty();
 
-        if(!generateSizes) {
+        if(!generateSizes) { // Arguments is Not EMPTY
 
             String collect = Arrays.stream(arrayConstructor.getDimensions()).map($ -> "[]").collect(Collectors.joining(""));
 
             values.add(ValueImpl.create(collect));
+
+            values.add(TargetValue.create(Argumenterizable.class, arrayConstructor, parents));
         }else {
             for (CodePart i : arrayConstructor.getDimensions()) {
                 values.add(ValueImpl.create("["));
                 values.add(TargetValue.create(i, parents));
                 values.add(ValueImpl.create("]"));
             }
+
+            // Arguments is empty, don't process
         }
 
-        values.add(TargetValue.create(Argumenterizable.class, arrayConstructor, parents));
+        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
+
+        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+            values.add(ValueImpl.create(";"));
+        }
+
 
         return values;
 
