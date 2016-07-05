@@ -1,0 +1,9 @@
+*.idea
+*.class
+*.zip
+*.iml
+*.ipr
+CompilerHints
+buid/
+out/
+.gradle
