@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -102,12 +103,29 @@ public class InterfaceVisitor implements Visitor<CodeInterface, Byte, Object>, O
 
         String className = Common.getClassName(codeInterface, extraData);
 
-        String[] impls = codeInterface.getImplementations().stream().map(Common::codeTypeToSimpleAsm).toArray(String[]::new);
+        Collection<CodeType> implementations = codeInterface.getImplementations();
+
+        String[] impls = implementations.stream().map(Common::codeTypeToSimpleAsm).toArray(String[]::new);
 
         CodeType superClass = Common.getSuperClass(codeInterface);
 
+        GenericType[] types = codeInterface.getGenericSignature().getTypes();
 
-        cw.visit(52, modifiers, className, null, Common.codeTypeToSimpleAsm(superClass), impls);
+        String genericRepresentation = null;
+
+        if(types.length > 0) {
+            genericRepresentation = Common.genericTypesToAsmString(types);
+
+            genericRepresentation += Common.toAsm(superClass);
+
+            StringBuilder sb = new StringBuilder();
+
+            implementations.forEach(codeType -> sb.append(Common.toAsm(codeType)));
+
+            genericRepresentation += sb.toString();
+        }
+
+        cw.visit(52, modifiers, className, genericRepresentation, Common.codeTypeToSimpleAsm(superClass), impls);
 
         Optional<CodeSource> bodyOpt = codeInterface.getBody();
         if(bodyOpt.isPresent()) {

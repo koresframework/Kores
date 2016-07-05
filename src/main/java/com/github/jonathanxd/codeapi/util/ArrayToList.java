@@ -27,51 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import org.objectweb.asm.Label;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Created by jonathan on 06/06/16.
+ * Created by jonathan on 04/07/16.
  */
-public final class Variable {
+public class ArrayToList {
 
-    private final String name;
-    private final CodeType type;
-    private final Label startLabel;
-    private final Label endLabel;
 
-    public Variable(String name, CodeType type, Label startLabel, Label endLabel) {
-        this.name = name;
-        this.type = type;
-        this.startLabel = startLabel;
-        this.endLabel = endLabel;
+    public static <T> List<T> toList(T[] array) {
+        if(array.length == 0)
+            return Collections.emptyList();
+
+        if(array.length == 1)
+            return Collections.singletonList(array[0]);
+
+        return Arrays.asList(array);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public CodeType getType() {
-        return type;
-    }
-
-    public Label getStartLabel() {
-        return startLabel;
-    }
-
-    public Label getEndLabel() {
-        return endLabel;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null)
-            return false;
-        if(!(obj instanceof Variable))
-            return false;
-
-        return ((Variable) obj).getName().equals(this.getName()) && ((Variable) obj).getType().compareTo(this.getType()) == 0;
-
-    }
 }

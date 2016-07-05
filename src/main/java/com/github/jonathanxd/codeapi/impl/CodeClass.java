@@ -29,11 +29,13 @@ package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -45,6 +47,11 @@ import java.util.Optional;
 public class CodeClass extends CodeInterface implements Extender {
 
     private final CodeType superType;
+
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
+        super(qualifiedName, modifiers, implementations, signature, body);
+        this.superType = superType;
+    }
 
     public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
         super(qualifiedName, modifiers, implementations, body);

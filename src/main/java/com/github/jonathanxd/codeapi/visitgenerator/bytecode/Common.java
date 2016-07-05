@@ -40,6 +40,7 @@ import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Variable;
 
@@ -54,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -426,14 +428,14 @@ public class Common {
         if (parameters.isEmpty())
             return Collections.emptyList();
 
-        return parameters.stream().map(d -> new Variable(d.getName(), d.getType())).collect(Collectors.toList());
+        return parameters.stream().map(d -> new Variable(d.getName(), d.getType(), null, null)).collect(Collectors.toList());
     }
 
     public static void parametersToVars(Collection<CodeParameter> parameters, Collection<Variable> target) {
         if (parameters.isEmpty())
             return;
 
-        parameters.stream().map(d -> new Variable(d.getName(), d.getType())).forEach(target::add);
+        parameters.stream().map(d -> new Variable(d.getName(), d.getType(), null, null)).forEach(target::add);
     }
 
     public static Map<String, Integer> parametersToMap(Collection<CodeParameter> parameters, int startAt) {
@@ -470,4 +472,168 @@ public class Common {
     public static String argumentsToAsm(Collection<CodeArgument> codeArguments) {
         return codeTypesToFullAsm(codeArguments.stream().map(CodeArgument::getType).toArray(CodeType[]::new));
     }
+
+
+    // ** Generics ** \\
+
+    public static String genericTypesToAsmString(GenericType[] generics) {
+        StringJoiner sj = new StringJoiner(";");
+
+        for (GenericType generic : generics) {
+            sj.add(genericTypeToAsmString_plain(generic));
+        }
+
+        return "<"+fixResult(sj.toString())+">";
+    }
+
+    public static String genericTypeToAsmString(GenericType generic) {
+        return "<" + fixResult(genericTypeToAsmString_plain(generic)) + ">";
+
+    }
+
+    public static String fixResult(String str) {
+        StringBuilder sb = new StringBuilder();
+
+        char[] chars = str.toCharArray();
+
+        boolean ign = false;
+
+        for (char aChar : chars) {
+            if(aChar == ';') {
+                if(!ign) {
+                    sb.append(aChar);
+                }
+
+                ign = true;
+            } else {
+                sb.append(aChar);
+                ign = false;
+            }
+        }
+
+        return sb.toString();
+    }
+
+    private static String genericTypeToAsmString_plain(GenericType generic) {
+        String name = generic.name();
+
+
+        boolean gen2 = false;
+        if(generic.bounds().length != 0) {
+            GenericType.Bound<CodeType> codeTypeBound = generic.bounds()[0];
+
+            CodeType type = codeTypeBound.getType();
+
+            if(type instanceof GenericType) {
+                gen2 = ((GenericType) type).bounds().length > 0;
+            }
+        }
+
+        return name + ":" + (gen2 ? ":" : "") + boundToMain(generic.isWildcard(), generic.bounds());
+
+    }
+
+    public static String toAsm(CodeType codeType) {
+        if(codeType instanceof GenericType) {
+
+            GenericType genericType = (GenericType) codeType;
+
+            String name = genericType.name();
+
+            GenericType.Bound<CodeType>[] bounds = genericType.bounds();
+
+            if(bounds.length == 0) {
+                return fixResult(name + (genericType.isType() ? ";" : ""));
+            } else {
+                return fixResult(!genericType.isWildcard()
+                        ? (name + "<"+bounds(genericType.isWildcard(), bounds)+">;")
+                        : bounds(genericType.isWildcard(), bounds));
+            }
+
+        } else {
+            return fixResult(codeTypeToFullAsm(codeType));
+        }
+    }
+
+    public static String bounds(boolean isWildcard, GenericType.Bound<CodeType>[] bounds) {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (GenericType.Bound<CodeType> bound : bounds) {
+
+            CodeType boundType = bound.getType();
+
+            if(boundType instanceof GenericType && !((GenericType) boundType).isType()) {
+                sb.append(isWildcard ? bound.sign() : "").append("T").append(toAsm(boundType)).append(";");
+            } else {
+                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(";");
+            }
+
+        }
+
+        return sb.toString();
+    }
+
+    private static String boundToMain(boolean isWildcard, GenericType.Bound<CodeType>[] bounds) {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < bounds.length; i++) {
+
+            boolean isLast = i + 1 >= bounds.length;
+
+            GenericType.Bound<CodeType> bound = bounds[i];
+
+            CodeType boundType = bound.getType();
+
+            if(boundType instanceof GenericType && !((GenericType) boundType).isType()) {
+                sb.append(isWildcard ? bound.sign() : "").append("T").append(toAsm(boundType)).append(";").append(!isLast ? ":" : "");
+            } else {
+                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(";").append(!isLast ? ":" : "");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static String genericTypeToAsmString0(GenericType genericType) {
+        String name = genericType.name();
+
+        GenericType.Bound<CodeType>[] bounds = genericType.bounds();
+
+        if(bounds.length == 0) {
+            return "<" + name + ":" + codeTypeToFullAsm(PredefinedTypes.OBJECT) + ">";
+        } else {
+            return "<" + name + ":" + generateToBounds(bounds) + ">";
+        }
+    }
+
+    public static String generateToBounds(GenericType.Bound<CodeType>[] bounds) {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (GenericType.Bound<CodeType> bound : bounds) {
+            sb.append(bound.sign()).append("T").append(
+                    generateToBound(bound.getType())
+            ).append(';');
+        }
+
+        return sb.toString();
+    }
+
+    public static String generateToBound(CodeType codeType) {
+        if(codeType instanceof GenericType) {
+            return genericTypeToAsmString((GenericType) codeType);
+        } else {
+            return codeType.getJavaSpecName();
+        }
+    }
+
+
+
 }
+/*
+<E::Ljava/util/function/Function<-TE;TE;>;V:Ljava/lang/Object;>Ljava/util/HashMap<Ljava/util/function/Predicate<TE;>;TV;>;Ljava/util/function/Function<TE;TV;>;
+
+<E::Ljava/util/function/Function<-TE;TE;>;V:Ljava/lang/Object;>Ljava/util/HashMap<Ljava/util/function/Predicate<TE;>;TV;>;Ljava/util/function/Function<TE;TV;>;
+ */

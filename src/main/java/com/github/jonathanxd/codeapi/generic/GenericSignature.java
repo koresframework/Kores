@@ -25,48 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.generic;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
- * Created by jonathan on 01/05/16.
+ * Created by jonathan on 05/07/16.
  */
-public class ArrayUtils {
+public class GenericSignature<T extends GenericType> {
 
-    public static <E> E[] addToArray(E[] array, E element) {
-        int len = array.length;
+    private static final GenericSignature<?> EMPTY = new GenericSignature<>(new GenericType[0]);
 
-        Arrays.copyOf(array, len + 1);
+    private final T[] types;
 
-        array[len] = element;
-
-        return array;
+    public GenericSignature(T[] types) {
+        this.types = types;
     }
 
-    public static <E> E[] addToArray(E[] array, E[] elements) {
-        int len = array.length;
-
-        Arrays.copyOf(array, len + elements.length);
-
-        for(int x = 0; x < elements.length; ++x) {
-            array[len+x] = elements[x];
-        }
-
-        return array;
+    public T[] getTypes() {
+        return types.clone();
     }
 
-    public static <E> List<E> toList(E[] parameters) {
-        if(parameters == null || parameters.length == 0)
-            return Collections.emptyList();
-
-        if(parameters.length == 1)
-            return Collections.singletonList(parameters[0]);
-
-        return Arrays.asList(parameters);
+    @SafeVarargs
+    public static <T extends GenericType> GenericSignature<T> create(T... types) {
+        return new GenericSignature<>(types);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends GenericType> GenericSignature<T> empty() {
+        return (GenericSignature<T>) EMPTY;
+    }
 }

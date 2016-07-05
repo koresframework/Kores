@@ -25,53 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import org.objectweb.asm.Label;
+import com.github.jonathanxd.codeapi.impl.CodeInterface;
 
 /**
- * Created by jonathan on 06/06/16.
+ * Created by jonathan on 05/07/16.
  */
-public final class Variable {
+final class BCLoader extends ClassLoader {
 
-    private final String name;
-    private final CodeType type;
-    private final Label startLabel;
-    private final Label endLabel;
-
-    public Variable(String name, CodeType type, Label startLabel, Label endLabel) {
-        this.name = name;
-        this.type = type;
-        this.startLabel = startLabel;
-        this.endLabel = endLabel;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public CodeType getType() {
-        return type;
-    }
-
-    public Label getStartLabel() {
-        return startLabel;
-    }
-
-    public Label getEndLabel() {
-        return endLabel;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null)
-            return false;
-        if(!(obj instanceof Variable))
-            return false;
-
-        return ((Variable) obj).getName().equals(this.getName()) && ((Variable) obj).getType().compareTo(this.getType()) == 0;
-
+    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
+        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
     }
 }

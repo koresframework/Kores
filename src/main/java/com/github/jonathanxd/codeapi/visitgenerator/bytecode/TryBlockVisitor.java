@@ -115,19 +115,26 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         ///////////////////////////////
 
-        final int stackPos = mvData.storeVar("unknownException$$", Helper.getJavaType(Throwable.class));
+        Label i_label = new Label();
+
+        mv.visitLabel(i_label);
+
+        Label endLabel = new Label();
+
+        final int stackPos = mvData.storeVar("unknownException$$", Helper.getJavaType(Throwable.class), i_label, null);
 
         catches.forEach((catchBlock, label) -> {
 
 
             //IMPLEMENTATION REQUIRED:
-            //mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{"java/lang/Throwable"});
+
+            // Catch
 
             mv.visitLabel(label);
 
             String s = catchBlock.getName();
 
-            mvData.redefineVar(stackPos, s, Helper.getJavaType(Throwable.class));
+            mvData.redefineVar(stackPos, s, Helper.getJavaType(Throwable.class), label, endLabel);
 
             mv.visitVarInsn(ASTORE, stackPos);
 
@@ -148,6 +155,8 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         });
 
+        mv.visitLabel(endLabel);
+
         if(!INLINE_FINALLY && finallyBlock != null) {
             mv.visitLabel(finallyBlock);
             visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
@@ -156,8 +165,6 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
         mv.visitLabel(outOfIf);
 
         // OUT OF --
-
-        //IMPLEMENTATION REQUIRED:mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 
 
         return new Byte[0];

@@ -110,7 +110,7 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
         if (codeConstructor.getModifiers().contains(CodeModifier.STATIC)) {
             Common.parametersToVars(codeConstructor.getParameters(),/* to */ vars);
         } else {
-            vars.add(new Variable("this", codeInterface));
+            vars.add(new Variable("this", codeInterface, null, null));
             Common.parametersToVars(codeConstructor.getParameters(), /* to */ vars);
         }
 
@@ -161,7 +161,14 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
          */
         mv.visitInsn(RETURN);
 
+        Label end = new Label();
+
+        mv.visitLabel(end);
+
         mv.visitMaxs(0, 0);
+
+        mvData.visitVars(l0, end);
+
         mv.visitEnd();
 
         return new Byte[0];

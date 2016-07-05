@@ -30,14 +30,14 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.iutils.object.Node;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -81,8 +81,8 @@ public class MVData {
         return -1;
     }
 
-    public int storeVar(final String name, final CodeType type) {
-        Variable variable = new Variable(name, type);
+    public int storeVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
+        Variable variable = new Variable(name, type, startLabel, endLabel);
 
         for (int i = 0; i < this.variables.size(); i++) {
             if(this.variables.get(i).equals(variable)) {
@@ -95,8 +95,8 @@ public class MVData {
         return getVarPos(variable);
     }
 
-    public void redefineVar(final int pos, final String name, final CodeType type) {
-        Variable variable = new Variable(name, type);
+    public void redefineVar(final int pos, final String name, final CodeType type, final Label startLabel, final Label endLabel) {
+        Variable variable = new Variable(name, type, startLabel, endLabel);
 
         if(pos >= this.variables.size()) {
             this.variables.add(pos, variable);
@@ -121,5 +121,20 @@ public class MVData {
 
     public MethodVisitor getMethodVisitor() {
         return this.methodVisitor;
+    }
+
+    public void visitVars(Label start, Label end) {
+        List<Variable> variables = this.getVariables();
+
+        for (int i = 0; i < variables.size(); i++) {
+            Variable variable = variables.get(i);
+
+            Label varStart = variable.getStartLabel() != null ? variable.getStartLabel() : start;
+            Label varEnd = variable.getEndLabel() != null ? variable.getEndLabel() : end;
+
+            String type = Common.codeTypeToFullAsm(variable.getType());
+
+            methodVisitor.visitLocalVariable(variable.getName(), type, /* GenericSignature */ null, varStart, varEnd, i);
+        }
     }
 }

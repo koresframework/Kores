@@ -32,12 +32,15 @@ import com.github.jonathanxd.codeapi.CodeRoot;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodied;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.QualifiedNamed;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -46,19 +49,25 @@ import java.util.stream.Collectors;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeInterface extends AbstractBodied implements Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer {
+public class CodeInterface extends AbstractBodied implements Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer, Generifiable {
 
     private final String name;
     private final String qualifiedName;
     private final Collection<CodeType> implementations;
     private final Collection<CodeModifier> modifiers;
+    private final GenericSignature<GenericType> signature;
 
     public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, CodeSource body) {
+        this(qualifiedName, modifiers, implementations, GenericSignature.empty(), body);
+    }
+
+    public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
         super(body);
         this.qualifiedName = qualifiedName;
         this.name = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length());
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);
         this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableCollection(implementations);
+        this.signature = signature != null ? signature : GenericSignature.empty();
     }
 
     @Override
@@ -93,6 +102,11 @@ public class CodeInterface extends AbstractBodied implements Modifierable, CodeR
     @Override
     public String getQualifiedName() {
         return qualifiedName;
+    }
+
+    @Override
+    public GenericSignature<GenericType> getGenericSignature() {
+        return this.signature;
     }
 
     @Override

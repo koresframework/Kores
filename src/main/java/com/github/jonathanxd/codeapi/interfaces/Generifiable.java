@@ -25,53 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import org.objectweb.asm.Label;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
- * Created by jonathan on 06/06/16.
+ * Created by jonathan on 04/07/16.
  */
-public final class Variable {
+public interface Generifiable {
 
-    private final String name;
-    private final CodeType type;
-    private final Label startLabel;
-    private final Label endLabel;
+    /**
+     * Generic signature
+     *
+     * @return Generic signature
+     */
+    GenericSignature<GenericType> getGenericSignature();
 
-    public Variable(String name, CodeType type, Label startLabel, Label endLabel) {
-        this.name = name;
-        this.type = type;
-        this.startLabel = startLabel;
-        this.endLabel = endLabel;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public CodeType getType() {
-        return type;
-    }
-
-    public Label getStartLabel() {
-        return startLabel;
-    }
-
-    public Label getEndLabel() {
-        return endLabel;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null)
-            return false;
-        if(!(obj instanceof Variable))
-            return false;
-
-        return ((Variable) obj).getName().equals(this.getName()) && ((Variable) obj).getType().compareTo(this.getType()) == 0;
-
-    }
 }

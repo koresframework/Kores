@@ -35,7 +35,6 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
@@ -45,7 +44,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -83,10 +81,11 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
         //mv.visitVarInsn(ALOAD, 1);
         final List<Variable> vars = new ArrayList<>();
 
+
         if(modifiers.contains(CodeModifier.STATIC)) {
             Common.parametersToVars(codeMethod.getParameters(),/* to */ vars);
         } else {
-            vars.add(new Variable("this", codeInterface));
+            vars.add(new Variable("this", codeInterface, null, null));
             Common.parametersToVars(codeMethod.getParameters(), /* to */ vars);
         }
 
@@ -110,8 +109,14 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
             }
 
             mv.visitMaxs(0, 0);
-        }
 
+            Label end = new Label();
+
+            mv.visitLabel(end);
+
+            mvData.visitVars(l0, end);
+
+        }
 
 
         mv.visitEnd();

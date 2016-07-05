@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.ArrayConstructorEx;
 import com.github.jonathanxd.codeapi.helper.ArrayLengthEx;
 import com.github.jonathanxd.codeapi.helper.ArrayLoadEx;
@@ -51,9 +52,10 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.ArrayUtils;
+import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.ArrayToList;
+import com.github.jonathanxd.iutils.arrays.ArrayUtils;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Arrays;
@@ -71,36 +73,59 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName) {
-        return anInterface__factory(modifiers, qualifiedName, null);
+        return anInterface__factory(modifiers, qualifiedName, null, null);
+    }
+
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, GenericSignature<GenericType> signature) {
+        return anInterface__factory(modifiers, qualifiedName, signature, null);
     }
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeType... extensions) {
-        return anInterface__factory(modifiers, qualifiedName, null, extensions);
+        return anInterface__factory(modifiers, qualifiedName, null, null, extensions);
+    }
+
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType... extensions) {
+        return anInterface__factory(modifiers, qualifiedName, signature, null, extensions);
     }
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName, Class<?>... extensions) {
-        return anInterface__factory(modifiers, qualifiedName, null, toCodeType(extensions));
+        return anInterface__factory(modifiers, qualifiedName, null, null, toCodeType(extensions));
     }
 
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?>... extensions) {
+        return anInterface__factory(modifiers, qualifiedName, signature, null, toCodeType(extensions));
+    }
 
     // ** Source **
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName, Function<CodeInterface, CodeSource> source) {
-        return anInterface__factory(modifiers, qualifiedName, source);
+        return anInterface__factory(modifiers, qualifiedName, null, source);
+    }
+
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeInterface, CodeSource> source) {
+        return anInterface__factory(modifiers, qualifiedName, signature, source);
     }
 
     public static CodeInterface anInterface(int modifiers, String qualifiedName, CodeType[] extensions, Function<CodeInterface, CodeSource> source) {
-        return anInterface__factory(modifiers, qualifiedName, source, extensions);
+        return anInterface__factory(modifiers, qualifiedName, null, source, extensions);
     }
 
-    public static CodeInterface $anInterface(int modifiers, String qualifiedName, Class<?>[] extensions, Function<CodeInterface, CodeSource> source) {
-        return anInterface__factory(modifiers, qualifiedName, source, toCodeType(extensions));
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType[] extensions, Function<CodeInterface, CodeSource> source) {
+        return anInterface__factory(modifiers, qualifiedName, signature, source, extensions);
+    }
+
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, Class<?>[] extensions, Function<CodeInterface, CodeSource> source) {
+        return anInterface__factory(modifiers, qualifiedName, null, source, toCodeType(extensions));
+    }
+
+    public static CodeInterface anInterface(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?>[] extensions, Function<CodeInterface, CodeSource> source) {
+        return anInterface__factory(modifiers, qualifiedName, signature, source, toCodeType(extensions));
     }
 
     // Factory
 
-    private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, Function<CodeInterface, CodeSource> source, CodeType... extensions) {
-        CodeInterface codeInterface = new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(extensions), new CodeSource());
+    private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeInterface, CodeSource> source, CodeType... extensions) {
+        CodeInterface codeInterface = new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource());
 
         if(source != null)
             Require.require(codeInterface.getBody()).addAll(source.apply(codeInterface));
@@ -113,51 +138,91 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeClass aClass(int modifiers, String qualifiedName) {
-        return aClass__factory(modifiers, qualifiedName, null, null);
+        return aClass__factory(modifiers, qualifiedName, null, null, null);
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature) {
+        return aClass__factory(modifiers, qualifiedName, null, signature, null);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, null, implementations);
+        return aClass__factory(modifiers, qualifiedName, null, null, null, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType... implementations) {
+        return aClass__factory(modifiers, qualifiedName, null, signature, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, null, toCodeType(implementations));
+        return aClass__factory(modifiers, qualifiedName, null, null, null, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?>... implementations) {
+        return aClass__factory(modifiers, qualifiedName, null, signature, null, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, superType, null, implementations);
+        return aClass__factory(modifiers, qualifiedName, superType, null, null, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType superType, CodeType... implementations) {
+        return aClass__factory(modifiers, qualifiedName, superType, signature, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), null, toCodeType(implementations));
+        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), null, null, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?> superType, Class<?>... implementations) {
+        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), signature, null, toCodeType(implementations));
     }
 
     // ** Source **
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, source);
+        return aClass__factory(modifiers, qualifiedName, null, null, source);
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, qualifiedName, null, signature, source);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, source, implementations);
+        return aClass__factory(modifiers, qualifiedName, null, null, source, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, qualifiedName, null, signature, source, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, source, toCodeType(implementations));
+        return aClass__factory(modifiers, qualifiedName, null, null, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, qualifiedName, null, signature, source, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, superType, source, implementations);
+        return aClass__factory(modifiers, qualifiedName, superType, null, source, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, qualifiedName, superType, signature, source, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), source, toCodeType(implementations));
+        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), null, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), signature, source, toCodeType(implementations));
     }
 
     // Factory
 
-    private static CodeClass aClass__factory(int modifiers, String qualifiedName, CodeType superType, Function<CodeClass, CodeSource> source, CodeType... implementations) {
-        CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayUtils.toList(implementations), new CodeSource());
+    private static CodeClass aClass__factory(int modifiers, String qualifiedName, CodeType superType, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source, CodeType... implementations) {
+        CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayToList.toList(implementations), signature, new CodeSource());
 
         if(source != null)
             Require.require(codeClass.getBody()).addAll(source.apply(codeClass));
@@ -244,7 +309,7 @@ public class CodeAPI {
     // Factory
 
     private static CodeMethod method__factory(int modifiers, String name, CodeType returnType, Function<CodeMethod, CodeSource> source, CodeParameter... parameters) {
-        CodeMethod method = new CodeMethod(name, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), returnType, new CodeSource());
+        CodeMethod method = new CodeMethod(name, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), returnType, new CodeSource());
 
         if(source != null)
             Require.require(method.getBody()).addAll(source.apply(method));
@@ -298,7 +363,7 @@ public class CodeAPI {
 
     // Factory
     private static CodeConstructor constructor__factory(int modifiers, CodeType declaringClass, Function<CodeConstructor, CodeSource> source, CodeParameter... parameters) {
-        CodeConstructor codeConstructor = new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayUtils.toList(parameters), new CodeSource());
+        CodeConstructor codeConstructor = new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), new CodeSource());
 
         if(source != null)
             Require.require(codeConstructor.getBody()).addAll(source.apply(codeConstructor));
@@ -331,7 +396,7 @@ public class CodeAPI {
     // Factory
 
     private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
-        return new ArrayConstructorEx(arrayType, dimensions, ArrayUtils.toList(arguments));
+        return new ArrayConstructorEx(arrayType, dimensions, ArrayToList.toList(arguments));
     }
 
     // =========================================================
@@ -519,7 +584,7 @@ public class CodeAPI {
     // Factory
 
     private static MethodSpec spec__factory(String methodName, TypeSpec methodDescription, MethodType methodType, CodeArgument... arguments) {
-        return new MethodSpec(methodName, ArrayUtils.toList(arguments), methodDescription, methodType);
+        return new MethodSpec(methodName, ArrayToList.toList(arguments), methodDescription, methodType);
     }
 
     private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {

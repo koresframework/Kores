@@ -27,79 +27,49 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.Result;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
-import com.github.jonathanxd.iutils.exceptions.RethrowException;
 
 import org.junit.Test;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
-import static com.github.jonathanxd.codeapi.CodeAPI.argument;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.STRING;
-import static java.lang.reflect.Modifier.PUBLIC;
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 /**
- * Created by jonathan on 26/06/16.
+ * Created by jonathan on 05/07/16.
  */
-public class InvokeSuperTest {
+public class GenericClass {
 
     @Test
     public void test() {
-
-        CodeClass codeClass;
-
-        CodeSource source = sourceOfParts(codeClass = aClass(PUBLIC, "test.Impl", My.class, new Class[0], codeClass0 -> sourceOfParts(
-
-                constructor(PUBLIC, codeClass0, codeConstructor -> sourceOfParts(
-                        new CodeField("blc", STRING, Literals.STRING("099")),
-
-                        Helper.invokeSuperInit(Helper.getJavaType(My.class), argument(accessLocalVariable(STRING, "blc"), STRING))
-
-                ))
-
-        )));
-
+        CodeClass codeClass = CodeAPI.aClass(Modifier.PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
+                Generic.type(Helper.getJavaType(List.class)).of("T")
+        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")});
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
+        Result<Byte[]> gen = bytecodeGenerator.gen(CodeAPI.sourceOfParts(codeClass));
 
         ResultSaver.save(this.getClass(), gen.getResult());
 
+        BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = new BCLoader().define(codeClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = bcLoader.define(codeClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
 
         try {
-            My o = (My) define.newInstance();
-
-            System.out.println(o.getId());
+            define.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new RethrowException(e);
+            e.printStackTrace();
         }
 
     }
-
-
-    public static class My {
-        private final String id;
-
-        public My(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
-    }
-
 }

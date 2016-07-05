@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -81,7 +82,11 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
         } else {
             if(at instanceof AccessLocalEx) {
 
-                int i = mvData.storeVar(variableStore.getName(), variableStore.getVariableType());
+                Label i_label = new Label();
+
+                additional.visitLabel(i_label);
+
+                int i = mvData.storeVar(variableStore.getName(), variableStore.getVariableType(), i_label, null);
 
                 Type type = Type.getType(variableStore.getVariableType().getJavaSpecName());
 
