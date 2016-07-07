@@ -25,16 +25,39 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.bytecode;
+package com.github.jonathanxd.codeapi.test.tests;
 
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.test.ResultSaver;
+import com.github.jonathanxd.codeapi.test.bytecode.BCLoader;
+import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.iutils.exceptions.RethrowException;
 
 /**
- * Created by jonathan on 05/07/16.
+ * Created by jonathan on 07/07/16.
  */
-public final class BCLoader extends ClassLoader {
+public class CommonBytecodeTest {
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+    public static @Named("Instance") Object test(Class<?> testClass, CodeInterface mainClass, CodeSource source) {
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
+
+        Result<Byte[]> gen = bytecodeGenerator.gen(source);
+
+        ResultSaver.save(testClass, gen.getResult());
+
+        BCLoader bcLoader = new BCLoader();
+
+        Class<?> define = bcLoader.define(mainClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+
+        try {
+            return define.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RethrowException(e, e.getCause());
+        }
     }
+
 }

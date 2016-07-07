@@ -29,66 +29,53 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.MultiValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.PkgDclEx;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<CodeInterface, String, PlainSourceGenerator> {
+public class GenericSignatureSourceGenerator implements Generator<GenericSignature<? extends GenericType>, String, PlainSourceGenerator> {
 
-    public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
+    public static final GenericSignatureSourceGenerator INSTANCE = new GenericSignatureSourceGenerator();
 
-    private InterfaceSourceGenerator() {
+    private GenericSignatureSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(GenericSignature<? extends GenericType> genericSignature, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetValue.create(Modifierable.class, codeInterface, parents),
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
 
-                TargetValue.create(Named.class, codeInterface, parents),
+        GenericType[] types = genericSignature.getTypes();
 
-                TargetValue.create(Generifiable.class, codeInterface, parents)
-        ));
+        for (int i = 0; i < types.length; i++) {
+            boolean hasNext = i + 1 < types.length;
 
-        String packageName = codeInterface.getPackageName();
+            GenericType genericType = types[i];
 
-        if(packageName != null && !packageName.isEmpty()) {
-            values.add(0, TargetValue.create(PackageDeclaration.class, new PkgDclEx(packageName), parents));
+            values.add(TargetValue.create(genericType.getClass(), genericType, parents));
+
+            if(hasNext)
+                values.add(ValueImpl.create(","));
         }
 
-        if(codeInterface instanceof Extender) {
-            values.add(TargetValue.create(Extender.class, codeInterface, parents));
-        }
-
-        values.addAll(Arrays.asList(
-                TargetValue.create(Implementer.class, codeInterface, parents),
-
-                TargetValue.create(Bodied.class, codeInterface, parents)
-        ));
 
         return values;
     }
-
 }

@@ -27,13 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
  * Created by jonathan on 04/07/16.
  */
-public interface Generifiable {
+public interface Generifiable extends CodePart {
 
     /**
      * Generic signature

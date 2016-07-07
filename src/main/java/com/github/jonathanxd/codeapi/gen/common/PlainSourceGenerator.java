@@ -50,6 +50,9 @@ import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator
 import com.github.jonathanxd.codeapi.gen.common.source.ExtenderSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ForBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.GenericSignatureSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.GenericTypeSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.GenerifiableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GroupableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.HelperMISourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.HelperVASourceGenerator;
@@ -78,6 +81,7 @@ import com.github.jonathanxd.codeapi.gen.common.source.VariableAccessSourceGener
 import com.github.jonathanxd.codeapi.gen.common.source.VariableOperateSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.VariableStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -97,6 +101,7 @@ import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
+import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
@@ -122,6 +127,7 @@ import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -191,6 +197,11 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         // Cast
         register(Casted.class, CastedPartSourceGenerator.INSTANCE);
+
+        // Generics
+        register(Generifiable.class, GenerifiableSourceGenerator.INSTANCE);
+        register(GenericSignature.class, GenericSignatureSourceGenerator.INSTANCE);
+        register(GenericType.class, GenericTypeSourceGenerator.INSTANCE);
     }
 
     public static PlainSourceGenerator singletonInstance() {

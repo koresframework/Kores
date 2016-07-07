@@ -25,16 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.bytecode;
+package com.github.jonathanxd.codeapi.test.tests;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import java.util.function.Consumer;
 
 /**
- * Created by jonathan on 05/07/16.
+ * Created by jonathan on 07/07/16.
  */
-public final class BCLoader extends ClassLoader {
+public interface CATest<T> {
+    void expect(T t) throws AssertionError;
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+    default CATest<T> consume(Consumer<T> consumer) {
+        consumer.accept(result());
+
+        return this;
     }
+
+    T result();
 }

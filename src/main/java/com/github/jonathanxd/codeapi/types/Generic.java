@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.TODOException;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.iutils.arrays.ArrayUtils;
@@ -37,6 +38,7 @@ import java.util.Arrays;
 /**
  * Created by jonathan on 04/07/16.
  */
+@GenerateTo(GenericType.class)
 public class Generic implements GenericType {
 
     private final String name;

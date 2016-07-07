@@ -25,16 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.bytecode;
+package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 /**
- * Created by jonathan on 05/07/16.
+ * Created by jonathan on 07/07/16.
  */
-public final class BCLoader extends ClassLoader {
+public class GenericClass_ {
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+    public static Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+        CodeClass codeClass = CodeAPI.aClass(Modifier.PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
+                Generic.type(Helper.getJavaType(List.class)).of("T")
+        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")});
+
+        return new Bi<>(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
+
 }

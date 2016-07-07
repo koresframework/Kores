@@ -33,39 +33,78 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ExtenderSourceGenerator implements Generator<Extender, String, PlainSourceGenerator> {
+public class GenericTypeSourceGenerator implements Generator<GenericType, String, PlainSourceGenerator> {
 
-    public static final ExtenderSourceGenerator INSTANCE = new ExtenderSourceGenerator();
+    public static final GenericTypeSourceGenerator INSTANCE = new GenericTypeSourceGenerator();
 
-    private ExtenderSourceGenerator() {
+    private GenericTypeSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Extender extender, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(GenericType genericType, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
-        Optional<CodeType> superTypeOpt = extender.getSuperType();
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (!superTypeOpt.isPresent())
-            return Collections.emptyList();
+        if(genericType.isType()) {
+            values.add(TargetValue.create(CodeType.class, genericType, parents));
+        } else {
+            if(!genericType.isWildcard()) {
+                values.add(ValueImpl.create(genericType.name()));
+            } else {
+                values.add(ValueImpl.create("?"));
+            }
+        }
 
-        return new ArrayList<>(Arrays.asList(
-                ValueImpl.create("extends"),
-                TargetValue.create(superTypeOpt.get().getClass(), superTypeOpt.get(), parents)
-        ));
+
+        GenericType.Bound<CodeType>[] bounds = genericType.bounds();
+
+        if(bounds.length != 0) {
+
+            for (int i = 0; i < bounds.length; i++) {
+
+                boolean hasNext = i + 1 < bounds.length;
+
+                GenericType.Bound<CodeType> bound = bounds[i];
+
+                boolean extendsOrSuper = bound.sign().equals("+") ||  bound.sign().equals("-");
+
+                if(bound.sign().equals("+")) {
+                    values.add(ValueImpl.create("extends"));
+                } else if (bound.sign().equals("-")) {
+                    values.add(ValueImpl.create("super"));
+                } else {
+                    values.add(ValueImpl.create("<"));
+                }
+
+                CodeType type = bound.getType();
+
+                values.add(TargetValue.create(type.getClass(), type, parents));
+
+                if(!extendsOrSuper) {
+                    values.add(ValueImpl.create(">"));
+                }
+
+                if(hasNext) {
+                    values.add(ValueImpl.create("&"));
+                }
+            }
+
+        }
+
+        return values;
     }
-
 }

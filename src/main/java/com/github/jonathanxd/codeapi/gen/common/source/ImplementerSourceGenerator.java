@@ -30,8 +30,8 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.MultiValue;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
@@ -39,10 +39,9 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -61,9 +60,14 @@ public class ImplementerSourceGenerator implements Generator<Implementer, String
             return Collections.emptyList();
 
 
-        return Arrays.asList(
-                MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents,/*Parent.create(this, parents)*/codeSourceData, data)), // Whitespace not needed
-                ValueImpl.create(implementer.getImplementations().stream().map(CodeType::getCanonicalName).collect(Collectors.joining(" ")))
-        );
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        values.add(MultiValue.create(NamedSourceGenerator.INSTANCE.gen(Keywords.IMPLEMENTS, plainSourceGenerator, parents,/*Parent.create(this, parents)*/codeSourceData, data)));
+
+        for (CodeType codeType : implementer.getImplementations()) {
+            values.add(TargetValue.create(codeType.getClass(), codeType, parents));
+        }
+
+        return values;
     }
 }

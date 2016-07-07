@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import java.util.Optional;
+
 /**
  * Created by jonathan on 04/07/16.
  */

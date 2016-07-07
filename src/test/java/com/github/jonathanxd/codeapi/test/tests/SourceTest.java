@@ -25,16 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.bytecode;
+package com.github.jonathanxd.codeapi.test.tests;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import org.junit.Assert;
 
 /**
- * Created by jonathan on 05/07/16.
+ * Created by jonathan on 07/07/16.
  */
-public final class BCLoader extends ClassLoader {
+public class SourceTest implements CATest<String> {
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+    private final Class<?> testClass;
+    private final String result;
+
+    SourceTest(Class<?> testClass, String result) {
+        this.testClass = testClass;
+        this.result = result;
+    }
+
+    @Override
+    public void expect(String s) throws AssertionError {
+        Assert.assertEquals(s, result);
+    }
+
+    @Override
+    public String result() {
+        return this.result;
     }
 }

@@ -60,7 +60,7 @@ public class ArrayTest {
 
 
         PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
-        String source = plainSourceGenerator.gen(sourceOfParts(CommonGen.gen()));
+        String source = plainSourceGenerator.gen(CommonGen.gen());
 
         System.out.println(source);
 

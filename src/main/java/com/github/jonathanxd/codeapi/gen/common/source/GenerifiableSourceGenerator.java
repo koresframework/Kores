@@ -31,64 +31,36 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.PkgDclEx;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<CodeInterface, String, PlainSourceGenerator> {
+public class GenerifiableSourceGenerator implements Generator<Generifiable, String, PlainSourceGenerator> {
 
-    public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
+    public static final GenerifiableSourceGenerator INSTANCE = new GenerifiableSourceGenerator();
 
-    private InterfaceSourceGenerator() {
+    private GenerifiableSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Generifiable generifiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        if(generifiable.getGenericSignature().getTypes().length == 0)
+            return Collections.emptyList();
 
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                TargetValue.create(Modifierable.class, codeInterface, parents),
+        GenericSignature<GenericType> genericSignature = generifiable.getGenericSignature();
 
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
+        return Arrays.asList(ValueImpl.create("<"), TargetValue.create(genericSignature.getClass(), genericSignature, parents), ValueImpl.create(">"));
 
-                TargetValue.create(Named.class, codeInterface, parents),
-
-                TargetValue.create(Generifiable.class, codeInterface, parents)
-        ));
-
-        String packageName = codeInterface.getPackageName();
-
-        if(packageName != null && !packageName.isEmpty()) {
-            values.add(0, TargetValue.create(PackageDeclaration.class, new PkgDclEx(packageName), parents));
-        }
-
-        if(codeInterface instanceof Extender) {
-            values.add(TargetValue.create(Extender.class, codeInterface, parents));
-        }
-
-        values.addAll(Arrays.asList(
-                TargetValue.create(Implementer.class, codeInterface, parents),
-
-                TargetValue.create(Bodied.class, codeInterface, parents)
-        ));
-
-        return values;
     }
-
 }

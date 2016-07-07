@@ -25,16 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.bytecode;
+package com.github.jonathanxd.codeapi.test.tests;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 
 /**
- * Created by jonathan on 05/07/16.
+ * Created by jonathan on 07/07/16.
  */
-public final class BCLoader extends ClassLoader {
+public class CommonSourceTest {
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+    public static SourceTest test(Class<?> testClass, CodeSource source) {
+        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+
+        String gen = plainSourceGenerator.gen(source);
+
+        return new SourceTest(testClass, gen);
     }
+
 }

@@ -27,49 +27,23 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.Result;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.codeapi.test.GenericClass_;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
 
 import org.junit.Test;
-
-import java.lang.reflect.Modifier;
-import java.util.List;
 
 /**
  * Created by jonathan on 05/07/16.
  */
-public class GenericClass {
+public class GenericClassTest {
 
     @Test
     public void test() {
-        CodeClass codeClass = CodeAPI.aClass(Modifier.PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
-                Generic.type(Helper.getJavaType(List.class)).of("T")
-        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")});
-
-        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
-
-        Result<Byte[]> gen = bytecodeGenerator.gen(CodeAPI.sourceOfParts(codeClass));
-
-        ResultSaver.save(this.getClass(), gen.getResult());
-
-        BCLoader bcLoader = new BCLoader();
-
-        Class<?> define = bcLoader.define(codeClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
-
-        try {
-            define.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = GenericClass_.$();
+        CommonBytecodeTest.test(this.getClass(), $._1(), $._2());
     }
 }

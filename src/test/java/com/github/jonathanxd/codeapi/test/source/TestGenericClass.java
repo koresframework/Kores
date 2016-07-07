@@ -25,16 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test.bytecode;
+package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.GenericClass_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import org.junit.Test;
 
 /**
- * Created by jonathan on 05/07/16.
+ * Created by jonathan on 07/07/16.
  */
-public final class BCLoader extends ClassLoader {
+public class TestGenericClass {
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-        return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+    @Test
+    public void genericClass() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = GenericClass_.$();
+        CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; " +
+                "public class Generic < T extends java.util.List < T > > implements java.util.List < T > {" +
+                " }");
     }
+
 }
