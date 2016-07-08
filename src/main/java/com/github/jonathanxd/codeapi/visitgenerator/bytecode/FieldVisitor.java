@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -41,6 +43,8 @@ import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
+
+import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -85,7 +89,15 @@ public class FieldVisitor implements Visitor<CodeField, Byte, Object>, Opcodes {
 
         ClassWriter required = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
 
-        required.visitField(asm, codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()), null, null).visitEnd();
+        String signature = null;
+
+        CodeType type = codeField.getType().orElseThrow(NullPointerException::new);
+
+        if(type instanceof GenericType) {
+            signature = Common.toAsm(type);
+        }
+
+        required.visitField(asm, codeField.getName(), Common.codeTypeToFullAsm(type), signature, null).visitEnd();
 
         return new Byte[0];
     }

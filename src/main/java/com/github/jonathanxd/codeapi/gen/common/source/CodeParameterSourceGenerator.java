@@ -30,12 +30,15 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,11 +54,8 @@ public class CodeParameterSourceGenerator implements Generator<CodeParameter, St
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        CodeType type = codeParameter.getType();
 
-        String sb = codeParameter.getType().getCanonicalName() +
-                " " +
-                codeParameter.getName();
-
-        return Collections.singletonList(ValueImpl.create(sb));
+        return Arrays.asList(TargetValue.create(type.getClass(), type, parents), ValueImpl.create(codeParameter.getName()));
     }
 }

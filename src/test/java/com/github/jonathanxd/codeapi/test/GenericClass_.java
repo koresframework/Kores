@@ -27,18 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.object.Bi;
 
-import java.lang.reflect.Modifier;
 import java.util.List;
+
+import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
+import static com.github.jonathanxd.codeapi.CodeAPI.field;
+import static com.github.jonathanxd.codeapi.CodeAPI.method;
+import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
+import static java.lang.reflect.Modifier.PUBLIC;
+import static java.lang.reflect.Modifier.STATIC;
 
 /**
  * Created by jonathan on 07/07/16.
@@ -46,11 +55,20 @@ import java.util.List;
 public class GenericClass_ {
 
     public static Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
-        CodeClass codeClass = CodeAPI.aClass(Modifier.PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
-                Generic.type(Helper.getJavaType(List.class)).of("T")
-        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")});
 
-        return new Bi<>(codeClass, CodeAPI.sourceOfParts(codeClass));
+        CodeClass codeClass = aClass(PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
+                Generic.type(Helper.getJavaType(List.class)).of("T")
+        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")}, codeClass1 -> sourceOfParts(
+                method(STATIC | PUBLIC, GenericSignature.create(Generic.type("T").extends$(
+                        Generic.type(PredefinedTypes.LIST).of("T")
+                )), "test", void.class, new CodeParameter[]{new CodeParameter("val", Generic.type("T"))},
+                        method -> sourceOfParts(
+                                new CodeField("fieldi", Generic.type("T"), Literals.NULL)
+                        )),
+                field(PUBLIC, Generic.type("T"), "test")
+        ));
+
+        return new Bi<>(codeClass, sourceOfParts(codeClass));
     }
 
 }

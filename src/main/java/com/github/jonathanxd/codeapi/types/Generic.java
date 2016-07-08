@@ -47,15 +47,15 @@ public class Generic implements GenericType {
     private final Bound<CodeType>[] bounds;
     private final boolean isType;
 
-    public Generic(String name) {
+    private Generic(String name) {
         this(name, null, null);
     }
 
-    public Generic(CodeType type) {
+    private Generic(CodeType type) {
         this(null, type, null);
     }
 
-    public Generic(String name, CodeType codeType, Bound<CodeType>[] bounds) {
+    private Generic(String name, CodeType codeType, Bound<CodeType>[] bounds) {
 
         if(bounds == null) {
             bounds = new Bound[0];

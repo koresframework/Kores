@@ -39,4 +39,8 @@ public interface Bodied extends CodePart {
 
     Optional<CodeSource> getBody();
 
+    default boolean hasBody() {
+        return getBody().isPresent();
+    }
+
 }

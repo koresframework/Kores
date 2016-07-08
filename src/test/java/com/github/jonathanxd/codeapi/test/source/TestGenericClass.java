@@ -45,8 +45,12 @@ public class TestGenericClass {
     public void genericClass() {
         Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = GenericClass_.$();
         CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; " +
-                "public class Generic < T extends java.util.List < T > > implements java.util.List < T > {" +
-                " }");
+                "public class Generic < T extends java.util.List < T > > implements java.util.List < T > { " +
+                "public static < T extends java.util.List < T > > void test ( T val ) {  " +
+                "T fieldi = null ; " +
+                "} " +
+                "public T test ; " +
+                "}");
     }
 
 }

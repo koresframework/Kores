@@ -27,7 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.jmh;
 
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.iutils.object.Bi;
+
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Warmup;
 
 /**
  * Created by jonathan on 18/05/16.
@@ -35,7 +43,11 @@ import org.openjdk.jmh.annotations.Benchmark;
 public class SourceTest {
 
     @Benchmark
+    @Warmup(iterations = 10)
+    @Measurement(iterations = 10)
+    @Fork(value = 5)
     public void bench() {
-        //TODO
+        Bi<CodeClass, CodeSource> gen = CommonGen.gen();
+        CommonSourceTest.test(this.getClass(), gen._2());
     }
 }

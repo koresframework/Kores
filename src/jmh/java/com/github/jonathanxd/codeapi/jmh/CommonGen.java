@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.iutils.object.Bi;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
@@ -52,7 +53,7 @@ import static java.lang.reflect.Modifier.PUBLIC;
 public class CommonGen {
     private static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
-    public static CodeSource gen() {
+    public static Bi<CodeClass, CodeSource> gen() {
         CodeClass codeClass = aClass(PUBLIC, name);
 
         CodeArgument[] values = {
@@ -73,7 +74,7 @@ public class CommonGen {
                                 Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
                                         argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values), PredefinedTypes.STRING.toArray(1)),
                                         argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1))
-                                })),
+                                }))/*,
                         Predefined.invokePrintln(new CodeArgument(Helper.accessArrayValue(
                                 Helper.accessArrayValue(Helper.accessLocalVariable("array",
                                         PredefinedTypes.STRING.toArray(2)),
@@ -81,12 +82,12 @@ public class CommonGen {
                                         PredefinedTypes.STRING.toArray(1)),
                                 INT(0),
                                 PredefinedTypes.STRING),
-                                PredefinedTypes.STRING))
+                                PredefinedTypes.STRING))*/
 
 
                 )))
         );
 
-        return sourceOfParts(codeClass);
+        return new Bi<>(codeClass, sourceOfParts(codeClass));
     }
 }

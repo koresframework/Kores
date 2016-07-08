@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
@@ -134,7 +135,13 @@ public class MVData {
 
             String type = Common.codeTypeToFullAsm(variable.getType());
 
-            methodVisitor.visitLocalVariable(variable.getName(), type, /* GenericSignature */ null, varStart, varEnd, i);
+            String signature = null;
+
+            if(variable.getType() instanceof GenericType) {
+                signature = Common.toAsm(variable.getType());
+            }
+
+            methodVisitor.visitLocalVariable(variable.getName(), type, signature, varStart, varEnd, i);
         }
     }
 }

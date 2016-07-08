@@ -32,10 +32,12 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -543,11 +545,11 @@ public class Common {
             GenericType.Bound<CodeType>[] bounds = genericType.bounds();
 
             if(bounds.length == 0) {
-                return fixResult(name + (genericType.isType() ? ";" : ""));
+                return fixResult("T"+name + ";"/*(genericType.isType() ? ";" : "")*/);
             } else {
                 return fixResult(!genericType.isWildcard()
                         ? (name + "<"+bounds(genericType.isWildcard(), bounds)+">;")
-                        : bounds(genericType.isWildcard(), bounds));
+                        : bounds(genericType.isWildcard(), bounds) + ";");
             }
 
         } else {
@@ -564,9 +566,9 @@ public class Common {
             CodeType boundType = bound.getType();
 
             if(boundType instanceof GenericType && !((GenericType) boundType).isType()) {
-                sb.append(isWildcard ? bound.sign() : "").append("T").append(toAsm(boundType)).append(";");
+                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType));
             } else {
-                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(";");
+                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType));
             }
 
         }
@@ -587,35 +589,10 @@ public class Common {
             CodeType boundType = bound.getType();
 
             if(boundType instanceof GenericType && !((GenericType) boundType).isType()) {
-                sb.append(isWildcard ? bound.sign() : "").append("T").append(toAsm(boundType)).append(";").append(!isLast ? ":" : "");
+                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(!isLast ? ":" : "");
             } else {
-                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(";").append(!isLast ? ":" : "");
+                sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(!isLast ? ":" : "");
             }
-        }
-
-        return sb.toString();
-    }
-
-    public static String genericTypeToAsmString0(GenericType genericType) {
-        String name = genericType.name();
-
-        GenericType.Bound<CodeType>[] bounds = genericType.bounds();
-
-        if(bounds.length == 0) {
-            return "<" + name + ":" + codeTypeToFullAsm(PredefinedTypes.OBJECT) + ">";
-        } else {
-            return "<" + name + ":" + generateToBounds(bounds) + ">";
-        }
-    }
-
-    public static String generateToBounds(GenericType.Bound<CodeType>[] bounds) {
-
-        StringBuilder sb = new StringBuilder();
-
-        for (GenericType.Bound<CodeType> bound : bounds) {
-            sb.append(bound.sign()).append("T").append(
-                    generateToBound(bound.getType())
-            ).append(';');
         }
 
         return sb.toString();
@@ -629,6 +606,40 @@ public class Common {
         }
     }
 
+    //"<T::Ljava/lang/CharSequence;>(Ljava/util/List<TT;>;Ljava/lang/String;)TT;
+    public static String methodGenericSignature(CodeMethod codeMethod) {
 
+        CodeType returnType = codeMethod.getReturnType().orElse(PredefinedTypes.VOID);
+
+        StringBuilder signatureBuilder = new StringBuilder();
+
+        GenericSignature<GenericType> methodSignature = codeMethod.getGenericSignature();
+
+
+        boolean generateGenerics =
+                !methodSignature.isEmpty()
+                || codeMethod.getParameters().stream().anyMatch(parameter -> parameter.getType() instanceof GenericType)
+                || returnType instanceof GenericType;
+
+
+        if(generateGenerics && !methodSignature.isEmpty()) {
+            signatureBuilder.append(genericTypesToAsmString(methodSignature.getTypes()));
+        }
+
+        if(generateGenerics) {
+            signatureBuilder.append('(');
+
+            codeMethod.getParameters().stream().map(parameter -> toAsm(parameter.getType())).forEach(signatureBuilder::append);
+
+            signatureBuilder.append(')');
+        }
+
+        if(generateGenerics) {
+            signatureBuilder.append(toAsm(returnType));
+        }
+
+        return signatureBuilder.length() > 0 ? signatureBuilder.toString() : null;
+
+    }
 
 }

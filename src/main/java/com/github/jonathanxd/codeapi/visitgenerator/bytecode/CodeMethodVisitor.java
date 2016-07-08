@@ -67,7 +67,7 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         Collection<CodeModifier> modifiers = new ArrayList<>(codeMethod.getModifiers());
 
-        if ((!bodyOpt.isPresent() || bodyOpt.get().size() == 0) && !modifiers.contains(CodeModifier.ABSTRACT)) {
+        if ((!codeMethod.hasBody()) && !modifiers.contains(CodeModifier.ABSTRACT)) {
             modifiers.add(CodeModifier.ABSTRACT);
         }
 
@@ -76,7 +76,12 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         String asmParameters = Common.parametersToAsm(codeMethod.getParameters());
 
-        org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asmModifiers, codeMethod.getName(), "(" + asmParameters + ")"+codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), null, null);
+
+        // Important: Method Visitor
+
+        String signature = Common.methodGenericSignature(codeMethod);
+
+        org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asmModifiers, codeMethod.getName(), "(" + asmParameters + ")"+codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), signature, null);
 
         //mv.visitVarInsn(ALOAD, 1);
         final List<Variable> vars = new ArrayList<>();
@@ -92,7 +97,7 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
         MVData mvData = new MVData(mv, vars);
 
 
-        if (bodyOpt.isPresent() && bodyOpt.get().size() > 0) {
+        if (codeMethod.hasBody()) {
             mv.visitCode();
             Label l0 = new Label();
             mv.visitLabel(l0);

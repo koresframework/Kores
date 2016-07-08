@@ -25,29 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.jmh;
+package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
-import com.github.jonathanxd.iutils.object.Bi;
-
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Measurement;
-import org.openjdk.jmh.annotations.Warmup;
+import java.util.List;
 
 /**
- * Created by jonathan on 18/05/16.
+ * Created by jonathan on 07/07/16.
  */
-public class BytecodeTest {
+public class Test_Gen {
+    public static <T extends CharSequence> T p(List<T> list, String a) {
+        return null;
+    }
 
-    @Benchmark
-    @Warmup(iterations = 10)
-    @Measurement(iterations = 10)
-    @Fork(value = 5)
-    public void bench() {
-        Bi<CodeClass, CodeSource> gen = CommonGen.gen();
-        CommonBytecodeTest.test(this.getClass(), gen._1(), gen._2());
+    public static <T extends List<T>> void vv(T v) {
+
     }
 }

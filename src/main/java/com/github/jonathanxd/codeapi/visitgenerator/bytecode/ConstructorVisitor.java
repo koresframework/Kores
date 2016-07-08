@@ -103,7 +103,11 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
 
         String asmParameters = Common.parametersToAsm(codeConstructor.getParameters());
 
-        MethodVisitor mv = cw.visitMethod(asm, "<init>", "(" + asmParameters + ")V", null, null);
+        // Important: Method Visitor
+
+        String signature = Common.methodGenericSignature(codeConstructor);
+
+        MethodVisitor mv = cw.visitMethod(asm, "<init>", "(" + asmParameters + ")V", signature, null);
 
         final List<Variable> vars = new ArrayList<>();
 

@@ -31,7 +31,9 @@ import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodiedParam;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
@@ -39,6 +41,7 @@ import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.iutils.string.ToString;
 
 import java.util.Collection;
@@ -48,15 +51,21 @@ import java.util.Optional;
 /**
  * Created by jonathan on 07/05/16.
  */
-public class CodeMethod extends AbstractBodiedParam implements CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable {
+public class CodeMethod extends AbstractBodiedParam implements CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable {
     private final String name;
     private final Collection<CodeModifier> modifiers;
+    private final GenericSignature<GenericType> signature;
     private final CodeType returnType;
 
     public CodeMethod(String name, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeType returnType, CodeSource body) {
+        this(name, modifiers, parameters, returnType, null, body);
+    }
+
+    public CodeMethod(String name, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeType returnType, GenericSignature<GenericType> signature, CodeSource body) {
         super(parameters, body);
         this.name = name;
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);
+        this.signature = signature != null ? signature : GenericSignature.empty();
         this.returnType = returnType;
     }
 
@@ -84,5 +93,10 @@ public class CodeMethod extends AbstractBodiedParam implements CodeElement, Retu
     @Override
     public String toString() {
         return ToString.toString(this);
+    }
+
+    @Override
+    public GenericSignature<GenericType> getGenericSignature() {
+        return this.signature;
     }
 }

@@ -33,13 +33,20 @@ import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 
 import org.objectweb.asm.Type;
 
+import java.util.Collection;
+import java.util.Deque;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by jonathan on 06/06/16.
  */
 public final class PredefinedTypes {
 
+    // Java.Lang
     public static final LoadedCodeType<Object> OBJECT = new PredefinedType<>(Object.class);
     public static final LoadedCodeType<String> STRING = new PredefinedType<>(String.class);
+    public static final LoadedCodeType<System> SYSTEM = new PredefinedType<>(System.class);
 
     public static final LoadedCodeType<Void> VOID = new PredefinedType<>(Void.TYPE);
 
@@ -63,6 +70,12 @@ public final class PredefinedTypes {
     public static final LoadedCodeType<Long> LONG_TYPE = new PredefinedType<>(Long.class);
     public static final LoadedCodeType<Character> CHARACTER_TYPE = new PredefinedType<>(Character.class);
     public static final LoadedCodeType<Boolean> BOOLEAN_TYPE = new PredefinedType<>(Boolean.class);
+
+    // Java.Util
+    public static final LoadedCodeType<Collection> COLLECTION = new PredefinedType<>(Collection.class);
+    public static final LoadedCodeType<List> LIST = new PredefinedType<>(List.class);
+    public static final LoadedCodeType<Set> SET = new PredefinedType<>(Set.class);
+    public static final LoadedCodeType<Deque> DEQUE = new PredefinedType<>(Deque.class);
 
     PredefinedTypes() {
     }
