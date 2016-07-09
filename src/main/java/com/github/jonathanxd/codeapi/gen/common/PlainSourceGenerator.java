@@ -50,6 +50,7 @@ import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator
 import com.github.jonathanxd.codeapi.gen.common.source.ExtenderSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ForBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ForEachSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GenericSignatureSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GenericTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.GenerifiableSourceGenerator;
@@ -101,6 +102,7 @@ import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
+import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
@@ -183,6 +185,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);
         register(WhileBlock.class, WhileBlockSourceGenerator.INSTANCE);
         register(SimpleWhileBlock.class, SimpleWhileBlockSourceGenerator.INSTANCE);
+        register(ForEachBlock.class, ForEachSourceGenerator.INSTANCE);
 
         // Method body
         register(MethodSpecification.class, MethodSpecificationSourceGenerator.INSTANCE);

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -59,6 +60,24 @@ public interface GenericType extends CodeType {
         }
 
         public abstract String sign();
+
+        @Override
+        public boolean equals(Object obj) {
+            if(obj instanceof Bound) {
+                Bound bound = (Bound) obj;
+
+                if(this.sign().equals(bound.sign()) && this.getType().equals(bound.getType())) {
+                    return true;
+                }
+            }
+
+            return super.equals(obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(type, sign());
+        }
     }
 
     abstract class WildcardBound<T extends CodeType> extends Bound<T> {

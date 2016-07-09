@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.iutils.arrays.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 
 /**
@@ -252,5 +253,34 @@ public class Generic implements GenericType {
     public CodeType getPrimitiveType() {
         //return codeType.getPrimitiveType();
         throw new TODOException();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj instanceof GenericType) {
+            GenericType genericType = (GenericType) obj;
+
+            if(this.isWildcard() == genericType.isWildcard()
+                    && this.isType() == genericType.isType()
+                    && this.name().equals(genericType.name())
+                    && Arrays.deepEquals(this.bounds(), genericType.bounds())) {
+                return true;
+            }
+
+        }
+
+        return super.equals(obj);
+    }
+
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(this.name(), this.isType(), this.isWildcard());
+
+        result = 31 * result + Arrays.deepHashCode(this.bounds());
+
+        return result;
     }
 }

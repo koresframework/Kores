@@ -47,6 +47,7 @@ import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
+import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
@@ -283,6 +284,10 @@ public final class Helper {
     public static ForBlock createFor(Expression initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, Expression update, CodeSource body) {
 
         return new SimpleForBlock(initialization, expression, update, body);
+    }
+
+    public static ForEachBlock createForEach(CodeField field, Expression expression, CodeSource body) {
+        return new ForEachBlockEx(field, expression, body);
     }
 
     public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {

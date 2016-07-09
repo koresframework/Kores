@@ -29,25 +29,38 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.impl.CodeConstructor;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -59,6 +72,9 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
     @Override
     public Byte[] visit(CodeMethod codeMethod, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
+        boolean isConstructor = codeMethod instanceof CodeConstructor;
+
+
         CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
 
         ClassWriter cw = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
@@ -67,7 +83,7 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         Collection<CodeModifier> modifiers = new ArrayList<>(codeMethod.getModifiers());
 
-        if ((!codeMethod.hasBody()) && !modifiers.contains(CodeModifier.ABSTRACT)) {
+        if (!isConstructor && ((!codeMethod.hasBody()) && !modifiers.contains(CodeModifier.ABSTRACT))) {
             modifiers.add(CodeModifier.ABSTRACT);
         }
 
@@ -81,7 +97,13 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         String signature = Common.methodGenericSignature(codeMethod);
 
-        org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asmModifiers, codeMethod.getName(), "(" + asmParameters + ")"+codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), signature, null);
+        String methodName = codeMethod.getName();
+
+        if(codeMethod instanceof CodeConstructor) {
+            methodName = "<init>";
+        }
+
+        org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asmModifiers, methodName, "(" + asmParameters + ")"+codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), signature, null);
 
         //mv.visitVarInsn(ALOAD, 1);
         final List<Variable> vars = new ArrayList<>();
@@ -96,19 +118,32 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
         MVData mvData = new MVData(mv, vars);
 
-
-        if (codeMethod.hasBody()) {
+        if (codeMethod.hasBody() || isConstructor) {
             mv.visitCode();
             Label l0 = new Label();
             mv.visitLabel(l0);
 
-            visitorGenerator.generateTo(CodeSource.class, bodyOpt.get(), extraData, navigator, null, mvData);
+            CodeSource methodSource = bodyOpt.orElse(null);
+
+            if (codeInterface instanceof CodeClass && isConstructor) {
+                if (!searchForSuper(codeInterface, methodSource)) {
+                    CodeMethodVisitor.generateSuperInvoke(codeInterface, mv);
+                }
+            }
+
+            if(isConstructor) {
+                CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, codeInterface, mv, extraData, navigator, mvData);
+            }
+
+            if(methodSource != null) {
+                visitorGenerator.generateTo(CodeSource.class, methodSource, extraData, navigator, null, mvData);
+            }
 
             /**
              * Instructions here
              */
 
-            String returnType = codeMethod.getReturnType().orElse(null).getJavaSpecName();
+            String returnType = codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName();
             if(returnType.equals("V")) {
                 mv.visitInsn(RETURN);
             }
@@ -134,4 +169,78 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
 
     }
 
+    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, CodeInterface codeInterface, MethodVisitor mv, Data extraData, Navigator<CodePart> navigator, MVData mvData) {
+
+        if(searchInitThis(codeInterface, methodBody)) {
+            // Calling this() will redirect to a constructor that initialize variables
+           return;
+        }
+
+        /**
+         * Declare variables
+         */
+        Collection<CodeField> all = extraData.getAll(FieldVisitor.FIELDS_TO_ASSIGN);
+
+        for (CodeField codeField : all) {
+
+            CodePart value = codeField.getValue().get();
+
+            Label labeln = new Label();
+
+            mv.visitLabel(labeln);
+            mv.visitVarInsn(ALOAD, 0);
+            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+
+            mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+        }
+    }
+
+    public static void generateSuperInvoke(CodeInterface codeInterface, MethodVisitor mv) {
+        mv.visitVarInsn(ALOAD, 0);
+
+        CodeType superType = ((CodeClass) codeInterface).getSuperType().orElse(null);
+        if(superType == null) {
+            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+        }else{
+            mv.visitMethodInsn(INVOKESPECIAL, Common.codeTypeToSimpleAsm(superType), "<init>", "()V", false);
+        }
+    }
+
+    public static boolean searchForInitTo(CodeInterface codeInterface, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {
+        if (codeParts == null)
+            return false;
+
+        for (CodePart codePart : codeParts) {
+            if (codePart instanceof Bodied) {
+                if (searchForSuper(codeInterface, ((Bodied) codePart).getBody().orElse(null))) {
+                    return true;
+                }
+            }
+
+            if (codePart instanceof MethodInvocation) {
+                MethodInvocation mi = (MethodInvocation) codePart;
+
+                boolean any = ((codeInterface instanceof CodeClass) && ((CodeClass) codeInterface).getSuperType().filter(c -> mi.getLocalization().compareTo(c) == 0).isPresent());
+
+                if (any
+                        && targetAccessPredicate.test(mi.getTarget())
+                        && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
+
+                        && mi.getSpec().getMethodName().equals("<init>")) {
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+    public static boolean searchInitThis(CodeInterface codeInterface, CodeSource codeParts) {
+        return searchForInitTo(codeInterface, codeParts, codePart -> codePart instanceof AccessThis);
+    }
+
+    public static boolean searchForSuper(CodeInterface codeInterface, CodeSource codeParts) {
+        return searchForInitTo(codeInterface, codeParts, codePart -> codePart instanceof AccessSuper);
+    }
 }

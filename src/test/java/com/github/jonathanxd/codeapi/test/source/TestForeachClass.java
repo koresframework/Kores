@@ -25,37 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.ForEach_;
+import com.github.jonathanxd.codeapi.test.GenericClass_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
 
-import java.util.Collection;
-import java.util.Optional;
+import org.junit.Test;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 07/07/16.
  */
-@GenerateTo(CodeMethod.class)
-public class CodeConstructor extends CodeMethod {
+public class TestForeachClass {
 
-    public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeSource body) {
-        super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), body);
-    }
-
-    /**
-     * Constructor return type is always declaring class type
-     *
-     * Constructor return type is immutable
-     */
-    @Override
-    public Optional<CodeType> getReturnType() {
-        return Optional.of(PredefinedTypes.VOID);
+    @Test
+    public void genericClass() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEach_.$();
+        CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; " +
+                "public class ForEach { " +
+                "public void ForEach ( java.util.List < java.lang.String > strList ) { " +
+                "for (  java.lang.String str : strList ) { " +
+                "java.lang.System . out . println ( str ) ; " +
+                "} " +
+                "} " +
+                "}");
     }
 
 }

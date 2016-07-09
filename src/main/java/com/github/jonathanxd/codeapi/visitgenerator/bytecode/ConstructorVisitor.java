@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -63,117 +64,10 @@ public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object
 
     public static final ConstructorVisitor INSTANCE = new ConstructorVisitor();
 
-    public static boolean searchForSuper(CodeInterface codeInterface, CodeSource codeParts) {
-        if (codeParts == null)
-            return false;
-        for (CodePart codePart : codeParts) {
-            if (codePart instanceof Bodied) {
-                if (searchForSuper(codeInterface, ((Bodied) codePart).getBody().orElse(null))) {
-                    return true;
-                }
-            }
-
-            if (codePart instanceof MethodInvocation) {
-                MethodInvocation mi = (MethodInvocation) codePart;
-
-                boolean any = ((codeInterface instanceof CodeClass) && ((CodeClass) codeInterface).getSuperType().filter(c -> mi.getLocalization().compareTo(c) == 0).isPresent());
-
-                if (any
-                        && mi.getTarget() instanceof AccessSuper
-                        && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
-
-                        && mi.getSpec().getMethodName().equals("<init>")) {
-                    return true;
-                }
-            }
-
-        }
-
-        return false;
-    }
-
     @Override
     public Byte[] visit(CodeConstructor codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
-        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
-
-        ClassWriter cw = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
-
-        int asm = Common.modifierToAsm(codeConstructor.getModifiers());
-
-        String asmParameters = Common.parametersToAsm(codeConstructor.getParameters());
-
-        // Important: Method Visitor
-
-        String signature = Common.methodGenericSignature(codeConstructor);
-
-        MethodVisitor mv = cw.visitMethod(asm, "<init>", "(" + asmParameters + ")V", signature, null);
-
-        final List<Variable> vars = new ArrayList<>();
-
-        if (codeConstructor.getModifiers().contains(CodeModifier.STATIC)) {
-            Common.parametersToVars(codeConstructor.getParameters(),/* to */ vars);
-        } else {
-            vars.add(new Variable("this", codeInterface, null, null));
-            Common.parametersToVars(codeConstructor.getParameters(), /* to */ vars);
-        }
-
-        MVData mvData = new MVData(mv, vars);
-
-        mv.visitCode();
-        Label l0 = new Label();
-        mv.visitLabel(l0);
-
-        if (codeInterface instanceof CodeClass) {
-            if (!searchForSuper(codeInterface, codeConstructor.getBody().orElse(null))) {
-                mv.visitVarInsn(ALOAD, 0);
-
-                CodeType superType = ((CodeClass) codeInterface).getSuperType().orElse(null);
-                if(superType == null) {
-                    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-                }else{
-                    mv.visitMethodInsn(INVOKESPECIAL, Common.codeTypeToSimpleAsm(superType), "<init>", "()V", false);
-                }
-            }
-        }
-
-        /**
-         * Declare variables
-         */
-        Collection<CodeField> all = extraData.getAll(FieldVisitor.FIELDS_TO_ASSIGN);
-
-        for (CodeField codeField : all) {
-
-            CodePart value = codeField.getValue().get();
-
-            Label labeln = new Label();
-
-            mv.visitLabel(labeln);
-            mv.visitVarInsn(ALOAD, 0);
-            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
-
-            mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
-        }
-        Optional<CodeSource> bodyOpt = codeConstructor.getBody();
-
-        if (bodyOpt.isPresent()) {
-            visitorGenerator.generateTo(CodeSource.class, bodyOpt.get(), extraData, navigator, null, mvData);
-        }
-
-        /**
-         * Instructions here
-         */
-        mv.visitInsn(RETURN);
-
-        Label end = new Label();
-
-        mv.visitLabel(end);
-
-        mv.visitMaxs(0, 0);
-
-        mvData.visitVars(l0, end);
-
-        mv.visitEnd();
+        visitorGenerator.generateTo(CodeMethod.class, codeConstructor, extraData, navigator, null, null);
 
         return new Byte[0];
     }

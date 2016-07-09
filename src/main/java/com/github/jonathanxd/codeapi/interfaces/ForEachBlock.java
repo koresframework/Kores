@@ -25,37 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-
-import java.util.Collection;
-import java.util.Optional;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 15/05/16.
  */
-@GenerateTo(CodeMethod.class)
-public class CodeConstructor extends CodeMethod {
+public interface ForEachBlock extends Bodied {
 
-    public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeSource body) {
-        super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), body);
-    }
+    CodeField getField();
 
-    /**
-     * Constructor return type is always declaring class type
-     *
-     * Constructor return type is immutable
-     */
-    @Override
-    public Optional<CodeType> getReturnType() {
-        return Optional.of(PredefinedTypes.VOID);
-    }
+    Expression getIterableElement();
 
 }
