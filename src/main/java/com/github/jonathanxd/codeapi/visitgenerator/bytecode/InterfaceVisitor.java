@@ -47,7 +47,9 @@ import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.util.TraceClassVisitor;
 
+import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;

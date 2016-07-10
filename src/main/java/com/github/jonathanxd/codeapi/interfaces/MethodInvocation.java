@@ -38,7 +38,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface MethodInvocation extends CodePart {
+public interface MethodInvocation extends CodePart, Typed {
 
     CodeType getLocalization();
 
@@ -49,4 +49,10 @@ public interface MethodInvocation extends CodePart {
     InvokeType getInvokeType();
 
     Optional<InvokeDynamic> getInvokeDynamic();
+
+
+    @Override
+    default Optional<CodeType> getType() {
+        return Optional.ofNullable(getSpec().getMethodDescription().getReturnType());
+    }
 }

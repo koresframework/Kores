@@ -25,38 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.abs;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Valuable;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.ForEach_;
+import com.github.jonathanxd.codeapi.test.GenericClass_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.iutils.object.Bi;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
+import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 05/07/16.
  */
-public abstract class AbstractValuableModifierable implements Valuable, Modifierable {
+public class ForEachClassTest {
 
-    private final Collection<CodeModifier> modifiers;
-    private final CodePart value;
-
-    protected AbstractValuableModifierable(Collection<CodeModifier> modifiers, CodePart value) {
-        this.modifiers = modifiers != null ? Collections.unmodifiableCollection(modifiers) : Collections.emptyList();
-        this.value = value;
+    @Test
+    public void test() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEach_.$();
+        CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass -> {
+            try {
+                return aClass.getConstructor(List.class).newInstance(Arrays.asList("A", "B", "C", "D"));
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RethrowException(e, e.getCause());
+            }
+        });
     }
-
-    @Override
-    public Collection<CodeModifier> getModifiers() {
-        return modifiers;
-    }
-
-    @Override
-    public Optional<CodePart> getValue() {
-        return Optional.ofNullable(this.value);
-    }
-
 }

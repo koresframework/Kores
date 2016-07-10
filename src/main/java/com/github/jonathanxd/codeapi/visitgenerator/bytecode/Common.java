@@ -308,9 +308,23 @@ public class Common {
             Typed typed = (Typed) codePart;
 
             return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'")).isPrimitive();
+        } else {
+            throw new RuntimeException("Cannot determine type of part '"+codePart+"'!");
         }
 
-        return false;
+    }
+
+    public static CodeType getType(CodePart codePart) {
+        if (codePart instanceof Literal) {
+            return ((Literal) codePart).getType().orElseThrow(NullPointerException::new);
+        } else if (codePart instanceof Typed) {
+            Typed typed = (Typed) codePart;
+
+            return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'"));
+        } else {
+            throw new RuntimeException("Cannot determine type of part '"+codePart+"'!");
+        }
+
     }
 
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers) {

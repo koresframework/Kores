@@ -30,12 +30,12 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractValuableModifierable;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
 import java.util.Optional;

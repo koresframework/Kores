@@ -86,6 +86,25 @@ public class MVData {
         Variable variable = new Variable(name, type, startLabel, endLabel);
 
         for (int i = 0; i < this.variables.size(); i++) {
+            Variable variable1 = this.variables.get(i);
+
+            if(variable1.equals(variable)) {
+                if(variable1.isTemp()) {
+                    throw new RuntimeException("Cannot store variable named '"+name+"'. Variable already stored!");
+                }
+                return i;
+            }
+        }
+
+        this.variables.add(variable);
+        // ? Last index with synchronized method is good!!!
+        return getVarPos(variable);
+    }
+
+    public int storeInternalVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
+        Variable variable = new Variable(name, type, startLabel, endLabel);
+
+        for (int i = 0; i < this.variables.size(); i++) {
             if(this.variables.get(i).equals(variable)) {
                 return i;
             }
@@ -102,6 +121,10 @@ public class MVData {
         if(pos >= this.variables.size()) {
             this.variables.add(pos, variable);
         } else {
+            if(this.variables.get(pos).isTemp()) {
+                throw new RuntimeException("Cannot store variable named '"+name+"'. Variable already stored!");
+            }
+
             this.variables.set(pos, variable);
         }
     }
@@ -129,6 +152,9 @@ public class MVData {
 
         for (int i = 0; i < variables.size(); i++) {
             Variable variable = variables.get(i);
+
+            if(variable.isTemp())
+                continue;
 
             Label varStart = variable.getStartLabel() != null ? variable.getStartLabel() : start;
             Label varEnd = variable.getEndLabel() != null ? variable.getEndLabel() : end;

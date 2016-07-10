@@ -28,53 +28,29 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.iutils.iterator.Navigator;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import java.util.Collection;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 09/07/16.
  */
-public class IfBlockVisitor implements Visitor<IfBlock, Byte, MVData>, Opcodes {
-
-    public static final IfBlockVisitor INSTANCE = new IfBlockVisitor();
-
-    @Override
-    public Byte[] visit(IfBlock ifBlock,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
-
-        Label startIfLabel = new Label();
-        Label endIfLabel = new Label();
-
-        MethodVisitor methodVisitor = mvData.getMethodVisitor();
-
-        methodVisitor.visitLabel(startIfLabel);
-
-        BytecodeIfBlockVisitor.visit(ifBlock, startIfLabel, endIfLabel, false, false, extraData, navigator, visitorGenerator, mvData);
-
-        methodVisitor.visitLabel(endIfLabel);
-
-
-        return new Byte[0];
+class HiddenField extends CodeField {
+    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
+        super(name, type, modifiers);
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         IfBlock ifBlock,
-                         Data extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
+    HiddenField(String name, CodeType type) {
+        super(name, type);
+    }
 
+    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
+        super(name, type, value, modifiers);
+    }
+
+    HiddenField(String name, CodeType type, CodePart value) {
+        super(name, type, value);
     }
 }

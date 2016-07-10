@@ -52,13 +52,15 @@ public final class Literals {
                 || literal1 instanceof FloatLiteral
                 || literal1 instanceof DoubleLiteral
                 || literal1 instanceof CharLiteral
-                || literal1 instanceof LongLiteral)
+                || literal1 instanceof LongLiteral
+                || literal1 instanceof BoolLiteral)
                 &&
                 (literal2 instanceof IntLiteral
                         || literal2 instanceof FloatLiteral
                         || literal2 instanceof DoubleLiteral
                         || literal2 instanceof CharLiteral
-                        || literal2 instanceof LongLiteral);
+                        || literal2 instanceof LongLiteral
+                        || literal2 instanceof BoolLiteral);
     }
 
     public static boolean isPrimitive(Literal literal) {
@@ -66,15 +68,16 @@ public final class Literals {
                 || literal instanceof FloatLiteral
                 || literal instanceof DoubleLiteral
                 || literal instanceof CharLiteral
-                || literal instanceof LongLiteral;
+                || literal instanceof LongLiteral
+                || literal instanceof BoolLiteral;
     }
 
     // NullLiteral
     public static final Literal NULL = new SimpleLiteral("null", Helper.nullType());
 
     // BooleanLiteral
-    public static final Literal TRUE = new SimpleLiteral("true", Helper.getJavaType(Boolean.TYPE));
-    public static final Literal FALSE = new SimpleLiteral("false", Helper.getJavaType(Boolean.TYPE));
+    public static final Literal TRUE = new BoolLiteral("true");
+    public static final Literal FALSE = new BoolLiteral("false");
 
     // Numeric Literals
 
@@ -156,6 +159,17 @@ public final class Literals {
         private static final CodeType TYPE = Helper.getJavaType(Integer.TYPE);
 
         IntLiteral(String name) {
+            super(name, TYPE);
+        }
+
+    }
+
+    @GenerateTo(Literal.class)
+    public static final class BoolLiteral extends Literal {
+
+        private static final CodeType TYPE = Helper.getJavaType(Boolean.TYPE);
+
+        BoolLiteral(String name) {
             super(name, TYPE);
         }
 

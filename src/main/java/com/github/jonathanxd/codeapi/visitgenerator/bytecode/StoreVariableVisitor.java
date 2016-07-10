@@ -110,7 +110,8 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
                 if(!var.isPresent() && !(variableStore instanceof CodeField))
                     throw new RuntimeException("Missing Variable Definition. Variable: '"+ variableStore.getName()+"' Type: '"+ variableStore.getVariableType().getJavaSpecName()+"'.");
-                else if(var.isPresent() && variableStore instanceof CodeField)
+                else if(var.isPresent() && (variableStore instanceof CodeField
+                        && !(variableStore instanceof HiddenField)))
                     throw new RuntimeException("Variable '"+ variableStore.getName()+"' Type: '"+ variableStore.getVariableType().getJavaSpecName()+"'. Already defined!");
 
 
@@ -118,7 +119,13 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
                 additional.visitLabel(i_label);
 
-                int i = mvData.storeVar(variableStore.getName(), variableStore.getVariableType(), i_label, null);
+                int i;
+
+                if(variableStore instanceof HiddenField) {
+                    i = mvData.storeInternalVar(variableStore.getName(), variableStore.getVariableType(), i_label, null);
+                } else {
+                    i = mvData.storeVar(variableStore.getName(), variableStore.getVariableType(), i_label, null);
+                }
 
                 Type type = Type.getType(variableStore.getVariableType().getJavaSpecName());
 

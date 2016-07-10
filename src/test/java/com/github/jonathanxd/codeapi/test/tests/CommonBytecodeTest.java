@@ -37,12 +37,24 @@ import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.exceptions.RethrowException;
 
+import java.util.function.Function;
+
 /**
  * Created by jonathan on 07/07/16.
  */
 public class CommonBytecodeTest {
 
     public static @Named("Instance") Object test(Class<?> testClass, CodeInterface mainClass, CodeSource source) {
+        return test(testClass, mainClass, source, aClass -> {
+            try {
+                return aClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RethrowException(e, e.getCause());
+            }
+        });
+    }
+
+    public static @Named("Instance") Object test(Class<?> testClass, CodeInterface mainClass, CodeSource source, Function<Class<?>, Object> function) {
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         Result<Byte[]> gen = bytecodeGenerator.gen(source);
@@ -53,11 +65,7 @@ public class CommonBytecodeTest {
 
         Class<?> define = bcLoader.define(mainClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
 
-        try {
-            return define.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RethrowException(e, e.getCause());
-        }
+        return function.apply(define);
     }
 
 }

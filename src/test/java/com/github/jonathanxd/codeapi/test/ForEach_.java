@@ -70,7 +70,7 @@ public class ForEach_ {
                                 Helper.createForEach(new CodeField("str", PredefinedTypes.STRING),
                                         Helper.expression(Helper.accessLocalVariable("strList",
                                                 Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))), Helper.sourceOf(
-                                                Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class)))
+                                                Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class), String.class))
                                         ))
                         ))
         ));

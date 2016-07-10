@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Options;
+import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
@@ -45,6 +46,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ConstructorVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.DoWhileVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ExpressionVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.FieldVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForEachVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForIVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.IfBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InstructionCodePart;
@@ -142,6 +144,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(ArrayAccess.class, new ArrayAccessVisitor());
         addVisitor(ArrayLength.class, new ArrayLengthVisitor());
         addVisitor(TagLine.class, new TagLineVisitor());
+        addVisitor(ForEachBlock.class, new ForEachVisitor());
     }
 
     public BytecodeGenerator() {

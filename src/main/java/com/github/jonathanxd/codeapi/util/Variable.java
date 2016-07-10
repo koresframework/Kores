@@ -40,12 +40,22 @@ public final class Variable {
     private final CodeType type;
     private final Label startLabel;
     private final Label endLabel;
+    private final boolean isTemp;
 
     public Variable(String name, CodeType type, Label startLabel, Label endLabel) {
+        this(name, type, startLabel, endLabel, false);
+    }
+
+    public Variable(String name, CodeType type, Label startLabel, Label endLabel, boolean isTemp) {
         this.name = name;
         this.type = type;
         this.startLabel = startLabel;
         this.endLabel = endLabel;
+        this.isTemp = isTemp;
+    }
+
+    public boolean isTemp() {
+        return isTemp;
     }
 
     public String getName() {
