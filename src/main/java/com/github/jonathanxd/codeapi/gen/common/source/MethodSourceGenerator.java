@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
@@ -66,10 +65,10 @@ public class MethodSourceGenerator implements Generator<CodeMethod, String, Plai
                 Arrays.asList(
                         TargetValue.create(Modifierable.class, codeMethod, parents),
                         TargetValue.create(Generifiable.class, codeMethod, parents)
-                        ));
+                ));
 
-        if(!(codeMethod instanceof CodeConstructor)) {
-            TargetValue.create(Returnable.class, codeMethod, parents);
+        if (!(codeMethod instanceof CodeConstructor)) {
+            values.add(TargetValue.create(Returnable.class, codeMethod, parents));
         }
 
         values.addAll(Arrays.asList(
