@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
@@ -59,15 +60,26 @@ public class MethodSourceGenerator implements Generator<CodeMethod, String, Plai
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeMethod codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        return new ArrayList<>(Arrays.asList(
-                TargetValue.create(Modifierable.class, codeMethod, parents),
-                TargetValue.create(Generifiable.class, codeMethod, parents),
-                TargetValue.create(Returnable.class, codeMethod, parents),
+        values.addAll(
+                Arrays.asList(
+                        TargetValue.create(Modifierable.class, codeMethod, parents),
+                        TargetValue.create(Generifiable.class, codeMethod, parents)
+                        ));
+
+        if(!(codeMethod instanceof CodeConstructor)) {
+            TargetValue.create(Returnable.class, codeMethod, parents);
+        }
+
+        values.addAll(Arrays.asList(
                 TargetValue.create(Named.class, codeMethod, parents),
                 TargetValue.create(Parameterizable.class, codeMethod, parents),
                 TargetValue.create(Bodied.class, codeMethod, parents)
         ));
+
+        return values;
+
     }
 
 }
