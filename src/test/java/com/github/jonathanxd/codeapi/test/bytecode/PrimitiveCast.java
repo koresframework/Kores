@@ -82,6 +82,12 @@ public class PrimitiveCast {
 
                                 new CodeField("objectF", OBJECT, Helper.cast(INT, OBJECT, Literals.INT(9))),
 
+                                new CodeField("iF", OBJECT, Helper.cast(INT, OBJECT, Literals.INT(9))),
+
+                                new CodeField("IntegerBoxed", INT, Helper.cast(OBJECT, INT, Helper.accessLocalVariable("iF", OBJECT))),
+
+                                new CodeField("IntegerBoxed2", INT, Helper.cast(OBJECT, INT, Helper.accessLocalVariable("iF", OBJECT))),
+
                                 // Cast Integer to Int
                                 returnValue(int.class, Helper.cast(PredefinedTypes.INTEGER_TYPE, PredefinedTypes.INT, invokeConstructor(Integer.class, argument(Literals.INT(9), int.class))))
                         ))
@@ -93,6 +99,8 @@ public class PrimitiveCast {
 
 
         byte[] bytes = generate(mySource);
+
+        ResultSaver.save(this.getClass(), bytes);
 
         Class<?> define = new BCLoader().define(name, bytes);
         try {

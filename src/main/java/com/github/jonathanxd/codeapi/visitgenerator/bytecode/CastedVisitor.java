@@ -41,6 +41,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
@@ -110,24 +111,39 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
 
             CodeType wrapper = to.getWrapperType();
 
-            if(wrapper.getCanonicalName().equals("java.lang.Byte")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "byteValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Short")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "shortValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Integer")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "intValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Long")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "longValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Integer")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "floatValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Double")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "doubleValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Boolean")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "booleanValue", new TypeSpec(to));
-            } else if(wrapper.getCanonicalName().equals("java.lang.Character")) {
-                translate = CodeAPI.invokeVirtual(wrapper, casted, "charValue", new TypeSpec(to));
+            CodeType castTo = null;
+
+            if(!to.getWrapperType().getCanonicalName().equals(from.getCanonicalName())) {
+                castTo = to.getWrapperType();
             }
 
+            String methodName = null;
+
+            if(wrapper.getCanonicalName().equals("java.lang.Byte")) {
+                methodName = "byteValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Short")) {
+                methodName = "shortValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Integer")) {
+                methodName = "intValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Long")) {
+                methodName = "longValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Integer")) {
+                methodName = "floatValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Double")) {
+                methodName = "doubleValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Boolean")) {
+                methodName = "booleanValue";
+            } else if(wrapper.getCanonicalName().equals("java.lang.Character")) {
+                methodName = "charValue";
+            }
+
+            Conditions.checkNotNull(methodName);
+
+            if(castTo == null) {
+                translate = CodeAPI.invokeVirtual(wrapper, casted, methodName, new TypeSpec(to));
+            } else {
+                translate = CodeAPI.invokeVirtual(wrapper, Helper.cast(from, castTo, casted), methodName, new TypeSpec(to));
+            }
         }
 
         return translate;
