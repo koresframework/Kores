@@ -28,14 +28,29 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface IfBlock extends Bodied, IfExpressionable, CodePart {
+public interface IfBlock extends Bodied, MultiBodied, IfExpressionable, CodePart {
 
     Optional<ElseBlock> getElseBlock();
 
+    @Override
+    default List<CodeSource> getBodies() {
+        List<CodeSource> codeSources = new ArrayList<>();
+
+        // Add source of IfBlock
+        this.getBody().ifPresent(codeSources::add);
+
+        // Add source of ElseBlock
+        this.getElseBlock().ifPresent(elseBlock -> elseBlock.getBody().ifPresent(codeSources::add));
+
+        return codeSources;
+    }
 }

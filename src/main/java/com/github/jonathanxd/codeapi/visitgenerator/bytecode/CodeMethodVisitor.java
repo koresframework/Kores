@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
@@ -42,13 +43,14 @@ import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -56,7 +58,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -123,16 +124,31 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
             Label l0 = new Label();
             mv.visitLabel(l0);
 
-            CodeSource methodSource = bodyOpt.orElse(null);
+            CodeSource bodySource = bodyOpt.orElse(null);
+
+            CodeSource methodSource = bodySource == null ? null : new CodeSource(bodySource);
+
+            boolean isGenerated = false;
 
             if (codeInterface instanceof CodeClass && isConstructor) {
                 if (!searchForSuper(codeInterface, methodSource)) {
                     CodeMethodVisitor.generateSuperInvoke(codeInterface, mv);
+                    isGenerated = true;
                 }
             }
 
             if(isConstructor) {
-                CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, codeInterface, mv, extraData, navigator, mvData);
+                if(isGenerated) {
+                    CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, codeInterface, mv, extraData, navigator, mvData);
+                } else {
+
+
+                    methodSource =
+                            CodeSourceUtil.insertAfter(
+                                    part -> part instanceof MethodInvocation && CodeMethodVisitor.isInitForThat(codeInterface, (MethodInvocation) part),
+                                    CodeMethodVisitor.finalFieldsToSource(extraData),
+                                    methodSource);
+                }
             }
 
             if(methodSource != null) {
@@ -195,6 +211,24 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
         }
     }
 
+    public static CodeSource finalFieldsToSource(Data extraData) {
+        CodeSource codeSource = new CodeSource();
+        /**
+         * Declare variables
+         */
+        Collection<CodeField> all = extraData.getAll(FieldVisitor.FIELDS_TO_ASSIGN);
+
+        for (CodeField codeField : all) {
+            CodeType type = codeField.getVariableType();
+            String name = codeField.getName();
+            Optional<CodePart> value = codeField.getValue();
+
+            codeSource.add(Helper.setThisVariable(name, type, value.get()));
+        }
+
+        return codeSource;
+    }
+
     public static void generateSuperInvoke(CodeInterface codeInterface, MethodVisitor mv) {
         mv.visitVarInsn(ALOAD, 0);
 
@@ -204,6 +238,21 @@ public class CodeMethodVisitor implements Visitor<CodeMethod, Byte, Object>, Opc
         }else{
             mv.visitMethodInsn(INVOKESPECIAL, Common.codeTypeToSimpleAsm(superType), "<init>", "()V", false);
         }
+    }
+
+    public static boolean isInitForThat(CodeInterface codeInterface, MethodInvocation methodInvocation) {
+        boolean any = ((codeInterface instanceof CodeClass) && ((CodeClass) codeInterface).getSuperType().filter(c -> methodInvocation.getLocalization().compareTo(c) == 0).isPresent());
+
+        boolean accept = (methodInvocation.getTarget() instanceof AccessThis || methodInvocation.getTarget() instanceof AccessSuper);
+        if (any
+                && accept
+                && methodInvocation.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
+
+                && methodInvocation.getSpec().getMethodName().equals("<init>")) {
+            return true;
+        }
+
+        return false;
     }
 
     public static boolean searchForInitTo(CodeInterface codeInterface, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {

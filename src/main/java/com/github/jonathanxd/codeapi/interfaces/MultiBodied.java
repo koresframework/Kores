@@ -30,38 +30,11 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * Created by jonathan on 11/05/16.
+ * Created by jonathan on 25/07/16.
  */
-public interface TryBlock extends Bodied, MultiBodied, Expressionable, CodePart {
-    Collection<CatchBlock> getCatchBlocks();
-
-    Optional<CodeSource> getFinallyBlock();
-
-
-    @Override
-    default List<CodeSource> getBodies() {
-        List<CodeSource> sources = new ArrayList<>();
-
-        // Add This Body
-        this.getBody().ifPresent(sources::add);
-
-        // Add Catch Blocks source
-
-        for (CatchBlock catchBlock : this.getCatchBlocks()) {
-            // Add catch body if present
-            catchBlock.getBody().ifPresent(sources::add);
-        }
-
-        // Add Finally code source
-        this.getFinallyBlock().ifPresent(sources::add);
-
-        return sources;
-    }
+public interface MultiBodied extends CodePart {
+    List<CodeSource> getBodies();
 }

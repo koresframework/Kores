@@ -47,7 +47,7 @@ public class TestForeachClass {
         Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEach_.$();
         CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; " +
                 "public class ForEach { " +
-                "public void ForEach ( java.util.List < java.lang.String > strList ) { " +
+                "public ForEach ( java.util.List < java.lang.String > strList ) { " +
                 "for (  java.lang.String str : strList ) { " +
                 "java.lang.System . out . println ( str ) ; " +
                 "} " +
