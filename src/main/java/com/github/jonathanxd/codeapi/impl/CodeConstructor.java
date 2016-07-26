@@ -29,11 +29,13 @@ package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -41,8 +43,8 @@ import java.util.Optional;
 /**
  * Created by jonathan on 07/05/16.
  */
-@GenerateTo(CodeMethod.class)
-public class CodeConstructor extends CodeMethod {
+@GenerateTo(MethodDeclaration.class)
+public class CodeConstructor extends CodeMethod implements ConstructorDeclaration {
 
     public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeSource body) {
         super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), body);

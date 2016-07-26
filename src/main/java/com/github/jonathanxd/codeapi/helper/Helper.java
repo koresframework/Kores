@@ -46,6 +46,7 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
@@ -116,7 +117,7 @@ public final class Helper {
         return accessVariable(null, accessLocal(), name, Helper.getJavaType(type));
     }
 
-    public static VariableAccess accessLocalVariable(CodeField fieldVariable) {
+    public static VariableAccess accessLocalVariable(FieldDeclaration fieldVariable) {
         return accessVariable(null, accessLocal(), fieldVariable.getName(), fieldVariable.getType().orElse(PredefinedTypes.OBJECT));
     }
 
@@ -286,7 +287,7 @@ public final class Helper {
         return new SimpleForBlock(initialization, expression, update, body);
     }
 
-    public static ForEachBlock createForEach(CodeField field, Expression expression, CodeSource body) {
+    public static ForEachBlock createForEach(FieldDeclaration field, Expression expression, CodeSource body) {
         return new ForEachBlockEx(field, expression, body);
     }
 

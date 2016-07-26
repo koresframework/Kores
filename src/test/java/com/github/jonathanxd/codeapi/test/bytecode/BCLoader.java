@@ -27,14 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 
 /**
  * Created by jonathan on 05/07/16.
  */
 public final class BCLoader extends ClassLoader {
 
-    public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
+    public Class<?> define(InterfaceDeclaration codeInterface, byte[] bytes) {
         return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
     }
 }

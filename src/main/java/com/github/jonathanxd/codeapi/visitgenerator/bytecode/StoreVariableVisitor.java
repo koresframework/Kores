@@ -28,19 +28,20 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.ClassWriter;
@@ -69,11 +70,11 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
         VariableOperate operate = null;
 
-        if(variableStore instanceof VariableOperate) {
+        if (variableStore instanceof VariableOperate) {
             operate = (VariableOperate) variableStore;
         }
 
-        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
         ClassWriter required = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
 
         CodeType localization = variableStore.getLocalization();
@@ -84,9 +85,9 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
         // AT PODE SER: AccessThis, AccessSuper ou null -> AccessLocal | AccessStatic
         CodePart at = variableStore.getAt();
 
-        if(at == null && localization == null) {
+        if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
-        } else if(at != null) {
+        } else if (at != null) {
             visitorGenerator.generateTo(at.getClass(), at, extraData, navigator, null, mvData);
         }
 
@@ -94,25 +95,25 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
         // IF AT == NULL && LOCALIZATION == NULL ? I'AM STORING A LOCAL FIELD
         // IF AT != NULL IAM
-        if(at == null) {
-            if(localization != null) {
+        if (at == null) {
+            if (localization != null) {
                 additional.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(localization), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
-            }else{
+            } else {
                 // THIS
                 //
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }
         } else {
-            if(at instanceof AccessLocalEx) {
+            if (at instanceof AccessLocalEx) {
 
                 Optional<Variable> var = mvData.getVar(variableStore.getName(), variableStore.getVariableType());
 
 
-                if(!var.isPresent() && !(variableStore instanceof CodeField))
-                    throw new RuntimeException("Missing Variable Definition. Variable: '"+ variableStore.getName()+"' Type: '"+ variableStore.getVariableType().getJavaSpecName()+"'.");
-                else if(var.isPresent() && (variableStore instanceof CodeField
+                if (!var.isPresent() && !(variableStore instanceof FieldDeclaration))
+                    throw new RuntimeException("Missing Variable Definition. Variable: '" + variableStore.getName() + "' Type: '" + variableStore.getVariableType().getJavaSpecName() + "'.");
+                else if (var.isPresent() && (variableStore instanceof FieldDeclaration
                         && !(variableStore instanceof HiddenField)))
-                    throw new RuntimeException("Variable '"+ variableStore.getName()+"' Type: '"+ variableStore.getVariableType().getJavaSpecName()+"'. Already defined!");
+                    throw new RuntimeException("Variable '" + variableStore.getName() + "' Type: '" + variableStore.getVariableType().getJavaSpecName() + "'. Already defined!");
 
 
                 Label i_label = new Label();
@@ -121,7 +122,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
                 int i;
 
-                if(variableStore instanceof HiddenField) {
+                if (variableStore instanceof HiddenField) {
                     i = mvData.storeInternalVar(variableStore.getName(), variableStore.getVariableType(), i_label, null);
                 } else {
                     i = mvData.storeVar(variableStore.getName(), variableStore.getVariableType(), i_label, null);
@@ -135,7 +136,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
                 //additional.visitLocalVariable();
                 //additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));*/
-            }else if(at instanceof AccessThis) {
+            } else if (at instanceof AccessThis) {
                 // THIS
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             } else {

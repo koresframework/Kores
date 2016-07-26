@@ -25,35 +25,42 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
+package com.github.jonathanxd.codeapi.abs;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.interfaces.Modifierable;
+import com.github.jonathanxd.codeapi.interfaces.Valuable;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 09/07/16.
+ * Created by jonathan on 09/05/16.
  */
-@GenerateTo(FieldDeclaration.class)
-class HiddenField extends CodeField {
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
-        super(name, type, modifiers);
+public abstract class MutableAbstractValuableModifierable implements Valuable, Modifierable {
+
+    private final Collection<CodeModifier> modifiers;
+    private CodePart value;
+
+    protected MutableAbstractValuableModifierable(Collection<CodeModifier> modifiers, CodePart value) {
+        this.modifiers = modifiers;
+        this.value = value;
     }
 
-    HiddenField(String name, CodeType type) {
-        super(name, type);
+    public void setValue(CodePart value) {
+        this.value = value;
     }
 
-    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
-        super(name, type, value, modifiers);
+    @Override
+    public Collection<CodeModifier> getModifiers() {
+        return modifiers;
     }
 
-    HiddenField(String name, CodeType type, CodePart value) {
-        super(name, type, value);
+    @Override
+    public Optional<CodePart> getValue() {
+        return Optional.ofNullable(this.value);
     }
+
 }

@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.iutils.annotations.NotNull;
 import com.github.jonathanxd.iutils.conditions.Conditions;
@@ -43,11 +44,11 @@ import java.util.Optional;
 @GenerateTo(ForEachBlock.class)
 public class ForEachBlockEx implements ForEachBlock {
 
-    private final CodeField field;
+    private final FieldDeclaration field;
     private final Expression iterableElement;
     private final CodeSource source;
 
-    public ForEachBlockEx(@NotNull CodeField field, @NotNull Expression iterableElement, CodeSource source) {
+    public ForEachBlockEx(@NotNull FieldDeclaration field, @NotNull Expression iterableElement, CodeSource source) {
         Conditions.checkNotNull(field);
         Conditions.checkNotNull(iterableElement);
         this.field = field;
@@ -56,7 +57,7 @@ public class ForEachBlockEx implements ForEachBlock {
     }
 
     @Override
-    public CodeField getField() {
+    public FieldDeclaration getField() {
         return this.field;
     }
 

@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
@@ -61,7 +62,7 @@ public class ArrayParameterTest {
     public void arrayTest() {
 
 
-        CodeClass codeClass = aClass(PUBLIC, name);
+        ClassDeclaration codeClass = aClass(PUBLIC, name);
 
         Require.require(codeClass.getBody()).addAll(sourceOfParts(
                 constructor(PUBLIC, codeClass, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(

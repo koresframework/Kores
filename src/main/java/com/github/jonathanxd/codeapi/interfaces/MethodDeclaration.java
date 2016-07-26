@@ -25,35 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Collection;
+import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodeRoot;
 
 /**
- * Created by jonathan on 09/07/16.
+ * Created by jonathan on 25/07/16.
  */
-@GenerateTo(FieldDeclaration.class)
-class HiddenField extends CodeField {
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
-        super(name, type, modifiers);
-    }
-
-    HiddenField(String name, CodeType type) {
-        super(name, type);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
-        super(name, type, value, modifiers);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value) {
-        super(name, type, value);
-    }
+public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot {
 }

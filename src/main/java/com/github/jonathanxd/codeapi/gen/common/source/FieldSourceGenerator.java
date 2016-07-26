@@ -33,9 +33,8 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.util.Data;
@@ -49,7 +48,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class FieldSourceGenerator implements Generator<CodeField, String, PlainSourceGenerator> {
+public class FieldSourceGenerator implements Generator<FieldDeclaration, String, PlainSourceGenerator> {
 
     public static final FieldSourceGenerator INSTANCE = new FieldSourceGenerator();
 
@@ -57,7 +56,7 @@ public class FieldSourceGenerator implements Generator<CodeField, String, PlainS
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeField codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(FieldDeclaration codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
                 TargetValue.create(Modifierable.class, codeField, parents)
@@ -74,14 +73,14 @@ public class FieldSourceGenerator implements Generator<CodeField, String, PlainS
                 return true;
             }
 
-            if (CodeInterface.class.isAssignableFrom(generatorParent.getCurrent().getClass())) {
+            if (InterfaceDeclaration.class.isAssignableFrom(generatorParent.getCurrent().getClass())) {
                 return true;
             }
 
             return false;
         }).orElse(null);
 
-        if(generatorParent1 != null && CodeInterface.class.isAssignableFrom(generatorParent1.getCurrent().getClass())) {
+        if (generatorParent1 != null && InterfaceDeclaration.class.isAssignableFrom(generatorParent1.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
         } else {
 

@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.iutils.object.Bi;
 import com.github.jonathanxd.iutils.optional.Require;
 
@@ -53,8 +54,8 @@ import static java.lang.reflect.Modifier.PUBLIC;
 public class CommonGen {
     private static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
-    public static Bi<CodeClass, CodeSource> gen() {
-        CodeClass codeClass = aClass(PUBLIC, name);
+    public static Bi<ClassDeclaration, CodeSource> gen() {
+        ClassDeclaration codeClass = aClass(PUBLIC, name);
 
         CodeArgument[] values = {
                 new CodeArgument(STRING("A"), PredefinedTypes.STRING), new CodeArgument(STRING("B"), PredefinedTypes.STRING),

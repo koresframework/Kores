@@ -25,35 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.CodeRoot;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Collection;
-
 /**
- * Created by jonathan on 09/07/16.
+ * Created by jonathan on 25/07/16.
  */
-@GenerateTo(FieldDeclaration.class)
-class HiddenField extends CodeField {
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
-        super(name, type, modifiers);
-    }
+public interface InterfaceDeclaration extends Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer, Generifiable, Bodied {
 
-    HiddenField(String name, CodeType type) {
-        super(name, type);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
-        super(name, type, value, modifiers);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value) {
-        super(name, type, value);
+    default ClassType getClassType() {
+        return ClassType.INTERFACE;
     }
 }

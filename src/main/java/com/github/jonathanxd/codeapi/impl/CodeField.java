@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
-import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.abs.AbstractValuableModifierable;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
@@ -43,7 +41,8 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeField extends AbstractValuableModifierable implements CodeElement, VariableStore, Named, Typed {
+@GenerateTo(FieldDeclaration.class)
+public class CodeField extends AbstractValuableModifierable implements FieldDeclaration {
     private final String name;
     private final CodeType type;
 

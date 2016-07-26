@@ -29,14 +29,14 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
@@ -44,20 +44,18 @@ import com.github.jonathanxd.iutils.object.GenericRepresentation;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
-import java.util.Optional;
-
 /**
  * Created by jonathan on 03/06/16.
  */
-public class FieldVisitor implements Visitor<CodeField, Byte, Object>, Opcodes {
+public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Opcodes {
 
     public static final FieldVisitor INSTANCE = new FieldVisitor();
 
-    public static final ImmutableContainer<GenericRepresentation<CodeField>> FIELDS_TO_ASSIGN = ImmutableContainer.of(GenericRepresentation.aEnd(CodeField.class));
-    public static final ImmutableContainer<GenericRepresentation<CodeField>> STATIC_FIELDS_TO_ASSIGN = ImmutableContainer.of(GenericRepresentation.aEnd(CodeField.class));
+    public static final ImmutableContainer<GenericRepresentation<FieldDeclaration>> FIELDS_TO_ASSIGN = ImmutableContainer.of(GenericRepresentation.aEnd(FieldDeclaration.class));
+    public static final ImmutableContainer<GenericRepresentation<FieldDeclaration>> STATIC_FIELDS_TO_ASSIGN = ImmutableContainer.of(GenericRepresentation.aEnd(FieldDeclaration.class));
 
     @Override
-    public Byte[] visit(CodeField codeField,
+    public Byte[] visit(FieldDeclaration codeField,
                         Data extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
@@ -93,7 +91,7 @@ public class FieldVisitor implements Visitor<CodeField, Byte, Object>, Opcodes {
 
         CodeType type = codeField.getType().orElseThrow(NullPointerException::new);
 
-        if(type instanceof GenericType) {
+        if (type instanceof GenericType) {
             signature = Common.toAsm(type);
         }
 
@@ -104,7 +102,7 @@ public class FieldVisitor implements Visitor<CodeField, Byte, Object>, Opcodes {
 
     @Override
     public void endVisit(Byte[] r,
-                         CodeField codeField,
+                         FieldDeclaration codeField,
                          Data extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,

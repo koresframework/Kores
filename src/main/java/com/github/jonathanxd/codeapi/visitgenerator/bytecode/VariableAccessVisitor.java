@@ -28,16 +28,16 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.ClassWriter;
@@ -64,7 +64,7 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
         MethodVisitor additional = mvData.getMethodVisitor();
 
 
-        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
         ClassWriter required = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
 
 
@@ -74,29 +74,29 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
         CodePart at = variableAccess.getAt();
 
 
-        if(at == null && localization == null) {
+        if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
-        } else if(at != null) {
+        } else if (at != null) {
             visitorGenerator.generateTo(at.getClass(), at, extraData, navigator, null, mvData);
         }
 
         // IF AT == NULL && LOCALIZATION == NULL ? I'AM VISITING A LOCAL VARIABEL
         // IF AT != NULL IAM
-        if(at == null) {
-            if(localization != null) {
+        if (at == null) {
+            if (localization != null) {
                 additional.visitFieldInsn(GETSTATIC, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
-            }else{
+            } else {
                 // THIS
                 additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
             }
         } else {
-            if(at instanceof AccessLocalEx) {
+            if (at instanceof AccessLocalEx) {
 
                 Optional<Variable> var = mvData.getVar(variableAccess.getName(), variableAccess.getVariableType());
 
 
-                if(!var.isPresent())
-                    throw new RuntimeException("Variable '"+variableAccess.getName()+"' Type: '"+variableAccess.getVariableType().getJavaSpecName()+"' Not found in local variables map");
+                if (!var.isPresent())
+                    throw new RuntimeException("Variable '" + variableAccess.getName() + "' Type: '" + variableAccess.getVariableType().getJavaSpecName() + "' Not found in local variables map");
 
                 Variable variable = var.get();
 
@@ -110,7 +110,7 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
 
                 //additional.visitLocalVariable();
                 //additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));*/
-            }else if(at instanceof AccessThis) {
+            } else if (at instanceof AccessThis) {
                 // THIS
                 additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
             } else {

@@ -33,9 +33,10 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
@@ -50,7 +51,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodSourceGenerator implements Generator<CodeMethod, String, PlainSourceGenerator> {
+public class MethodSourceGenerator implements Generator<MethodDeclaration, String, PlainSourceGenerator> {
 
     public static final MethodSourceGenerator INSTANCE = new MethodSourceGenerator();
 
@@ -58,7 +59,7 @@ public class MethodSourceGenerator implements Generator<CodeMethod, String, Plai
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeMethod codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(MethodDeclaration codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         values.addAll(
@@ -67,7 +68,7 @@ public class MethodSourceGenerator implements Generator<CodeMethod, String, Plai
                         TargetValue.create(Generifiable.class, codeMethod, parents)
                 ));
 
-        if (!(codeMethod instanceof CodeConstructor)) {
+        if (!(codeMethod instanceof ConstructorDeclaration)) {
             values.add(TargetValue.create(Returnable.class, codeMethod, parents));
         }
 

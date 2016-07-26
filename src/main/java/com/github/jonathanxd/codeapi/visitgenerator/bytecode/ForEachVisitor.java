@@ -35,12 +35,11 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
@@ -55,7 +54,6 @@ import com.github.jonathanxd.iutils.iterator.Navigator;
 import org.objectweb.asm.Opcodes;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -69,20 +67,20 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
     @Override
     public Byte[] visit(ForEachBlock forEachBlock, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
-        CodeField field = forEachBlock.getField();
+        FieldDeclaration field = forEachBlock.getField();
 
         Expression iterableElement = forEachBlock.getIterableElement();
 
-        String fieldName = "iter$"+(++iterFields);
+        String fieldName = "iter$" + (++iterFields);
 
         final CodeType iterType = Helper.getJavaType(Iterator.class);
 
-        CodeField iterableField =
+        FieldDeclaration iterableField =
                 new HiddenField(fieldName, iterType,
                         CodeAPI.invokeInterface(Iterable.class, iterableElement, "iterator",
-                        new TypeSpec(Helper.getJavaType(Iterator.class))));
+                                new TypeSpec(Helper.getJavaType(Iterator.class))));
 
-        visitorGenerator.generateTo(CodeField.class, iterableField, extraData, navigator, null, additional);
+        visitorGenerator.generateTo(FieldDeclaration.class, iterableField, extraData, navigator, null, additional);
 
         // Iterator.hasNext()Z
         MethodInvocation hasNext = CodeAPI.invokeInterface(Iterator.class,
@@ -94,7 +92,7 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
 
 
         // #Type Field_Name = (#Type) Iterator.next()Ljava/lang/Object;
-        CodeField forEachField = new CodeField(field.getName(), field.getVariableType(),
+        FieldDeclaration forEachField = new CodeField(field.getName(), field.getVariableType(),
                 Helper.cast(PredefinedTypes.OBJECT, field.getVariableType(), next));
 
 

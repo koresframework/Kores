@@ -25,35 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.ClassType;
+import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Created by jonathan on 09/07/16.
+ * Created by jonathan on 09/05/16.
  */
-@GenerateTo(FieldDeclaration.class)
-class HiddenField extends CodeField {
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
-        super(name, type, modifiers);
+public class ClassTypeSourceGenerator implements Generator<ClassType, String, PlainSourceGenerator> {
+
+    public static final ClassTypeSourceGenerator INSTANCE = new ClassTypeSourceGenerator();
+
+    private ClassTypeSourceGenerator() {
     }
 
-    HiddenField(String name, CodeType type) {
-        super(name, type);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
-        super(name, type, value, modifiers);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value) {
-        super(name, type, value);
+    @Override
+    public List<Value<?, String, PlainSourceGenerator>> gen(ClassType classType, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+        return Collections.singletonList(ValueImpl.create(classType == ClassType.CLASS ? "class" : "interface"));
     }
 }

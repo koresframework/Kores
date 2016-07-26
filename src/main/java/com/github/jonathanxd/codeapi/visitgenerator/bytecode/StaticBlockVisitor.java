@@ -29,13 +29,13 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
@@ -59,7 +59,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     public static final ImmutableContainer<GenericRepresentation<StaticBlock>> STATIC_BLOCKS =
             ImmutableContainer.of(GenericRepresentation.aEnd(StaticBlock.class));
 
-    public static void generate(Data extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, CodeInterface codeInterface) {
+    public static void generate(Data extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, InterfaceDeclaration codeInterface) {
 
         MethodVisitor mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
 
@@ -69,13 +69,13 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
         // Variable Initialize
 
-        Collection<CodeField> all = extraData.getAll(FieldVisitor.STATIC_FIELDS_TO_ASSIGN);
+        Collection<FieldDeclaration> all = extraData.getAll(FieldVisitor.STATIC_FIELDS_TO_ASSIGN);
 
-        for (CodeField codeField : all) {
+        for (FieldDeclaration codeField : all) {
 
             Optional<CodePart> valueOpt = codeField.getValue();
 
-            if(valueOpt.isPresent()) {
+            if (valueOpt.isPresent()) {
 
                 CodePart value = valueOpt.get();
 

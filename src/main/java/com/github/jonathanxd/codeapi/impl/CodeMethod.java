@@ -27,20 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
-import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodiedParam;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.Generifiable;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.interfaces.Returnable;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.iutils.string.ToString;
 
@@ -51,7 +45,8 @@ import java.util.Optional;
 /**
  * Created by jonathan on 07/05/16.
  */
-public class CodeMethod extends AbstractBodiedParam implements CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable {
+@GenerateTo(MethodDeclaration.class)
+public class CodeMethod extends AbstractBodiedParam implements MethodDeclaration {
     private final String name;
     private final Collection<CodeModifier> modifiers;
     private final GenericSignature<GenericType> signature;
@@ -89,7 +84,6 @@ public class CodeMethod extends AbstractBodiedParam implements CodeElement, Retu
         return modifiers;
     }
 
-
     @Override
     public String toString() {
         return ToString.toString(this);
@@ -99,4 +93,5 @@ public class CodeMethod extends AbstractBodiedParam implements CodeElement, Retu
     public GenericSignature<GenericType> getGenericSignature() {
         return this.signature;
     }
+
 }

@@ -28,14 +28,14 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
@@ -51,36 +51,36 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
     public static final OpcodeStoreVariableVisitor INSTANCE = new OpcodeStoreVariableVisitor();
 
     public static void visit(VariableStore variableStore,
-                        Data extraData,
-                        Navigator<CodePart> navigator,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
+                             Data extraData,
+                             Navigator<CodePart> navigator,
+                             VisitorGenerator<Byte> visitorGenerator,
+                             MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
 
         CodeType localization = variableStore.getLocalization();
 
 
         CodePart at = variableStore.getAt();
 
-        if(at == null && localization == null) {
+        if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
-        } else if(at != null) {
+        } else if (at != null) {
             visitorGenerator.generateTo(at.getClass(), at, extraData, navigator, null, mvData);
         }
 
-        if(at == null) {
-            if(localization != null) {
+        if (at == null) {
+            if (localization != null) {
                 additional.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(localization), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
-            }else{
+            } else {
                 // THIS
                 //
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }
         } else {
-            if(at instanceof AccessLocalEx) {
+            if (at instanceof AccessLocalEx) {
 
                 Label i_label = new Label();
 
@@ -94,7 +94,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
 
                 additional.visitVarInsn(opcode, i);
 
-            }else if(at instanceof AccessThis) {
+            } else if (at instanceof AccessThis) {
                 // THIS
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             } else {

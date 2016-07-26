@@ -37,7 +37,9 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -70,14 +72,14 @@ public class Common {
 
         StringBuilder sb = new StringBuilder();
 
-        for(int x = 0; x < dimensions; ++x)
+        for (int x = 0; x < dimensions; ++x)
             sb.append("[");
 
         return sb.toString() + name;
     }
 
     public static String codeTypeToSimpleArray(CodeType codeType, int dimensions) {
-        if(dimensions <= 1) {
+        if (dimensions <= 1) {
             return codeTypeToSimpleAsm(codeType);
         }
 
@@ -85,7 +87,7 @@ public class Common {
 
         StringBuilder sb = new StringBuilder();
 
-        for(int x = 1; x < dimensions; ++x)
+        for (int x = 1; x < dimensions; ++x)
             sb.append("[");
 
         return sb.toString() + name;
@@ -93,15 +95,24 @@ public class Common {
 
     public static int fromType(CodeType codeType) {
         switch (codeType.getType()) {
-            case "int": return Opcodes.T_INT;
-            case "boolean": return Opcodes.T_BOOLEAN;
-            case "byte": return Opcodes.T_BYTE;
-            case "char": return Opcodes.T_CHAR;
-            case "double": return Opcodes.T_DOUBLE;
-            case "float": return Opcodes.T_FLOAT;
-            case "short": return Opcodes.T_SHORT;
-            case "long": return Opcodes.T_LONG;
-            default: return Integer.MIN_VALUE;
+            case "int":
+                return Opcodes.T_INT;
+            case "boolean":
+                return Opcodes.T_BOOLEAN;
+            case "byte":
+                return Opcodes.T_BYTE;
+            case "char":
+                return Opcodes.T_CHAR;
+            case "double":
+                return Opcodes.T_DOUBLE;
+            case "float":
+                return Opcodes.T_FLOAT;
+            case "short":
+                return Opcodes.T_SHORT;
+            case "long":
+                return Opcodes.T_LONG;
+            default:
+                return Integer.MIN_VALUE;
         }
     }
 
@@ -140,7 +151,7 @@ public class Common {
                 mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_LONG);
                 break;
             }
-            default:{
+            default: {
                 mv.visitTypeInsn(Opcodes.ANEWARRAY, Common.codeTypeToSimpleArray(arrayType, dimensions));
                 break;
             }
@@ -148,30 +159,23 @@ public class Common {
     }
 
     public static void runForInt(int num, MethodVisitor mv) {
-        if(num == -1) {
+        if (num == -1) {
             mv.visitInsn(Opcodes.ICONST_M1);
-        }else
-        if(num == 0) {
+        } else if (num == 0) {
             mv.visitInsn(Opcodes.ICONST_0);
-        }else
-        if(num == 1) {
+        } else if (num == 1) {
             mv.visitInsn(Opcodes.ICONST_1);
-        }else
-        if(num == 2) {
+        } else if (num == 2) {
             mv.visitInsn(Opcodes.ICONST_2);
-        }else
-        if(num == 3) {
+        } else if (num == 3) {
             mv.visitInsn(Opcodes.ICONST_3);
-        }else
-        if(num == 4) {
+        } else if (num == 4) {
             mv.visitInsn(Opcodes.ICONST_4);
-        }else
-        if(num == 5) {
+        } else if (num == 5) {
             mv.visitInsn(Opcodes.ICONST_5);
-        }else
-        if(num > Byte.MIN_VALUE && num < Byte.MAX_VALUE) {
+        } else if (num > Byte.MIN_VALUE && num < Byte.MAX_VALUE) {
             mv.visitIntInsn(Opcodes.BIPUSH, num);
-        } else if(num > Short.MIN_VALUE && num < Short.MAX_VALUE) {
+        } else if (num > Short.MIN_VALUE && num < Short.MAX_VALUE) {
             mv.visitIntInsn(Opcodes.SIPUSH, num);
         } else {
             mv.visitLdcInsn(num);
@@ -179,10 +183,9 @@ public class Common {
     }
 
     public static void runForLong(long num, MethodVisitor mv) {
-        if(num == 0) {
+        if (num == 0) {
             mv.visitInsn(Opcodes.LCONST_0);
-        }else
-        if(num == 1) {
+        } else if (num == 1) {
             mv.visitInsn(Opcodes.LCONST_1);
         } else {
             mv.visitLdcInsn(num);
@@ -190,10 +193,9 @@ public class Common {
     }
 
     public static void runForDouble(double num, MethodVisitor mv) {
-        if(num == 0) {
+        if (num == 0) {
             mv.visitInsn(Opcodes.DCONST_0);
-        }else
-        if(num == 1) {
+        } else if (num == 1) {
             mv.visitInsn(Opcodes.DCONST_1);
         } else {
             mv.visitLdcInsn(num);
@@ -201,13 +203,11 @@ public class Common {
     }
 
     public static void runForFloat(float num, MethodVisitor mv) {
-        if(num == 0) {
+        if (num == 0) {
             mv.visitInsn(Opcodes.FCONST_0);
-        }else
-        if(num == 1) {
+        } else if (num == 1) {
             mv.visitInsn(Opcodes.FCONST_1);
-        } else
-        if(num == 2) {
+        } else if (num == 2) {
             mv.visitInsn(Opcodes.FCONST_2);
         } else {
             mv.visitLdcInsn(num);
@@ -217,7 +217,7 @@ public class Common {
     public static void runForBoolean(boolean num, MethodVisitor mv) {
 
         // True -> 1
-        if(num) {
+        if (num) {
             mv.visitInsn(Opcodes.ICONST_1);
         } else {
             // False -> 0
@@ -240,9 +240,9 @@ public class Common {
 
             mv.visitInsn(Opcodes.ICONST_0);
 
-        } else if(num instanceof Literals.QuotedStringLiteral) {
+        } else if (num instanceof Literals.QuotedStringLiteral) {
 
-            mv.visitLdcInsn(name.substring(1, name.length()-1));
+            mv.visitLdcInsn(name.substring(1, name.length() - 1));
 
         } else if (num instanceof Literals.IntLiteral) {
 
@@ -274,27 +274,21 @@ public class Common {
 
     public static int opcodeForInt(int num) {
 
-        if(num == 0) {
+        if (num == 0) {
             return Opcodes.ICONST_0;
-        }else
-        if(num == 1) {
+        } else if (num == 1) {
             return Opcodes.ICONST_1;
-        }else
-        if(num == 2) {
+        } else if (num == 2) {
             return Opcodes.ICONST_2;
-        }else
-        if(num == 3) {
+        } else if (num == 3) {
             return Opcodes.ICONST_3;
-        }else
-        if(num == 4) {
+        } else if (num == 4) {
             return Opcodes.ICONST_4;
-        }else
-        if(num == 5) {
+        } else if (num == 5) {
             return Opcodes.ICONST_5;
-        }else
-        if(num > Byte.MIN_VALUE && num < Byte.MAX_VALUE) {
+        } else if (num > Byte.MIN_VALUE && num < Byte.MAX_VALUE) {
             return Opcodes.BIPUSH;
-        } else if(num > Short.MIN_VALUE && num < Short.MAX_VALUE) {
+        } else if (num > Short.MIN_VALUE && num < Short.MAX_VALUE) {
             return Opcodes.SIPUSH;
         } else {
             return Integer.MIN_VALUE;
@@ -309,7 +303,7 @@ public class Common {
 
             return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'")).isPrimitive();
         } else {
-            throw new RuntimeException("Cannot determine type of part '"+codePart+"'!");
+            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
         }
 
     }
@@ -322,7 +316,7 @@ public class Common {
 
             return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'"));
         } else {
-            throw new RuntimeException("Cannot determine type of part '"+codePart+"'!");
+            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
         }
 
     }
@@ -335,17 +329,17 @@ public class Common {
         return (isInterface ? Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
     }
 
-    public static int modifierToAsm(CodeInterface codeInterface) {
+    public static int modifierToAsm(InterfaceDeclaration codeInterface) {
         int asm = CodeModifier.toAsmAccess(codeInterface.getModifiers());
 
-        if (!(codeInterface instanceof CodeClass)) {
+        if (!(codeInterface instanceof ClassDeclaration)) {
             asm += Opcodes.ACC_INTERFACE;
         }
 
         return asm;
     }
 
-    public static String getClassName(CodeInterface class_, Data data) {
+    public static String getClassName(InterfaceDeclaration class_, Data data) {
         return class_.getType().replace('.', '/');
     }
     /*
@@ -361,7 +355,7 @@ public class Common {
         return className;
     }*/
 
-    public static String getClassName(CodeInterface class_, String package_) {
+    public static String getClassName(InterfaceDeclaration class_, String package_) {
         String className = class_.getJavaSpecName();
 
         if (package_ != null) {
@@ -469,11 +463,11 @@ public class Common {
         return map;
     }
 
-    public static CodeType getSuperClass(CodeInterface codeInterface) {
+    public static CodeType getSuperClass(InterfaceDeclaration codeInterface) {
 
-        if (codeInterface instanceof CodeClass) {
+        if (codeInterface instanceof ClassDeclaration) {
 
-            return ((CodeClass) codeInterface)
+            return ((ClassDeclaration) codeInterface)
                     .getSuperType()
                     .orElse(Helper.getJavaType(Object.class));
         }
@@ -499,7 +493,7 @@ public class Common {
             sj.add(genericTypeToAsmString_plain(generic));
         }
 
-        return "<"+fixResult(sj.toString())+">";
+        return "<" + fixResult(sj.toString()) + ">";
     }
 
     public static String genericTypeToAsmString(GenericType generic) {
@@ -515,8 +509,8 @@ public class Common {
         boolean ign = false;
 
         for (char aChar : chars) {
-            if(aChar == ';') {
-                if(!ign) {
+            if (aChar == ';') {
+                if (!ign) {
                     sb.append(aChar);
                 }
 
@@ -535,12 +529,12 @@ public class Common {
 
 
         boolean gen2 = false;
-        if(generic.bounds().length != 0) {
+        if (generic.bounds().length != 0) {
             GenericType.Bound<CodeType> codeTypeBound = generic.bounds()[0];
 
             CodeType type = codeTypeBound.getType();
 
-            if(type instanceof GenericType) {
+            if (type instanceof GenericType) {
                 gen2 = ((GenericType) type).bounds().length > 0;
             }
         }
@@ -550,7 +544,7 @@ public class Common {
     }
 
     public static String toAsm(CodeType codeType) {
-        if(codeType instanceof GenericType) {
+        if (codeType instanceof GenericType) {
 
             GenericType genericType = (GenericType) codeType;
 
@@ -558,11 +552,11 @@ public class Common {
 
             GenericType.Bound<CodeType>[] bounds = genericType.bounds();
 
-            if(bounds.length == 0) {
-                return fixResult("T"+name + ";"/*(genericType.isType() ? ";" : "")*/);
+            if (bounds.length == 0) {
+                return fixResult("T" + name + ";"/*(genericType.isType() ? ";" : "")*/);
             } else {
                 return fixResult(!genericType.isWildcard()
-                        ? (name + "<"+bounds(genericType.isWildcard(), bounds)+">;")
+                        ? (name + "<" + bounds(genericType.isWildcard(), bounds) + ">;")
                         : bounds(genericType.isWildcard(), bounds) + ";");
             }
 
@@ -579,7 +573,7 @@ public class Common {
 
             CodeType boundType = bound.getType();
 
-            if(boundType instanceof GenericType && !((GenericType) boundType).isType()) {
+            if (boundType instanceof GenericType && !((GenericType) boundType).isType()) {
                 sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType));
             } else {
                 sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType));
@@ -602,7 +596,7 @@ public class Common {
 
             CodeType boundType = bound.getType();
 
-            if(boundType instanceof GenericType && !((GenericType) boundType).isType()) {
+            if (boundType instanceof GenericType && !((GenericType) boundType).isType()) {
                 sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(!isLast ? ":" : "");
             } else {
                 sb.append(isWildcard ? bound.sign() : "").append(toAsm(boundType)).append(!isLast ? ":" : "");
@@ -613,7 +607,7 @@ public class Common {
     }
 
     public static String generateToBound(CodeType codeType) {
-        if(codeType instanceof GenericType) {
+        if (codeType instanceof GenericType) {
             return genericTypeToAsmString((GenericType) codeType);
         } else {
             return codeType.getJavaSpecName();
@@ -621,7 +615,7 @@ public class Common {
     }
 
     //"<T::Ljava/lang/CharSequence;>(Ljava/util/List<TT;>;Ljava/lang/String;)TT;
-    public static String methodGenericSignature(CodeMethod codeMethod) {
+    public static String methodGenericSignature(MethodDeclaration codeMethod) {
 
         CodeType returnType = codeMethod.getReturnType().orElse(PredefinedTypes.VOID);
 
@@ -632,15 +626,15 @@ public class Common {
 
         boolean generateGenerics =
                 !methodSignature.isEmpty()
-                || codeMethod.getParameters().stream().anyMatch(parameter -> parameter.getType() instanceof GenericType)
-                || returnType instanceof GenericType;
+                        || codeMethod.getParameters().stream().anyMatch(parameter -> parameter.getType() instanceof GenericType)
+                        || returnType instanceof GenericType;
 
 
-        if(generateGenerics && !methodSignature.isEmpty()) {
+        if (generateGenerics && !methodSignature.isEmpty()) {
             signatureBuilder.append(genericTypesToAsmString(methodSignature.getTypes()));
         }
 
-        if(generateGenerics) {
+        if (generateGenerics) {
             signatureBuilder.append('(');
 
             codeMethod.getParameters().stream().map(parameter -> toAsm(parameter.getType())).forEach(signatureBuilder::append);
@@ -648,7 +642,7 @@ public class Common {
             signatureBuilder.append(')');
         }
 
-        if(generateGenerics) {
+        if (generateGenerics) {
             signatureBuilder.append(toAsm(returnType));
         }
 

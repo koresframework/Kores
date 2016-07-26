@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.impl.CodeField;
-
 /**
  * Created by jonathan on 15/05/16.
  */
 public interface ForEachBlock extends Bodied {
 
-    CodeField getField();
+    FieldDeclaration getField();
 
     Expression getIterableElement();
 

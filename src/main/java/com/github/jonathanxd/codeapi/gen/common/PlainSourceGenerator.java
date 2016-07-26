@@ -41,6 +41,7 @@ import com.github.jonathanxd.codeapi.gen.common.source.ArrayStoreSourceGenerator
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ClassTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
@@ -87,7 +88,6 @@ import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
@@ -101,6 +101,7 @@ import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
@@ -108,7 +109,9 @@ import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
@@ -128,6 +131,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
@@ -148,9 +152,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Modifierable.class, ModifierSourceGenerator.INSTANCE);
         register(Named.class, NamedSourceGenerator.INSTANCE);
         register(Keyword.class, KeywordSourceGenerator.INSTANCE);
-        register(CodeInterface.class, InterfaceSourceGenerator.INSTANCE);
-        register(CodeField.class, FieldSourceGenerator.INSTANCE);
-        register(CodeMethod.class, MethodSourceGenerator.INSTANCE);
+        register(InterfaceDeclaration.class, InterfaceSourceGenerator.INSTANCE);
+        register(FieldDeclaration.class, FieldSourceGenerator.INSTANCE);
+        register(MethodDeclaration.class, MethodSourceGenerator.INSTANCE);
         register(Returnable.class, ReturnableSourceGenerator.INSTANCE);
         register(CodeType.class, CodeTypeSourceGenerator.INSTANCE);
         register(Parameterizable.class, ParameterizableSourceGenerator.INSTANCE);
@@ -180,6 +184,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(ArrayLength.class, ArrayLengthSourceGenerator.INSTANCE);
         register(TagLine.class, TagLineSourceGenerator.INSTANCE);
         register(VariableOperate.class, VariableOperateSourceGenerator.INSTANCE);
+        register(ClassType.class, ClassTypeSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);

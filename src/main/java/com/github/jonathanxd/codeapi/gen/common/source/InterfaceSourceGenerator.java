@@ -33,15 +33,15 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.PkgDclEx;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -52,7 +52,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<CodeInterface, String, PlainSourceGenerator> {
+public class InterfaceSourceGenerator implements Generator<InterfaceDeclaration, String, PlainSourceGenerator> {
 
     public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
 
@@ -60,12 +60,12 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeInterface codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(InterfaceDeclaration codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
                 TargetValue.create(Modifierable.class, codeInterface, parents),
 
-                TargetValue.create(Keyword.class, codeInterface.getKeyword(), parents),
+                TargetValue.create(ClassType.class, codeInterface.getClassType(), parents),
 
                 TargetValue.create(Named.class, codeInterface, parents),
 
@@ -74,11 +74,11 @@ public class InterfaceSourceGenerator implements Generator<CodeInterface, String
 
         String packageName = codeInterface.getPackageName();
 
-        if(packageName != null && !packageName.isEmpty()) {
+        if (packageName != null && !packageName.isEmpty()) {
             values.add(0, TargetValue.create(PackageDeclaration.class, new PkgDclEx(packageName), parents));
         }
 
-        if(codeInterface instanceof Extender) {
+        if (codeInterface instanceof Extender) {
             values.add(TargetValue.create(Extender.class, codeInterface, parents));
         }
 

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi;
 
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
@@ -57,7 +58,7 @@ public class Result<OUT> {
         return data;
     }
 
-    public TagLine<?, ?> findTagLine(CodeInterface codeInterface, StackTraceElement[] stackTraceElements) throws IllegalArgumentException {
+    public TagLine<?, ?> findTagLine(InterfaceDeclaration codeInterface, StackTraceElement[] stackTraceElements) throws IllegalArgumentException {
         for (StackTraceElement stackTraceElement : stackTraceElements) {
             if(stackTraceElement.getClassName().equals(codeInterface.getQualifiedName())) {
                 return findTagLine(stackTraceElement.getLineNumber());

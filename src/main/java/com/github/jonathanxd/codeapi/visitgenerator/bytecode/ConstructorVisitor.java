@@ -28,52 +28,32 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ConstructorVisitor implements Visitor<CodeConstructor, Byte, Object>, Opcodes {
+public class ConstructorVisitor implements Visitor<ConstructorDeclaration, Byte, Object>, Opcodes {
 
     public static final ConstructorVisitor INSTANCE = new ConstructorVisitor();
 
     @Override
-    public Byte[] visit(CodeConstructor codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(ConstructorDeclaration codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
-        visitorGenerator.generateTo(CodeMethod.class, codeConstructor, extraData, navigator, null, null);
+        visitorGenerator.generateTo(MethodDeclaration.class, codeConstructor, extraData, navigator, null, null);
 
         return new Byte[0];
     }
 
     @Override
-    public void endVisit(Byte[] r, CodeConstructor codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, ConstructorDeclaration codeConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

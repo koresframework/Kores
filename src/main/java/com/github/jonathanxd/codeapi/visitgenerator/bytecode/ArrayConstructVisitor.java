@@ -29,14 +29,14 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
@@ -56,7 +56,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
-        CodeInterface codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
 
         List<CodeArgument> arguments = arrayConstructor.getArguments();
 
@@ -65,7 +65,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
         boolean multi = dimensions.length > 1;
 
 
-        if(multi && !initialize) {
+        if (multi && !initialize) {
             for (CodePart i : dimensions) {
                 visitorGenerator.generateTo(i.getClass(), i, extraData, navigator, null, mvData);
             }
@@ -83,7 +83,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
             //mv.visitTypeInsn(ANEWARRAY, Common.codeTypeToSimpleArray(arrayConstructor.getArrayType(), dimensions.length));
         }
 
-        if(initialize) {
+        if (initialize) {
             // Initialize
 
             for (ArrayStore arrayStore : arrayConstructor.getArrayValues()) {
@@ -101,8 +101,6 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
     public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
     }
-
-
 
 
 }

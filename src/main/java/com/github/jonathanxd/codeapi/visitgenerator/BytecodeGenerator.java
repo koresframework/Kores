@@ -29,8 +29,37 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Options;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
+import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.Casted;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.Return;
+import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
+import com.github.jonathanxd.codeapi.interfaces.ThrowException;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArgumenterizabeVisitor;
@@ -63,34 +92,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ThrowExceptionVisit
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.WhileVisitor;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.interfaces.Access;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
-import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
-import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
-import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
-import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
-import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
-import com.github.jonathanxd.codeapi.interfaces.Casted;
-import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
-import com.github.jonathanxd.codeapi.interfaces.ForBlock;
-import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.Return;
-import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
-import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
-import com.github.jonathanxd.codeapi.interfaces.ThrowException;
-import com.github.jonathanxd.codeapi.interfaces.TryBlock;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.iutils.arrays.JwArray;
 import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
@@ -103,27 +104,26 @@ import java.util.function.Function;
  */
 public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
+    public static final ImmutableContainer<GenericRepresentation<Function<InterfaceDeclaration, String>>> SOURCE_FILE_FUNCTION =
+            ImmutableContainer.of(new AbstractGenericRepresentation<Function<InterfaceDeclaration, String>>() {
+            });
     private final Options options = new Options();
+    private final Function<InterfaceDeclaration, String> sourceFile;
 
-    public static final ImmutableContainer<GenericRepresentation<Function<CodeInterface, String>>> SOURCE_FILE_FUNCTION =
-            ImmutableContainer.of(new AbstractGenericRepresentation<Function<CodeInterface, String>>() {});
-
-    private final Function<CodeInterface, String> sourceFile;
-
-    public BytecodeGenerator(Function<CodeInterface, String> sourceFile) {
+    public BytecodeGenerator(Function<InterfaceDeclaration, String> sourceFile) {
         this.sourceFile = sourceFile;
 
         addVisitor(PackageDeclaration.class, new PackageVisitor());
-        addVisitor(CodeInterface.class, new InterfaceVisitor());
-        addUncheckedVisitor(CodeClass.class, new InterfaceVisitor());
-        addVisitor(CodeField.class, new FieldVisitor());
+        addVisitor(InterfaceDeclaration.class, new InterfaceVisitor());
+        addUncheckedVisitor(ClassDeclaration.class, new InterfaceVisitor());
+        addVisitor(FieldDeclaration.class, new FieldVisitor());
         addVisitor(CodeSource.class, new CodeSourceVisitor());
-        addVisitor(CodeConstructor.class, new ConstructorVisitor());
+        addVisitor(ConstructorDeclaration.class, new ConstructorVisitor());
         addVisitor(Literal.class, new LiteralVisitor());
         addVisitor(MethodInvocation.class, new MethodInvocationVisitor());
         addVisitor(VariableAccess.class, new VariableAccessVisitor());
         addVisitor(Argumenterizable.class, new ArgumenterizabeVisitor());
-        addVisitor(CodeMethod.class, new CodeMethodVisitor());
+        addVisitor(MethodDeclaration.class, new CodeMethodVisitor());
         addVisitor(Access.class, new AccessVisitor());
         addVisitor(TryBlock.class, new TryBlockVisitor());
         addVisitor(IfBlock.class, new IfBlockVisitor());
@@ -165,6 +165,11 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         return new ByteAppender();
     }
 
+    @Override
+    public Options getOptions() {
+        return options;
+    }
+
     private static class ByteAppender extends Appender<Byte> {
 
         JwArray<Byte> byteArrays = new JwArray<>();
@@ -182,10 +187,5 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         public Byte[] get() {
             return byteArrays.toGenericArray(Byte[].class);
         }
-    }
-
-    @Override
-    public Options getOptions() {
-        return options;
     }
 }

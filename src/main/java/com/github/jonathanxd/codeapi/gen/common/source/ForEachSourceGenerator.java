@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -57,7 +58,7 @@ public class ForEachSourceGenerator implements Generator<ForEachBlock, String, P
     public List<Value<?, String, PlainSourceGenerator>> gen(ForEachBlock forEachBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        CodeField field = forEachBlock.getField();
+        FieldDeclaration field = forEachBlock.getField();
         Expression iterableElement = forEachBlock.getIterableElement();
 
         values.add(ValueImpl.create("for"));

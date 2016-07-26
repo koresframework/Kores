@@ -25,35 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
+package com.github.jonathanxd.codeapi.abs;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
- * Created by jonathan on 09/07/16.
+ * Created by jonathan on 09/05/16.
  */
-@GenerateTo(FieldDeclaration.class)
-class HiddenField extends CodeField {
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
-        super(name, type, modifiers);
+public abstract class MutableAbstractBodiedParam extends MutableAbstractBodied implements Parameterizable {
+    private final Collection<CodeParameter> parameters;
+
+    protected MutableAbstractBodiedParam(Collection<CodeParameter> parameters, CodeSource body) {
+        super(body);
+        this.parameters = parameters;
     }
 
-    HiddenField(String name, CodeType type) {
-        super(name, type);
+    @Override
+    public Collection<CodeParameter> getParameters() {
+        return this.parameters;
     }
 
-    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
-        super(name, type, value, modifiers);
-    }
-
-    HiddenField(String name, CodeType type, CodePart value) {
-        super(name, type, value);
-    }
 }

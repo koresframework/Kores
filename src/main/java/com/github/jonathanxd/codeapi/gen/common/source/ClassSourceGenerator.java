@@ -34,11 +34,14 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -48,7 +51,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ClassSourceGenerator implements Generator<CodeClass, String, PlainSourceGenerator> {
+public class ClassSourceGenerator implements Generator<ClassDeclaration, String, PlainSourceGenerator> {
 
     public static final ClassSourceGenerator INSTANCE = new ClassSourceGenerator();
 
@@ -56,12 +59,12 @@ public class ClassSourceGenerator implements Generator<CodeClass, String, PlainS
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeClass codeClass, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ClassDeclaration codeClass, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
 
         return Arrays.asList(
                 TargetValue.create(Modifierable.class, codeClass, parents),
 
-                TargetValue.create(Keyword.class, codeClass.getKeyword(), parents),
+                TargetValue.create(ClassType.class, codeClass.getClassType(), parents),
 
                 TargetValue.create(Named.class, codeClass, parents),
                 TargetValue.create(Extender.class, codeClass, parents),

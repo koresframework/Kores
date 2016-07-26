@@ -27,11 +27,19 @@
  */
 package com.github.jonathanxd.codeapi;
 
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * CodeRoot is the holder sourceOf code elements
  */
-public interface CodeRoot extends CodeElement {
-    Collection<CodeElement> getAllElements();
+public interface CodeRoot extends CodeElement, Bodied {
+    default Collection<CodeElement> getAllElements() {
+        CodeSource sources = getBody().orElse(new CodeSource());
+        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
+    }
+
+
 }

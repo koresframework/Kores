@@ -27,29 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
-import com.github.jonathanxd.codeapi.CodeElement;
-import com.github.jonathanxd.codeapi.CodeRoot;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodied;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.interfaces.Generifiable;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.QualifiedNamed;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class CodeInterface extends AbstractBodied implements Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer, Generifiable {
+@GenerateTo(InterfaceDeclaration.class)
+public class CodeInterface extends AbstractBodied implements InterfaceDeclaration {
 
     private final String name;
     private final String qualifiedName;
@@ -73,10 +68,6 @@ public class CodeInterface extends AbstractBodied implements Modifierable, CodeR
     @Override
     public String getCanonicalName() {
         return this.getQualifiedName();
-    }
-
-    public Keyword getKeyword() {
-        return Keywords.INTERFACE;
     }
 
     @Override
@@ -110,19 +101,13 @@ public class CodeInterface extends AbstractBodied implements Modifierable, CodeR
     }
 
     @Override
-    public Collection<CodeElement> getAllElements() {
-        CodeSource sources = getBody().orElse(new CodeSource());
-        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
-    }
-
-    @Override
     public boolean isExpression() {
         return true;
     }
 
     @Override
     public boolean isInterface() {
-        return this.getClass() == CodeInterface.class;
+        return this.getClassType() == ClassType.INTERFACE;
     }
 
 }
