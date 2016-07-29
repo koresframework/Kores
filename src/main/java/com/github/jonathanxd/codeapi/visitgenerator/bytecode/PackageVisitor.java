@@ -43,8 +43,8 @@ public class PackageVisitor implements Visitor<PackageDeclaration, Byte, Object>
 
     public static final PackageVisitor INSTANCE = new PackageVisitor();
 
-    public static final ImmutableContainer<GenericRepresentation<PackageDeclaration>> PACKAGE_REPRESENTATION =
-            ImmutableContainer.of(GenericRepresentation.aEnd(PackageDeclaration.class));
+    public static final GenericRepresentation<PackageDeclaration> PACKAGE_REPRESENTATION =
+            GenericRepresentation.a(PackageDeclaration.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(PackageDeclaration packageDeclaration,

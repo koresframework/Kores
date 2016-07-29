@@ -104,9 +104,8 @@ import java.util.function.Function;
  */
 public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
-    public static final ImmutableContainer<GenericRepresentation<Function<InterfaceDeclaration, String>>> SOURCE_FILE_FUNCTION =
-            ImmutableContainer.of(new AbstractGenericRepresentation<Function<InterfaceDeclaration, String>>() {
-            });
+    public static final GenericRepresentation<Function<InterfaceDeclaration, String>> SOURCE_FILE_FUNCTION =
+            new AbstractGenericRepresentation<Function<InterfaceDeclaration, String>>(true) {};
     private final Options options = new Options();
     private final Function<InterfaceDeclaration, String> sourceFile;
 

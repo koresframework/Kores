@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
 import java.util.ArrayList;
@@ -43,11 +42,11 @@ import java.util.Optional;
  */
 public class Data {
 
-    private final Map<ImmutableContainer<?>, List<Object>> map = new HashMap<>();
+    private final Map<GenericRepresentation<?>, List<Object>> map = new HashMap<>();
 
-    public <T> int registerData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
+    public <T> int registerData(GenericRepresentation<T> genericRepresentation, T object) {
 
-        if(!map.containsKey(genericRepresentation)) {
+        if (!map.containsKey(genericRepresentation)) {
             map.put(genericRepresentation, new ArrayList<>());
         }
 
@@ -56,46 +55,47 @@ public class Data {
         return map.get(genericRepresentation).size() - 1;
     }
 
-    public <T> void unregisterData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, T object) {
+    public <T> void unregisterData(GenericRepresentation<T> genericRepresentation, T object) {
 
-        if(!map.containsKey(genericRepresentation))
+        if (!map.containsKey(genericRepresentation))
             return;
 
         map.get(genericRepresentation).remove(object);
 
-        if(map.get(genericRepresentation).isEmpty())
+        if (map.get(genericRepresentation).isEmpty())
             map.remove(genericRepresentation);
 
     }
 
-    public <T> void unregisterAllData(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
+    public <T> void unregisterAllData(GenericRepresentation<T> genericRepresentation) {
         map.remove(genericRepresentation);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> getAll(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
+    public <T> Collection<T> getAll(GenericRepresentation<T> genericRepresentation) {
         Collection<T> ts = (Collection<T>) map.get(genericRepresentation);
 
-        if(ts == null)
-            return Collections.emptyList();
-
-        return ts;
-    }
-
-    public <T> List<T> getAllAsList(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
-        List<T> ts = (List<T>) map.get(genericRepresentation);
-
-        if(ts == null)
+        if (ts == null)
             return Collections.emptyList();
 
         return ts;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Optional<T> getOptional(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
+    public <T> List<T> getAllAsList(GenericRepresentation<T> genericRepresentation) {
+        List<T> ts = (List<T>) map.get(genericRepresentation);
+
+        if (ts == null)
+            return Collections.emptyList();
+
+        return ts;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> Optional<T> getOptional(GenericRepresentation<T> genericRepresentation) {
         List<Object> objectList = map.get(genericRepresentation);
 
-        if(objectList == null) {
+        if (objectList == null) {
             return Optional.empty();
         }
 
@@ -103,30 +103,30 @@ public class Data {
     }
 
     @SuppressWarnings("unchecked")
-    public <T, U extends T> Optional<U> getOptionalCasted(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
+    public <T, U extends T> Optional<U> getOptionalCasted(GenericRepresentation<T> genericRepresentation) {
 
         List<Object> objectList = map.get(genericRepresentation);
 
-        if(objectList == null) {
+        if (objectList == null) {
             return Optional.empty();
         }
 
         return Optional.ofNullable((U) objectList.get(objectList.size() - 1));
     }
 
-    public <T> T getRequired(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
-        return getOptional(genericRepresentation).get();
+    public <T> T getRequired(GenericRepresentation<T> genericRepresentation) {
+        return this.getOptional(genericRepresentation).get();
     }
 
-    public <T> T getRequired(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, String message) {
-        return getOptional(genericRepresentation).orElseThrow(() -> new IllegalStateException(message));
+    public <T> T getRequired(GenericRepresentation<T> genericRepresentation, String message) {
+        return this.getOptional(genericRepresentation).orElseThrow(() -> new IllegalStateException(message));
     }
 
-    public <T, U extends T> U getRequiredCasted(ImmutableContainer<GenericRepresentation<T>> genericRepresentation) {
+    public <T, U extends T> U getRequiredCasted(GenericRepresentation<T> genericRepresentation) {
         return this.<T, U>getOptionalCasted(genericRepresentation).get();
     }
 
-    public <T, U extends T> U getRequiredCasted(ImmutableContainer<GenericRepresentation<T>> genericRepresentation, String message) {
+    public <T, U extends T> U getRequiredCasted(GenericRepresentation<T> genericRepresentation, String message) {
         return this.<T, U>getOptionalCasted(genericRepresentation).orElseThrow(() -> new IllegalStateException(message));
     }
 }

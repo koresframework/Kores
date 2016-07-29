@@ -64,11 +64,11 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
     public static final InterfaceVisitor INSTANCE = new InterfaceVisitor();
 
-    public static final ImmutableContainer<GenericRepresentation<InterfaceDeclaration>> CODE_INTERFACE_REPRESENTATION =
-            ImmutableContainer.of(GenericRepresentation.aEnd(InterfaceDeclaration.class));
+    public static final GenericRepresentation<InterfaceDeclaration> CODE_INTERFACE_REPRESENTATION =
+            GenericRepresentation.a(InterfaceDeclaration.class).setUnique(true).build();
 
-    public static final ImmutableContainer<GenericRepresentation<ClassWriter>> CLASS_WRITER_REPRESENTATION =
-            ImmutableContainer.of(GenericRepresentation.aEnd(ClassWriter.class));
+    public static final GenericRepresentation<ClassWriter> CLASS_WRITER_REPRESENTATION =
+            GenericRepresentation.a(ClassWriter.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(InterfaceDeclaration codeInterface,

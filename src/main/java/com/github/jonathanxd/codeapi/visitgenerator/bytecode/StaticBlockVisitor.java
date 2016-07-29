@@ -56,8 +56,8 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
     public static final StaticBlockVisitor INSTANCE = new StaticBlockVisitor();
 
-    public static final ImmutableContainer<GenericRepresentation<StaticBlock>> STATIC_BLOCKS =
-            ImmutableContainer.of(GenericRepresentation.aEnd(StaticBlock.class));
+    public static final GenericRepresentation<StaticBlock> STATIC_BLOCKS =
+            GenericRepresentation.a(StaticBlock.class).setUnique(true).build();
 
     public static void generate(Data extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, InterfaceDeclaration codeInterface) {
 

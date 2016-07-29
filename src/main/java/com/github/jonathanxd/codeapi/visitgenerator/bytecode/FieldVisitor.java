@@ -37,7 +37,6 @@ import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Data;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
@@ -51,8 +50,10 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
     public static final FieldVisitor INSTANCE = new FieldVisitor();
 
-    public static final ImmutableContainer<GenericRepresentation<FieldDeclaration>> FIELDS_TO_ASSIGN = ImmutableContainer.of(GenericRepresentation.aEnd(FieldDeclaration.class));
-    public static final ImmutableContainer<GenericRepresentation<FieldDeclaration>> STATIC_FIELDS_TO_ASSIGN = ImmutableContainer.of(GenericRepresentation.aEnd(FieldDeclaration.class));
+    public static final GenericRepresentation<FieldDeclaration> FIELDS_TO_ASSIGN =
+            GenericRepresentation.a(FieldDeclaration.class).setUnique(true).build();
+    public static final GenericRepresentation<FieldDeclaration> STATIC_FIELDS_TO_ASSIGN =
+            GenericRepresentation.a(FieldDeclaration.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(FieldDeclaration codeField,

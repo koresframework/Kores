@@ -52,12 +52,12 @@ import java.util.function.Predicate;
  */
 public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
-    public static final ImmutableContainer<GenericRepresentation<Appender>> APPENDER_REPRESENTATION =
-            ImmutableContainer.of(GenericRepresentation.aEnd(Appender.class));
-    public static final ImmutableContainer<GenericRepresentation<VisitorGenerator>> VISITOR_REPRESENTATION =
-            ImmutableContainer.of(GenericRepresentation.aEnd(VisitorGenerator.class));
-    public static final ImmutableContainer<GenericRepresentation<TagLine<?, ?>>> LINES_REPRESENTATION =
-            ImmutableContainer.of(new AbstractGenericRepresentation<TagLine<?, ?>>() {});
+    public static final GenericRepresentation<Appender> APPENDER_REPRESENTATION =
+            GenericRepresentation.of(Appender.class).setUnique(true).build();
+    public static final GenericRepresentation<VisitorGenerator> VISITOR_REPRESENTATION =
+            GenericRepresentation.a(VisitorGenerator.class).setUnique(true).build();
+    public static final GenericRepresentation<TagLine<?, ?>> LINES_REPRESENTATION =
+            new AbstractGenericRepresentation<TagLine<?, ?>>(true) {};
 
     private final Map<Class<?>, Visitor<?, T, ?>> visitors = new HashMap<>();
 
