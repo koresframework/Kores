@@ -37,7 +37,7 @@ import java.util.Optional;
  */
 public interface ForBlock extends Bodied, IfBlock {
 
-    Optional<Expression> getForInit();
+    Optional<CodePart> getForInit();
 
     @Override
     default List<CodePart> getIfExprsAndOps() {
@@ -51,6 +51,6 @@ public interface ForBlock extends Bodied, IfBlock {
 
     List<CodePart> getForExpression();
 
-    Optional<Expression> getForUpdate();
+    Optional<CodePart> getForUpdate();
 
 }

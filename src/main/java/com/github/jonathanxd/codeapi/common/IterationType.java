@@ -25,20 +25,12 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
-
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.IterationType;
+package com.github.jonathanxd.codeapi.common;
 
 /**
- * Created by jonathan on 15/05/16.
+ * Created by jonathan on 31/07/16.
  */
-public interface ForEachBlock extends Bodied {
-
-    FieldDeclaration getField();
-
-    IterationType getIterationType();
-
-    CodePart getIterableElement();
-
+public enum IterationType {
+    ARRAY,
+    ITERABLE_ELEMENT
 }

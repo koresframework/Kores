@@ -64,7 +64,7 @@ public class ForBlockSourceGenerator implements Generator<ForBlock, String, Plai
         values.add(ValueImpl.create("for"));
         values.add(ValueImpl.create("("));
 
-        Optional<Expression> forInitOpt = forBlock.getForInit();
+        Optional<CodePart> forInitOpt = forBlock.getForInit();
 
         forInitOpt.ifPresent(expression -> values.add(TargetValue.create(expression, parents)));
 
@@ -78,7 +78,7 @@ public class ForBlockSourceGenerator implements Generator<ForBlock, String, Plai
 
         values.add(ValueImpl.create(";"));
 
-        Optional<Expression> forUpdateOpt = forBlock.getForUpdate();
+        Optional<CodePart> forUpdateOpt = forBlock.getForUpdate();
 
         forUpdateOpt.ifPresent(expression -> values.add(TargetValue.create(expression, parents)));
 

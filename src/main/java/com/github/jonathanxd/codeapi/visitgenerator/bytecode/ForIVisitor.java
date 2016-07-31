@@ -58,7 +58,7 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
                         MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
-        forBlock.getForInit().ifPresent(forInit -> visitorGenerator.generateTo(Expression.class, forInit, extraData, navigator, null, mvData));
+        forBlock.getForInit().ifPresent(forInit -> visitorGenerator.generateTo(forInit.getClass(), forInit, extraData, navigator, null, mvData));
 
         Label whileStart = new Label();
 
@@ -72,7 +72,7 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
 
         InstructionCodePart instructionCodePart =
                 (value, extraData1, navigator1, visitorGenerator1, additional) -> {
-                    forBlock.getForUpdate().ifPresent(forUpdate -> visitorGenerator.generateTo(Expression.class, forUpdate, extraData, navigator, null, mvData));
+                    forBlock.getForUpdate().ifPresent(forUpdate -> visitorGenerator.generateTo(forUpdate.getClass(), forUpdate, extraData, navigator, null, mvData));
                     mv.visitJumpInsn(GOTO, whileStart);
                 };
 

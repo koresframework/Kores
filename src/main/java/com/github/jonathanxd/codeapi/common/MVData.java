@@ -102,7 +102,7 @@ public class MVData {
     }
 
     public int storeInternalVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
-        Variable variable = new Variable(name, type, startLabel, endLabel);
+        Variable variable = new Variable(name, type, startLabel, endLabel, true);
 
         for (int i = 0; i < this.variables.size(); i++) {
             if(this.variables.get(i).equals(variable)) {

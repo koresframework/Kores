@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
@@ -59,7 +60,7 @@ public class ForEachSourceGenerator implements Generator<ForEachBlock, String, P
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         FieldDeclaration field = forEachBlock.getField();
-        Expression iterableElement = forEachBlock.getIterableElement();
+        CodePart iterableElement = forEachBlock.getIterableElement();
 
         values.add(ValueImpl.create("for"));
         values.add(ValueImpl.create("("));

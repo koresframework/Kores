@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
@@ -35,7 +36,12 @@ import java.util.Optional;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface ArrayLength extends CodePart, ArrayAccess {
+public interface ArrayLength extends CodePart, ArrayAccess, Typed {
 
     Optional<CodePart> getTarget();
+
+    @Override
+    default Optional<CodeType> getType() {
+        return Optional.of(PredefinedTypes.INT);
+    }
 }

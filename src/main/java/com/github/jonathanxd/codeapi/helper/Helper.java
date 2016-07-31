@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -56,11 +56,11 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
+import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -252,6 +252,14 @@ public final class Helper {
         return new SimpleVariableOperate(null, accessLocal(), name, variableType, operation, null);
     }
 
+    public static VariableOperate operateLocalVariable(FieldDeclaration fieldDeclaration, Operator operation, CodePart value) {
+        return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, value);
+    }
+
+    public static VariableOperate operateLocalVariable(FieldDeclaration fieldDeclaration, Operator operation) {
+        return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
+    }
+
     /////////// OPERATE VARIABLES
 
     public static CodePart cast(CodeType originalType, CodeType type, CodePart castedPart) {
@@ -283,16 +291,32 @@ public final class Helper {
     }
 
     public static ForBlock createFor(Expression initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, Expression update, CodeSource body) {
+        return new SimpleForBlock(initialization, expression, update, body);
+    }
+
+    public static ForBlock createFor(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, CodePart update, CodeSource body) {
 
         return new SimpleForBlock(initialization, expression, update, body);
     }
 
-    public static ForEachBlock createForEach(FieldDeclaration field, Expression expression, CodeSource body) {
-        return new ForEachBlockEx(field, expression, body);
+    public static ForEachBlock createForEach(FieldDeclaration field, CodePart expression, CodeSource body) {
+        return new ForEachBlockEx(field, IterationType.ITERABLE_ELEMENT, expression, body);
+    }
+
+    public static ForEachBlock createForEachArray(FieldDeclaration field, CodePart expression, CodeSource body) {
+        return new ForEachBlockEx(field, IterationType.ARRAY, expression, body);
+    }
+
+    public static ForEachBlock createForEachIterable(FieldDeclaration field, CodePart expression, CodeSource body) {
+        return new ForEachBlockEx(field, IterationType.ITERABLE_ELEMENT, expression, body);
     }
 
     public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
         return new SimpleExWhileBlock(expression, body);
+    }
+
+    public static ElseBlock elseExpression(CodeSource elseSource) {
+        return new SimpleElseBlock(elseSource);
     }
     /*
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
@@ -306,10 +330,6 @@ public final class Helper {
 
         return ifBlock;
     }*/
-
-    public static ElseBlock elseExpression(CodeSource elseSource) {
-        return new SimpleElseBlock(elseSource);
-    }
 
     public static Expression end(CodePart expression) {
         return new NonExpressionExpr(expression);
@@ -376,7 +396,6 @@ public final class Helper {
         return new TagLineEx<>(identification, value);
     }
 
-
     public static Group group(Expression expression) {
         return new SimpleGroup(expression);
     }
@@ -393,8 +412,6 @@ public final class Helper {
         return new SimpleIfBlock(body, groups, elseBlock);
     }
 
-    //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
-
     public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
         MethodSpec spec = methodInvocation.getSpec();
 
@@ -403,6 +420,8 @@ public final class Helper {
         return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(),
                 newSpec);
     }
+
+    //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
 
     public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
         return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
@@ -560,6 +579,10 @@ public final class Helper {
     public static TryBlock tryCatchBlock(CodePart expression) {
         return new TryCatchBlock(expression, new CodeSource());
     }
+
+    public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
+        return new TryCatchBlock(expression, catchBlocks, new CodeSource());
+    }
     /*
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
         IfBlock ifBlock = new SimpleIfBlock();
@@ -572,9 +595,13 @@ public final class Helper {
 
         return ifBlock;
     }*/
+    public static final BiMultiVal.Adder<CodePart, IfExpr, Operator> IF_EXPR = new ExpressionAdder(CodePart.class);
 
-    public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
-        return new TryCatchBlock(expression, catchBlocks, new CodeSource());
+    public static final class ExpressionAdder extends BiMultiVal.Adder<CodePart, IfExpr, Operator> {
+
+        ExpressionAdder(Class<CodePart> baseType) {
+            super(baseType);
+        }
     }
 
     @GenerateTo(CodeType.class)

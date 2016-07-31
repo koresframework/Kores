@@ -27,10 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.iutils.annotations.NotNull;
@@ -45,13 +45,20 @@ import java.util.Optional;
 public class ForEachBlockEx implements ForEachBlock {
 
     private final FieldDeclaration field;
-    private final Expression iterableElement;
+    private final IterationType iterationType;
+    private final CodePart iterableElement;
     private final CodeSource source;
 
-    public ForEachBlockEx(@NotNull FieldDeclaration field, @NotNull Expression iterableElement, CodeSource source) {
+    public ForEachBlockEx(@NotNull FieldDeclaration field, @NotNull CodePart iterableElement, CodeSource source) {
+        this(field, IterationType.ITERABLE_ELEMENT, iterableElement, source);
+    }
+
+    public ForEachBlockEx(@NotNull FieldDeclaration field, @NotNull IterationType iterationType, @NotNull CodePart iterableElement, CodeSource source) {
         Conditions.checkNotNull(field);
+        Conditions.checkNotNull(iterationType);
         Conditions.checkNotNull(iterableElement);
         this.field = field;
+        this.iterationType = iterationType;
         this.iterableElement = iterableElement;
         this.source = source;
     }
@@ -62,7 +69,12 @@ public class ForEachBlockEx implements ForEachBlock {
     }
 
     @Override
-    public Expression getIterableElement() {
+    public IterationType getIterationType() {
+        return this.iterationType;
+    }
+
+    @Override
+    public CodePart getIterableElement() {
         return this.iterableElement;
     }
 

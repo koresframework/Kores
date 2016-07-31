@@ -50,6 +50,10 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
         return new Adder<>(baseType);
     }
 
+    public static <T, U extends T, V extends T> Adder<T, U, V> create(Adder<T, U, V> adder) {
+        return new Adder<>(adder.baseType);
+    }
+
     @Override
     public Iterator<T> iterator() {
         return staticList.iterator();
@@ -70,7 +74,7 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
         private final Class<T> baseType;
         private final List<T> list = new ArrayList<>();
 
-        Adder(Class<T> baseType) {
+        protected Adder(Class<T> baseType) {
             this.baseType = baseType;
         }
 

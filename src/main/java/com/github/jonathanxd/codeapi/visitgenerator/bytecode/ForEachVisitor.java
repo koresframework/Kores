@@ -30,13 +30,14 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -62,6 +63,7 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
 
     public static final ForEachVisitor INSTANCE = new ForEachVisitor();
 
+    private int indexFields = 0;
     private int iterFields = 0;
 
     @Override
@@ -69,43 +71,73 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
 
         FieldDeclaration field = forEachBlock.getField();
 
-        Expression iterableElement = forEachBlock.getIterableElement();
+        IterationType iterationType = forEachBlock.getIterationType();
 
-        String fieldName = "iter$" + (++iterFields);
+        CodePart iterableElement = forEachBlock.getIterableElement();
 
-        final CodeType iterType = Helper.getJavaType(Iterator.class);
+        if (iterationType == IterationType.ARRAY) {
+            String fieldName = "$index$" + (++indexFields);
 
-        FieldDeclaration iterableField =
-                new HiddenField(fieldName, iterType,
-                        CodeAPI.invokeInterface(Iterable.class, iterableElement, "iterator",
-                                new TypeSpec(Helper.getJavaType(Iterator.class))));
+            FieldDeclaration indexFieldDecl = new HiddenField(fieldName, PredefinedTypes.INT, Literals.INT(0));
 
-        visitorGenerator.generateTo(FieldDeclaration.class, iterableField, extraData, navigator, null, additional);
+            CodeSource body = new CodeSource();
 
-        // Iterator.hasNext()Z
-        MethodInvocation hasNext = CodeAPI.invokeInterface(Iterator.class,
-                CodeAPI.accessLocalVariable(iterType, fieldName), "hasNext", new TypeSpec(PredefinedTypes.BOOLEAN));
+            body.add(new CodeField(field.getName(), field.getVariableType(),
+                    Helper.accessArrayValue(iterableElement, Helper.accessLocalVariable(indexFieldDecl), field.getVariableType())));
 
-        // Iterator.next()Ljava/lang/Object;
-        MethodInvocation next = CodeAPI.invokeInterface(Iterator.class,
-                CodeAPI.accessLocalVariable(iterType, fieldName), "next", new TypeSpec(PredefinedTypes.OBJECT));
+            forEachBlock.getBody().ifPresent(body::addAll);
+
+            ForBlock aFor = Helper.createFor
+                    (
+                            indexFieldDecl,
+                            Helper.createIfVal().add1(Helper.check(Helper.accessLocalVariable(indexFieldDecl), Operators.LESS_THAN, Helper.arrayLength(iterableElement))).make(),
+                            Helper.operateLocalVariable(indexFieldDecl, Operators.INCREMENT),
+                            body
+                    );
+
+            visitorGenerator.generateTo(aFor.getClass(), aFor, extraData, navigator, null, additional);
 
 
-        // #Type Field_Name = (#Type) Iterator.next()Ljava/lang/Object;
-        FieldDeclaration forEachField = new CodeField(field.getName(), field.getVariableType(),
-                Helper.cast(PredefinedTypes.OBJECT, field.getVariableType(), next));
+        } else if (iterationType == IterationType.ITERABLE_ELEMENT) {
+
+            String fieldName = "iter$" + (++iterFields);
+
+            final CodeType iterType = Helper.getJavaType(Iterator.class);
+
+            FieldDeclaration iterableField =
+                    new HiddenField(fieldName, iterType,
+                            CodeAPI.invokeInterface(Iterable.class, iterableElement, "iterator",
+                                    new TypeSpec(Helper.getJavaType(Iterator.class))));
+
+            visitorGenerator.generateTo(FieldDeclaration.class, iterableField, extraData, navigator, null, additional);
+
+            // Iterator.hasNext()Z
+            MethodInvocation hasNext = CodeAPI.invokeInterface(Iterator.class,
+                    CodeAPI.accessLocalVariable(iterType, fieldName), "hasNext", new TypeSpec(PredefinedTypes.BOOLEAN));
+
+            // Iterator.next()Ljava/lang/Object;
+            MethodInvocation next = CodeAPI.invokeInterface(Iterator.class,
+                    CodeAPI.accessLocalVariable(iterType, fieldName), "next", new TypeSpec(PredefinedTypes.OBJECT));
 
 
-        CodeSource codeSource = new CodeSource();
+            // #Type Field_Name = (#Type) Iterator.next()Ljava/lang/Object;
+            FieldDeclaration forEachField = new CodeField(field.getName(), field.getVariableType(),
+                    Helper.cast(PredefinedTypes.OBJECT, field.getVariableType(), next));
 
-        codeSource.add(forEachField);
 
-        forEachBlock.getBody().ifPresent(codeSource::addAll);
+            CodeSource codeSource = new CodeSource();
 
-        WhileBlock aWhile = Helper.createWhile(BiMultiVal.create(CodePart.class, IfExpr.class, Operator.class).
-                add1(Helper.check(hasNext, Operators.EQUAL_TO, Literals.TRUE)).make(), codeSource);
+            codeSource.add(forEachField);
 
-        visitorGenerator.generateTo(aWhile.getClass(), aWhile, extraData, navigator, null, additional);
+            forEachBlock.getBody().ifPresent(codeSource::addAll);
+
+            WhileBlock aWhile = Helper.createWhile(BiMultiVal.create(CodePart.class, IfExpr.class, Operator.class).
+                    add1(Helper.check(hasNext, Operators.EQUAL_TO, Literals.TRUE)).make(), codeSource);
+
+            visitorGenerator.generateTo(aWhile.getClass(), aWhile, extraData, navigator, null, additional);
+        } else {
+            throw new UnsupportedOperationException("Unsupported iteration type: " + iterationType);
+        }
 
         return new Byte[0];
     }

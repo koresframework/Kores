@@ -45,11 +45,11 @@ import java.util.Optional;
 @GenerateTo(ForBlock.class)
 public class SimpleForBlock extends SimpleIfBlock implements ForBlock {
 
-    private final Expression forInit;
-    private final Expression forUpdate;
+    private final CodePart forInit;
+    private final CodePart forUpdate;
     private final CodeSource body;
 
-    public SimpleForBlock(Expression forInit, BiMultiVal<CodePart, IfExpr, Operator> forExpression, Expression forUpdate, CodeSource body) {
+    public SimpleForBlock(CodePart forInit, BiMultiVal<CodePart, IfExpr, Operator> forExpression, CodePart forUpdate, CodeSource body) {
         super(body, forExpression, null);
         this.forInit = forInit;
         this.forUpdate = forUpdate;
@@ -62,7 +62,7 @@ public class SimpleForBlock extends SimpleIfBlock implements ForBlock {
     }
 
     @Override
-    public Optional<Expression> getForInit() {
+    public Optional<CodePart> getForInit() {
         return Optional.ofNullable(this.forInit);
     }
 
@@ -72,7 +72,7 @@ public class SimpleForBlock extends SimpleIfBlock implements ForBlock {
     }
 
     @Override
-    public Optional<Expression> getForUpdate() {
+    public Optional<CodePart> getForUpdate() {
         return Optional.ofNullable(this.forUpdate);
     }
 

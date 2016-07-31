@@ -25,20 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.IterationType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.ForEachArray_;
+import com.github.jonathanxd.codeapi.test.ForEach_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by jonathan on 15/05/16.
+ * Created by jonathan on 05/07/16.
  */
-public interface ForEachBlock extends Bodied {
+public class ForEachArrayClassTest {
 
-    FieldDeclaration getField();
-
-    IterationType getIterationType();
-
-    CodePart getIterableElement();
-
+    @Test
+    public void test() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEachArray_.$();
+        CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass -> {
+            try {
+                return aClass.getConstructor(String[].class).newInstance((Object) new String[]{"A", "B", "C", "D"});
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RethrowException(e, e.getCause());
+            }
+        });
+    }
 }
