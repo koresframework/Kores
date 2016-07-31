@@ -80,14 +80,21 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
 
         }else {
             visitorGenerator.generateTo(codePart.getClass(), codePart, extraData, navigator, null, mvData);
-            additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(to));
+
+            if(!from.equals(to)) {
+                if (to.isPrimitive())
+                    throw new IllegalArgumentException("Cannot cast to primitive type!");
+
+                additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(to));
+            }
         }
-
-
 
 
         return new Byte[0];
     }
+
+    //
+    // http://prntscr.com/bzx6kw/direct
 
     @Override
     public void endVisit(Byte[] r,

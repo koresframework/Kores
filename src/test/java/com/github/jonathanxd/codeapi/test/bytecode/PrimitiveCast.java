@@ -88,6 +88,10 @@ public class PrimitiveCast {
 
                                 new CodeField("IntegerBoxed2", INT, Helper.cast(OBJECT, INT, Helper.accessLocalVariable("iF", OBJECT))),
 
+                                new CodeField("int", INT, Literals.INT(9)),
+
+                                new CodeField("IntToInt", INT, Helper.cast(INT, INT, Helper.accessLocalVariable("int", INT))),
+
                                 // Cast Integer to Int
                                 returnValue(int.class, Helper.cast(PredefinedTypes.INTEGER_TYPE, PredefinedTypes.INT, invokeConstructor(Integer.class, argument(Literals.INT(9), int.class))))
                         ))
