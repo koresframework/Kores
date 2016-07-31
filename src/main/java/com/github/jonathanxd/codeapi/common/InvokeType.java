@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.types.CodeType;
+
 import static org.objectweb.asm.Opcodes.H_INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.H_INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.H_INVOKESTATIC;
@@ -50,23 +52,49 @@ public enum InvokeType {
 
     public static int toAsm(InvokeType invokeType) {
         switch (invokeType) {
-            case INVOKE_INTERFACE: return INVOKEINTERFACE;
-            case INVOKE_SPECIAL: return INVOKESPECIAL;
-            case INVOKE_VIRTUAL: return INVOKEVIRTUAL;
-            case INVOKE_STATIC: return INVOKESTATIC;
-            case INVOKE_DYNAMIC: return INVOKEDYNAMIC;
-            default: throw new RuntimeException("Cannot determine opcode of '"+invokeType+"'");
+            case INVOKE_INTERFACE:
+                return INVOKEINTERFACE;
+            case INVOKE_SPECIAL:
+                return INVOKESPECIAL;
+            case INVOKE_VIRTUAL:
+                return INVOKEVIRTUAL;
+            case INVOKE_STATIC:
+                return INVOKESTATIC;
+            case INVOKE_DYNAMIC:
+                return INVOKEDYNAMIC;
+            default:
+                throw new RuntimeException("Cannot determine opcode of '" + invokeType + "'");
         }
     }
 
     public static int toAsm_H(InvokeType invokeType) {
         switch (invokeType) {
-            case INVOKE_INTERFACE: return H_INVOKEINTERFACE;
-            case INVOKE_SPECIAL: return H_INVOKESPECIAL;
-            case INVOKE_VIRTUAL: return H_INVOKEVIRTUAL;
-            case INVOKE_STATIC: return H_INVOKESTATIC;
-            case INVOKE_DYNAMIC: throw new RuntimeException("Cannot invoke dynamic 'dynamic invocation'!");
-            default: throw new RuntimeException("Cannot determine opcode of '"+invokeType+"'");
+            case INVOKE_INTERFACE:
+                return H_INVOKEINTERFACE;
+            case INVOKE_SPECIAL:
+                return H_INVOKESPECIAL;
+            case INVOKE_VIRTUAL:
+                return H_INVOKEVIRTUAL;
+            case INVOKE_STATIC:
+                return H_INVOKESTATIC;
+            case INVOKE_DYNAMIC:
+                throw new RuntimeException("Cannot invoke dynamic 'dynamic invocation'!");
+            default:
+                throw new RuntimeException("Cannot determine opcode of '" + invokeType + "'");
         }
+    }
+
+    /**
+     * Get InvokeType corresponding to the {@code type}, if {@link CodeType#isInterface()} is true,
+     * return {@link #INVOKE_INTERFACE} otherwise, return {@link #INVOKE_VIRTUAL}
+     *
+     * @param type Code Type
+     * @return {@link #INVOKE_INTERFACE} is is an interface, {@link #INVOKE_VIRTUAL} otherwise
+     */
+    public static InvokeType get(CodeType type) {
+        if (type.isInterface())
+            return INVOKE_INTERFACE;
+
+        return INVOKE_VIRTUAL;
     }
 }
