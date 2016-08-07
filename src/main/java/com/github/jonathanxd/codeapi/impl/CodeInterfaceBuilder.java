@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 04/06/16.
@@ -39,7 +40,7 @@ import java.util.Collection;
 public final class CodeInterfaceBuilder {
     private CodeSource body;
     private String qualifiedName;
-    private Collection<CodeType> implementations;
+    private List<CodeType> implementations;
     private Collection<CodeModifier> modifiers;
 
     private CodeInterfaceBuilder() {
@@ -59,12 +60,12 @@ public final class CodeInterfaceBuilder {
         return this;
     }
 
-    public CodeInterfaceBuilder withImplementations(Collection<CodeType> implementations) {
+    public CodeInterfaceBuilder withImplementations(List<CodeType> implementations) {
         this.implementations = implementations;
         return this;
     }
 
-    public CodeInterfaceBuilder withModifiers(Collection<CodeModifier> modifiers) {
+    public CodeInterfaceBuilder withModifiers(List<CodeModifier> modifiers) {
         this.modifiers = modifiers;
         return this;
     }

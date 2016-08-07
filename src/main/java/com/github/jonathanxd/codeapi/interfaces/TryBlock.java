@@ -40,7 +40,7 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 public interface TryBlock extends Bodied, MultiBodied, Expressionable, CodePart {
-    Collection<CatchBlock> getCatchBlocks();
+    List<CatchBlock> getCatchBlocks();
 
     Optional<CodeSource> getFinallyBlock();
 

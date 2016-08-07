@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 04/06/16.
@@ -42,7 +43,7 @@ public final class CodeMethodBuilder {
     private CodeSource body;
     private String name;
     private Collection<CodeModifier> modifiers;
-    private Collection<CodeParameter> parameters;
+    private List<CodeParameter> parameters;
 
     private CodeMethodBuilder() {
     }
@@ -71,7 +72,7 @@ public final class CodeMethodBuilder {
         return this;
     }
 
-    public CodeMethodBuilder withParameters(Collection<CodeParameter> parameters) {
+    public CodeMethodBuilder withParameters(List<CodeParameter> parameters) {
         this.parameters = parameters;
         return this;
     }

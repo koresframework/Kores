@@ -27,12 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 12/05/16.
  */
 public interface Groupable {
 
-    Collection<Group> getGroups();
+    List<Group> getGroups();
 }

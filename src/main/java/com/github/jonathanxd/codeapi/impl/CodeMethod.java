@@ -40,6 +40,7 @@ import com.github.jonathanxd.iutils.string.ToString;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -52,11 +53,11 @@ public class CodeMethod extends AbstractBodiedParam implements MethodDeclaration
     private final GenericSignature<GenericType> signature;
     private final CodeType returnType;
 
-    public CodeMethod(String name, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeType returnType, CodeSource body) {
+    public CodeMethod(String name, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeType returnType, CodeSource body) {
         this(name, modifiers, parameters, returnType, null, body);
     }
 
-    public CodeMethod(String name, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeType returnType, GenericSignature<GenericType> signature, CodeSource body) {
+    public CodeMethod(String name, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeType returnType, GenericSignature<GenericType> signature, CodeSource body) {
         super(parameters, body);
         this.name = name;
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);

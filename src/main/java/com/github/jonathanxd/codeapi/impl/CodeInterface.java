@@ -39,6 +39,7 @@ import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -48,20 +49,20 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
 
     private final String name;
     private final String qualifiedName;
-    private final Collection<CodeType> implementations;
+    private final List<CodeType> implementations;
     private final Collection<CodeModifier> modifiers;
     private final GenericSignature<GenericType> signature;
 
-    public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, CodeSource body) {
+    public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, List<CodeType> implementations, CodeSource body) {
         this(qualifiedName, modifiers, implementations, GenericSignature.empty(), body);
     }
 
-    public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, Collection<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
+    public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
         super(body);
         this.qualifiedName = qualifiedName;
         this.name = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length());
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);
-        this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableCollection(implementations);
+        this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableList(implementations);
         this.signature = signature != null ? signature : GenericSignature.empty();
     }
 
@@ -81,7 +82,7 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
     }
 
     @Override
-    public Collection<CodeType> getImplementations() {
+    public List<CodeType> getImplementations() {
         return implementations;
     }
 

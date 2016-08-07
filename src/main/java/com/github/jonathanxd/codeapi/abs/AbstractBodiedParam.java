@@ -33,20 +33,21 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
 public abstract class AbstractBodiedParam extends AbstractBodied implements Parameterizable {
-    private final Collection<CodeParameter> parameters;
+    private final List<CodeParameter> parameters;
 
-    protected AbstractBodiedParam(Collection<CodeParameter> parameters, CodeSource body) {
+    protected AbstractBodiedParam(List<CodeParameter> parameters, CodeSource body) {
         super(body);
-        this.parameters = parameters == null ? Collections.emptyList() : Collections.unmodifiableCollection(parameters);
+        this.parameters = parameters == null ? Collections.emptyList() : Collections.unmodifiableList(parameters);
     }
 
     @Override
-    public Collection<CodeParameter> getParameters() {
+    public List<CodeParameter> getParameters() {
         return parameters;
     }
 

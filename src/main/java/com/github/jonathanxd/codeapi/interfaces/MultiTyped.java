@@ -29,12 +29,12 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 11/05/16.
  */
 public interface MultiTyped {
 
-    Collection<CodeType> getTypes();
+    List<CodeType> getTypes();
 }

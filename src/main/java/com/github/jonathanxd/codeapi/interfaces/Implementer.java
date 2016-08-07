@@ -30,11 +30,12 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
 public interface Implementer {
-    Collection<CodeType> getImplementations();
+    List<CodeType> getImplementations();
 
 }

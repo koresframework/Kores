@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -43,19 +44,19 @@ import java.util.function.Predicate;
 @GenerateTo(ArgumentOperator.class)
 public class SimpleArgumentOperator implements ArgumentOperator {
 
-    private final Collection<CodePart> operators;
+    private final List<CodePart> operators;
 
-    public SimpleArgumentOperator(Collection<CodePart> operators, Predicate<CodePart> pred) {
+    public SimpleArgumentOperator(List<CodePart> operators, Predicate<CodePart> pred) {
         if(operators == null || (!operators.stream().allMatch(pred))) {
             throw new IllegalArgumentException("Only accepts CodeArgument & Operator!");
         }
 
-        this.operators = Collections.unmodifiableCollection(operators);
+        this.operators = Collections.unmodifiableList(operators);
     }
 
 
     @Override
-    public Collection<CodePart> getArgumentsAndOperators() {
+    public List<CodePart> getArgumentsAndOperators() {
         return this.operators;
     }
 

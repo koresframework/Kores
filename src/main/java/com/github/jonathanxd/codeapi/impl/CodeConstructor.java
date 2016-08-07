@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,7 +47,7 @@ import java.util.Optional;
 @GenerateTo(MethodDeclaration.class)
 public class CodeConstructor extends CodeMethod implements ConstructorDeclaration {
 
-    public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, Collection<CodeParameter> parameters, CodeSource body) {
+    public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeSource body) {
         super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), body);
     }
 

@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,8 +45,7 @@ import java.util.Optional;
 public class TryCatchBlock implements TryBlock {
 
     private final CodeSource body;
-    // TODO: Change, do it like If-Else
-    private final Collection<CatchBlock> catchBlocks = new ArrayList<>();
+    private final List<CatchBlock> catchBlocks = new ArrayList<>();
     private final CodeSource finallyBlock;
     private final CodePart expression;
 
@@ -57,11 +57,11 @@ public class TryCatchBlock implements TryBlock {
         this(expression, null, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, CodeSource body) {
+    public TryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks, CodeSource body) {
         this(expression, catchBlocks, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
+    public TryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
         this.expression = expression;
         this.body = body;
 
@@ -73,7 +73,7 @@ public class TryCatchBlock implements TryBlock {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Collection<CatchBlock> getCatchBlocks() {
+    public List<CatchBlock> getCatchBlocks() {
         return catchBlocks;
     }
 

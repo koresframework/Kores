@@ -105,7 +105,7 @@ public class CodeAPITestBytecode {
         CodeMethod codeMethod = CodeMethodBuilder.builder()
                 .withName("println")
                 // Add parameter 'Object msg'
-                .withParameters(Collections.singleton(new CodeParameter("msg", Helper.getJavaType(Object.class))))
+                .withParameters(Collections.singletonList(new CodeParameter("msg", Helper.getJavaType(Object.class))))
                 // Add 'public static' modifier
                 .withModifiers(Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC))
                 // Set 'void' return type

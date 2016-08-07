@@ -552,22 +552,22 @@ public final class Helper {
         return simpleStaticBlock;
     }
 
-    public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks) {
+    public static TryCatchBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks) {
 
         return new TryCatchBlock(null, catchBlocks, sourceOf(toSurround));
     }
 
-    public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks) {
+    public static TryCatchBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks) {
 
         return new TryCatchBlock(null, catchBlocks, toSurround);
     }
 
-    public static TryCatchBlock surround(CodePart toSurround, Collection<CatchBlock> catchBlocks, CodeSource finallyBlock) {
+    public static TryCatchBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
 
         return new TryCatchBlock(null, catchBlocks, sourceOf(toSurround), finallyBlock);
     }
 
-    public static TryCatchBlock surround(CodeSource toSurround, Collection<CatchBlock> catchBlocks, CodeSource finallyBlock) {
+    public static TryCatchBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
 
         return new TryCatchBlock(null, catchBlocks, toSurround, finallyBlock);
     }
@@ -580,7 +580,7 @@ public final class Helper {
         return new TryCatchBlock(expression, new CodeSource());
     }
 
-    public static TryBlock tryCatchBlock(CodePart expression, Collection<CatchBlock> catchBlocks) {
+    public static TryBlock tryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks) {
         return new TryCatchBlock(expression, catchBlocks, new CodeSource());
     }
     /*

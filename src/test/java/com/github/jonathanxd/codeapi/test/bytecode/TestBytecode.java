@@ -174,7 +174,7 @@ public class TestBytecode {
         CodeSource methodSource = new CodeSource();
 
         CodeMethod codeMethod = new CodeMethod("printIt", Collections.singletonList(CodeModifier.PUBLIC),
-                Collections.singleton(new CodeParameter("n", Helper.getJavaType(Object.class))),
+                Collections.singletonList(new CodeParameter("n", Helper.getJavaType(Object.class))),
                 Helper.getJavaType(Void.TYPE), methodSource);
 
         methodSource.add(Helper.ifExpression(Helper.createIfVal().add1(

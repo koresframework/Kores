@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,17 +49,17 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
 
     private final CodeType superType;
 
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
         super(qualifiedName, modifiers, implementations, signature, body);
         this.superType = superType;
     }
 
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, CodeSource body) {
         super(qualifiedName, modifiers, implementations, body);
         this.superType = superType;
     }
 
-    public CodeClass(String qualifiedName, CodeType superType, Collection<CodeType> implementations, CodeSource body) {
+    public CodeClass(String qualifiedName, CodeType superType, List<CodeType> implementations, CodeSource body) {
         this(qualifiedName, null, superType, implementations, body);
     }
 
