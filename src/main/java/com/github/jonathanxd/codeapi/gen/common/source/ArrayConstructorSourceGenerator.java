@@ -64,7 +64,7 @@ public class ArrayConstructorSourceGenerator implements Generator<ArrayConstruct
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         values.add(TargetValue.create(Keyword.class, Keywords.NEW, parents));
-        values.add(TargetValue.create(CodeType.class, arrayConstructor.getArrayType(), parents));
+        values.add(TargetValue.create(CodeType.class, arrayConstructor.getArrayType().getArrayBaseComponent(), parents));
 
         boolean generateSizes = arrayConstructor.getArguments().isEmpty();
 

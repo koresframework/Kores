@@ -93,6 +93,10 @@ class CodeTypeArray implements CodeType {
         return name + sb.toString();
     }
 
+    public CodeType getComponent() {
+        return component;
+    }
+
     @Override
     public boolean isArray() {
         return true;

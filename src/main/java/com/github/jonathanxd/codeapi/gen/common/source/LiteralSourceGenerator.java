@@ -56,6 +56,8 @@ public class LiteralSourceGenerator implements Generator<Literal, String, PlainS
 
         if(literal instanceof Literals.LongLiteral) {
             values.add(ValueImpl.create(literal.getName()+"L"));
+        } else if(literal instanceof Literals.ClassLiteral) {
+            values.add(ValueImpl.create(literal.getName()+".class"));
         } else {
             values.add(ValueImpl.create(literal.getName()));
         }

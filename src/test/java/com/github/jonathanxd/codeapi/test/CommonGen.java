@@ -72,8 +72,9 @@ public class CommonGen {
                         new CodeField("array", PredefinedTypes.STRING.toArray(2),
                                 Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
                                         argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values), PredefinedTypes.STRING.toArray(1)),
-                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1))
+                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1)),
                                 })),
+                        new CodeField("array2", PredefinedTypes.STRING.toArray(3), Helper.invokeArrayConstructor(PredefinedTypes.STRING.toArray(3), new CodePart[]{INT(0), INT(0), INT(0)}, new CodeArgument[]{})),
                         Predefined.invokePrintln(new CodeArgument(Helper.accessArrayValue(
                                 Helper.accessArrayValue(Helper.accessLocalVariable("array",
                                         PredefinedTypes.STRING.toArray(2)),

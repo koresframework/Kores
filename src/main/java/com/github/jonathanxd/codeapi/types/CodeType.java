@@ -94,4 +94,12 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return null;
     }
 
+    default CodeType getArrayBaseComponent() {
+        if(this instanceof CodeTypeArray) {
+            return ((CodeTypeArray) this).getComponent();
+        }
+
+        return this;
+    }
+
 }

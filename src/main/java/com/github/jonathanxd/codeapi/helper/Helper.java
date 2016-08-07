@@ -84,7 +84,7 @@ import java.util.List;
  */
 public final class Helper {
 
-    private final static WeakValueHashMap<Class<?>, LoadedCodeType<?>> CODE_TYPES_CACHE = new WeakValueHashMap<>();
+    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
     private static final None NONE = new None();
 
@@ -370,8 +370,11 @@ public final class Helper {
     @SuppressWarnings("unchecked")
     public static <T> LoadedCodeType<T> getJavaType(Class<T> aClass) {
 
+        if(aClass.isArray())
+            throw new UnsupportedOperationException("Cannot get LoadedCodeType from Array Type. Please use getJavaArrayType instead.");
+
         if (CODE_TYPES_CACHE.containsKey(aClass)) {
-            LoadedCodeType<?> codeType = CODE_TYPES_CACHE.get(aClass);
+            LoadedCodeType<?> codeType = (LoadedCodeType<?>) CODE_TYPES_CACHE.get(aClass);
 
             if (codeType != null)
                 return (LoadedCodeType<T>) codeType;
@@ -385,9 +388,41 @@ public final class Helper {
 
     }
 
+    public static CodeType getJavaArrayType(Class<?> aClass) {
+
+        if (CODE_TYPES_CACHE.containsKey(aClass)) {
+            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
+
+            if (codeType != null)
+                return codeType;
+        }
+
+        CodeType type = new JavaType<>(aClass);
+
+        if(aClass.isArray()) {
+            Class<?> component = aClass;
+
+            int dimensions = 0;
+
+            do {
+                ++ dimensions;
+            }while ((component = component.getComponentType()).isArray());
+
+            type = new JavaType<>(component).toArray(dimensions);
+        }
+
+        CODE_TYPES_CACHE.put(aClass, type);
+
+        return type;
+
+    }
+
+    public static CodeType[] getJavaArrayTypes(Class<?>[] classes) {
+        return Arrays.stream(classes).map(Helper::getJavaArrayType).toArray(CodeType[]::new);
+    }
+
     @SuppressWarnings("unchecked")
     public static LoadedCodeType<?>[] getJavaTypes(Class<?>[] aClass) {
-
         return Arrays.stream(aClass).map(Helper::getJavaType).toArray(LoadedCodeType[]::new);
 
     }
