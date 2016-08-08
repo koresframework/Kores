@@ -27,9 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+
 /**
  * Created by jonathan on 08/08/16.
  */
+@GenerateTo(CodeType.class)
 class LoadedArrayCodeType<T> extends CodeTypeArray implements LoadedCodeType<T> {
     private final Class<T> loadedType;
 
