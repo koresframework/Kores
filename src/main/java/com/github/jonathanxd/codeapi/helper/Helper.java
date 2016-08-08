@@ -371,7 +371,7 @@ public final class Helper {
     public static <T> LoadedCodeType<T> getJavaType(Class<T> aClass) {
 
         if(aClass.isArray())
-            throw new UnsupportedOperationException("Cannot get LoadedCodeType from Array Type. Please use getJavaArrayType instead.");
+            return getJavaType0(aClass);
 
         if (CODE_TYPES_CACHE.containsKey(aClass)) {
             LoadedCodeType<?> codeType = (LoadedCodeType<?>) CODE_TYPES_CACHE.get(aClass);
@@ -385,6 +385,36 @@ public final class Helper {
         CODE_TYPES_CACHE.put(aClass, javaType);
 
         return javaType;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> LoadedCodeType<T> getJavaType0(Class<T> aClass) {
+
+        if (CODE_TYPES_CACHE.containsKey(aClass)) {
+            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
+
+            if (codeType != null)
+                return (LoadedCodeType<T>) codeType;
+        }
+
+        LoadedCodeType<T> type = new JavaType<>(aClass);
+
+        if(aClass.isArray()) {
+            Class<?> component = aClass;
+
+            int dimensions = 0;
+
+            do {
+                ++ dimensions;
+            }while ((component = component.getComponentType()).isArray());
+
+            type = new JavaType<>((Class<T>) component).toLoadedArray(aClass, dimensions);
+        }
+
+        CODE_TYPES_CACHE.put(aClass, type);
+
+        return type;
 
     }
 
