@@ -422,35 +422,6 @@ public final class Helper {
         return Helper.getJavaType0(aClass);
     }
 
-    private static CodeType getJavaArrayType1(Class<?> aClass) {
-
-        if (CODE_TYPES_CACHE.containsKey(aClass)) {
-            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
-
-            if (codeType != null)
-                return codeType;
-        }
-
-        CodeType type = new JavaType<>(aClass);
-
-        if(aClass.isArray()) {
-            Class<?> component = aClass;
-
-            int dimensions = 0;
-
-            do {
-                ++ dimensions;
-            }while ((component = component.getComponentType()).isArray());
-
-            type = new JavaType<>(component).toArray(dimensions);
-        }
-
-        CODE_TYPES_CACHE.put(aClass, type);
-
-        return type;
-
-    }
-
     public static CodeType[] getJavaArrayTypes(Class<?>[] classes) {
         return Arrays.stream(classes).map(Helper::getJavaArrayType).toArray(CodeType[]::new);
     }
