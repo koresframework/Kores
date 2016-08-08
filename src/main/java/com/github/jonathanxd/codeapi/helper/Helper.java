@@ -374,9 +374,9 @@ public final class Helper {
             return getJavaType0(aClass);
 
         if (CODE_TYPES_CACHE.containsKey(aClass)) {
-            LoadedCodeType<?> codeType = (LoadedCodeType<?>) CODE_TYPES_CACHE.get(aClass);
+            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
 
-            if (codeType != null)
+            if (codeType != null && codeType instanceof LoadedCodeType)
                 return (LoadedCodeType<T>) codeType;
         }
 
@@ -394,7 +394,7 @@ public final class Helper {
         if (CODE_TYPES_CACHE.containsKey(aClass)) {
             CodeType codeType = CODE_TYPES_CACHE.get(aClass);
 
-            if (codeType != null)
+            if (codeType != null && codeType instanceof LoadedCodeType)
                 return (LoadedCodeType<T>) codeType;
         }
 
@@ -419,6 +419,10 @@ public final class Helper {
     }
 
     public static CodeType getJavaArrayType(Class<?> aClass) {
+        return Helper.getJavaType0(aClass);
+    }
+
+    private static CodeType getJavaArrayType1(Class<?> aClass) {
 
         if (CODE_TYPES_CACHE.containsKey(aClass)) {
             CodeType codeType = CODE_TYPES_CACHE.get(aClass);
