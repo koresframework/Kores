@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
-import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
@@ -38,7 +37,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -61,7 +60,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
 
     @Override
     public Byte[] visit(VariableStore variableStore,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -154,7 +153,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
     @Override
     public void endVisit(Byte[] r,
                          VariableStore variableStore,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

@@ -33,10 +33,9 @@ import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
@@ -59,7 +58,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     public static final GenericRepresentation<StaticBlock> STATIC_BLOCKS =
             GenericRepresentation.a(StaticBlock.class).setUnique(true).build();
 
-    public static void generate(Data extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, InterfaceDeclaration codeInterface) {
+    public static void generate(MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, InterfaceDeclaration codeInterface) {
 
         MethodVisitor mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
 
@@ -105,7 +104,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     }
 
     @Override
-    public Byte[] visit(StaticBlock staticBlock, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(StaticBlock staticBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         extraData.registerData(STATIC_BLOCKS, staticBlock);
 
@@ -113,7 +112,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     }
 
     @Override
-    public void endVisit(Byte[] r, StaticBlock staticBlock, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, StaticBlock staticBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 

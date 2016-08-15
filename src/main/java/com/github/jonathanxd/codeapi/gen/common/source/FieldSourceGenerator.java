@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class FieldSourceGenerator implements Generator<FieldDeclaration, String,
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(FieldDeclaration codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(FieldDeclaration codeField, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Collections.singletonList(
                 TargetValue.create(Modifierable.class, codeField, parents)

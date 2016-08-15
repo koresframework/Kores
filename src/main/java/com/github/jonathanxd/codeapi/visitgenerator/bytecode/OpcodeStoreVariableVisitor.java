@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -51,7 +51,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
     public static final OpcodeStoreVariableVisitor INSTANCE = new OpcodeStoreVariableVisitor();
 
     public static void visit(VariableStore variableStore,
-                             Data extraData,
+                             MapData extraData,
                              Navigator<CodePart> navigator,
                              VisitorGenerator<Byte> visitorGenerator,
                              MVData mvData) {

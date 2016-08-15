@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -46,7 +46,7 @@ public class ValueImpl<TARGET, C extends AbstractGenerator<TARGET, C>> implement
 
     @SuppressWarnings("unchecked")
     @Override
-    public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data) {
+    public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, MapData data) {
         appender.add(this.getValue());
     }
 

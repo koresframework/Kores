@@ -25,36 +25,49 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
-
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.codeapi.util.Parent;
-
-import java.util.Collections;
-import java.util.List;
+package com.github.jonathanxd.codeapi.util;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 15/08/16.
  */
-public class CodeTypeSourceGenerator implements Generator<CodeType, String, PlainSourceGenerator> {
+public class Ident {
 
-    public static final CodeTypeSourceGenerator INSTANCE = new CodeTypeSourceGenerator();
+    private final int indentationSize;
+    private int ident = 0;
 
-    private CodeTypeSourceGenerator() {
+    public Ident(int indentationSize) {
+        this.indentationSize = indentationSize;
     }
 
-    @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(CodeType codeType, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-
-        return Collections.singletonList(
-                ValueImpl.create(codeType.getCanonicalName())
-        );
+    public void addIdent() {
+        this.addIdent(1);
     }
 
+    public void addIdent(int amount) {
+        if(amount < 0) {
+            throw new IllegalArgumentException("Negative value!");
+        }
+        this.ident += indentationSize * amount;
+    }
+
+    public void removeIdent() {
+        this.removeIdent(1);
+    }
+
+    public void removeIdent(int amount) {
+        if(amount < 0) {
+            throw new IllegalArgumentException("Negative value!");
+        }
+        this.ident -= indentationSize * amount;
+    }
+
+    public String getIdentString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < this.ident; i++) {
+            sb.append(' ');
+        }
+
+        return sb.toString();
+    }
 }

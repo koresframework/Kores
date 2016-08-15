@@ -30,21 +30,18 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
-import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
@@ -72,7 +69,7 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
     @Override
     public Byte[] visit(InterfaceDeclaration codeInterface,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         Object additional) {
@@ -153,7 +150,7 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
     @Override
     public void endVisit(Byte[] r,
                          InterfaceDeclaration codeInterface,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {

@@ -34,15 +34,12 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +53,7 @@ public class VariableOperateSourceGenerator implements Generator<VariableOperate
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(VariableOperate operate, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableOperate operate, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

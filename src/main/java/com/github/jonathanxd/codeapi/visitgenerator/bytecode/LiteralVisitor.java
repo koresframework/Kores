@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -47,7 +47,7 @@ public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
 
     @Override
     public Byte[] visit(Literal literal,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -64,7 +64,7 @@ public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
     @Override
     public void endVisit(Byte[] r,
                          Literal literal,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

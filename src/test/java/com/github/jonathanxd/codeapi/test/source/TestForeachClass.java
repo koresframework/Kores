@@ -45,14 +45,19 @@ public class TestForeachClass {
     @Test
     public void genericClass() {
         Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEach_.$();
-        CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; " +
-                "public class ForEach { " +
-                "public ForEach ( java.util.List < java.lang.String > strList ) { " +
-                "for (  java.lang.String str : strList ) { " +
-                "java.lang.System . out . println ( str ) ; " +
-                "} " +
-                "} " +
-                "}");
+        CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; \n" +
+                "public class ForEach { \n" +
+                "    public ForEach ( java.util.List < java.lang.String > strList ) { \n" +
+                "        for (  java.lang.String str : strList ) { \n" +
+                "            java.lang.System . out . println ( str ) ; \n" +
+                "             \n" +
+                "        } \n" +
+                "        \n" +
+                "         \n" +
+                "    } \n" +
+                "    \n" +
+                "     \n" +
+                "} \n\n");
     }
 
 }

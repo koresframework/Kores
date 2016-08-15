@@ -153,7 +153,7 @@ public class CodeAPITest {
         CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))));
 
         // Add body to method source
-        methodSource.add(Helper.sourceOf(surround));
+        methodSource.add(surround);
 
         return codeMethod;
     }

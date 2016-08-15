@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.Options;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.StringJoiner;
 
@@ -40,8 +40,8 @@ public class StringVisitGenerator extends VisitorGenerator<String> {
     private final Options options = new Options();
 
     @Override
-    protected Data makeData() {
-        return new Data();
+    protected MapData makeData() {
+        return new MapData();
     }
 
     @Override

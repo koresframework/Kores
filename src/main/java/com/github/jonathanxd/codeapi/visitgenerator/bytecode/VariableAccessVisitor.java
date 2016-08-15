@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -56,7 +56,7 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
 
     @Override
     public Byte[] visit(VariableAccess variableAccess,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -128,7 +128,7 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
     @Override
     public void endVisit(Byte[] r,
                          VariableAccess variableAccess,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

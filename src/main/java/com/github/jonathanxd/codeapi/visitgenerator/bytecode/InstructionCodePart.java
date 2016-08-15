@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 /**
@@ -38,13 +38,13 @@ import com.github.jonathanxd.iutils.iterator.Navigator;
  */
 @FunctionalInterface
 public interface InstructionCodePart extends CodePart {
-    void apply(Object value, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, Object additional);
+    void apply(Object value, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, Object additional);
 
 
     class InstructionCodePartVisitor implements Visitor<InstructionCodePart, Byte, Object> {
 
         @Override
-        public Byte[] visit(InstructionCodePart instructionCodePart, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+        public Byte[] visit(InstructionCodePart instructionCodePart, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
             instructionCodePart.apply(instructionCodePart, extraData, navigator, visitorGenerator, additional);
 
@@ -52,7 +52,7 @@ public interface InstructionCodePart extends CodePart {
         }
 
         @Override
-        public void endVisit(Byte[] r, InstructionCodePart instructionCodePart, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+        public void endVisit(Byte[] r, InstructionCodePart instructionCodePart, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         }
     }

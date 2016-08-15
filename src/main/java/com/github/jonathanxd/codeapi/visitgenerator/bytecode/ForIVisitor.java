@@ -32,10 +32,9 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -52,7 +51,7 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
 
     @Override
     public Byte[] visit(ForBlock forBlock,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -87,7 +86,7 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
     @Override
     public void endVisit(Byte[] r,
                          ForBlock forBlock,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -49,7 +49,7 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
 
     @Override
     public Byte[] visit(WhileBlock whileBlock,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -82,7 +82,7 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
     @Override
     public void endVisit(Byte[] r,
                          WhileBlock whileBlock,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

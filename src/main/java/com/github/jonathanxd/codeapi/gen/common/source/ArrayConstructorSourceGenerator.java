@@ -39,14 +39,13 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -59,7 +58,7 @@ public class ArrayConstructorSourceGenerator implements Generator<ArrayConstruct
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(ArrayConstructor arrayConstructor, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(ArrayConstructor arrayConstructor, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

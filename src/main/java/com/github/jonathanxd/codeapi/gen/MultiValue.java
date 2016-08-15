@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class MultiValue<TARGET, C extends AbstractGenerator<TARGET, C>> implemen
     }
 
     @Override
-    public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data) {
+    public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, MapData data) {
         //println
         for (Value<?, TARGET, C> g : this.getValue()) {
             g.apply(value, generator, appender, codeSourceData, data);

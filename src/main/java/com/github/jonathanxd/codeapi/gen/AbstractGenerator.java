@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.Default;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 
@@ -53,19 +53,19 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     private static final Logger logger = Logger.getLogger("AbstractGenerator");
 
     @SuppressWarnings("unchecked")
-    public static <T, C> void helpApply(Value<?, T, C> value, Object target, Object instance, Appender<T> appender, CodeSourceData codeSourceData, Data processingData) {
+    public static <T, C> void helpApply(Value<?, T, C> value, Object target, Object instance, Appender<T> appender, CodeSourceData codeSourceData, MapData processingData) {
         value.apply((T) target, (C) instance, appender, codeSourceData, processingData);
     }
 
     @SuppressWarnings("unchecked")
-    private static <E, T, C> List<Value<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents, CodeSourceData codeSourceData, Data processingData) {
+    private static <E, T, C> List<Value<?, T, C>> help(Generator<E, T, C> generator, Object target, Object instance, Parent<Generator<?, T, C>> parents, CodeSourceData codeSourceData, MapData processingData) {
         return generator.gen((E) target, (C) instance, parents, codeSourceData, processingData);
     }
 
     @SuppressWarnings("UnnecessaryQualifiedReference")
     @Override
     public synchronized T gen(CodeSource source) {
-        Data processingData = new Data();
+        MapData processingData = new MapData();
 
         Appender<T> appender = createAppender();
 
@@ -98,7 +98,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     public abstract Appender<T> createAppender();
 
     @SuppressWarnings("unchecked")
-    List<Value<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents, CodeSourceData codeSourceData, Data processingData) {
+    List<Value<?, T, C>> generateTo(Class<?> generatorTargetClass, Object target, Parent<Generator<?, T, C>> parents, CodeSourceData codeSourceData, MapData processingData) {
         Map<Class<?>, Generator<?, T, C>> registry = getRegistry();
 
         EntryComparator entryComparator = new EntryComparator(generatorTargetClass);

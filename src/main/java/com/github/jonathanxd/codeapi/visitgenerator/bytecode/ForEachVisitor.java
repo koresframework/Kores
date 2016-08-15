@@ -47,7 +47,7 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
@@ -67,7 +67,7 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
     private int iterFields = 0;
 
     @Override
-    public Byte[] visit(ForEachBlock forEachBlock, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
+    public Byte[] visit(ForEachBlock forEachBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
         FieldDeclaration field = forEachBlock.getField();
 
@@ -143,7 +143,7 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
     }
 
     @Override
-    public void endVisit(Byte[] r, ForEachBlock forEachBlock, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
+    public void endVisit(Byte[] r, ForEachBlock forEachBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
     }
 }

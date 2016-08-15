@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.iutils.iterator.Navigator;
@@ -57,7 +57,7 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
     @Override
     public Byte[] visit(VariableOperate variableOperate,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -141,7 +141,7 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
         return new Byte[0];
     }
 
-    private void operateVisit(VariableOperate variableOperate, Operator operation, Data extraData, Navigator<CodePart> navigator, Object o, MVData mvData) {
+    private void operateVisit(VariableOperate variableOperate, Operator operation, MapData extraData, Navigator<CodePart> navigator, Object o, MVData mvData) {
         CodeType variableType = variableOperate.getVariableType();
 
 
@@ -171,7 +171,7 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
     @Override
     public void endVisit(Byte[] r,
                          VariableOperate operate,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

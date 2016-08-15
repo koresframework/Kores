@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
@@ -57,7 +57,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
     @Override
     public Byte[] visit(MethodInvocation methodInvocation,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -167,7 +167,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
     @Override
     public void endVisit(Byte[] r,
                          MethodInvocation methodInvocation,
-                         Data extraData, Navigator<CodePart> navigator,
+                         MapData extraData, Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

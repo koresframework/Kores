@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class VariableStoreSourceGenerator implements Generator<VariableStore, St
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(VariableStore variableStore, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableStore variableStore, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         if (variableStore.getLocalization() != null && !(variableStore.getAt() instanceof AccessLocal)) {

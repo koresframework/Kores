@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -56,7 +56,7 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
 
     @Override
     public Byte[] visit(ThrowException e,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -84,7 +84,7 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
     @Override
     public void endVisit(Byte[] r,
                          ThrowException e,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -49,7 +49,7 @@ public class AccessVisitor implements Visitor<Access, Byte, MVData>, Opcodes {
 
     @Override
     public Byte[] visit(Access access,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -76,7 +76,7 @@ public class AccessVisitor implements Visitor<Access, Byte, MVData>, Opcodes {
     @Override
     public void endVisit(Byte[] r,
                          Access access,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

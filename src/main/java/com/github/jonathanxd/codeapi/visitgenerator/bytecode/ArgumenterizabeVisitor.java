@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -48,7 +48,7 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
 
     @Override
     public Byte[] visit(Argumenterizable argumenterizable,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -93,7 +93,7 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
     @Override
     public void endVisit(Byte[] r,
                          Argumenterizable argumenterizable,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

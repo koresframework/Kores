@@ -35,8 +35,6 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
@@ -45,7 +43,7 @@ import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Variable;
 
 import org.objectweb.asm.MethodVisitor;
@@ -339,7 +337,7 @@ public class Common {
         return asm;
     }
 
-    public static String getClassName(InterfaceDeclaration class_, Data data) {
+    public static String getClassName(InterfaceDeclaration class_, MapData data) {
         return class_.getType().replace('.', '/');
     }
     /*

@@ -42,7 +42,7 @@ import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class InterfaceSourceGenerator implements Generator<InterfaceDeclaration,
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(InterfaceDeclaration codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(InterfaceDeclaration codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
                 TargetValue.create(Modifierable.class, codeInterface, parents),

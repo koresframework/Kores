@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 
 /**
  * Created by jonathan on 07/05/16.
@@ -35,5 +35,5 @@ import com.github.jonathanxd.codeapi.util.Data;
 public interface Value<T, TARGET, C> {
     T getValue();
 
-    void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, Data data);
+    void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, MapData data);
 }

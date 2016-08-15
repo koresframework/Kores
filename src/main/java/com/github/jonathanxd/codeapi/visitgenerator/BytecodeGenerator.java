@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Options;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
@@ -60,7 +59,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArgumenterizabeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayAccessVisitor;
@@ -93,7 +92,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.WhileVisitor;
 import com.github.jonathanxd.iutils.arrays.JwArray;
-import com.github.jonathanxd.iutils.containers.ImmutableContainer;
 import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
 
@@ -151,8 +149,8 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
     }
 
     @Override
-    protected Data makeData() {
-        Data data = new Data();
+    protected MapData makeData() {
+        MapData data = new MapData();
 
         data.registerData(SOURCE_FILE_FUNCTION, sourceFile);
 

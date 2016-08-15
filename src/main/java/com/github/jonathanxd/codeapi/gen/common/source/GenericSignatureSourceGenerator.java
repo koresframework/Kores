@@ -29,22 +29,17 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.MultiValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -57,7 +52,7 @@ public class GenericSignatureSourceGenerator implements Generator<GenericSignatu
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(GenericSignature<? extends GenericType> genericSignature, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(GenericSignature<? extends GenericType> genericSignature, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

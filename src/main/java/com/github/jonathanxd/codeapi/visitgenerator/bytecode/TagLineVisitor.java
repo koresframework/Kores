@@ -29,13 +29,8 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.exceptions.TODOException;
-import com.github.jonathanxd.codeapi.interfaces.Access;
-import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
-import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
-import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -52,7 +47,7 @@ public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opc
 
     @Override
     public Byte[] visit(TagLine<?, ?> tagLine,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -82,7 +77,7 @@ public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opc
     @Override
     public void endVisit(Byte[] r,
                          TagLine<?, ?> tagLine,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

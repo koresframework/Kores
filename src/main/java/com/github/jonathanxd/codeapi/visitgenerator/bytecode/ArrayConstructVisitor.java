@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
@@ -52,7 +52,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
     public static final ArrayConstructVisitor INSTANCE = new ArrayConstructVisitor();
 
     @Override
-    public Byte[] visit(ArrayConstructor arrayConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
+    public Byte[] visit(ArrayConstructor arrayConstructor, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
@@ -98,7 +98,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
     }
 
     @Override
-    public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
+    public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
     }
 

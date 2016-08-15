@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -45,7 +45,7 @@ public class OperatorVisitor implements Visitor<Operator, Byte, MVData>, Opcodes
 
     @Override
     public Byte[] visit(Operator operator,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -59,7 +59,7 @@ public class OperatorVisitor implements Visitor<Operator, Byte, MVData>, Opcodes
     @Override
     public void endVisit(Byte[] r,
                          Operator operator,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

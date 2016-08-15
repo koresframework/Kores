@@ -28,14 +28,14 @@
 package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 /**
  * Created by jonathan on 03/06/16.
  */
 public interface Visitor<T extends CodePart, R, L> {
-    R[] visit(T t, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional);
+    R[] visit(T t, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional);
 
-    void endVisit(R[] r, T t, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional);
+    void endVisit(R[] r, T t, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional);
 }

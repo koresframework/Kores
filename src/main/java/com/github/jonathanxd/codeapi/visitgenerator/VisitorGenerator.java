@@ -33,8 +33,7 @@ import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.util.Data;
-import com.github.jonathanxd.iutils.containers.ImmutableContainer;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
 import com.github.jonathanxd.iutils.object.GenericRepresentation;
@@ -73,12 +72,12 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
         visitors.put(cClass, ctVisitor);
     }
 
-    protected abstract Data makeData();
+    protected abstract MapData makeData();
 
     @Override
     public Result<T[]> gen(CodeSource source) {
 
-        Data extraData = makeData();
+        MapData extraData = makeData();
 
         Appender<T> appender = createAppender();
 
@@ -108,7 +107,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
     public abstract Appender<T> createAppender();
 
-    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, Data extraData, Navigator<CodePart> nav, Consumer<T[]> consumer, Object additional) {
+    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Consumer<T[]> consumer, Object additional) {
         try {
             Visitor<?, T, ?> tVisitor = get(partClass);
 
@@ -127,12 +126,12 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private <L extends CodePart, D> T[] visit(Visitor<L, T, D> visitor, Object value, Data extraData, Navigator<CodePart> tNavigator, Object additional) {
+    private <L extends CodePart, D> T[] visit(Visitor<L, T, D> visitor, Object value, MapData extraData, Navigator<CodePart> tNavigator, Object additional) {
         return visitor.visit((L) value, extraData, tNavigator, this, (D) additional);
     }
 
     @SuppressWarnings("unchecked")
-    private <L extends CodePart, D> void endVisit(Visitor<L, T, D> visitor, T[] results, Object value, Data extraData, Navigator<CodePart> tNavigator, Object additional) {
+    private <L extends CodePart, D> void endVisit(Visitor<L, T, D> visitor, T[] results, Object value, MapData extraData, Navigator<CodePart> tNavigator, Object additional) {
         visitor.endVisit(results, (L) value, extraData, tNavigator, this, (D) additional);
     }
 

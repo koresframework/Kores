@@ -29,25 +29,19 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
-import java.util.Collections;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -56,7 +50,7 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
 
     @Override
     public Byte[] visit(Casted casted,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -93,13 +87,10 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
         return new Byte[0];
     }
 
-    //
-    // http://prntscr.com/bzx6kw/direct
-
     @Override
     public void endVisit(Byte[] r,
                          Casted casted,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

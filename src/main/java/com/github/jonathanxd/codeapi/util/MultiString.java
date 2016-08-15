@@ -27,16 +27,47 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 15/08/16.
  */
-public class Lambda {
+public class MultiString {
 
-    public static <T, E> boolean testCast(T t, Class<E> e, Predicate<E> element) {
-        return e.isAssignableFrom(t.getClass()) && element.test(e.cast(t));
+    private final List<String> strings = new ArrayList<>();
+    private final String delimiter;
+    private final Function<String, String> preparer;
+    private int line = 0;
 
+    public MultiString(String delimiter, Function<String, String> preparer) {
+        this.delimiter = delimiter;
+        this.preparer = preparer;
     }
 
+    public void add(String str) {
+        this.add(str, true);
+    }
+
+    private void add(String str, boolean appendDelimiter) {
+        if (strings.size() <= line) {
+            this.strings.add("");
+            str = preparer.apply(str);
+        }
+
+        String get = strings.get(line);
+        strings.set(line, get + str + (appendDelimiter? delimiter : ""));
+    }
+
+    public void newLine() {
+        this.add("\n", false);
+        line += 1;
+    }
+
+    @Override
+    public String toString() {
+        return strings.stream().collect(Collectors.joining());
+    }
 }

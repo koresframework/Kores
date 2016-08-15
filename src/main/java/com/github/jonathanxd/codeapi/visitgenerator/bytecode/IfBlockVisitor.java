@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
@@ -48,7 +48,7 @@ public class IfBlockVisitor implements Visitor<IfBlock, Byte, MVData>, Opcodes {
 
     @Override
     public Byte[] visit(IfBlock ifBlock,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -71,7 +71,7 @@ public class IfBlockVisitor implements Visitor<IfBlock, Byte, MVData>, Opcodes {
     @Override
     public void endVisit(Byte[] r,
                          IfBlock ifBlock,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

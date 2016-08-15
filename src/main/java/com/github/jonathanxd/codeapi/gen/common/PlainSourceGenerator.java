@@ -86,8 +86,6 @@ import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
@@ -134,10 +132,11 @@ import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.Ident;
+import com.github.jonathanxd.codeapi.util.MultiString;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -222,7 +221,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
     @Override
     public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
+        return new MultiStringAppender(" ");
     }
 
     @Override
@@ -230,21 +229,48 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         return registry;
     }
 
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
+    private static final class MultiStringAppender extends Appender<String> {
+        private final Ident indentation = new Ident(4);
+        private final MultiString multiString;
 
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
+        MultiStringAppender(String delimiter) {
+            this.multiString = new MultiString(delimiter, s -> indentation.getIdentString() + s);
         }
 
         @Override
         public void add(String elem) {
-            this.join.add(elem);
+
+            boolean endsWithSemi = elem.endsWith(";");
+            boolean endsWithOpenBr = elem.endsWith("{");
+            boolean endsWithCloseBr = elem.endsWith("}");
+
+            if (endsWithCloseBr) {
+                elem = elem.substring(0, elem.length() - 1);
+            }
+
+            this.multiString.add(elem);
+
+            if (endsWithSemi
+                    || endsWithOpenBr
+                    || endsWithCloseBr) {
+                this.multiString.newLine();
+            }
+
+            if (endsWithOpenBr) {
+                this.indentation.addIdent();
+            }
+
+            if (endsWithCloseBr) {
+                this.indentation.removeIdent();
+                this.multiString.add("}");
+                this.multiString.newLine();
+                this.multiString.newLine();
+            }
         }
 
         @Override
         public String get() {
-            return this.join.toString();
+            return this.multiString.toString();
         }
     }
 }

@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.visitgenerator.Appender;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 /**
@@ -43,7 +43,7 @@ public class CodeSourceVisitor implements Visitor<CodeSource, Byte, Object> {
     public static final CodeSourceVisitor INSTANCE = new CodeSourceVisitor();
 
     @Override
-    public Byte[] visit(CodeSource codeSource, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(CodeSource codeSource, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         Appender<Byte> appender = visitorGenerator.createAppender();
 
@@ -65,7 +65,7 @@ public class CodeSourceVisitor implements Visitor<CodeSource, Byte, Object> {
     }
 
     @Override
-    public void endVisit(Byte[] r, CodeSource codeSource, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, CodeSource codeSource, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

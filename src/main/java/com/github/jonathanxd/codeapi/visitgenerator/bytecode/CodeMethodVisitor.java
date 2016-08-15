@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
@@ -45,7 +44,7 @@ import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
@@ -70,7 +69,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
     public static final CodeMethodVisitor INSTANCE = new CodeMethodVisitor();
 
-    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, InterfaceDeclaration codeInterface, MethodVisitor mv, Data extraData, Navigator<CodePart> navigator, MVData mvData) {
+    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, InterfaceDeclaration codeInterface, MethodVisitor mv, MapData extraData, Navigator<CodePart> navigator, MVData mvData) {
 
         if (searchInitThis(codeInterface, methodBody)) {
             // Calling this() will redirect to a constructor that initialize variables
@@ -96,7 +95,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         }
     }
 
-    public static CodeSource finalFieldsToSource(Data extraData) {
+    public static CodeSource finalFieldsToSource(MapData extraData) {
         CodeSource codeSource = new CodeSource();
         /**
          * Declare variables
@@ -179,7 +178,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
     }
 
     @Override
-    public Byte[] visit(MethodDeclaration codeMethod, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(MethodDeclaration codeMethod, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
 
@@ -289,7 +288,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
     }
 
     @Override
-    public void endVisit(Byte[] r, MethodDeclaration codeMethod, Data extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, MethodDeclaration codeMethod, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

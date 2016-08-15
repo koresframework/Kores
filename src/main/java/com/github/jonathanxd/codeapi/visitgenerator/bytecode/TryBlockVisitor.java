@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -54,7 +54,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
     @Override
     public Byte[] visit(TryBlock tryBlock,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -173,7 +173,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
     @Override
     public void endVisit(Byte[] r,
                          TryBlock tryBlock,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {

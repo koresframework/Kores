@@ -27,12 +27,10 @@
  */
 package com.github.jonathanxd.codeapi;
 
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.construct.CannotFindPropertyException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,9 +41,9 @@ import java.util.List;
 public class Result<OUT> {
 
     private final OUT result;
-    private final Data data;
+    private final MapData data;
 
-    public Result(OUT result, Data data) {
+    public Result(OUT result, MapData data) {
         this.result = result;
         this.data = data;
     }
@@ -54,7 +52,7 @@ public class Result<OUT> {
         return result;
     }
 
-    public Data getData() {
+    public MapData getData() {
         return data;
     }
 

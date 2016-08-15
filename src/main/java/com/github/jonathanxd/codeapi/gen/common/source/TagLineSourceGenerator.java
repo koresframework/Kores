@@ -32,14 +32,11 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,7 +51,7 @@ public class TagLineSourceGenerator implements Generator<TagLine<?, ?>, String, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(TagLine<?, ?> tagLine, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(TagLine<?, ?> tagLine, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         CodePart part = tagLine.getValue();
 

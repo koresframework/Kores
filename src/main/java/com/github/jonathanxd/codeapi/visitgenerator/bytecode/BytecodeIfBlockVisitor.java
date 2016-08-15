@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.string.JString;
@@ -61,7 +61,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                              Label outOfIfLabel,
                              boolean revert,
                              boolean jumpToStart,
-                             Data extraData,
+                             MapData extraData,
                              Navigator<CodePart> navigator,
                              VisitorGenerator<Byte> visitorGenerator,
                              MVData mvData) {

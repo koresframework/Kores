@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class BodiedSourceGenerator implements Generator<Bodied, String, PlainSou
     private BodiedSourceGenerator() {
     }
 
-    public List<Value<?, String, PlainSourceGenerator>> gen(Bodied bodied, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Bodied bodied, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         CodeSource body = bodied.getBody().orElse(new CodeSource());

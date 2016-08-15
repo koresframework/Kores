@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class GenerifiableSourceGenerator implements Generator<Generifiable, Stri
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Generifiable generifiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Generifiable generifiable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         if(generifiable.getGenericSignature().getTypes().length == 0)
             return Collections.emptyList();
 

@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(IfExpressionable ifExpressionable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, Data data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(IfExpressionable ifExpressionable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 

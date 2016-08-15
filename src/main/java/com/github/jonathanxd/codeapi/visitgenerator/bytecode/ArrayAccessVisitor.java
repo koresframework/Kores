@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
-import com.github.jonathanxd.codeapi.util.Data;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
@@ -47,7 +47,7 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
 
     @Override
     public Byte[] visit(ArrayAccess arrayAccess,
-                        Data extraData,
+                        MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
@@ -68,7 +68,7 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
     @Override
     public void endVisit(Byte[] r,
                          ArrayAccess arrayAccess,
-                         Data extraData,
+                         MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
