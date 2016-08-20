@@ -39,7 +39,22 @@ import java.nio.file.StandardOpenOption;
  */
 public final class ResultSaver {
 
+    public static final boolean IS_DEVELOPMENT_ENVIRONMENT;
+
+    static {
+        String prop = System.getProperty("devenv");
+
+        IS_DEVELOPMENT_ENVIRONMENT = prop != null && prop.equals("true");
+
+        if(IS_DEVELOPMENT_ENVIRONMENT) {
+            System.out.println("Development environment property defined!");
+        }
+    }
+
     public static void save(Class<?> ofClass, byte[] result) {
+        if(!IS_DEVELOPMENT_ENVIRONMENT)
+            return;
+
         try {
             File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_Result.class");
 
