@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.read.BytecodeReader;
+import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
@@ -46,6 +47,9 @@ public class ReadBytecode {
 
     @Test
     public void read() {
+        if(!ResultSaver.IS_DEVELOPMENT_ENVIRONMENT)
+            return;
+
         InputStream resourceAsStream = ReadBytecode.class.getResourceAsStream("/TestBytecode_Invocations_Result.class");
 
         byte[] bytes;
