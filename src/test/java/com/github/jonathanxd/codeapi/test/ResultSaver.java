@@ -52,6 +52,9 @@ public final class ResultSaver {
     }
 
     public static void save(Class<?> ofClass, byte[] result) {
+        if(!IS_DEVELOPMENT_ENVIRONMENT)
+            return;
+
         try {
             File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_Result.class");
 
