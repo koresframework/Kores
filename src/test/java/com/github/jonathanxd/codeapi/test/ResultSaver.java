@@ -42,7 +42,9 @@ public final class ResultSaver {
     public static final boolean IS_DEVELOPMENT_ENVIRONMENT;
 
     static {
-        IS_DEVELOPMENT_ENVIRONMENT = System.getProperty("devenv").equals("true");
+        String prop = System.getProperty("devenv");
+
+        IS_DEVELOPMENT_ENVIRONMENT = prop != null && prop.equals("true");
 
         if(IS_DEVELOPMENT_ENVIRONMENT) {
             System.out.println("Development environment property defined!");
