@@ -76,8 +76,10 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
             visitorGenerator.generateTo(codePart.getClass(), codePart, extraData, navigator, null, mvData);
 
             if(!from.equals(to)) {
-                if (to.isPrimitive())
-                    throw new IllegalArgumentException("Cannot cast to primitive type!");
+                if (to.isPrimitive()) {
+                    Common.convertToPrimitive(from, to, additional);
+                    return new Byte[0];
+                }
 
                 additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(to));
             }

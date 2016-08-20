@@ -43,7 +43,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -61,11 +61,11 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
     public static final InterfaceVisitor INSTANCE = new InterfaceVisitor();
 
-    public static final GenericRepresentation<InterfaceDeclaration> CODE_INTERFACE_REPRESENTATION =
-            GenericRepresentation.a(InterfaceDeclaration.class).setUnique(true).build();
+    public static final TypeInfo<InterfaceDeclaration> CODE_INTERFACE_REPRESENTATION =
+            TypeInfo.a(InterfaceDeclaration.class).setUnique(true).build();
 
-    public static final GenericRepresentation<ClassWriter> CLASS_WRITER_REPRESENTATION =
-            GenericRepresentation.a(ClassWriter.class).setUnique(true).build();
+    public static final TypeInfo<ClassWriter> CLASS_WRITER_REPRESENTATION =
+            TypeInfo.a(ClassWriter.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(InterfaceDeclaration codeInterface,

@@ -29,25 +29,17 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
-
-import java.util.Optional;
 
 /**
  * Created by jonathan on 15/05/16.
  */
 @GenerateTo(StaticBlock.class)
-public class SimpleStaticBlock implements StaticBlock {
-
-    private final CodeSource body;
+public class SimpleStaticBlock extends CodeMethod implements StaticBlock {
 
     public SimpleStaticBlock(CodeSource body) {
-        this.body = body;
-    }
-
-    @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(body);
+        super(StaticBlock.NAME, StaticBlock.MODIFIERS, StaticBlock.PARAMETERS, StaticBlock.RETURN_TYPE, body);
     }
 
 }

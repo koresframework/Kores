@@ -34,11 +34,11 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -50,10 +50,10 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
     public static final FieldVisitor INSTANCE = new FieldVisitor();
 
-    public static final GenericRepresentation<FieldDeclaration> FIELDS_TO_ASSIGN =
-            GenericRepresentation.a(FieldDeclaration.class).setUnique(true).build();
-    public static final GenericRepresentation<FieldDeclaration> STATIC_FIELDS_TO_ASSIGN =
-            GenericRepresentation.a(FieldDeclaration.class).setUnique(true).build();
+    public static final TypeInfo<FieldDeclaration> FIELDS_TO_ASSIGN =
+            TypeInfo.a(FieldDeclaration.class).setUnique(true).build();
+    public static final TypeInfo<FieldDeclaration> STATIC_FIELDS_TO_ASSIGN =
+            TypeInfo.a(FieldDeclaration.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(FieldDeclaration codeField,

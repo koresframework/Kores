@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.object.AbstractTypeInfo;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,12 +51,13 @@ import java.util.function.Predicate;
  */
 public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
-    public static final GenericRepresentation<Appender> APPENDER_REPRESENTATION =
-            GenericRepresentation.of(Appender.class).setUnique(true).build();
-    public static final GenericRepresentation<VisitorGenerator> VISITOR_REPRESENTATION =
-            GenericRepresentation.a(VisitorGenerator.class).setUnique(true).build();
-    public static final GenericRepresentation<TagLine<?, ?>> LINES_REPRESENTATION =
-            new AbstractGenericRepresentation<TagLine<?, ?>>(true) {};
+    public static final TypeInfo<Appender> APPENDER_REPRESENTATION =
+            TypeInfo.of(Appender.class).setUnique(true).build();
+    public static final TypeInfo<VisitorGenerator> VISITOR_REPRESENTATION =
+            TypeInfo.a(VisitorGenerator.class).setUnique(true).build();
+    public static final TypeInfo<TagLine<?, ?>> LINES_REPRESENTATION =
+            new AbstractTypeInfo<TagLine<?, ?>>(true) {
+            };
 
     private final Map<Class<?>, Visitor<?, T, ?>> visitors = new HashMap<>();
 
@@ -117,11 +118,11 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
                 consumer.accept(visit);
 
             endVisit(tVisitor, visit, codePart, extraData, nav, additional);
-        }catch (Throwable t) {
-            if(t instanceof ProcessingException)
+        } catch (Throwable t) {
+            if (t instanceof ProcessingException)
                 throw t;
 
-            throw new ProcessingException("Error while processing type: '"+partClass+"', Part: '"+codePart+"'.", t);
+            throw new ProcessingException("Error while processing type: '" + partClass + "', Part: '" + codePart + "'.", t);
         }
     }
 
@@ -145,7 +146,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
             if (generateTo != null) {
                 return Objects.requireNonNull(visitors.get(generateTo.value()), "Cannot get visitor for class: '" + generateTo.value().getCanonicalName() + "'");
             } else {
-                if(cl.isSynthetic()) {
+                if (cl.isSynthetic()) {
                     Class<?> i = cl.getInterfaces()[0];
                     return Objects.requireNonNull(visitors.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "'");
                 }

@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -50,6 +51,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -242,6 +246,10 @@ public class Common {
 
             mv.visitLdcInsn(name.substring(1, name.length() - 1));
 
+        } else if (num instanceof Literals.ShortLiteral) {
+
+            Common.runForInt(Integer.parseInt(name), mv);
+
         } else if (num instanceof Literals.IntLiteral) {
 
             Common.runForInt(Integer.parseInt(name), mv);
@@ -254,7 +262,7 @@ public class Common {
 
             Common.runForDouble(Double.parseDouble(name), mv);
 
-        } else if (num instanceof Literals.CharLiteral) {
+        } else if (num instanceof Literals.CharLiteral || num instanceof Literals.ByteLiteral) {
 
             mv.visitIntInsn(Opcodes.BIPUSH, name.charAt(0));
 
@@ -648,4 +656,35 @@ public class Common {
 
     }
 
+    private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
+    private static final Random random = new Random();
+
+    public static void convertToPrimitive(CodeType from, CodeType to, MethodVisitor mv) {
+        int opcode = -1;
+
+        if(from.isPrimitive() && to.isPrimitive()) {
+            char fromTypeChar = Character.toUpperCase(from.getType().charAt(0));
+            char toTypeChar = Character.toUpperCase(to.getType().charAt(0));
+
+            System.out.println("from = "+fromTypeChar+" -> "+toTypeChar);
+
+            try {
+                MethodHandle staticGetter = lookup.findStaticGetter(Opcodes.class, fromTypeChar + "2" + toTypeChar, Integer.TYPE);
+                opcode = (int) staticGetter.invoke();
+            } catch (Throwable throwable) {
+                if(throwable instanceof NoSuchFieldException) {
+                    Common.convertToPrimitive(from, PredefinedTypes.INT, mv);
+                    Common.convertToPrimitive(PredefinedTypes.INT, to, mv);
+                    return;
+                }
+            }
+
+
+
+        }
+        if(opcode != -1)
+            mv.visitInsn(opcode);
+        else
+            throw new IllegalArgumentException("Cannot cast '"+from+"' to '"+to+"'!");
+    }
 }

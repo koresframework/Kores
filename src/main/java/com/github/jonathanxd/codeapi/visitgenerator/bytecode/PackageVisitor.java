@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -42,8 +42,8 @@ public class PackageVisitor implements Visitor<PackageDeclaration, Byte, Object>
 
     public static final PackageVisitor INSTANCE = new PackageVisitor();
 
-    public static final GenericRepresentation<PackageDeclaration> PACKAGE_REPRESENTATION =
-            GenericRepresentation.a(PackageDeclaration.class).setUnique(true).build();
+    public static final TypeInfo<PackageDeclaration> PACKAGE_REPRESENTATION =
+            TypeInfo.a(PackageDeclaration.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(PackageDeclaration packageDeclaration,

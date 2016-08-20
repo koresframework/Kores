@@ -37,12 +37,19 @@ import com.github.jonathanxd.codeapi.types.CodeType;
  */
 public final class Literals {
 
+    // NullLiteral
+    public static final Literal NULL = new SimpleLiteral("null", Helper.nullType());
+    // BooleanLiteral
+    public static final Literal TRUE = new BoolLiteral("true");
+    public static final Literal FALSE = new BoolLiteral("false");
+
     public static boolean isPrimitive(CodePart codePart1, CodePart codePart2) {
         return codePart1 instanceof Literal && codePart2 instanceof Literal && isPrimitive((Literal) codePart1, (Literal) codePart2);
     }
 
     /**
      * Return true if {@code literal1} and {@code literal2} is primitive
+     *
      * @param literal1 Literal 1
      * @param literal2 Literal 2
      * @return True if {@code literal1} and {@code literal2} is primitive
@@ -53,14 +60,18 @@ public final class Literals {
                 || literal1 instanceof DoubleLiteral
                 || literal1 instanceof CharLiteral
                 || literal1 instanceof LongLiteral
-                || literal1 instanceof BoolLiteral)
+                || literal1 instanceof BoolLiteral
+                || literal1 instanceof ShortLiteral
+                || literal1 instanceof ByteLiteral)
                 &&
                 (literal2 instanceof IntLiteral
                         || literal2 instanceof FloatLiteral
                         || literal2 instanceof DoubleLiteral
                         || literal2 instanceof CharLiteral
                         || literal2 instanceof LongLiteral
-                        || literal2 instanceof BoolLiteral);
+                        || literal2 instanceof BoolLiteral
+                        || literal2 instanceof ShortLiteral
+                        || literal2 instanceof ByteLiteral);
     }
 
     public static boolean isPrimitive(Literal literal) {
@@ -69,17 +80,22 @@ public final class Literals {
                 || literal instanceof DoubleLiteral
                 || literal instanceof CharLiteral
                 || literal instanceof LongLiteral
-                || literal instanceof BoolLiteral;
+                || literal instanceof BoolLiteral
+                || literal instanceof ByteLiteral
+                || literal instanceof ShortLiteral;
     }
 
-    // NullLiteral
-    public static final Literal NULL = new SimpleLiteral("null", Helper.nullType());
-
-    // BooleanLiteral
-    public static final Literal TRUE = new BoolLiteral("true");
-    public static final Literal FALSE = new BoolLiteral("false");
-
     // Numeric Literals
+
+    // ByteLiteral
+    public static Literal BYTE(byte b) {
+        return new ByteLiteral(String.valueOf(b));
+    }
+
+    // ShortLiteral
+    public static Literal SHORT(short s) {
+        return new ShortLiteral(String.valueOf(s));
+    }
 
     // IntegerLiteral
     public static Literal INT(int i) {
@@ -88,7 +104,8 @@ public final class Literals {
 
     // BooleanLiteral
     public static Literal BOOLEAN(boolean b) {
-        if(b) return TRUE; else return FALSE;
+        if (b) return TRUE;
+        else return FALSE;
     }
 
     // LongLiteral
@@ -149,6 +166,28 @@ public final class Literals {
         ClassLiteral(CodeType codeType) {
             super(codeType.getCanonicalName(), TYPE);
             this.type = codeType;
+        }
+
+    }
+
+    @GenerateTo(Literal.class)
+    public static final class ByteLiteral extends Literal {
+
+        private static final CodeType TYPE = Helper.getJavaType(Integer.TYPE);
+
+        ByteLiteral(String name) {
+            super(name, TYPE);
+        }
+
+    }
+
+    @GenerateTo(Literal.class)
+    public static final class ShortLiteral extends Literal {
+
+        private static final CodeType TYPE = Helper.getJavaType(Integer.TYPE);
+
+        ShortLiteral(String name) {
+            super(name, TYPE);
         }
 
     }

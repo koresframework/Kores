@@ -53,8 +53,10 @@ import static com.github.jonathanxd.codeapi.CodeAPI.method;
 import static com.github.jonathanxd.codeapi.CodeAPI.parameter;
 import static com.github.jonathanxd.codeapi.CodeAPI.returnValue;
 import static com.github.jonathanxd.codeapi.CodeAPI.source;
+import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.BYTE;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.INT;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.INTEGER_TYPE;
+import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.LONG;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.OBJECT;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.STRING;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.VOID;
@@ -91,6 +93,10 @@ public class PrimitiveCast {
                                 new CodeField("int", INT, Literals.INT(9)),
 
                                 new CodeField("IntToInt", INT, Helper.cast(INT, INT, Helper.accessLocalVariable("int", INT))),
+
+                                new CodeField("Long", LONG, Literals.LONG(59855246879798L)),
+                                new CodeField("LongToByte", BYTE, Helper.cast(LONG, BYTE, Helper.accessLocalVariable("Long", LONG))),
+
 
                                 // Cast Integer to Int
                                 returnValue(int.class, Helper.cast(PredefinedTypes.INTEGER_TYPE, PredefinedTypes.INT, invokeConstructor(Integer.class, argument(Literals.INT(9), int.class))))

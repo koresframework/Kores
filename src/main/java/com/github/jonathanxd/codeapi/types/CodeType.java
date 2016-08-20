@@ -49,6 +49,9 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     default String getSimpleName() {
         String type = getType();
 
+        if(isPrimitive())
+            return type;
+
         return type.substring(type.lastIndexOf('.') + 1);
     }
 
@@ -100,6 +103,10 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         }
 
         return this;
+    }
+
+    default boolean is(CodeType another) {
+        return this.compareTo(another) == 0;
     }
 
 }

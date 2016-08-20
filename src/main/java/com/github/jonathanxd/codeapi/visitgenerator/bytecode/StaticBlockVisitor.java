@@ -37,7 +37,7 @@ import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -55,8 +55,8 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
     public static final StaticBlockVisitor INSTANCE = new StaticBlockVisitor();
 
-    public static final GenericRepresentation<StaticBlock> STATIC_BLOCKS =
-            GenericRepresentation.a(StaticBlock.class).setUnique(true).build();
+    public static final TypeInfo<StaticBlock> STATIC_BLOCKS =
+            TypeInfo.a(StaticBlock.class).setUnique(true).build();
 
     public static void generate(MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, InterfaceDeclaration codeInterface) {
 

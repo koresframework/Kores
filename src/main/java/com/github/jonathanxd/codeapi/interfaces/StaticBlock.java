@@ -28,9 +28,50 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 15/05/16.
  */
-public interface StaticBlock extends CodeElement, Bodied {
+public interface StaticBlock extends CodeElement, MethodDeclaration, Bodied {
+    String NAME = "<clinit>";
+
+    Collection<CodeModifier> MODIFIERS = Collections.singletonList(CodeModifier.STATIC);
+    List<CodeParameter> PARAMETERS = Collections.emptyList();
+    CodeType RETURN_TYPE = PredefinedTypes.VOID;
+
+    @Override
+    default String getName() {
+        return "<clinit>";
+    }
+
+    @Override
+    default Collection<CodeModifier> getModifiers() {
+        return MODIFIERS;
+    }
+
+    @Override
+    default List<CodeParameter> getParameters() {
+        return PARAMETERS;
+    }
+
+    @Override
+    default Optional<CodeType> getReturnType() {
+        return Optional.of(RETURN_TYPE);
+    }
+
+    @Override
+    default GenericSignature<GenericType> getGenericSignature() {
+        return GenericSignature.empty();
+    }
 }

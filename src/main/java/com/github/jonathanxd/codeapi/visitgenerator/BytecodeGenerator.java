@@ -59,7 +59,6 @@ import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArgumenterizabeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayAccessVisitor;
@@ -92,8 +91,9 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.WhileVisitor;
 import com.github.jonathanxd.iutils.arrays.JwArray;
-import com.github.jonathanxd.iutils.object.AbstractGenericRepresentation;
-import com.github.jonathanxd.iutils.object.GenericRepresentation;
+import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.iutils.object.AbstractTypeInfo;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import java.util.function.Function;
 
@@ -102,8 +102,9 @@ import java.util.function.Function;
  */
 public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
-    public static final GenericRepresentation<Function<InterfaceDeclaration, String>> SOURCE_FILE_FUNCTION =
-            new AbstractGenericRepresentation<Function<InterfaceDeclaration, String>>(true) {};
+    public static final TypeInfo<Function<InterfaceDeclaration, String>> SOURCE_FILE_FUNCTION =
+            new AbstractTypeInfo<Function<InterfaceDeclaration, String>>(true) {
+            };
     private final Options options = new Options();
     private final Function<InterfaceDeclaration, String> sourceFile;
 
