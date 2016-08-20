@@ -62,4 +62,9 @@ public abstract class Literal implements CodePart, Named, Typed {
     public Optional<CodeType> getType() {
         return Optional.ofNullable(this.dataType);
     }
+
+    @Override
+    public String toString() {
+        return "Literal[content="+this.getName()+", dataType="+this.getType()+"]";
+    }
 }

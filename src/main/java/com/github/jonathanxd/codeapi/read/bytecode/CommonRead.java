@@ -27,21 +27,32 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.FullInvokeSpec;
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.description.Description;
 import com.github.jonathanxd.codeapi.util.description.DescriptionUtil;
 
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
-import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -71,26 +82,30 @@ public class CommonRead {
         return CommonRead.toCodeType(typeStr, isInterface, null);
     }
 
+    public static CodeType toCodeType(String typeStr) {
+        return CommonRead.toCodeType(typeStr, false, UNKNOWN);
+    }
+
     public static CodeType toCodeType(String typeStr, boolean isInterface, Predicate<CodeType> predicate) {
-        if(typeStr.equals(PredefinedTypes.BYTE.getJavaSpecName())) {
+        if (typeStr.equals(PredefinedTypes.BYTE.getJavaSpecName())) {
             return PredefinedTypes.BYTE;
-        } else if(typeStr.equals(PredefinedTypes.SHORT.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.SHORT.getJavaSpecName())) {
             return PredefinedTypes.SHORT;
-        } else if(typeStr.equals(PredefinedTypes.INT.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.INT.getJavaSpecName())) {
             return PredefinedTypes.INT;
-        } else if(typeStr.equals(PredefinedTypes.FLOAT.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.FLOAT.getJavaSpecName())) {
             return PredefinedTypes.FLOAT;
-        } else if(typeStr.equals(PredefinedTypes.DOUBLE.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.DOUBLE.getJavaSpecName())) {
             return PredefinedTypes.DOUBLE;
-        } else if(typeStr.equals(PredefinedTypes.LONG.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.LONG.getJavaSpecName())) {
             return PredefinedTypes.LONG;
-        } else if(typeStr.equals(PredefinedTypes.CHAR.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.CHAR.getJavaSpecName())) {
             return PredefinedTypes.CHAR;
-        } else if(typeStr.equals(PredefinedTypes.STRING.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.STRING.getJavaSpecName())) {
             return PredefinedTypes.STRING;
-        } else if(typeStr.equals(PredefinedTypes.BOOLEAN.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.BOOLEAN.getJavaSpecName())) {
             return PredefinedTypes.BOOLEAN;
-        } else if(typeStr.equals(PredefinedTypes.VOID.getJavaSpecName())) {
+        } else if (typeStr.equals(PredefinedTypes.VOID.getJavaSpecName())) {
             return PredefinedTypes.VOID;
         }
 
@@ -202,4 +217,278 @@ public class CommonRead {
                         .map(s -> CommonRead.toCodeType(s, false, UNKNOWN)).toArray(CodeType[]::new));
     }
 
+    public static List<CodeArgument> createArguments(Description description, List<CodePart> arguments) {
+        String[] parameterTypes = description.getParameterTypes();
+
+        if (parameterTypes.length != arguments.size())
+            throw new IllegalArgumentException("Parameter types size doesn't matches arguments size.");
+
+        List<CodeArgument> codeArgumentList = new ArrayList<>();
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            String parameterTypeStr = parameterTypes[i];
+            CodeType parameterType = CommonRead.toCodeType(parameterTypeStr);
+
+            CodePart codePart = arguments.get(i);
+
+            codeArgumentList.add(new CodeArgument(codePart, parameterType));
+
+        }
+
+        return codeArgumentList;
+    }
+
+    public static TypeSpec typeSpecFromDescriptor(String desc) {
+        String[] parameterTypes = DescriptionUtil.getParameterTypes(desc);
+
+        String returnType = DescriptionUtil.getReturnType(desc);
+
+        return new TypeSpec(CommonRead.toCodeType(returnType), Arrays.stream(parameterTypes).map(CommonRead::toCodeType).toArray(CodeType[]::new));
+    }
+
+    public static FullInvokeSpec specFromHandle(Handle handle) {
+        InvokeType invokeType = InvokeType.fromAsm_H(handle.getTag());
+
+        CodeType owner = CommonRead.toCodeType(handle.getOwner());
+        String desc = owner.getJavaSpecName() + ":" + handle.getName() + handle.getDesc();
+
+        Description description = DescriptionUtil.parseDescription(desc);
+
+        return new FullInvokeSpec(invokeType,
+                owner,
+                CommonRead.toCodeType(description.getReturnType()),
+                handle.getName(),
+                Arrays.stream(description.getParameterTypes()).map(CommonRead::toCodeType).toArray(CodeType[]::new));
+    }
+
+    public static InvokeDynamic fromHandle(Handle handle, Object... args) {
+        InvokeType invokeType = InvokeType.fromAsm_H(handle.getTag());
+        FullInvokeSpec fullMethodSpec = CommonRead.specFromHandle(handle);
+
+        return InvokeDynamic.invokeDynamicBootstrap(invokeType, fullMethodSpec, bsmArgsFromAsm(args));
+    }
+
+    public static Object[] bsmArgsFromAsm(Object... asmArgs) {
+        if (asmArgs == null || asmArgs.length == 0)
+            return new Object[0];
+
+        List<Object> codeAPIArgsList = new ArrayList<>();
+
+        for (Object asmArg : asmArgs) {
+            if (asmArg instanceof Integer
+                    || asmArg instanceof Float
+                    || asmArg instanceof Long
+                    || asmArg instanceof Double
+                    || asmArg instanceof String) {
+                codeAPIArgsList.add(asmArg);
+            } else if (asmArg instanceof Type) {
+
+                Type type = (Type) asmArg;
+
+                String className = type.getClassName();
+
+                if(className != null) {
+                    // Class
+                    codeAPIArgsList.add(CommonRead.toCodeType(className));
+                } else {
+                    codeAPIArgsList.add(CommonRead.typeSpecFromDescriptor(type.getDescriptor()));
+                }
+
+
+            } else if (asmArg instanceof Handle) {
+                codeAPIArgsList.add(CommonRead.specFromHandle((Handle) asmArg));
+            } else {
+                throw new IllegalArgumentException("Unsupported ASM BSM Argument: " + asmArg);
+            }
+        }
+
+        return codeAPIArgsList.stream().toArray(Object[]::new);
+    }
+
+    public static CodeType typeFromOpcode(int insn) {
+
+        if(insn == Opcodes.BIPUSH) {
+            return PredefinedTypes.BYTE;
+        }
+
+        if(insn == Opcodes.SIPUSH) {
+            return PredefinedTypes.SHORT;
+        }
+
+        Optional<CodeType> constant = CommonRead.getConstant(insn);
+
+        // Constants
+        if(constant.isPresent()) {
+            return constant.get();
+        }
+
+        Optional<CodeType> store = CommonRead.getStore(insn);
+
+        // Store var
+        if(store.isPresent()) {
+            return store.get();
+        }
+
+        Optional<CodeType> load = CommonRead.getLoad(insn);
+
+        // Load var
+        if(load.isPresent()) {
+            return load.get();
+        }
+
+        Optional<CodeType> aReturn = CommonRead.getReturn(insn);
+
+        // Return var
+        if(aReturn.isPresent()) {
+            return aReturn.get();
+        }
+
+
+        if(insn == Opcodes.DUP || insn == Opcodes.POP) {
+            return PredefinedTypes.OBJECT;
+        }
+
+        throw new RuntimeException("Cannot determine type o insn: "+insn);
+    }
+
+    public static Literal constantToLiteral(int opcode) {
+
+        if(opcode >= Opcodes.ICONST_M1 && opcode <= Opcodes.ICONST_5) {
+            int number = opcode - (Opcodes.ICONST_M1 - 1); // (2 - 3) = -1, -1 = ICONST_M1
+
+            return Literals.INT(number);
+
+        } else if(opcode >= Opcodes.LCONST_0 && opcode <= Opcodes.LCONST_1) {
+            int number = opcode - Opcodes.LCONST_0; // (2 - 3) = -1, -1 = ICONST_M1
+
+            return Literals.LONG(number);
+        } else if(opcode >= Opcodes.FCONST_0 && opcode <= Opcodes.FCONST_2) {
+            int number = opcode - Opcodes.FCONST_0; // (2 - 3) = -1, -1 = ICONST_M1
+
+            return Literals.FLOAT(number);
+        } else if(opcode >= Opcodes.DCONST_0 && opcode <= Opcodes.DCONST_1) {
+            int number = opcode - Opcodes.DCONST_0; // (2 - 3) = -1, -1 = ICONST_M1
+
+            return Literals.DOUBLE(number);
+        } else if(opcode == Opcodes.ACONST_NULL) {
+            return Literals.NULL;
+        }
+
+        throw new IllegalArgumentException("Cannot convert opcode '"+opcode+"' to literal");
+    }
+
+    public static Literal intInsnToLiteral(int opcode, int num) {
+
+        if(opcode == Opcodes.BIPUSH) {
+            return Literals.BYTE((byte) num);
+
+        } else if(opcode == Opcodes.SIPUSH) {
+            return Literals.SHORT((short) num);
+        }
+
+        throw new IllegalArgumentException("Cannot convert opcode '"+opcode+"' to literal");
+    }
+
+    public static Optional<CodeType> getConstant(int opcode) {
+
+        CodeType codeType = null;
+
+        // Constants
+        if(opcode >= Opcodes.ICONST_M1 && opcode <= Opcodes.ICONST_5) {
+            codeType = PredefinedTypes.INT;
+        } else if(opcode >= Opcodes.LCONST_0 && opcode <= Opcodes.LCONST_1) {
+            codeType = PredefinedTypes.LONG;
+        } else if(opcode >= Opcodes.FCONST_0 && opcode <= Opcodes.FCONST_2) {
+            codeType = PredefinedTypes.FLOAT;
+        } else if(opcode >= Opcodes.DCONST_0 && opcode <= Opcodes.DCONST_1) {
+            codeType = PredefinedTypes.DOUBLE;
+        } else if(opcode == Opcodes.ACONST_NULL) {
+            codeType = PredefinedTypes.OBJECT;
+        }
+
+        return Optional.ofNullable(codeType);
+    }
+
+    public static Optional<CodeType> getStore(int opcode) {
+
+        CodeType codeType = null;
+
+        // Store var
+        if(opcode == Opcodes.ISTORE) {
+            codeType = PredefinedTypes.INT;
+        } else if(opcode == Opcodes.LSTORE) {
+            codeType = PredefinedTypes.LONG;
+        } else if(opcode == Opcodes.FSTORE) {
+            codeType = PredefinedTypes.FLOAT;
+        } else if(opcode == Opcodes.DSTORE) {
+            codeType = PredefinedTypes.DOUBLE;
+        } else if(opcode == Opcodes.ASTORE) {
+            codeType = PredefinedTypes.OBJECT;
+        }
+
+        return Optional.ofNullable(codeType);
+    }
+
+    public static Optional<CodeType> getLoad(int opcode) {
+
+        CodeType codeType = null;
+
+        // Load var
+        if(opcode == Opcodes.ILOAD) {
+            codeType = PredefinedTypes.INT;
+        } else if(opcode == Opcodes.LLOAD) {
+            codeType = PredefinedTypes.LONG;
+        } else if(opcode == Opcodes.FLOAD) {
+            codeType = PredefinedTypes.FLOAT;
+        } else if(opcode == Opcodes.DLOAD) {
+            codeType = PredefinedTypes.DOUBLE;
+        } else if(opcode == Opcodes.ALOAD) {
+            codeType = PredefinedTypes.OBJECT;
+        }
+
+        return Optional.ofNullable(codeType);
+    }
+
+    public static Optional<CodeType> getReturn(int opcode) {
+
+        CodeType codeType = null;
+
+        // Return var
+        if(opcode == Opcodes.IRETURN) {
+            codeType = PredefinedTypes.INT;
+        } else if(opcode == Opcodes.LRETURN) {
+            codeType = PredefinedTypes.LONG;
+        } else if(opcode == Opcodes.FRETURN) {
+            codeType = PredefinedTypes.FLOAT;
+        } else if(opcode == Opcodes.DRETURN) {
+            codeType = PredefinedTypes.DOUBLE;
+        } else if(opcode == Opcodes.ARETURN) {
+            codeType = PredefinedTypes.OBJECT;
+        } else if(opcode == Opcodes.RETURN) {
+            codeType = PredefinedTypes.VOID;
+        }
+
+        return Optional.ofNullable(codeType);
+    }
+
+    public static boolean isConstant(int opcode) {
+        return CommonRead.getConstant(opcode).isPresent();
+    }
+
+    public static boolean isStore(int opcode) {
+        return CommonRead.getStore(opcode).isPresent();
+    }
+
+    public static boolean isLoad(int opcode) {
+        return CommonRead.getLoad(opcode).isPresent();
+    }
+
+    public static boolean isReturn(int opcode) {
+        return CommonRead.getReturn(opcode).isPresent();
+    }
+
+    public static boolean isVoidReturn(int opcode) {
+        Optional<CodeType> aReturn = CommonRead.getReturn(opcode);
+        return aReturn.isPresent() && aReturn.get().is(PredefinedTypes.VOID);
+    }
 }

@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.types.CodeType;
 
+import org.objectweb.asm.Opcodes;
+
 import static org.objectweb.asm.Opcodes.H_INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.H_INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.H_INVOKESTATIC;
@@ -81,6 +83,38 @@ public enum InvokeType {
                 throw new RuntimeException("Cannot invoke dynamic 'dynamic invocation'!");
             default:
                 throw new RuntimeException("Cannot determine opcode of '" + invokeType + "'");
+        }
+    }
+
+    public static InvokeType fromAsm(int asm) {
+        switch (asm) {
+            case INVOKEINTERFACE:
+                return INVOKE_INTERFACE;
+            case INVOKESPECIAL:
+                return INVOKE_SPECIAL;
+            case INVOKEVIRTUAL:
+                return INVOKE_VIRTUAL;
+            case INVOKESTATIC:
+                return INVOKE_STATIC;
+            case INVOKEDYNAMIC:
+                return INVOKE_DYNAMIC;
+            default:
+                throw new RuntimeException("Cannot determine InvokeType of opcode '" + asm + "'");
+        }
+    }
+
+    public static InvokeType fromAsm_H(int asm) {
+        switch (asm) {
+            case H_INVOKEINTERFACE:
+                return INVOKE_INTERFACE;
+            case H_INVOKESPECIAL:
+                return INVOKE_SPECIAL;
+            case H_INVOKEVIRTUAL:
+                return INVOKE_VIRTUAL;
+            case H_INVOKESTATIC:
+                return INVOKE_STATIC;
+            default:
+                throw new RuntimeException("Cannot determine InvokeType of opcode '" + asm + "'");
         }
     }
 

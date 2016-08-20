@@ -74,4 +74,18 @@ public class BytecodeCodeType implements CodeType {
 
         return this.isInterface;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj instanceof CodeType)
+            return ((CodeType) obj).compareTo(this) == 0;
+
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return this.getJavaSpecName();
+    }
 }

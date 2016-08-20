@@ -222,6 +222,172 @@ public class Operators {
         throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
     }
 
+    /********** TO ASM **********/
+    public static Operator primitiveFromAsm(int operator, boolean isInverse) {
+        if(!isInverse) {
+            return primitiveFromAsm(operator);
+        } else {
+            return inversePrimitiveFromAsm(operator);
+        }
+    }
+
+    public static Operator primitiveFromAsm(int operator) {
+        if(operator == Opcodes.IF_ICMPEQ) {
+            // ==
+            return EQUAL_TO;
+        }else if(operator == Opcodes.IF_ICMPLT) {
+            // <
+            return LESS_THAN;
+        } else if(operator == Opcodes.IF_ICMPLE) {
+            // <=
+            return LESS_THAN_OR_EQUAL_TO;
+        }else if(operator == Opcodes.IF_ICMPGT) {
+            // >
+            return GREATER_THAN;
+        } else if(operator == Opcodes.IF_ICMPGE) {
+            // >=
+            return GREATER_THAN_OR_EQUAL_TO;
+        } else if(operator == Opcodes.IF_ICMPNE) {
+            // !=
+            return NOT_EQUAL_TO;
+        }
+
+        throw new RuntimeException("Cannot determine primitive opcode of '"+operator+"'");
+    }
+
+    public static Operator inversePrimitiveFromAsm(int operator) {
+        if(operator == Opcodes.IF_ICMPNE) {
+            // PARA SER IGUAL, NAO PODE SER DIFERENTE
+            // !(!=)
+            // !=
+            return EQUAL_TO;
+
+        }else if(operator == Opcodes.IF_ICMPGE) {
+
+            // PARA SER MENOR, NAO PODE SER MAIOR OU IGUAL
+            // !(>=)
+            // >=
+            return LESS_THAN;
+
+        } else if(operator == Opcodes.IF_ICMPGT) {
+            // PARA SER MENOR OU IGUAL, NAO PODE SER MAIOR
+            // !(>)
+            // >
+            return LESS_THAN_OR_EQUAL_TO;
+
+        }else if(operator == Opcodes.IF_ICMPLE) {
+            // PARA SER MAIOR, NAO PODE SER MENOR OU IGUAL
+            // !(<=)
+            // <=
+            return GREATER_THAN;
+
+        } else if(operator == Opcodes.IF_ICMPLT) {
+            // PARA SER MAIOR OU IGUAL, NAO PODE SER MENOR
+            // !(<)
+            // <
+            return GREATER_THAN_OR_EQUAL_TO;
+
+        } else if(operator == Opcodes.IF_ICMPEQ) {
+            // PARA SER DIFERENTE, NAO PODE SER IGUAL
+            // !(==)
+            return NOT_EQUAL_TO;
+        }
+
+        throw new RuntimeException("Cannot determine primitive opcode of '"+operator+"'");
+    }
+
+    public static Operator referenceFromAsm(int operator, boolean isInverse) {
+        if(!isInverse) {
+            return referenceFromAsm(operator);
+        } else {
+            return inverseReferenceFromAsm(operator);
+        }
+    }
+
+    public static Operator referenceFromAsm(int operator) {
+        if(operator == Opcodes.IF_ACMPEQ) {
+            return EQUAL_TO;
+        } else if(operator == Opcodes.IF_ACMPNE) {
+            return NOT_EQUAL_TO;
+        }
+
+        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+    }
+
+    public static Operator inverseReferenceFromAsm(int operator) {
+        if(operator == Opcodes.IF_ACMPNE) {
+            // PARA SER IGUAL, NAO PODE SER DIFERENTE
+            // !(!=)
+            // !=
+            return EQUAL_TO;
+        } else if(operator == Opcodes.IF_ACMPEQ) {
+            // PARA SER DIFERENTE, NAO PODE SER IGUAL
+            // !(==)
+            // ==
+            return NOT_EQUAL_TO;
+        }
+
+        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+    }
+
+    public static Operator inverseNullCheckFromAsm(int operator) {
+        if(operator == Opcodes.IFNULL) {
+            // PARA NAO SER NULO, NAO PODE SER NULO
+            // !(NULL)
+            // NULL
+            return NOT_EQUAL_TO;
+        } else if(operator == Opcodes.IFNONNULL) {
+            // PARA SER NULO, NAO SER NAO-NULO
+            // !(NONNULL)
+            // NONNULL
+            return EQUAL_TO;
+        }
+
+        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+    }
+
+    public static Operator nullCheckFromAsm(int operator, boolean isInverse) {
+        if(!isInverse) {
+            return nullCheckFromAsm(operator);
+        }else {
+            return inverseNullCheckFromAsm(operator);
+        }
+    }
+
+    public static Operator nullCheckFromAsm(int operator) {
+        if(operator == Opcodes.IFNONNULL) {
+            return NOT_EQUAL_TO;
+        } else if(operator == Opcodes.IFNULL) {
+            return EQUAL_TO;
+        }
+
+        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+    }
+
+    public static Operator genericFromAsm(int operator) {
+        try {
+            return Operators.nullCheckFromAsm(operator);
+        } catch (Exception e) {}
+
+        try {
+            return Operators.primitiveFromAsm(operator);
+        } catch (Exception e) {}
+
+        return Operators.referenceFromAsm(operator);
+    }
+
+    public static Operator genericFromAsmInverse(int operator) {
+        try {
+            return Operators.inverseNullCheckFromAsm(operator);
+        } catch (Exception e) {}
+
+        try {
+            return Operators.inversePrimitiveFromAsm(operator);
+        } catch (Exception e) {}
+
+        return Operators.inverseReferenceFromAsm(operator);
+    }
+
     @GenerateTo(Named.class)
     private final static class SimpleOperator extends Operator {
 

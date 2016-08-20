@@ -113,7 +113,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                 boolean expr2Primitive = Common.isPrimitive(expr2);
 
                 if (expr1Primitive != expr2Primitive) {
-                    throw new RuntimeException(JString.of("Boxing and Unboxing not supported yet! Expr1 ($expr1) Primitive: $primitive1. Expr2 ($expr2) Primitive: $primitive2",
+                    throw new RuntimeException(JString.of("Boxing and Unboxing in 'ifs expr' not supported yet! Expr1 ($expr1) Primitive: $primitive1. Expr2 ($expr2) Primitive: $primitive2",
                             "expr1", expr1.getClass().getCanonicalName(), "primitive1", expr1Primitive,
                             "expr2", expr2.getClass().getCanonicalName(), "primitive2", expr2Primitive).toString());
                 }

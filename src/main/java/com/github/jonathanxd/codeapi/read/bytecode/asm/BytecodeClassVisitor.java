@@ -38,7 +38,6 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
@@ -175,7 +174,7 @@ public class BytecodeClassVisitor extends ClassVisitor {
 
         codeInterface.getBody().orElseThrow(IllegalStateException::new).add(method);
 
-        return new BytecodeMethodVisitor(Opcodes.ASM5, method);
+        return new BytecodeMethodVisitor(codeInterface, method, Opcodes.ASM5);
     }
 
     @Override

@@ -280,6 +280,10 @@ public final class Helper {
         return check(expr1, Operators.NOT_EQUAL_TO, Literals.NULL);
     }
 
+    public static IfExpr checkNull(CodePart expr1) {
+        return check(expr1, Operators.EQUAL_TO, Literals.NULL);
+    }
+
     // TODO: need review: USING KEYWORDS, I CANNOT GENERATE BYTECODE USING KEYWORDS
     @Deprecated
     public static CodePart construct(InvokeType invokeType, CodeType localization, CodePart firstExpression, CodeType type) {

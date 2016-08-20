@@ -45,19 +45,19 @@ public class DescriptionUtil {
     }
 
     public static String getBinaryClassName(String desc) {
-        DescriptionUtil.checkValidDescription(desc);
+        //DescriptionUtil.checkValidDescription(desc);
 
         return DescriptionUtil.parseBinaryClassName(desc.substring(0, desc.indexOf(';') + 1));
     }
 
     public static String getMethodName(String desc) {
-        DescriptionUtil.checkValidDescription(desc);
+        //DescriptionUtil.checkValidDescription(desc);
 
         return desc.substring(desc.indexOf(':') + 1, desc.indexOf('('));
     }
 
     public static String[] getParameterTypes(String desc) {
-        DescriptionUtil.checkValidDescription(desc);
+        //DescriptionUtil.checkValidDescription(desc);
 
         String parameters = desc.substring(desc.indexOf('(') + 1, desc.indexOf(')'));
 
@@ -65,7 +65,7 @@ public class DescriptionUtil {
     }
 
     public static String getReturnType(String desc) {
-        DescriptionUtil.checkValidDescription(desc);
+        //DescriptionUtil.checkValidDescription(desc);
         return DescriptionUtil.parseBinaryClassName(desc.substring(desc.indexOf(')') + 1));
     }
 

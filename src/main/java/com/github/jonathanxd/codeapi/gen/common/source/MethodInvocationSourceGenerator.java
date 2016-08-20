@@ -47,6 +47,7 @@ import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +77,8 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         final String METHOD_SEPARATOR;
 
+        boolean isUnsupportedInvokeDyn = false;
+
         if(invokeDynamicOpt.isPresent()) {
 
             InvokeDynamic invokeDynamic = invokeDynamicOpt.get();
@@ -88,7 +91,9 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
                     METHOD_SEPARATOR = ".";
                 }
             } else {
-                throw new UnsupportedOperationException("Cannot generate source for dynamic method invocation, SourceGenerator only supports Lambda InvokeDynamic");
+                METHOD_SEPARATOR = "<invokeDynamic>.";
+                isUnsupportedInvokeDyn = true;
+                //throw new UnsupportedOperationException("Cannot generate source for dynamic method invocation, SourceGenerator only supports Lambda InvokeDynamic");
             }
         } else {
             METHOD_SEPARATOR = ".";
@@ -113,12 +118,22 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             }
         }
 
-        if(localization != null && (invokeType == InvokeType.INVOKE_STATIC || isCtr)) {
+        if(!isUnsupportedInvokeDyn
+                && localization != null && (invokeType == InvokeType.INVOKE_STATIC || isCtr)) {
             values.add(CodePartValue.create(localization, parents));
 
             if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
                 values.add(ValueImpl.create(METHOD_SEPARATOR));
             }
+        }
+
+        if(isUnsupportedInvokeDyn) {
+            if(localization != null) {
+                values.add(CodePartValue.create(localization, parents));
+            }
+
+            values.add(ValueImpl.create("/*"));
+            values.add(ValueImpl.create(METHOD_SEPARATOR));
         }
 
         if(isCtr && isRef) {
@@ -133,6 +148,10 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             values.add(ValueImpl.create(";"));
         } else {
             debug();
+        }
+
+        if(isUnsupportedInvokeDyn) {
+            values.add(ValueImpl.create("*/"));
         }
 
         return values;
