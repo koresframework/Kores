@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
@@ -47,30 +48,38 @@ public class InvokeDynamic {
     }
 
     public static InvokeDynamic invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
-        return new InvokeLambdaDynamic(fullMethodSpec, expectedTypes);
+        return new LambdaMethodReference(fullMethodSpec, expectedTypes);
+    }
+
+    public static LambdaFragment invokeDynamicLambdaFragment(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes, MethodFragment fragment) {
+        return new LambdaFragment(fullMethodSpec, expectedTypes, fragment);
     }
 
     public static InvokeDynamic invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec) {
-        return new InvokeBootstrapDynamic(bootstrapMethodSpec, invokeType);
+        return new Bootstrap(bootstrapMethodSpec, invokeType);
     }
 
     public static InvokeDynamic invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec, Object... args) {
-        return new InvokeBootstrapDynamic(bootstrapMethodSpec, invokeType, args);
+        return new Bootstrap(bootstrapMethodSpec, invokeType, args);
     }
 
     public static boolean isInvokeDynamicLambda(InvokeDynamic type) {
-        return type instanceof InvokeLambdaDynamic;
+        return type instanceof LambdaMethodReference;
     }
 
     public static boolean isInvokeDynamicBootstrap(InvokeDynamic type) {
-        return type instanceof InvokeBootstrapDynamic;
+        return type instanceof Bootstrap;
     }
 
-    public static final class InvokeLambdaDynamic extends InvokeDynamic {
+    public FullMethodSpec getMethodSpec() {
+        return methodSpec;
+    }
+
+    public static class LambdaMethodReference extends InvokeDynamic {
 
         private final TypeSpec expectedTypes;
 
-        private InvokeLambdaDynamic(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+        private LambdaMethodReference(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
             super(fullMethodSpec);
             this.expectedTypes = expectedTypes;
         }
@@ -81,16 +90,26 @@ public class InvokeDynamic {
 
     }
 
-    public FullMethodSpec getMethodSpec() {
-        return methodSpec;
+    public static final class LambdaFragment extends LambdaMethodReference {
+
+        private final MethodFragment methodFragment;
+
+        private LambdaFragment(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes, MethodFragment methodFragment) {
+            super(fullMethodSpec, expectedTypes);
+            this.methodFragment = methodFragment;
+        }
+
+        public MethodFragment getMethodFragment() {
+            return this.methodFragment;
+        }
     }
 
-    public static final class InvokeBootstrapDynamic extends InvokeDynamic {
+    public static final class Bootstrap extends InvokeDynamic {
 
         private final InvokeType invokeType;
         private final Object[] arguments;
 
-        public InvokeBootstrapDynamic(FullMethodSpec bootstrapMethodSpec, InvokeType invokeType) {
+        public Bootstrap(FullMethodSpec bootstrapMethodSpec, InvokeType invokeType) {
             super(bootstrapMethodSpec);
             this.invokeType = invokeType;
             this.arguments = new Object[0];
@@ -98,11 +117,14 @@ public class InvokeDynamic {
 
         /**
          * Invoke Boostrap methods with bsm parameters
+         *
          * @param bootstrapMethodSpec Bootstrap methods
-         * @param invokeType Type
-         * @param arguments           BSM Arguments, must be an {@link String}, {@link Integer}, {@link Long}, {@link Float}, {@link Double}, {@link CodeType}, or {@link FullInvokeSpec}.
+         * @param invokeType          Type
+         * @param arguments           BSM Arguments, must be an {@link String}, {@link Integer},
+         *                            {@link Long}, {@link Float}, {@link Double}, {@link CodeType},
+         *                            or {@link FullInvokeSpec}.
          */
-        public InvokeBootstrapDynamic(FullMethodSpec bootstrapMethodSpec, InvokeType invokeType, Object[] arguments) {
+        public Bootstrap(FullMethodSpec bootstrapMethodSpec, InvokeType invokeType, Object[] arguments) {
             super(bootstrapMethodSpec);
             this.invokeType = invokeType;
             this.arguments = arguments.clone();
@@ -115,11 +137,11 @@ public class InvokeDynamic {
                 Object arg = arguments[i];
                 final Object converted;
 
-                if(arg instanceof String || arg instanceof Integer || arg instanceof Long || arg instanceof Float || arg instanceof Double) {
+                if (arg instanceof String || arg instanceof Integer || arg instanceof Long || arg instanceof Float || arg instanceof Double) {
                     converted = arg;
-                } else if(arg instanceof CodeType) {
+                } else if (arg instanceof CodeType) {
                     converted = Type.getType(((CodeType) arg).getJavaSpecName());
-                } else if(arg instanceof FullInvokeSpec) {
+                } else if (arg instanceof FullInvokeSpec) {
                     FullInvokeSpec invokeSpec = (FullInvokeSpec) arg;
 
                     converted = new Handle(InvokeType.toAsm_H(invokeSpec.getInvokeType()),
@@ -128,7 +150,7 @@ public class InvokeDynamic {
                             Common.typeSpecToAsm(invokeSpec),
                             invokeSpec.getInvokeType() == InvokeType.INVOKE_INTERFACE);
                 } else {
-                    throw new IllegalArgumentException("Illegal argument at index '"+i+"' of arguments array ["+ Arrays.toString(arguments)+"], element type unsupported! Read the documentation.");
+                    throw new IllegalArgumentException("Illegal argument at index '" + i + "' of arguments array [" + Arrays.toString(arguments) + "], element type unsupported! Read the documentation.");
                 }
 
                 asmArgs[i] = converted;

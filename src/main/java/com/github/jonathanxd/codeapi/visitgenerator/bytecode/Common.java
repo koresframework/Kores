@@ -377,6 +377,12 @@ public class Common {
                 : Collections.emptyList());
     }
 
+    public static TypeSpec specFromLegacy(CodeType returnType, CodeArgument[] arguments) {
+        return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
+                Arrays.stream(arguments).map(CodeArgument::getType).collect(Collectors.toList())
+                : Collections.emptyList());
+    }
+
     public static String typeSpecToAsm(TypeSpec typeSpec) {
         String s = codeTypeToFullAsm(Objects.requireNonNull(typeSpec.getReturnType(), "Null return type in Spec '" + typeSpec + "'"));
 

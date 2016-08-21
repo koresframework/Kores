@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
@@ -39,8 +40,12 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -49,6 +54,8 @@ import com.github.jonathanxd.codeapi.util.Parent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.github.jonathanxd.codeapi.common.InvokeDynamic.*;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -80,7 +87,30 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
             InvokeDynamic invokeDynamic = invokeDynamicOpt.get();
 
-            if(InvokeDynamic.isInvokeDynamicLambda(invokeDynamic)) {
+            if(invokeDynamic instanceof LambdaFragment) {
+
+                LambdaFragment fragmentDynamic = (LambdaFragment) invokeDynamic;
+                MethodFragment methodFragment = fragmentDynamic.getMethodFragment();
+
+                CodeMethod method = methodFragment.getMethod();
+
+                Optional<CodeSource> bodyOpt = method.getBody();
+
+                values.add(TargetValue.create(Parameterizable.class, method, parents));
+
+                if(bodyOpt.isPresent()) {
+                    values.add(ValueImpl.create("->"));
+
+                    values.add(TargetValue.create(Bodied.class, method, parents));
+                } else {
+                    values.add(ValueImpl.create("-> {};"));
+                }
+
+                return values;
+
+                //METHOD_SEPARATOR = ".";
+
+            }else if(isInvokeDynamicLambda(invokeDynamic)) {
                 if(spec.getArguments().isEmpty()) {
                     METHOD_SEPARATOR = "::";
                 } else {

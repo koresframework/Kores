@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
@@ -139,6 +140,15 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
             }
 
         }
+
+        Collection<MethodFragment> all = extraData.getAll(MethodFragmentVisitor.FRAGMENT_TYPE_INFO);
+
+        if(!all.isEmpty()) {
+            for (MethodFragment methodFragment : all) {
+                visitorGenerator.generateTo(MethodFragment.class, methodFragment, extraData, navigator, null, null);
+            }
+        }
+
 
         StaticBlockVisitor.generate(extraData, navigator, visitorGenerator, cw, codeInterface);
 

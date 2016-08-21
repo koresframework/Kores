@@ -32,10 +32,14 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MethodType;
+import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -52,6 +56,7 @@ import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Return;
@@ -75,7 +80,6 @@ import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
 import org.objectweb.asm.Type;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -452,6 +456,21 @@ public final class Helper {
         return new SimpleIfBlock(body, groups, elseBlock);
     }
 
+    public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment dynamicInvoke) {
+        MethodFragment methodFragment = dynamicInvoke.getMethodFragment();
+
+        MethodSpec spec = methodFragment.getSpec();
+
+
+        MethodSpec newSpec = new MethodSpec(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
+
+        return new MethodInvocationImpl(dynamicInvoke,
+                methodFragment.getInvokeType(),
+                methodFragment.getLocalization(),
+                methodFragment.getTarget(),
+                newSpec);
+    }
+
     public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
         MethodSpec spec = methodInvocation.getSpec();
 
@@ -459,6 +478,10 @@ public final class Helper {
 
         return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(),
                 newSpec);
+    }
+
+    public static MethodFragment methodFragment(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return new MethodFragmentImpl(codeInterface, scope, returnType, parameters, arguments, body);
     }
 
     //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());

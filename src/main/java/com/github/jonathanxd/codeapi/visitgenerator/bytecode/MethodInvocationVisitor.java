@@ -102,15 +102,10 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
             if (InvokeDynamic.isInvokeDynamicLambda(invokeDynamic)) {
 
-                InvokeDynamic.InvokeLambdaDynamic lambdaDynamic = (InvokeDynamic.InvokeLambdaDynamic) invokeDynamic;
+                InvokeDynamic.LambdaMethodReference lambdaDynamic = (InvokeDynamic.LambdaMethodReference) invokeDynamic;
 
                 FullMethodSpec methodSpec = lambdaDynamic.getMethodSpec();
                 TypeSpec expectedTypes = lambdaDynamic.getExpectedTypes();
-
-                additional.visitInsn(DUP);
-                additional.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
-                additional.visitInsn(POP);
-
 
                 // ?
                 // LambdaMetafactory.metafactory(caller, name, invokedType, samMethodType, implMethod, instantiatedMethodType) : CallSite
@@ -131,11 +126,17 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
                         Type.getType(Common.fullSpecToFullAsm(expectedTypes))
                 };
 
-                String local = "(" + Common.codeTypeToFullAsm(methodInvocation.getLocalization()) + ")" + Common.codeTypeToFullAsm(methodSpec.getLocation());
+                String local = "("
+                        + (invokeType != InvokeType.INVOKE_STATIC ? Common.codeTypeToFullAsm(methodInvocation.getLocalization()) : "")
+                        + ")" + Common.codeTypeToFullAsm(methodSpec.getLocation());
 
                 additional.visitInvokeDynamicInsn(methodSpec.getMethodName(), local, metafactory, objects);
+
+                if(invokeDynamic instanceof InvokeDynamic.LambdaFragment) {
+                    extraData.registerData(MethodFragmentVisitor.FRAGMENT_TYPE_INFO, ((InvokeDynamic.LambdaFragment) invokeDynamic).getMethodFragment());
+                }
             } else if (InvokeDynamic.isInvokeDynamicBootstrap(invokeDynamic)) {
-                InvokeDynamic.InvokeBootstrapDynamic dynamicBootstrap = (InvokeDynamic.InvokeBootstrapDynamic) invokeDynamic;
+                InvokeDynamic.Bootstrap dynamicBootstrap = (InvokeDynamic.Bootstrap) invokeDynamic;
 
                 FullMethodSpec bootstrapMethodSpec = dynamicBootstrap.getMethodSpec();
 

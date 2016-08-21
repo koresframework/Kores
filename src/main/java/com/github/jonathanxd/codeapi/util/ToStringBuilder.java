@@ -82,6 +82,9 @@ public class ToStringBuilder {
     }
 
     private static String toString(Object o) {
+        if(o == null)
+            return "null";
+
         String oStr = o.toString();
 
         if(o instanceof Collection || o.getClass().isArray()) {

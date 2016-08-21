@@ -283,8 +283,11 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             if (returnType.equals("V")) {
                 mv.visitInsn(RETURN);
             }
-
-            mv.visitMaxs(0, 0);
+            try {
+                mv.visitMaxs(0, 0);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
 
             Label end = new Label();
 

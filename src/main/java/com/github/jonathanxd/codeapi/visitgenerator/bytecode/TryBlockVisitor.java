@@ -29,12 +29,15 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.ThrowException;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
@@ -138,16 +141,47 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
             mv.visitVarInsn(ASTORE, stackPos);
 
-            catchBlock.getBody().ifPresent(body -> {
-                visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, mvData);
-            });
+            CodeSource codeSource = catchBlock.getBody().orElse(null);
+
+            CodePart toAdd;
 
             if (INLINE_FINALLY) {
                 if(finallyBlock != null) {
-                    visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
+                    toAdd = finallySource;
                 }
             } else if(!INLINE_FINALLY && finallyBlock != null) {
-                mv.visitJumpInsn(GOTO, finallyBlock);
+                toAdd = (InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) -> {
+                    mv.visitJumpInsn(GOTO, finallyBlock);
+                };
+            }
+
+            BooleanContainer booleanContainer = new BooleanContainer(false);
+
+            if(codeSource != null) {
+                CodeSource codeSource1 = new CodeSource(codeSource);
+
+
+                codeSource1 = CodeSourceUtil.insertBefore(codePart -> {
+                    if(codePart instanceof ThrowException) {
+                        booleanContainer.set(true);
+                        return true;
+                    }
+
+                    return false;
+                }, finallySource, codeSource1);
+
+                visitorGenerator.generateTo(CodeSource.class, codeSource1, extraData, navigator, null, mvData);
+            }
+
+
+            if(!booleanContainer.get()) {
+                if (INLINE_FINALLY) {
+                    if (finallyBlock != null) {
+                        visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
+                    }
+                } else if (!INLINE_FINALLY && finallyBlock != null) {
+                    mv.visitJumpInsn(GOTO, finallyBlock);
+                }
             }
 
             mv.visitJumpInsn(GOTO, outOfIf);

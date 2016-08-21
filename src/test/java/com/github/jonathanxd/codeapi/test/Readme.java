@@ -63,9 +63,8 @@ public class Readme {
 
         CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
                 constructor(PUBLIC, codeClass, codeConstructor -> sourceOfParts(
-                        invokeVirtual(
+                        invokeVirtual(PrintStream.class,
                                 accessStaticField(System.class, PrintStream.class, "out"),
-                                PrintStream.class,
                                 "println",
                                 new TypeSpec(VOID, STRING),
                                 argument(Literals.STRING("Hello, world!")))
