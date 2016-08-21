@@ -48,7 +48,7 @@ import java.util.Arrays;
  */
 public class FinallyTest {
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void test() {
         CodeSource codeSource = new CodeSource();
 
