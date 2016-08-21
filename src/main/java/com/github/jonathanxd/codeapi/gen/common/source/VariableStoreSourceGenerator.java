@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 
@@ -58,7 +59,7 @@ public class VariableStoreSourceGenerator implements Generator<VariableStore, St
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         if (variableStore.getLocalization() != null && !(variableStore.getAt() instanceof AccessLocal)) {
-            values.add(CodePartValue.create(variableStore.getLocalization(), parents));
+            values.add(TargetValue.create(CodeType.class, variableStore.getLocalization(), parents));
             values.add(ValueImpl.create("."));
         }else
         if (variableStore.getAt() != null && !(variableStore.getAt() instanceof AccessLocal)) {
