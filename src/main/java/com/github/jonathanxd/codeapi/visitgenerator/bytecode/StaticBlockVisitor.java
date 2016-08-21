@@ -29,13 +29,16 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
 
@@ -68,7 +71,13 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
         // Variable Initialize
 
-        Collection<FieldDeclaration> all = extraData.getAll(FieldVisitor.STATIC_FIELDS_TO_ASSIGN);
+        Collection<FieldDeclaration> all = CodeSourceUtil.find(
+                codeInterface.getBody().orElseThrow(NullPointerException::new),
+                codePart ->
+                        codePart instanceof CodeField
+                                && ((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
+                                && ((CodeField) codePart).getValue().isPresent(),
+                codePart -> (CodeField) codePart);
 
         for (FieldDeclaration codeField : all) {
 

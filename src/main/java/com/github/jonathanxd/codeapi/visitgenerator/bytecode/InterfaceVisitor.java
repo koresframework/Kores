@@ -155,6 +155,5 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
         extraData.unregisterData(CODE_INTERFACE_REPRESENTATION, codeInterface);
-        extraData.unregisterAllData(FieldVisitor.FIELDS_TO_ASSIGN);
     }
 }

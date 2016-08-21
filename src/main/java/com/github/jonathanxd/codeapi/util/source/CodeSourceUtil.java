@@ -33,7 +33,10 @@ import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MultiBodied;
 import com.github.jonathanxd.iutils.function.consumer.TriConsumer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -137,6 +140,22 @@ public class CodeSourceUtil {
         } else {
             sourceConsumer.accept(part);
         }
+    }
+
+    public static <U> List<U> find(CodeSource codeSource, Predicate<CodePart> predicate, Function<CodePart, U> function) {
+        List<U> list = new ArrayList<>();
+
+        for (CodePart codePart : codeSource) {
+            if(codePart instanceof CodeSource) {
+                list.addAll(CodeSourceUtil.find((CodeSource) codePart, predicate, function));
+            } else {
+                if(predicate.test(codePart)) {
+                    list.add(function.apply(codePart));
+                }
+            }
+        }
+
+        return list;
     }
 
 }

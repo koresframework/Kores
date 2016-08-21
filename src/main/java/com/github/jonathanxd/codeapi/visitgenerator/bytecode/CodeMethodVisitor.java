@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
@@ -44,11 +45,11 @@ import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.ClassWriter;
@@ -79,7 +80,13 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         /**
          * Declare variables
          */
-        Collection<FieldDeclaration> all = extraData.getAll(FieldVisitor.FIELDS_TO_ASSIGN);
+        Collection<FieldDeclaration> all = CodeSourceUtil.find(
+                codeInterface.getBody().orElseThrow(NullPointerException::new),
+                codePart ->
+                        codePart instanceof CodeField
+                                && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
+                                && ((CodeField) codePart).getValue().isPresent(),
+                codePart -> (CodeField) codePart);
 
         for (FieldDeclaration codeField : all) {
 
@@ -95,12 +102,18 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         }
     }
 
-    public static CodeSource finalFieldsToSource(MapData extraData) {
+    public static CodeSource finalFieldsToSource(CodeSource classSource, MapData extraData) {
         CodeSource codeSource = new CodeSource();
         /**
          * Declare variables
          */
-        Collection<FieldDeclaration> all = extraData.getAll(FieldVisitor.FIELDS_TO_ASSIGN);
+        Collection<FieldDeclaration> all = CodeSourceUtil.find(
+                classSource,
+                codePart ->
+                        codePart instanceof CodeField
+                                && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
+                                && ((CodeField) codePart).getValue().isPresent(),
+                codePart -> (CodeField) codePart);
 
         for (FieldDeclaration codeField : all) {
             CodeType type = codeField.getVariableType();
@@ -253,7 +266,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
                     methodSource =
                             CodeSourceUtil.insertAfter(
                                     part -> part instanceof MethodInvocation && CodeMethodVisitor.isInitForThat(codeInterface, (MethodInvocation) part),
-                                    CodeMethodVisitor.finalFieldsToSource(extraData),
+                                    CodeMethodVisitor.finalFieldsToSource(codeInterface.getBody().orElseThrow(NullPointerException::new), extraData),
                                     methodSource);
                 }
             }

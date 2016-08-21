@@ -52,8 +52,6 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
     public static final TypeInfo<FieldDeclaration> FIELDS_TO_ASSIGN =
             TypeInfo.a(FieldDeclaration.class).setUnique(true).build();
-    public static final TypeInfo<FieldDeclaration> STATIC_FIELDS_TO_ASSIGN =
-            TypeInfo.a(FieldDeclaration.class).setUnique(true).build();
 
     @Override
     public Byte[] visit(FieldDeclaration codeField,
@@ -65,13 +63,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
         if (additional == null) {
 
             if (codeField.getValue().isPresent()) { // Only initialize for fields with default value.
-
-                if (codeField.getModifiers().contains(CodeModifier.STATIC)) {
-                    // STATIC FIELDS INITIALIZES
-                    extraData.registerData(STATIC_FIELDS_TO_ASSIGN, codeField);
-                } else {
-                    extraData.registerData(FIELDS_TO_ASSIGN, codeField);
-                }
+                // This fields will be inspected.
             }
         } else {
             if (additional instanceof MVData) {
