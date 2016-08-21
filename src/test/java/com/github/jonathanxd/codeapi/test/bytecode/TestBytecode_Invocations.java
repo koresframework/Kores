@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Result;
@@ -36,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
@@ -45,7 +47,9 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
@@ -179,7 +183,7 @@ public class TestBytecode_Invocations {
         clSource.add(codeConstructor);
 
         clSource.add(makeCM());
-        clSource.add(makeCM2());
+        clSource.add(makeCM2(codeClass));
 
         codeSource.add(codeClass);
 
@@ -278,7 +282,7 @@ public class TestBytecode_Invocations {
         return codeMethod;
     }
 
-    public CodeMethod makeCM2() {
+    public CodeMethod makeCM2(CodeInterface codeInterface) {
         CodeSource methodSource = new CodeSource();
 
         CodeMethod codeMethod = new CodeMethod("check",
@@ -315,6 +319,33 @@ public class TestBytecode_Invocations {
         methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic ->"), String.class)));
 
         CodeType supplierType = Helper.getJavaType(Supplier.class);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        MethodInvocation dynamicSupplierGet = Helper.invokeDynamicFragment(InvokeDynamic.invokeDynamicLambdaFragment(
+                new FullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),
+                new TypeSpec(PredefinedTypes.STRING),
+                new MethodFragmentImpl(
+                        codeInterface, Scope.STATIC, PredefinedTypes.STRING,
+                        new CodeParameter[]{},
+                        new CodeArgument[]{},
+                        Helper.sourceOf(Helper.returnValue(PredefinedTypes.STRING, Literals.STRING("BRB")))
+                )));
+
+        CodeField supplierField = new CodeField("supplier2", supplierType, dynamicSupplierGet);
+
+        methodSource.add(supplierField);
+
+        methodSource.add(Predefined.invokePrintln(
+                CodeAPI.argument(
+                        Helper.cast(PredefinedTypes.OBJECT, PredefinedTypes.STRING,
+                                CodeAPI.invokeInterface(Supplier.class, Helper.accessLocalVariable(supplierField), "get",
+                                        new TypeSpec(PredefinedTypes.OBJECT))
+                        ), String.class
+                )
+        ));
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         MethodInvocation dynamicGet = Helper.invokeDynamic(InvokeDynamic.invokeDynamicLambda(
                 new FullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),

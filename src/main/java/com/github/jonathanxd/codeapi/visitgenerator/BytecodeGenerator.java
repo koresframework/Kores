@@ -47,6 +47,7 @@ import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Return;
@@ -79,6 +80,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.IfBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InstructionCodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InterfaceVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.LiteralVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.MethodFragmentVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.MethodInvocationVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.OperateVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.PackageVisitor;
@@ -143,6 +145,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(ArrayLength.class, new ArrayLengthVisitor());
         addVisitor(TagLine.class, new TagLineVisitor());
         addVisitor(ForEachBlock.class, new ForEachVisitor());
+        addVisitor(MethodFragment.class, new MethodFragmentVisitor());
     }
 
     public BytecodeGenerator() {

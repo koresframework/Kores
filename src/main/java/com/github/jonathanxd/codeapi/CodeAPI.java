@@ -678,7 +678,7 @@ public class CodeAPI {
                 spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
     }
 
-    public static MethodInvocation invokeVirtual(CodePart target, Class<?> localization, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(localization), target,
                 spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
     }
