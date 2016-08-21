@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.iutils.string.ToString;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -72,7 +74,7 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
 
     @Override
     public CodeType getLocalization() {
-        return type;
+        return this.type;
     }
 
     @Override
@@ -82,12 +84,22 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
 
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public CodeType getVariableType() {
-        return type;
+        return this.type;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("at", this.getAt())
+                .add("modifiers", this.getModifiers())
+                .add("type", this.getVariableType().getCanonicalName())
+                .add("name", this.getName())
+                .addOptional("value", this.getValue())
+                .toString();
+    }
 }

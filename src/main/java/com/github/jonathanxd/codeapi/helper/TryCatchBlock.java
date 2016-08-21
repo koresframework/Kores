@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,4 +93,12 @@ public class TryCatchBlock implements TryBlock {
         return Optional.ofNullable(expression);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("expression", this.getExpression())
+                .add("catchBlocks", this.getCatchBlocks())
+                .addOptional("finally", this.getFinallyBlock())
+                .toString();
+    }
 }

@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -47,4 +48,10 @@ public class AccessThisEx extends AccessEx implements AccessThis {
         super(localization);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("localization", this.getLocalization().map(codeType -> codeType.toString().concat(".this")).orElse("this"))
+                .toString();
+    }
 }

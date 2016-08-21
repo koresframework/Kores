@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -53,5 +54,13 @@ public class TagLineEx<ID, T extends CodePart> implements TagLine<ID, T> {
     @Override
     public T getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("id", this.getIdentifier())
+                .add("value", this.getValue())
+                .toString();
     }
 }

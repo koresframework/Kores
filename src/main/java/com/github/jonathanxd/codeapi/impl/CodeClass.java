@@ -31,11 +31,14 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Collection;
 import java.util.List;
@@ -82,4 +85,14 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
         return true;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("modifiers", this.getModifiers())
+                .add("qualifiedName", this.getQualifiedName())
+                .addMapped("genericSignature", this.getGenericSignature(), GenericSignature::isNotEmpty, GenericTypeUtil::toSourceString)
+                .add("extends", this.getSuperType().orElse(PredefinedTypes.OBJECT))
+                .add("implementations", this.getImplementations())
+                .toString();
+    }
 }

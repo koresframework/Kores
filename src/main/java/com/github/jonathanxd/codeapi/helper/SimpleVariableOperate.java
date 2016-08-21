@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -57,5 +58,17 @@ public class SimpleVariableOperate extends SimpleVariableStore implements CodePa
     @Override
     public Optional<Operator> getOperation() {
         return Optional.ofNullable(operation);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("localization", this.getLocalization())
+                .add("at", this.getAt())
+                .add("type", this.getVariableType())
+                .add("name", this.getName())
+                .addOptional("operation", this.getOperation())
+                .addOptional("value", this.getValue())
+                .toString();
     }
 }

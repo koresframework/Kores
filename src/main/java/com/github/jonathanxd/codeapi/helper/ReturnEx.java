@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -57,4 +58,13 @@ public class ReturnEx implements Return {
     public Optional<CodePart> getValue() {
         return Optional.ofNullable(this.value);
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("type", this.getType())
+                .addOptional("value", this.getValue())
+                .toString();
+    }
+
 }

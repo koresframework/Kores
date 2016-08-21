@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -63,5 +64,14 @@ public class CastedExPart implements Casted {
     @Override
     public CodeType getOriginalType() {
         return originalType;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("originalType", this.getOriginalType())
+                .addOptional("targetType", this.getType())
+                .add("casted", this.getCastedPart())
+                .toString();
     }
 }

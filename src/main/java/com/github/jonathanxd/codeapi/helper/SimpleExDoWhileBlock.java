@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 15/05/16.
@@ -43,6 +44,13 @@ public class SimpleExDoWhileBlock extends SimpleExWhileBlock implements DoWhileB
 
     public SimpleExDoWhileBlock(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
         super(expression, body);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("expressions", this.getIfExprsAndOps())
+                .toString();
     }
 
 }

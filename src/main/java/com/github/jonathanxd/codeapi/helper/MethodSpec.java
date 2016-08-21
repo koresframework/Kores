@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -130,5 +131,15 @@ public class MethodSpec implements MethodSpecification {
     @Override
     public MethodType getMethodType() {
         return methodType;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("type", this.getMethodType())
+                .add("methodName", this.getMethodName())
+                .add("description", this.getMethodDescription())
+                .add("arguments", this.getArguments())
+                .toString();
     }
 }

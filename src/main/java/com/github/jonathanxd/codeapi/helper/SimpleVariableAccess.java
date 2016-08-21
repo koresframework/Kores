@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -79,5 +80,15 @@ public class SimpleVariableAccess implements CodePart, VariableAccess {
     @Override
     public Optional<CodeType> getType() {
         return Optional.ofNullable(variableType);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("localization", this.getLocalization())
+                .add("at", this.getAt())
+                .add("type", this.getVariableType())
+                .add("name", this.getName())
+                .toString();
     }
 }

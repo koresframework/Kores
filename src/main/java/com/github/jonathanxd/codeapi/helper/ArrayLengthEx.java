@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -52,4 +53,10 @@ public class ArrayLengthEx implements ArrayLength {
         return Optional.ofNullable(this.target);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("target", this.getTarget())
+                .toString();
+    }
 }

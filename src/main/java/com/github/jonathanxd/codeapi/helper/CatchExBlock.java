@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,5 +66,13 @@ public class CatchExBlock implements CatchBlock {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("exceptionTypes", this.getExceptionTypes())
+                .add("variableName", this.getName())
+                .toString();
     }
 }

@@ -59,4 +59,8 @@ public class GenericSignature<T extends GenericType> {
     public boolean isEmpty() {
         return this == EMPTY || types.length == 0;
     }
+
+    public boolean isNotEmpty() {
+        return !this.isEmpty();
+    }
 }

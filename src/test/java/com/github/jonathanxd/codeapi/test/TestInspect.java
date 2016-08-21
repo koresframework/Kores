@@ -25,39 +25,35 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.ArgumentOperator;
-import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.inspect.SourceInspect;
+import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 
-import java.util.Collection;
-import java.util.Collections;
+import org.junit.Test;
+
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Created by jonathan on 21/08/16.
  */
-@GenerateTo(ArgumentOperator.class)
-public class SimpleArgumentOperator implements ArgumentOperator {
+public class TestInspect {
 
-    private final List<CodePart> operators;
+    @Test
+    public void inspect() {
+        CodeSource source = GenericClass_.$()._2();
 
-    public SimpleArgumentOperator(List<CodePart> operators, Predicate<CodePart> pred) {
-        if(operators == null || (!operators.stream().allMatch(pred))) {
-            throw new IllegalArgumentException("Only accepts CodeArgument & Operator!");
-        }
+        List<CodeField> inspect = SourceInspect
+                .find(codePart -> codePart instanceof CodeField)
+                .include(bodied -> bodied instanceof StaticBlock || bodied instanceof CodeClass)
+                .includeSource(true)
+                .mapTo(codePart -> (CodeField) codePart)
+                .inspect(source);
 
-        this.operators = Collections.unmodifiableList(operators);
-    }
-
-
-    @Override
-    public List<CodePart> getArgumentsAndOperators() {
-        return this.operators;
+        System.out.println(inspect);
     }
 
 }

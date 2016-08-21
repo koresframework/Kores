@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -86,5 +87,16 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
     @Override
     public MethodSpec getSpec() {
         return spec;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("invokeDynamic", this.getInvokeDynamic())
+                .add("invokeType", this.getInvokeType())
+                .add("localization", this.getLocalization())
+                .add("target", this.getTarget())
+                .add("spec", this.getSpec())
+                .toString();
     }
 }

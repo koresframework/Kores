@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;
 
@@ -53,4 +54,10 @@ public class PkgDclEx implements PackageDeclaration {
         return Optional.ofNullable(this.fullPackageName);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("package", this.getPackage())
+                .toString();
+    }
 }

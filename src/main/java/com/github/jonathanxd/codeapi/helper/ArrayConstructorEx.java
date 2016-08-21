@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -66,5 +67,14 @@ public class ArrayConstructorEx implements ArrayConstructor {
     @Override
     public List<CodeArgument> getArguments() {
         return this.arguments;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("arrayType", this.getArrayType())
+                .add("dimensions", this.getDimensions())
+                .add("arguments", this.getArguments())
+                .toString();
     }
 }

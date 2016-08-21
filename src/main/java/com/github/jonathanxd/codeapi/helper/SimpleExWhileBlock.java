@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 15/05/16.
@@ -45,5 +46,10 @@ public class SimpleExWhileBlock extends SimpleIfBlock implements WhileBlock {
         super(body, expression, null);
     }
 
-
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("expressions", this.getIfExprsAndOps())
+                .toString();
+    }
 }

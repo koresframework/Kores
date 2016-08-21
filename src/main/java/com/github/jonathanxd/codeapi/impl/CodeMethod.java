@@ -33,9 +33,12 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 import com.github.jonathanxd.iutils.string.ToString;
 
 import java.util.Collection;
@@ -86,13 +89,19 @@ public class CodeMethod extends AbstractBodiedParam implements MethodDeclaration
     }
 
     @Override
-    public String toString() {
-        return ToString.toString(this);
+    public GenericSignature<GenericType> getGenericSignature() {
+        return this.signature;
     }
 
     @Override
-    public GenericSignature<GenericType> getGenericSignature() {
-        return this.signature;
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("modifiers", this.getModifiers())
+                .addMapped("genericSignature", this.getGenericSignature(), GenericSignature::isNotEmpty, GenericTypeUtil::toSourceString)
+                .add("returnType", this.getReturnType().orElse(PredefinedTypes.OBJECT))
+                .add("name", this.getName())
+                .add("parameters", this.getParameters())
+                .toString();
     }
 
 }

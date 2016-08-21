@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -62,4 +63,11 @@ public class ThrowExceptionEx implements ThrowException {
         return arguments;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("exceptionType", this.getType())
+                .add("arguments", this.getArguments())
+                .toString();
+    }
 }

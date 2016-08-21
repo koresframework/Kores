@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,4 +95,12 @@ public class SimpleIfBlock implements IfBlock {
     public static SimpleIfBlock instance(IfBlock ifBlock, CodeSource codeSource) {
         return new SimpleIfBlock(codeSource, ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("expressions", this.getIfExprsAndOps())
+                .toString();
+    }
+
 }

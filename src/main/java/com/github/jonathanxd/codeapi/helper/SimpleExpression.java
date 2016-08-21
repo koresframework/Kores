@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -60,5 +61,14 @@ public class SimpleExpression implements Expression {
     @Override
     public Expression getNextExpression() {
         return nextExpression;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("isCodeBlock", this.isCodeBlock())
+                .add("expression", this.getExpression())
+                .add("next", this.getNextExpression())
+                .toString();
     }
 }

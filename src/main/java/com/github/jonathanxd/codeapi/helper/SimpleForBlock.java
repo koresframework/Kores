@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +75,15 @@ public class SimpleForBlock extends SimpleIfBlock implements ForBlock {
     @Override
     public Optional<CodePart> getForUpdate() {
         return Optional.ofNullable(this.forUpdate);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .addOptional("init", this.getForInit())
+                .add("expressions", this.getIfExprsAndOps())
+                .addOptional("update", this.getForUpdate())
+                .toString();
     }
 
 }

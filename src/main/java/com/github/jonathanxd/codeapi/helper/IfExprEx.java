@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -62,4 +63,14 @@ public class IfExprEx implements IfExpr {
     public CodePart getExpr2() {
         return this.expr2;
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("expr1", this.getExpr1())
+                .add("operation", this.getOperation())
+                .add("expr2", this.getExpr2())
+                .toString();
+    }
+
 }

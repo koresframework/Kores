@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 12/05/16.
@@ -57,5 +58,13 @@ public class SimpleGroup implements Group {
     @Override
     public Expression getOutExpression() {
         return outExpression;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("expression", this.getExpression())
+                .add("outExpression", this.getOutExpression())
+                .toString();
     }
 }

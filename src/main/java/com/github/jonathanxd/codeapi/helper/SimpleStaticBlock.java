@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 15/05/16.
@@ -42,4 +43,9 @@ public class SimpleStaticBlock extends CodeMethod implements StaticBlock {
         super(StaticBlock.NAME, StaticBlock.MODIFIERS, StaticBlock.PARAMETERS, StaticBlock.RETURN_TYPE, body);
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .toString();
+    }
 }

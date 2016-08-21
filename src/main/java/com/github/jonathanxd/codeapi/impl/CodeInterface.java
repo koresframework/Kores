@@ -32,10 +32,13 @@ import com.github.jonathanxd.codeapi.abs.AbstractBodied;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -111,4 +114,13 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
         return this.getClassType() == ClassType.INTERFACE;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("modifiers", this.getModifiers())
+                .add("qualifiedName", this.getQualifiedName())
+                .addMapped("genericSignature", this.getGenericSignature(), GenericSignature::isNotEmpty, GenericTypeUtil::toSourceString)
+                .add("extends", this.getImplementations())
+                .toString();
+    }
 }

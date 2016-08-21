@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 import com.github.jonathanxd.iutils.annotations.NotNull;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 
@@ -82,4 +83,14 @@ public class ForEachBlockEx implements ForEachBlock {
     public Optional<CodeSource> getBody() {
         return Optional.ofNullable(this.source);
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("iterationType", this.getIterationType())
+                .add("field", this.getField())
+                .add("iterable", this.getIterableElement())
+                .toString();
+    }
+
 }

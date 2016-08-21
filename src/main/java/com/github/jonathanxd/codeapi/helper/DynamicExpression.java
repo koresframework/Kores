@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -77,4 +78,14 @@ public final class DynamicExpression implements Expression {
     public SimpleExpression create() {
         return new SimpleExpression(expression, nextExpression, isCodeBlock);
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("isCodeBlock", this.isCodeBlock())
+                .add("expression", this.getExpression())
+                .add("nextExpression", this.getNextExpression())
+                .toString();
+    }
+
 }

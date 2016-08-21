@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
  * Created by jonathan on 11/05/16.
@@ -48,5 +49,15 @@ public class ArrayStoreEx extends ArrayLoadEx implements ArrayStore {
     @Override
     public CodePart getValueToStore() {
         return this.value;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("valueType", this.getValueType())
+                .addOptional("target", this.getTarget())
+                .add("index", this.getIndex())
+                .add("value", this.getValueToStore())
+                .toString();
     }
 }
