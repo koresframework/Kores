@@ -50,9 +50,6 @@ public class ExpressionVisitor implements Visitor<Expression, Byte, MVData>, Opc
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        MethodVisitor mv = mvData.getMethodVisitor();
-
-
         Expression current = expression;
 
         do {

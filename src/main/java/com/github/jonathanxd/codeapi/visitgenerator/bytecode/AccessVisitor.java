@@ -47,6 +47,7 @@ import org.objectweb.asm.Opcodes;
  */
 public class AccessVisitor implements Visitor<Access, Byte, MVData>, Opcodes {
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public Byte[] visit(Access access,
                         MapData extraData,
@@ -60,7 +61,6 @@ public class AccessVisitor implements Visitor<Access, Byte, MVData>, Opcodes {
         if (access instanceof AccessThis) {
             additional.visitVarInsn(ALOAD, 0);
         } else if (access instanceof AccessLocal) {
-
         } else if (access instanceof AccessSuper) {
             // Same thing
             additional.visitVarInsn(ALOAD, 0);

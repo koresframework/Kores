@@ -1061,7 +1061,7 @@ public class CodeAPI {
     }
 
     private static ThrowException throwException__Factory(CodeType exceptionType, CodeArgument... arguments) {
-        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType, new MethodSpec((String) null, Arrays.asList(arguments), (CodeType) null, MethodType.CONSTRUCTOR));
+        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType, new MethodSpec(null, Arrays.asList(arguments), (CodeType) null, MethodType.CONSTRUCTOR));
         return throwException__Factory(invoke);
     }
 

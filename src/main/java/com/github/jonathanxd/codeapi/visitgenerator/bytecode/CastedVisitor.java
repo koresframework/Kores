@@ -39,6 +39,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -58,11 +59,11 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
         MethodVisitor additional = mvData.getMethodVisitor();
 
         CodeType from = casted.getOriginalType();
-        CodeType to = casted.getType().get();
+        CodeType to = Require.require(casted.getType(), "Required cast target type");
 
-        CodePart autoboxing = autoboxing(from, to, casted.getCastedPart().get());
+        CodePart castedPart = Require.require(casted.getCastedPart(), "Required casted part");
 
-        CodePart codePart = casted.getCastedPart().get();
+        CodePart autoboxing = autoboxing(from, to, castedPart);
 
         if (autoboxing != null) {
             visitorGenerator.generateTo(autoboxing.getClass(), autoboxing, extraData, navigator, null, mvData);
@@ -73,7 +74,7 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
             }
 
         } else {
-            visitorGenerator.generateTo(codePart.getClass(), codePart, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(castedPart.getClass(), castedPart, extraData, navigator, null, mvData);
 
             if (!from.equals(to)) {
                 if (to.isPrimitive()) {

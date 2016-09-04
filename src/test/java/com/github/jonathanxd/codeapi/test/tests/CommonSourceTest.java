@@ -35,12 +35,12 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
  */
 public class CommonSourceTest {
 
-    public static SourceTest test(Class<?> testClass, CodeSource source) {
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+    public static SourceTest test(CodeSource source) {
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
 
         String gen = plainSourceGenerator.gen(source);
 
-        return new SourceTest(testClass, gen);
+        return new SourceTest(gen);
     }
 
 }

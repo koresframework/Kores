@@ -641,12 +641,12 @@ public class Common {
 
 
         boolean generateGenerics =
-                !methodSignature.isEmpty()
+                methodSignature.isNotEmpty()
                         || codeMethod.getParameters().stream().anyMatch(parameter -> parameter.getType() instanceof GenericType)
                         || returnType instanceof GenericType;
 
 
-        if (generateGenerics && !methodSignature.isEmpty()) {
+        if (generateGenerics && methodSignature.isNotEmpty()) {
             signatureBuilder.append(genericTypesToAsmString(methodSignature.getTypes()));
         }
 

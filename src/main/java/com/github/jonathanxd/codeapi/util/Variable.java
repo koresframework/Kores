@@ -78,6 +78,7 @@ public final class Variable {
     public boolean equals(Object obj) {
         if (obj == null)
             return false;
+
         if (!(obj instanceof Variable))
             return false;
 

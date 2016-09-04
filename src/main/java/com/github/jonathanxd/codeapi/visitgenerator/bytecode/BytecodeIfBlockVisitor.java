@@ -82,14 +82,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
             CodePart current = listIterator.next();
 
-            CodePart previous = null;
-
             CodePart next = null;
-
-            if (listIterator.hasPrevious()) {
-                previous = listIterator.previous();
-                listIterator.next();
-            }
 
             if (listIterator.hasNext()) {
                 next = listIterator.next();
@@ -104,10 +97,6 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
                 CodePart expr1 = ifExpr.getExpr1();
                 CodePart expr2 = ifExpr.getExpr2();
-
-                CodeType expr1Type = Common.getType(ifExpr.getExpr1());
-
-                CodeType expr2Type = Common.getType(ifExpr.getExpr2());
 
                 boolean expr1Primitive = Common.isPrimitive(expr1);
                 boolean expr2Primitive = Common.isPrimitive(expr2);
@@ -150,14 +139,17 @@ public class BytecodeIfBlockVisitor implements Opcodes {
         if (elseLabel != null) {
             additional.visitLabel(elseLabel);
 
-            ElseBlock elseBlock_ = elseBlock.get();
+            if(elseBlock.isPresent()) {
 
-            Optional<CodeSource> elseBodyOpt = elseBlock_.getBody();
+                ElseBlock elseBlock_ = elseBlock.get();
 
-            if (elseBodyOpt.isPresent()) {
-                CodeSource elseBody = elseBodyOpt.get();
+                Optional<CodeSource> elseBodyOpt = elseBlock_.getBody();
 
-                visitorGenerator.generateTo(CodeSource.class, elseBody, extraData, navigator, null, mvData);
+                if (elseBodyOpt.isPresent()) {
+                    CodeSource elseBody = elseBodyOpt.get();
+
+                    visitorGenerator.generateTo(CodeSource.class, elseBody, extraData, navigator, null, mvData);
+                }
             }
         }
 

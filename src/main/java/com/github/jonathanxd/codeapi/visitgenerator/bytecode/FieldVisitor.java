@@ -53,6 +53,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
     public static final TypeInfo<FieldDeclaration> FIELDS_TO_ASSIGN =
             TypeInfo.a(FieldDeclaration.class).setUnique(true).build();
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public Byte[] visit(FieldDeclaration codeField,
                         MapData extraData,

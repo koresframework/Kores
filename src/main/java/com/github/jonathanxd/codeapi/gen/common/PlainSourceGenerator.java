@@ -234,6 +234,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         registerSuper(TryWithResources.class, TryBlockSourceGenerator.INSTANCE);
     }
 
+    @SuppressWarnings("deprecation")
     @Deprecated
     public static PlainSourceGenerator singletonInstance() {
         return INSTANCE;

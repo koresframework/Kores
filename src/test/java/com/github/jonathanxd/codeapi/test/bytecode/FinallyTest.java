@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
@@ -42,6 +41,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by jonathan on 21/08/16.
@@ -61,8 +61,8 @@ public class FinallyTest {
                                     CodeAPI.argument(Literals.STRING("EXCEPTION"), String.class)
                                 })
                                 ),
-                                Arrays.asList(
-                                        Helper.catchBlock(Arrays.asList(Helper.getJavaType(Exception.class)), "ex",
+                                Collections.singletonList(
+                                        Helper.catchBlock(Collections.singletonList(Helper.getJavaType(Exception.class)), "ex",
                                                 Helper.sourceOf(Helper.throwException(Helper.getJavaType(RuntimeException.class), new CodeArgument[]{
                                                         CodeAPI.argument(Literals.STRING("Rethrow"), String.class),
                                                         CodeAPI.argument(Helper.accessLocalVariable("ex", Throwable.class), Throwable.class)

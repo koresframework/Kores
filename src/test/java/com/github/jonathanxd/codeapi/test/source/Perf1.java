@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -48,7 +47,7 @@ public class Perf1 {
 
         CodeSource source = new CodeSource();
 
-        PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator generator = new PlainSourceGenerator();
 
         source.add(Helper.invokeArrayConstructor(Helper.getJavaType(Object[].class)));
 

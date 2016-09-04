@@ -35,12 +35,14 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -93,7 +95,9 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
                 visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
 
-                mv.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+                Optional<CodeType> type = codeField.getType();
+
+                mv.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(Require.require(type, "Field type required!")));
             }
         }
 

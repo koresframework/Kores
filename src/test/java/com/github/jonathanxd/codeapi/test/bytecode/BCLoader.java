@@ -34,6 +34,10 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
  */
 public final class BCLoader extends ClassLoader {
 
+    public Class<?> define(String name, byte[] bytes) {
+        return super.defineClass(name, bytes, 0, bytes.length);
+    }
+
     public Class<?> define(TypeDeclaration typeDeclaration, byte[] bytes) {
         return super.defineClass(typeDeclaration.getQualifiedName(), bytes, 0, bytes.length);
     }

@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.test.source;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.ForEach_;
-import com.github.jonathanxd.codeapi.test.GenericClass_;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.object.Bi;
@@ -45,7 +44,7 @@ public class TestForeachClass {
     @Test
     public void genericClass() {
         Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEach_.$();
-        CommonSourceTest.test(this.getClass(), $._2()).consume(System.out::println).expect("package com ; \n" +
+        CommonSourceTest.test($._2()).consume(System.out::println).expect("package com ; \n" +
                 "public class ForEach { \n" +
                 "    public ForEach ( java.util.List < java.lang.String > strList ) { \n" +
                 "        for (  java.lang.String str : strList ) { \n" +

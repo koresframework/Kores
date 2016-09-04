@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -55,11 +54,9 @@ import static com.github.jonathanxd.codeapi.CodeAPI.returnValue;
 import static com.github.jonathanxd.codeapi.CodeAPI.source;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.BYTE;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.INT;
-import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.INTEGER_TYPE;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.LONG;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.OBJECT;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.STRING;
-import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.VOID;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
 

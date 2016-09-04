@@ -68,7 +68,7 @@ public class SimpleIfBlock implements IfBlock {
         Collection<CodePart> ifExprs = ifExpressions == null ? null : ifExpressions.toCollection();
 
         if (ifExpressions != null) {
-            ifExprs.stream().forEach(IfExpressionable::check);
+            ifExprs.forEach(IfExpressionable::check);
         }
 
         this.ifExprs = ifExprs == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<>(ifExprs));

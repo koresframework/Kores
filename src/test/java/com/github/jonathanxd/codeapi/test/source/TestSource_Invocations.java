@@ -93,7 +93,7 @@ public class TestSource_Invocations {
         CodeSource clSource = new CodeSource();
 
         CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
-                Arrays.asList(CodeModifier.PUBLIC),
+                Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
         CodeField codeField = new CodeField("FIELD",
@@ -121,7 +121,7 @@ public class TestSource_Invocations {
 
         CodeConstructor codeConstructor = CodeConstructorBuilder.builder()
                 .withDeclaringClass(codeClass)
-                .withModifiers(Arrays.asList(CodeModifier.PUBLIC))
+                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
                 .withBody(Helper.sourceOf(invokeTest, invokeTest2))
                 .build();
 
@@ -132,7 +132,7 @@ public class TestSource_Invocations {
 
         codeSource.add(codeClass);
 
-        PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator generator = new PlainSourceGenerator();
 
         System.out.println(generator.gen(codeSource));
 

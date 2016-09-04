@@ -45,7 +45,6 @@ import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.emptySource;
-import static com.github.jonathanxd.codeapi.CodeAPI.invokeStatic;
 import static com.github.jonathanxd.codeapi.CodeAPI.invokeVirtual;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.*;
@@ -74,7 +73,7 @@ public class Readme {
         source.add(myClass);
 
 
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         String plainSource = plainSourceGenerator.gen(source);

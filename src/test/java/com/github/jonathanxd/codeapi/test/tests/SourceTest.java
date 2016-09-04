@@ -34,11 +34,9 @@ import org.junit.Assert;
  */
 public class SourceTest implements CATest<String> {
 
-    private final Class<?> testClass;
     private final String result;
 
-    SourceTest(Class<?> testClass, String result) {
-        this.testClass = testClass;
+    SourceTest(String result) {
         this.result = result;
     }
 

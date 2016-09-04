@@ -58,7 +58,7 @@ public class GenericClass_ {
 
         CodeClass codeClass = aClass(PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
                 Generic.type(Helper.getJavaType(List.class)).of("T")
-        )), (CodeType) null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")}, codeClass1 -> sourceOfParts(
+        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")}, codeClass1 -> sourceOfParts(
                 method(STATIC | PUBLIC, GenericSignature.create(Generic.type("T").extends$(
                         Generic.type(PredefinedTypes.LIST).of("T")
                 )), "test", void.class, new CodeParameter[]{new CodeParameter("val", Generic.type("T"))},

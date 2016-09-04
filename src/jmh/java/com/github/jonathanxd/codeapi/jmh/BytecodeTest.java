@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.jmh;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.object.Bi;

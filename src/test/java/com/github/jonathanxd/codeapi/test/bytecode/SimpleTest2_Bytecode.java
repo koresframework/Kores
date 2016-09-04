@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
@@ -71,7 +70,7 @@ public class SimpleTest2_Bytecode {
         // Crio uma classe com nome de SimpleTest2_bytecode
         CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",
                 // Adiciona o modifier publico
-                Arrays.asList(CodeModifier.PUBLIC),
+                Collections.singletonList(CodeModifier.PUBLIC),
                 null,
                 Collections.emptyList(),
                 // Define qual é o código fonte da classe.
@@ -115,11 +114,11 @@ public class SimpleTest2_Bytecode {
                         )).make(), Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                                         Helper.accessStaticVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(PrintStream.class)),
-                                        new MethodSpec("println", PredefinedTypes.VOID, Arrays.asList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
+                                        new MethodSpec("println", PredefinedTypes.VOID, Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
                                 )
                         ), Helper.elseExpression(Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class, Helper.accessStaticVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(PrintStream.class)),
-                                        new MethodSpec("println", PredefinedTypes.VOID, Arrays.asList(new CodeArgument(
+                                        new MethodSpec("println", PredefinedTypes.VOID, Collections.singletonList(new CodeArgument(
                                                 Helper.cast(stringType, stringType, Literals.QUOTED_STRING("NULL VALUE")), stringType
                                         )))
                                 ))

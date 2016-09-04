@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.types.CodeType;
 

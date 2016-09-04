@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.ForEachArray_;
-import com.github.jonathanxd.codeapi.test.ForEach_;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.exceptions.RethrowException;
@@ -39,8 +38,6 @@ import com.github.jonathanxd.iutils.object.Bi;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by jonathan on 05/07/16.

@@ -29,9 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
@@ -42,8 +40,6 @@ import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.*;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**

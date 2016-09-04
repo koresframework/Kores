@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
@@ -66,7 +65,7 @@ public class SimpleTest2 {
         // Crio uma classe com nome de CodeAPITest
         CodeClass codeClass = new CodeClass("CodeAPITest",
                 // Adiciona o modifier publico
-                Arrays.asList(CodeModifier.PUBLIC),
+                Collections.singletonList(CodeModifier.PUBLIC),
                 null,
                 Collections.emptyList(),
                 // Define qual é o código fonte da classe.
@@ -110,11 +109,11 @@ public class SimpleTest2 {
                         )).make(), Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null,
                                         Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                        new MethodSpec("println", Arrays.asList(new CodeArgument(Helper.accessLocalVariable("myField", stringType))))
+                                        new MethodSpec("println", Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType))))
                                 )
                         ), Helper.elseExpression(Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                        new MethodSpec("println", Arrays.asList(new CodeArgument(
+                                        new MethodSpec("println", Collections.singletonList(new CodeArgument(
                                                 Helper.cast(Helper.getJavaType(String.class), Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
                                         )))
                                 ))
@@ -126,7 +125,7 @@ public class SimpleTest2 {
 
 
         // Algumas classes são Singleton, então você não precisa instanciar.
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
 
         // Gera o codigo fonte em modo plano (plain, texto plano sem formatação).
         String gen = plainSourceGenerator.gen(source);

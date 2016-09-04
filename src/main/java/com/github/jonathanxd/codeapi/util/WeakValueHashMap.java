@@ -199,9 +199,7 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
     private boolean weakReplace(K key, V oldValue, V newValue) {
         this.updateMap();
 
-        return find((k, v) -> k.equals(key) && v.equals(oldValue), (k, v) -> {
-            map.replace(k, v, create(k, newValue));
-        });
+        return find((k, v) -> k.equals(key) && v.equals(oldValue), (k, v) -> map.replace(k, v, create(k, newValue)));
     }
 
     @Override
@@ -224,6 +222,10 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
 
     @Override
     public Object clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException ignored) {}
+
         this.updateMap();
 
         WeakValueHashMap<K, V> weakValueHashMap = new WeakValueHashMap<>();
@@ -236,7 +238,11 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
     public boolean equals(Object o) {
         this.updateMap();
 
-        return map.equals(o);
+        if(o instanceof Map) {
+            return map.equals(o);
+        }
+
+        return super.equals(o);
     }
 
     @Override

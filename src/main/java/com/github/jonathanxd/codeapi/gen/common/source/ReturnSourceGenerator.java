@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,10 +61,10 @@ public class ReturnSourceGenerator implements Generator<Return, String, PlainSou
 
         Optional<CodePart> value = aReturn.getValue();
 
-        CodeType type = aReturn.getType().get();
+        CodeType type = Require.require(aReturn.getType(), "Return value required!");
 
         if (type.getType().equals("void") || type.getJavaSpecName().equals("V")) {
-            return Collections.singletonList(TargetValue.create(value.get(), parents));
+            return Collections.singletonList(TargetValue.create(Require.require(value, "Value required!"), parents));
         }
 
         if (!value.isPresent())

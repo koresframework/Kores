@@ -121,8 +121,6 @@ public class TestBytecode_Invocations {
     public static CallSite myBootstrap(MethodHandles.Lookup caller, String name,
                                        MethodType type, Object... parameters) throws Throwable {
 
-        MethodHandle virtual = LOOKUP.findVirtual(TestBytecode_Invocations.class, name, type);
-
         MyCallSite myCallSite = new MyCallSite(caller, name, type);
 
         MethodHandle methodHandle = FALLBACK.bindTo(myCallSite).asCollector(Object[].class, type.parameterCount()).asType(type);
@@ -148,7 +146,7 @@ public class TestBytecode_Invocations {
         CodeSource clSource = new CodeSource();
 
         CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName() + "_Generated",
-                java.util.Arrays.asList(CodeModifier.PUBLIC),
+                Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
         CodeField codeField = new CodeField("FIELD",
@@ -176,7 +174,7 @@ public class TestBytecode_Invocations {
 
         CodeConstructor codeConstructor = CodeConstructorBuilder.builder()
                 .withDeclaringClass(codeClass)
-                .withModifiers(java.util.Arrays.asList(CodeModifier.PUBLIC))
+                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
                 .withBody(Helper.sourceOf(invokeTest, invokeTest2))
                 .build();
 
@@ -233,7 +231,7 @@ public class TestBytecode_Invocations {
                             TagLine<?, ?> tagLine = result.findTagLine(line);
 
                             System.out.println("Error occurred at tag: '"+tagLine.getIdentifier()+"'");
-                        }catch (Exception e) {}
+                        }catch (Exception ignored) {}
                     }
                 }
 
@@ -370,8 +368,6 @@ public class TestBytecode_Invocations {
         methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic <-"), String.class)));
 
         methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic Bootstrap ->"), String.class)));
-
-        VariableAccess instance = Helper.accessStaticVariable(this.getClass(), "INSTANCE", this.getClass());
 
         MethodInvocation methodInvocation = Helper.invokeDynamic(InvokeDynamic.invokeDynamicBootstrap(InvokeType.INVOKE_STATIC, BOOTSTRAP_SPEC),
                 Helper.invoke(InvokeType.INVOKE_VIRTUAL, (CodeType) null, null,

@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.test.tests;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Result;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.test.bytecode.BCLoader;

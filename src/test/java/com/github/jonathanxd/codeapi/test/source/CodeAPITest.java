@@ -148,7 +148,7 @@ public class CodeAPITest {
         source.add(Helper.invoke(InvokeType.INVOKE_STATIC, CodeAPITest.class, null,
                 new MethodSpec("test",
                         new TypeSpec(PredefinedTypes.VOID),
-                        Arrays.asList(new CodeArgument(Literals.STRING("Test"))))));
+                        Collections.singletonList(new CodeArgument(Literals.STRING("Test"))))));
 
         List<CodeType> catchExceptions = Collections.singletonList(getJavaType(Throwable.class));
 

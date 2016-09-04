@@ -52,8 +52,6 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        MethodVisitor additional = mvData.getMethodVisitor();
-
         Optional<CodePart> targetOpt = arrayAccess.getTarget();
 
         if (targetOpt.isPresent()) {

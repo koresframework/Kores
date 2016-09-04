@@ -30,33 +30,21 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.PlainCodeType;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.object.Bi;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.annotations;
-import static com.github.jonathanxd.codeapi.CodeAPI.enumValue;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.CodeAPI.values;
-import static com.github.jonathanxd.codeapi.CodeAPI.visibleAnnotation;
 import static java.lang.reflect.Modifier.PUBLIC;
 
 /**

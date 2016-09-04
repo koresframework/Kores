@@ -48,9 +48,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-/**
- * Created by jonathan on 03/06/16.
- */
 public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, MVData>, Opcodes {
 
     public static final MethodInvocationVisitor INSTANCE = new MethodInvocationVisitor();
@@ -72,7 +69,6 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
         if (methodInvocation.getSpec().getMethodType() == MethodType.CONSTRUCTOR) {
             additional.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()));
             additional.visitInsn(DUP);
-            //additional.visitVarInsn(ALOAD, 0);
         }
 
         CodePart target = methodInvocation.getTarget();
@@ -85,19 +81,6 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
         visitorGenerator.generateTo(Argumenterizable.class, spec, extraData, navigator, null, mvData);
 
-        /*if(invokeType == InvokeType.INVOKE_DYNAMIC) {
-            additional.visitCode();
-            java.lang.invoke.MethodType mt = java.lang.invoke.MethodType.methodType(CallSite.class,
-                    MethodHandles.Lookup.class,
-                    String.class,
-                    MethodType.class);
-
-            Handle bootstrap = new Handle(Opcodes.H_INVOKESTATIC, "kathik/InvokeDynamicCreator", bsmName,
-                    mt.toMethodDescriptorString());
-
-            additional.visitInvokeDynamicInsn("runDynamic", Common.specToAsm(spec), bootstrap);
-        }*/
-
         if (invokeDynamic != null) {
 
             if (InvokeDynamic.isInvokeDynamicLambda(invokeDynamic)) {
@@ -107,8 +90,6 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
                 FullMethodSpec methodSpec = lambdaDynamic.getMethodSpec();
                 TypeSpec expectedTypes = lambdaDynamic.getExpectedTypes();
 
-                // ?
-                // LambdaMetafactory.metafactory(caller, name, invokedType, samMethodType, implMethod, instantiatedMethodType) : CallSite
                 Handle metafactory = new Handle(Opcodes.H_INVOKESTATIC,
                         "java/lang/invoke/LambdaMetafactory",
                         "metafactory",

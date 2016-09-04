@@ -35,11 +35,8 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.object.Bi;
-
-import org.junit.Assert;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;

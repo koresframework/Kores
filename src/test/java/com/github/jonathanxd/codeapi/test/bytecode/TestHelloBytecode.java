@@ -102,9 +102,8 @@ public class TestHelloBytecode {
 
         Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
 
-        Object o;
         try {
-            o = define.newInstance();
+            define.newInstance();
 
             int i = (int) MethodHandles.lookup().findStaticGetter(define, "DEFAULT_VALUE", int.class).invoke();
 

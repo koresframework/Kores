@@ -45,7 +45,7 @@ public class AnnotatedTest {
     @Test
     public void annotatedTest() {
         Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = AnnotatedTest_.$();
-        SourceTest test = CommonSourceTest.test(this.getClass(), $._2());
+        SourceTest test = CommonSourceTest.test($._2());
         test.expect("package test ; \n" +
                 "@ com.github.jonathanxd.codeapi.test.AnnotatedTest_.Simple ( { com.github.jonathanxd.codeapi.test.AnnotatedTest_.MyEnum . A , com.github.jonathanxd.codeapi.test.AnnotatedTest_.MyEnum . B , com.github.jonathanxd.codeapi.test.AnnotatedTest_.MyEnum . C  } ) \n" +
                 "public class AnnotatedTestClass { \n" +

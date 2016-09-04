@@ -56,6 +56,7 @@ public class Generic implements GenericType {
         this(null, type, null);
     }
 
+    @SuppressWarnings("unchecked")
     private Generic(String name, CodeType codeType, Bound<CodeType>[] bounds) {
 
         if (bounds == null) {
@@ -67,6 +68,10 @@ public class Generic implements GenericType {
         if (name != null) {
             this.name = name;
         } else {
+            if(codeType == null) {
+                throw new NullPointerException("codeType is null and name is null");
+            }
+
             String specName = codeType.getJavaSpecName();
 
             specName = specName.substring(0, specName.length() - 1);
@@ -91,14 +96,17 @@ public class Generic implements GenericType {
     }
 
 
+    @SuppressWarnings("unchecked")
     public static Generic type(String s) {
         return new Generic(s, null, new Bound[0]);
     }
 
+    @SuppressWarnings("unchecked")
     public static Generic type(CodeType type) {
         return new Generic(null, type, new Bound[0]);
     }
 
+    @SuppressWarnings("unchecked")
     public static Generic wildcard() {
         return new Generic("*", null, new Bound[0]);
     }

@@ -381,9 +381,7 @@ public final class Helper {
 
         DynamicExpression current = base;
 
-        for (int i = 0; i < moreExpressions.length; i++) {
-            CodePart atI = moreExpressions[i];
-
+        for (CodePart atI : moreExpressions) {
             DynamicExpression newDynamicExpression = new DynamicExpression(atI, null);
 
             current.setNextExpression(newDynamicExpression);
@@ -627,16 +625,13 @@ public final class Helper {
     public static CodeSource sourceOf(CodePart... parts) {
         CodeSource source = new CodeSource();
 
-        for (CodePart part : parts) {
-            source.add(part);
-        }
+        Collections.addAll(source, parts);
 
         return source;
     }
 
     public static CodeElement staticBlock(CodeSource body) {
-        SimpleStaticBlock simpleStaticBlock = new SimpleStaticBlock(body);
-        return simpleStaticBlock;
+        return new SimpleStaticBlock(body);
     }
 
     public static TryBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks) {
@@ -678,7 +673,7 @@ public final class Helper {
     public static ThrowException throwException(CodeType exception, CodeArgument[] arguments) {
 
         MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exception, exception,
-                new MethodSpec((String) null, Arrays.asList(arguments),
+                new MethodSpec(null, Arrays.asList(arguments),
                         /*<init>*/
                         (CodeType) null/*PredefinedTypes#VOID*/,
                 MethodType.CONSTRUCTOR));

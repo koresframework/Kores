@@ -28,15 +28,8 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -44,8 +37,6 @@ import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
-import java.util.List;
 
 /**
  * Created by jonathan on 03/06/16.

@@ -29,13 +29,8 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by jonathan on 11/05/16.

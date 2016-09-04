@@ -135,9 +135,8 @@ public class TestLoopBytecode {
 
         Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
 
-        Object o;
         try {
-            o = define.newInstance();
+            define.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

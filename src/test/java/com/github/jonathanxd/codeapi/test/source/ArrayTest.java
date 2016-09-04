@@ -27,27 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.test.CommonGen;
-import com.github.jonathanxd.iutils.optional.Require;
 
 import org.junit.Test;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.argument;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.source;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.literals.Literals.INT;
-import static com.github.jonathanxd.codeapi.literals.Literals.STRING;
-import static java.lang.reflect.Modifier.PUBLIC;
 
 /**
  * Created by jonathan on 18/06/16.

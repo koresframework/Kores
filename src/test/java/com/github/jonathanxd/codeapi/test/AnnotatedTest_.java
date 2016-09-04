@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -67,16 +66,16 @@ public class AnnotatedTest_ {
                 "test.AnnotatedTestClass", codeClass1 -> sourceOfParts(
                         new CodeMethod("polymorphic",
                                 Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC),
-                                Arrays.asList(new CodeParameter("first", Helper.getJavaType(Object.class), Collections.singletonList(visibleAnnotation(Helper.getJavaType(Deprecated.class))))),
+                                Collections.singletonList(new CodeParameter("first", Helper.getJavaType(Object.class), Collections.singletonList(visibleAnnotation(Helper.getJavaType(Deprecated.class))))),
                                 PredefinedTypes.OBJECT,
                                 GenericSignature.empty(),
-                                Arrays.asList(visibleAnnotation(plainCodeType)),
+                                Collections.singletonList(visibleAnnotation(plainCodeType)),
                                 sourceOfParts(Helper.returnValue(PredefinedTypes.OBJECT, Literals.NULL))),
                         new CodeField("field",
                                 Helper.getJavaType(String.class),
                                 Literals.NULL,
                                 Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC),
-                                Arrays.asList(visibleAnnotation(Simple.class,
+                                Collections.singletonList(visibleAnnotation(Simple.class,
                                         values("value", new Object[]{
                                                 enumValue(MyEnum.class, "A")
                                         }))))
@@ -85,13 +84,13 @@ public class AnnotatedTest_ {
         return new Bi<>(codeClass, sourceOfParts(codeClass));
     }
 
-    public static enum MyEnum {
+    public enum MyEnum {
         A,
         B,
         C
     }
 
-    public static @interface Simple {
+    public @interface Simple {
         MyEnum[] value() default {};
         MyEnum myEnum() default MyEnum.A;
     }

@@ -70,10 +70,10 @@ public class TestForLoop {
 
         CodeSource source = new CodeSource();
 
-        PlainSourceGenerator generator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator generator = new PlainSourceGenerator();
 
         CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.Nomade",
-                Arrays.asList(CodeModifier.PUBLIC),
+                Collections.singletonList(CodeModifier.PUBLIC),
                 null,
                 null,
                 sourceOf(
@@ -90,7 +90,7 @@ public class TestForLoop {
 
         CodeSource methodSource = new CodeSource();
 
-        CodeMethod method = new CodeMethod("printX", Arrays.asList(),
+        CodeMethod method = new CodeMethod("printX", Collections.emptyList(),
                 Arrays.asList(new CodeParameter("y", getJavaType(Integer.TYPE)), new CodeParameter("obj", getJavaType(Object.class))),
                 getJavaType(Void.TYPE),
                 methodSource);

@@ -50,7 +50,6 @@ import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.util.ASMifier;
 
 import java.util.ArrayList;
 import java.util.Collection;

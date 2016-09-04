@@ -81,7 +81,7 @@ public class TestBytecode {
         CodeSource clSource = new CodeSource();
 
         CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
-                java.util.Arrays.asList(CodeModifier.PUBLIC),
+                Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
         CodeField codeField = new CodeField("FIELD",
@@ -109,7 +109,7 @@ public class TestBytecode {
 
         CodeConstructor codeConstructor = CodeConstructorBuilder.builder()
                 .withDeclaringClass(codeClass)
-                .withModifiers(java.util.Arrays.asList(CodeModifier.PUBLIC))
+                .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
                 .withBody(Helper.sourceOf(invokeTest, invokeTest2))
                 .build();
 

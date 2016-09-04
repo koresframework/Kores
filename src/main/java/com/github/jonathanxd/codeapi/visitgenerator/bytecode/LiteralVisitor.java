@@ -54,8 +54,6 @@ public class LiteralVisitor implements Visitor<Literal, Byte, MVData>, Opcodes {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
-        String name = literal.getName();
-
         Common.runForLiteral(literal, mv);
 
         return new Byte[0];

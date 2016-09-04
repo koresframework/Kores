@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -91,7 +90,7 @@ public class SimpleTest {
                 // Define o corpo (codigo fonte) do metodo
                 // Classe Helper é usada pelo menos em 70% do código, ela ajuda em tarefas comuns.
                 Helper.sourceOf(
-                        Helper.setVariable((CodeType) null, Helper.accessThis(), "myField", stringType, Helper.accessLocalVariable("myField", stringType))
+                        Helper.setVariable(null, Helper.accessThis(), "myField", stringType, Helper.accessLocalVariable("myField", stringType))
                 ));
 
         // Adiciona o construtor ao codigo fonte da classe
@@ -99,7 +98,7 @@ public class SimpleTest {
 
 
         // Algumas classes são Singleton, então você não precisa instanciar.
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
 
         // Gera o codigo fonte em modo plano (plain, texto plano sem formatação).
         String gen = plainSourceGenerator.gen(source);

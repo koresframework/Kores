@@ -67,14 +67,7 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        VariableOperate operate = null;
-
-        if (variableDeclaration instanceof VariableOperate) {
-            operate = (VariableOperate) variableDeclaration;
-        }
-
         TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
-        ClassWriter required = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
 
         CodeType localization = variableDeclaration.getLocalization();
 

@@ -43,7 +43,6 @@ import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -75,11 +74,8 @@ public class FieldSourceGenerator implements Generator<FieldDeclaration, String,
                 return true;
             }
 
-            if (TypeDeclaration.class.isAssignableFrom(generatorParent.getCurrent().getClass())) {
-                return true;
-            }
+            return TypeDeclaration.class.isAssignableFrom(generatorParent.getCurrent().getClass());
 
-            return false;
         }).orElse(null);
 
         if (generatorParent1 != null && TypeDeclaration.class.isAssignableFrom(generatorParent1.getCurrent().getClass())) {

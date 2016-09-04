@@ -182,7 +182,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
     private static class ByteAppender extends Appender<Byte> {
 
-        JwArray<Byte> byteArrays = new JwArray<>();
+        final JwArray<Byte> byteArrays = new JwArray<>();
 
         ByteAppender() {
 

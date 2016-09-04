@@ -171,13 +171,12 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
                 if (finallyBlock != null) {
                     toAdd = finallySource;
                 }
-            } else if (!INLINE_FINALLY && finallyBlock != null) {
+            } else if (finallyBlock != null) {
 
                 Logger.getLogger("Inliner").warning("Is not recommended to use non-inlined finally in Bytecode generation because the behavior is inconsistent.");
 
-                toAdd = Helper.sourceOf((InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) -> {
-                    mv.visitJumpInsn(GOTO, finallyBlock);
-                });
+                toAdd = Helper.sourceOf((InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) ->
+                        mv.visitJumpInsn(GOTO, finallyBlock));
             }
 
             BooleanContainer booleanContainer = new BooleanContainer(false);

@@ -65,11 +65,7 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
 
         Collection<CodePart> ifExprs = ifExpressionable.getIfExprsAndOps();
 
-        Iterator<CodePart> iterator = ifExprs.iterator();
-
-        while (iterator.hasNext()) {
-
-            CodePart simpleExpr = iterator.next();
+        for (CodePart simpleExpr : ifExprs) {
 
             if (simpleExpr instanceof IfExpr) {
 

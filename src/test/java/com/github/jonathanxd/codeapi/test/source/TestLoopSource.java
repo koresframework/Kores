@@ -43,9 +43,6 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -126,7 +123,7 @@ public class TestLoopSource {
 
         codeSource.add(codeClass);
 
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
 
         String gen1 = plainSourceGenerator.gen(codeSource);
 

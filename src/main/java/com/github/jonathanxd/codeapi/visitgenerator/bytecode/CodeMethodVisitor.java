@@ -94,15 +94,20 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
         for (FieldDeclaration codeField : all) {
 
-            CodePart value = codeField.getValue().get();
+            Optional<CodePart> valueOpt = codeField.getValue();
 
-            Label labeln = new Label();
+            if(valueOpt.isPresent()) {
+                CodePart value = valueOpt.get();
 
-            mv.visitLabel(labeln);
-            mv.visitVarInsn(ALOAD, 0);
-            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+                Label labeln = new Label();
 
-            mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+                mv.visitLabel(labeln);
+                mv.visitVarInsn(ALOAD, 0);
+                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+
+                mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+            }
+
         }
     }
 
@@ -120,11 +125,14 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
                 codePart -> (CodeField) codePart);
 
         for (FieldDeclaration codeField : all) {
+
             CodeType type = codeField.getVariableType();
             String name = codeField.getName();
             Optional<CodePart> value = codeField.getValue();
 
-            codeSource.add(Helper.setThisVariable(name, type, value.get()));
+            if(value.isPresent()) {
+                codeSource.add(Helper.setThisVariable(name, type, value.get()));
+            }
         }
 
         return codeSource;
@@ -145,15 +153,13 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().compareTo(c) == 0).isPresent());
 
         boolean accept = (methodInvocation.getTarget() instanceof AccessThis || methodInvocation.getTarget() instanceof AccessSuper);
-        if (any
+
+        return any
                 && accept
                 && methodInvocation.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
 
-                && methodInvocation.getSpec().getMethodName().equals("<init>")) {
-            return true;
-        }
+                && methodInvocation.getSpec().getMethodName().equals("<init>");
 
-        return false;
     }
 
     public static boolean searchForInitTo(TypeDeclaration typeDeclaration, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {

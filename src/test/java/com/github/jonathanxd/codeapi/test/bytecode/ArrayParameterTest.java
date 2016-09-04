@@ -27,13 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
@@ -44,12 +40,9 @@ import com.github.jonathanxd.iutils.optional.Require;
 import org.junit.Test;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.source;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.literals.Literals.INT;
-import static com.github.jonathanxd.codeapi.literals.Literals.STRING;
 import static java.lang.reflect.Modifier.PUBLIC;
 
 /**

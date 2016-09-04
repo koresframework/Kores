@@ -90,7 +90,7 @@ public enum CodeModifier implements CodePart {
     }
 
     public static Collection<CodeModifier> extractModifiers(int modifiers) {
-        Collection<CodeModifier> collection = new TreeSet<CodeModifier>();
+        Collection<CodeModifier> collection = new TreeSet<>();
 
         if (Modifier.isPublic(modifiers)) {
             collection.add(PUBLIC);

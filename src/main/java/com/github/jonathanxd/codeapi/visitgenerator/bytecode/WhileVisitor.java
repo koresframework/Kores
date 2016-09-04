@@ -67,9 +67,7 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
         mv.visitLabel(whileStart);
 
         InstructionCodePart instructionCodePart =
-                (value, extraData1, navigator1, visitorGenerator1, additional) -> {
-                    mv.visitJumpInsn(GOTO, whileStart);
-                };
+                (value, extraData1, navigator1, visitorGenerator1, additional) -> mv.visitJumpInsn(GOTO, whileStart);
 
         source.add(instructionCodePart);
 

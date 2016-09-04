@@ -65,8 +65,6 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
 
 
         TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
-        ClassWriter required = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
-
 
         CodeType localization = variableAccess.getLocalization();
 

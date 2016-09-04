@@ -44,7 +44,7 @@ public class TryWithResourcesTest {
     @Test
     public void testSource() {
         Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
-        SourceTest test = CommonSourceTest.test(this.getClass(), $._2());
+        SourceTest test = CommonSourceTest.test($._2());
         test.expect("package test ; \n" +
                 "public class TryWithResourcesTestClass { \n" +
                 "    public TryWithResourcesTestClass ( ) { \n" +

@@ -41,11 +41,13 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -66,9 +68,7 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
         CodePart at = variableOperate.getAt();
 
-        CodeType localization = variableOperate.getLocalization();
-
-        Operator operation = variableOperate.getOperation().get();
+        Operator operation = Require.require(variableOperate.getOperation(), "Operation is required.");
 
         CodePart value = variableOperate.getValue().orElse(null);
 
@@ -76,19 +76,12 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
         int constant = 1;
 
-        if (value != null && (!(value instanceof Literal) || !((Literal) value).getType().get().getJavaSpecName().equals("I"))) {
+        if (value != null && (!(value instanceof Literal) || !Require.require(((Literal) value).getType(), "Literal Type required").getJavaSpecName().equals("I"))) {
             constantVal = false;
         } else if (value != null) {
             constant = Integer.valueOf(((Literal) value).getName());
         }
 
-/*
-        if(at == null && localization == null) {
-            mv.visitVarInsn(ALOAD, 0); // Legacy
-        } else if(at != null) {
-            visitorGenerator.generateTo(at.getClass(), at, extraData, navigator, null, mvData);
-        }
-*/
         Optional<Variable> var = mvData.getVar(variableOperate.getName(), variableOperate.getVariableType());
 
 
@@ -117,6 +110,8 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
                 }
             }
 
+            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: "+operation);
+
             visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, navigator, null, mvData);
 
             visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
@@ -125,6 +120,8 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
             //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
         } else {
+            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: "+operation);
+
             visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, navigator, null, mvData);
 
             visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
