@@ -1,5 +1,11 @@
 **English Version Soon**
 
+Plan:
+- First Stable Release: 2.0
+
+Plano:
+- Primeira release estável: 2.0
+
 # CodeAPI
 
 Framework para geração de código-fonte Java e bytecode para JVM.
