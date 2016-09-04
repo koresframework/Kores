@@ -37,8 +37,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class ElseBlockSourceGenerator implements Generator<ElseBlock, String, Pl
         Optional<CodeSource> expressionOpt = elseBlock.getBody();
 
         expressionOpt.ifPresent(codeSource -> {
-            if(codeSource.size() == 1 && codeSource.get(0) instanceof IfBlock) {
+            if (codeSource.size() == 1 && codeSource.get(0) instanceof IfBlock) {
                 CodePart at0 = codeSource.get(0);
                 values.add(TargetValue.create(at0.getClass(), at0, parents));
             } else {

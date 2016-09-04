@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

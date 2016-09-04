@@ -58,27 +58,27 @@ public class Generic implements GenericType {
 
     private Generic(String name, CodeType codeType, Bound<CodeType>[] bounds) {
 
-        if(bounds == null) {
+        if (bounds == null) {
             bounds = new Bound[0];
         }
 
         this.isType = codeType != null;
 
-        if(name != null) {
+        if (name != null) {
             this.name = name;
         } else {
             String specName = codeType.getJavaSpecName();
 
-            specName = specName.substring(0, specName.length()-1);
+            specName = specName.substring(0, specName.length() - 1);
 
             this.name = specName;
         }
 
-        if(codeType != null) {
+        if (codeType != null) {
             this.codeType = codeType;
             this.definedCodeType = codeType;
         } else {
-            if(bounds.length == 0) {
+            if (bounds.length == 0) {
                 this.definedCodeType = null;
                 this.codeType = PredefinedTypes.OBJECT;
             } else {
@@ -258,10 +258,10 @@ public class Generic implements GenericType {
     @Override
     public boolean equals(Object obj) {
 
-        if(obj instanceof GenericType) {
+        if (obj instanceof GenericType) {
             GenericType genericType = (GenericType) obj;
 
-            if(this.isWildcard() == genericType.isWildcard()
+            if (this.isWildcard() == genericType.isWildcard()
                     && this.isType() == genericType.isType()
                     && this.name().equals(genericType.name())
                     && Arrays.deepEquals(this.bounds(), genericType.bounds())) {

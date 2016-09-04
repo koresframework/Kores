@@ -27,10 +27,10 @@
  */
 package com.github.jonathanxd.codeapi;
 
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.QualifiedNamed;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,23 +56,23 @@ public class Result<OUT> {
         return data;
     }
 
-    public TagLine<?, ?> findTagLine(InterfaceDeclaration codeInterface, StackTraceElement[] stackTraceElements) throws IllegalArgumentException {
+    public TagLine<?, ?> findTagLine(QualifiedNamed qualifiedNamed, StackTraceElement[] stackTraceElements) throws IllegalArgumentException {
         for (StackTraceElement stackTraceElement : stackTraceElements) {
-            if(stackTraceElement.getClassName().equals(codeInterface.getQualifiedName())) {
+            if (stackTraceElement.getClassName().equals(qualifiedNamed.getQualifiedName())) {
                 return findTagLine(stackTraceElement.getLineNumber());
             }
         }
 
-        throw new IllegalArgumentException("No tags in stack trace '"+ Arrays.toString(stackTraceElements)+"'");
+        throw new IllegalArgumentException("No tags in stack trace '" + Arrays.toString(stackTraceElements) + "'");
     }
 
     public TagLine<?, ?> findTagLine(int line) throws IllegalArgumentException {
         List<TagLine<?, ?>> allAsList = getData().getAllAsList(BytecodeGenerator.LINES_REPRESENTATION);
 
-        if(line < allAsList.size()) {
+        if (line < allAsList.size()) {
             return allAsList.get(line);
         }
 
-        throw new IllegalArgumentException("No tags in line '"+line+"'");
+        throw new IllegalArgumentException("No tags in line '" + line + "'");
     }
 }

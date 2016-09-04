@@ -88,8 +88,20 @@ import java.util.List;
  */
 public final class Helper {
 
-    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
+    /*
+    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
+        IfBlock ifBlock = new SimpleIfBlock();
 
+        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
+
+        ifBlock.setBody(body);
+
+
+
+        return ifBlock;
+    }*/
+    public static final BiMultiVal.Adder<CodePart, IfExpr, Operator> IF_EXPR = new ExpressionAdder(CodePart.class);
+    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
     private static final None NONE = new None();
 
     /**
@@ -128,7 +140,6 @@ public final class Helper {
     public static VariableAccess accessLocalVariable(VariableStore variableStore) {
         return accessVariable(null, accessLocal(), variableStore.getName(), variableStore.getVariableType());
     }
-
 
     public static VariableAccess accessStaticVariable(Class<?> localization, String name, Class<?> variableType) {
         return new SimpleVariableAccess(getJavaType(localization), name, getJavaType(variableType));
@@ -207,11 +218,11 @@ public final class Helper {
         return new SimpleVariableOperate(localization, name, getJavaType(variableType), operation, null);
     }
 
+    /////////// WITH VALUE
+
     public static VariableOperate operateVariable(Class<?> localization, String name, Class<?> variableType, Operator operation) {
         return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, null);
     }
-
-    /////////// WITH VALUE
 
     public static VariableOperate operateVariable(VariableStore variableStore, Operator operation, CodePart value) {
         return operateVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType(), operation, value);
@@ -233,12 +244,12 @@ public final class Helper {
         return new SimpleVariableOperate(localization, name, getJavaType(variableType), operation, value);
     }
 
+
+    //////////// Other
+
     public static VariableOperate operateVariable(Class<?> localization, String name, Class<?> variableType, Operator operation, CodePart value) {
         return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, value);
     }
-
-
-    //////////// Other
 
     public static VariableOperate operateLocalVariable(String name, Class<?> variableType, Operator operation, CodePart value) {
         return new SimpleVariableOperate(null, accessLocal(), name, getJavaType(variableType), operation, value);
@@ -260,11 +271,11 @@ public final class Helper {
         return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, value);
     }
 
+    /////////// OPERATE VARIABLES
+
     public static VariableOperate operateLocalVariable(FieldDeclaration fieldDeclaration, Operator operation) {
         return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
     }
-
-    /////////// OPERATE VARIABLES
 
     public static CodePart cast(CodeType originalType, CodeType type, CodePart castedPart) {
         return new CastedExPart(originalType, type, castedPart);
@@ -318,10 +329,6 @@ public final class Helper {
     public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
         return new SimpleExWhileBlock(expression, body);
     }
-
-    public static ElseBlock elseExpression(CodeSource elseSource) {
-        return new SimpleElseBlock(elseSource);
-    }
     /*
     public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
         IfBlock ifBlock = new SimpleIfBlock();
@@ -334,6 +341,10 @@ public final class Helper {
 
         return ifBlock;
     }*/
+
+    public static ElseBlock elseExpression(CodeSource elseSource) {
+        return new SimpleElseBlock(elseSource);
+    }
 
     public static Expression end(CodePart expression) {
         return new NonExpressionExpr(expression);
@@ -374,7 +385,7 @@ public final class Helper {
     @SuppressWarnings("unchecked")
     public static <T> LoadedCodeType<T> getJavaType(Class<T> aClass) {
 
-        if(aClass.isArray())
+        if (aClass.isArray())
             return getJavaType0(aClass);
 
         if (CODE_TYPES_CACHE.containsKey(aClass)) {
@@ -404,14 +415,14 @@ public final class Helper {
 
         LoadedCodeType<T> type = new JavaType<>(aClass);
 
-        if(aClass.isArray()) {
+        if (aClass.isArray()) {
             Class<?> component = aClass;
 
             int dimensions = 0;
 
             do {
-                ++ dimensions;
-            }while ((component = component.getComponentType()).isArray());
+                ++dimensions;
+            } while ((component = component.getComponentType()).isArray());
 
             type = new JavaType<>((Class<T>) component).toLoadedArray(aClass, dimensions);
         }
@@ -480,11 +491,11 @@ public final class Helper {
                 newSpec);
     }
 
+    //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
+
     public static MethodFragment methodFragment(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
         return new MethodFragmentImpl(codeInterface, scope, returnType, parameters, arguments, body);
     }
-
-    //invoke(Helper.accessThis(), Helper.none(), Helper.methodSpec());
 
     public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
         return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
@@ -646,19 +657,6 @@ public final class Helper {
     public static TryBlock tryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks) {
         return new TryCatchBlock(expression, catchBlocks, new CodeSource());
     }
-    /*
-    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
-        IfBlock ifBlock = new SimpleIfBlock();
-
-        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
-
-        ifBlock.setBody(body);
-
-
-
-        return ifBlock;
-    }*/
-    public static final BiMultiVal.Adder<CodePart, IfExpr, Operator> IF_EXPR = new ExpressionAdder(CodePart.class);
 
     public static final class ExpressionAdder extends BiMultiVal.Adder<CodePart, IfExpr, Operator> {
 

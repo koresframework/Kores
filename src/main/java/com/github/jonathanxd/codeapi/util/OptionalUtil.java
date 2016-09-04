@@ -46,12 +46,12 @@ public final class OptionalUtil {
         public Value(Optional<T> optional, Consumer<T> ifPresent) {
             this.optional = optional;
 
-            if(this.optional.isPresent())
+            if (this.optional.isPresent())
                 ifPresent.accept(this.optional.get());
         }
 
         public void elseDo(Runnable r) {
-            if(!optional.isPresent())
+            if (!optional.isPresent())
                 r.run();
         }
     }

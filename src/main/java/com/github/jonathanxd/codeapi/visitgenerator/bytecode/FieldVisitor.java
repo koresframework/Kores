@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -78,7 +78,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
         int asm = Common.modifierToAsm(codeField.getModifiers());
 
-        ClassWriter required = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
+        ClassWriter required = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
 
         String signature = null;
 
@@ -88,7 +88,9 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
             signature = Common.toAsm(type);
         }
 
-        required.visitField(asm, codeField.getName(), Common.codeTypeToFullAsm(type), signature, null).visitEnd();
+        org.objectweb.asm.FieldVisitor fieldVisitor = required.visitField(asm, codeField.getName(), Common.codeTypeToFullAsm(type), signature, null);
+
+        visitorGenerator.generateTo(Annotable.class, codeField, extraData, navigator, null, fieldVisitor);
 
         return new Byte[0];
     }

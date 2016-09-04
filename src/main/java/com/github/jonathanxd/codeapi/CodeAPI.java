@@ -41,26 +41,32 @@ import com.github.jonathanxd.codeapi.helper.ArrayLoadEx;
 import com.github.jonathanxd.codeapi.helper.ArrayStoreEx;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
-import com.github.jonathanxd.iutils.arrays.ArrayUtils;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,6 +74,8 @@ import java.util.stream.Collectors;
  * Created by jonathan on 01/05/16.
  */
 public class CodeAPI {
+
+    private static final Annotation[] EMPTY_ANNOTATIONS = {};
 
     // =========================================================
     //          Interfaces
@@ -128,7 +136,7 @@ public class CodeAPI {
     private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeInterface, CodeSource> source, CodeType... extensions) {
         CodeInterface codeInterface = new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             Require.require(codeInterface.getBody()).addAll(source.apply(codeInterface));
 
         return codeInterface;
@@ -139,93 +147,173 @@ public class CodeAPI {
     // =========================================================
 
     public static CodeClass aClass(int modifiers, String qualifiedName) {
-        return aClass__factory(modifiers, qualifiedName, null, null, null);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, null, null);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, null, null);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature) {
-        return aClass__factory(modifiers, qualifiedName, null, signature, null);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, signature, null);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, signature, null);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, null, null, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, null, null, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, CodeType... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, null, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, signature, null, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, signature, null, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, CodeType... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, signature, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, null, null, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, null, null, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, Class<?>... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, null, null, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, null, signature, null, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, signature, null, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, Class<?>... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, signature, null, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, superType, null, null, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, superType, null, null, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, CodeType superType, CodeType... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, superType, null, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType superType, CodeType... implementations) {
-        return aClass__factory(modifiers, qualifiedName, superType, signature, null, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, superType, signature, null, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, CodeType superType, CodeType... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, superType, signature, null, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), null, null, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, Helper.getJavaType(superType), null, null, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, Class<?> superType, Class<?>... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, Helper.getJavaType(superType), null, null, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?> superType, Class<?>... implementations) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), signature, null, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, Helper.getJavaType(superType), signature, null, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, Class<?> superType, Class<?>... implementations) {
+        return aClass__factory(modifiers, annotations, qualifiedName, Helper.getJavaType(superType), signature, null, toCodeType(implementations));
     }
 
     // ** Source **
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, null, source);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, null, source);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, null, source);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, signature, source);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, signature, source);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, signature, source);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, null, source, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, null, source, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, null, source, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, signature, source, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, signature, source, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, signature, source, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, null, source, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, null, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, null, source, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, null, signature, source, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, null, signature, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, null, signature, source, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, superType, null, source, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, superType, null, source, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, superType, null, source, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, superType, signature, source, implementations);
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, superType, signature, source, implementations);
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, CodeType superType, CodeType[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, superType, signature, source, implementations);
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), null, source, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, Helper.getJavaType(superType), null, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, Helper.getJavaType(superType), null, source, toCodeType(implementations));
     }
 
     public static CodeClass aClass(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
-        return aClass__factory(modifiers, qualifiedName, Helper.getJavaType(superType), signature, source, toCodeType(implementations));
+        return aClass__factory(modifiers, EMPTY_ANNOTATIONS, qualifiedName, Helper.getJavaType(superType), signature, source, toCodeType(implementations));
+    }
+
+    public static CodeClass aClass(int modifiers, Annotation[] annotations, String qualifiedName, GenericSignature<GenericType> signature, Class<?> superType, Class<?>[] implementations, Function<CodeClass, CodeSource> source) {
+        return aClass__factory(modifiers, annotations, qualifiedName, Helper.getJavaType(superType), signature, source, toCodeType(implementations));
     }
 
     // Factory
 
-    private static CodeClass aClass__factory(int modifiers, String qualifiedName, CodeType superType, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source, CodeType... implementations) {
-        CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayToList.toList(implementations), signature, new CodeSource());
+    private static CodeClass aClass__factory(int modifiers, Annotation[] annotations, String qualifiedName, CodeType superType, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source, CodeType... implementations) {
+        CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayToList.toList(implementations), signature, Arrays.asList(annotations), new CodeSource());
 
-        if(source != null)
+        if (source != null)
             Require.require(codeClass.getBody()).addAll(source.apply(codeClass));
 
         return codeClass;
@@ -374,7 +462,7 @@ public class CodeAPI {
     private static CodeMethod method__factory(int modifiers, GenericSignature<GenericType> signature, String name, CodeType returnType, Function<CodeMethod, CodeSource> source, CodeParameter... parameters) {
         CodeMethod method = new CodeMethod(name, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), returnType, signature, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             Require.require(method.getBody()).addAll(source.apply(method));
 
         return method;
@@ -428,7 +516,7 @@ public class CodeAPI {
     private static CodeConstructor constructor__factory(int modifiers, CodeType declaringClass, Function<CodeConstructor, CodeSource> source, CodeParameter... parameters) {
         CodeConstructor codeConstructor = new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), new CodeSource());
 
-        if(source != null)
+        if (source != null)
             Require.require(codeConstructor.getBody()).addAll(source.apply(codeConstructor));
 
         return codeConstructor;
@@ -759,6 +847,211 @@ public class CodeAPI {
     }
 
     // =========================================================
+    //          Annotations
+    // =========================================================
+
+    // CodeType
+
+    /**
+     * Create an annotation that is not visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(CodeType annotationType) {
+        return annotation__Factory(false, annotationType, Collections.emptyMap());
+    }
+
+    /**
+     * Create an annotation.
+     *
+     * @param annotationType Type of annotation
+     * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(boolean isVisible, CodeType annotationType) {
+        return annotation__Factory(isVisible, annotationType, Collections.emptyMap());
+    }
+
+    /**
+     * Create an annotation that is visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @return A visible annotation
+     */
+    public static Annotation visibleAnnotation(CodeType annotationType) {
+        return annotation__Factory(true, annotationType, Collections.emptyMap());
+    }
+
+    /**
+     * Create an annotation that is not visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(CodeType annotationType, Map<String, Object> values) {
+        return annotation__Factory(false, annotationType, values);
+    }
+
+    /**
+     * Create an annotation that is visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return A visible annotation
+     */
+    public static Annotation visibleAnnotation(CodeType annotationType, Map<String, Object> values) {
+        return annotation__Factory(true, annotationType, values);
+    }
+
+    /**
+     * Create an annotation.
+     *
+     * @param annotationType Type of annotation
+     * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(boolean isVisible, CodeType annotationType, Map<String, Object> values) {
+        return annotation__Factory(isVisible, annotationType, values);
+    }
+
+    // Class
+
+    /**
+     * Create an annotation that is not visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(Class<?> annotationType) {
+        return annotation__Factory(false, CodeAPI.toCodeType(annotationType), Collections.emptyMap());
+    }
+
+    /**
+     * Create an annotation.
+     *
+     * @param annotationType Type of annotation
+     * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(boolean isVisible, Class<?> annotationType) {
+        return annotation__Factory(isVisible, CodeAPI.toCodeType(annotationType), Collections.emptyMap());
+    }
+
+    /**
+     * Create an annotation that is visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @return A visible annotation
+     */
+    public static Annotation visibleAnnotation(Class<?> annotationType) {
+        return annotation__Factory(true, CodeAPI.toCodeType(annotationType), Collections.emptyMap());
+    }
+
+    /**
+     * Create an annotation that is not visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(Class<?> annotationType, Map<String, Object> values) {
+        return annotation__Factory(false, CodeAPI.toCodeType(annotationType), values);
+    }
+
+    /**
+     * Create an annotation that is visible at runtime (only affects bytecode generation).
+     *
+     * @param annotationType Type of annotation
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return A visible annotation
+     */
+    public static Annotation visibleAnnotation(Class<?> annotationType, Map<String, Object> values) {
+        return annotation__Factory(true, CodeAPI.toCodeType(annotationType), values);
+    }
+
+    /**
+     * Create an annotation.
+     *
+     * @param annotationType Type of annotation
+     * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return A runtime invisible annotation.
+     */
+    public static Annotation annotation(boolean isVisible, Class<?> annotationType, Map<String, Object> values) {
+        return annotation__Factory(isVisible, CodeAPI.toCodeType(annotationType), values);
+    }
+
+    // Factory
+
+    /**
+     * Create an Annotation
+     *
+     * @param isVisible      Is annotation visible at runtime.
+     * @param annotationType Type of annotation
+     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
+     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
+     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return Annotation
+     */
+    private static Annotation annotation__Factory(boolean isVisible, CodeType annotationType, Map<String, Object> values) {
+        return new AnnotationImpl(annotationType, isVisible, values);
+    }
+
+    // =========================================================
+    //          Annotations Enum Values
+    // =========================================================
+
+    /**
+     * EnumValue of an Annotation property.
+     *
+     * @param enumType Type of enum
+     * @param entry    Enum entry (aka Field)
+     * @return Enum value
+     */
+    public static EnumValue enumValue(Class<?> enumType, String entry) {
+        return enumValue__factory(CodeAPI.toCodeType(enumType), entry);
+    }
+
+    /**
+     * EnumValue of an Annotation property.
+     *
+     * @param enumType Type of enum
+     * @param entry    Enum entry (aka Field)
+     * @return Enum value
+     */
+    public static EnumValue enumValue(CodeType enumType, String entry) {
+        return enumValue__factory(enumType, entry);
+    }
+
+    // Factory
+
+    private static EnumValue enumValue__factory(CodeType enumType, String entry) {
+        return new EnumValueImpl(enumType, entry);
+    }
+
+    // =========================================================
     //          Utils
     // =========================================================
 
@@ -772,5 +1065,24 @@ public class CodeAPI {
 
     private static Collection<CodeType> toCodeTypeCollection(Class<?>[] aClass) {
         return Arrays.stream(aClass).map(Helper::getJavaType).collect(Collectors.toList());
+    }
+
+    public static Annotation[] annotations(Annotation... annotations) {
+        return annotations;
+    }
+
+
+    public static Map<String, Object> values(Object... objects) {
+        Map<String, Object> map = new HashMap<>();
+
+        if(objects.length % 2 != 0) {
+            throw new IllegalArgumentException("Input must be odd (Pair of String and Object)");
+        }
+
+        for (int i = 0; i < objects.length; i+=2) {
+            map.put((String) objects[i], objects[i+1]);
+        }
+
+        return map;
     }
 }

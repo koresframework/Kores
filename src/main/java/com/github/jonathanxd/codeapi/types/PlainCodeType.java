@@ -25,30 +25,36 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.abs;
+package com.github.jonathanxd.codeapi.types;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-
-import java.util.Optional;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Created by jonathan on 03/09/16.
  */
-public class MutableAbstractBodied implements Bodied {
-    private CodeSource body;
+@GenerateTo(CodeType.class)
+public class PlainCodeType implements CodeType {
 
-    protected MutableAbstractBodied(CodeSource body) {
-        this.body = body;
-    }
+    private final String canonicalName;
+    private final boolean isInterface;
 
-    public void setBody(CodeSource body) {
-        this.body = body;
+    public PlainCodeType(String canonicalName, boolean isInterface) {
+        this.canonicalName = canonicalName;
+        this.isInterface = isInterface;
     }
 
     @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(body);
+    public String getType() {
+        return this.canonicalName;
     }
 
+    @Override
+    public String getCanonicalName() {
+        return this.canonicalName;
+    }
+
+    @Override
+    public boolean isInterface() {
+        return this.isInterface;
+    }
 }

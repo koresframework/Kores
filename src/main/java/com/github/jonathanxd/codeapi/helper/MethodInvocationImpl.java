@@ -30,9 +30,9 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Optional;

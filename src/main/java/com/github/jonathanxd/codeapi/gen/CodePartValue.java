@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
 
             List<Value<?, TARGET, C>> call;
 
-            if(part instanceof CodeType) {
+            if (part instanceof CodeType) {
                 call = abstractGenerator.generateTo(CodeType.class, part, current, codeSourceData, data);
             } else {
                 call = abstractGenerator.generateTo(getValue().getClass(), part, current, codeSourceData, data);

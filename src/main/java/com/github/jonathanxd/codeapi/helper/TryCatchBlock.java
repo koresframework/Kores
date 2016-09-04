@@ -30,12 +30,12 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,6 +70,8 @@ public class TryCatchBlock implements TryBlock {
             this.catchBlocks.addAll(catchBlocks);
 
         this.finallyBlock = finallyBlock;
+
+        Bodied.checkBody(this);
     }
 
     @SuppressWarnings("unchecked")

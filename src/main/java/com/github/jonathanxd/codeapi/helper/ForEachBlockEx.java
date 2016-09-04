@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.IterationType;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
@@ -62,6 +63,7 @@ public class ForEachBlockEx implements ForEachBlock {
         this.iterationType = iterationType;
         this.iterableElement = iterableElement;
         this.source = source;
+        Bodied.checkBody(this);
     }
 
     @Override

@@ -38,9 +38,9 @@ import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Handle;
@@ -132,7 +132,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
                 additional.visitInvokeDynamicInsn(methodSpec.getMethodName(), local, metafactory, objects);
 
-                if(invokeDynamic instanceof InvokeDynamic.LambdaFragment) {
+                if (invokeDynamic instanceof InvokeDynamic.LambdaFragment) {
                     extraData.registerData(MethodFragmentVisitor.FRAGMENT_TYPE_INFO, ((InvokeDynamic.LambdaFragment) invokeDynamic).getMethodFragment());
                 }
             } else if (InvokeDynamic.isInvokeDynamicBootstrap(invokeDynamic)) {

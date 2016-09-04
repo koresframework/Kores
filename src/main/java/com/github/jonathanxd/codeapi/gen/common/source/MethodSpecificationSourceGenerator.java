@@ -37,8 +37,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +69,8 @@ public class MethodSpecificationSourceGenerator implements Generator<MethodSpeci
         }
 
 
-        if(methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_CONSTRUCTOR) {
-            if(arguments.isEmpty()) {
+        if (methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_CONSTRUCTOR) {
+            if (arguments.isEmpty()) {
                 return values;
             }
         }

@@ -49,7 +49,7 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     default String getSimpleName() {
         String type = getType();
 
-        if(isPrimitive())
+        if (isPrimitive())
             return type;
 
         return type.substring(type.lastIndexOf('.') + 1);
@@ -98,7 +98,7 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     }
 
     default CodeType getArrayBaseComponent() {
-        if(this instanceof CodeTypeArray) {
+        if (this instanceof CodeTypeArray) {
             return ((CodeTypeArray) this).getComponent();
         }
 

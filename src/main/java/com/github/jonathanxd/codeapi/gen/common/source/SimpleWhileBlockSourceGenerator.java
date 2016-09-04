@@ -36,8 +36,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class SimpleWhileBlockSourceGenerator implements Generator<SimpleWhileBlo
 
         List<CodePart> ifExprsAndOps = simpleWhileBlock.getIfExprsAndOps();
 
-        if(ifExprsAndOps.size() == 0) {
+        if (ifExprsAndOps.size() == 0) {
             values.add(ValueImpl.create("true"));
         } else {
             values.add(TargetValue.create(IfExpressionable.class, simpleWhileBlock, parents));

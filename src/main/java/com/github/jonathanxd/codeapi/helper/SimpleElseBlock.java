@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
@@ -44,6 +45,7 @@ public class SimpleElseBlock implements ElseBlock {
 
     public SimpleElseBlock(CodeSource elseSource) {
         this.elseSource = elseSource;
+        Bodied.checkBody(this);
     }
 
 

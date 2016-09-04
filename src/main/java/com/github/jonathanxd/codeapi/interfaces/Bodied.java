@@ -43,4 +43,13 @@ public interface Bodied extends CodePart {
         return this.getBody().isPresent();
     }
 
+    static void checkBody(Bodied bodied) {
+        Optional<CodeSource> bodyOpt = bodied.getBody();
+
+        if(bodyOpt.isPresent()) {
+            if(bodyOpt.get().contains(bodied)) {
+                throw new IllegalStateException("You have putted "+bodied+" instance inside your own body, it may cause StackOverFlow Exception.");
+            }
+        }
+    }
 }

@@ -32,15 +32,15 @@ import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.ClassWriter;
@@ -73,8 +73,8 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
             operate = (VariableOperate) variableStore;
         }
 
-        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
-        ClassWriter required = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
+        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
+        ClassWriter required = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
 
         CodeType localization = variableStore.getLocalization();
 
@@ -100,7 +100,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
             } else {
                 // THIS
                 //
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }
         } else {
             if (at instanceof AccessLocalEx) {
@@ -137,7 +137,7 @@ public class StoreVariableVisitor implements Visitor<VariableStore, Byte, MVData
                 //additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));*/
             } else if (at instanceof AccessThis) {
                 // THIS
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             } else {
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(localization), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }

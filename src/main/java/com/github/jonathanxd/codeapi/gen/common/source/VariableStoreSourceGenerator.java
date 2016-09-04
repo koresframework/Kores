@@ -38,8 +38,8 @@ import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +61,7 @@ public class VariableStoreSourceGenerator implements Generator<VariableStore, St
         if (variableStore.getLocalization() != null && !(variableStore.getAt() instanceof AccessLocal)) {
             values.add(TargetValue.create(CodeType.class, variableStore.getLocalization(), parents));
             values.add(ValueImpl.create("."));
-        }else
-        if (variableStore.getAt() != null && !(variableStore.getAt() instanceof AccessLocal)) {
+        } else if (variableStore.getAt() != null && !(variableStore.getAt() instanceof AccessLocal)) {
             values.add(CodePartValue.create(variableStore.getAt(), parents));
             values.add(ValueImpl.create("."));
         }

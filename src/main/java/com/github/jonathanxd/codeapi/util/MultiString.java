@@ -58,7 +58,7 @@ public class MultiString {
         }
 
         String get = strings.get(line);
-        strings.set(line, get + str + (appendDelimiter? delimiter : ""));
+        strings.set(line, get + str + (appendDelimiter ? delimiter : ""));
     }
 
     public void newLine() {

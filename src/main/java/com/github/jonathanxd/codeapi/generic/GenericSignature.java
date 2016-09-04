@@ -42,10 +42,6 @@ public class GenericSignature<T extends GenericType> {
         this.types = types;
     }
 
-    public T[] getTypes() {
-        return types.clone();
-    }
-
     @SafeVarargs
     public static <T extends GenericType> GenericSignature<T> create(T... types) {
         return new GenericSignature<>(types);
@@ -54,6 +50,10 @@ public class GenericSignature<T extends GenericType> {
     @SuppressWarnings("unchecked")
     public static <T extends GenericType> GenericSignature<T> empty() {
         return (GenericSignature<T>) EMPTY;
+    }
+
+    public T[] getTypes() {
+        return types.clone();
     }
 
     public boolean isEmpty() {

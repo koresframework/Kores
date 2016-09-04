@@ -48,14 +48,15 @@ import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.jonathanxd.codeapi.common.InvokeDynamic.*;
+import static com.github.jonathanxd.codeapi.common.InvokeDynamic.LambdaFragment;
+import static com.github.jonathanxd.codeapi.common.InvokeDynamic.isInvokeDynamicLambda;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -83,11 +84,11 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         final String METHOD_SEPARATOR;
 
-        if(invokeDynamicOpt.isPresent()) {
+        if (invokeDynamicOpt.isPresent()) {
 
             InvokeDynamic invokeDynamic = invokeDynamicOpt.get();
 
-            if(invokeDynamic instanceof LambdaFragment) {
+            if (invokeDynamic instanceof LambdaFragment) {
 
                 LambdaFragment fragmentDynamic = (LambdaFragment) invokeDynamic;
                 MethodFragment methodFragment = fragmentDynamic.getMethodFragment();
@@ -98,7 +99,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
                 values.add(TargetValue.create(Parameterizable.class, method, parents));
 
-                if(bodyOpt.isPresent()) {
+                if (bodyOpt.isPresent()) {
                     values.add(ValueImpl.create("->"));
 
                     values.add(TargetValue.create(Bodied.class, method, parents));
@@ -110,8 +111,8 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
                 //METHOD_SEPARATOR = ".";
 
-            }else if(isInvokeDynamicLambda(invokeDynamic)) {
-                if(spec.getArguments().isEmpty()) {
+            } else if (isInvokeDynamicLambda(invokeDynamic)) {
+                if (spec.getArguments().isEmpty()) {
                     METHOD_SEPARATOR = "::";
                 } else {
                     values.add(ValueImpl.create("() ->")); // No arguments at time
@@ -132,7 +133,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
-        if(target != localization) {
+        if (target != localization) {
             if (target != null) {
 
 
@@ -143,7 +144,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             }
         }
 
-        if(localization != null && (invokeType == InvokeType.INVOKE_STATIC || isCtr)) {
+        if (localization != null && (invokeType == InvokeType.INVOKE_STATIC || isCtr)) {
             values.add(TargetValue.create(CodeType.class, localization, parents));
 
             if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
@@ -151,7 +152,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             }
         }
 
-        if(isCtr && isRef) {
+        if (isCtr && isRef) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
@@ -159,7 +160,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
 
-        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
         } else {
             debug();
@@ -169,5 +170,6 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
     }
 
 
-    private void debug() {}
+    private void debug() {
+    }
 }

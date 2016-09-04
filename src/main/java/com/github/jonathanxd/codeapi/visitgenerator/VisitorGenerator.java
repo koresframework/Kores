@@ -122,7 +122,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
             if (t instanceof ProcessingException)
                 throw t;
 
-            throw new ProcessingException("Error while processing type: '" + partClass + "', Part: '" + codePart + "'.", t);
+            new ProcessingException("Error while processing type: '" + partClass + "', Part: '" + codePart + "'.", t).printStackTrace();
         }
     }
 

@@ -28,25 +28,41 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 07/05/16.
  */
-public class CodeParameter implements CodePart {
+public class CodeParameter implements CodePart, Annotable {
     private final String name;
     private final CodeType type;
+    private final List<Annotation> annotations;
 
     public CodeParameter(String name, CodeType type) {
+        this(name, type, null);
+    }
+
+    public CodeParameter(String name, CodeType type, List<Annotation> annotations) {
         this.name = name;
         this.type = type;
+        this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);
     }
 
-    public final String getName() {
-        return name;
+    public String getName() {
+        return this.name;
     }
 
-    public final CodeType getType() {
-        return type;
+    public CodeType getType() {
+        return this.type;
+    }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        return this.annotations;
     }
 }

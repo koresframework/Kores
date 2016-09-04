@@ -36,8 +36,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,11 +62,11 @@ public class ReturnSourceGenerator implements Generator<Return, String, PlainSou
 
         CodeType type = aReturn.getType().get();
 
-        if(type.getType().equals("void") || type.getJavaSpecName().equals("V")) {
+        if (type.getType().equals("void") || type.getJavaSpecName().equals("V")) {
             return Collections.singletonList(TargetValue.create(value.get(), parents));
         }
 
-        if (!value.isPresent() )
+        if (!value.isPresent())
             return Collections.singletonList(ValueImpl.create("return"));
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(
@@ -74,7 +74,7 @@ public class ReturnSourceGenerator implements Generator<Return, String, PlainSou
 
         Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
 
-        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
         }
 

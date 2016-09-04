@@ -32,12 +32,14 @@ import com.github.jonathanxd.codeapi.abs.AbstractValuableModifierable;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.iutils.string.ToString;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,6 +49,7 @@ import java.util.Optional;
 public class CodeField extends AbstractValuableModifierable implements FieldDeclaration {
     private final String name;
     private final CodeType type;
+    private final List<Annotation> annotations;
 
     public CodeField(String name, CodeType type, Collection<CodeModifier> modifiers) {
         this(name, type, null, modifiers);
@@ -57,15 +60,18 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     public CodeField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
-        super(modifiers, value);
-        this.name = name;
-        this.type = type;
+        this(name, type, value, modifiers, Collections.emptyList());
     }
 
     public CodeField(String name, CodeType type, CodePart value) {
-        super(null, value);
+        this(name, type, value, Collections.emptyList());
+    }
+
+    public CodeField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers, List<Annotation> annotations) {
+        super(modifiers, value);
         this.name = name;
         this.type = type;
+        this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);
     }
 
     public Optional<CodeType> getType() {
@@ -85,6 +91,11 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        return this.annotations;
     }
 
     @Override

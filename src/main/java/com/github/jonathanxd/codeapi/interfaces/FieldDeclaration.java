@@ -32,5 +32,5 @@ import com.github.jonathanxd.codeapi.CodeElement;
 /**
  * Created by jonathan on 25/07/16.
  */
-public interface FieldDeclaration extends CodeElement, VariableStore, Named, Typed, Valuable, Modifierable {
+public interface FieldDeclaration extends CodeElement, VariableStore, Named, Typed, Valuable, Modifierable, Annotable {
 }

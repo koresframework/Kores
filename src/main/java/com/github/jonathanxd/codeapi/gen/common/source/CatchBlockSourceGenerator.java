@@ -36,8 +36,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
             }
         }
 
-        values.add(ValueImpl.create("("+sj.toString() + " " + catchBlock.getName()+")"));
+        values.add(ValueImpl.create("(" + sj.toString() + " " + catchBlock.getName() + ")"));
 
         values.add(TargetValue.create(Bodied.class, catchBlock, parents));
 

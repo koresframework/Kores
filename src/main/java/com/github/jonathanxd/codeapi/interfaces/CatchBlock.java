@@ -45,7 +45,7 @@ public interface CatchBlock extends Bodied, Typed, Named {
     @Override
     default Optional<CodeType> getType() {
         List<CodeType> exceptionTypes = getExceptionTypes();
-        if(exceptionTypes.isEmpty())
+        if (exceptionTypes.isEmpty())
             return Optional.empty();
 
         return Optional.of(exceptionTypes.get(0));

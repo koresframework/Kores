@@ -33,8 +33,8 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -61,7 +61,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     public static final TypeInfo<StaticBlock> STATIC_BLOCKS =
             TypeInfo.a(StaticBlock.class).setUnique(true).build();
 
-    public static void generate(MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, InterfaceDeclaration codeInterface) {
+    public static void generate(MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, TypeDeclaration typeDeclaration) {
 
         MethodVisitor mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
 
@@ -72,7 +72,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
         // Variable Initialize
 
         Collection<FieldDeclaration> all = CodeSourceUtil.find(
-                codeInterface.getBody().orElseThrow(NullPointerException::new),
+                typeDeclaration.getBody().orElseThrow(NullPointerException::new),
                 codePart ->
                         codePart instanceof CodeField
                                 && ((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
@@ -93,7 +93,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
                 visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
 
-                mv.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(codeInterface), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+                mv.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
             }
         }
 

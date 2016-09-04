@@ -28,12 +28,12 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
@@ -66,7 +66,7 @@ public class ReturnVisitor implements Visitor<Return, Byte, MVData>, Opcodes {
 
         if (toRet != null) {
 
-            if(!(toRet.getType().equals("void") || toRet.getJavaSpecName().equals("V"))) {
+            if (!(toRet.getType().equals("void") || toRet.getJavaSpecName().equals("V"))) {
                 Type type = Type.getType(toRet.getJavaSpecName());
 
                 opcode = type.getOpcode(IRETURN); // ARETURN

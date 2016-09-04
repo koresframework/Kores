@@ -56,16 +56,16 @@ public class PredicatedArrayList<E> extends ArrayList<E> {
 
     @Override
     public boolean add(E e) {
-        if(!predicate.test(e))
-            throw new IllegalArgumentException("Cannot accept element '"+e+"'");
+        if (!predicate.test(e))
+            throw new IllegalArgumentException("Cannot accept element '" + e + "'");
 
         return super.add(e);
     }
 
     @Override
     public void add(int index, E element) {
-        if(!predicate.test(element))
-            throw new IllegalArgumentException("Cannot accept element '"+element+"'");
+        if (!predicate.test(element))
+            throw new IllegalArgumentException("Cannot accept element '" + element + "'");
 
         super.add(index, element);
     }
@@ -74,8 +74,8 @@ public class PredicatedArrayList<E> extends ArrayList<E> {
     public boolean addAll(Collection<? extends E> c) {
 
         c.forEach(e -> {
-            if(!predicate.test(e))
-                throw new IllegalArgumentException("Cannot accept element '"+e+"' in collection '"+c+"'");
+            if (!predicate.test(e))
+                throw new IllegalArgumentException("Cannot accept element '" + e + "' in collection '" + c + "'");
         });
 
         return super.addAll(c);
@@ -84,8 +84,8 @@ public class PredicatedArrayList<E> extends ArrayList<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         c.forEach(e -> {
-            if(!predicate.test(e))
-                throw new IllegalArgumentException("Cannot accept element '"+e+"' in collection '"+c+"'");
+            if (!predicate.test(e))
+                throw new IllegalArgumentException("Cannot accept element '" + e + "' in collection '" + c + "'");
         });
 
         return super.addAll(index, c);

@@ -28,17 +28,17 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class IfBlockSourceGenerator implements Generator<IfBlock, String, PlainS
 
         Optional<ElseBlock> elseBlock = ifBlock.getElseBlock();
 
-        if(elseBlock.isPresent()) {
+        if (elseBlock.isPresent()) {
             values.add(TargetValue.create(ElseBlock.class, elseBlock.get(), parents));
         }
 

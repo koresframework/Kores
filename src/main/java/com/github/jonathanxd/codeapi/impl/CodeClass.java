@@ -32,9 +32,11 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
@@ -47,10 +49,22 @@ import java.util.Optional;
 /**
  * Created by jonathan on 09/05/16.
  */
-@GenerateTo(InterfaceDeclaration.class)
+@GenerateTo(TypeDeclaration.class)
 public class CodeClass extends CodeInterface implements Extender, ClassDeclaration {
 
     private final CodeType superType;
+
+    public CodeClass(String qualifiedName,
+                     Collection<CodeModifier> modifiers,
+                     CodeType superType,
+                     List<CodeType> implementations,
+                     GenericSignature<GenericType> signature,
+                     List<Annotation> annotations,
+                     CodeSource body) {
+
+        super(qualifiedName, modifiers, implementations, signature, annotations, body);
+        this.superType = superType;
+    }
 
     public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
         super(qualifiedName, modifiers, implementations, signature, body);
@@ -83,6 +97,11 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
     @Override
     public boolean isExpression() {
         return true;
+    }
+
+    @Override
+    public ClassType getClassType() {
+        return ClassType.CLASS;
     }
 
     @Override

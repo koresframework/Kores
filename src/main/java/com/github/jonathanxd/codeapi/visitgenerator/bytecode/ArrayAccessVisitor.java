@@ -28,11 +28,11 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
@@ -56,7 +56,7 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
 
         Optional<CodePart> targetOpt = arrayAccess.getTarget();
 
-        if(targetOpt.isPresent()) {
+        if (targetOpt.isPresent()) {
             CodePart target = targetOpt.get();
 
             visitorGenerator.generateTo(target.getClass(), target, extraData, navigator, null, mvData);

@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
@@ -55,6 +55,7 @@ public class SimpleForBlock extends SimpleIfBlock implements ForBlock {
         this.forInit = forInit;
         this.forUpdate = forUpdate;
         this.body = body;
+        Bodied.checkBody(this);
     }
 
     @Override

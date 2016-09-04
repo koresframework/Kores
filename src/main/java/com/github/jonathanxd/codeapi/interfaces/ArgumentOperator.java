@@ -33,7 +33,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

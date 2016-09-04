@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

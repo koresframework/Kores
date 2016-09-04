@@ -38,6 +38,10 @@ public class NullType implements CodeType {
     private NullType() {
     }
 
+    public static NullType getNullType() {
+        return TYPE;
+    }
+
     @Override
     public String getType() {
         return "null";
@@ -46,9 +50,5 @@ public class NullType implements CodeType {
     @Override
     public String getCanonicalName() {
         return "null";
-    }
-
-    public static NullType getNullType() {
-        return TYPE;
     }
 }

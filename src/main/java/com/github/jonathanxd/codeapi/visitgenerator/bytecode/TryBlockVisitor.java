@@ -29,17 +29,17 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
-import com.github.jonathanxd.codeapi.interfaces.TryBlock;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
@@ -75,7 +75,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         CodeSource finallySource = tryBlock.getFinallyBlock().orElse(null);
 
-        if(finallySource != null) {
+        if (finallySource != null) {
             finallyBlock = new Label();
         } else {
             finallyBlock = null;
@@ -107,7 +107,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
 
         if (INLINE_FINALLY) {
-            if(finallyBlock != null) {
+            if (finallyBlock != null) {
                 mv.visitLabel(finallyBlock);
                 visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
             }
@@ -146,10 +146,10 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
             CodePart toAdd;
 
             if (INLINE_FINALLY) {
-                if(finallyBlock != null) {
+                if (finallyBlock != null) {
                     toAdd = finallySource;
                 }
-            } else if(!INLINE_FINALLY && finallyBlock != null) {
+            } else if (!INLINE_FINALLY && finallyBlock != null) {
                 toAdd = (InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) -> {
                     mv.visitJumpInsn(GOTO, finallyBlock);
                 };
@@ -157,12 +157,12 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
             BooleanContainer booleanContainer = new BooleanContainer(false);
 
-            if(codeSource != null) {
+            if (codeSource != null) {
                 CodeSource codeSource1 = new CodeSource(codeSource);
 
 
                 codeSource1 = CodeSourceUtil.insertBefore(codePart -> {
-                    if(codePart instanceof ThrowException) {
+                    if (codePart instanceof ThrowException) {
                         booleanContainer.set(true);
                         return true;
                     }
@@ -174,7 +174,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
             }
 
 
-            if(!booleanContainer.get()) {
+            if (!booleanContainer.get()) {
                 if (INLINE_FINALLY) {
                     if (finallyBlock != null) {
                         visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
@@ -191,7 +191,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         mv.visitLabel(endLabel);
 
-        if(!INLINE_FINALLY && finallyBlock != null) {
+        if (!INLINE_FINALLY && finallyBlock != null) {
             mv.visitLabel(finallyBlock);
             visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
         }

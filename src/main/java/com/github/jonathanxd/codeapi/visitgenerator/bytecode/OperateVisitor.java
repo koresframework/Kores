@@ -28,8 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
-import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -37,9 +36,10 @@ import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
@@ -76,9 +76,9 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
         int constant = 1;
 
-        if(value != null && (!(value instanceof Literal) || !((Literal) value).getType().get().getJavaSpecName().equals("I"))) {
+        if (value != null && (!(value instanceof Literal) || !((Literal) value).getType().get().getJavaSpecName().equals("I"))) {
             constantVal = false;
-        } else if(value != null) {
+        } else if (value != null) {
             constant = Integer.valueOf(((Literal) value).getName());
         }
 
@@ -92,23 +92,21 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
         Optional<Variable> var = mvData.getVar(variableOperate.getName(), variableOperate.getVariableType());
 
 
-        if(!var.isPresent())
-            throw new RuntimeException("Variable '"+variableOperate.getName()+"' Type: '"+variableOperate.getVariableType().getJavaSpecName()+"' Not found in local variables map");
+        if (!var.isPresent())
+            throw new RuntimeException("Variable '" + variableOperate.getName() + "' Type: '" + variableOperate.getVariableType().getJavaSpecName() + "' Not found in local variables map");
 
         Variable variable = var.get();
 
         int i = mvData.getVarPos(variable);
 
-        if(at instanceof AccessLocal) {
+        if (at instanceof AccessLocal) {
             if (operation == Operators.INCREMENT) {
                 mv.visitIincInsn(i, 1);
                 return new Byte[0];
-            }else
-            if (operation == Operators.DECREMENT) {
+            } else if (operation == Operators.DECREMENT) {
                 mv.visitIincInsn(i, -1);
                 return new Byte[0];
-            }else
-            if (constantVal) {
+            } else if (constantVal) {
                 if (operation == Operators.ADD) {
                     mv.visitIincInsn(i, constant);
                     return new Byte[0];
@@ -149,21 +147,20 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
         int opcode = -1;
 
-        if(operation == Operators.ADD) {
+        if (operation == Operators.ADD) {
             opcode = type.getOpcode(IADD);
-        } else if(operation == Operators.SUBTRACT) {
+        } else if (operation == Operators.SUBTRACT) {
             opcode = type.getOpcode(ISUB);
-        } else if(operation == Operators.MULTIPLY) {
+        } else if (operation == Operators.MULTIPLY) {
             opcode = type.getOpcode(IMUL);
-        } else if(operation == Operators.DIVISION) {
+        } else if (operation == Operators.DIVISION) {
             opcode = type.getOpcode(IDIV);
-        } else if(operation == Operators.REMAINDER) {
+        } else if (operation == Operators.REMAINDER) {
             opcode = type.getOpcode(IREM);
         }
 
-        if(opcode != -1)
+        if (opcode != -1)
             mvData.getMethodVisitor().visitInsn(opcode);
-
 
 
     }

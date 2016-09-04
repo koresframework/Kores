@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -38,7 +37,9 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 public interface MethodSpecification extends Argumenterizable, CodePart {
 
     String getMethodName();
+
     TypeSpec getMethodDescription();
+
     MethodType getMethodType();
 
 }

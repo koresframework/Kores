@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.types.ClassType;
 /**
  * Created by jonathan on 25/07/16.
  */
-public interface ClassDeclaration extends InterfaceDeclaration, Extender {
+public interface ClassDeclaration extends TypeDeclaration, Implementer, Extender {
 
     @Override
     default ClassType getClassType() {

@@ -39,8 +39,8 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,14 +67,14 @@ public class ArrayConstructorSourceGenerator implements Generator<ArrayConstruct
 
         boolean generateSizes = arrayConstructor.getArguments().isEmpty();
 
-        if(!generateSizes) { // Arguments is Not EMPTY
+        if (!generateSizes) { // Arguments is Not EMPTY
 
             String collect = Arrays.stream(arrayConstructor.getDimensions()).map($ -> "[]").collect(Collectors.joining(""));
 
             values.add(ValueImpl.create(collect));
 
             values.add(TargetValue.create(Argumenterizable.class, arrayConstructor, parents));
-        }else {
+        } else {
             for (CodePart i : arrayConstructor.getDimensions()) {
                 values.add(ValueImpl.create("["));
                 values.add(TargetValue.create(i, parents));
@@ -86,7 +86,7 @@ public class ArrayConstructorSourceGenerator implements Generator<ArrayConstruct
 
         Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
 
-        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
         }
 
