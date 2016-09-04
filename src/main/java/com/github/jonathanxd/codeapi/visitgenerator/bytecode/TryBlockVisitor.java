@@ -52,6 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -171,6 +172,9 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
                     toAdd = finallySource;
                 }
             } else if (!INLINE_FINALLY && finallyBlock != null) {
+
+                Logger.getLogger("Inliner").warning("Is not recommended to use non-inlined finally in Bytecode generation because the behavior is inconsistent.");
+
                 toAdd = Helper.sourceOf((InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) -> {
                     mv.visitJumpInsn(GOTO, finallyBlock);
                 });
