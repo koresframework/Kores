@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -49,16 +50,18 @@ import com.github.jonathanxd.iutils.iterator.Navigator;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 03/06/16.
  */
 public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, MVData>, Opcodes {
 
-    private static int TRY_WITH_RESOURCES_VARIABLES = 0;
+    private int TRY_WITH_RESOURCES_VARIABLES = 0;
 
-    private static int getAndIncrementTryWithRes() {
+    private int getAndIncrementTryWithRes() {
         int i = TRY_WITH_RESOURCES_VARIABLES;
 
         ++TRY_WITH_RESOURCES_VARIABLES;
@@ -73,15 +76,13 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        MethodVisitor methodVisitor = mvData.getMethodVisitor();
-
 
         VariableDeclaration variable = tryWithResources.getVariable();
 
         // Generate try-catch initialize field
         visitorGenerator.generateTo(CodeField.class, variable, extraData, navigator, null, mvData);
 
-        int num = TryWithResourcesVisitor.getAndIncrementTryWithRes();
+        int num = this.getAndIncrementTryWithRes();
 
         String throwableFieldName = "$throwable#" + num;
 
@@ -128,7 +129,12 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
                 )
         );
 
-        TryBlock tryCatchBlock = Helper.surround(tryWithResources.getRequiredBody(), Collections.singletonList(catchBlock),
+        List<CatchBlock> catchBlocks = new ArrayList<>();
+
+        catchBlocks.add(catchBlock);
+        catchBlocks.addAll(tryWithResources.getCatchBlocks());
+
+        TryBlock tryCatchBlock = Helper.surround(tryWithResources.getRequiredBody(), catchBlocks,
                 Helper.sourceOf(
                         Helper.ifExpression(Helper.createIfVal()
                                         .add1(Helper.checkNotNull(Helper.accessLocalVariable(variable)))
@@ -142,7 +148,8 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
                                                 Helper.elseExpression(Helper.sourceOf(
                                                         closeInvocation
                                                 )))
-                                ))
+                                )),
+                        tryWithResources.getFinallyBlock().orElse(new CodeSource())
                 ));
 
         visitorGenerator.generateTo(TryCatchBlock.class, tryCatchBlock, extraData, navigator, null, mvData);

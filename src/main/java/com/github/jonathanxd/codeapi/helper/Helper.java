@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
+import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -49,7 +50,9 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
@@ -280,7 +283,7 @@ public final class Helper {
         return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
     }
 
-    public static CodePart cast(CodeType originalType, CodeType type, CodePart castedPart) {
+    public static Casted cast(CodeType originalType, CodeType type, CodePart castedPart) {
         return new CastedExPart(originalType, type, castedPart);
     }
 
@@ -303,13 +306,11 @@ public final class Helper {
         return check(expr1, Operators.NOT_EQUAL_TO, Literals.NULL);
     }
 
-    // TODO: need review: USING KEYWORDS, I CANNOT GENERATE BYTECODE USING KEYWORDS
-    @Deprecated
-    public static CodePart construct(InvokeType invokeType, CodeType localization, CodePart firstExpression, CodeType type) {
-        return new MethodInvocationImpl(invokeType, localization, expression(firstExpression, expression(Keywords.NEW)), new MethodSpec(type, Collections.emptyList(), MethodType.CONSTRUCTOR));
+    public static IfExpr checkNull(CodePart expr1) {
+        return check(expr1, Operators.EQUAL_TO, Literals.NULL);
     }
 
-    public static CodePart createDoWhile(CodeSource body, BiMultiVal<CodePart, IfExpr, Operator> expression) {
+    public static DoWhileBlock createDoWhile(CodeSource body, BiMultiVal<CodePart, IfExpr, Operator> expression) {
         return new SimpleExDoWhileBlock(expression, body);
     }
 
@@ -322,16 +323,20 @@ public final class Helper {
         return new SimpleForBlock(initialization, expression, update, body);
     }
 
+    public static ForEachBlock createForEach(FieldDeclaration field, IterationType iterationType, CodePart expression, CodeSource body) {
+        return new ForEachBlockEx(field, iterationType, expression, body);
+    }
+
     public static ForEachBlock createForEach(FieldDeclaration field, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, IterationType.ITERABLE_ELEMENT, expression, body);
+        return new ForEachBlockEx(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
     }
 
     public static ForEachBlock createForEachArray(FieldDeclaration field, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, IterationType.ARRAY, expression, body);
+        return new ForEachBlockEx(field, IterationTypes.ARRAY, expression, body);
     }
 
     public static ForEachBlock createForEachIterable(FieldDeclaration field, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, IterationType.ITERABLE_ELEMENT, expression, body);
+        return new ForEachBlockEx(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
     }
 
     public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
@@ -666,7 +671,7 @@ public final class Helper {
         return new TryWithResourcesImpl(variableDeclaration, catchBlocks, body);
     }
 
-    public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, List<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
+    public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, CodeSource body, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
         return new TryWithResourcesImpl(variableDeclaration, catchBlocks, body, finallyBlock);
     }
 
