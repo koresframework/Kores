@@ -128,10 +128,11 @@ import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
@@ -182,7 +183,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);
         register(Return.class, ReturnSourceGenerator.INSTANCE);
         register(IfExpressionable.class, IfExpressionableSourceGenerator.INSTANCE);
-        register(VariableStore.class, VariableStoreSourceGenerator.INSTANCE);
+        register(VariableDeclaration.class, VariableStoreSourceGenerator.INSTANCE);
         register(ArrayConstructor.class, ArrayConstructorSourceGenerator.INSTANCE);
         register(ArrayLoad.class, ArrayLoadSourceGenerator.INSTANCE);
         register(ArrayStore.class, ArrayStoreSourceGenerator.INSTANCE);
@@ -220,6 +221,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Annotable.class, AnnotableSourceGenerator.INSTANCE);
         register(Annotation.class, AnnotationSourceGenerator.INSTANCE);
         register(EnumValue.class, EnumValueSourceGenerator.INSTANCE);
+
+        // Try-with-resources
+        registerSuper(TryWithResources.class, TryBlockSourceGenerator.INSTANCE);
     }
 
     public static PlainSourceGenerator singletonInstance() {
@@ -227,6 +231,10 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
     }
 
     private static <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {
+        registry.put(tClass, generator);
+    }
+
+    private static <T> void registerSuper(Class<T> tClass, Generator<? super T, String, PlainSourceGenerator> generator) {
         registry.put(tClass, generator);
     }
 

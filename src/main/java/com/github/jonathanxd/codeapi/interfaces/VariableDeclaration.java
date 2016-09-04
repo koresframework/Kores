@@ -27,10 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodePart;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Created by jonathan on 12/05/16.
  */
-public interface FieldDeclaration extends CodeElement, VariableDeclaration, Named, Typed, Valuable, Modifierable, Annotable {
+public interface VariableDeclaration extends VariableAccess, CodePart {
+
+    Optional<CodePart> getValue();
+
+
 }

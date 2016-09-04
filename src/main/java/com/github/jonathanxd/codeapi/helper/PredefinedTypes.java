@@ -50,6 +50,11 @@ public final class PredefinedTypes {
 
     public static final LoadedCodeType<Void> VOID = new PredefinedType<>(Void.TYPE);
 
+    // Exceptions
+    public static final LoadedCodeType<Throwable> THROWABLE = new PredefinedType<>(Throwable.class);
+    public static final LoadedCodeType<Exception> EXCEPTION = new PredefinedType<>(Exception.class);
+    public static final LoadedCodeType<RuntimeException> RUNTIME_EXCEPTION = new PredefinedType<>(RuntimeException.class);
+
 
     // Primitive
     public static final LoadedCodeType<Byte> BYTE = new PredefinedType<>(Byte.TYPE);

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
@@ -58,23 +59,18 @@ public class ThrowExceptionGenerator implements Generator<ThrowException, String
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(ThrowException throwException, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
-        Optional<CodeType> type = throwException.getType();
-
-        if (!type.isPresent())
-            return Collections.emptyList();
+        CodePart partToThrow = throwException.getPartToThrow();
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
                 ValueImpl.create("throw"),
-                ValueImpl.create("new"),
-                TargetValue.create(CodeType.class, type.get(), parents),
-                TargetValue.create(Argumenterizable.class, throwException, parents)
+                TargetValue.create(partToThrow.getClass(), partToThrow, parents)
         ));
 
         Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
 
-        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        /*if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
-        }
+        }*/
 
         return values;
     }

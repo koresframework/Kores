@@ -39,6 +39,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -49,7 +50,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String, PlainSourceGenerator> {
+public class TryBlockSourceGenerator implements Generator<TryBlock, String, PlainSourceGenerator> {
 
     public static final TryBlockSourceGenerator INSTANCE = new TryBlockSourceGenerator();
 
@@ -57,14 +58,14 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(TryCatchBlock tryCatchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(TryBlock tryBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         values.add(ValueImpl.create("try"));
 
 
-        CodePart expression = tryCatchBlock.getExpression().orElse(null);
+        CodePart expression = tryBlock.getExpression().orElse(null);
 
         if (expression != null) {
             values.add(ValueImpl.create("("));
@@ -72,15 +73,15 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
             values.add(ValueImpl.create(")"));
         }
 
-        values.add(TargetValue.create(Bodied.class, tryCatchBlock, parents));
+        values.add(TargetValue.create(Bodied.class, tryBlock, parents));
 
-        Collection<CatchBlock> catchBlocks = tryCatchBlock.getCatchBlocks();
+        Collection<CatchBlock> catchBlocks = tryBlock.getCatchBlocks();
 
         for (CatchBlock catchBlock : catchBlocks) {
             values.add(TargetValue.create(catchBlock.getClass(), catchBlock, parents));
         }
 
-        CodeSource finallyBlock = tryCatchBlock.getFinallyBlock().orElse(null);
+        CodeSource finallyBlock = tryBlock.getFinallyBlock().orElse(null);
 
         if (finallyBlock != null) {
             values.add(ValueImpl.create("finally"));

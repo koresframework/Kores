@@ -38,8 +38,10 @@ import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
+import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -63,9 +65,10 @@ import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -137,8 +140,8 @@ public final class Helper {
         return accessVariable(null, accessLocal(), fieldVariable.getName(), fieldVariable.getType().orElse(PredefinedTypes.OBJECT));
     }
 
-    public static VariableAccess accessLocalVariable(VariableStore variableStore) {
-        return accessVariable(null, accessLocal(), variableStore.getName(), variableStore.getVariableType());
+    public static VariableAccess accessLocalVariable(VariableDeclaration variableDeclaration) {
+        return accessVariable(null, accessLocal(), variableDeclaration.getName(), variableDeclaration.getVariableType());
     }
 
     public static VariableAccess accessStaticVariable(Class<?> localization, String name, Class<?> variableType) {
@@ -169,8 +172,8 @@ public final class Helper {
         return new AccessThisEx(at);
     }
 
-    public static VariableAccess accessVariable(VariableStore variableStore) {
-        return accessVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType());
+    public static VariableAccess accessVariable(VariableDeclaration variableDeclaration) {
+        return accessVariable(variableDeclaration.getLocalization(), variableDeclaration.getAt(), variableDeclaration.getName(), variableDeclaration.getVariableType());
     }
 
     public static VariableAccess accessVariable(CodeType localization, CodePart at, String name) {
@@ -198,8 +201,8 @@ public final class Helper {
     }
 
     /////////// OPERATE VARIABLES
-    public static VariableOperate operateVariable(VariableStore variableStore, Operator operation) {
-        return operateVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType(), operation);
+    public static VariableOperate operateVariable(VariableDeclaration variableDeclaration, Operator operation) {
+        return operateVariable(variableDeclaration.getLocalization(), variableDeclaration.getAt(), variableDeclaration.getName(), variableDeclaration.getVariableType(), operation);
     }
 
     public static VariableOperate operateVariable(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation) {
@@ -224,8 +227,8 @@ public final class Helper {
         return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, null);
     }
 
-    public static VariableOperate operateVariable(VariableStore variableStore, Operator operation, CodePart value) {
-        return operateVariable(variableStore.getLocalization(), variableStore.getAt(), variableStore.getName(), variableStore.getVariableType(), operation, value);
+    public static VariableOperate operateVariable(VariableDeclaration variableDeclaration, Operator operation, CodePart value) {
+        return operateVariable(variableDeclaration.getLocalization(), variableDeclaration.getAt(), variableDeclaration.getName(), variableDeclaration.getVariableType(), operation, value);
     }
 
     public static VariableOperate operateVariable(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation, CodePart value) {
@@ -283,6 +286,11 @@ public final class Helper {
 
     @SuppressWarnings("unchecked")
     public static CatchBlock catchBlock(List<CodeType> catchExceptions, String variable, CodeSource body) {
+
+        return new CatchExBlock(new CodeField(variable, PredefinedTypes.THROWABLE), catchExceptions, body);
+    }
+
+    public static CatchBlock catchBlock(List<CodeType> catchExceptions, CodeField variable, CodeSource body) {
 
         return new CatchExBlock(variable, catchExceptions, body);
     }
@@ -571,36 +579,36 @@ public final class Helper {
         return new ArrayStoreEx(index, target, valueType, value);
     }
 
-    public static VariableStore setVariable(CodeType localization, CodePart at, String variable, CodePart value) {
-        return new SimpleVariableStore(localization, at, variable, null, value);
+    public static VariableDeclaration setVariable(CodeType localization, CodePart at, String variable, CodePart value) {
+        return new SimpleVariableDeclaration(localization, at, variable, null, value);
     }
 
-    public static VariableStore setVariable(CodeType localization, CodePart at, String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableStore(localization, at, variable, varType, value);
+    public static VariableDeclaration setVariable(CodeType localization, CodePart at, String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableDeclaration(localization, at, variable, varType, value);
     }
 
-    public static VariableStore setVariable(CodeType localization, String variable, CodePart value) {
-        return new SimpleVariableStore(localization, null, variable, null, value);
+    public static VariableDeclaration setVariable(CodeType localization, String variable, CodePart value) {
+        return new SimpleVariableDeclaration(localization, null, variable, null, value);
     }
 
-    public static VariableStore setVariable(CodeType localization, String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableStore(localization, null, variable, varType, value);
+    public static VariableDeclaration setVariable(CodeType localization, String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableDeclaration(localization, null, variable, varType, value);
     }
 
-    public static VariableStore setLocalVariable(String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableStore(null, accessLocal(), variable, varType, value);
+    public static VariableDeclaration setLocalVariable(String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableDeclaration(null, accessLocal(), variable, varType, value);
     }
 
-    public static VariableStore setLocalVariable(String variable, Class<?> varType, CodePart value) {
-        return new SimpleVariableStore(null, accessLocal(), variable, Helper.getJavaType(varType), value);
+    public static VariableDeclaration setLocalVariable(String variable, Class<?> varType, CodePart value) {
+        return new SimpleVariableDeclaration(null, accessLocal(), variable, Helper.getJavaType(varType), value);
     }
 
-    public static VariableStore setThisVariable(String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableStore(null, accessThis(), variable, varType, value);
+    public static VariableDeclaration setThisVariable(String variable, CodeType varType, CodePart value) {
+        return new SimpleVariableDeclaration(null, accessThis(), variable, varType, value);
     }
 
-    public static VariableStore setThisVariable(String variable, Class<?> varType, CodePart value) {
-        return new SimpleVariableStore(null, accessThis(), variable, Helper.getJavaType(varType), value);
+    public static VariableDeclaration setThisVariable(String variable, Class<?> varType, CodePart value) {
+        return new SimpleVariableDeclaration(null, accessThis(), variable, Helper.getJavaType(varType), value);
     }
 
     public static VariableAccess simpleVariable(String name) {
@@ -626,36 +634,55 @@ public final class Helper {
         return simpleStaticBlock;
     }
 
-    public static TryCatchBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks) {
+    public static TryBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks) {
 
-        return new TryCatchBlock(null, catchBlocks, sourceOf(toSurround));
+        return new TryCatchBlock(catchBlocks, sourceOf(toSurround));
     }
 
-    public static TryCatchBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks) {
+    public static TryBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks) {
 
-        return new TryCatchBlock(null, catchBlocks, toSurround);
+        return new TryCatchBlock(catchBlocks, toSurround);
     }
 
-    public static TryCatchBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
+    public static TryBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
 
-        return new TryCatchBlock(null, catchBlocks, sourceOf(toSurround), finallyBlock);
+        return new TryCatchBlock(catchBlocks, sourceOf(toSurround), finallyBlock);
     }
 
-    public static TryCatchBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
+    public static TryBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
 
-        return new TryCatchBlock(null, catchBlocks, toSurround, finallyBlock);
+        return new TryCatchBlock(catchBlocks, toSurround, finallyBlock);
+    }
+
+    public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, CodeSource body) {
+        return new TryWithResourcesImpl(variableDeclaration, body);
+    }
+
+    public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, CodeSource body, CodeSource finallyBlock) {
+        return new TryWithResourcesImpl(variableDeclaration, Collections.emptyList(), body, finallyBlock);
+    }
+
+    public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, List<CatchBlock> catchBlocks, CodeSource body) {
+        return new TryWithResourcesImpl(variableDeclaration, catchBlocks, body);
+    }
+
+    public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, List<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
+        return new TryWithResourcesImpl(variableDeclaration, catchBlocks, body, finallyBlock);
     }
 
     public static ThrowException throwException(CodeType exception, CodeArgument[] arguments) {
-        return new ThrowExceptionEx(exception, Arrays.asList(arguments));
+
+        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exception, exception,
+                new MethodSpec((String) null, Arrays.asList(arguments),
+                        /*<init>*/
+                        (CodeType) null/*PredefinedTypes#VOID*/,
+                MethodType.CONSTRUCTOR));
+
+        return Helper.throwException(invoke);
     }
 
-    public static TryBlock tryCatchBlock(CodePart expression) {
-        return new TryCatchBlock(expression, new CodeSource());
-    }
-
-    public static TryBlock tryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks) {
-        return new TryCatchBlock(expression, catchBlocks, new CodeSource());
+    public static ThrowException throwException(CodePart partToThrow) {
+        return new ThrowExceptionEx(partToThrow);
     }
 
     public static final class ExpressionAdder extends BiMultiVal.Adder<CodePart, IfExpr, Operator> {

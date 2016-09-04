@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
@@ -49,11 +50,20 @@ import org.objectweb.asm.Opcodes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
  */
 public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes {
+
+    private static int unknownException = 0;
+
+    private static int getAndIncrementUnkEx() {
+        int i = unknownException;
+        ++unknownException;
+        return i;
+    }
 
     @Override
     public Byte[] visit(TryBlock tryBlock,
@@ -124,7 +134,8 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         Label endLabel = new Label();
 
-        final int stackPos = mvData.storeVar("unknownException$$", Helper.getJavaType(Throwable.class), i_label, null);
+        final String unkExceptionName = "unknownException$$" + getAndIncrementUnkEx();
+        final int stackPos = mvData.storeVar(unkExceptionName, Helper.getJavaType(Throwable.class), i_label, null);
 
         catches.forEach((catchBlock, label) -> {
 
@@ -135,24 +146,33 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
             mv.visitLabel(label);
 
-            String s = catchBlock.getName();
+            CodeField field = catchBlock.getField();
+            Optional<CodePart> fieldValue = field.getValue();
 
-            mvData.redefineVar(stackPos, s, Helper.getJavaType(Throwable.class), label, endLabel);
+            mvData.redefineVar(stackPos, field.getName(), field.getVariableType(), label, endLabel);
 
             mv.visitVarInsn(ASTORE, stackPos);
 
+            if (fieldValue.isPresent()) {
+                CodePart valuePart = fieldValue.get();
+
+                visitorGenerator.generateTo(valuePart.getClass(), valuePart, extraData, navigator, null, mvData);
+
+                mv.visitVarInsn(ASTORE, stackPos);
+            }
+
             CodeSource codeSource = catchBlock.getBody().orElse(null);
 
-            CodePart toAdd;
+            CodeSource toAdd = Helper.sourceOf();
 
             if (INLINE_FINALLY) {
                 if (finallyBlock != null) {
                     toAdd = finallySource;
                 }
             } else if (!INLINE_FINALLY && finallyBlock != null) {
-                toAdd = (InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) -> {
+                toAdd = Helper.sourceOf((InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) -> {
                     mv.visitJumpInsn(GOTO, finallyBlock);
-                };
+                });
             }
 
             BooleanContainer booleanContainer = new BooleanContainer(false);
@@ -168,7 +188,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
                     }
 
                     return false;
-                }, finallySource, codeSource1);
+                }, toAdd, codeSource1);
 
                 visitorGenerator.generateTo(CodeSource.class, codeSource1, extraData, navigator, null, mvData);
             }

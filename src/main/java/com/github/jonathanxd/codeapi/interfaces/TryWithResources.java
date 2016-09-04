@@ -32,11 +32,20 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Created by jonathan on 04/09/16.
  */
-public interface VariableStore extends VariableAccess, CodePart {
+public interface TryWithResources extends TryBlock {
 
-    Optional<CodePart> getValue();
+    /**
+     * Variable of Try-with-resources (value must be {@link AutoCloseable}
+     *
+     * @return Variable of Try-with-resources (value must be {@link AutoCloseable}
+     */
+    VariableDeclaration getVariable();
 
 
+    @Override
+    default Optional<CodePart> getExpression() {
+        return Optional.of(this.getVariable());
+    }
 }

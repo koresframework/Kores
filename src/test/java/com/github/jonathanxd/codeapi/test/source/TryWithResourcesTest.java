@@ -25,48 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.TryWithResourcesTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
 
-import java.util.Optional;
+import org.junit.Test;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 03/06/16.
  */
-//
-@GenerateTo(VariableStore.class)
-public class SimpleVariableStore extends SimpleVariableAccess implements CodePart, VariableStore {
-
-    private final CodePart value;
-
-    public SimpleVariableStore(CodeType localization, String name, CodeType variableType, CodePart value) {
-        super(localization, name, variableType);
-        this.value = value;
-    }
-
-    public SimpleVariableStore(CodeType localization, CodePart at, String name, CodeType variableType, CodePart value) {
-        super(localization, at, name, variableType);
-        this.value = value;
-    }
-
-    @Override
-    public Optional<CodePart> getValue() {
-        return Optional.ofNullable(this.value);
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("localization", this.getLocalization())
-                .add("at", this.getAt())
-                .add("type", this.getVariableType())
-                .add("name", this.getName())
-                .addOptional("value", this.getValue())
-                .toString();
+public class TryWithResourcesTest {
+    @Test
+    public void testSource() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
+        SourceTest test = CommonSourceTest.test(this.getClass(), $._2());
+        test.expect("package test ; \n" +
+                "public class TryWithResourcesTestClass { \n" +
+                "    public TryWithResourcesTestClass ( ) { \n" +
+                "        try (  com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm trm = new com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm ( ) ) { \n" +
+                "            trm . read ( ) ; \n" +
+                "             \n" +
+                "        } \n" +
+                "        \n" +
+                "         \n" +
+                "    } \n" +
+                "    \n" +
+                "     \n" +
+                "} \n\n");
     }
 }

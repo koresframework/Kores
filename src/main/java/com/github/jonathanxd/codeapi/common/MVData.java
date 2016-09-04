@@ -74,7 +74,7 @@ public class MVData {
     }
 
     public int getVarPos(Variable variable) {
-        for (int i = 0; i < this.variables.size(); i++) {
+        for (int i = variables.size() - 1; i >= 0; i--) {
             if (this.variables.get(i).equals(variable))
                 return i;
         }
@@ -85,7 +85,7 @@ public class MVData {
     public int storeVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
         Variable variable = new Variable(name, type, startLabel, endLabel);
 
-        for (int i = 0; i < this.variables.size(); i++) {
+        for (int i = this.variables.size() - 1; i >= 0; i--) {
             Variable variable1 = this.variables.get(i);
 
             if (variable1.equals(variable)) {
@@ -104,7 +104,7 @@ public class MVData {
     public int storeInternalVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
         Variable variable = new Variable(name, type, startLabel, endLabel, true);
 
-        for (int i = 0; i < this.variables.size(); i++) {
+        for (int i = variables.size() - 1; i >= 0; i--) {
             if (this.variables.get(i).equals(variable)) {
                 return i;
             }
@@ -153,7 +153,7 @@ public class MVData {
         for (int i = 0; i < variables.size(); i++) {
             Variable variable = variables.get(i);
 
-            if (variable.isTemp())
+            if (variable.isTemp() || variable.getName().contains("#")) // Internal variables
                 continue;
 
             Label varStart = variable.getStartLabel() != null ? variable.getStartLabel() : start;

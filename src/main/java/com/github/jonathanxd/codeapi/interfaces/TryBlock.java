@@ -42,6 +42,16 @@ public interface TryBlock extends Bodied, MultiBodied, Expressionable, CodePart 
 
     Optional<CodeSource> getFinallyBlock();
 
+    /**
+     * Gets the expression of try-with-resources statement.
+     *
+     * This method is used to generate try-with-resources source code (only source code).
+     *
+     * @return Optional of {@link TryWithResources#getVariable()} or empty if is not a {@link
+     * TryWithResources} block.
+     */
+    @Override
+    Optional<CodePart> getExpression();
 
     @Override
     default List<CodeSource> getBodies() {

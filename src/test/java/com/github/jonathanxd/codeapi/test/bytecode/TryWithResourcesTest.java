@@ -25,12 +25,26 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.TryWithResourcesTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import org.junit.Test;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Created by jonathan on 03/09/16.
  */
-public interface FieldDeclaration extends CodeElement, VariableDeclaration, Named, Typed, Valuable, Modifierable, Annotable {
+public class TryWithResourcesTest {
+
+    @Test(expected = IllegalStateException.class)
+    public void tryWithResourcesTest() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
+        @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2());
+    }
+
 }

@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,22 +49,24 @@ public class TryCatchBlock implements TryBlock {
     private final CodeSource body;
     private final List<CatchBlock> catchBlocks = new ArrayList<>();
     private final CodeSource finallyBlock;
-    private final CodePart expression;
 
     public TryCatchBlock(CodeSource body) {
-        this(null, null, body, null);
+        this((List<CatchBlock>) null, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, CodeSource body) {
-        this(expression, null, body, null);
+    public TryCatchBlock(List<CatchBlock> catchBlocks, CodeSource body) {
+        this(catchBlocks, body, null);
     }
 
-    public TryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks, CodeSource body) {
-        this(expression, catchBlocks, body, null);
+    public TryCatchBlock(CatchBlock catchBlock, CodeSource body) {
+        this(Collections.singletonList(catchBlock), body, null);
     }
 
-    public TryCatchBlock(CodePart expression, List<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
-        this.expression = expression;
+    public TryCatchBlock(CatchBlock catchBlock, CodeSource body, CodeSource finallyBlock) {
+        this(Collections.singletonList(catchBlock), body, finallyBlock);
+    }
+
+    public TryCatchBlock(List<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
         this.body = body;
 
         if (catchBlocks != null)
@@ -92,7 +95,7 @@ public class TryCatchBlock implements TryBlock {
 
     @Override
     public Optional<CodePart> getExpression() {
-        return Optional.ofNullable(expression);
+        return Optional.empty();
     }
 
     @Override

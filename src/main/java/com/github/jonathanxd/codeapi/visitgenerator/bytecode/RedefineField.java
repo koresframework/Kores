@@ -25,12 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Created by jonathan on 04/09/16.
  */
-public interface FieldDeclaration extends CodeElement, VariableDeclaration, Named, Typed, Valuable, Modifierable, Annotable {
+@GenerateTo(FieldDeclaration.class)
+class RedefineField extends CodeField {
+    RedefineField(String name, CodeType type, Collection<CodeModifier> modifiers, List<Annotation> annotations) {
+        super(name, type, null, modifiers, annotations);
+    }
+
+    RedefineField(String name, CodeType type, Collection<CodeModifier> modifiers) {
+        super(name, type, modifiers);
+    }
+
+    RedefineField(String name, CodeType type) {
+        super(name, type);
+    }
+
+    RedefineField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
+        super(name, type, value, modifiers);
+    }
+
+    RedefineField(String name, CodeType type, CodePart value) {
+        super(name, type, value);
+    }
 }

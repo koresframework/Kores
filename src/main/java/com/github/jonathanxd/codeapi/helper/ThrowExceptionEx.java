@@ -27,13 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,30 +43,23 @@ import java.util.Optional;
 @GenerateTo(ThrowException.class)
 public class ThrowExceptionEx implements ThrowException {
 
-    private final CodeType exceptionType;
-    private final List<CodeArgument> arguments;
+    private final CodePart partToThrow;
 
 
-    ThrowExceptionEx(CodeType exceptionType, List<CodeArgument> arguments) {
-        this.exceptionType = exceptionType;
-        this.arguments = Collections.unmodifiableList(arguments);
+    ThrowExceptionEx(CodePart partToThrow) {
+        this.partToThrow = partToThrow;
     }
 
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(exceptionType);
-    }
 
     @Override
-    public List<CodeArgument> getArguments() {
-        return arguments;
+    public CodePart getPartToThrow() {
+        return partToThrow;
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
-                .addOptional("exceptionType", this.getType())
-                .add("arguments", this.getArguments())
+                .add("partToThrow", this.getPartToThrow())
                 .toString();
     }
 }
