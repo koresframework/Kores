@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Options;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
@@ -102,6 +101,7 @@ import com.github.jonathanxd.iutils.arrays.JwArray;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.object.AbstractTypeInfo;
 import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.jonathanxd.iutils.option.Options;
 
 import java.util.function.Function;
 
@@ -177,7 +177,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
     @Override
     public Options getOptions() {
-        return options;
+        return this.options;
     }
 
     private static class ByteAppender extends Appender<Byte> {

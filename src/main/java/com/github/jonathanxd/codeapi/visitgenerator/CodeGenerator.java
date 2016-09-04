@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Options;
 import com.github.jonathanxd.codeapi.Result;
+import com.github.jonathanxd.iutils.option.Options;
 
 /**
  * Created by jonathan on 07/05/16.

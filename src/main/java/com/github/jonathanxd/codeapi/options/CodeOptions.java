@@ -25,50 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi.options;
 
-import com.github.jonathanxd.codeapi.Options;
-import com.github.jonathanxd.iutils.data.MapData;
-
-import java.util.StringJoiner;
+import com.github.jonathanxd.iutils.option.Option;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 04/09/16.
  */
-public class StringVisitGenerator extends VisitorGenerator<String> {
-
-    private final Options options = new Options();
-
-    @Override
-    protected MapData makeData() {
-        return new MapData();
-    }
-
-    @Override
-    public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
-    }
-
-    @Override
-    public Options getOptions() {
-        return options;
-    }
-
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
-
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
-        }
-
-        @Override
-        public void add(String elem) {
-            this.join.add(elem);
-        }
-
-        @Override
-        public String[] get() {
-            return new String[]{this.join.toString()};
-        }
-    }
+public class CodeOptions {
+    /**
+     * Inline finally blocks.
+     *
+     * Bytecode: If defined to false, CodeAPI will generate Goto's instructions to call
+     * finally blocks (it is bad). (default: true)
+     *
+     * Source Code: Inline finally blocks inside try and catches. (default: false)
+     */
+    public static final Option<Boolean> INLINE_FINALLY = new Option<>();
 }

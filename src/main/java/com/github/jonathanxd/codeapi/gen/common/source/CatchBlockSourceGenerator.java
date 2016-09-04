@@ -105,9 +105,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
         source2.addAll(codeSource);
 
-        values.add(ValueImpl.create("{"));
-        values.add(TargetValue.create(CodeSource.class, codeSource, parents));
-        values.add(ValueImpl.create("}"));
+        values.add(TargetValue.create(CodeSource.class, source2, parents));
 
         return values;
     }

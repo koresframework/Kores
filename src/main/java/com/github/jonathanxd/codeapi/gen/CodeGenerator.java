@@ -28,10 +28,13 @@
 package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.iutils.option.Options;
 
 /**
  * Created by jonathan on 07/05/16.
  */
 public interface CodeGenerator<OUT> {
     OUT gen(CodeSource source);
+
+    Options getOptions();
 }

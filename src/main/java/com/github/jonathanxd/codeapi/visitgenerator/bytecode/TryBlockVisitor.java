@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
@@ -72,7 +73,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        final boolean INLINE_FINALLY = visitorGenerator.getOptions().INLINE_FINALLY.isEnabled();
+        final boolean INLINE_FINALLY = visitorGenerator.getOptions().getOrElse(CodeOptions.INLINE_FINALLY, Boolean.TRUE);
 
         MethodVisitor mv = mvData.getMethodVisitor();
 

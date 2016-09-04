@@ -136,11 +136,13 @@ import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Ident;
 import com.github.jonathanxd.codeapi.util.MultiString;
+import com.github.jonathanxd.iutils.option.Options;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -150,10 +152,16 @@ import java.util.Map;
  */
 public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceGenerator> {
 
+    @Deprecated
     public static final PlainSourceGenerator INSTANCE = new PlainSourceGenerator();
-    private static final Map<Class<?>, Generator<?, String, PlainSourceGenerator>> registry = new HashMap<>();
 
-    static {
+    private final Map<Class<?>, Generator<?, String, PlainSourceGenerator>> registry = new HashMap<>();
+    private final Options options = new Options();
+
+
+    public PlainSourceGenerator() {
+        this.options.set(CodeOptions.INLINE_FINALLY, false);
+
         register(Implementer.class, ImplementerSourceGenerator.INSTANCE);
         register(Modifierable.class, ModifierSourceGenerator.INSTANCE);
         register(Named.class, NamedSourceGenerator.INSTANCE);
@@ -226,16 +234,22 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         registerSuper(TryWithResources.class, TryBlockSourceGenerator.INSTANCE);
     }
 
+    @Deprecated
     public static PlainSourceGenerator singletonInstance() {
         return INSTANCE;
     }
 
-    private static <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {
+    private <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {
         registry.put(tClass, generator);
     }
 
-    private static <T> void registerSuper(Class<T> tClass, Generator<? super T, String, PlainSourceGenerator> generator) {
+    private <T> void registerSuper(Class<T> tClass, Generator<? super T, String, PlainSourceGenerator> generator) {
         registry.put(tClass, generator);
+    }
+
+    @Override
+    public Options getOptions() {
+        return this.options;
     }
 
     @Override

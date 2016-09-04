@@ -37,7 +37,6 @@ public final class Options {
      */
     public final Option INLINE_FINALLY = new Option("INLINE_FINALLY", "Inline finally blocks (like javac)!", true);
 
-
     public void disable(Option option) {
         option.setEnabled(false);
     }

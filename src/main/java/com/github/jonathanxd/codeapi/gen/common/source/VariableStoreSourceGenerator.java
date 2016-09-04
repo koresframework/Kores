@@ -72,9 +72,7 @@ public class VariableStoreSourceGenerator implements Generator<VariableDeclarati
         values.add(TargetValue.create(variableDeclaration.getValue().orElse(Literals.NULL), parents));
 
 
-        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
-
-        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (Util.isBody(parents)) {
             values.add(ValueImpl.create(";"));
         }
         return values;
