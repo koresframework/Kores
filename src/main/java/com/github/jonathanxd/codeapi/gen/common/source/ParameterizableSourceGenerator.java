@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -67,6 +68,7 @@ public class ParameterizableSourceGenerator implements Generator<Parameterizable
         while (iterator.hasNext()) {
             CodeParameter next = iterator.next();
 
+            values.add(TargetValue.create(Annotable.class, next, parents));
             values.add(TargetValue.create(CodeParameter.class, next, parents));
 
             if (iterator.hasNext())

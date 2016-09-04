@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -48,6 +49,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -212,8 +214,8 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
         int asmModifiers = Common.modifierToAsm(modifiers);
 
-
-        String asmParameters = Common.parametersToAsm(codeMethod.getParameters());
+        List<CodeParameter> parameters = codeMethod.getParameters();
+        String asmParameters = Common.parametersToAsm(parameters);
 
 
         // Important: Method Visitor
@@ -233,15 +235,21 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
 
         if (modifiers.contains(CodeModifier.STATIC)) {
-            Common.parametersToVars(codeMethod.getParameters(),/* to */ vars);
+            Common.parametersToVars(parameters,/* to */ vars);
         } else {
             vars.add(new Variable("this", typeDeclaration, null, null));
-            Common.parametersToVars(codeMethod.getParameters(), /* to */ vars);
+            Common.parametersToVars(parameters, /* to */ vars);
         }
 
         MVData mvData = new MVData(mv, vars);
 
         visitorGenerator.generateTo(Annotable.class, codeMethod, extraData, navigator, null, mvData);
+
+        for (int i = 0; i < parameters.size(); i++) {
+            CodeParameter codeParameter = parameters.get(i);
+
+            visitorGenerator.generateTo(Annotable.class, codeParameter, extraData, navigator, null, new ParameterVisitor(mvData, i));
+        }
 
         if (codeMethod.hasBody() || isConstructor) {
             mv.visitCode();

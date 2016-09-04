@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.PkgDclEx;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
@@ -63,6 +64,8 @@ public class TypeSourceGenerator implements Generator<TypeDeclaration, String, P
     public List<Value<?, String, PlainSourceGenerator>> gen(TypeDeclaration codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
+                TargetValue.create(Annotable.class, codeInterface, parents),
+
                 TargetValue.create(Modifierable.class, codeInterface, parents),
 
                 TargetValue.create(ClassType.class, codeInterface.getClassType(), parents),

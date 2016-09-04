@@ -25,44 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.util.asm;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Annotable;
-import com.github.jonathanxd.codeapi.interfaces.Annotation;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.common.MVData;
 
-import java.util.Collections;
-import java.util.List;
+import org.objectweb.asm.AnnotationVisitor;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Created by jonathan on 04/09/16.
  */
-public class CodeParameter implements CodePart, Annotable {
-    private final String name;
-    private final CodeType type;
-    private final List<Annotation> annotations;
+public class ParameterVisitor {
 
-    public CodeParameter(String name, CodeType type) {
-        this(name, type, null);
+    private final MVData mvData;
+    private final int pos;
+
+    public ParameterVisitor(MVData mvData, int pos) {
+        this.mvData = mvData;
+        this.pos = pos;
     }
 
-    public CodeParameter(String name, CodeType type, List<Annotation> annotations) {
-        this.name = name;
-        this.type = type;
-        this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);
+    public AnnotationVisitor visitAnnotation(String desc, boolean isVisible) {
+        return this.mvData.getMethodVisitor().visitParameterAnnotation(this.pos, desc, isVisible);
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public CodeType getType() {
-        return this.type;
-    }
-
-    @Override
-    public List<Annotation> getAnnotations() {
-        return this.annotations;
-    }
 }

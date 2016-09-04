@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
@@ -66,7 +67,7 @@ public class AnnotatedTest_ {
                 "test.AnnotatedTestClass", codeClass1 -> sourceOfParts(
                         new CodeMethod("polymorphic",
                                 Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC),
-                                Collections.emptyList(),
+                                Arrays.asList(new CodeParameter("first", Helper.getJavaType(Object.class), Collections.singletonList(visibleAnnotation(Helper.getJavaType(Deprecated.class))))),
                                 PredefinedTypes.OBJECT,
                                 GenericSignature.empty(),
                                 Arrays.asList(visibleAnnotation(plainCodeType)),

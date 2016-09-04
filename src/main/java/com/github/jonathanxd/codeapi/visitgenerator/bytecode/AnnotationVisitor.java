@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
+import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.conditions.Conditions;
@@ -77,7 +78,10 @@ public class AnnotationVisitor implements Visitor<Annotation, Byte, Object>, Opc
             org.objectweb.asm.FieldVisitor fieldVisitor = (org.objectweb.asm.FieldVisitor) additional;
 
             annotationVisitorCapable = new AnnotationVisitorCapable.FieldVisitorCapable(fieldVisitor);
+        } else if(additional instanceof ParameterVisitor) {
+            ParameterVisitor parameterVisitor = (ParameterVisitor) additional;
 
+            annotationVisitorCapable = new AnnotationVisitorCapable.ParameterVisitorCapable(parameterVisitor);
         }
 
         Conditions.checkNotNull(annotationVisitorCapable, "Cannot determine visitor!", NullPointerException::new);

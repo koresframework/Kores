@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
@@ -113,6 +115,30 @@ public interface AnnotationVisitorCapable {
         @Override
         public AnnotationVisitor visitParameterAnnotation(int parameter, String desc, boolean visible) {
             throw new UnsupportedOperationException("Fields doesn't have parameter annotations!");
+        }
+    }
+
+    class ParameterVisitorCapable implements AnnotationVisitorCapable {
+        private final ParameterVisitor parameterVisitor;
+
+        public ParameterVisitorCapable(ParameterVisitor parameterVisitor) {
+            this.parameterVisitor = parameterVisitor;
+        }
+
+        @Override
+        public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+            return this.parameterVisitor.visitAnnotation(desc, visible);
+
+        }
+
+        @Override
+        public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String desc, boolean visible) {
+            throw new UnsupportedOperationException("Parameters doesn't have type annotations!");
+        }
+
+        @Override
+        public AnnotationVisitor visitParameterAnnotation(int parameter, String desc, boolean visible) {
+            throw new UnsupportedOperationException("Parameters doesn't have parameter annotations!");
         }
     }
 }

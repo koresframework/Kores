@@ -33,6 +33,8 @@ import com.github.jonathanxd.codeapi.gen.AbstractGenerator;
 import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.source.AccessSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.AnnotableSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.AnnotationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArgumenterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArrayConstructorSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArrayLengthSourceGenerator;
@@ -47,6 +49,7 @@ import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator
 import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ElseBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.EnumValueSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ExpressionSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ExtenderSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.FieldSourceGenerator;
@@ -87,6 +90,8 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
@@ -97,6 +102,7 @@ import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
@@ -209,6 +215,11 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Generifiable.class, GenerifiableSourceGenerator.INSTANCE);
         register(GenericSignature.class, GenericSignatureSourceGenerator.INSTANCE);
         register(GenericType.class, GenericTypeSourceGenerator.INSTANCE);
+
+        // Annotation
+        register(Annotable.class, AnnotableSourceGenerator.INSTANCE);
+        register(Annotation.class, AnnotationSourceGenerator.INSTANCE);
+        register(EnumValue.class, EnumValueSourceGenerator.INSTANCE);
     }
 
     public static PlainSourceGenerator singletonInstance() {
@@ -232,6 +243,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
     private static final class MultiStringAppender extends Appender<String> {
         private final Ident indentation = new Ident(4);
         private final MultiString multiString;
+        private boolean isAnnotation = false;
 
         MultiStringAppender(String delimiter) {
             this.multiString = new MultiString(delimiter, s -> indentation.getIdentString() + s);
@@ -248,23 +260,40 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
                 elem = elem.substring(0, elem.length() - 1);
             }
 
-            this.multiString.add(elem);
+            if(!elem.equals("\n"))
+                this.multiString.add(elem);
+
+            if(elem.equals("@"))
+                this.isAnnotation = true;
+
+            if(elem.equals("\n") && this.isAnnotation) {
+                this.isAnnotation = false;
+            }
 
             if (endsWithSemi
                     || endsWithOpenBr
-                    || endsWithCloseBr) {
-                this.multiString.newLine();
+                    || endsWithCloseBr
+                    || elem.equals("\n")) {
+                if(!this.isAnnotation) {
+                    this.multiString.newLine();
+                }
             }
 
             if (endsWithOpenBr) {
-                this.indentation.addIdent();
+                if(!this.isAnnotation) {
+                    this.indentation.addIdent();
+                }
             }
 
             if (endsWithCloseBr) {
-                this.indentation.removeIdent();
-                this.multiString.add("}");
-                this.multiString.newLine();
-                this.multiString.newLine();
+                if(!this.isAnnotation) {
+                    this.indentation.removeIdent();
+                    this.multiString.add("}");
+                    this.multiString.newLine();
+                    this.multiString.newLine();
+                } else {
+                    this.multiString.add("}");
+                }
             }
         }
 

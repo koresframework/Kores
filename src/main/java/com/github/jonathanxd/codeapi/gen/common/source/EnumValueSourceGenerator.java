@@ -31,56 +31,38 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Annotable;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.Generifiable;
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.interfaces.Returnable;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.EnumValue;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodSourceGenerator implements Generator<MethodDeclaration, String, PlainSourceGenerator> {
+public class EnumValueSourceGenerator implements Generator<EnumValue, String, PlainSourceGenerator> {
 
-    public static final MethodSourceGenerator INSTANCE = new MethodSourceGenerator();
+    public static final EnumValueSourceGenerator INSTANCE = new EnumValueSourceGenerator();
 
-    private MethodSourceGenerator() {
+    private EnumValueSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(MethodDeclaration codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(EnumValue enumValue, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.addAll(
-                Arrays.asList(
-                        TargetValue.create(Annotable.class, codeMethod, parents),
-                        TargetValue.create(Modifierable.class, codeMethod, parents),
-                        TargetValue.create(Generifiable.class, codeMethod, parents)
-                ));
+        values.add(TargetValue.create(CodeType.class, enumValue.getEnumType(), parents));
+        values.add(ValueImpl.create("."));
+        values.add(ValueImpl.create(enumValue.getEnumValue()));
 
-        if (!(codeMethod instanceof ConstructorDeclaration)) {
-            values.add(TargetValue.create(Returnable.class, codeMethod, parents));
-        }
-
-        values.addAll(Arrays.asList(
-                TargetValue.create(Named.class, codeMethod, parents),
-                TargetValue.create(Parameterizable.class, codeMethod, parents),
-                TargetValue.create(Bodied.class, codeMethod, parents)
-        ));
 
         return values;
-
     }
 
 }

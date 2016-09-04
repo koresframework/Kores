@@ -32,55 +32,40 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.Generifiable;
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
-import com.github.jonathanxd.codeapi.interfaces.Returnable;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class MethodSourceGenerator implements Generator<MethodDeclaration, String, PlainSourceGenerator> {
+public class AnnotableSourceGenerator implements Generator<Annotable, String, PlainSourceGenerator> {
 
-    public static final MethodSourceGenerator INSTANCE = new MethodSourceGenerator();
+    public static final AnnotableSourceGenerator INSTANCE = new AnnotableSourceGenerator();
 
-    private MethodSourceGenerator() {
+    private AnnotableSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(MethodDeclaration codeMethod, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Annotable annotable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+        List<Annotation> annotations = annotable.getAnnotations();
+
+        if (annotations.isEmpty())
+            return Collections.emptyList();
+
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.addAll(
-                Arrays.asList(
-                        TargetValue.create(Annotable.class, codeMethod, parents),
-                        TargetValue.create(Modifierable.class, codeMethod, parents),
-                        TargetValue.create(Generifiable.class, codeMethod, parents)
-                ));
-
-        if (!(codeMethod instanceof ConstructorDeclaration)) {
-            values.add(TargetValue.create(Returnable.class, codeMethod, parents));
+        for (Annotation annotation : annotations) {
+            values.add(TargetValue.create(Annotation.class, annotation, parents));
         }
 
-        values.addAll(Arrays.asList(
-                TargetValue.create(Named.class, codeMethod, parents),
-                TargetValue.create(Parameterizable.class, codeMethod, parents),
-                TargetValue.create(Bodied.class, codeMethod, parents)
-        ));
-
         return values;
-
     }
-
 }
