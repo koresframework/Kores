@@ -27,10 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
+
 /**
  * Created by jonathan on 31/07/16.
  */
-public enum IterationType {
-    ARRAY,
-    ITERABLE_ELEMENT
+public interface IterationType {
+
+    Generator start(ForEachBlock forEachBlock);
+
+    interface Generator {
+        CodeSource createInitialization();
+        BiMultiVal<CodePart, IfExpr, Operator> createCheck();
+        CodeSource operate();
+        CodeSource declareBody();
+    }
 }

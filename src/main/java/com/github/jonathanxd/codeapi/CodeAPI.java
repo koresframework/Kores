@@ -30,9 +30,14 @@ package com.github.jonathanxd.codeapi;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.FullInvokeSpec;
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.IterationType;
+import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
+import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.ArrayConstructorEx;
@@ -53,19 +58,38 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.Casted;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.ForBlock;
+import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
+import com.github.jonathanxd.codeapi.interfaces.ThrowException;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
+import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
+import com.github.jonathanxd.codeapi.util.BiMultiVal;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -751,6 +775,10 @@ public class CodeAPI {
         return invokedynamic__factory(invokeDynamic, methodInvocation);
     }
 
+    public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment fragment) {
+        return invokedynamic__factory(fragment);
+    }
+
     // Class
 
     public static MethodInvocation invokeConstructor(Class<?> type) {
@@ -790,6 +818,10 @@ public class CodeAPI {
         return Helper.invokeDynamic(invokeDynamic, methodInvocation);
     }
 
+    private static MethodInvocation invokedynamic__factory(InvokeDynamic.LambdaFragment fragment) {
+        return Helper.invokeDynamicFragment(fragment);
+    }
+
     private static MethodInvocation invokeConstructor__factory(CodeType type, CodeArgument... arguments) {
         return Helper.invokeConstructor(type, arguments);
     }
@@ -797,6 +829,10 @@ public class CodeAPI {
     // =========================================================
     //          Access Variables & Fields
     // =========================================================
+
+    public static VariableAccess accessDeclaration(VariableDeclaration declaration) {
+        return accessField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName());
+    }
 
     public static VariableAccess accessStaticThisField(CodeType fieldType, String name) {
         return accessField__Factory(null, Helper.accessThis(), fieldType, name);
@@ -844,6 +880,189 @@ public class CodeAPI {
 
     private static VariableAccess accessField__Factory(CodeType localization, CodePart at, CodeType type, String name) {
         return Helper.accessVariable(localization, at, name, type);
+    }
+
+    // =========================================================
+    //          Set Variables & Fields
+    // =========================================================
+
+
+    public static VariableDeclaration setDeclarationValue(VariableDeclaration declaration, CodePart value) {
+        return setField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName(), value);
+    }
+
+    public static VariableDeclaration setStaticThisField(CodeType fieldType, String name, CodePart value) {
+        return setField__Factory(null, Helper.accessThis(), fieldType, name, value);
+    }
+
+    public static VariableDeclaration setStaticField(CodeType localization, CodeType fieldType, String name, CodePart value) {
+        return setField__Factory(localization, null, fieldType, name, value);
+    }
+
+    public static VariableDeclaration setField(CodeType localization, CodePart at, CodeType fieldType, String name, CodePart value) {
+        return setField__Factory(localization, at, fieldType, name, value);
+    }
+
+    public static VariableDeclaration setThisField(CodeType fieldType, String name, CodePart value) {
+        return setField__Factory(null, Helper.accessThis(), fieldType, name, value);
+    }
+
+    public static VariableDeclaration setLocalVariable(CodeType variableType, String name, CodePart value) {
+        return setField__Factory(null, Helper.accessLocal(), variableType, name, value);
+    }
+
+    // Class
+
+    public static VariableDeclaration setStaticThisField(Class<?> fieldType, String name, CodePart value) {
+        return setField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name, value);
+    }
+
+    public static VariableDeclaration setStaticField(Class<?> localization, Class<?> fieldType, String name, CodePart value) {
+        return setField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name, value);
+    }
+
+    public static VariableDeclaration setField(Class<?> localization, CodePart at, Class<?> fieldType, String name, CodePart value) {
+        return setField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name, value);
+    }
+
+    public static VariableDeclaration setThisField(Class<?> fieldType, String name, CodePart value) {
+        return setField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name, value);
+    }
+
+    public static VariableDeclaration setLocalVariable(Class<?> variableType, String name, CodePart value) {
+        return setField__Factory(null, Helper.accessLocal(), Helper.getJavaType(variableType), name, value);
+    }
+
+    // Factory
+    private static VariableDeclaration setField__Factory(CodeType localization, CodePart at, CodeType type, String name, CodePart value) {
+        return Helper.setVariable(localization, at, name, type, value);
+    }
+
+    // =========================================================
+    //          Operate Variables & Fields
+    // =========================================================
+
+    public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation, CodePart value) {
+        return operateField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName(), operation, value);
+    }
+
+    public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation) {
+        return operateField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName(), operation, null);
+    }
+
+    public static VariableOperate operateStaticThisField(CodeType fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(null, Helper.accessThis(), fieldType, name, operation, value);
+    }
+
+    public static VariableOperate operateStaticThisField(CodeType fieldType, String name, Operator operation) {
+        return operateField__Factory(null, Helper.accessThis(), fieldType, name, operation, null);
+    }
+
+    public static VariableOperate operateStaticField(CodeType localization, CodeType fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(localization, null, fieldType, name, operation, value);
+    }
+
+    public static VariableOperate operateStaticField(CodeType localization, CodeType fieldType, String name, Operator operation) {
+        return operateField__Factory(localization, null, fieldType, name, operation, null);
+    }
+
+    public static VariableOperate operateField(CodeType localization, CodePart at, CodeType fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(localization, at, fieldType, name, operation, value);
+    }
+
+    public static VariableOperate operateField(CodeType localization, CodePart at, CodeType fieldType, String name, Operator operation) {
+        return operateField__Factory(localization, at, fieldType, name, operation, null);
+    }
+
+    public static VariableOperate operateThisField(CodeType fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(null, Helper.accessThis(), fieldType, name, operation, value);
+    }
+
+    public static VariableOperate operateThisField(CodeType fieldType, String name, Operator operation) {
+        return operateField__Factory(null, Helper.accessThis(), fieldType, name, operation, null);
+    }
+
+    public static VariableOperate operateLocalVariable(CodeType variableType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(null, Helper.accessLocal(), variableType, name, operation, value);
+    }
+
+    public static VariableOperate operateLocalVariable(CodeType variableType, String name, Operator operation) {
+        return operateField__Factory(null, Helper.accessLocal(), variableType, name, operation, null);
+    }
+
+    // Class
+
+    public static VariableOperate operateStaticThisField(Class<?> fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name, operation, value);
+    }
+
+    public static VariableOperate operateStaticThisField(Class<?> fieldType, String name, Operator operation) {
+        return operateField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name, operation, null);
+    }
+
+    public static VariableOperate operateStaticField(Class<?> localization, Class<?> fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name, operation, value);
+    }
+
+    public static VariableOperate operateStaticField(Class<?> localization, Class<?> fieldType, String name, Operator operation) {
+        return operateField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name, operation, null);
+    }
+
+    public static VariableOperate operateField(Class<?> localization, CodePart at, Class<?> fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name, operation, value);
+    }
+
+    public static VariableOperate operateField(Class<?> localization, CodePart at, Class<?> fieldType, String name, Operator operation) {
+        return operateField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name, operation, null);
+    }
+
+    public static VariableOperate operateThisField(Class<?> fieldType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name, operation, value);
+    }
+
+    public static VariableOperate operateThisField(Class<?> fieldType, String name, Operator operation) {
+        return operateField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name, operation, null);
+    }
+
+    public static VariableOperate operateLocalVariable(Class<?> variableType, String name, Operator operation, CodePart value) {
+        return operateField__Factory(null, Helper.accessLocal(), Helper.getJavaType(variableType), name, operation, value);
+    }
+
+    public static VariableOperate operateLocalVariable(Class<?> variableType, String name, Operator operation) {
+        return operateField__Factory(null, Helper.accessLocal(), Helper.getJavaType(variableType), name, operation, null);
+    }
+
+    // Factory
+    private static VariableOperate operateField__Factory(CodeType localization, CodePart at, CodeType type, String name, Operator operation, CodePart value) {
+        return Helper.operateVariable(localization, at, name, type, operation, value);
+    }
+
+    // =========================================================
+    //          Throw Exceptions
+    // =========================================================
+
+    public static ThrowException throwException(CodePart partToThrow) {
+        return throwException__Factory(partToThrow);
+    }
+
+    public static ThrowException throwException(CodeType exceptionType, CodeArgument... arguments) {
+        return throwException__Factory(exceptionType, arguments);
+    }
+
+    //Class
+    public static ThrowException throwException(Class<?> exceptionType, CodeArgument... arguments) {
+        return throwException__Factory(toCodeType(exceptionType), arguments);
+    }
+
+    // Factory
+
+    private static ThrowException throwException__Factory(CodePart partToThrow) {
+        return Helper.throwException(partToThrow);
+    }
+
+    private static ThrowException throwException__Factory(CodeType exceptionType, CodeArgument... arguments) {
+        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType, new MethodSpec((String) null, Arrays.asList(arguments), (CodeType) null, MethodType.CONSTRUCTOR));
+        return throwException__Factory(invoke);
     }
 
     // =========================================================
@@ -1052,6 +1271,319 @@ public class CodeAPI {
     }
 
     // =========================================================
+    //          TypeSpec
+    // =========================================================
+
+    public static TypeSpec typeSpec(CodeType returnType) {
+        return typeSpec__factory(returnType, new CodeType[]{});
+    }
+
+    public static TypeSpec typeSpec(CodeType returnType, CodeType... parameterTypes) {
+        return typeSpec__factory(returnType, parameterTypes);
+    }
+
+    // Class
+
+    public static TypeSpec typeSpec(Class<?> returnType) {
+        return typeSpec__factory(toCodeType(returnType), new CodeType[]{});
+    }
+
+    public static TypeSpec typeSpec(Class<?> returnType, Class<?>... parameterTypes) {
+        return typeSpec__factory(toCodeType(returnType), toCodeType(parameterTypes));
+    }
+
+    // Factory
+
+    private static TypeSpec typeSpec__factory(CodeType returnType, CodeType[] parameterTypes) {
+        return new TypeSpec(returnType, parameterTypes);
+    }
+
+    // =========================================================
+    //          Cast
+    // =========================================================
+
+    public static Casted cast(CodeType fromType, CodeType toType, CodePart partToCast) {
+        return cast__Factory(fromType, toType, partToCast);
+    }
+
+    // Class
+    public static Casted cast(Class<?> fromType, Class<?> toType, CodePart partToCast) {
+        return cast__Factory(toCodeType(fromType), toCodeType(toType), partToCast);
+    }
+
+    // Factory
+    private static Casted cast__Factory(CodeType fromType, CodeType toType, CodePart partToCast) {
+        return Helper.cast(fromType, toType, partToCast);
+    }
+
+    // =========================================================
+    //          If block
+    // =========================================================
+
+    public static IfBlock ifBlock(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, ElseBlock elseBlock) {
+        return ifBlock__Factory(groups, body, elseBlock);
+    }
+
+    public static IfBlock ifBlock(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body) {
+        return ifBlock__Factory(groups, body, null);
+    }
+
+    // Factory
+    private static IfBlock ifBlock__Factory(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, ElseBlock elseBlock) {
+        return Helper.ifExpression(groups, body, elseBlock);
+    }
+
+    // =========================================================
+    //          If Checks
+    // =========================================================
+
+    public static IfExpr checkNotNull(CodePart part) {
+        return Helper.checkNotNull(part);
+    }
+
+    public static IfExpr checkNull(CodePart part) {
+        return Helper.checkNull(part);
+    }
+
+    public static IfExpr check(CodePart part1, Operator operator, CodePart part2) {
+        return Helper.check(part1, operator, part2);
+    }
+
+    // =========================================================
+    //          Try block
+    // =========================================================
+
+    public static TryBlock tryBlock(CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallySource) {
+        return tryBlock__Factory(toSurround, catchBlocks, finallySource);
+    }
+
+    public static TryBlock tryBlock(CodeSource toSurround, CatchBlock catchBlocks, CodeSource finallySource) {
+        return tryBlock__Factory(toSurround, Collections.singletonList(catchBlocks), finallySource);
+    }
+
+    public static TryBlock tryBlock(CodeSource toSurround, List<CatchBlock> catchBlocks) {
+        return tryBlock__Factory(toSurround, catchBlocks, null);
+    }
+
+    public static TryBlock tryBlock(CodeSource toSurround, CatchBlock catchBlocks) {
+        return tryBlock__Factory(toSurround, Collections.singletonList(catchBlocks), null);
+    }
+
+    // Factory
+    private static TryBlock tryBlock__Factory(CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallySource) {
+        return Helper.surround(toSurround, catchBlocks, finallySource);
+    }
+
+    // =========================================================
+    //          Try With resources block
+    // =========================================================
+
+    public static TryBlock tryWithResources(VariableDeclaration variable, CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallySource) {
+        return tryWithResources__Factory(variable, toSurround, catchBlocks, finallySource);
+    }
+
+    public static TryBlock tryWithResources(VariableDeclaration variable, CodeSource toSurround, CatchBlock catchBlocks, CodeSource finallySource) {
+        return tryWithResources__Factory(variable, toSurround, Collections.singletonList(catchBlocks), finallySource);
+    }
+
+    public static TryBlock tryWithResources(VariableDeclaration variable, CodeSource toSurround, CodeSource finallySource) {
+        return tryWithResources__Factory(variable, toSurround, Collections.emptyList(), finallySource);
+    }
+
+    public static TryBlock tryWithResources(VariableDeclaration variable, CodeSource toSurround, List<CatchBlock> catchBlocks) {
+        return tryWithResources__Factory(variable, toSurround, catchBlocks, null);
+    }
+
+    public static TryBlock tryWithResources(VariableDeclaration variable, CodeSource toSurround, CatchBlock catchBlocks) {
+        return tryWithResources__Factory(variable, toSurround, Collections.singletonList(catchBlocks), null);
+    }
+
+    public static TryBlock tryWithResources(VariableDeclaration variable, CodeSource toSurround) {
+        return tryWithResources__Factory(variable, toSurround, Collections.emptyList(), null);
+    }
+
+    // Factory
+    private static TryWithResources tryWithResources__Factory(VariableDeclaration variable, CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallySource) {
+        return Helper.tryWithResources(variable, toSurround, catchBlocks, finallySource);
+    }
+
+    // =========================================================
+    //          WhileBlock
+    // =========================================================
+
+    public static WhileBlock whileBlock(BiMultiVal<CodePart, IfExpr, Operator> parts, CodeSource source) {
+        return whileBlock__Factory(parts, source);
+    }
+
+    // Factory
+    private static WhileBlock whileBlock__Factory(BiMultiVal<CodePart, IfExpr, Operator> parts, CodeSource source) {
+        return Helper.createWhile(parts, source);
+    }
+
+    // =========================================================
+    //          DoWhileBlock
+    // =========================================================
+
+    public static DoWhileBlock doWhileBlock(BiMultiVal<CodePart, IfExpr, Operator> parts, CodeSource source) {
+        return doWhileBlock__Factory(source, parts);
+    }
+
+    // Factory
+    private static DoWhileBlock doWhileBlock__Factory(CodeSource source, BiMultiVal<CodePart, IfExpr, Operator> parts) {
+        return Helper.createDoWhile(source, parts);
+    }
+
+    // =========================================================
+    //          ForBlock
+    // =========================================================
+
+    public static ForBlock forBlock(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> condition, CodePart update, CodeSource body) {
+        return forBlock__Factory(initialization, condition, update, body);
+    }
+
+    // Factory
+    private static ForBlock forBlock__Factory(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> condition, CodePart update, CodeSource body) {
+        return Helper.createFor(initialization, condition, update, body);
+    }
+
+    // =========================================================
+    //          ForeachBlock
+    // =========================================================
+
+    public static ForEachBlock forEachBlock(FieldDeclaration field, IterationType iterationType, CodePart expression, CodeSource body) {
+        return forEachBlock__Factory(field, iterationType, expression, body);
+    }
+
+    public static ForEachBlock forEachArray(FieldDeclaration field, CodePart expression, CodeSource body) {
+        return forEachBlock__Factory(field, IterationTypes.ARRAY, expression, body);
+    }
+
+    public static ForEachBlock forEachIterable(FieldDeclaration field, CodePart expression, CodeSource body) {
+        return forEachBlock__Factory(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
+    }
+
+    // Factory
+    private static ForEachBlock forEachBlock__Factory(FieldDeclaration field, IterationType iterationType, CodePart expression, CodeSource body) {
+        return Helper.createForEach(field, iterationType, expression, body);
+    }
+
+    // =========================================================
+    //          Method Spec
+    // =========================================================
+
+    public static FullMethodSpec fullMethodSpec(CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+        return fullMethodSpec__factory(location, returnType, methodName, parameterTypes);
+    }
+
+    public static FullMethodSpec fullMethodSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterTypes) {
+        return fullMethodSpec__factory(toCodeType(location), toCodeType(returnType), methodName, toCodeType(parameterTypes));
+    }
+
+    // Factory
+    private static FullMethodSpec fullMethodSpec__factory(CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+        return new FullMethodSpec(location, returnType, methodName, parameterTypes);
+    }
+
+    // =========================================================
+    //          Invoke Spec
+    // =========================================================
+
+    public static FullInvokeSpec fullInvokeSpec(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+        return fullInvokeSpec__factory(invokeType, location, returnType, methodName, parameterTypes);
+    }
+
+    public static FullInvokeSpec fullInvokeSpec(InvokeType invokeType, Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterTypes) {
+        return fullInvokeSpec__factory(invokeType, toCodeType(location), toCodeType(returnType), methodName, toCodeType(parameterTypes));
+    }
+
+    // Factory
+    private static FullInvokeSpec fullInvokeSpec__factory(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+        return new FullInvokeSpec(invokeType, location, returnType, methodName, parameterTypes);
+    }
+
+    // =========================================================
+    //          Method fragment
+    // =========================================================
+
+    public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return fragment__factory(codeInterface, scope, returnType, parameters, arguments, body);
+    }
+
+    public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
+        MethodFragment methodFragment = fragment__factory(codeInterface, scope, returnType, parameters, arguments, new CodeSource());
+
+        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+
+        return methodFragment;
+    }
+
+    public static MethodFragment fragmentStatic(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return fragment__factory(codeInterface, Scope.STATIC, returnType, parameters, arguments, body);
+    }
+
+    public static MethodFragment fragmentStatic(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
+        MethodFragment methodFragment = fragment__factory(codeInterface, Scope.STATIC, returnType, parameters, arguments, new CodeSource());
+
+        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+
+        return methodFragment;
+    }
+
+    public static MethodFragment fragmentInstance(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return fragment__factory(codeInterface, Scope.INSTANCE, returnType, parameters, arguments, body);
+    }
+
+    public static MethodFragment fragmentInstance(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
+        MethodFragment methodFragment = fragment__factory(codeInterface, Scope.INSTANCE, returnType, parameters, arguments, new CodeSource());
+
+        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+
+        return methodFragment;
+    }
+
+    // Class
+    public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return fragment__factory(codeInterface, scope, toCodeType(returnType), parameters, arguments, body);
+    }
+
+    public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
+        MethodFragment methodFragment = fragment__factory(codeInterface, scope, toCodeType(returnType), parameters, arguments, new CodeSource());
+
+        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+
+        return methodFragment;
+    }
+
+    public static MethodFragment fragmentStatic(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return fragment__factory(codeInterface, Scope.STATIC, toCodeType(returnType), parameters, arguments, body);
+    }
+
+    public static MethodFragment fragmentStatic(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
+        MethodFragment methodFragment = fragment__factory(codeInterface, Scope.STATIC, toCodeType(returnType), parameters, arguments, new CodeSource());
+
+        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+
+        return methodFragment;
+    }
+
+    public static MethodFragment fragmentInstance(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return fragment__factory(codeInterface, Scope.INSTANCE, toCodeType(returnType), parameters, arguments, body);
+    }
+
+    public static MethodFragment fragmentInstance(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
+        MethodFragment methodFragment = fragment__factory(codeInterface, Scope.INSTANCE, toCodeType(returnType), parameters, arguments, new CodeSource());
+
+        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+
+        return methodFragment;
+    }
+
+    // Factory
+    private static MethodFragment fragment__factory(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+        return Helper.methodFragment(codeInterface, scope, returnType, parameters, arguments, body);
+    }
+
+    // =========================================================
     //          Utils
     // =========================================================
 
@@ -1067,10 +1599,45 @@ public class CodeAPI {
         return Arrays.stream(aClass).map(Helper::getJavaType).collect(Collectors.toList());
     }
 
+    public static BiMultiVal<CodePart, IfExpr, Operator> ifExprs(Object... objects) {
+        BiMultiVal.Adder<CodePart, IfExpr, Operator> adder = CodeAPI.ifExprs();
+
+        for (Object object : objects) {
+            if(object instanceof IfExpr) {
+                adder.add1((IfExpr) object);
+            } else if(object instanceof Operator) {
+                adder.add2((Operator) object);
+            } else {
+                throw new IllegalArgumentException("Illegal input object: '"+object+"'.");
+            }
+        }
+
+        return adder.make();
+    }
+
+    public static BiMultiVal.Adder<CodePart, IfExpr, Operator> ifExprs() {
+        return BiMultiVal.create(CodePart.class, IfExpr.class, Operator.class);
+    }
+
     public static Annotation[] annotations(Annotation... annotations) {
         return annotations;
     }
 
+    public static CodeArgument[] arguments(CodeArgument... arguments) {
+        return arguments;
+    }
+
+    public static CodeParameter[] parameters(CodeParameter... parameters) {
+        return parameters;
+    }
+
+    public static CodeType[] types(CodeType... types) {
+        return types;
+    }
+
+    public static Class<?>[] types(Class<?>... types) {
+        return types;
+    }
 
     public static Map<String, Object> values(Object... objects) {
         Map<String, Object> map = new HashMap<>();
@@ -1085,4 +1652,67 @@ public class CodeAPI {
 
         return map;
     }
+
+
+
+    /**
+     * Generator Specific features
+     *
+     * Not supported by Java Source Code generation. ({@link com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator}).
+     */
+    public static class Specific {
+        // =========================================================
+        //          Invoke Dynamic
+        // =========================================================
+
+        public static MethodInvocation invokeDynamic(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
+            return Specific.invokedynamic__factory(invokeDynamic, methodInvocation);
+        }
+
+        public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment fragment) {
+            return Specific.invokedynamic__factory(fragment);
+        }
+
+        // Factory
+        private static MethodInvocation invokedynamic__factory(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
+            return Helper.invokeDynamic(invokeDynamic, methodInvocation);
+        }
+
+        private static MethodInvocation invokedynamic__factory(InvokeDynamic.LambdaFragment fragment) {
+            return Helper.invokeDynamicFragment(fragment);
+        }
+
+        private static MethodInvocation invokeConstructor__factory(CodeType type, CodeArgument... arguments) {
+            return Helper.invokeConstructor(type, arguments);
+        }
+
+        // Utils
+
+        /**
+         * Invoke Bootstrap methods with bsm parameters
+         *
+         * @param invokeType     Type
+         * @param fullMethodSpec Bootstrap method
+         * @param args           BSM Arguments, must be an {@link String}, {@link Integer}, {@link
+         *                       Long}, {@link Float}, {@link Double}, {@link CodeType}, or {@link
+         *                       FullInvokeSpec}.
+         */
+        public static InvokeDynamic.Bootstrap bootstrap(InvokeType invokeType, FullMethodSpec fullMethodSpec, Object... args) {
+            return InvokeDynamic.invokeDynamicBootstrap(invokeType, fullMethodSpec, args);
+        }
+
+        public static InvokeDynamic.Bootstrap bootstrap(InvokeType invokeType, FullMethodSpec fullMethodSpec) {
+            return InvokeDynamic.invokeDynamicBootstrap(invokeType, fullMethodSpec);
+        }
+
+        public static InvokeDynamic.LambdaMethodReference lambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+            return InvokeDynamic.invokeDynamicLambda(fullMethodSpec, expectedTypes);
+        }
+
+        public static InvokeDynamic.LambdaMethodReference code(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes, MethodFragment methodFragment) {
+            return InvokeDynamic.invokeDynamicLambdaFragment(fullMethodSpec, expectedTypes, methodFragment);
+        }
+
+    }
+
 }

@@ -158,9 +158,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         values.add(TargetValue.create(MethodSpecification.class, spec, parents));
 
-        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
-
-        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (Util.isBody(parents)) {
             values.add(ValueImpl.create(";"));
         } else {
             debug();

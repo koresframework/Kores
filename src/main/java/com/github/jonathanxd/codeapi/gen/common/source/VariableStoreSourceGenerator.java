@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -47,7 +47,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class VariableStoreSourceGenerator implements Generator<VariableStore, String, PlainSourceGenerator> {
+public class VariableStoreSourceGenerator implements Generator<VariableDeclaration, String, PlainSourceGenerator> {
 
     public static final VariableStoreSourceGenerator INSTANCE = new VariableStoreSourceGenerator();
 
@@ -55,26 +55,24 @@ public class VariableStoreSourceGenerator implements Generator<VariableStore, St
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(VariableStore variableStore, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableDeclaration variableDeclaration, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (variableStore.getLocalization() != null && !(variableStore.getAt() instanceof AccessLocal)) {
-            values.add(TargetValue.create(CodeType.class, variableStore.getLocalization(), parents));
+        if (variableDeclaration.getLocalization() != null && !(variableDeclaration.getAt() instanceof AccessLocal)) {
+            values.add(TargetValue.create(CodeType.class, variableDeclaration.getLocalization(), parents));
             values.add(ValueImpl.create("."));
-        } else if (variableStore.getAt() != null && !(variableStore.getAt() instanceof AccessLocal)) {
-            values.add(CodePartValue.create(variableStore.getAt(), parents));
+        } else if (variableDeclaration.getAt() != null && !(variableDeclaration.getAt() instanceof AccessLocal)) {
+            values.add(CodePartValue.create(variableDeclaration.getAt(), parents));
             values.add(ValueImpl.create("."));
         }
 
 
-        values.add(ValueImpl.create(variableStore.getName()));
+        values.add(ValueImpl.create(variableDeclaration.getName()));
         values.add(ValueImpl.create("="));
-        values.add(TargetValue.create(variableStore.getValue().orElse(Literals.NULL), parents));
+        values.add(TargetValue.create(variableDeclaration.getValue().orElse(Literals.NULL), parents));
 
 
-        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
-
-        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (Util.isBody(parents)) {
             values.add(ValueImpl.create(";"));
         }
         return values;

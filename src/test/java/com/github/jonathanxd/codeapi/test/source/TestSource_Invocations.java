@@ -51,7 +51,7 @@ import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.Greeter;
@@ -235,7 +235,7 @@ public class TestSource_Invocations {
                 ),
                 greetingInvoke);
 
-        VariableStore supplierVar = new CodeField("supplier", supplierType, dynamicGet);
+        VariableDeclaration supplierVar = new CodeField("supplier", supplierType, dynamicGet);
 
         methodSource.add(supplierVar);
 
@@ -243,7 +243,7 @@ public class TestSource_Invocations {
                 Helper.accessLocalVariable(supplierVar),
                 new MethodSpec("get", PredefinedTypes.OBJECT, emptyList())));
 
-        VariableStore var2 = new CodeField("str", PredefinedTypes.STRING, castedGet);
+        VariableDeclaration var2 = new CodeField("str", PredefinedTypes.STRING, castedGet);
 
         methodSource.add(var2);
 

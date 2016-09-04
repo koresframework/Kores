@@ -63,16 +63,20 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        CodeType exceptionType = e.getType().orElseThrow(NullPointerException::new);
+        CodePart partToThrow = e.getPartToThrow();
+
+        visitorGenerator.generateTo(partToThrow.getClass(), partToThrow, extraData, navigator, null, mvData);
+
+        //visitorGenerator.generateTo(invoke.getClass(), invoke, extraData, navigator, null, mvData);
+        /*CodeType exceptionType = e.getType().orElseThrow(NullPointerException::new);
         List<CodeArgument> arguments = e.getArguments();
 
         MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType,
                 new MethodSpec((String) null, arguments,
-                        /*<init>*/
-                        (CodeType) null/*PredefinedTypes#VOID*/,
-                        MethodType.CONSTRUCTOR));
+                        <init>
+                        (CodeType) nullPredefinedTypes#VOID,
+                        MethodType.CONSTRUCTOR));*/
 
-        visitorGenerator.generateTo(invoke.getClass(), invoke, extraData, navigator, null, mvData);
 
         additional.visitInsn(ATHROW);
 

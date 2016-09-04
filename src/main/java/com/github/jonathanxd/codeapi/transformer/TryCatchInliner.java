@@ -25,51 +25,69 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.transformer;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.TagLineEx;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
+import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 04/09/16.
  */
-public class ThrowExceptionGenerator implements Generator<ThrowException, String, PlainSourceGenerator> {
+public class TryCatchInliner {
 
-    public static final ThrowExceptionGenerator INSTANCE = new ThrowExceptionGenerator();
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static boolean inlineSource(Optional<CodeSource> bodyOpt,
+                                    Optional<CodeSource> finallyBlockOpt,
+                                    List<Value<?, String, PlainSourceGenerator>> values,
+                                    Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
-    private ThrowExceptionGenerator() {
-    }
+        if (bodyOpt.isPresent() && finallyBlockOpt.isPresent()) {
+            CodeSource codeSource = bodyOpt.get();
+            CodeSource finallyBlockSource = finallyBlockOpt.get();
 
-    @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(ThrowException throwException, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+            CodeSource modified = TryCatchInliner.insertInlineSecure(codeSource, finallyBlockSource);
 
-        CodePart partToThrow = throwException.getPartToThrow();
-
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                ValueImpl.create("throw"),
-                TargetValue.create(partToThrow.getClass(), partToThrow, parents)
-        ));
-
-        if (Util.isBody(parents)) {
-            values.add(ValueImpl.create(";"));
+            values.add(TargetValue.create(CodeSource.class, modified, parents));
+            return true;
         }
 
-        return values;
+        return false;
     }
+
+    public static CodeSource insertInlineSecure(CodeSource originalSource, CodeSource toAdd0) {
+
+        BooleanContainer booleanContainer = new BooleanContainer(false);
+
+        CodeSource toAdd = new CodeSource();
+
+        toAdd.add(new TagLineEx<>("Inlined finally", toAdd0));
+
+        CodeSource codeSource = CodeSourceUtil.insertBefore(codePart -> {
+            if (codePart instanceof ThrowException) {
+                booleanContainer.set(true);
+                return true;
+            }
+
+            return false;
+        }, toAdd, originalSource);
+
+        if(!booleanContainer.get()) {
+            codeSource.add(toAdd);
+        }
+
+        return codeSource;
+    }
+
 }

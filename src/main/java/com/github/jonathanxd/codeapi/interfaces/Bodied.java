@@ -39,6 +39,10 @@ public interface Bodied extends CodePart {
 
     Optional<CodeSource> getBody();
 
+    default CodeSource getRequiredBody() {
+        return this.getBody().orElse(new CodeSource());
+    }
+
     default boolean hasBody() {
         return this.getBody().isPresent();
     }

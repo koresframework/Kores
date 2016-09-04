@@ -42,24 +42,24 @@ import java.util.List;
  * Created by jonathan on 09/07/16.
  */
 @GenerateTo(FieldDeclaration.class)
-class HiddenField extends CodeField {
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers, List<Annotation> annotations) {
+public class HiddenField extends CodeField {
+    public HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers, List<Annotation> annotations) {
         super(name, type, null, modifiers, annotations);
     }
 
-    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
+    public HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
         super(name, type, modifiers);
     }
 
-    HiddenField(String name, CodeType type) {
+    public HiddenField(String name, CodeType type) {
         super(name, type);
     }
 
-    HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
+    public HiddenField(String name, CodeType type, CodePart value, Collection<CodeModifier> modifiers) {
         super(name, type, value, modifiers);
     }
 
-    HiddenField(String name, CodeType type, CodePart value) {
+    public HiddenField(String name, CodeType type, CodePart value) {
         super(name, type, value);
     }
 }

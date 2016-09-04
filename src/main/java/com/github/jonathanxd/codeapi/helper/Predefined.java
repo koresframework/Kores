@@ -27,8 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 
 import java.io.PrintStream;
@@ -40,6 +43,10 @@ import java.util.Arrays;
 public final class Predefined {
 
     Predefined() {
+    }
+
+    public static MethodInvocation toString(CodePart part) {
+        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING));
     }
 
     public static MethodInvocation invokePrintln(CodeArgument... arguments) {

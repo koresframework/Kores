@@ -25,50 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.Options;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.CodePart;
 
-import java.util.StringJoiner;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Created by jonathan on 04/09/16.
  */
-public class StringVisitGenerator extends VisitorGenerator<String> {
+public interface TryWithResources extends TryBlock {
 
-    private final Options options = new Options();
+    /**
+     * Variable of Try-with-resources (value must be {@link AutoCloseable}
+     *
+     * @return Variable of Try-with-resources (value must be {@link AutoCloseable}
+     */
+    VariableDeclaration getVariable();
 
-    @Override
-    protected MapData makeData() {
-        return new MapData();
-    }
-
-    @Override
-    public Appender<String> createAppender() {
-        return new JoinerAppender(" ");
-    }
 
     @Override
-    public Options getOptions() {
-        return options;
-    }
-
-    private static final class JoinerAppender extends Appender<String> {
-        private final StringJoiner join;
-
-        JoinerAppender(String delimiter) {
-            join = new StringJoiner(delimiter);
-        }
-
-        @Override
-        public void add(String elem) {
-            this.join.add(elem);
-        }
-
-        @Override
-        public String[] get() {
-            return new String[]{this.join.toString()};
-        }
+    default Optional<CodePart> getExpression() {
+        return Optional.of(this.getVariable());
     }
 }

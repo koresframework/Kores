@@ -25,25 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.test.source;
+
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.TryWithResourcesTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import org.junit.Test;
 
 /**
- * Created by jonathan on 13/06/16.
+ * Created by jonathan on 03/06/16.
  */
-public final class Options {
-
-    /**
-     * Default: True
-     */
-    public final Option INLINE_FINALLY = new Option("INLINE_FINALLY", "Inline finally blocks (like javac)!", true);
-
-
-    public void disable(Option option) {
-        option.setEnabled(false);
+public class TryWithResourcesTest {
+    @Test
+    public void testSource() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
+        SourceTest test = CommonSourceTest.test(this.getClass(), $._2());
+        test.expect("package test ; \n" +
+                "public class TryWithResourcesTestClass { \n" +
+                "    public TryWithResourcesTestClass ( ) { \n" +
+                "        try (  com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm trm = new com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm ( ) ) { \n" +
+                "            trm . read ( ) ; \n" +
+                "             \n" +
+                "        } \n" +
+                "        \n" +
+                "         \n" +
+                "    } \n" +
+                "    \n" +
+                "     \n" +
+                "} \n\n");
     }
-
-    public void enabled(Option option) {
-        option.setEnabled(true);
-    }
-
 }

@@ -27,14 +27,18 @@
  */
 package com.github.jonathanxd.codeapi.gen.common.source;
 
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -50,6 +54,16 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
     public static final CatchBlockSourceGenerator INSTANCE = new CatchBlockSourceGenerator();
 
+    private static int CATCH_VAR_COUNT = 0;
+
+    private static int getAndIncrementCatchVar() {
+        int i = CATCH_VAR_COUNT;
+
+        ++CATCH_VAR_COUNT;
+
+        return i;
+    }
+
     private CatchBlockSourceGenerator() {
     }
 
@@ -60,7 +74,6 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
         values.add(ValueImpl.create("catch"));
 
-        // TODO EXPRESSIONS: AND, OR, BITWISE, BITWISE EXCLUSIVE OR, BITWISE INCLUSIVE OR
         List<CodeType> parameters = catchBlock.getExceptionTypes();
 
         StringJoiner sj = new StringJoiner(" | ");
@@ -74,9 +87,25 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
             }
         }
 
-        values.add(ValueImpl.create("(" + sj.toString() + " " + catchBlock.getName() + ")"));
+        String catchName = "internal__catch$"+getAndIncrementCatchVar();
 
-        values.add(TargetValue.create(Bodied.class, catchBlock, parents));
+        values.add(ValueImpl.create("(" + sj.toString() + " " + catchName + ")"));
+
+        CodeSource codeSource = catchBlock.getBody().orElse(new CodeSource());
+
+        CodeSource source2 = new CodeSource();
+
+        CodeField field = catchBlock.getField();
+
+        if(!field.getValue().isPresent()) {
+            field = new CodeField(field.getName(), field.getVariableType(), Helper.accessLocalVariable(catchName, Throwable.class), field.getModifiers(), field.getAnnotations());
+        }
+
+        source2.add(field);
+
+        source2.addAll(codeSource);
+
+        values.add(TargetValue.create(CodeSource.class, source2, parents));
 
         return values;
     }

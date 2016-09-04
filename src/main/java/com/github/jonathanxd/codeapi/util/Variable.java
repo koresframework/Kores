@@ -84,4 +84,15 @@ public final class Variable {
         return ((Variable) obj).getName().equals(this.getName()) && ((Variable) obj).getType().compareTo(this.getType()) == 0;
 
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("name", this.getName())
+                .add("type", this.getType())
+                .add("isTemp", this.isTemp())
+                .add("startLabel", this.getStartLabel())
+                .add("endLabel", this.getEndLabel())
+                .toString();
+    }
 }

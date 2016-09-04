@@ -35,7 +35,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface VariableOperate extends VariableStore, CodePart {
+public interface VariableOperate extends VariableDeclaration, CodePart {
 
     Optional<Operator> getOperation();
 

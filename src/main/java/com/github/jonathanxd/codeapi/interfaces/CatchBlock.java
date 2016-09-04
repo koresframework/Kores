@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.List;
@@ -39,8 +40,10 @@ import java.util.Optional;
 /**
  * {@link Typed#getType()} will return first exception type.
  */
-public interface CatchBlock extends Bodied, Typed, Named {
+public interface CatchBlock extends Bodied, Typed {
     List<CodeType> getExceptionTypes();
+
+    CodeField getField();
 
     @Override
     default Optional<CodeType> getType() {

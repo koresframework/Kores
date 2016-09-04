@@ -25,48 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.options;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-
-import java.util.Optional;
+import com.github.jonathanxd.iutils.option.Option;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 04/09/16.
  */
-//
-@GenerateTo(VariableStore.class)
-public class SimpleVariableStore extends SimpleVariableAccess implements CodePart, VariableStore {
-
-    private final CodePart value;
-
-    public SimpleVariableStore(CodeType localization, String name, CodeType variableType, CodePart value) {
-        super(localization, name, variableType);
-        this.value = value;
-    }
-
-    public SimpleVariableStore(CodeType localization, CodePart at, String name, CodeType variableType, CodePart value) {
-        super(localization, at, name, variableType);
-        this.value = value;
-    }
-
-    @Override
-    public Optional<CodePart> getValue() {
-        return Optional.ofNullable(this.value);
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("localization", this.getLocalization())
-                .add("at", this.getAt())
-                .add("type", this.getVariableType())
-                .add("name", this.getName())
-                .addOptional("value", this.getValue())
-                .toString();
-    }
+public class CodeOptions {
+    /**
+     * Inline finally blocks.
+     *
+     * Bytecode: If defined to false, CodeAPI will generate Goto's instructions to call
+     * finally blocks (it is bad). (default: true)
+     *
+     * Source Code: Inline finally blocks inside try and catches. (default: false)
+     */
+    public static final Option<Boolean> INLINE_FINALLY = new Option<>();
 }

@@ -72,9 +72,7 @@ public class ReturnSourceGenerator implements Generator<Return, String, PlainSou
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(
                 Arrays.asList(ValueImpl.create("return"), TargetValue.create(value.get(), parents)));
 
-        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
-
-        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (Util.isBody(parents)) {
             values.add(ValueImpl.create(";"));
         }
 

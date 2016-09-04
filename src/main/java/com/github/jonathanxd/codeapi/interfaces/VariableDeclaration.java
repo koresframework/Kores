@@ -34,7 +34,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 12/05/16.
  */
-public interface VariableStore extends VariableAccess, CodePart {
+public interface VariableDeclaration extends VariableAccess, CodePart {
 
     Optional<CodePart> getValue();
 

@@ -128,18 +128,21 @@ import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Ident;
 import com.github.jonathanxd.codeapi.util.MultiString;
+import com.github.jonathanxd.iutils.option.Options;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -149,10 +152,16 @@ import java.util.Map;
  */
 public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceGenerator> {
 
+    @Deprecated
     public static final PlainSourceGenerator INSTANCE = new PlainSourceGenerator();
-    private static final Map<Class<?>, Generator<?, String, PlainSourceGenerator>> registry = new HashMap<>();
 
-    static {
+    private final Map<Class<?>, Generator<?, String, PlainSourceGenerator>> registry = new HashMap<>();
+    private final Options options = new Options();
+
+
+    public PlainSourceGenerator() {
+        this.options.set(CodeOptions.INLINE_FINALLY, false);
+
         register(Implementer.class, ImplementerSourceGenerator.INSTANCE);
         register(Modifierable.class, ModifierSourceGenerator.INSTANCE);
         register(Named.class, NamedSourceGenerator.INSTANCE);
@@ -182,7 +191,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);
         register(Return.class, ReturnSourceGenerator.INSTANCE);
         register(IfExpressionable.class, IfExpressionableSourceGenerator.INSTANCE);
-        register(VariableStore.class, VariableStoreSourceGenerator.INSTANCE);
+        register(VariableDeclaration.class, VariableStoreSourceGenerator.INSTANCE);
         register(ArrayConstructor.class, ArrayConstructorSourceGenerator.INSTANCE);
         register(ArrayLoad.class, ArrayLoadSourceGenerator.INSTANCE);
         register(ArrayStore.class, ArrayStoreSourceGenerator.INSTANCE);
@@ -220,14 +229,27 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(Annotable.class, AnnotableSourceGenerator.INSTANCE);
         register(Annotation.class, AnnotationSourceGenerator.INSTANCE);
         register(EnumValue.class, EnumValueSourceGenerator.INSTANCE);
+
+        // Try-with-resources
+        registerSuper(TryWithResources.class, TryBlockSourceGenerator.INSTANCE);
     }
 
+    @Deprecated
     public static PlainSourceGenerator singletonInstance() {
         return INSTANCE;
     }
 
-    private static <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {
+    private <T> void register(Class<T> tClass, Generator<? extends T, String, PlainSourceGenerator> generator) {
         registry.put(tClass, generator);
+    }
+
+    private <T> void registerSuper(Class<T> tClass, Generator<? super T, String, PlainSourceGenerator> generator) {
+        registry.put(tClass, generator);
+    }
+
+    @Override
+    public Options getOptions() {
+        return this.options;
     }
 
     @Override

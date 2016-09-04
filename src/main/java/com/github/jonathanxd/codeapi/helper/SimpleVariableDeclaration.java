@@ -25,40 +25,48 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.helper;
+
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 13/06/16.
+ * Created by jonathan on 10/05/16.
  */
-public final class Option {
-    private final String name;
-    private final String description;
-    private boolean enabled;
+//
+@GenerateTo(VariableDeclaration.class)
+public class SimpleVariableDeclaration extends SimpleVariableAccess implements CodePart, VariableDeclaration {
 
-    public Option(String name, String description, boolean enabled) {
-        this.name = name;
-        this.description = description;
-        this.enabled = enabled;
+    private final CodePart value;
+
+    public SimpleVariableDeclaration(CodeType localization, String name, CodeType variableType, CodePart value) {
+        super(localization, name, variableType);
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public SimpleVariableDeclaration(CodeType localization, CodePart at, String name, CodeType variableType, CodePart value) {
+        super(localization, at, name, variableType);
+        this.value = value;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    protected void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    @Override
+    public Optional<CodePart> getValue() {
+        return Optional.ofNullable(this.value);
     }
 
     @Override
     public String toString() {
-        return name + ": " + description;
+        return ToStringBuilder.builder(this.getClass())
+                .add("localization", this.getLocalization())
+                .add("at", this.getAt())
+                .add("type", this.getVariableType())
+                .add("name", this.getName())
+                .addOptional("value", this.getValue())
+                .toString();
     }
 }

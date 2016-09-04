@@ -87,6 +87,16 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
             return new BiMultiVal<>(staticListOf);
         }
 
+        public Adder<T, U, V> and(U u) {
+            list.add(u);
+            return this;
+        }
+
+        public Adder<T, U, V> or(V v) {
+            list.add(v);
+            return this;
+        }
+
         public Adder<T, U, V> add1(U u) {
             list.add(u);
             return this;

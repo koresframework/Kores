@@ -47,7 +47,7 @@ public class InvokeDynamic {
         this.methodSpec = fullMethodSpec;
     }
 
-    public static InvokeDynamic invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
+    public static LambdaMethodReference invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
         return new LambdaMethodReference(fullMethodSpec, expectedTypes);
     }
 
@@ -55,11 +55,11 @@ public class InvokeDynamic {
         return new LambdaFragment(fullMethodSpec, expectedTypes, fragment);
     }
 
-    public static InvokeDynamic invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec) {
+    public static Bootstrap invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec) {
         return new Bootstrap(bootstrapMethodSpec, invokeType);
     }
 
-    public static InvokeDynamic invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec, Object... args) {
+    public static Bootstrap invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec, Object... args) {
         return new Bootstrap(bootstrapMethodSpec, invokeType, args);
     }
 
@@ -166,20 +166,5 @@ public class InvokeDynamic {
         public Object[] getArguments() {
             return arguments;
         }
-
-        /*
-            MethodType mt = MethodType.methodType(CallSite.class,
-        MethodHandles.Lookup.class, String.class, MethodType.class);
-
-Handle bootstrap = new Handle(Opcodes.INVOKESTATIC, "package1/Test2",
-        "bootstrap", mt.toMethodDescriptorString());
-             */
-
-
-
-        /*@Override
-        public MethodType getMethodType() {
-            return methodType;
-        }*/
     }
 }

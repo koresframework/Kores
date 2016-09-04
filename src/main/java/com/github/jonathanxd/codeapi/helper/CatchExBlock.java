@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -46,10 +47,10 @@ public class CatchExBlock implements CatchBlock {
 
     private final CodeSource body;
     private final List<CodeType> exceptionTypes;
-    private final String name;
+    private final CodeField field;
 
-    public CatchExBlock(String name, List<CodeType> exceptionTypes, CodeSource body) {
-        this.name = name;
+    public CatchExBlock(CodeField field, List<CodeType> exceptionTypes, CodeSource body) {
+        this.field = field;
         this.exceptionTypes = exceptionTypes == null ? Collections.emptyList() : Collections.unmodifiableList(exceptionTypes);
         this.body = body;
         Bodied.checkBody(this);
@@ -66,15 +67,15 @@ public class CatchExBlock implements CatchBlock {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public CodeField getField() {
+        return this.field;
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
                 .add("exceptionTypes", this.getExceptionTypes())
-                .add("variableName", this.getName())
+                .add("field", this.getField())
                 .toString();
     }
 }

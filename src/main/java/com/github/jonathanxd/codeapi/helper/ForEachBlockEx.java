@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.IterationType;
+import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
@@ -52,7 +53,7 @@ public class ForEachBlockEx implements ForEachBlock {
     private final CodeSource source;
 
     public ForEachBlockEx(@NotNull FieldDeclaration field, @NotNull CodePart iterableElement, CodeSource source) {
-        this(field, IterationType.ITERABLE_ELEMENT, iterableElement, source);
+        this(field, IterationTypes.ITERABLE_ELEMENT, iterableElement, source);
     }
 
     public ForEachBlockEx(@NotNull FieldDeclaration field, @NotNull IterationType iterationType, @NotNull CodePart iterableElement, CodeSource source) {

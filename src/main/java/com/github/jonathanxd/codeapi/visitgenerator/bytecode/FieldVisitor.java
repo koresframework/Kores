@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
@@ -68,7 +68,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
         } else {
             if (additional instanceof MVData) {
 
-                visitorGenerator.generateTo(VariableStore.class, codeField, extraData, navigator, null, additional);
+                visitorGenerator.generateTo(VariableDeclaration.class, codeField, extraData, navigator, null, additional);
 
                 return new Byte[0];
             } else {

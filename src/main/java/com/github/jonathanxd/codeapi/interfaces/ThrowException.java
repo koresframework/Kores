@@ -32,7 +32,8 @@ import com.github.jonathanxd.codeapi.CodePart;
 /**
  * Created by jonathan on 10/05/16.
  */
-public interface ThrowException extends CodePart, Argumenterizable, Typed {
+public interface ThrowException extends CodePart {
 
 
+    CodePart getPartToThrow();
 }

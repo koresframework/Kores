@@ -25,50 +25,59 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Created by jonathan on 04/09/16.
  */
-//
-@GenerateTo(VariableOperate.class)
-public class SimpleVariableOperate extends SimpleVariableDeclaration implements CodePart, VariableOperate {
+@GenerateTo(TryWithResources.class)
+public class TryWithResourcesImpl extends TryCatchBlock implements TryWithResources {
 
-    private final Operator operation;
+    private final VariableDeclaration variable;
 
-    public SimpleVariableOperate(CodeType localization, String name, CodeType variableType, Operator operation, CodePart value) {
-        super(localization, name, variableType, value);
-        this.operation = operation;
+    public TryWithResourcesImpl(VariableDeclaration variable, CodeSource body) {
+        super(body);
+        this.variable = variable;
     }
 
-    public SimpleVariableOperate(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation, CodePart value) {
-        super(localization, at, name, variableType, value);
-        this.operation = operation;
+    public TryWithResourcesImpl(VariableDeclaration variable, CatchBlock catchBlock, CodeSource body) {
+        super(catchBlock, body);
+        this.variable = variable;
+    }
+
+    public TryWithResourcesImpl(VariableDeclaration variable, List<CatchBlock> catchBlocks, CodeSource body) {
+        super(catchBlocks, body);
+        this.variable = variable;
+    }
+
+    public TryWithResourcesImpl(VariableDeclaration variable, CatchBlock catchBlock, CodeSource body, CodeSource finallyBlock) {
+        super(catchBlock, body, finallyBlock);
+        this.variable = variable;
+    }
+
+    public TryWithResourcesImpl(VariableDeclaration variable, List<CatchBlock> catchBlocks, CodeSource body, CodeSource finallyBlock) {
+        super(catchBlocks, body, finallyBlock);
+        this.variable = variable;
     }
 
     @Override
-    public Optional<Operator> getOperation() {
-        return Optional.ofNullable(operation);
+    public VariableDeclaration getVariable() {
+        return this.variable;
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("localization", this.getLocalization())
-                .add("at", this.getAt())
-                .add("type", this.getVariableType())
-                .add("name", this.getName())
-                .addOptional("operation", this.getOperation())
-                .addOptional("value", this.getValue())
-                .toString();
+    public Optional<CodePart> getExpression() {
+        return TryWithResources.super.getExpression();
     }
 }

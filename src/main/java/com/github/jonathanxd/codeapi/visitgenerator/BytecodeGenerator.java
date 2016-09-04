@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Options;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
@@ -56,10 +55,11 @@ import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
-import com.github.jonathanxd.codeapi.interfaces.VariableStore;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
@@ -93,6 +93,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.StoreVariableVisito
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TagLineVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ThrowExceptionVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryBlockVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryWithResourcesVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TypeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.WhileVisitor;
@@ -100,6 +101,7 @@ import com.github.jonathanxd.iutils.arrays.JwArray;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.object.AbstractTypeInfo;
 import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.jonathanxd.iutils.option.Options;
 
 import java.util.function.Function;
 
@@ -132,7 +134,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(TryBlock.class, new TryBlockVisitor());
         addVisitor(IfBlock.class, new IfBlockVisitor());
         addVisitor(Return.class, new ReturnVisitor());
-        addVisitor(VariableStore.class, new StoreVariableVisitor());
+        addVisitor(VariableDeclaration.class, new StoreVariableVisitor());
         addVisitor(ThrowException.class, new ThrowExceptionVisitor());
         addVisitor(Casted.class, new CastedVisitor());
         addVisitor(VariableOperate.class, new OperateVisitor());
@@ -152,6 +154,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(MethodFragment.class, new MethodFragmentVisitor());
         addVisitor(Annotable.class, new AnnotableVisitor());
         addVisitor(Annotation.class, new AnnotationVisitor());
+        addVisitor(TryWithResources.class, new TryWithResourcesVisitor());
     }
 
     public BytecodeGenerator() {
@@ -174,7 +177,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
     @Override
     public Options getOptions() {
-        return options;
+        return this.options;
     }
 
     private static class ByteAppender extends Appender<Byte> {

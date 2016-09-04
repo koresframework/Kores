@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
@@ -38,6 +39,7 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeFieldBuilder;
@@ -47,6 +49,7 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import org.junit.Test;
@@ -150,7 +153,8 @@ public class CodeAPITest {
         List<CodeType> catchExceptions = Collections.singletonList(getJavaType(Throwable.class));
 
         // Surround 'source' with 'try-catch'
-        CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))));
+        CodePart surround = Helper.surround(source, Collections.singletonList(Helper.catchBlock(catchExceptions, "thr", rethrow("thr"))),
+                Helper.sourceOf(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("finally"), String.class))));
 
         // Add body to method source
         methodSource.add(surround);
@@ -186,7 +190,9 @@ public class CodeAPITest {
 
 
         // Generator instance
-        PlainSourceGenerator plainSourceGenerator = PlainSourceGenerator.INSTANCE;
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
+
+        plainSourceGenerator.getOptions().set(CodeOptions.INLINE_FINALLY, true);
 
         // Generate source
         String source = plainSourceGenerator.gen(mySource);

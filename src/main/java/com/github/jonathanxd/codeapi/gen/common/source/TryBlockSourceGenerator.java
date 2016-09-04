@@ -36,20 +36,24 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
+import com.github.jonathanxd.codeapi.helper.CatchExBlock;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
+import com.github.jonathanxd.codeapi.transformer.TryCatchInliner;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String, PlainSourceGenerator> {
+public class TryBlockSourceGenerator implements Generator<TryBlock, String, PlainSourceGenerator> {
 
     public static final TryBlockSourceGenerator INSTANCE = new TryBlockSourceGenerator();
 
@@ -57,14 +61,17 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(TryCatchBlock tryCatchBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(TryBlock tryBlock, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+
+        final boolean isInline = plainSourceGenerator.getOptions().getOrElse(CodeOptions.INLINE_FINALLY, Boolean.FALSE);
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
 
         values.add(ValueImpl.create("try"));
 
 
-        CodePart expression = tryCatchBlock.getExpression().orElse(null);
+        CodePart expression = tryBlock.getExpression().orElse(null);
 
         if (expression != null) {
             values.add(ValueImpl.create("("));
@@ -72,17 +79,34 @@ public class TryBlockSourceGenerator implements Generator<TryCatchBlock, String,
             values.add(ValueImpl.create(")"));
         }
 
-        values.add(TargetValue.create(Bodied.class, tryCatchBlock, parents));
 
-        Collection<CatchBlock> catchBlocks = tryCatchBlock.getCatchBlocks();
+        Optional<CodeSource> finallyBlockOpt = tryBlock.getFinallyBlock();
+        Optional<CodeSource> bodyOpt = tryBlock.getBody();
+
+        if (!isInline || !TryCatchInliner.inlineSource(bodyOpt, finallyBlockOpt, values, parents)) {
+            values.add(TargetValue.create(Bodied.class, tryBlock, parents));
+        }
+
+        Collection<CatchBlock> catchBlocks = tryBlock.getCatchBlocks();
 
         for (CatchBlock catchBlock : catchBlocks) {
+            Optional<CodeSource> catchBodyOpt = catchBlock.getBody();
+
+            if (isInline && catchBodyOpt.isPresent() && finallyBlockOpt.isPresent()) {
+                CodeSource codeSource = catchBodyOpt.get();
+                CodeSource finallyBlockSource = finallyBlockOpt.get();
+
+                CodeSource modified = TryCatchInliner.insertInlineSecure(codeSource, finallyBlockSource);
+
+                catchBlock = new CatchExBlock(catchBlock.getField(), catchBlock.getExceptionTypes(), modified);
+            }
+
             values.add(TargetValue.create(catchBlock.getClass(), catchBlock, parents));
         }
 
-        CodeSource finallyBlock = tryCatchBlock.getFinallyBlock().orElse(null);
+        CodeSource finallyBlock = finallyBlockOpt.orElse(null);
 
-        if (finallyBlock != null) {
+        if (finallyBlock != null && !isInline) {
             values.add(ValueImpl.create("finally"));
             values.add(TargetValue.create(CodeSource.class, finallyBlock, parents));
         }

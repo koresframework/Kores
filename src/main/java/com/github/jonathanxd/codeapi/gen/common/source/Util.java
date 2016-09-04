@@ -25,12 +25,23 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
-import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.util.Parent;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Created by jonathan on 04/09/16.
  */
-public interface FieldDeclaration extends CodeElement, VariableDeclaration, Named, Typed, Valuable, Modifierable, Annotable {
+public class Util {
+
+    public static boolean isBody(Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+        Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
+
+        return parent != null
+                && (BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())
+                || CodeSourceSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass()));
+    }
+
 }
