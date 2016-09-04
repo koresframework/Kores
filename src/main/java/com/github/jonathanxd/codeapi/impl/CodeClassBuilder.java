@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
 import java.util.List;

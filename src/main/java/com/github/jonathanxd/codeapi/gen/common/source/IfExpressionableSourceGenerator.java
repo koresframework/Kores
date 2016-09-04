@@ -38,8 +38,8 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,7 +71,7 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
 
             CodePart simpleExpr = iterator.next();
 
-            if(simpleExpr instanceof IfExpr) {
+            if (simpleExpr instanceof IfExpr) {
 
                 IfExpr ifExpr = (IfExpr) simpleExpr;
 
@@ -94,12 +94,11 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
                 }
 
                 values.add(ValueImpl.create(")"));
-            } else if(simpleExpr == Operators.OR) {
+            } else if (simpleExpr == Operators.OR) {
                 values.add(ValueImpl.create("||"));
-            } else if(simpleExpr == Operators.AND) {
+            } else if (simpleExpr == Operators.AND) {
                 values.add(ValueImpl.create("&&"));
             }
-
 
 
         }

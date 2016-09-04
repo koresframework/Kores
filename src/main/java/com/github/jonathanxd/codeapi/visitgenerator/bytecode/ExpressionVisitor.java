@@ -28,11 +28,11 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
@@ -61,7 +61,6 @@ public class ExpressionVisitor implements Visitor<Expression, Byte, MVData>, Opc
             visitorGenerator.generateTo(expr.getClass(), expr, extraData, navigator, null, mvData);
 
         } while ((current = current.getNextExpression()) != null);
-
 
 
         // Add

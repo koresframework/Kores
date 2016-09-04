@@ -72,7 +72,6 @@ public class CodeSourceUtil {
     }
 
 
-
     /**
      * Insert element {@code toInsert} in {@code source} before element determined by {@code
      * predicate}
@@ -146,10 +145,10 @@ public class CodeSourceUtil {
         List<U> list = new ArrayList<>();
 
         for (CodePart codePart : codeSource) {
-            if(codePart instanceof CodeSource) {
+            if (codePart instanceof CodeSource) {
                 list.addAll(CodeSourceUtil.find((CodeSource) codePart, predicate, function));
             } else {
-                if(predicate.test(codePart)) {
+                if (predicate.test(codePart)) {
                     list.add(function.apply(codePart));
                 }
             }

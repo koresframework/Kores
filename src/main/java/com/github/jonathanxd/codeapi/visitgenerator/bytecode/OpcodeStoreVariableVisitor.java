@@ -31,11 +31,11 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
@@ -58,7 +58,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
 
         CodeType localization = variableStore.getLocalization();
 
@@ -77,7 +77,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
             } else {
                 // THIS
                 //
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }
         } else {
             if (at instanceof AccessLocalEx) {
@@ -96,7 +96,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
 
             } else if (at instanceof AccessThis) {
                 // THIS
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             } else {
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(localization), variableStore.getName(), Common.codeTypeToFullAsm(variableStore.getVariableType()));
             }

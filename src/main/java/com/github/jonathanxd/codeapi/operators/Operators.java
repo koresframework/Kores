@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.operators;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.literals.Literal;
 
 import org.objectweb.asm.Opcodes;
 
@@ -77,7 +76,7 @@ public class Operators {
     public static final Operator UNSIGNED_RIGHT_SHIFT = new SimpleOperator(">>>");
 
     public static int primitiveToAsm(Operator operator, boolean isInverse) {
-        if(!isInverse) {
+        if (!isInverse) {
             return primitiveToAsm(operator);
         } else {
             return inversePrimitiveToAsm(operator);
@@ -85,77 +84,77 @@ public class Operators {
     }
 
     public static int primitiveToAsm(Operator operator) {
-        if(operator == EQUAL_TO) {
+        if (operator == EQUAL_TO) {
             // ==
             return Opcodes.IF_ICMPEQ;
-        }else if(operator == LESS_THAN) {
+        } else if (operator == LESS_THAN) {
             // <
             return Opcodes.IF_ICMPLT;
-        } else if(operator == LESS_THAN_OR_EQUAL_TO) {
+        } else if (operator == LESS_THAN_OR_EQUAL_TO) {
             // <=
             return Opcodes.IF_ICMPLE;
-        }else if(operator == GREATER_THAN) {
+        } else if (operator == GREATER_THAN) {
             // >
             return Opcodes.IF_ICMPGT;
-        } else if(operator == GREATER_THAN_OR_EQUAL_TO) {
+        } else if (operator == GREATER_THAN_OR_EQUAL_TO) {
             // >=
             return Opcodes.IF_ICMPGE;
-        } else if(operator == NOT_EQUAL_TO) {
+        } else if (operator == NOT_EQUAL_TO) {
             // !=
             return Opcodes.IF_ICMPNE;
         }
 
-        throw new RuntimeException("Cannot determine primitive opcode of '"+operator+"'");
+        throw new RuntimeException("Cannot determine primitive opcode of '" + operator + "'");
     }
 
     /**
      * PT: Se eu receber um == eu devo falar para a JVM:
-
+     *
      * SE NAO FOR IGUAL, PULE PARA 'LABEL TAL', entao, eu preciso inverter as operacoes
      */
     public static int inversePrimitiveToAsm(Operator operator) {
-        if(operator == EQUAL_TO) {
+        if (operator == EQUAL_TO) {
             // PARA SER IGUAL, NAO PODE SER DIFERENTE
             // !(!=)
             // !=
             return Opcodes.IF_ICMPNE;
 
-        }else if(operator == LESS_THAN) {
+        } else if (operator == LESS_THAN) {
 
             // PARA SER MENOR, NAO PODE SER MAIOR OU IGUAL
             // !(>=)
             // >=
             return Opcodes.IF_ICMPGE;
 
-        } else if(operator == LESS_THAN_OR_EQUAL_TO) {
+        } else if (operator == LESS_THAN_OR_EQUAL_TO) {
             // PARA SER MENOR OU IGUAL, NAO PODE SER MAIOR
             // !(>)
             // >
             return Opcodes.IF_ICMPGT;
 
-        }else if(operator == GREATER_THAN) {
+        } else if (operator == GREATER_THAN) {
             // PARA SER MAIOR, NAO PODE SER MENOR OU IGUAL
             // !(<=)
             // <=
             return Opcodes.IF_ICMPLE;
 
-        } else if(operator == GREATER_THAN_OR_EQUAL_TO) {
+        } else if (operator == GREATER_THAN_OR_EQUAL_TO) {
             // PARA SER MAIOR OU IGUAL, NAO PODE SER MENOR
             // !(<)
             // <
             return Opcodes.IF_ICMPLT;
 
-        } else if(operator == NOT_EQUAL_TO) {
+        } else if (operator == NOT_EQUAL_TO) {
             // PARA SER DIFERENTE, NAO PODE SER IGUAL
             // !(==)
             return Opcodes.IF_ICMPEQ;
         }
 
-        throw new RuntimeException("Cannot determine primitive opcode of '"+operator+"'");
+        throw new RuntimeException("Cannot determine primitive opcode of '" + operator + "'");
     }
 
     public static int referenceToAsm(Operator operator, boolean isInverse) {
-        if(!isInverse) {
+        if (!isInverse) {
             return referenceToAsm(operator);
         } else {
             return inverseReferenceToAsm(operator);
@@ -163,63 +162,63 @@ public class Operators {
     }
 
     public static int referenceToAsm(Operator operator) {
-        if(operator == EQUAL_TO) {
+        if (operator == EQUAL_TO) {
             return Opcodes.IF_ACMPEQ;
-        } else if(operator == NOT_EQUAL_TO) {
+        } else if (operator == NOT_EQUAL_TO) {
             return Opcodes.IF_ACMPNE;
         }
 
-        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+        throw new RuntimeException("Cannot determine reference opcode of '" + operator + "'");
     }
 
     public static int inverseReferenceToAsm(Operator operator) {
-        if(operator == EQUAL_TO) {
+        if (operator == EQUAL_TO) {
             // PARA SER IGUAL, NAO PODE SER DIFERENTE
             // !(!=)
             // !=
             return Opcodes.IF_ACMPNE;
-        } else if(operator == NOT_EQUAL_TO) {
+        } else if (operator == NOT_EQUAL_TO) {
             // PARA SER DIFERENTE, NAO PODE SER IGUAL
             // !(==)
             // ==
             return Opcodes.IF_ACMPEQ;
         }
 
-        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+        throw new RuntimeException("Cannot determine reference opcode of '" + operator + "'");
     }
 
     public static int inverseNullCheckToAsm(Operator operator) {
-        if(operator == NOT_EQUAL_TO) {
+        if (operator == NOT_EQUAL_TO) {
             // PARA NAO SER NULO, NAO PODE SER NULO
             // !(NULL)
             // NULL
             return Opcodes.IFNULL;
-        } else if(operator == EQUAL_TO) {
+        } else if (operator == EQUAL_TO) {
             // PARA SER NULO, NAO SER NAO-NULO
             // !(NONNULL)
             // NONNULL
             return Opcodes.IFNONNULL;
         }
 
-        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+        throw new RuntimeException("Cannot determine reference opcode of '" + operator + "'");
     }
 
     public static int nullCheckToAsm(Operator operator, boolean isInverse) {
-        if(!isInverse) {
+        if (!isInverse) {
             return nullCheckToAsm(operator);
-        }else {
+        } else {
             return inverseNullCheckToAsm(operator);
         }
     }
 
     public static int nullCheckToAsm(Operator operator) {
-        if(operator == NOT_EQUAL_TO) {
+        if (operator == NOT_EQUAL_TO) {
             return Opcodes.IFNONNULL;
-        } else if(operator == EQUAL_TO) {
+        } else if (operator == EQUAL_TO) {
             return Opcodes.IFNULL;
         }
 
-        throw new RuntimeException("Cannot determine reference opcode of '"+operator+"'");
+        throw new RuntimeException("Cannot determine reference opcode of '" + operator + "'");
     }
 
     @GenerateTo(Named.class)

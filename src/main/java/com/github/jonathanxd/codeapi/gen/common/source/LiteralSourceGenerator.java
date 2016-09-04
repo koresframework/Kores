@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +54,10 @@ public class LiteralSourceGenerator implements Generator<Literal, String, PlainS
     public List<Value<?, String, PlainSourceGenerator>> gen(Literal literal, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if(literal instanceof Literals.LongLiteral) {
-            values.add(ValueImpl.create(literal.getName()+"L"));
-        } else if(literal instanceof Literals.ClassLiteral) {
-            values.add(ValueImpl.create(literal.getName()+".class"));
+        if (literal instanceof Literals.LongLiteral) {
+            values.add(ValueImpl.create(literal.getName() + "L"));
+        } else if (literal instanceof Literals.ClassLiteral) {
+            values.add(ValueImpl.create(literal.getName() + ".class"));
         } else {
             values.add(ValueImpl.create(literal.getName()));
         }

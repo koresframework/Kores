@@ -30,6 +30,8 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Options;
 import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
@@ -45,7 +47,6 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -55,12 +56,15 @@ import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableStore;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AccessVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AnnotableVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.AnnotationVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArgumenterizabeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayConstructVisitor;
@@ -78,7 +82,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForEachVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForIVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.IfBlockVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InstructionCodePart;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InterfaceVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.LiteralVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.MethodFragmentVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.MethodInvocationVisitor;
@@ -90,6 +93,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.StoreVariableVisito
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TagLineVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ThrowExceptionVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryBlockVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TypeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.WhileVisitor;
 import com.github.jonathanxd.iutils.arrays.JwArray;
@@ -104,18 +108,18 @@ import java.util.function.Function;
  */
 public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
-    public static final TypeInfo<Function<InterfaceDeclaration, String>> SOURCE_FILE_FUNCTION =
-            new AbstractTypeInfo<Function<InterfaceDeclaration, String>>(true) {
+    public static final TypeInfo<Function<TypeDeclaration, String>> SOURCE_FILE_FUNCTION =
+            new AbstractTypeInfo<Function<TypeDeclaration, String>>(true) {
             };
     private final Options options = new Options();
-    private final Function<InterfaceDeclaration, String> sourceFile;
+    private final Function<TypeDeclaration, String> sourceFile;
 
-    public BytecodeGenerator(Function<InterfaceDeclaration, String> sourceFile) {
+    public BytecodeGenerator(Function<TypeDeclaration, String> sourceFile) {
         this.sourceFile = sourceFile;
 
         addVisitor(PackageDeclaration.class, new PackageVisitor());
-        addVisitor(InterfaceDeclaration.class, new InterfaceVisitor());
-        addUncheckedVisitor(ClassDeclaration.class, new InterfaceVisitor());
+        addVisitor(TypeDeclaration.class, new TypeVisitor());
+        addUncheckedVisitor(ClassDeclaration.class, new TypeVisitor());
         addVisitor(FieldDeclaration.class, new FieldVisitor());
         addVisitor(CodeSource.class, new CodeSourceVisitor());
         addVisitor(ConstructorDeclaration.class, new ConstructorVisitor());
@@ -146,6 +150,8 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(TagLine.class, new TagLineVisitor());
         addVisitor(ForEachBlock.class, new ForEachVisitor());
         addVisitor(MethodFragment.class, new MethodFragmentVisitor());
+        addVisitor(Annotable.class, new AnnotableVisitor());
+        addVisitor(Annotation.class, new AnnotationVisitor());
     }
 
     public BytecodeGenerator() {

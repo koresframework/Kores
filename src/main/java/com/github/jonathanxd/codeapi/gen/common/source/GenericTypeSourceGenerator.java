@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +56,10 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if(genericType.isType()) {
+        if (genericType.isType()) {
             values.add(TargetValue.create(CodeType.class, genericType, parents));
         } else {
-            if(!genericType.isWildcard()) {
+            if (!genericType.isWildcard()) {
                 values.add(ValueImpl.create(genericType.name()));
             } else {
                 values.add(ValueImpl.create("?"));
@@ -69,7 +69,7 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
 
         GenericType.Bound<CodeType>[] bounds = genericType.bounds();
 
-        if(bounds.length != 0) {
+        if (bounds.length != 0) {
 
             for (int i = 0; i < bounds.length; i++) {
 
@@ -77,9 +77,9 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
 
                 GenericType.Bound<CodeType> bound = bounds[i];
 
-                boolean extendsOrSuper = bound.sign().equals("+") ||  bound.sign().equals("-");
+                boolean extendsOrSuper = bound.sign().equals("+") || bound.sign().equals("-");
 
-                if(bound.sign().equals("+")) {
+                if (bound.sign().equals("+")) {
                     values.add(ValueImpl.create("extends"));
                 } else if (bound.sign().equals("-")) {
                     values.add(ValueImpl.create("super"));
@@ -91,11 +91,11 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
 
                 values.add(TargetValue.create(type.getClass(), type, parents));
 
-                if(!extendsOrSuper) {
+                if (!extendsOrSuper) {
                     values.add(ValueImpl.create(">"));
                 }
 
-                if(hasNext) {
+                if (hasNext) {
                     values.add(ValueImpl.create("&"));
                 }
             }

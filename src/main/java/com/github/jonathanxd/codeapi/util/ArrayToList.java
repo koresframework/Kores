@@ -38,10 +38,10 @@ public class ArrayToList {
 
 
     public static <T> List<T> toList(T[] array) {
-        if(array.length == 0)
+        if (array.length == 0)
             return Collections.emptyList();
 
-        if(array.length == 1)
+        if (array.length == 1)
             return Collections.singletonList(array[0]);
 
         return Arrays.asList(array);

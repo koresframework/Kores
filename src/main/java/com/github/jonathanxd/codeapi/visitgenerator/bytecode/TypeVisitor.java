@@ -31,23 +31,26 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.util.ASMifier;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,18 +61,18 @@ import java.util.function.Function;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Object>, Opcodes {
+public class TypeVisitor implements Visitor<TypeDeclaration, Byte, Object>, Opcodes {
 
-    public static final InterfaceVisitor INSTANCE = new InterfaceVisitor();
+    public static final TypeVisitor INSTANCE = new TypeVisitor();
 
-    public static final TypeInfo<InterfaceDeclaration> CODE_INTERFACE_REPRESENTATION =
-            TypeInfo.a(InterfaceDeclaration.class).setUnique(true).build();
+    public static final TypeInfo<TypeDeclaration> CODE_TYPE_REPRESENTATION =
+            TypeInfo.a(TypeDeclaration.class).setUnique(true).build();
 
     public static final TypeInfo<ClassWriter> CLASS_WRITER_REPRESENTATION =
             TypeInfo.a(ClassWriter.class).setUnique(true).build();
 
     @Override
-    public Byte[] visit(InterfaceDeclaration codeInterface,
+    public Byte[] visit(TypeDeclaration typeDeclaration,
                         MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
@@ -77,39 +80,43 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-        String sourceFile = codeInterface.getSimpleName() + ".cai"; //CodeAPI Instructions
+        String sourceFile = typeDeclaration.getSimpleName() + ".cai"; //CodeAPI Instructions
 
-        Optional<Function<InterfaceDeclaration, String>> optional = extraData.getOptional(BytecodeGenerator.SOURCE_FILE_FUNCTION);
+        Optional<Function<TypeDeclaration, String>> optional = extraData.getOptional(BytecodeGenerator.SOURCE_FILE_FUNCTION);
 
         if (optional.isPresent()) {
-            sourceFile = optional.get().apply(codeInterface);
+            sourceFile = optional.get().apply(typeDeclaration);
         }
 
         cw.visitSource(sourceFile, null);
 
-        extraData.registerData(CODE_INTERFACE_REPRESENTATION, codeInterface);
+        extraData.registerData(CODE_TYPE_REPRESENTATION, typeDeclaration);
         extraData.registerData(CLASS_WRITER_REPRESENTATION, cw);
 
 
-        Collection<CodeModifier> interfaceModifiers = new ArrayList<>(codeInterface.getModifiers());
+        Collection<CodeModifier> interfaceModifiers = new ArrayList<>(typeDeclaration.getModifiers());
 
-        if (codeInterface.getClassType() == ClassType.INTERFACE) {
+        if (typeDeclaration.getClassType() == ClassType.INTERFACE) {
             if (!interfaceModifiers.contains(CodeModifier.ABSTRACT)) {
                 interfaceModifiers.add(CodeModifier.ABSTRACT);
             }
         }
 
-        int modifiers = Common.modifierToAsm(interfaceModifiers, codeInterface.getClassType() == ClassType.INTERFACE);
+        int modifiers = Common.modifierToAsm(interfaceModifiers, typeDeclaration.getClassType() == ClassType.INTERFACE);
 
-        String className = Common.getClassName(codeInterface, extraData);
+        String className = Common.getClassName(typeDeclaration, extraData);
 
-        Collection<CodeType> implementations = codeInterface.getImplementations();
+        Collection<CodeType> implementations = Collections.emptyList();
+
+        if (typeDeclaration instanceof Implementer) {
+            implementations = ((Implementer) typeDeclaration).getImplementations();
+        }
 
         String[] impls = implementations.stream().map(Common::codeTypeToSimpleAsm).toArray(String[]::new);
 
-        CodeType superClass = Common.getSuperClass(codeInterface);
+        CodeType superClass = Common.getSuperClass(typeDeclaration);
 
-        GenericType[] types = codeInterface.getGenericSignature().getTypes();
+        GenericType[] types = typeDeclaration.getGenericSignature().getTypes();
 
         String genericRepresentation = null;
 
@@ -127,15 +134,21 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
         cw.visit(52, modifiers, className, genericRepresentation, Common.codeTypeToSimpleAsm(superClass), impls);
 
-        Optional<CodeSource> bodyOpt = codeInterface.getBody();
+        // Visit Annotations
+        visitorGenerator.generateTo(Annotable.class, typeDeclaration, extraData, navigator, null, null);
+
+        Optional<CodeSource> bodyOpt = typeDeclaration.getBody();
         if (bodyOpt.isPresent()) {
             CodeSource body = bodyOpt.get();
-            visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, null);
+
+            if(body.size() > 0) {
+                visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, null);
+            }
 
             boolean constructor = body.stream().filter(c -> c instanceof ConstructorDeclaration).findAny().isPresent();
 
-            if (!constructor && codeInterface instanceof ClassDeclaration) { // Interfaces has no super call.
-                ConstructorDeclaration codeConstructor = new CodeConstructor(codeInterface, Collections.singleton(CodeModifier.PUBLIC), Collections.emptyList(), null);
+            if (!constructor && typeDeclaration instanceof ClassDeclaration) { // Interfaces has no super call.
+                ConstructorDeclaration codeConstructor = new CodeConstructor(typeDeclaration, Collections.singleton(CodeModifier.PUBLIC), Collections.emptyList(), null);
                 visitorGenerator.generateTo(ConstructorDeclaration.class, codeConstructor, extraData, navigator, null, null);
             }
 
@@ -143,14 +156,14 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
         Collection<MethodFragment> all = extraData.getAll(MethodFragmentVisitor.FRAGMENT_TYPE_INFO);
 
-        if(!all.isEmpty()) {
+        if (!all.isEmpty()) {
             for (MethodFragment methodFragment : all) {
                 visitorGenerator.generateTo(MethodFragment.class, methodFragment, extraData, navigator, null, null);
             }
         }
 
 
-        StaticBlockVisitor.generate(extraData, navigator, visitorGenerator, cw, codeInterface);
+        StaticBlockVisitor.generate(extraData, navigator, visitorGenerator, cw, typeDeclaration);
 
         cw.visitEnd();
 
@@ -159,11 +172,17 @@ public class InterfaceVisitor implements Visitor<InterfaceDeclaration, Byte, Obj
 
     @Override
     public void endVisit(Byte[] r,
-                         InterfaceDeclaration codeInterface,
+                         TypeDeclaration codeInterface,
                          MapData extraData,
                          Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
-        extraData.unregisterData(CODE_INTERFACE_REPRESENTATION, codeInterface);
+        extraData.unregisterData(CODE_TYPE_REPRESENTATION, codeInterface);
+
+        Optional<ClassWriter> optional = extraData.getOptional(CLASS_WRITER_REPRESENTATION);
+
+        if (optional.isPresent()) {
+            extraData.unregisterData(CLASS_WRITER_REPRESENTATION, optional.get());
+        }
     }
 }

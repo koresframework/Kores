@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class GenericSignatureSourceGenerator implements Generator<GenericSignatu
 
             values.add(TargetValue.create(genericType.getClass(), genericType, parents));
 
-            if(hasNext)
+            if (hasNext)
                 values.add(ValueImpl.create(","));
         }
 

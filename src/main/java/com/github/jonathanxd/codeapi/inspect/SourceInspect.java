@@ -58,7 +58,7 @@ public class SourceInspect<R> {
         return SourceInspectBuilder.<CodePart>builder().find(codePartPredicate);
     }
 
-        // find(part -> part instanceof CodeField).
+    // find(part -> part instanceof CodeField).
 
     public List<R> inspect(CodeSource source) {
 
@@ -73,15 +73,15 @@ public class SourceInspect<R> {
 
         for (CodePart codePart : source) {
             // Deep inspection
-            if(codePart instanceof Bodied) {
-                if(this.subPredicate != null && this.subPredicate.test((Bodied) codePart)) {
+            if (codePart instanceof Bodied) {
+                if (this.subPredicate != null && this.subPredicate.test((Bodied) codePart)) {
                     Optional<CodeSource> body = ((Bodied) codePart).getBody();
 
-                    if(body.isPresent())
+                    if (body.isPresent())
                         this.inspect(body.get(), true, list);
                 }
             }
-            if(inspect) {
+            if (inspect) {
                 if (this.predicate.test(codePart)) {
                     list.add(this.mapper.apply(codePart));
                 }

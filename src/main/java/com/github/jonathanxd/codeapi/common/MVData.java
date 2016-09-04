@@ -66,7 +66,7 @@ public class MVData {
     }
 
     public Optional<Variable> getVar(final String name, final CodeType type) {
-        if(type == null) {
+        if (type == null) {
             return getVarByName(name);
         }
 
@@ -75,7 +75,7 @@ public class MVData {
 
     public int getVarPos(Variable variable) {
         for (int i = 0; i < this.variables.size(); i++) {
-            if(this.variables.get(i).equals(variable))
+            if (this.variables.get(i).equals(variable))
                 return i;
         }
 
@@ -88,9 +88,9 @@ public class MVData {
         for (int i = 0; i < this.variables.size(); i++) {
             Variable variable1 = this.variables.get(i);
 
-            if(variable1.equals(variable)) {
-                if(variable1.isTemp()) {
-                    throw new RuntimeException("Cannot store variable named '"+name+"'. Variable already stored!");
+            if (variable1.equals(variable)) {
+                if (variable1.isTemp()) {
+                    throw new RuntimeException("Cannot store variable named '" + name + "'. Variable already stored!");
                 }
                 return i;
             }
@@ -105,7 +105,7 @@ public class MVData {
         Variable variable = new Variable(name, type, startLabel, endLabel, true);
 
         for (int i = 0; i < this.variables.size(); i++) {
-            if(this.variables.get(i).equals(variable)) {
+            if (this.variables.get(i).equals(variable)) {
                 return i;
             }
         }
@@ -118,11 +118,11 @@ public class MVData {
     public void redefineVar(final int pos, final String name, final CodeType type, final Label startLabel, final Label endLabel) {
         Variable variable = new Variable(name, type, startLabel, endLabel);
 
-        if(pos >= this.variables.size()) {
+        if (pos >= this.variables.size()) {
             this.variables.add(pos, variable);
         } else {
-            if(this.variables.get(pos).isTemp()) {
-                throw new RuntimeException("Cannot store variable named '"+name+"'. Variable already stored!");
+            if (this.variables.get(pos).isTemp()) {
+                throw new RuntimeException("Cannot store variable named '" + name + "'. Variable already stored!");
             }
 
             this.variables.set(pos, variable);
@@ -132,7 +132,7 @@ public class MVData {
     public int visitLine(TagLine<?, ?> line) {
         this.tagLines.add(line);
 
-        return this.tagLines.size()-1;
+        return this.tagLines.size() - 1;
     }
 
     public int currentPos() {
@@ -153,7 +153,7 @@ public class MVData {
         for (int i = 0; i < variables.size(); i++) {
             Variable variable = variables.get(i);
 
-            if(variable.isTemp())
+            if (variable.isTemp())
                 continue;
 
             Label varStart = variable.getStartLabel() != null ? variable.getStartLabel() : start;
@@ -163,7 +163,7 @@ public class MVData {
 
             String signature = null;
 
-            if(variable.getType() instanceof GenericType) {
+            if (variable.getType() instanceof GenericType) {
                 signature = Common.toAsm(variable.getType());
             }
 

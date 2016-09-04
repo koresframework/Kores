@@ -33,5 +33,5 @@ import com.github.jonathanxd.codeapi.CodeRoot;
 /**
  * Created by jonathan on 25/07/16.
  */
-public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot {
+public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot, Annotable {
 }

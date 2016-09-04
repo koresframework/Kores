@@ -31,16 +31,22 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 09/07/16.
  */
 @GenerateTo(FieldDeclaration.class)
 class HiddenField extends CodeField {
+    HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers, List<Annotation> annotations) {
+        super(name, type, null, modifiers, annotations);
+    }
+
     HiddenField(String name, CodeType type, Collection<CodeModifier> modifiers) {
         super(name, type, modifiers);
     }

@@ -39,20 +39,20 @@ import java.nio.file.StandardOpenOption;
  */
 public final class ResultSaver {
 
-    public static final boolean IS_DEVELOPMENT_ENVIRONMENT;
+    public static final boolean IS_GRADLE_ENVIRONMENT;
 
     static {
-        String prop = System.getProperty("devenv");
+        String prop = System.getProperty("env");
 
-        IS_DEVELOPMENT_ENVIRONMENT = prop != null && prop.equals("true");
+        IS_GRADLE_ENVIRONMENT = prop != null && prop.equals("gradle");
 
-        if(IS_DEVELOPMENT_ENVIRONMENT) {
-            System.out.println("Development environment property defined!");
+        if(IS_GRADLE_ENVIRONMENT) {
+            System.out.println("Gradle environment property defined!");
         }
     }
 
     public static void save(Class<?> ofClass, byte[] result) {
-        if(!IS_DEVELOPMENT_ENVIRONMENT)
+        if(IS_GRADLE_ENVIRONMENT)
             return;
 
         try {

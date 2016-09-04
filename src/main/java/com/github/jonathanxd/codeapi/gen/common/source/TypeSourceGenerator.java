@@ -37,13 +37,13 @@ import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,15 +52,15 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class InterfaceSourceGenerator implements Generator<InterfaceDeclaration, String, PlainSourceGenerator> {
+public class TypeSourceGenerator implements Generator<TypeDeclaration, String, PlainSourceGenerator> {
 
-    public static final InterfaceSourceGenerator INSTANCE = new InterfaceSourceGenerator();
+    public static final TypeSourceGenerator INSTANCE = new TypeSourceGenerator();
 
-    private InterfaceSourceGenerator() {
+    private TypeSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(InterfaceDeclaration codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(TypeDeclaration codeInterface, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
                 TargetValue.create(Modifierable.class, codeInterface, parents),

@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.helper;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
@@ -66,11 +67,20 @@ public class SimpleIfBlock implements IfBlock {
 
         Collection<CodePart> ifExprs = ifExpressions == null ? null : ifExpressions.toCollection();
 
-        if(ifExpressions != null) {
+        if (ifExpressions != null) {
             ifExprs.stream().forEach(IfExpressionable::check);
         }
 
         this.ifExprs = ifExprs == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<>(ifExprs));
+        Bodied.checkBody(this);
+    }
+
+    public static SimpleIfBlock instance(IfBlock ifBlock) {
+        return new SimpleIfBlock(ifBlock.getBody().orElse(null), ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
+    }
+
+    public static SimpleIfBlock instance(IfBlock ifBlock, CodeSource codeSource) {
+        return new SimpleIfBlock(codeSource, ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
     }
 
     @Override
@@ -86,14 +96,6 @@ public class SimpleIfBlock implements IfBlock {
     @Override
     public Optional<ElseBlock> getElseBlock() {
         return Optional.ofNullable(elseBlock);
-    }
-
-    public static SimpleIfBlock instance(IfBlock ifBlock) {
-        return new SimpleIfBlock(ifBlock.getBody().orElse(null), ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
-    }
-
-    public static SimpleIfBlock instance(IfBlock ifBlock, CodeSource codeSource) {
-        return new SimpleIfBlock(codeSource, ifBlock.getIfExprsAndOps(), ifBlock.getElseBlock().orElse(null));
     }
 
     @Override

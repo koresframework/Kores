@@ -31,25 +31,26 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.iutils.data.MapData;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
+import org.objectweb.asm.*;
+import org.objectweb.asm.AnnotationVisitor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -68,6 +69,9 @@ import java.util.stream.Collectors;
  * Created by jonathan on 03/06/16.
  */
 public class Common {
+
+    private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
+    private static final Random random = new Random();
 
     public static String codeTypeToArray(CodeType codeType, int dimensions) {
         String name = codeTypeToFullAsm(codeType);
@@ -334,20 +338,6 @@ public class Common {
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers, boolean isInterface) {
         return (isInterface ? Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
     }
-
-    public static int modifierToAsm(InterfaceDeclaration codeInterface) {
-        int asm = CodeModifier.toAsmAccess(codeInterface.getModifiers());
-
-        if (!(codeInterface instanceof ClassDeclaration)) {
-            asm += Opcodes.ACC_INTERFACE;
-        }
-
-        return asm;
-    }
-
-    public static String getClassName(InterfaceDeclaration class_, MapData data) {
-        return class_.getType().replace('.', '/');
-    }
     /*
     public static String getClassName(CodeInterface class_, Data data) {
         String className = class_.getJavaSpecName();
@@ -361,7 +351,21 @@ public class Common {
         return className;
     }*/
 
-    public static String getClassName(InterfaceDeclaration class_, String package_) {
+    public static int modifierToAsm(TypeDeclaration codeInterface) {
+        int asm = CodeModifier.toAsmAccess(codeInterface.getModifiers());
+
+        if (!(codeInterface instanceof ClassDeclaration)) {
+            asm += Opcodes.ACC_INTERFACE;
+        }
+
+        return asm;
+    }
+
+    public static String getClassName(TypeDeclaration class_, MapData data) {
+        return class_.getType().replace('.', '/');
+    }
+
+    public static String getClassName(TypeDeclaration class_, String package_) {
         String className = class_.getJavaSpecName();
 
         if (package_ != null) {
@@ -475,7 +479,7 @@ public class Common {
         return map;
     }
 
-    public static CodeType getSuperClass(InterfaceDeclaration codeInterface) {
+    public static CodeType getSuperClass(TypeDeclaration codeInterface) {
 
         if (codeInterface instanceof ClassDeclaration) {
 
@@ -487,6 +491,9 @@ public class Common {
         return Helper.getJavaType(Object.class);
     }
 
+
+    // ** Generics ** \\
+
     public static String parametersToAsm(Collection<CodeParameter> codeParameters) {
         return codeTypesToFullAsm(codeParameters.stream().map(CodeParameter::getType).toArray(CodeType[]::new));
     }
@@ -494,9 +501,6 @@ public class Common {
     public static String argumentsToAsm(Collection<CodeArgument> codeArguments) {
         return codeTypesToFullAsm(codeArguments.stream().map(CodeArgument::getType).toArray(CodeType[]::new));
     }
-
-
-    // ** Generics ** \\
 
     public static String genericTypesToAsmString(GenericType[] generics) {
         StringJoiner sj = new StringJoiner(";");
@@ -662,23 +666,20 @@ public class Common {
 
     }
 
-    private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
-    private static final Random random = new Random();
-
     public static void convertToPrimitive(CodeType from, CodeType to, MethodVisitor mv) {
         int opcode = -1;
 
-        if(from.isPrimitive() && to.isPrimitive()) {
+        if (from.isPrimitive() && to.isPrimitive()) {
             char fromTypeChar = Character.toUpperCase(from.getType().charAt(0));
             char toTypeChar = Character.toUpperCase(to.getType().charAt(0));
 
-            System.out.println("from = "+fromTypeChar+" -> "+toTypeChar);
+            System.out.println("from = " + fromTypeChar + " -> " + toTypeChar);
 
             try {
                 MethodHandle staticGetter = lookup.findStaticGetter(Opcodes.class, fromTypeChar + "2" + toTypeChar, Integer.TYPE);
                 opcode = (int) staticGetter.invoke();
             } catch (Throwable throwable) {
-                if(throwable instanceof NoSuchFieldException) {
+                if (throwable instanceof NoSuchFieldException) {
                     Common.convertToPrimitive(from, PredefinedTypes.INT, mv);
                     Common.convertToPrimitive(PredefinedTypes.INT, to, mv);
                     return;
@@ -686,11 +687,68 @@ public class Common {
             }
 
 
-
         }
-        if(opcode != -1)
+        if (opcode != -1)
             mv.visitInsn(opcode);
         else
-            throw new IllegalArgumentException("Cannot cast '"+from+"' to '"+to+"'!");
+            throw new IllegalArgumentException("Cannot cast '" + from + "' to '" + to + "'!");
+    }
+
+    public static void visitAnnotation(Annotation annotation, AnnotationVisitorCapable annotationVisitorCapable) {
+        String annotationTypeAsm = Common.codeTypeToFullAsm(annotation.getType().orElseThrow(NullPointerException::new));
+        org.objectweb.asm.AnnotationVisitor annotationVisitor = annotationVisitorCapable.visitAnnotation(annotationTypeAsm, annotation.isVisible());
+
+        Map<String, Object> values = annotation.getValues();
+
+        for (Map.Entry<String, Object> stringObjectEntry : values.entrySet()) {
+            Common.visitAnnotationValue(annotationVisitor, stringObjectEntry.getKey(), stringObjectEntry.getValue());
+        }
+
+        annotationVisitor.visitEnd();
+    }
+
+    public static void visitAnnotationValue(org.objectweb.asm.AnnotationVisitor annotationVisitor, String key, Object value) {
+
+        if(value.getClass().isArray()) {
+            Object[] values = (Object[]) value;
+
+            if(Arrays.stream(values).filter(o -> o instanceof Annotation || o instanceof EnumValue).findAny().isPresent()) {
+                AnnotationVisitor annotationVisitor1 = annotationVisitor.visitArray(key);
+
+                for (Object o : values) {
+                    Common.visitAnnotationValue(annotationVisitor1, "", o);
+                }
+
+                annotationVisitor1.visitEnd();
+
+                return;
+            }
+        }
+
+        if(value instanceof EnumValue) {
+            EnumValue enumValue = (EnumValue) value;
+            annotationVisitor.visitEnum(enumValue.getName(), Common.codeTypeToFullAsm(enumValue.getEnumType()), enumValue.getEnumValue());
+
+            return;
+        }
+
+        if(value instanceof Annotation) {
+            Annotation annotation = (Annotation) value;
+            String asmType = Common.codeTypeToFullAsm(annotation.getType().orElseThrow(NullPointerException::new));
+
+            AnnotationVisitor visitor2 = annotationVisitor.visitAnnotation(key, asmType);
+
+            for (Map.Entry<String, Object> stringObjectEntry : annotation.getValues().entrySet()) {
+                Common.visitAnnotationValue(visitor2, stringObjectEntry.getKey(), stringObjectEntry.getValue());
+            }
+
+            visitor2.visitEnd();
+        }
+
+        if(value instanceof CodeType) {
+            value = Type.getType(Common.codeTypeToFullAsm(((CodeType) value)));
+        }
+
+        annotationVisitor.visit(key, value);
     }
 }

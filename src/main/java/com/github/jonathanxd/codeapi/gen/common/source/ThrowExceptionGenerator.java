@@ -36,8 +36,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +72,7 @@ public class ThrowExceptionGenerator implements Generator<ThrowException, String
 
         Parent<Generator<?, String, PlainSourceGenerator>> parent = parents.getParent();
 
-        if(parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
+        if (parent != null && BodiedSourceGenerator.class.isAssignableFrom(parent.getCurrent().getClass())) {
             values.add(ValueImpl.create(";"));
         }
 

@@ -28,10 +28,9 @@
 package com.github.jonathanxd.codeapi.abs;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

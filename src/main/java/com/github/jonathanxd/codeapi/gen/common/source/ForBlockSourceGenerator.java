@@ -37,8 +37,8 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class ForBlockSourceGenerator implements Generator<ForBlock, String, Plai
 
         List<CodePart> forExpressionOpt = forBlock.getForExpression();
 
-        if(!forExpressionOpt.isEmpty()) {
+        if (!forExpressionOpt.isEmpty()) {
             values.add(TargetValue.create(IfExpressionable.class, forBlock, parents));
         }
 

@@ -37,7 +37,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
-import com.sun.org.apache.bcel.internal.generic.Type;
 
 import org.objectweb.asm.Opcodes;
 
@@ -51,7 +50,7 @@ public class MethodFragmentVisitor implements Visitor<MethodFragment, Byte, Obje
     @Override
     public Byte[] visit(MethodFragment methodFragment, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
-        if(additional != null && additional instanceof MVData) {
+        if (additional != null && additional instanceof MVData) {
             MVData mvData = (MVData) additional;
             extraData.registerData(MethodFragmentVisitor.FRAGMENT_TYPE_INFO, methodFragment);
             visitorGenerator.generateTo(MethodInvocation.class, methodFragment, extraData, navigator, null, mvData);

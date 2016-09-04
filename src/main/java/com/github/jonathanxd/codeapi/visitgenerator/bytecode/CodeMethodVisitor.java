@@ -37,13 +37,15 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
@@ -70,9 +72,9 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
     public static final CodeMethodVisitor INSTANCE = new CodeMethodVisitor();
 
-    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, InterfaceDeclaration codeInterface, MethodVisitor mv, MapData extraData, Navigator<CodePart> navigator, MVData mvData) {
+    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, Navigator<CodePart> navigator, MVData mvData) {
 
-        if (searchInitThis(codeInterface, methodBody)) {
+        if (searchInitThis(typeDeclaration, methodBody)) {
             // Calling this() will redirect to a constructor that initialize variables
             return;
         }
@@ -81,7 +83,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
          * Declare variables
          */
         Collection<FieldDeclaration> all = CodeSourceUtil.find(
-                codeInterface.getBody().orElseThrow(NullPointerException::new),
+                typeDeclaration.getBody().orElseThrow(NullPointerException::new),
                 codePart ->
                         codePart instanceof CodeField
                                 && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
@@ -98,7 +100,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             mv.visitVarInsn(ALOAD, 0);
             visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
 
-            mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(codeInterface), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+            mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
         }
     }
 
@@ -126,10 +128,10 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         return codeSource;
     }
 
-    public static void generateSuperInvoke(InterfaceDeclaration codeInterface, MethodVisitor mv) {
+    public static void generateSuperInvoke(TypeDeclaration typeDeclaration, MethodVisitor mv) {
         mv.visitVarInsn(ALOAD, 0);
 
-        CodeType superType = ((ClassDeclaration) codeInterface).getSuperType().orElse(null);
+        CodeType superType = ((Extender) typeDeclaration).getSuperType().orElse(null);
         if (superType == null) {
             mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
         } else {
@@ -137,8 +139,8 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         }
     }
 
-    public static boolean isInitForThat(InterfaceDeclaration codeInterface, MethodInvocation methodInvocation) {
-        boolean any = ((codeInterface instanceof ClassDeclaration) && ((ClassDeclaration) codeInterface).getSuperType().filter(c -> methodInvocation.getLocalization().compareTo(c) == 0).isPresent());
+    public static boolean isInitForThat(TypeDeclaration typeDeclaration, MethodInvocation methodInvocation) {
+        boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().compareTo(c) == 0).isPresent());
 
         boolean accept = (methodInvocation.getTarget() instanceof AccessThis || methodInvocation.getTarget() instanceof AccessSuper);
         if (any
@@ -152,13 +154,13 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         return false;
     }
 
-    public static boolean searchForInitTo(InterfaceDeclaration codeInterface, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {
+    public static boolean searchForInitTo(TypeDeclaration typeDeclaration, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {
         if (codeParts == null)
             return false;
 
         for (CodePart codePart : codeParts) {
             if (codePart instanceof Bodied) {
-                if (searchForSuper(codeInterface, ((Bodied) codePart).getBody().orElse(null))) {
+                if (searchForSuper(typeDeclaration, ((Bodied) codePart).getBody().orElse(null))) {
                     return true;
                 }
             }
@@ -166,7 +168,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             if (codePart instanceof MethodInvocation) {
                 MethodInvocation mi = (MethodInvocation) codePart;
 
-                boolean any = ((codeInterface instanceof ClassDeclaration) && ((ClassDeclaration) codeInterface).getSuperType().filter(c -> mi.getLocalization().compareTo(c) == 0).isPresent());
+                boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> mi.getLocalization().compareTo(c) == 0).isPresent());
 
                 if (any
                         && targetAccessPredicate.test(mi.getTarget())
@@ -182,12 +184,12 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         return false;
     }
 
-    public static boolean searchInitThis(InterfaceDeclaration codeInterface, CodeSource codeParts) {
-        return searchForInitTo(codeInterface, codeParts, codePart -> codePart instanceof AccessThis);
+    public static boolean searchInitThis(TypeDeclaration typeDeclaration, CodeSource codeParts) {
+        return searchForInitTo(typeDeclaration, codeParts, codePart -> codePart instanceof AccessThis);
     }
 
-    public static boolean searchForSuper(InterfaceDeclaration codeInterface, CodeSource codeParts) {
-        return searchForInitTo(codeInterface, codeParts, codePart -> codePart instanceof AccessSuper);
+    public static boolean searchForSuper(TypeDeclaration typeDeclaration, CodeSource codeParts) {
+        return searchForInitTo(typeDeclaration, codeParts, codePart -> codePart instanceof AccessSuper);
     }
 
     @Override
@@ -196,9 +198,9 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
 
 
-        InterfaceDeclaration codeInterface = extraData.getRequired(InterfaceVisitor.CODE_INTERFACE_REPRESENTATION);
+        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
 
-        ClassWriter cw = extraData.getRequired(InterfaceVisitor.CLASS_WRITER_REPRESENTATION);
+        ClassWriter cw = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
 
         Optional<CodeSource> bodyOpt = codeMethod.getBody();
 
@@ -233,11 +235,13 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
         if (modifiers.contains(CodeModifier.STATIC)) {
             Common.parametersToVars(codeMethod.getParameters(),/* to */ vars);
         } else {
-            vars.add(new Variable("this", codeInterface, null, null));
+            vars.add(new Variable("this", typeDeclaration, null, null));
             Common.parametersToVars(codeMethod.getParameters(), /* to */ vars);
         }
 
         MVData mvData = new MVData(mv, vars);
+
+        visitorGenerator.generateTo(Annotable.class, codeMethod, extraData, navigator, null, mvData);
 
         if (codeMethod.hasBody() || isConstructor) {
             mv.visitCode();
@@ -250,23 +254,23 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
             boolean isGenerated = false;
 
-            if (codeInterface instanceof ClassDeclaration && isConstructor) {
-                if (!searchForSuper(codeInterface, methodSource)) {
-                    CodeMethodVisitor.generateSuperInvoke(codeInterface, mv);
+            if (typeDeclaration instanceof ClassDeclaration && isConstructor) {
+                if (!searchForSuper(typeDeclaration, methodSource)) {
+                    CodeMethodVisitor.generateSuperInvoke(typeDeclaration, mv);
                     isGenerated = true;
                 }
             }
 
             if (isConstructor) {
                 if (isGenerated) {
-                    CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, codeInterface, mv, extraData, navigator, mvData);
+                    CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, navigator, mvData);
                 } else {
 
 
                     methodSource =
                             CodeSourceUtil.insertAfter(
-                                    part -> part instanceof MethodInvocation && CodeMethodVisitor.isInitForThat(codeInterface, (MethodInvocation) part),
-                                    CodeMethodVisitor.finalFieldsToSource(codeInterface.getBody().orElseThrow(NullPointerException::new), extraData),
+                                    part -> part instanceof MethodInvocation && CodeMethodVisitor.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                    CodeMethodVisitor.finalFieldsToSource(typeDeclaration.getBody().orElseThrow(NullPointerException::new), extraData),
                                     methodSource);
                 }
             }
@@ -285,7 +289,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             }
             try {
                 mv.visitMaxs(0, 0);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

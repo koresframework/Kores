@@ -54,6 +54,21 @@ public class ToStringBuilder {
         return ToStringBuilder.builder(type.getClass());
     }
 
+    private static String toString(Object o) {
+        if (o == null)
+            return "null";
+
+        String oStr = o.toString();
+
+        if (o instanceof Collection || o.getClass().isArray()) {
+            oStr = "{" + oStr.substring(1, oStr.length() - 1) + "}";
+        } else if (o instanceof String) {
+            oStr = "\"" + oStr + "\"";
+        }
+
+        return oStr;
+    }
+
     public ToStringBuilder add(String key, Object value) {
         this.map.put(key, ToStringBuilder.toString(value));
         return this;
@@ -61,46 +76,31 @@ public class ToStringBuilder {
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public ToStringBuilder addOptional(String key, Optional<?> value) {
-        if(value.isPresent())
+        if (value.isPresent())
             this.add(key, value.get());
 
         return this;
     }
 
     public <T> ToStringBuilder addIf(String key, T value, Predicate<T> predicate) {
-        if(predicate.test(value))
+        if (predicate.test(value))
             this.add(key, value);
 
         return this;
     }
 
     public <T, R> ToStringBuilder addMapped(String key, T value, Predicate<T> predicate, Function<T, R> mapper) {
-        if(predicate.test(value))
+        if (predicate.test(value))
             this.add(key, mapper.apply(value));
 
         return this;
     }
 
-    private static String toString(Object o) {
-        if(o == null)
-            return "null";
-
-        String oStr = o.toString();
-
-        if(o instanceof Collection || o.getClass().isArray()) {
-            oStr = "{"+oStr.substring(1, oStr.length() - 1)+"}";
-        }else if(o instanceof String) {
-            oStr = "\""+oStr+"\"";
-        }
-
-        return oStr;
-    }
-
     @Override
     public String toString() {
         String s = this.map.toString();
-        String str = s.substring(1, s.length()-1);
+        String str = s.substring(1, s.length() - 1);
 
-        return type.getSimpleName()+"["+str+"]";
+        return type.getSimpleName() + "[" + str + "]";
     }
 }

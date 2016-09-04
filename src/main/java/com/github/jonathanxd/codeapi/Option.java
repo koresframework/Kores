@@ -49,16 +49,16 @@ public final class Option {
         return description;
     }
 
-    protected void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
 
+    protected void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
-        return name+": "+description;
+        return name + ": " + description;
     }
 }

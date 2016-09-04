@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

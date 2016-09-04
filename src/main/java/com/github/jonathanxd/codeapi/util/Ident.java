@@ -44,7 +44,7 @@ public class Ident {
     }
 
     public void addIdent(int amount) {
-        if(amount < 0) {
+        if (amount < 0) {
             throw new IllegalArgumentException("Negative value!");
         }
         this.ident += indentationSize * amount;
@@ -55,7 +55,7 @@ public class Ident {
     }
 
     public void removeIdent(int amount) {
-        if(amount < 0) {
+        if (amount < 0) {
             throw new IllegalArgumentException("Negative value!");
         }
         this.ident -= indentationSize * amount;

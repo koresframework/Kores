@@ -27,15 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodeRoot;
 import com.github.jonathanxd.codeapi.types.ClassType;
-import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
  * Created by jonathan on 25/07/16.
  */
-public interface InterfaceDeclaration extends Modifierable, CodeRoot, CodeType, QualifiedNamed, Implementer, Generifiable, Bodied {
+public interface InterfaceDeclaration extends TypeDeclaration, Implementer {
 
+    @Override
     default ClassType getClassType() {
         return ClassType.INTERFACE;
     }

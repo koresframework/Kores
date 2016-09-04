@@ -32,9 +32,9 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.Default;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

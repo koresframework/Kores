@@ -49,6 +49,11 @@ public class StringVisitGenerator extends VisitorGenerator<String> {
         return new JoinerAppender(" ");
     }
 
+    @Override
+    public Options getOptions() {
+        return options;
+    }
+
     private static final class JoinerAppender extends Appender<String> {
         private final StringJoiner join;
 
@@ -65,10 +70,5 @@ public class StringVisitGenerator extends VisitorGenerator<String> {
         public String[] get() {
             return new String[]{this.join.toString()};
         }
-    }
-
-    @Override
-    public Options getOptions() {
-        return options;
     }
 }

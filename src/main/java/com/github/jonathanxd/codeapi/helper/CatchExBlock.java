@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
@@ -51,6 +52,7 @@ public class CatchExBlock implements CatchBlock {
         this.name = name;
         this.exceptionTypes = exceptionTypes == null ? Collections.emptyList() : Collections.unmodifiableList(exceptionTypes);
         this.body = body;
+        Bodied.checkBody(this);
     }
 
     @Override

@@ -50,7 +50,7 @@ class CodeTypeArray implements CodeType {
 
         StringBuilder sb = new StringBuilder();
 
-        for(int x = 0; x < size; ++x)
+        for (int x = 0; x < size; ++x)
             sb.append("[]");
 
         return name + sb.toString();
@@ -87,7 +87,7 @@ class CodeTypeArray implements CodeType {
 
         StringBuilder sb = new StringBuilder();
 
-        for(int x = 0; x < size; ++x)
+        for (int x = 0; x < size; ++x)
             sb.append("[]");
 
         return name + sb.toString();

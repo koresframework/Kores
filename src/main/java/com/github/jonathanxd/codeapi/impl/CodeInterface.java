@@ -32,8 +32,9 @@ import com.github.jonathanxd.codeapi.abs.AbstractBodied;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
@@ -47,7 +48,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-@GenerateTo(InterfaceDeclaration.class)
+@GenerateTo(TypeDeclaration.class)
 public class CodeInterface extends AbstractBodied implements InterfaceDeclaration {
 
     private final String name;
@@ -55,18 +56,30 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
     private final List<CodeType> implementations;
     private final Collection<CodeModifier> modifiers;
     private final GenericSignature<GenericType> signature;
+    private final List<Annotation> annotations;
 
     public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, List<CodeType> implementations, CodeSource body) {
         this(qualifiedName, modifiers, implementations, GenericSignature.empty(), body);
     }
 
     public CodeInterface(String qualifiedName, Collection<CodeModifier> modifiers, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
+        this(qualifiedName, modifiers, implementations, signature, Collections.emptyList(), body);
+    }
+
+    public CodeInterface(String qualifiedName,
+                         Collection<CodeModifier> modifiers,
+                         List<CodeType> implementations,
+                         GenericSignature<GenericType> signature,
+                         List<Annotation> annotations,
+                         CodeSource body) {
+
         super(body);
         this.qualifiedName = qualifiedName;
         this.name = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length());
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);
         this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableList(implementations);
         this.signature = signature != null ? signature : GenericSignature.empty();
+        this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);
     }
 
     @Override
@@ -81,27 +94,32 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
 
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public List<CodeType> getImplementations() {
-        return implementations;
+        return this.implementations;
     }
 
     @Override
     public Collection<CodeModifier> getModifiers() {
-        return modifiers;
+        return this.modifiers;
     }
 
     @Override
     public String getQualifiedName() {
-        return qualifiedName;
+        return this.qualifiedName;
     }
 
     @Override
     public GenericSignature<GenericType> getGenericSignature() {
         return this.signature;
+    }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        return this.annotations;
     }
 
     @Override

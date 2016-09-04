@@ -28,9 +28,9 @@
 package com.github.jonathanxd.codeapi.abs;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
 import java.util.Collections;

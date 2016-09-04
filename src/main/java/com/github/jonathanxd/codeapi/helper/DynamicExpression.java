@@ -47,17 +47,13 @@ public final class DynamicExpression implements Expression {
         this.nextExpression = nextExpression;
     }
 
-    public void setExpression(CodePart expression) {
-        this.expression = expression;
-    }
-
-    public void setNextExpression(Expression nextExpression) {
-        this.nextExpression = nextExpression;
-    }
-
     @Override
     public CodePart getExpression() {
         return expression;
+    }
+
+    public void setExpression(CodePart expression) {
+        this.expression = expression;
     }
 
     @Override
@@ -65,14 +61,18 @@ public final class DynamicExpression implements Expression {
         return nextExpression;
     }
 
-    public DynamicExpression setCodeBlock(boolean isCodeBlock) {
-        this.isCodeBlock = isCodeBlock;
-        return this;
+    public void setNextExpression(Expression nextExpression) {
+        this.nextExpression = nextExpression;
     }
 
     @Override
     public boolean isCodeBlock() {
         return this.isCodeBlock;
+    }
+
+    public DynamicExpression setCodeBlock(boolean isCodeBlock) {
+        this.isCodeBlock = isCodeBlock;
+        return this;
     }
 
     public SimpleExpression create() {

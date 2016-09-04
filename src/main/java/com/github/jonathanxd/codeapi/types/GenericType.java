@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.types;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by jonathan on 04/07/16.
@@ -63,10 +62,10 @@ public interface GenericType extends CodeType {
 
         @Override
         public boolean equals(Object obj) {
-            if(obj instanceof Bound) {
+            if (obj instanceof Bound) {
                 Bound bound = (Bound) obj;
 
-                if(this.sign().equals(bound.sign()) && this.getType().equals(bound.getType())) {
+                if (this.sign().equals(bound.sign()) && this.getType().equals(bound.getType())) {
                     return true;
                 }
             }

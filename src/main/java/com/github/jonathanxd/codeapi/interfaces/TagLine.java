@@ -28,10 +28,6 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Optional;
 
 /**
  * Created by jonathan on 10/05/16.
@@ -39,6 +35,7 @@ import java.util.Optional;
 public interface TagLine<ID, T extends CodePart> extends CodePart {
 
     ID getIdentifier();
+
     T getValue();
 
 

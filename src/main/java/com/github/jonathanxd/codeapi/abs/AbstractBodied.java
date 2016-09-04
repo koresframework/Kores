@@ -40,6 +40,7 @@ public abstract class AbstractBodied implements Bodied {
 
     protected AbstractBodied(CodeSource body) {
         this.body = body;
+        Bodied.checkBody(this);
     }
 
     @Override

@@ -29,9 +29,9 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.common.InvokeType;
 
 import java.util.Optional;
 

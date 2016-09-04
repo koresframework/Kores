@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.gen;
 
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
     }
 
     public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(V val, Parent<Generator<?, TARGET, C>> parents) {
-        if(val instanceof CodeType) {
+        if (val instanceof CodeType) {
             return create(CodeType.class, val, parents);
         }
 

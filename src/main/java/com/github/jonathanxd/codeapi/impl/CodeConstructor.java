@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -52,6 +53,10 @@ public class CodeConstructor extends CodeMethod implements ConstructorDeclaratio
 
     public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeSource body) {
         super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), body);
+    }
+
+    public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, List<Annotation> annotations, CodeSource body) {
+        super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), GenericSignature.empty(), annotations, body);
     }
 
     /**

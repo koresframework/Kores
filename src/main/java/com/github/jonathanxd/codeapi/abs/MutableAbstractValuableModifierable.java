@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -49,10 +48,6 @@ public abstract class MutableAbstractValuableModifierable implements Valuable, M
         this.value = value;
     }
 
-    public void setValue(CodePart value) {
-        this.value = value;
-    }
-
     @Override
     public Collection<CodeModifier> getModifiers() {
         return modifiers;
@@ -61,6 +56,10 @@ public abstract class MutableAbstractValuableModifierable implements Valuable, M
     @Override
     public Optional<CodePart> getValue() {
         return Optional.ofNullable(this.value);
+    }
+
+    public void setValue(CodePart value) {
+        this.value = value;
     }
 
 }
