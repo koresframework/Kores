@@ -25,39 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.operators;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.InstanceOf_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import org.junit.Test;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 03/09/16.
  */
-@GenerateTo(Named.class)
-public class Operator implements CodePart, Named {
+public class InstanceOfTest {
 
-    private final String name;
-
-    public Operator(String name) {
-        this.name = name;
+    @Test
+    public void instanceOfTest() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = InstanceOf_.$();
+        @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2());
+        try {
+            test.getClass().getDeclaredMethod("test", Object.class).invoke(test, 1);
+        }catch (Exception e) {
+            throw new RethrowException(e);
+        }
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("name", this.getName())
-                .toString();
-    }
 }

@@ -32,63 +32,49 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
-import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class IfExpressionableSourceGenerator implements Generator<IfExpressionable, String, PlainSourceGenerator> {
+public class IfExprSourceGenerator implements Generator<IfExpr, String, PlainSourceGenerator> {
 
-    public static final IfExpressionableSourceGenerator INSTANCE = new IfExpressionableSourceGenerator();
+    public static final IfExprSourceGenerator INSTANCE = new IfExprSourceGenerator();
 
-    private IfExpressionableSourceGenerator() {
+    private IfExprSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(IfExpressionable ifExpressionable, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(IfExpr ifExpr, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        //values.add(ValueImpl.create("("));
+        CodePart expr1 = ifExpr.getExpr1();
+        CodePart expr2 = ifExpr.getExpr2();
+        Operator operation = ifExpr.getOperation();
 
-        Collection<CodePart> ifExprs = ifExpressionable.getIfExprsAndOps();
-
-        for (CodePart simpleExpr : ifExprs) {
-
-            if (simpleExpr instanceof IfExpr) {
-
-                IfExpr ifExpr = (IfExpr) simpleExpr;
-
-                values.add(ValueImpl.create("("));
-
-                values.add(TargetValue.create(IfExpr.class, ifExpr, parents));
-
-                values.add(ValueImpl.create(")"));
-            } else if (simpleExpr == Operators.OR) {
-                values.add(ValueImpl.create("||"));
-            } else if (simpleExpr == Operators.AND) {
-                values.add(ValueImpl.create("&&"));
-            }
-
-
+        if (expr1 != null) {
+            values.add(TargetValue.create(expr1.getClass(), expr1, parents));
         }
 
-        //values.add(ValueImpl.create(")"));
+        if (operation != null) {
+            values.add(TargetValue.create(operation.getClass(), operation, parents));
+        }
 
+        if (expr2 != null) {
+            values.add(TargetValue.create(expr2.getClass(), expr2, parents));
+        }
 
         return values;
     }
-
 }

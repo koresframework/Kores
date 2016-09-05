@@ -25,19 +25,51 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.visitgenerator;
+package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.exceptions.TODOException;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
+import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
+import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
+
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.util.ASMifier;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public interface Visitor<T extends CodePart, R, L> {
-    R[] visit(T t, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional);
+public class InstanceOfVisitor implements Visitor<InstanceOf, Byte, MVData>, Opcodes {
 
-    default void endVisit(R[] r, T t, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional) {
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public Byte[] visit(InstanceOf instanceOf,
+                        MapData extraData,
+                        Navigator<CodePart> navigator,
+                        VisitorGenerator<Byte> visitorGenerator,
+                        MVData mvData) {
 
+        MethodVisitor visitor = mvData.getMethodVisitor();
+
+        CodePart part = instanceOf.getPart();
+        CodeType codeType = instanceOf.getCheckType();
+
+        visitorGenerator.generateTo(part.getClass(), part, extraData, navigator, null, mvData);
+
+        visitor.visitTypeInsn(Opcodes.INSTANCEOF, Common.codeTypeToSimpleAsm(codeType));
+
+        return new Byte[0];
     }
+
 }

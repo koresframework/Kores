@@ -46,6 +46,8 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -81,6 +83,8 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.FieldVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForEachVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForIVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.IfBlockVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.IfExprVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InstanceOfVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InstructionCodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.LiteralVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.MethodFragmentVisitor;
@@ -155,6 +159,8 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(Annotable.class, new AnnotableVisitor());
         addVisitor(Annotation.class, new AnnotationVisitor());
         addVisitor(TryWithResources.class, new TryWithResourcesVisitor());
+        addVisitor(InstanceOf.class, new InstanceOfVisitor());
+        addVisitor(IfExpr.class, new IfExprVisitor()); /* Sugar Syntax to a IfBlock */
     }
 
     public BytecodeGenerator() {

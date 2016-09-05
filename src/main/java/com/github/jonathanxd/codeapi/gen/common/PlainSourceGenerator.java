@@ -62,8 +62,10 @@ import com.github.jonathanxd.codeapi.gen.common.source.GroupableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.HelperMISourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.HelperVASourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.IfBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.IfExprSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.IfExpressionableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ImplementerSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.InstanceOfSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.KeywordSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.LiteralSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.LocalizedAtSourceGenerator;
@@ -111,8 +113,10 @@ import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.Groupable;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -191,6 +195,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);
         register(Return.class, ReturnSourceGenerator.INSTANCE);
         register(IfExpressionable.class, IfExpressionableSourceGenerator.INSTANCE);
+        register(IfExpr.class, IfExprSourceGenerator.INSTANCE);
         register(VariableDeclaration.class, VariableStoreSourceGenerator.INSTANCE);
         register(ArrayConstructor.class, ArrayConstructorSourceGenerator.INSTANCE);
         register(ArrayLoad.class, ArrayLoadSourceGenerator.INSTANCE);
@@ -232,6 +237,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         // Try-with-resources
         registerSuper(TryWithResources.class, TryBlockSourceGenerator.INSTANCE);
+
+        // Instance Of
+        register(InstanceOf.class, InstanceOfSourceGenerator.INSTANCE);
     }
 
     @SuppressWarnings("deprecation")

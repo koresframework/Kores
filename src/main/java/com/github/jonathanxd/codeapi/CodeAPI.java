@@ -68,6 +68,7 @@ import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
@@ -78,7 +79,9 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
@@ -1345,8 +1348,52 @@ public class CodeAPI {
         return Helper.checkNull(part);
     }
 
+    public static IfExpr checkTrue(CodePart part) {
+        return Helper.check(part, Operators.NOT_EQUAL_TO, Literals.BOOLEAN(false));
+    }
+
+    public static IfExpr checkFalse(CodePart part) {
+        return Helper.check(part, Operators.EQUAL_TO, Literals.BOOLEAN(false));
+    }
+
     public static IfExpr check(CodePart part1, Operator operator, CodePart part2) {
         return Helper.check(part1, operator, part2);
+    }
+
+    // =========================================================
+    //          Else block
+    // =========================================================
+
+    public static ElseBlock elseBlock(CodeSource body) {
+        return elseBlock__Factory(body);
+    }
+
+    public static ElseBlock elseBlock(CodePart... parts) {
+        return elseBlock__Factory(sourceOfParts(parts));
+    }
+
+    // Factory
+    private static ElseBlock elseBlock__Factory(CodeSource body) {
+        return Helper.elseExpression(body);
+    }
+
+    // =========================================================
+    //          Instance Of
+    // =========================================================
+
+    public static InstanceOf isInstanceOf(CodePart part, CodeType type) {
+        return isInstanceOf__Factory(part, type);
+    }
+
+    // Class
+
+    public static InstanceOf isInstanceOf(CodePart part, Class<?> type) {
+        return isInstanceOf__Factory(part, toCodeType(type));
+    }
+
+    // Factory
+    private static InstanceOf isInstanceOf__Factory(CodePart part, CodeType type) {
+        return Helper.isInstanceOf(part, type);
     }
 
     // =========================================================

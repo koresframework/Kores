@@ -108,6 +108,10 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
     public abstract Appender<T> createAppender();
 
+    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Object additional) {
+        this.generateTo(partClass, codePart, extraData, nav, null, additional);
+    }
+
     public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Consumer<T[]> consumer, Object additional) {
         try {
             Visitor<?, T, ?> tVisitor = get(partClass);

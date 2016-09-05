@@ -25,39 +25,46 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.operators;
+package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.gen.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.TargetValue;
+import com.github.jonathanxd.codeapi.gen.Value;
+import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-@GenerateTo(Named.class)
-public class Operator implements CodePart, Named {
+public class InstanceOfSourceGenerator implements Generator<InstanceOf, String, PlainSourceGenerator> {
 
-    private final String name;
+    public static final InstanceOfSourceGenerator INSTANCE = new InstanceOfSourceGenerator();
 
-    public Operator(String name) {
-        this.name = name;
+    private InstanceOfSourceGenerator() {
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
+    public List<Value<?, String, PlainSourceGenerator>> gen(InstanceOf instanceOf, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+        CodePart part = instanceOf.getPart();
+        CodeType type = instanceOf.getCheckType();
 
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("name", this.getName())
-                .toString();
+        return Arrays.asList(
+                TargetValue.create(part.getClass(), part, parents),
+                ValueImpl.create("instanceof"),
+                TargetValue.create(CodeType.class, type, parents)
+                );
     }
 }

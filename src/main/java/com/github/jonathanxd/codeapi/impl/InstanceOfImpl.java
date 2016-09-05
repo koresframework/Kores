@@ -25,39 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.operators;
+package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 03/09/16.
  */
-@GenerateTo(Named.class)
-public class Operator implements CodePart, Named {
 
-    private final String name;
+// TODO: Implement Helper, CodeAPI and Processor
+@GenerateTo(InstanceOf.class)
+public class InstanceOfImpl implements InstanceOf {
+    private final CodePart part;
+    private final CodeType type;
 
-    public Operator(String name) {
-        this.name = name;
+    public InstanceOfImpl(CodePart part, CodeType type) {
+        this.part = part;
+        this.type = type;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public CodePart getPart() {
+        return this.part;
     }
 
     @Override
-    public boolean isExpression() {
-        return true;
+    public CodeType getCheckType() {
+        return this.type;
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
-                .add("name", this.getName())
+                .add("part", this.getPart())
+                .add("type", this.getCheckType())
                 .toString();
     }
 }

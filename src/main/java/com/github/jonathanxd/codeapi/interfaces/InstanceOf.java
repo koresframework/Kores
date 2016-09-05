@@ -25,39 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.operators;
+package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 10/05/16.
  */
-@GenerateTo(Named.class)
-public class Operator implements CodePart, Named {
+public interface InstanceOf extends CodePart, Typed {
 
-    private final String name;
+    CodePart getPart();
+    CodeType getCheckType();
 
-    public Operator(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("name", this.getName())
-                .toString();
+    default Optional<CodeType> getType() {
+        return Optional.of(PredefinedTypes.BOOLEAN);
     }
 }

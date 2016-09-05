@@ -145,6 +145,10 @@ public final class Literals {
     }
 
     // Class Literal
+    public static Literal CLASS(Class<?> aClass) {
+        return CLASS(Helper.getJavaType(aClass));
+    }
+
     public static Literal CLASS(CodeType aClass) {
         return new ClassLiteral(aClass);
     }

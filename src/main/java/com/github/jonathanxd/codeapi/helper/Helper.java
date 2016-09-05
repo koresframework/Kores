@@ -41,6 +41,7 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.impl.InstanceOfImpl;
 import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
@@ -61,6 +62,7 @@ import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Named;
@@ -551,6 +553,10 @@ public final class Helper {
 
     public static MethodInvocation invokeConstructor(CodeType type, CodeArgument[] arguments) {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(Arrays.asList(arguments), MethodType.CONSTRUCTOR));
+    }
+
+    public static InstanceOf isInstanceOf(CodePart part, CodeType type) {
+        return new InstanceOfImpl(part, type);
     }
 
     public static boolean isNone(CodePart codePart) {

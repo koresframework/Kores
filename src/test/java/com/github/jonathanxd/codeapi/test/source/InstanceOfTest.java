@@ -25,39 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.operators;
+package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.InstanceOf_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Bi;
+
+import org.junit.Test;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Created by jonathan on 03/09/16.
  */
-@GenerateTo(Named.class)
-public class Operator implements CodePart, Named {
+public class InstanceOfTest {
 
-    private final String name;
+    @Test
+    public void instanceOfTest() {
+        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = InstanceOf_.$();
+        SourceTest test = CommonSourceTest.test($._2());
 
-    public Operator(String name) {
-        this.name = name;
+        System.out.println(test.result());
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("name", this.getName())
-                .toString();
-    }
 }
