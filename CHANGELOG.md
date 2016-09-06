@@ -7,7 +7,7 @@
 | Name                  | Type          | Issue       | Commit                                   |
 | --------------------- | ------------- | ----------- | ---------------------------------------- |
 | Documentation         | Improvements  |  None       | ?                                        |
-| Auto-Boxing on IfBlock| Fix           |  None       | ?                                        |
+| Auto-Boxing on IfBlock| Fix           |  None       | 0ab5d08e6e7bed1a9259f21b90c78a35d0acb256 |
 
 ###### 1.12.0
 
