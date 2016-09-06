@@ -32,18 +32,22 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.object.Bi;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
+import static com.github.jonathanxd.codeapi.CodeAPI.check;
 import static com.github.jonathanxd.codeapi.CodeAPI.checkFalse;
 import static com.github.jonathanxd.codeapi.CodeAPI.checkTrue;
 import static com.github.jonathanxd.codeapi.CodeAPI.elseBlock;
 import static com.github.jonathanxd.codeapi.CodeAPI.field;
 import static com.github.jonathanxd.codeapi.CodeAPI.ifBlock;
 import static com.github.jonathanxd.codeapi.CodeAPI.ifExprs;
+import static com.github.jonathanxd.codeapi.CodeAPI.invokeConstructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.isInstanceOf;
 import static com.github.jonathanxd.codeapi.CodeAPI.method;
 import static com.github.jonathanxd.codeapi.CodeAPI.parameter;
@@ -73,7 +77,9 @@ public class InstanceOf_ {
                                                 Predefined.invokePrintln(argument(STRING("Object is not String!"), String.class))
                                         )),
                                 field(PredefinedTypes.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
-                                field(PredefinedTypes.BOOLEAN, "b2", checkFalse(accessLocalVariable(PredefinedTypes.BOOLEAN, "b")))
+                                field(PredefinedTypes.BOOLEAN, "b2", checkFalse(accessLocalVariable(PredefinedTypes.BOOLEAN, "b"))),
+                                field(PredefinedTypes.INTEGER_TYPE, "ab", invokeConstructor(Integer.class, argument(Literals.INT(9), PredefinedTypes.INT))),
+                                field(PredefinedTypes.BOOLEAN, "b9", check(accessLocalVariable(PredefinedTypes.INTEGER_TYPE, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
 

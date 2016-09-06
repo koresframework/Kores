@@ -81,7 +81,7 @@ public class CodeAPITest {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println", Collections.singletonList(new CodeArgument(varToPrint)));
+        MethodSpec methodSpec = new MethodSpec("println", Collections.singletonList(new CodeArgument(varToPrint, getJavaType(String.class))));
 
         return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ (CodeType) null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpec);
     }

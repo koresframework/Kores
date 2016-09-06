@@ -53,9 +53,10 @@ import static org.objectweb.asm.Opcodes.ACC_TRANSIENT;
 import static org.objectweb.asm.Opcodes.ACC_VOLATILE;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Modifiers Constants.
  */
 public enum CodeModifier implements CodePart {
+
     PUBLIC(VISIBILITY), PROTECTED(VISIBILITY), PRIVATE(VISIBILITY), PACKAGE_PRIVATE("", VISIBILITY),
     ABSTRACT(ABSTRACTION), DEFAULT(ABSTRACTION),
     STATIC(OTHER), FINAL(OTHER),
@@ -63,18 +64,42 @@ public enum CodeModifier implements CodePart {
     VOLATILE(CONCURRENCY), SYNCHRONIZED(CONCURRENCY),
     NATIVE(OTHER), STRICTFP(OTHER);
 
+    /**
+     * Name of the modifier (source code generation)
+     */
     private final String expr;
+
+    /**
+     * Category of the modifier
+     */
     private final ModifierType type;
 
+    /**
+     * Constructor
+     *
+     * @param type Category of the modifier
+     */
     CodeModifier(ModifierType type) {
         this(null, type);
     }
 
+    /**
+     * Constructor
+     *
+     * @param expr Name of the modifier, or null to be the lower cased {@link Enum#name()}.
+     * @param type Category of the enum.
+     */
     CodeModifier(String expr, ModifierType type) {
         this.expr = expr;
         this.type = type;
     }
 
+    /**
+     * Extract modifiers from a {@link Member}
+     *
+     * @param member Member
+     * @return Sorted Collection of modifiers
+     */
     public static Collection<CodeModifier> extractModifiers(Member member) {
 
         int modifiers = member.getModifiers();
@@ -89,6 +114,12 @@ public enum CodeModifier implements CodePart {
         return collection;
     }
 
+    /**
+     * Extract modifiers from Java modifiers flags ({@link Modifier}).
+     *
+     * @param modifiers Modifiers flags.
+     * @return Sorted Collection of modifiers.
+     */
     public static Collection<CodeModifier> extractModifiers(int modifiers) {
         Collection<CodeModifier> collection = new TreeSet<>();
 
@@ -146,10 +177,22 @@ public enum CodeModifier implements CodePart {
         return collection;
     }
 
+    /**
+     * Modifiers to String
+     *
+     * @param collection Modifiers
+     * @return String containing all modifiers name.
+     */
     public static String toString(Collection<CodeModifier> collection) {
         return collection != null ? collection.stream().sorted().map(CodeModifier::getExpr).collect(Collectors.joining(" ")) : "";
     }
 
+    /**
+     * Convert {@link CodeModifier}s to Java Modifiers flags.
+     *
+     * @param modifiers Modifiers
+     * @return Java modifiers flags ({@link Modifier})
+     */
     public static int toJavaModifier(Collection<CodeModifier> modifiers) {
         int end = 0;
 
@@ -164,6 +207,12 @@ public enum CodeModifier implements CodePart {
         return end;
     }
 
+    /**
+     * Convert a {@link CodeModifier} to Java Modifiers flags.
+     *
+     * @param codeModifier Modifier to convert
+     * @return Java modifiers flags ({@link Modifier})
+     */
     public static int toJavaModifier(CodeModifier codeModifier) {
         switch (codeModifier) {
             case ABSTRACT:
@@ -193,6 +242,12 @@ public enum CodeModifier implements CodePart {
         }
     }
 
+    /**
+     * Convert {@link CodeModifier}s to asm modifiers
+     *
+     * @param modifiers Modifiers to convert
+     * @return ASM modifiers flags
+     */
     public static int toAsmAccess(Collection<CodeModifier> modifiers) {
         int end = 0;
 
@@ -207,6 +262,12 @@ public enum CodeModifier implements CodePart {
         return end;
     }
 
+    /**
+     * Convert a {@link CodeModifier} to asm modifiers
+     *
+     * @param codeModifier Modifier to convert
+     * @return ASM modifiers flags
+     */
     public static int toAsmAccess(CodeModifier codeModifier) {
         switch (codeModifier) {
             case ABSTRACT:
@@ -236,8 +297,13 @@ public enum CodeModifier implements CodePart {
         }
     }
 
+    /**
+     * Gets the Modifier category.
+     *
+     * @return Modifier category.
+     */
     public ModifierType getType() {
-        return type;
+        return this.type;
     }
 
     @Override
@@ -246,6 +312,6 @@ public enum CodeModifier implements CodePart {
     }
 
     public String getExpr() {
-        return expr == null ? name().toLowerCase() : expr;
+        return this.expr == null ? this.name().toLowerCase() : this.expr;
     }
 }

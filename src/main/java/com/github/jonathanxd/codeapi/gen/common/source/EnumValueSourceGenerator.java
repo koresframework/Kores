@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -56,8 +56,8 @@ public class EnumValueSourceGenerator implements Generator<EnumValue, String, Pl
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
         values.add(TargetValue.create(CodeType.class, enumValue.getEnumType(), parents));
-        values.add(ValueImpl.create("."));
-        values.add(ValueImpl.create(enumValue.getEnumValue()));
+        values.add(PlainValue.create("."));
+        values.add(PlainValue.create(enumValue.getEnumValue()));
 
 
         return values;

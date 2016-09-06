@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
@@ -45,9 +46,9 @@ public class CodeArgumentUtil {
         CodeArgument[] newArguments = new CodeArgument[passed.length];
 
         for (int i = 0; i < newArguments.length; i++) {
-            CodeType type = expected[i].getType();
+            CodeType type = expected[i].getType().orElse(null);
 
-            newArguments[i] = new CodeArgument(passed[i].getValue(), type != null, type);
+            newArguments[i] = new CodeArgument(Require.require(passed[i].getValue()), type != null, type);
         }
 
         return newArguments;
@@ -67,7 +68,7 @@ public class CodeArgumentUtil {
     }
 
     private static CodeArgument lambda$from$parameter$to$argument(CodeParameter parameter) {
-        return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getType()), parameter.getType());
+        return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
     }
 
     public static CodeArgument[] argumentsFromJavaParameters(Parameter[] parameters) {

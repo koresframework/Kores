@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
         for (int i = 0; i < arguments.size(); i++) {
             CodeArgument argument = arguments.get(i);
 
-            arrayStores.add(Helper.setArrayValue(null, Literals.INT(i), argument.getType(), argument.getValue()));
+            arrayStores.add(Helper.setArrayValue(null, Literals.INT(i), Require.require(argument.getType()), Require.require(argument.getValue())));
         }
 
         return arrayStores;

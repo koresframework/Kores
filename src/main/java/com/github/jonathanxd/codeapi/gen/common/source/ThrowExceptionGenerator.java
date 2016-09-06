@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -58,12 +58,12 @@ public class ThrowExceptionGenerator implements Generator<ThrowException, String
         CodePart partToThrow = throwException.getPartToThrow();
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(Arrays.asList(
-                ValueImpl.create("throw"),
+                PlainValue.create("throw"),
                 TargetValue.create(partToThrow.getClass(), partToThrow, parents)
         ));
 
         if (Util.isBody(parents)) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         }
 
         return values;

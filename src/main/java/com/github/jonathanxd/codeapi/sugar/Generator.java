@@ -25,33 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen;
+package com.github.jonathanxd.codeapi.sugar;
 
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.gen.PartProcessor;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Sugar syntax generator.
+ *
+ * This class has no methods because the required phases to generate a new {@link
+ * com.github.jonathanxd.codeapi.CodePart} may be completely different depending of the target
+ * {@link com.github.jonathanxd.codeapi.CodePart}.
  */
-public class ValueImpl<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<TARGET, TARGET, C> {
-
-    private final TARGET value;
-
-    public ValueImpl(TARGET value) {
-        this.value = value;
-    }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<TARGET, TARGET, C> create(TARGET value) {
-        return new ValueImpl<>(value);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, MapData data) {
-        appender.add(this.getValue());
-    }
-
-    @Override
-    public TARGET getValue() {
-        return value;
-    }
+public interface Generator extends PartProcessor {
 }

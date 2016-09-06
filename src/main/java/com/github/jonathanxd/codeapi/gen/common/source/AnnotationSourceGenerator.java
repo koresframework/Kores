@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
@@ -58,12 +58,12 @@ public class AnnotationSourceGenerator implements Generator<Annotation, String, 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
 
-        values.add(ValueImpl.create("@"));
+        values.add(PlainValue.create("@"));
         values.add(TargetValue.create(CodeType.class, annotation.getType().orElseThrow(NullPointerException::new), parents));
 
         Map<String, Object> valuesMap = annotation.getValues();
 
-        values.add(ValueImpl.create("("));
+        values.add(PlainValue.create("("));
 
         if(valuesMap.size() == 1 && valuesMap.containsKey("value")) {
             Object value = valuesMap.get("value");
@@ -72,15 +72,15 @@ public class AnnotationSourceGenerator implements Generator<Annotation, String, 
         } else {
 
             valuesMap.forEach((key, value) -> {
-                values.add(ValueImpl.create(key));
-                values.add(ValueImpl.create("="));
+                values.add(PlainValue.create(key));
+                values.add(PlainValue.create("="));
 
                this.addType(value, values, parents);
             });
         }
 
-        values.add(ValueImpl.create(")"));
-        values.add(ValueImpl.create("\n"));
+        values.add(PlainValue.create(")"));
+        values.add(PlainValue.create("\n"));
 
         return values;
     }
@@ -95,7 +95,7 @@ public class AnnotationSourceGenerator implements Generator<Annotation, String, 
         } else if (value.getClass().isArray()) {
             Object[] valuesObj = (Object[]) value;
 
-            values.add(ValueImpl.create("{"));
+            values.add(PlainValue.create("{"));
 
             for (int i = 0; i < valuesObj.length; i++) {
                 Object o = valuesObj[i];
@@ -103,13 +103,13 @@ public class AnnotationSourceGenerator implements Generator<Annotation, String, 
                 this.addType(o, values, parents);
 
                 if(i + 1 < valuesObj.length) {
-                    values.add(ValueImpl.create(","));
+                    values.add(PlainValue.create(","));
                 }
             }
 
-            values.add(ValueImpl.create("}"));
+            values.add(PlainValue.create("}"));
         } else {
-            values.add(ValueImpl.create(value.toString()));
+            values.add(PlainValue.create(value.toString()));
         }
     }
 }

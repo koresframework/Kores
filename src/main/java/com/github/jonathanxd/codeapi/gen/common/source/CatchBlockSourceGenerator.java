@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -70,7 +70,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(ValueImpl.create("catch"));
+        values.add(PlainValue.create("catch"));
 
         List<CodeType> parameters = catchBlock.getExceptionTypes();
 
@@ -87,7 +87,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
         String catchName = "internal__catch$"+getAndIncrementCatchVar();
 
-        values.add(ValueImpl.create("(" + sj.toString() + " " + catchName + ")"));
+        values.add(PlainValue.create("(" + sj.toString() + " " + catchName + ")"));
 
         CodeSource codeSource = catchBlock.getBody().orElse(new CodeSource());
 

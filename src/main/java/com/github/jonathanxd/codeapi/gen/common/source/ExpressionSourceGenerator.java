@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -64,7 +64,7 @@ public class ExpressionSourceGenerator implements Generator<Expression, String, 
             values.add(TargetValue.create(expr.getClass(), expr, parents));
 
             if (current.isCodeBlock())
-                values.add(ValueImpl.create(";"));
+                values.add(PlainValue.create(";"));
 
         } while ((current = current.getNextExpression()) != null);
 

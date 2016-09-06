@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -68,13 +68,13 @@ public class ReturnSourceGenerator implements Generator<Return, String, PlainSou
         }
 
         if (!value.isPresent())
-            return Collections.singletonList(ValueImpl.create("return"));
+            return Collections.singletonList(PlainValue.create("return"));
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>(
-                Arrays.asList(ValueImpl.create("return"), TargetValue.create(value.get(), parents)));
+                Arrays.asList(PlainValue.create("return"), TargetValue.create(value.get(), parents)));
 
         if (Util.isBody(parents)) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         }
 
         return values;

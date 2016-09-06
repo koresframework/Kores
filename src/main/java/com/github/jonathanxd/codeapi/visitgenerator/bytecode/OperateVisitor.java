@@ -49,6 +49,7 @@ import org.objectweb.asm.Type;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -90,7 +91,12 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
         Variable variable = var.get();
 
-        int i = mvData.getVarPos(variable);
+        OptionalInt varPosOpt = mvData.getVarPos(variable);
+
+        if(!varPosOpt.isPresent())
+            throw new IllegalStateException("Cannot find variable '"+variable+"' in stack table: "+mvData.getVariables());
+
+        int i = (int) varPosOpt.getAsInt();
 
         if (at instanceof AccessLocal) {
             if (operation == Operators.INCREMENT) {

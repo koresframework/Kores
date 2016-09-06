@@ -27,41 +27,101 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 13/06/16.
+ * Specification of return type and parameter types.
+ *
+ * Commonly this specification is used by {@link com.github.jonathanxd.codeapi.helper.MethodSpec} to
+ * specify a method to be invoked.
  */
-public class TypeSpec {
+public class TypeSpec implements Typed, RequiredTyped, CodePart {
 
+    /**
+     * Return type
+     */
     private final CodeType returnType;
-    private final List<CodeType> parameterSpec;
 
-    public TypeSpec(CodeType returnType, CodeType... parameterSpecs) {
-        this.returnType = returnType;
-        this.parameterSpec = parameterSpecs.length <= 0 ? Collections.emptyList() : Collections.unmodifiableList(Arrays.asList(parameterSpecs));
+    /**
+     * Parameter types
+     */
+    private final List<CodeType> parameterTypes;
+
+    /**
+     * Constructor
+     *
+     * @param returnType     Return type
+     */
+    public TypeSpec(CodeType returnType) {
+        this(returnType, (List<CodeType>) null);
     }
 
-    public TypeSpec(CodeType returnType, List<CodeType> parameterSpecs) {
-        this.returnType = returnType;
-        this.parameterSpec = parameterSpecs == null || parameterSpecs.stream().allMatch(c -> c == null) ? Collections.emptyList() : Collections.unmodifiableList(parameterSpecs);
+    /**
+     * Constructor
+     *
+     * @param returnType     Return type
+     * @param parameterTypes Parameter types
+     */
+    public TypeSpec(CodeType returnType, Class<?>... parameterTypes) {
+        this(returnType, parameterTypes.length <= 0 ? null : Arrays.asList(Helper.getJavaTypes(parameterTypes)));
     }
 
+    /**
+     * Constructor
+     *
+     * @param returnType     Return type
+     * @param parameterTypes Parameter types
+     */
+    public TypeSpec(CodeType returnType, CodeType... parameterTypes) {
+        this(returnType, parameterTypes.length <= 0 ? null : Arrays.asList(parameterTypes));
+    }
+
+    /**
+     * Constructor
+     *
+     * @param returnType     Return type
+     * @param parameterTypes Parameter types
+     */
+    public TypeSpec(CodeType returnType, List<CodeType> parameterTypes) {
+        this.returnType = returnType;
+        this.parameterTypes = parameterTypes == null || parameterTypes.stream().allMatch(c -> c == null) ? Collections.emptyList() : Collections.unmodifiableList(parameterTypes);
+    }
+
+    @Override
+    public Optional<CodeType> getType() {
+        return Optional.of(this.getReturnType());
+    }
+
+    /**
+     * Gets the return type
+     *
+     * @return Return type
+     */
     public CodeType getReturnType() {
-        return returnType;
+        return this.returnType;
     }
 
-    public List<CodeType> getParameterSpec() {
-        return parameterSpec;
+    /**
+     * Gets the parameter types.
+     *
+     * @return Parameter types.
+     */
+    public List<CodeType> getParameterTypes() {
+        return this.parameterTypes;
     }
 
     @Override
     public String toString() {
-        return "TypeSpec[returnType=" + this.getReturnType() + ", parameterSpec=" + getParameterSpec() + "]";
+        return "TypeSpec[returnType=" + this.getReturnType() + ", parameterSpec=" + getParameterTypes() + "]";
     }
 
 }

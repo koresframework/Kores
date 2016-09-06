@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 
@@ -38,7 +39,7 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
  * Methods fragment is generated into {@link com.github.jonathanxd.codeapi.impl.CodeInterface} and
  * invoked.
  */
-public interface MethodFragment extends MethodInvocation, CodePart {
+public interface MethodFragment extends MethodInvocation, CodeElement, CodePart {
 
     CodeMethod getMethod();
 

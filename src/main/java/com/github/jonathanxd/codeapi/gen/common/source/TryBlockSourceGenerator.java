@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.CatchExBlock;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
@@ -68,15 +68,15 @@ public class TryBlockSourceGenerator implements Generator<TryBlock, String, Plai
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
 
-        values.add(ValueImpl.create("try"));
+        values.add(PlainValue.create("try"));
 
 
         CodePart expression = tryBlock.getExpression().orElse(null);
 
         if (expression != null) {
-            values.add(ValueImpl.create("("));
+            values.add(PlainValue.create("("));
             values.add(CodePartValue.create(expression, parents));
-            values.add(ValueImpl.create(")"));
+            values.add(PlainValue.create(")"));
         }
 
 
@@ -107,7 +107,7 @@ public class TryBlockSourceGenerator implements Generator<TryBlock, String, Plai
         CodeSource finallyBlock = finallyBlockOpt.orElse(null);
 
         if (finallyBlock != null && !isInline) {
-            values.add(ValueImpl.create("finally"));
+            values.add(PlainValue.create("finally"));
             values.add(TargetValue.create(CodeSource.class, finallyBlock, parents));
         }
 

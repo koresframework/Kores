@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
@@ -65,9 +65,9 @@ public class FieldSourceGenerator implements Generator<FieldDeclaration, String,
 
         codeField.getType().ifPresent(type -> values.add(TargetValue.create(type.getClass(), type, parents)));
 
-        values.add(ValueImpl.create(codeField.getName()));
+        values.add(PlainValue.create(codeField.getName()));
 
-        codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(ValueImpl.create("="), TargetValue.create(value.getClass(), value, parents))));
+        codeField.getValue().ifPresent(value -> values.addAll(Arrays.asList(PlainValue.create("="), TargetValue.create(value.getClass(), value, parents))));
 
         Parent<Generator<?, String, PlainSourceGenerator>> generatorParent1 = parents.find(generatorParent -> {
             if (MethodInvocation.class.isAssignableFrom(generatorParent.getCurrent().getClass())) {
@@ -79,11 +79,11 @@ public class FieldSourceGenerator implements Generator<FieldDeclaration, String,
         }).orElse(null);
 
         if (generatorParent1 != null && TypeDeclaration.class.isAssignableFrom(generatorParent1.getCurrent().getClass())) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         } else {
 
             if (Util.isBody(parents)) {
-                values.add(ValueImpl.create(";"));
+                values.add(PlainValue.create(";"));
             }
         }
 

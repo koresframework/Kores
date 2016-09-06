@@ -30,23 +30,49 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
- * Created by jonathan on 13/06/16.
+ * Invoke Specification used by dynamic invocations ({@link InvokeDynamic}).
  */
 public class FullInvokeSpec extends FullMethodSpec {
 
+    /**
+     * Type of the invocation.
+     */
     private final InvokeType invokeType;
 
-    public FullInvokeSpec(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterSpecs) {
-        super(location, returnType, methodName, parameterSpecs);
+    /**
+     * Constructor
+     *
+     * @param invokeType     Type of the invocation target.
+     * @param location       Localization of the invocation target (type).
+     * @param returnType     Return type of the invocation target.
+     * @param methodName     Name of the invocation target.
+     * @param parameterTypes Types of the parameters of invocation target.
+     */
+    public FullInvokeSpec(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+        super(location, returnType, methodName, parameterTypes);
         this.invokeType = invokeType;
     }
 
-    public FullInvokeSpec(InvokeType invokeType, Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterSpecs) {
-        super(location, returnType, methodName, parameterSpecs);
+    /**
+     * Constructor
+     *
+     * @param invokeType     Type of the invocation target.
+     * @param location       Localization of the invocation target (type).
+     * @param returnType     Return type of the invocation target.
+     * @param methodName     Name of the invocation target.
+     * @param parameterTypes Types of the parameters of invocation target.
+     */
+    public FullInvokeSpec(InvokeType invokeType, Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterTypes) {
+        super(location, returnType, methodName, parameterTypes);
         this.invokeType = invokeType;
     }
 
+    /**
+     * Gets the invocation type.
+     *
+     * @return invocation type.
+     */
     public InvokeType getInvokeType() {
-        return invokeType;
+        return this.invokeType;
     }
 }

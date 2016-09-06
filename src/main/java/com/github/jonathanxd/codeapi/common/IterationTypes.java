@@ -48,24 +48,33 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.HiddenField;
 import java.util.Iterator;
 
 /**
- * Created by jonathan on 04/09/16.
+ * Basic iteration types.
  */
 public final class IterationTypes {
 
+    /**
+     * Iterate a array
+     */
     public static final IterationType ARRAY = new ArrayIterationType();
-    public static final IterationType ITERABLE_ELEMENT = new IterableIterationType();
 
+    /**
+     * Iterate a Iterable element.
+     */
+    public static final IterationType ITERABLE_ELEMENT = new IterableIterationType();
 
     private IterationTypes() {
         throw new IllegalStateException();
     }
 
+    /**
+     * Array Iteration
+     */
     public static class ArrayIterationType implements IterationType {
 
         private int indexFields = 0;
 
         @Override
-        public Generator start(ForEachBlock forEachBlock) {
+        public Generator createGenerator(ForEachBlock forEachBlock) {
             return new Gen(forEachBlock);
         }
 
@@ -89,12 +98,12 @@ public final class IterationTypes {
             }
 
             @Override
-            public BiMultiVal<CodePart, IfExpr, Operator> createCheck() {
+            public BiMultiVal<CodePart, IfExpr, Operator> createCondition() {
                 return Helper.createIfVal().add1(Helper.check(Helper.accessLocalVariable(indexFieldDecl), Operators.LESS_THAN, Helper.arrayLength(iterableElement))).make();
             }
 
             @Override
-            public CodeSource operate() {
+            public CodeSource createUpdate() {
                 return Helper.sourceOf(Helper.operateLocalVariable(indexFieldDecl, Operators.INCREMENT));
             }
 
@@ -114,11 +123,14 @@ public final class IterationTypes {
         }
     }
 
+    /**
+     * Iterable iteration
+     */
     public static class IterableIterationType implements IterationType {
         private int iterFields = 0;
 
         @Override
-        public Generator start(ForEachBlock forEachBlock) {
+        public Generator createGenerator(ForEachBlock forEachBlock) {
             return new Gen(forEachBlock);
         }
 
@@ -148,7 +160,7 @@ public final class IterationTypes {
             }
 
             @Override
-            public BiMultiVal<CodePart, IfExpr, Operator> createCheck() {
+            public BiMultiVal<CodePart, IfExpr, Operator> createCondition() {
                 // Iterator.hasNext()Z
                 MethodInvocation hasNext = CodeAPI.invokeInterface(Iterator.class,
                         CodeAPI.accessLocalVariable(iterType, fieldName), "hasNext", new TypeSpec(PredefinedTypes.BOOLEAN));
@@ -157,7 +169,7 @@ public final class IterationTypes {
             }
 
             @Override
-            public CodeSource operate() {
+            public CodeSource createUpdate() {
                 return null;
             }
 

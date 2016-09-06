@@ -33,31 +33,63 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Arrays;
 
 /**
- * Created by jonathan on 13/06/16.
+ * Specification of a invocation of a method.
  */
 public class FullMethodSpec extends TypeSpec {
 
+    /**
+     * Localization of invocation target.
+     */
     private final CodeType location;
+
+    /**
+     * Name of the method of invocation target.
+     */
     private final String methodName;
 
-
-    public FullMethodSpec(CodeType location, CodeType returnType, String methodName, CodeType... parameterSpecs) {
-        super(returnType, parameterSpecs);
+    /**
+     * Constructor
+     *
+     * @param location       Localization of the invocation target (type).
+     * @param returnType     Return type of the invocation target.
+     * @param methodName     Name of the invocation target.
+     * @param parameterTypes Types of the parameters of invocation target.
+     */
+    public FullMethodSpec(CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+        super(returnType, parameterTypes);
         this.location = location;
         this.methodName = methodName;
     }
 
-    public FullMethodSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterSpecs) {
-        super(Helper.getJavaType(returnType), Arrays.stream(parameterSpecs).map(Helper::getJavaType).toArray(CodeType[]::new));
+    /**
+     * Constructor
+     *
+     * @param location       Localization of the invocation target (type).
+     * @param returnType     Return type of the invocation target.
+     * @param methodName     Name of the invocation target.
+     * @param parameterTypes Types of the parameters of invocation target.
+     */
+    public FullMethodSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterTypes) {
+        super(Helper.getJavaType(returnType), Arrays.stream(parameterTypes).map(Helper::getJavaType).toArray(CodeType[]::new));
         this.location = Helper.getJavaType(location);
         this.methodName = methodName;
     }
 
+    /**
+     * Gets the localization of invocation target.
+     *
+     * @return Localization of invocation target.
+     */
     public CodeType getLocation() {
-        return location;
+        return this.location;
     }
 
+    /**
+     * Gets the name of method of invocation target.
+     *
+     * @return Name of method of invocation target.
+     */
     public String getMethodName() {
-        return methodName;
+        return this.methodName;
     }
 }

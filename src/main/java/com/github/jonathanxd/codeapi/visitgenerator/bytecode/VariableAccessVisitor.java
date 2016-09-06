@@ -40,12 +40,12 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -98,7 +98,12 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
 
                 Variable variable = var.get();
 
-                int i = mvData.getVarPos(variable);
+                OptionalInt varPosOpt = mvData.getVarPos(variable);
+
+                if(!varPosOpt.isPresent())
+                    throw mvData.failFind(variable);
+
+                int i = varPosOpt.getAsInt();
 
                 Type type = Type.getType(variable.getType().getJavaSpecName());
 

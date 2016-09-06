@@ -37,7 +37,8 @@ import org.objectweb.asm.Type;
 import java.util.Arrays;
 
 /**
- * Created by jonathan on 03/06/16.
+ * Dynamic invocation
+ * *undocumented
  */
 public class InvokeDynamic {
 

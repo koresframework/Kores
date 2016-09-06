@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -59,17 +59,17 @@ public class BodiedSourceGenerator implements Generator<Bodied, String, PlainSou
         boolean isExpr = bodied.isExpression();
 
         if (isExpr || !body.isEmpty()) {
-            values.add(ValueImpl.create("{"));
+            values.add(PlainValue.create("{"));
         }
 
         if (body.isEmpty() && !isExpr) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         }
 
         values.add(CodeSourceValue.create(body, parents));
 
         if (isExpr || !body.isEmpty()) {
-            values.add(ValueImpl.create("}"));
+            values.add(PlainValue.create("}"));
         }
 
         return values;

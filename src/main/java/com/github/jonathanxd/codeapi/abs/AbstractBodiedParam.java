@@ -35,11 +35,20 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Abstract implementation of {@link AbstractBodied} and {@link Parameterizable}.
  */
 public abstract class AbstractBodiedParam extends AbstractBodied implements Parameterizable {
+    /**
+     * List of element parameters.
+     */
     private final List<CodeParameter> parameters;
 
+    /**
+     * Constructor
+     *
+     * @param parameters Parameters of this element
+     * @param body       Body of this element
+     */
     protected AbstractBodiedParam(List<CodeParameter> parameters, CodeSource body) {
         super(body);
         this.parameters = parameters == null ? Collections.emptyList() : Collections.unmodifiableList(parameters);

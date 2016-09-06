@@ -32,18 +32,16 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
-import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -71,15 +69,15 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
 
                 IfExpr ifExpr = (IfExpr) simpleExpr;
 
-                values.add(ValueImpl.create("("));
+                values.add(PlainValue.create("("));
 
                 values.add(TargetValue.create(IfExpr.class, ifExpr, parents));
 
-                values.add(ValueImpl.create(")"));
+                values.add(PlainValue.create(")"));
             } else if (simpleExpr == Operators.OR) {
-                values.add(ValueImpl.create("||"));
+                values.add(PlainValue.create("||"));
             } else if (simpleExpr == Operators.AND) {
-                values.add(ValueImpl.create("&&"));
+                values.add(PlainValue.create("&&"));
             }
 
 

@@ -51,12 +51,12 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
     public Byte[] visit(ForEachBlock forEachBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
         IterationType iterationType = forEachBlock.getIterationType();
-        IterationType.Generator start = iterationType.start(forEachBlock);
+        IterationType.Generator start = iterationType.createGenerator(forEachBlock);
 
         ForBlock aFor = Helper.createFor(
                 start.createInitialization(),
-                start.createCheck(),
-                start.operate(),
+                start.createCondition(),
+                start.createUpdate(),
                 start.declareBody()
         );
 

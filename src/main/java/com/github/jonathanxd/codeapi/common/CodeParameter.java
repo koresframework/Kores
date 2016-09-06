@@ -30,35 +30,66 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Representation of element parameters (to be more specific, method parameters).
  */
-public class CodeParameter implements CodePart, Annotable {
+public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Annotable {
+    /**
+     * Name of the parameter
+     */
     private final String name;
+
+    /**
+     * Type of the parameter
+     */
     private final CodeType type;
+
+    /**
+     * Annotations of the parameter
+     */
     private final List<Annotation> annotations;
 
+    /**
+     * Create a Non-annotated parameter.
+     *
+     * @param name Name of parameter.
+     * @param type Type of the parameter.
+     */
     public CodeParameter(String name, CodeType type) {
         this(name, type, null);
     }
 
+    /**
+     * Create a annotated parameter.
+     *
+     * @param name        Name of parameter.
+     * @param type        Type of the parameter.
+     * @param annotations Annotations of parameter.
+     */
     public CodeParameter(String name, CodeType type, List<Annotation> annotations) {
-        this.name = name;
-        this.type = type;
+        this.name = Objects.requireNonNull(name, "Parameters cannot have null name.");
+        this.type = Objects.requireNonNull(type, "Parameters cannot have null type.");
         this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
-    public CodeType getType() {
-        return this.type;
+    @Override
+    public Optional<CodeType> getType() {
+        return Optional.of(this.type);
     }
 
     @Override

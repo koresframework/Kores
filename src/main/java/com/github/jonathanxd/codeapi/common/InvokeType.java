@@ -43,13 +43,50 @@ import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
  * Created by jonathan on 03/06/16.
  */
 @SuppressWarnings("Duplicates")
+/**
+ * Type of the invocation.
+ */
 public enum InvokeType {
+    /**
+     * Static invocation (static methods)
+     */
     INVOKE_STATIC,
+
+    /**
+     * Virtual invocation (instance methods)
+     */
     INVOKE_VIRTUAL,
+
+    /**
+     * Special invocation.
+     *
+     * - Initialization (constructor methods).
+     * - Private methods.
+     * - Superclass methods invocation.
+     */
     INVOKE_SPECIAL,
+
+    /**
+     * Interface invocation. (invoke a interface method).
+     */
     INVOKE_INTERFACE,
+
+    /**
+     * Invoke a method dynamically.
+     *
+     * Invoke dynamic uses a bootstrap to invoke the method. Dynamic invocations is used in lambdas
+     * for example.
+     *
+     * Dynamic invocations is a hard thing that is explained in class: {@link InvokeDynamic}.
+     */
     INVOKE_DYNAMIC;
 
+    /**
+     * Convert {@link InvokeType} to asm invocation flag.
+     *
+     * @param invokeType Type to convert
+     * @return asm flag corresponding to {@code invokeType}.
+     */
     public static int toAsm(InvokeType invokeType) {
         switch (invokeType) {
             case INVOKE_INTERFACE:
@@ -67,6 +104,12 @@ public enum InvokeType {
         }
     }
 
+    /**
+     * Convert {@link InvokeType} to asm invocation flag (dynamic).
+     *
+     * @param invokeType Type to convert
+     * @return asm flag corresponding to {@code invokeType} (dynamic).
+     */
     public static int toAsm_H(InvokeType invokeType) {
         switch (invokeType) {
             case INVOKE_INTERFACE:

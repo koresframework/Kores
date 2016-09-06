@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -59,9 +59,9 @@ public class PackageDeclarationSourceGenerator implements Generator<PackageDecla
 
         if (aPackage.isPresent()) {
 
-            values.add(ValueImpl.create("package"));
-            values.add(ValueImpl.create(aPackage.get()));
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create("package"));
+            values.add(PlainValue.create(aPackage.get()));
+            values.add(PlainValue.create(";"));
         }
 
         return values;

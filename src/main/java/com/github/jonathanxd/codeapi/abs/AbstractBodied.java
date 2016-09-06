@@ -33,11 +33,19 @@ import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Abstract implementation of {@link Bodied} interface.
  */
 public abstract class AbstractBodied implements Bodied {
+
+    /**
+     * Body
+     */
     private final CodeSource body;
 
+    /**
+     * Constructor
+     * @param body Body of element
+     */
     protected AbstractBodied(CodeSource body) {
         this.body = body;
         Bodied.checkBody(this);

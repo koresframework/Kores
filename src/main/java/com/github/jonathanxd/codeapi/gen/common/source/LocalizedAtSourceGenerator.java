@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.LocalizedAt;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -65,7 +65,7 @@ public class LocalizedAtSourceGenerator implements Generator<LocalizedAt, String
         }
 
         return Collections.singletonList(
-                ValueImpl.create(type)
+                PlainValue.create(type)
         );
     }
 }

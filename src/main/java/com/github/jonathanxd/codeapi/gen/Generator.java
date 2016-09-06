@@ -35,6 +35,6 @@ import java.util.List;
 /**
  * Created by jonathan on 07/05/16.
  */
-public interface Generator<INP, OUT, C> {
+public interface Generator<INP, OUT, C> extends PartProcessor {
     List<Value<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents, CodeSourceData codeSourceData, MapData data);
 }

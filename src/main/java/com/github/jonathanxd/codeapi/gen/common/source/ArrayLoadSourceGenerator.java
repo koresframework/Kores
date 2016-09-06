@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -57,9 +57,9 @@ public class ArrayLoadSourceGenerator implements Generator<ArrayLoad, String, Pl
 
         arrayLoad.getTarget().ifPresent(target -> values.add(TargetValue.create(target, parents)));
 
-        values.add(ValueImpl.create("["));
+        values.add(PlainValue.create("["));
         values.add(TargetValue.create(arrayLoad.getIndex(), parents));
-        values.add(ValueImpl.create("]"));
+        values.add(PlainValue.create("]"));
 
 
         return values;

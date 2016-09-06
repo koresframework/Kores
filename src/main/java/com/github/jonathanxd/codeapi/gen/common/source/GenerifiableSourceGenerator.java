@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
@@ -60,7 +60,7 @@ public class GenerifiableSourceGenerator implements Generator<Generifiable, Stri
 
         GenericSignature<GenericType> genericSignature = generifiable.getGenericSignature();
 
-        return Arrays.asList(ValueImpl.create("<"), TargetValue.create(genericSignature.getClass(), genericSignature, parents), ValueImpl.create(">"));
+        return Arrays.asList(PlainValue.create("<"), TargetValue.create(genericSignature.getClass(), genericSignature, parents), PlainValue.create(">"));
 
     }
 }

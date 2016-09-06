@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
@@ -58,10 +58,10 @@ public class VariableAccessSourceGenerator implements Generator<VariableAccess, 
 
         if (variableAccess.getLocalization() != null && !(variableAccess.getLocalization() instanceof AccessLocal)) {
             values.add(TargetValue.create(CodeType.class, variableAccess.getLocalization(), parents));
-            values.add(ValueImpl.create("."));
+            values.add(PlainValue.create("."));
         }
 
-        values.add(ValueImpl.create(variableAccess.getName()));
+        values.add(PlainValue.create(variableAccess.getName()));
 
         return values;
     }

@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
@@ -59,14 +59,14 @@ public class ForBlockSourceGenerator implements Generator<ForBlock, String, Plai
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(ValueImpl.create("for"));
-        values.add(ValueImpl.create("("));
+        values.add(PlainValue.create("for"));
+        values.add(PlainValue.create("("));
 
         Optional<CodePart> forInitOpt = forBlock.getForInit();
 
         forInitOpt.ifPresent(expression -> values.add(TargetValue.create(expression, parents)));
 
-        values.add(ValueImpl.create(";"));
+        values.add(PlainValue.create(";"));
 
         List<CodePart> forExpressionOpt = forBlock.getForExpression();
 
@@ -74,13 +74,13 @@ public class ForBlockSourceGenerator implements Generator<ForBlock, String, Plai
             values.add(TargetValue.create(IfExpressionable.class, forBlock, parents));
         }
 
-        values.add(ValueImpl.create(";"));
+        values.add(PlainValue.create(";"));
 
         Optional<CodePart> forUpdateOpt = forBlock.getForUpdate();
 
         forUpdateOpt.ifPresent(expression -> values.add(TargetValue.create(expression, parents)));
 
-        values.add(ValueImpl.create(")"));
+        values.add(PlainValue.create(")"));
 
         values.add(TargetValue.create(Bodied.class, forBlock, parents));
 

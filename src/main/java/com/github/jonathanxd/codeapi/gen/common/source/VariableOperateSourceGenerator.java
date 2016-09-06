@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -59,22 +59,22 @@ public class VariableOperateSourceGenerator implements Generator<VariableOperate
 
         if (operate.getLocalization() != null && !(operate.getLocalization() instanceof AccessLocal)) {
             values.add(CodePartValue.create(operate.getLocalization(), parents));
-            values.add(ValueImpl.create("."));
+            values.add(PlainValue.create("."));
         }
 
-        values.add(ValueImpl.create(operate.getName()));
+        values.add(PlainValue.create(operate.getName()));
 
         operate.getOperation().ifPresent(operator -> {
             values.add(TargetValue.create(operator.getClass(), operator, parents));
             operate.getValue().ifPresent(codePart -> {
-                values.add(ValueImpl.create("="));
+                values.add(PlainValue.create("="));
                 values.add(TargetValue.create(codePart.getClass(), codePart, parents));
             });
         });
 
 
         if (Util.isBody(parents)) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         }
 
         return values;

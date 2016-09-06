@@ -37,13 +37,26 @@ import java.util.Collections;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Abstract implementation of {@link Valuable} and {@link Modifierable}.
  */
 public abstract class AbstractValuableModifierable implements Valuable, Modifierable {
 
+    /**
+     * Element Modifiers
+     */
     private final Collection<CodeModifier> modifiers;
+
+    /**
+     * Value
+     */
     private final CodePart value;
 
+    /**
+     * Constructor
+     *
+     * @param modifiers Element Modifiers
+     * @param value     Element value
+     */
     protected AbstractValuableModifierable(Collection<CodeModifier> modifiers, CodePart value) {
         this.modifiers = modifiers != null ? Collections.unmodifiableCollection(modifiers) : Collections.emptyList();
         this.value = value;

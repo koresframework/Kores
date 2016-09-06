@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -43,7 +42,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -115,9 +113,11 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
                 int i;
 
                 if (variableDeclaration instanceof HiddenField) {
-                    i = mvData.storeInternalVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null);
+                    i = mvData.storeInternalVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null)
+                        .orElseThrow(() -> mvData.failStore(variableDeclaration));
                 } else {
-                    i = mvData.storeVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null);
+                    i = mvData.storeVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null)
+                            .orElseThrow(() -> mvData.failStore(variableDeclaration));
                 }
 
                 Type type = Type.getType(variableDeclaration.getVariableType().getJavaSpecName());

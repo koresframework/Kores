@@ -48,6 +48,7 @@ import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.AnnotationVisitor;
@@ -377,13 +378,13 @@ public class Common {
 
     public static TypeSpec specFromLegacy(CodeType returnType, Collection<CodeArgument> arguments) {
         return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
-                arguments.stream().map(CodeArgument::getType).collect(Collectors.toList())
+                arguments.stream().map(t -> Require.require(t.getType())).collect(Collectors.toList())
                 : Collections.emptyList());
     }
 
     public static TypeSpec specFromLegacy(CodeType returnType, CodeArgument[] arguments) {
         return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
-                Arrays.stream(arguments).map(CodeArgument::getType).collect(Collectors.toList())
+                Arrays.stream(arguments).map(t -> Require.require(t.getType())).collect(Collectors.toList())
                 : Collections.emptyList());
     }
 
@@ -391,7 +392,7 @@ public class Common {
         String s = codeTypeToFullAsm(Objects.requireNonNull(typeSpec.getReturnType(), "Null return type in Spec '" + typeSpec + "'"));
 
         return "(" +
-                codeTypesToFullAsm(Objects.requireNonNull(typeSpec.getParameterSpec(), "Null method spec '" + typeSpec + "' arguments!").stream().toArray(CodeType[]::new))
+                codeTypesToFullAsm(Objects.requireNonNull(typeSpec.getParameterTypes(), "Null method spec '" + typeSpec + "' arguments!").stream().toArray(CodeType[]::new))
                 + ")" + s;
     }
 
@@ -410,12 +411,12 @@ public class Common {
     }
 
     public static String fullSpecToFullAsm(TypeSpec typeSpec) {
-        return "(" + codeTypesToFullAsm(typeSpec.getParameterSpec().stream().toArray(CodeType[]::new)) + ")"
+        return "(" + codeTypesToFullAsm(typeSpec.getParameterTypes().stream().toArray(CodeType[]::new)) + ")"
                 + codeTypeToFullAsm(typeSpec.getReturnType());
     }
 
     public static String fullSpecToSimpleAsm(TypeSpec typeSpec) {
-        return "(" + codeTypesToSimpleAsm(typeSpec.getParameterSpec().stream().toArray(CodeType[]::new)) + ")"
+        return "(" + codeTypesToSimpleAsm(typeSpec.getParameterTypes().stream().toArray(CodeType[]::new)) + ")"
                 + codeTypeToSimpleAsm(typeSpec.getReturnType());
     }
 
@@ -454,14 +455,14 @@ public class Common {
         if (parameters.isEmpty())
             return Collections.emptyList();
 
-        return parameters.stream().map(d -> new Variable(d.getName(), d.getType(), null, null)).collect(Collectors.toList());
+        return parameters.stream().map(d -> new Variable(d.getName(), d.getRequiredType(), null, null)).collect(Collectors.toList());
     }
 
     public static void parametersToVars(Collection<CodeParameter> parameters, Collection<Variable> target) {
         if (parameters.isEmpty())
             return;
 
-        parameters.stream().map(d -> new Variable(d.getName(), d.getType(), null, null)).forEach(target::add);
+        parameters.stream().map(d -> new Variable(d.getName(), d.getRequiredType(), null, null)).forEach(target::add);
     }
 
     public static Map<String, Integer> parametersToMap(Collection<CodeParameter> parameters, int startAt) {
@@ -495,11 +496,11 @@ public class Common {
     // ** Generics ** \\
 
     public static String parametersToAsm(Collection<CodeParameter> codeParameters) {
-        return codeTypesToFullAsm(codeParameters.stream().map(CodeParameter::getType).toArray(CodeType[]::new));
+        return codeTypesToFullAsm(codeParameters.stream().map(CodeParameter::getRequiredType).toArray(CodeType[]::new));
     }
 
     public static String argumentsToAsm(Collection<CodeArgument> codeArguments) {
-        return codeTypesToFullAsm(codeArguments.stream().map(CodeArgument::getType).toArray(CodeType[]::new));
+        return codeTypesToFullAsm(codeArguments.stream().map(CodeArgument::getRequiredType).toArray(CodeType[]::new));
     }
 
     public static String genericTypesToAsmString(GenericType[] generics) {
@@ -642,7 +643,7 @@ public class Common {
 
         boolean generateGenerics =
                 methodSignature.isNotEmpty()
-                        || codeMethod.getParameters().stream().anyMatch(parameter -> parameter.getType() instanceof GenericType)
+                        || codeMethod.getParameters().stream().anyMatch(parameter -> parameter.getRequiredType() instanceof GenericType)
                         || returnType instanceof GenericType;
 
 
@@ -653,7 +654,7 @@ public class Common {
         if (generateGenerics) {
             signatureBuilder.append('(');
 
-            codeMethod.getParameters().stream().map(parameter -> toAsm(parameter.getType())).forEach(signatureBuilder::append);
+            codeMethod.getParameters().stream().map(parameter -> toAsm(parameter.getRequiredType())).forEach(signatureBuilder::append);
 
             signatureBuilder.append(')');
         }

@@ -40,16 +40,42 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
- * Created by jonathan on 05/06/16.
+ * Internal class that holds a {@link MethodVisitor} and data about current stored variables (stack)
+ * and tag lines.
+ *
+ * This class doesn't generate variables bytecode instructions, this class only hold information
+ * about them.
  */
 public class MVData {
+    /**
+     * ASM Method visitor
+     */
     private final MethodVisitor methodVisitor;
+
+    /**
+     * Variables in stack (including {@code this}).
+     */
     private final List<Variable> variables;
+
+    /**
+     * Unmodifiable variable list.
+     */
     private final List<Variable> unmod;
+
+    /**
+     * Tag lines for debug.
+     */
     private final List<TagLine<?, ?>> tagLines;
 
+    /**
+     * Constructor.
+     *
+     * @param methodVisitor ASM method visitor.
+     * @param variables     Initial Variables list.
+     */
     public MVData(MethodVisitor methodVisitor, List<Variable> variables) {
         this.methodVisitor = methodVisitor;
         this.variables = variables;
@@ -57,32 +83,70 @@ public class MVData {
         this.tagLines = new ArrayList<>();
     }
 
-    public Variable getVar(int i) {
-        return variables.get(i);
+    /**
+     * Get variable at stack pos {@code i}.
+     *
+     * @param i Index in the stack.
+     * @return Variable or {@link Optional#empty()} if not present.
+     */
+    public Optional<Variable> getVar(int i) {
+        if (i < 0 || i >= this.variables.size())
+            return Optional.empty();
+
+        return Optional.of(this.variables.get(i));
     }
 
+    /**
+     * Get a variable by name.
+     *
+     * @param name Name of the variable.
+     * @return Variable or {@link Optional#empty()} if not present.
+     */
     public Optional<Variable> getVarByName(String name) {
-        return variables.stream().filter(var -> var.getName().equals(name)).findAny();
+        return this.variables.stream().filter(var -> var.getName().equals(name)).findAny();
     }
 
+    /**
+     * Get a variable by name and type.
+     *
+     * @param name Name of the variable.
+     * @param type Type of the variable.
+     * @return Variable or {@link Optional#empty()} if not present.
+     */
     public Optional<Variable> getVar(final String name, final CodeType type) {
         if (type == null) {
-            return getVarByName(name);
+            return this.getVarByName(name);
         }
 
         return variables.stream().filter(var -> var.getName().equals(name) && var.getType().compareTo(type) == 0).findAny();
     }
 
-    public int getVarPos(Variable variable) {
+    /**
+     * Gets the position of a variable instance
+     *
+     * @param variable Variable instance
+     * @return Position of variable if exists, or {@link OptionalInt#empty()} otherwise.
+     */
+    public OptionalInt getVarPos(Variable variable) {
         for (int i = variables.size() - 1; i >= 0; i--) {
             if (this.variables.get(i).equals(variable))
-                return i;
+                return OptionalInt.of(i);
         }
 
-        return -1;
+        return OptionalInt.empty();
     }
 
-    public int storeVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
+    /**
+     * Store a variable in stack "table".
+     *
+     * @param name       Name of variable
+     * @param type       Type of variable
+     * @param startLabel Start label (first occurrence of variable).
+     * @param endLabel   End label (last usage of variable).
+     * @return {@link OptionalInt} holding the position, or empty if failed to store.
+     * @throws RuntimeException if variable is already defined.
+     */
+    public OptionalInt storeVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
         Variable variable = new Variable(name, type, startLabel, endLabel);
 
         for (int i = this.variables.size() - 1; i >= 0; i--) {
@@ -92,29 +156,56 @@ public class MVData {
                 if (variable1.isTemp()) {
                     throw new RuntimeException("Cannot store variable named '" + name + "'. Variable already stored!");
                 }
-                return i;
+
+                return OptionalInt.of(i);
             }
         }
 
         this.variables.add(variable);
         // ? Last index with synchronized method is good!!!
-        return getVarPos(variable);
+        return this.getVarPos(variable);
     }
 
-    public int storeInternalVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
+    /**
+     * Store a internal variable. (internal variables doesn't have their names generated in
+     * LocalVariableTable).
+     *
+     * Name generation could also be avoided using '#' symbol in the variable name.
+     *
+     * Position of internal variables couldn't be getted by {@link #storeVar(String, CodeType,
+     * Label, Label)}.
+     *
+     * Internal variables could be freely redefined and has no restrictions about the redefinition.
+     *
+     * @param name       Name of variable
+     * @param type       Type of variable
+     * @param startLabel Start label (first occurrence of variable).
+     * @param endLabel   End label (last usage of variable).
+     * @return {@link OptionalInt} holding the position, or empty if failed to store.
+     */
+    public OptionalInt storeInternalVar(final String name, final CodeType type, final Label startLabel, final Label endLabel) {
         Variable variable = new Variable(name, type, startLabel, endLabel, true);
 
         for (int i = variables.size() - 1; i >= 0; i--) {
             if (this.variables.get(i).equals(variable)) {
-                return i;
+                return OptionalInt.of(i);
             }
         }
 
         this.variables.add(variable);
         // ? Last index with synchronized method is good!!!
-        return getVarPos(variable);
+        return this.getVarPos(variable);
     }
 
+    /**
+     * Redefine a variable in a {@code position}.
+     *
+     * @param pos        Position of variable in stack map.
+     * @param name       Name of variable
+     * @param type       Type of variable
+     * @param startLabel Start label (first occurrence of variable).
+     * @param endLabel   End label (last usage of variable).
+     */
     public void redefineVar(final int pos, final String name, final CodeType type, final Label startLabel, final Label endLabel) {
         Variable variable = new Variable(name, type, startLabel, endLabel);
 
@@ -129,24 +220,51 @@ public class MVData {
         }
     }
 
+    /**
+     * Visit a tag line.
+     *
+     * @param line Tag line.
+     * @return Position of the tag line.
+     */
     public int visitLine(TagLine<?, ?> line) {
         this.tagLines.add(line);
 
         return this.tagLines.size() - 1;
     }
 
+    /**
+     * Return last position in stack map.
+     *
+     * @return Last position in stack map.
+     */
     public int currentPos() {
         return this.variables.size() - 1;
     }
 
+    /**
+     * Gets a immutable list with all variables.
+     *
+     * @return Immutable list with all variables.
+     */
     public List<Variable> getVariables() {
         return this.unmod;
     }
 
+    /**
+     * Gets the ASM {@link MethodVisitor}
+     *
+     * @return ASM {@link MethodVisitor}
+     */
     public MethodVisitor getMethodVisitor() {
         return this.methodVisitor;
     }
 
+    /**
+     * Generate LocalVariableTable
+     *
+     * @param start Start of the method.
+     * @param end   End of the method.
+     */
     public void visitVars(Label start, Label end) {
         List<Variable> variables = this.getVariables();
 
@@ -169,5 +287,25 @@ public class MVData {
 
             methodVisitor.visitLocalVariable(variable.getName(), type, signature, varStart, varEnd, i);
         }
+    }
+
+    /**
+     * Generate "find fail" exception to a variable.
+     *
+     * @param variable Variable failed to find.
+     * @return Exception
+     */
+    public IllegalStateException failFind(Variable variable) {
+        return new IllegalStateException("Cannot find variable '" + variable + "' in stack table: " + this.getVariables());
+    }
+
+    /**
+     * Generate "store fail" exception to a variable.
+     *
+     * @param o Object failed to be stored.
+     * @return Exception
+     */
+    public IllegalStateException failStore(Object o) {
+        return new IllegalStateException("Couldn't store '" + o + "' in stack table: " + this.getVariables());
     }
 }

@@ -86,7 +86,8 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
 
                 additional.visitLabel(i_label);
 
-                int i = mvData.storeVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null);
+                int i = mvData.storeVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null)
+                        .orElseThrow(() -> mvData.failStore(variableDeclaration));
 
                 Type type = Type.getType(variableDeclaration.getVariableType().getJavaSpecName());
 

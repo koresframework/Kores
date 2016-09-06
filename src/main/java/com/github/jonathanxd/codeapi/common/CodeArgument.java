@@ -29,47 +29,122 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.interfaces.Valuable;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
+import com.github.jonathanxd.iutils.optional.Require;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Represents an Argument to be passed to a {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}.
  */
-public class CodeArgument implements CodePart {
+public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
+    /**
+     * Value of Argument
+     */
     private final CodePart value;
+
+    /**
+     * Generate type cast
+     */
     private final boolean casted;
+
+    /**
+     * Expected argument type.
+     */
     private final CodeType type;
 
+    /**
+     * Create a {@link CodeArgument} that receives only the value to pass to an {@link
+     * com.github.jonathanxd.codeapi.interfaces.Argumenterizable} part.
+     *
+     * If you are not passing the {@link TypeSpec} to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable},
+     * you must to use {@link #CodeArgument(CodePart, CodeType)}. If you don't use that a exception
+     * will be thrown.
+     *
+     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     *              part.
+     */
     public CodeArgument(CodePart value) {
         this(value, false, (CodeType) null);
     }
 
+    /**
+     * Create a {@link CodeArgument} that receives the value and type.
+     *
+     * @param value  Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     *               part.
+     * @param casted If true, the generator will cast the value to specified {@code type}.
+     * @param type   Expected argument type.
+     */
     public CodeArgument(CodePart value, boolean casted, CodeType type) {
-        this.value = value;
+        this.value = Objects.requireNonNull(value, "value must no be null.");
         this.casted = casted;
         this.type = type;
     }
 
+    /**
+     * Create a {@link CodeArgument} that receives the value and type.
+     *
+     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     *              part.
+     * @param type  Expected argument type.
+     */
     public CodeArgument(CodePart value, CodeType type) {
         this(value, false, type);
     }
 
+    /**
+     * Create a {@link CodeArgument} that receives the value and type.
+     *
+     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     *              part.
+     * @param type  Expected argument type.
+     */
     public CodeArgument(CodePart value, Class<?> type) {
         this(value, false, Helper.getJavaType(type));
     }
 
+    /**
+     * Create a {@link CodeArgument} that receives the value and type.
+     *
+     * @param value  Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     *               part.
+     * @param casted If true, the generator will cast the value to specified {@code type}.
+     * @param type   Expected argument type.
+     */
     public CodeArgument(CodePart value, boolean casted, Class<?> type) {
         this(value, casted, Helper.getJavaType(type));
     }
 
-    public CodePart getValue() {
-        return value;
-    }
-
+    /**
+     * True if the {@link #value} may be casted to {@link #type}.
+     *
+     * @return True if the {@link #value} may be casted to {@link #type}.
+     */
     public boolean isCasted() {
-        return casted;
+        return this.casted;
     }
 
-    public final CodeType getType() {
-        return type;
+    @Override
+    public Optional<CodePart> getValue() {
+        return Optional.of(this.value);
+    }
+
+    @Override
+    public Optional<CodeType> getType() {
+        if (this.type == null) {
+            try {
+                Common.getType(Require.require(this.getValue(), "Value is required"));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+
+        return Optional.ofNullable(this.type);
     }
 }

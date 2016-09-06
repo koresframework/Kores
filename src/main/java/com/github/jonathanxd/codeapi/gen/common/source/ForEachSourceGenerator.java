@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
@@ -67,20 +67,20 @@ public class ForEachSourceGenerator implements Generator<ForEachBlock, String, P
 
         if (iterationType == IterationTypes.ITERABLE_ELEMENT
                 || iterationType == IterationTypes.ARRAY) {
-            values.add(ValueImpl.create("for"));
-            values.add(ValueImpl.create("("));
+            values.add(PlainValue.create("for"));
+            values.add(PlainValue.create("("));
             values.add(TargetValue.create(field.getClass(), field, parents));
-            values.add(ValueImpl.create(":"));
+            values.add(PlainValue.create(":"));
             values.add(TargetValue.create(iterableElement.getClass(), iterableElement, parents));
-            values.add(ValueImpl.create(")"));
+            values.add(PlainValue.create(")"));
             values.add(TargetValue.create(Bodied.class, forEachBlock, parents));
         } else {
-            IterationType.Generator start = iterationType.start(forEachBlock);
+            IterationType.Generator start = iterationType.createGenerator(forEachBlock);
 
             ForBlock aFor = Helper.createFor(
                     start.createInitialization(),
-                    start.createCheck(),
-                    start.operate(),
+                    start.createCondition(),
+                    start.createUpdate(),
                     start.declareBody()
             );
 

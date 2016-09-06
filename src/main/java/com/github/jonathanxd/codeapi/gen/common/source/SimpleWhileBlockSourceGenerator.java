@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.IfExpressionable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
@@ -57,19 +57,19 @@ public class SimpleWhileBlockSourceGenerator implements Generator<SimpleWhileBlo
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(ValueImpl.create("while"));
+        values.add(PlainValue.create("while"));
 
-        values.add(ValueImpl.create("("));
+        values.add(PlainValue.create("("));
 
         List<CodePart> ifExprsAndOps = simpleWhileBlock.getIfExprsAndOps();
 
         if (ifExprsAndOps.size() == 0) {
-            values.add(ValueImpl.create("true"));
+            values.add(PlainValue.create("true"));
         } else {
             values.add(TargetValue.create(IfExpressionable.class, simpleWhileBlock, parents));
         }
 
-        values.add(ValueImpl.create(")"));
+        values.add(PlainValue.create(")"));
 
 
         return values;

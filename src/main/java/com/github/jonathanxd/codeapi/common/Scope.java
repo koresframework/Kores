@@ -30,12 +30,26 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 
 /**
- * Created by jonathan on 21/08/16.
+ * Scope of a element.
+ *
+ * Commonly this scope is used by {@link com.github.jonathanxd.codeapi.interfaces.MethodFragment}.
  */
 public enum Scope {
+    /**
+     * Instance scope.
+     */
     INSTANCE,
+
+    /**
+     * Static scope.
+     */
     STATIC;
 
+    /**
+     * Scope from a {@link Modifierable} instance.
+     * @param modifierable    {@link Modifierable} instance.
+     * @return Scope
+     */
     public static Scope fromModifierable(Modifierable modifierable) {
         return modifierable.getModifiers().contains(CodeModifier.STATIC) ? Scope.STATIC : Scope.INSTANCE;
     }

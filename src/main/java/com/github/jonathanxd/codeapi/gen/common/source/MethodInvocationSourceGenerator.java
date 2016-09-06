@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
@@ -100,11 +100,11 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
                 values.add(TargetValue.create(Parameterizable.class, method, parents));
 
                 if (bodyOpt.isPresent()) {
-                    values.add(ValueImpl.create("->"));
+                    values.add(PlainValue.create("->"));
 
                     values.add(TargetValue.create(Bodied.class, method, parents));
                 } else {
-                    values.add(ValueImpl.create("-> {};"));
+                    values.add(PlainValue.create("-> {};"));
                 }
 
                 return values;
@@ -115,7 +115,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
                 if (spec.getArguments().isEmpty()) {
                     METHOD_SEPARATOR = "::";
                 } else {
-                    values.add(ValueImpl.create("() ->")); // No arguments at time
+                    values.add(PlainValue.create("() ->")); // No arguments at time
                     METHOD_SEPARATOR = ".";
                 }
             } else {
@@ -139,7 +139,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
                 values.add(CodePartValue.create(target, parents));
                 if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
-                    values.add(ValueImpl.create(METHOD_SEPARATOR)); //TODO: REVIEW
+                    values.add(PlainValue.create(METHOD_SEPARATOR)); //TODO: REVIEW
                 }
             }
         }
@@ -148,7 +148,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             values.add(TargetValue.create(CodeType.class, localization, parents));
 
             if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
-                values.add(ValueImpl.create(METHOD_SEPARATOR));
+                values.add(PlainValue.create(METHOD_SEPARATOR));
             }
         }
 
@@ -159,7 +159,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
         values.add(TargetValue.create(MethodSpecification.class, spec, parents));
 
         if (Util.isBody(parents)) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         } else {
             debug();
         }

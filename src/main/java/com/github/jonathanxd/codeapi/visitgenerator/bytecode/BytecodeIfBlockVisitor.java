@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
@@ -98,13 +99,19 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                 CodePart expr1 = ifExpr.getExpr1();
                 CodePart expr2 = ifExpr.getExpr2();
 
+                CodeType expr1Type = Common.getType(expr1);
+                CodeType expr2Type = Common.getType(expr2);
+
                 boolean expr1Primitive = Common.isPrimitive(expr1);
                 boolean expr2Primitive = Common.isPrimitive(expr2);
 
                 if (expr1Primitive != expr2Primitive) {
-                    throw new RuntimeException(JString.of("Boxing and Unboxing not supported yet! Expr1 ($expr1) Primitive: $primitive1. Expr2 ($expr2) Primitive: $primitive2",
-                            "expr1", expr1.getClass().getCanonicalName(), "primitive1", expr1Primitive,
-                            "expr2", expr2.getClass().getCanonicalName(), "primitive2", expr2Primitive).toString());
+
+                    if(expr2Primitive) {
+                        expr1 = Helper.cast(expr1Type, expr2Type, expr1);
+                    } else {
+                        expr2 = Helper.cast(expr2Type, expr1Type, expr2);
+                    }
                 }
 
                 visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, navigator, null, mvData);

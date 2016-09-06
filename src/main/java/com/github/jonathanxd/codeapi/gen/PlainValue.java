@@ -25,36 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.PlainValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class NamedSourceGenerator implements Generator<Named, String, PlainSourceGenerator> {
+public class PlainValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<TARGET, TARGET, C> {
 
-    public static final NamedSourceGenerator INSTANCE = new NamedSourceGenerator();
+    private final TARGET value;
 
-    private NamedSourceGenerator() {
+    public PlainValue(TARGET value) {
+        this.value = value;
     }
 
-    private String genStr(Named named) {
-        return (named.getName() != null ? named.getName() : "");
+    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<TARGET, TARGET, C> create(TARGET value) {
+        return new PlainValue<>(value);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, MapData data) {
+        appender.add(this.getValue());
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        return Collections.singletonList(PlainValue.create(genStr(named)));
+    public TARGET getValue() {
+        return value;
     }
 }

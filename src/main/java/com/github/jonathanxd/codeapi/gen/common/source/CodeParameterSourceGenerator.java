@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -53,8 +53,8 @@ public class CodeParameterSourceGenerator implements Generator<CodeParameter, St
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeParameter codeParameter, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        CodeType type = codeParameter.getType();
+        CodeType type = codeParameter.getRequiredType();
 
-        return Arrays.asList(TargetValue.create(type.getClass(), type, parents), ValueImpl.create(codeParameter.getName()));
+        return Arrays.asList(TargetValue.create(type.getClass(), type, parents), PlainValue.create(codeParameter.getName()));
     }
 }

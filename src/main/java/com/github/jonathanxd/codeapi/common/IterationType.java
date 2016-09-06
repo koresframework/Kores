@@ -29,22 +29,62 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.PartProcessor;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
 /**
- * Created by jonathan on 31/07/16.
+ * Iteration type used to generate bytecode and source code iterations.
+ *
+ * {@link IterationType} is a {@link SugarSyntax}.
+ *
+ * This sugar syntax generates a {@link com.github.jonathanxd.codeapi.interfaces.ForBlock}.
  */
-public interface IterationType {
+public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock> {
 
-    Generator start(ForEachBlock forEachBlock);
+    @Override
+    Generator createGenerator(ForEachBlock forEachBlock);
 
-    interface Generator {
+    /**
+     * This generator creates the elements required to construct a {@link
+     * com.github.jonathanxd.codeapi.interfaces.ForBlock}.
+     *
+     * (<pre>
+     *     {@code
+     *          for(createInitialization; createCondition; createUpdate) declareBody
+     *     }
+     * </pre>).
+     */
+    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator {
+        /**
+         * Create for initialization ({@code for(initialization; condition; update) body}).
+         *
+         * @return For initialization
+         */
         CodeSource createInitialization();
-        BiMultiVal<CodePart, IfExpr, Operator> createCheck();
-        CodeSource operate();
+
+        /**
+         * Create for verification ({@code for(initialization; condition; update) body}).
+         *
+         * @return For condition.
+         */
+        BiMultiVal<CodePart, IfExpr, Operator> createCondition();
+
+        /**
+         * Create for update ({@code for(initialization; condition; update) body}).
+         *
+         * @return For update
+         */
+        CodeSource createUpdate();
+
+        /**
+         * Create for body ({@code for(initialization; condition; update) body}).
+         *
+         * @return For body
+         */
         CodeSource declareBody();
     }
 }

@@ -109,12 +109,12 @@ public class SimpleTest2 {
                         )).make(), Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null,
                                         Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                        new MethodSpec("println", Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType))))
+                                        new MethodSpec("println", Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
                                 )
                         ), Helper.elseExpression(Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
                                         new MethodSpec("println", Collections.singletonList(new CodeArgument(
-                                                Helper.cast(Helper.getJavaType(String.class), Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE"))
+                                                Helper.cast(Helper.getJavaType(String.class), Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE")), Helper.getJavaType(String.class)
                                         )))
                                 ))
                         ))

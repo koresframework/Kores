@@ -97,7 +97,7 @@ public class TestForLoop {
 
         CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Literals.INT(0), Collections.emptyList());
 
-        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class))))));
+        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class)), Helper.getJavaType(Object.class)))));
 
         Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)));
 

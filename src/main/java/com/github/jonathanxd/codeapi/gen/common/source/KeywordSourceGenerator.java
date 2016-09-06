@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -51,6 +51,6 @@ public class KeywordSourceGenerator implements Generator<Keyword, String, PlainS
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(Keyword keyword, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        return Collections.singletonList(ValueImpl.create(keyword.getName()));
+        return Collections.singletonList(PlainValue.create(keyword.getName()));
     }
 }

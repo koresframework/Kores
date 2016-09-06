@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
@@ -60,9 +60,9 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
             values.add(TargetValue.create(CodeType.class, genericType, parents));
         } else {
             if (!genericType.isWildcard()) {
-                values.add(ValueImpl.create(genericType.name()));
+                values.add(PlainValue.create(genericType.name()));
             } else {
-                values.add(ValueImpl.create("?"));
+                values.add(PlainValue.create("?"));
             }
         }
 
@@ -80,11 +80,11 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
                 boolean extendsOrSuper = bound.sign().equals("+") || bound.sign().equals("-");
 
                 if (bound.sign().equals("+")) {
-                    values.add(ValueImpl.create("extends"));
+                    values.add(PlainValue.create("extends"));
                 } else if (bound.sign().equals("-")) {
-                    values.add(ValueImpl.create("super"));
+                    values.add(PlainValue.create("super"));
                 } else {
-                    values.add(ValueImpl.create("<"));
+                    values.add(PlainValue.create("<"));
                 }
 
                 CodeType type = bound.getType();
@@ -92,11 +92,11 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
                 values.add(TargetValue.create(type.getClass(), type, parents));
 
                 if (!extendsOrSuper) {
-                    values.add(ValueImpl.create(">"));
+                    values.add(PlainValue.create(">"));
                 }
 
                 if (hasNext) {
-                    values.add(ValueImpl.create("&"));
+                    values.add(PlainValue.create("&"));
                 }
             }
 

@@ -32,11 +32,12 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,7 +68,7 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
         String OPEN_TOKEN = argumenterizable.isArray() ? ARRAY_OPEN_TAG : NORMAL_OPEN_TAG;
         String CLOSE_TOKEN = argumenterizable.isArray() ? ARRAY_CLOSE_TAG : NORMAL_CLOSE_TAG;
 
-        values.add(ValueImpl.create(OPEN_TOKEN));
+        values.add(PlainValue.create(OPEN_TOKEN));
 
         Collection<CodeArgument> arguments = argumenterizable.getArguments();
 
@@ -77,17 +78,17 @@ public class ArgumenterizableSourceGenerator implements Generator<Argumenterizab
             CodeArgument argument = iterator.next();
 
             if (argument.isCasted()) {
-                values.add(ValueImpl.create(OPEN_TOKEN + argument.getType().getCanonicalName() + CLOSE_TOKEN));
+                values.add(PlainValue.create(OPEN_TOKEN + Require.require(argument.getType()).getCanonicalName() + CLOSE_TOKEN));
             }
 
-            values.add(TargetValue.create(argument.getValue().getClass(), argument.getValue(), parents));
+            values.add(TargetValue.create(Require.require(argument.getValue()).getClass(), Require.require(argument.getValue()), parents));
 
             if (iterator.hasNext())
-                values.add(ValueImpl.create(", "));
+                values.add(PlainValue.create(", "));
 
         }
 
-        values.add(ValueImpl.create(CLOSE_TOKEN));
+        values.add(PlainValue.create(CLOSE_TOKEN));
 
         return values;
     }

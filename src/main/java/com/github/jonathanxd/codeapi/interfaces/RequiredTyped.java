@@ -25,30 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Optional;
+import com.github.jonathanxd.iutils.optional.Require;
 
 /**
- * Created by jonathan on 13/06/16.
+ * Created by jonathan on 05/09/16.
  */
-public class FullParameterSpec implements Typed {
+public interface RequiredTyped extends Typed {
 
-    private final CodeType parameterType;
-
-    public FullParameterSpec(CodeType parameterType) {
-        this.parameterType = parameterType;
-    }
-
-    public CodeType getParameterType() {
-        return parameterType;
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(parameterType);
+    default CodeType getRequiredType() {
+        return Require.require(this.getType(), "Type is required!");
     }
 }

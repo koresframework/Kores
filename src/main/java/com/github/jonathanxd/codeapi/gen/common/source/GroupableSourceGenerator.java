@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.Group;
@@ -59,7 +59,7 @@ public class GroupableSourceGenerator implements Generator<Groupable, String, Pl
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(ValueImpl.create("("));
+        values.add(PlainValue.create("("));
 
         Collection<Group> groups = groupable.getGroups();
 
@@ -67,7 +67,7 @@ public class GroupableSourceGenerator implements Generator<Groupable, String, Pl
 
         while (iterator.hasNext()) {
 
-            values.add(ValueImpl.create("("));
+            values.add(PlainValue.create("("));
 
             Group group = iterator.next();
 
@@ -75,7 +75,7 @@ public class GroupableSourceGenerator implements Generator<Groupable, String, Pl
 
             values.add(TargetValue.create(expression.getClass(), expression, parents));
 
-            values.add(ValueImpl.create(")"));
+            values.add(PlainValue.create(")"));
 
             if (iterator.hasNext()) {
                 Expression outExpression = group.getOutExpression();
@@ -83,7 +83,7 @@ public class GroupableSourceGenerator implements Generator<Groupable, String, Pl
             }
         }
 
-        values.add(ValueImpl.create(")"));
+        values.add(PlainValue.create(")"));
 
 
         return values;

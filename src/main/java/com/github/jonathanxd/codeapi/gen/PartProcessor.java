@@ -25,41 +25,11 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.abs;
-
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
-import com.github.jonathanxd.codeapi.interfaces.Valuable;
-
-import java.util.Collection;
-import java.util.Optional;
+package com.github.jonathanxd.codeapi.gen;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Implemented by all classes that process a {@link com.github.jonathanxd.codeapi.CodePart} and
+ * transform into another format.
  */
-public abstract class MutableAbstractValuableModifierable implements Valuable, Modifierable {
-
-    private final Collection<CodeModifier> modifiers;
-    private CodePart value;
-
-    protected MutableAbstractValuableModifierable(Collection<CodeModifier> modifiers, CodePart value) {
-        this.modifiers = modifiers;
-        this.value = value;
-    }
-
-    @Override
-    public Collection<CodeModifier> getModifiers() {
-        return modifiers;
-    }
-
-    @Override
-    public Optional<CodePart> getValue() {
-        return Optional.ofNullable(this.value);
-    }
-
-    public void setValue(CodePart value) {
-        this.value = value;
-    }
-
+public interface PartProcessor {
 }

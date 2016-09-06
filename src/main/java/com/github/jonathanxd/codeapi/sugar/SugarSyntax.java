@@ -25,36 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.common.source;
+package com.github.jonathanxd.codeapi.sugar;
 
-import com.github.jonathanxd.codeapi.gen.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.PlainValue;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.util.Parent;
-import com.github.jonathanxd.iutils.data.MapData;
-
-import java.util.Collections;
-import java.util.List;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.PartProcessor;
 
 /**
- * Created by jonathan on 09/05/16.
+ * in CodeAPI, {@link SugarSyntax} could have different implementations, these implementations
+ * changes how a {@link CodePart} ({@link T}) is generated without creating a new {@link
+ * PartProcessor} and registering that.
+ *
+ * @param <T> CodePart
  */
-public class NamedSourceGenerator implements Generator<Named, String, PlainSourceGenerator> {
-
-    public static final NamedSourceGenerator INSTANCE = new NamedSourceGenerator();
-
-    private NamedSourceGenerator() {
-    }
-
-    private String genStr(Named named) {
-        return (named.getName() != null ? named.getName() : "");
-    }
-
-    @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Named named, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        return Collections.singletonList(PlainValue.create(genStr(named)));
-    }
+public interface SugarSyntax<T extends CodePart> {
+    /**
+     * Create a generator for this {@link SugarSyntax}
+     *
+     * @param t Part
+     * @return new {@link Generator}
+     */
+    Generator createGenerator(T t);
 }

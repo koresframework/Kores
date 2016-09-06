@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.ValueImpl;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
@@ -71,21 +71,21 @@ public class ArrayConstructorSourceGenerator implements Generator<ArrayConstruct
 
             String collect = Arrays.stream(arrayConstructor.getDimensions()).map($ -> "[]").collect(Collectors.joining(""));
 
-            values.add(ValueImpl.create(collect));
+            values.add(PlainValue.create(collect));
 
             values.add(TargetValue.create(Argumenterizable.class, arrayConstructor, parents));
         } else {
             for (CodePart i : arrayConstructor.getDimensions()) {
-                values.add(ValueImpl.create("["));
+                values.add(PlainValue.create("["));
                 values.add(TargetValue.create(i, parents));
-                values.add(ValueImpl.create("]"));
+                values.add(PlainValue.create("]"));
             }
 
             // Arguments is empty, don't process
         }
 
         if (Util.isBody(parents)) {
-            values.add(ValueImpl.create(";"));
+            values.add(PlainValue.create(";"));
         }
 
 

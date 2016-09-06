@@ -137,7 +137,8 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
         Label endLabel = new Label();
 
         final String unkExceptionName = "unknownException$$" + getAndIncrementUnkEx();
-        final int stackPos = mvData.storeVar(unkExceptionName, Helper.getJavaType(Throwable.class), i_label, null);
+        final int stackPos = mvData.storeVar(unkExceptionName, Helper.getJavaType(Throwable.class), i_label, null)
+                .orElseThrow(() -> mvData.failStore(unkExceptionName));
 
         catches.forEach((catchBlock, label) -> {
 
