@@ -42,15 +42,15 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 04/09/16.
+ * Internal class. Inline finally statement.
  */
 public class TryCatchInliner {
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static boolean inlineSource(Optional<CodeSource> bodyOpt,
-                                    Optional<CodeSource> finallyBlockOpt,
-                                    List<Value<?, String, PlainSourceGenerator>> values,
-                                    Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+                                       Optional<CodeSource> finallyBlockOpt,
+                                       List<Value<?, String, PlainSourceGenerator>> values,
+                                       Parent<Generator<?, String, PlainSourceGenerator>> parents) {
 
         if (bodyOpt.isPresent() && finallyBlockOpt.isPresent()) {
             CodeSource codeSource = bodyOpt.get();
@@ -82,7 +82,7 @@ public class TryCatchInliner {
             return false;
         }, toAdd, originalSource);
 
-        if(!booleanContainer.get()) {
+        if (!booleanContainer.get()) {
             codeSource.add(toAdd);
         }
 

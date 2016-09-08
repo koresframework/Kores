@@ -31,12 +31,22 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Language keyword.
+ *
+ * In CodeAPI, a keyword is little used.
  */
 public class Keyword implements CodePart, Named {
 
+    /**
+     * Name of the Keyword.
+     */
     private final String name;
 
+    /**
+     * Create a keyword instance.
+     *
+     * @param name Keyword name.
+     */
     public Keyword(String name) {
         this.name = name;
     }

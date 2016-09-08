@@ -39,7 +39,6 @@ import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
@@ -53,9 +52,6 @@ import java.util.Collections;
 
 import static com.github.jonathanxd.codeapi.helper.Helper.accessLocalVariable;
 import static com.github.jonathanxd.codeapi.helper.Helper.createFor;
-import static com.github.jonathanxd.codeapi.helper.Helper.end;
-import static com.github.jonathanxd.codeapi.helper.Helper.expression;
-import static com.github.jonathanxd.codeapi.helper.Helper.expressions;
 import static com.github.jonathanxd.codeapi.helper.Helper.getJavaType;
 import static com.github.jonathanxd.codeapi.helper.Helper.sourceOf;
 
@@ -99,15 +95,15 @@ public class TestForLoop {
 
         CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class)), Helper.getJavaType(Object.class)))));
 
-        Expression addToX = expressions(Operators.INCREMENT, accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)));
+        CodePart addToX = Helper.operateLocalVariable(xField, Operators.INCREMENT);
 
         methodSource.add(
-                createFor(expression(xField),
+                createFor(xField,
                         Helper.createIfVal().add1(
                                 Helper.check(accessLocalVariable(xField.getName(), Helper.getJavaType(Integer.TYPE)), Operators.LESS_THAN, accessLocalVariable("y", Helper.getJavaType(Integer.TYPE)))
                         ).make(), addToX,
                         sourceOf(invokePrintln,
-                                end(Keywords.BREAK)))
+                                Keywords.BREAK))
         );
 
         return method;

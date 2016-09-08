@@ -27,15 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A element that can have a type.
  */
-public interface Typed {
+public interface Typed extends CodePart {
 
+    /**
+     * Gets the type.
+     *
+     * @return Type.
+     */
     Optional<CodeType> getType();
 
 }

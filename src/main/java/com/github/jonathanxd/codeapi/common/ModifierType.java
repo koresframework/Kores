@@ -27,9 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-/**
- * Created by jonathan on 02/06/16.
- */
 public enum ModifierType {
     /**
      * - No Visibility Modifiers

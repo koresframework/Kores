@@ -32,10 +32,15 @@ import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
- * Created by jonathan on 03/09/16.
+ * Base class of all {@link TypeDeclaration}s like classes, interfaces and enums.
  */
 public interface TypeDeclaration extends Modifierable, CodeRoot, CodeType, QualifiedNamed, Generifiable, Bodied, Annotable {
 
+    /**
+     * Gets the class type.
+     *
+     * @return Class type.
+     */
     default ClassType getClassType() {
         return ClassType.INTERFACE;
     }

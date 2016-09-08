@@ -33,10 +33,15 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
  */
 public interface VariableOperate extends VariableDeclaration, CodePart {
 
+    /**
+     * Gets the operation.
+     *
+     * @return Operation.
+     */
     Optional<Operator> getOperation();
 
 

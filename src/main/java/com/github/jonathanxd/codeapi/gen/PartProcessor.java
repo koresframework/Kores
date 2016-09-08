@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.gen;
 
 /**
  * Implemented by all classes that process a {@link com.github.jonathanxd.codeapi.CodePart} and
- * transform into another format.
+ * transform to another format.
  */
 public interface PartProcessor {
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
@@ -75,16 +76,14 @@ public class ForEachSourceGenerator implements Generator<ForEachBlock, String, P
             values.add(PlainValue.create(")"));
             values.add(TargetValue.create(Bodied.class, forEachBlock, parents));
         } else {
-            IterationType.Generator start = iterationType.createGenerator(forEachBlock);
+            IterationType.Generator start = iterationType.getGenerator();
 
-            ForBlock aFor = Helper.createFor(
-                    start.createInitialization(),
-                    start.createCondition(),
-                    start.createUpdate(),
-                    start.declareBody()
-            );
+            CodeSource generated = start.generate(forEachBlock);
 
-            values.add(TargetValue.create(ForBlock.class, aFor, parents));
+            for (CodePart part : generated) {
+                values.add(TargetValue.create(part.getClass(), part, parents));
+            }
+
         }
 
 

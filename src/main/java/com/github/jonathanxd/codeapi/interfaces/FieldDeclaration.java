@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodeElement;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Declaration of a field.
  */
 public interface FieldDeclaration extends CodeElement, VariableDeclaration, Named, Typed, Valuable, Modifierable, Annotable {
 }

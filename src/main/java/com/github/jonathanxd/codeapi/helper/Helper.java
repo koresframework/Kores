@@ -55,11 +55,9 @@ import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
-import com.github.jonathanxd.codeapi.interfaces.Expression;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
-import com.github.jonathanxd.codeapi.interfaces.Group;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
@@ -72,10 +70,9 @@ import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
@@ -92,22 +89,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Helper class (not backward compatible, this class may change constantly).
+ *
+ * If you want a stable factory use: {@link com.github.jonathanxd.codeapi.CodeAPI}.
+ *
+ * This class is not documented.
  */
 public final class Helper {
 
-    /*
-    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
-        IfBlock ifBlock = new SimpleIfBlock();
-
-        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
-
-        ifBlock.setBody(body);
-
-
-
-        return ifBlock;
-    }*/
     public static final BiMultiVal.Adder<CodePart, IfExpr, Operator> IF_EXPR = new ExpressionAdder(CodePart.class);
     private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
     private static final None NONE = new None();
@@ -316,10 +305,6 @@ public final class Helper {
         return new SimpleExDoWhileBlock(expression, body);
     }
 
-    public static ForBlock createFor(Expression initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, Expression update, CodeSource body) {
-        return new SimpleForBlock(initialization, expression, update, body);
-    }
-
     public static ForBlock createFor(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, CodePart update, CodeSource body) {
 
         return new SimpleForBlock(initialization, expression, update, body);
@@ -344,55 +329,9 @@ public final class Helper {
     public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
         return new SimpleExWhileBlock(expression, body);
     }
-    /*
-    public static IfBlock ifExpression(MultiVal<Group> groups, CodeSource body, ElseBlock elseBlock) {
-        IfBlock ifBlock = new SimpleIfBlock();
-
-        ifBlock.addAll(StorageKeys.GROUPS, groups.iterator());
-
-        ifBlock.setBody(body);
-
-
-
-        return ifBlock;
-    }*/
 
     public static ElseBlock elseExpression(CodeSource elseSource) {
         return new SimpleElseBlock(elseSource);
-    }
-
-    public static Expression end(CodePart expression) {
-        return new NonExpressionExpr(expression);
-    }
-
-    // TODO: MISSION: REMOVE ALL EXPRESSIONS :D
-    public static Expression expression(CodePart expression, Expression nestedExpression) {
-        return new SimpleExpression(expression, nestedExpression, false);
-    }
-
-    public static Expression expression(CodePart expression) {
-        return new SimpleExpression(expression, null, false);
-    }
-
-    public static Expression expressions(CodePart expression, CodePart... moreExpressions) {
-
-        if (moreExpressions.length == 0)
-            return expression(expression);
-
-        DynamicExpression base = new DynamicExpression(expression, null);
-
-        DynamicExpression current = base;
-
-        for (CodePart atI : moreExpressions) {
-            DynamicExpression newDynamicExpression = new DynamicExpression(atI, null);
-
-            current.setNextExpression(newDynamicExpression);
-
-            current = newDynamicExpression;
-
-        }
-
-        return base;
     }
 
     @SuppressWarnings("unchecked")
@@ -462,10 +401,6 @@ public final class Helper {
 
     public static <ID, T extends CodePart> TagLine<ID, T> tagLine(ID identification, T value) {
         return new TagLineEx<>(identification, value);
-    }
-
-    public static Group group(Expression expression) {
-        return new SimpleGroup(expression);
     }
 
     public static BiMultiVal.Adder<CodePart, IfExpr, Operator> createIfVal() {
@@ -541,10 +476,6 @@ public final class Helper {
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type, CodePart[] dimensions, CodeArgument[] arguments) {
         return new ArrayConstructorEx(type, dimensions, Arrays.asList(arguments));
-    }
-
-    public static MethodInvocation invokeConstructor(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(invokeType, localization, expressions(Keywords.NEW, target), methodSpec);
     }
 
     public static MethodInvocation invokeConstructor(CodeType type) {
@@ -682,7 +613,7 @@ public final class Helper {
                 new MethodSpec(null, Arrays.asList(arguments),
                         /*<init>*/
                         (CodeType) null/*PredefinedTypes#VOID*/,
-                MethodType.CONSTRUCTOR));
+                        MethodType.CONSTRUCTOR));
 
         return Helper.throwException(invoke);
     }
@@ -784,24 +715,6 @@ public final class Helper {
         public boolean isExpression() {
             throw new IllegalStateException("Empty element");
         }
-    }
-
-    @GenerateTo(Expression.class)
-    private static final class NonExpressionExpr extends SimpleExpression {
-
-        public NonExpressionExpr(CodePart expression) {
-            this(expression, null);
-        }
-
-        public NonExpressionExpr(CodePart expression, Expression nextExpression) {
-            super(expression, nextExpression, true);
-        }
-
-        @Override
-        public boolean isCodeBlock() {
-            return true;
-        }
-
     }
 
 }

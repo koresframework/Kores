@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Map;
 
 /**
- * Created by jonathan on 03/09/16.
+ * A annotation.
  */
 public interface Annotation extends Typed, CodePart {
 

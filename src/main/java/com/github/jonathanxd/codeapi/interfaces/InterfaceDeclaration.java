@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.types.ClassType;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Declaration of a {@code interface}.
  */
 public interface InterfaceDeclaration extends TypeDeclaration, Implementer {
 

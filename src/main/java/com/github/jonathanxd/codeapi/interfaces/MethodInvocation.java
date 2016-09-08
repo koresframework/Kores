@@ -30,26 +30,49 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * A method invocation.
  */
 public interface MethodInvocation extends CodePart, Typed {
 
+    /**
+     * Gets the localization of the method.
+     *
+     * @return Localization of the method.
+     */
     CodeType getLocalization();
 
+    /**
+     * Gets the target to invoke (like instance).
+     *
+     * @return Target to invoke (like instance)
+     */
     CodePart getTarget();
 
-    MethodSpec getSpec();
+    /**
+     * Gets the method specification.
+     *
+     * @return Method specification.
+     */
+    MethodSpecification getSpec();
 
+    /**
+     * Gets the invocation type.
+     *
+     * @return Invocation type.
+     */
     InvokeType getInvokeType();
 
+    /**
+     * Gets the invoke dynamic.
+     *
+     * @return {@link Optional#of(Object)} {@link InvokeDynamic} if this is a dynamic invocation.
+     */
     Optional<InvokeDynamic> getInvokeDynamic();
-
 
     @Override
     default Optional<CodeType> getType() {

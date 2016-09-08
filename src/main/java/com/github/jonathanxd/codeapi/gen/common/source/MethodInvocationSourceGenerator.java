@@ -42,6 +42,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
@@ -93,7 +94,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
                 LambdaFragment fragmentDynamic = (LambdaFragment) invokeDynamic;
                 MethodFragment methodFragment = fragmentDynamic.getMethodFragment();
 
-                CodeMethod method = methodFragment.getMethod();
+                MethodDeclaration method = methodFragment.getMethod();
 
                 Optional<CodeSource> bodyOpt = method.getBody();
 

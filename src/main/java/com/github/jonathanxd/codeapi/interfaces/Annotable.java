@@ -32,8 +32,13 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.List;
 
 /**
- * Created by jonathan on 03/09/16.
+ * A element that can be annotated.
  */
 public interface Annotable extends CodePart {
+
+    /**
+     * Gets the Annotation list.
+     * @return Annotation list.
+     */
     List<Annotation> getAnnotations();
 }

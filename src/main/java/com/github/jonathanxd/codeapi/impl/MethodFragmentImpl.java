@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
@@ -82,7 +83,8 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
         return String.valueOf(RANDOM.nextInt()).replace('-', '_');
     }
 
-    public CodeMethod getMethod() {
+    @Override
+    public MethodDeclaration getMethod() {
         return this.codeMethod;
     }
 }

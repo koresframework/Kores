@@ -30,14 +30,25 @@ package com.github.jonathanxd.codeapi.types;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 
 /**
- * Created by jonathan on 08/08/16.
+ * A {@link CodeTypeArray} that are loaded by JVM.
+ *
+ * @param <T> Type of the Class.
  */
 @GenerateTo(CodeType.class)
 class LoadedArrayCodeType<T> extends CodeTypeArray implements LoadedCodeType<T> {
+    /**
+     * Loaded type.
+     */
     private final Class<T> loadedType;
 
-    LoadedArrayCodeType(Class<T> loadedType, LoadedCodeType<?> component, int size) {
-        super(component, size);
+    /**
+     * Create a {@link LoadedArrayCodeType} from a type and component.
+     * @param loadedType Loaded Type
+     * @param component Component
+     * @param dimensions Dimensions.
+     */
+    LoadedArrayCodeType(Class<T> loadedType, LoadedCodeType<?> component, int dimensions) {
+        super(component, dimensions);
         this.loadedType = loadedType;
     }
 

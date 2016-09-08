@@ -31,9 +31,17 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.iutils.object.Primitive;
 
 /**
- * Created by jonathan on 07/05/16.
+ * A {@link CodeTypeArray} that are loaded by JVM.
+ *
+ * @param <T> Type of the Class.
  */
 public interface LoadedCodeType<T> extends CodeType {
+
+    /**
+     * Gets the loaded class.
+     *
+     * @return Loaded class.
+     */
     Class<T> getLoadedType();
 
     @Override

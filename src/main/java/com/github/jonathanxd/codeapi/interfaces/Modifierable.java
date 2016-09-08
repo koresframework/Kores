@@ -27,14 +27,20 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 import java.util.Collection;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A element that have modifiers.
  */
-public interface Modifierable {
+public interface Modifierable extends CodePart {
+    /**
+     * Gets the modifier collection.
+     *
+     * @return Modifier collection.
+     */
     Collection<CodeModifier> getModifiers();
 
 }

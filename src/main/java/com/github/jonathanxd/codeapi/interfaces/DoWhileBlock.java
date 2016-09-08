@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 /**
- * Created by jonathan on 15/05/16.
+ * Do-while statement.
  */
 public interface DoWhileBlock extends SimpleWhileBlock, Bodied {
 

@@ -30,12 +30,30 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 
 /**
- * Created by jonathan on 10/05/16.
+ * TagLine, a tag line is a debug info commonly used in Bytecode generated classes, a tag line is a
+ * line that the current {@link T value} is present.
+ *
+ * You can determine the expression that generated the exception.
+ *
+ * TODO: Documentation.
+ *
+ * @param <ID> Identifier of the tag line.
+ * @param <T>  Type of part.
  */
 public interface TagLine<ID, T extends CodePart> extends CodePart {
 
+    /**
+     * Gets the identifier.
+     *
+     * @return Identifier.
+     */
     ID getIdentifier();
 
+    /**
+     * Gets the value.
+     *
+     * @return Value.
+     */
     T getValue();
 
 

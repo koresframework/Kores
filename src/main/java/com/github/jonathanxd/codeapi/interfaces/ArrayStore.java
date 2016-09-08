@@ -32,14 +32,19 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Store a value in array.
  */
 public interface ArrayStore extends CodePart, Valuable, ArrayLoad {
+
+    /**
+     * Gets the value to store.
+     *
+     * @return Value to store.
+     */
+    CodePart getValueToStore();
 
     @Override
     default Optional<CodePart> getValue() {
         return Optional.ofNullable(getValueToStore());
     }
-
-    CodePart getValueToStore();
 }

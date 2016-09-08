@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
- * Created by jonathan on 04/07/16.
+ * An element that supports {@link GenericSignature}.
  */
 public interface Generifiable extends CodePart {
 

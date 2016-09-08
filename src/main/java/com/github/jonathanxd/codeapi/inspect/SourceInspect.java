@@ -38,13 +38,31 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Created by jonathan on 21/08/16.
+ * Utility to inspect the {@link CodeSource}.
+ *
+ * @param <R> Mapper type.
  */
 public class SourceInspect<R> {
 
+    /**
+     * Part predicate.
+     */
     private final Predicate<CodePart> predicate;
+
+    /**
+     * True to inspect the {@link CodeSource} and not only sub elements.
+     */
     private final boolean inspectCodeSource;
+
+    /**
+     * Predicate to test {@link Bodied} element. If predicate test returns true, inspect the {@link
+     * Bodied} source.
+     */
     private final Predicate<Bodied> subPredicate;
+
+    /**
+     * Mapper to convert {@link CodePart}s to {@link R}.
+     */
     private final Function<CodePart, R> mapper;
 
     SourceInspect(Predicate<CodePart> predicate, boolean inspectCodeSource, Predicate<Bodied> subPredicate, Function<CodePart, R> mapper) {
@@ -54,12 +72,23 @@ public class SourceInspect<R> {
         this.mapper = mapper;
     }
 
+    /**
+     * Find an element.
+     *
+     * @param codePartPredicate Predicate to test {@link CodePart}s.
+     * @return Inspection builder.
+     */
     public static SourceInspectBuilder<CodePart> find(Predicate<CodePart> codePartPredicate) {
         return SourceInspectBuilder.<CodePart>builder().find(codePartPredicate);
     }
 
-    // find(part -> part instanceof CodeField).
 
+    /**
+     * Inspect the CodeSource.
+     *
+     * @param source Code source to inspect,
+     * @return List of elements that are accepted by {@link #predicate}.
+     */
     public List<R> inspect(CodeSource source) {
 
         List<R> list = new ArrayList<>();
@@ -69,6 +98,13 @@ public class SourceInspect<R> {
         return list;
     }
 
+    /**
+     * Inspect code source.
+     *
+     * @param source  Code source.
+     * @param inspect Inspect current element.
+     * @param list    Current list to add elements.
+     */
     private void inspect(CodeSource source, boolean inspect, List<R> list) {
 
         for (CodePart codePart : source) {

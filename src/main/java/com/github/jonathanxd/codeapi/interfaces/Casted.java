@@ -33,12 +33,31 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Casted element.
  */
 public interface Casted extends CodePart, Typed {
 
+    /**
+     * Gets the original type.
+     *
+     * @return Gets the original type.
+     */
     CodeType getOriginalType();
 
+    /**
+     * Gets the target type of the cast.
+     *
+     * @return Target type of the cast.
+     */
+    default CodeType getTargetType() {
+        return this.getType().orElseThrow(() -> new IllegalStateException("Not target type provided."));
+    }
+
+    /**
+     * Gets the part to cast.
+     *
+     * @return Part to cast.
+     */
     Optional<CodePart> getCastedPart();
 
 }

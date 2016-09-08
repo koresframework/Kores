@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Declaration of a constructor.
  */
 public interface ConstructorDeclaration extends MethodDeclaration {
 

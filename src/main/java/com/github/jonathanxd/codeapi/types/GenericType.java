@@ -30,34 +30,77 @@ package com.github.jonathanxd.codeapi.types;
 import java.util.Objects;
 
 /**
- * Created by jonathan on 04/07/16.
+ * Generic type.
  */
 public interface GenericType extends CodeType {
 
+    /**
+     * Name of the generic type.
+     *
+     * @return Name of the generic type.
+     */
     String name();
 
+    /**
+     * Bounds of the generic type.
+     *
+     * @return Bounds of the generic type.
+     */
     Bound<CodeType>[] bounds();
 
+    /**
+     * Returns true if this is a Type generic type, false if is a Type Variable generic type.
+     *
+     * @return True if this is a Type generic type, false if is a Type Variable generic type.
+     */
+    boolean isType();
+
+    /**
+     * Returns true if this is a wildcard generic type.
+     *
+     * @return True if this is a wildcard generic type.
+     */
     default boolean isWildcard() {
         return name().equals("*");
     }
 
-    boolean isType();
-
     @Override
     GenericType toArray(int dimensions);
 
+    /**
+     * Generic type bounds.
+     *
+     * @param <T> Type of bound.
+     */
     abstract class Bound<T extends CodeType> {
+        /**
+         * {@link CodeType} of bound.
+         */
         private final T type;
 
+        /**
+         * Constructor
+         *
+         * @param type {@link CodeType} of bound.
+         */
         public Bound(T type) {
             this.type = type;
         }
 
+        /**
+         * Gets the bound {@link CodeType type}.
+         *
+         * @return Bound {@link CodeType type}.
+         */
         public T getType() {
             return type;
         }
 
+        /**
+         * Symbol of this bound.
+         *
+         * @return Symbol of this bound.
+         */
         public abstract String sign();
 
         @Override
@@ -79,6 +122,11 @@ public interface GenericType extends CodeType {
         }
     }
 
+    /**
+     * Bound to wildcard.
+     *
+     * @param <T> Type of CodeType
+     */
     abstract class WildcardBound<T extends CodeType> extends Bound<T> {
 
         public WildcardBound(T type) {
@@ -86,6 +134,11 @@ public interface GenericType extends CodeType {
         }
     }
 
+    /**
+     * Bound to type.
+     *
+     * @param <T> Type of CodeType
+     */
     final class GenericBound<T extends CodeType> extends Bound<T> {
 
         public GenericBound(T type) {
@@ -98,6 +151,11 @@ public interface GenericType extends CodeType {
         }
     }
 
+    /**
+     * Bound to extends.
+     *
+     * @param <T> Type of CodeType
+     */
     final class Extends<T extends CodeType> extends WildcardBound<T> {
         public Extends(T type) {
             super(type);
@@ -109,6 +167,11 @@ public interface GenericType extends CodeType {
         }
     }
 
+    /**
+     * Bound to super type.
+     *
+     * @param <T> Type of CodeType
+     */
     final class Super<T extends CodeType> extends WildcardBound<T> {
         public Super(T type) {
             super(type);
@@ -120,22 +183,4 @@ public interface GenericType extends CodeType {
         }
     }
 
-    // Annotations
-
 }
-
-
-/*
-
- List<T> = Generic.type(List_Type).of("T")
-
- Generic.type("T").extends(String_Type).and(Generic.type(List_Type).of("T"));
-
- Generic.type("T").of("T")
-
- Generic.wildcard().extends(String_Type);
-
- Generic.wildcard().super(String_Type);
-
-
- **/

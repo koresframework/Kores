@@ -32,10 +32,14 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Package declaration.
  */
 public interface PackageDeclaration extends CodePart {
 
+    /**
+     * Gets the package name.
+     * @return Package name.
+     */
     Optional<String> getPackage();
 
 }

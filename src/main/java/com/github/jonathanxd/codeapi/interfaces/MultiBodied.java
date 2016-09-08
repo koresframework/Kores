@@ -33,8 +33,13 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import java.util.List;
 
 /**
- * Created by jonathan on 25/07/16.
+ * A element that have multiple bodies.
  */
 public interface MultiBodied extends CodePart {
+    /**
+     * Gets the body list.
+     *
+     * @return Body list.
+     */
     List<CodeSource> getBodies();
 }

@@ -39,19 +39,29 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Constructor of array type.
  */
 public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
 
-    @Override
-    default Optional<CodeType> getType() {
-        return Optional.ofNullable(getArrayType());
-    }
-
+    /**
+     * Gets the type of the array.
+     *
+     * @return Type of the array.
+     */
     CodeType getArrayType();
 
+    /**
+     * Gets the array dimensions.
+     *
+     * @return Array dimensions.
+     */
     CodePart[] getDimensions();
 
+    /**
+     * Gets the array value list.
+     *
+     * @return Array value list.
+     */
     default List<ArrayStore> getArrayValues() {
         List<CodeArgument> arguments = getArguments();
         List<ArrayStore> arrayStores = new ArrayList<>();
@@ -69,4 +79,10 @@ public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
     default boolean isArray() {
         return true;
     }
+
+    @Override
+    default Optional<CodeType> getType() {
+        return Optional.ofNullable(this.getArrayType());
+    }
+
 }

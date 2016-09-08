@@ -31,10 +31,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 
 /**
- * Created by jonathan on 03/06/16.
- */
-
-/**
  * Data of source.
  */
 public class CodeSourceData {

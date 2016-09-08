@@ -54,8 +54,8 @@ public class ForEachArray_ {
                 constructor(PUBLIC, codeClass1, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
                         codeConstructor -> sourceOfParts(
                                 Helper.createForEachArray(new CodeField("str", PredefinedTypes.STRING),
-                                        Helper.expression(Helper.accessLocalVariable("strArray",
-                                                PredefinedTypes.STRING.toArray(1))), Helper.sourceOf(
+                                        Helper.accessLocalVariable("strArray",
+                                                PredefinedTypes.STRING.toArray(1)), Helper.sourceOf(
                                                 Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class), String.class))
                                         ))
                         ))

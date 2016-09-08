@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 03/09/16.
+ * Enum value of a {@link Annotation} property.
  */
 public interface EnumValue extends Named, Typed, CodePart {
 
@@ -47,7 +47,17 @@ public interface EnumValue extends Named, Typed, CodePart {
         return Optional.ofNullable(this.getEnumType());
     }
 
+    /**
+     * Gets the type of enum.
+     *
+     * @return Type of enum.
+     */
     CodeType getEnumType();
 
+    /**
+     * Gets the enum entry name.
+     *
+     * @return Enum entry name.
+     */
     String getEnumValue();
 }

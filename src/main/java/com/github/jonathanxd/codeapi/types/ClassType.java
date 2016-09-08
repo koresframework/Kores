@@ -28,9 +28,16 @@
 package com.github.jonathanxd.codeapi.types;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Type of the class.
  */
 public enum ClassType {
+    /**
+     * Class
+     */
     CLASS,
+
+    /**
+     * Interface
+     */
     INTERFACE
 }

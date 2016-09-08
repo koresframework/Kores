@@ -28,10 +28,9 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -51,16 +50,11 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
     public Byte[] visit(ForEachBlock forEachBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
         IterationType iterationType = forEachBlock.getIterationType();
-        IterationType.Generator start = iterationType.createGenerator(forEachBlock);
+        IterationType.Generator start = iterationType.getGenerator();
 
-        ForBlock aFor = Helper.createFor(
-                start.createInitialization(),
-                start.createCondition(),
-                start.createUpdate(),
-                start.declareBody()
-        );
+        CodeSource generated = start.generate(forEachBlock);
 
-        visitorGenerator.generateTo(aFor.getClass(), aFor, extraData, navigator, null, additional);
+        visitorGenerator.generateTo(CodeSource.class, generated, extraData, navigator, null, additional);
 
         return new Byte[0];
     }

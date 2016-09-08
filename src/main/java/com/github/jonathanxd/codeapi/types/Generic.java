@@ -37,25 +37,93 @@ import java.util.Objects;
 
 
 /**
- * Created by jonathan on 04/07/16.
+ * A generic type.
+ *
+ * Examples:
+ *
+ * A generic type T that extends String:
+ *
+ * <pre>
+ *     {@code
+ *
+ *     Generic.type("T").extends$(PredefinedTypes.STRING);
+ *
+ *     }
+ * </pre>
+ *
+ * A generic type T that extends V:
+ *
+ * <pre>
+ *     {@code
+ *
+ *     Generic.type("T").extends$("V");
+ *
+ *     }
+ * </pre>
+ *
+ * A List of Type T:
+ *
+ * <pre>
+ *     {@code
+ *
+ *     Generic.type(Helper.getJavaType(List.class)).of("T")
+ *
+ *     }
+ * </pre>
  */
 @GenerateTo(GenericType.class)
 public class Generic implements GenericType {
 
+    /**
+     * Name of the generic type.
+     */
     private final String name;
+
+    /**
+     * Defined type.
+     */
     private final CodeType definedCodeType;
+
+    /**
+     * Type.
+     */
     private final CodeType codeType;
+
+    /**
+     * Generic bounds.
+     */
     private final Bound<CodeType>[] bounds;
+
+    /**
+     * Is a type.
+     */
     private final boolean isType;
 
+    /**
+     * Create a generic type from a name (ex: T, E, R).
+     *
+     * @param name Name.
+     */
     private Generic(String name) {
         this(name, null, null);
     }
 
+    /**
+     * Create a generic type from a type.
+     *
+     * @param type Type.
+     */
     private Generic(CodeType type) {
         this(null, type, null);
     }
 
+    /**
+     * Create a generic type.
+     *
+     * @param name     Name
+     * @param codeType Type
+     * @param bounds   Generic Bounds.
+     */
     @SuppressWarnings("unchecked")
     private Generic(String name, CodeType codeType, Bound<CodeType>[] bounds) {
 
@@ -68,7 +136,7 @@ public class Generic implements GenericType {
         if (name != null) {
             this.name = name;
         } else {
-            if(codeType == null) {
+            if (codeType == null) {
                 throw new NullPointerException("codeType is null and name is null");
             }
 
@@ -96,25 +164,54 @@ public class Generic implements GenericType {
     }
 
 
+    /**
+     * Create a generic type from a name (ex: T, E, R).
+     *
+     * @param s Name.
+     * @return Generic of name.
+     */
     @SuppressWarnings("unchecked")
     public static Generic type(String s) {
         return new Generic(s, null, new Bound[0]);
     }
 
+    /**
+     * Create a generic type from a type.
+     *
+     * @param type Type.
+     * @return Generic of type.
+     */
     @SuppressWarnings("unchecked")
     public static Generic type(CodeType type) {
         return new Generic(null, type, new Bound[0]);
     }
 
+    /**
+     * Create a generic wildcard (? in Java Language, * in JVM).
+     *
+     * @return Generic wildcard.
+     */
     @SuppressWarnings("unchecked")
     public static Generic wildcard() {
         return new Generic("*", null, new Bound[0]);
     }
 
+    /**
+     * Add a name bound.
+     *
+     * @param s Name.
+     * @return New instance of generic type.
+     */
     public Generic of(String s) {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addToArray(this.bounds, new GenericBound<>(new Generic(s))));
     }
 
+    /**
+     * Add name bounds.
+     *
+     * @param ss Names.
+     * @return New instance of generic type.
+     */
     @SuppressWarnings("unchecked")
     public Generic of(String... ss) {
         Bound<CodeType>[] bounds = Arrays.stream(ss).map(s -> new GenericBound<>(new Generic(s))).toArray(Bound[]::new);
@@ -122,10 +219,22 @@ public class Generic implements GenericType {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds));
     }
 
+    /**
+     * Add a type bound.
+     *
+     * @param type Type.
+     * @return New instance of generic type.
+     */
     public Generic of(CodeType type) {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addToArray(this.bounds, new GenericBound<>(type)));
     }
 
+    /**
+     * Add type bounds.
+     *
+     * @param types Types.
+     * @return New instance of generic type.
+     */
     @SuppressWarnings("unchecked")
     public Generic of(CodeType... types) {
         Bound<CodeType>[] bounds = Arrays.stream(types).map(GenericBound::new).toArray(Bound[]::new);
@@ -133,10 +242,22 @@ public class Generic implements GenericType {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds));
     }
 
+    /**
+     * Generic type that extends type variable {@code s}.
+     *
+     * @param s Type name.
+     * @return New instance of generic type.
+     */
     public Generic extends$(String s) {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addToArray(this.bounds, new Extends<>(new Generic(s))));
     }
 
+    /**
+     * Generic type that extends type variables {@code ss}.
+     *
+     * @param ss Types names.
+     * @return New instance of generic type.
+     */
     @SuppressWarnings("unchecked")
     public Generic extends$(String... ss) {
         Bound<CodeType>[] bounds = Arrays.stream(ss).map(s -> new Extends<>(new Generic(s))).toArray(Bound[]::new);
@@ -144,10 +265,23 @@ public class Generic implements GenericType {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds));
     }
 
+    /**
+     * Generic type that extends type {@code type}.
+     *
+     * @param type Type.
+     * @return New instance of generic type.
+     */
     public Generic extends$(CodeType type) {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addToArray(this.bounds, new Extends<>(type)));
     }
 
+
+    /**
+     * Generic type that extends types {@code types}.
+     *
+     * @param types Types.
+     * @return New instance of generic type.
+     */
     @SuppressWarnings("unchecked")
     public Generic extends$(CodeType... types) {
         Bound<CodeType>[] bounds = Arrays.stream(types).map(Extends::new).toArray(Bound[]::new);
@@ -155,10 +289,22 @@ public class Generic implements GenericType {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds));
     }
 
+    /**
+     * Generic type that have a super type variable {@code s}.
+     *
+     * @param s Type variable.
+     * @return New instance of generic type.
+     */
     public Generic super$(String s) {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addToArray(this.bounds, new Super<>(new Generic(s))));
     }
 
+    /**
+     * Generic type that have a super type variables {@code ss}.
+     *
+     * @param ss Type variables.
+     * @return New instance of generic type.
+     */
     @SuppressWarnings("unchecked")
     public Generic super$(String... ss) {
         Bound<CodeType>[] bounds = Arrays.stream(ss).map(s -> new Super<>(new Generic(s))).toArray(Bound[]::new);
@@ -166,10 +312,22 @@ public class Generic implements GenericType {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds));
     }
 
+    /**
+     * Generic type that have a super type {@code type}.
+     *
+     * @param type Type.
+     * @return New instance of generic type.
+     */
     public Generic super$(CodeType type) {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addToArray(this.bounds, new Super<>(type)));
     }
 
+    /**
+     * Generic type that have a super types {@code types}.
+     *
+     * @param types Types.
+     * @return New instance of generic type.
+     */
     @SuppressWarnings("unchecked")
     public Generic super$(CodeType... types) {
         Bound<CodeType>[] bounds = Arrays.stream(types).map(Super::new).toArray(Bound[]::new);
@@ -177,8 +335,13 @@ public class Generic implements GenericType {
         return new Generic(this.name(), this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds));
     }
 
+    /**
+     * Gets the type.
+     *
+     * @return Type.
+     */
     public CodeType getCodeType() {
-        return codeType;
+        return this.codeType;
     }
 
     @Override

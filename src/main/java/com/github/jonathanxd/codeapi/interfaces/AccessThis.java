@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Access to {@code this} scope.
  */
 @GenerateTo(Access.class)
 public interface AccessThis extends Access {

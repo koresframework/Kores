@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.options;
 import com.github.jonathanxd.iutils.option.Option;
 
 /**
- * Created by jonathan on 04/09/16.
+ * CodeAPI generation Options constant.
  */
 public class CodeOptions {
     /**

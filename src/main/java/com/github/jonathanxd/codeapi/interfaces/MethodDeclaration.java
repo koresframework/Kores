@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeRoot;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Declaration of a {@code method}.
  */
 public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot, Annotable {
 }

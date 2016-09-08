@@ -33,15 +33,20 @@ import com.github.jonathanxd.codeapi.operators.Operators;
 import java.util.List;
 
 /**
- * Created by jonathan on 12/05/16.
+ * A element that holds multiple {@link IfExpr}s and {@link Operators Operations}.
  */
-public interface IfExpressionable {
+public interface IfExpressionable extends CodePart {
 
+    /**
+     * A method that checks if the {@code codePart} is a valid {@link IfExpr} or {@link Operators
+     * Operation}.
+     *
+     * @param codePart Part to check.
+     */
     static void check(CodePart codePart) {
         if (!(codePart instanceof IfExpr || codePart == Operators.AND || codePart == Operators.OR)) {
             throw new IllegalArgumentException("Accept only IfExpr and Operators AND & OR. Current: " + codePart);
         }
-
     }
 
     List<CodePart> getIfExprsAndOps();

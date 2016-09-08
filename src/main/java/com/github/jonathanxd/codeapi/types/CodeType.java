@@ -30,13 +30,34 @@ package com.github.jonathanxd.codeapi.types;
 import com.github.jonathanxd.codeapi.CodePart;
 
 /**
- * Created by jonathan on 07/05/16.
+ * A type representation, {@link CodeType} can be:
+ *
+ * - Java Classes.
+ *
+ * - CodeAPI Type Declarations.
+ *
+ * - Plain class name.
  */
 public interface CodeType extends CodePart, Comparable<CodeType> {
+    /**
+     * Gets the type name.
+     *
+     * @return Type name.
+     */
     String getType();
 
+    /**
+     * Gets the canonical name.
+     *
+     * @return Canonical name.
+     */
     String getCanonicalName();
 
+    /**
+     * Gets the package name.
+     *
+     * @return Package name.
+     */
     default String getPackageName() {
         String type = getType();
 
@@ -46,6 +67,11 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return type.substring(0, type.lastIndexOf('.'));
     }
 
+    /**
+     * Gets the simple name.
+     *
+     * @return Simple name.
+     */
     default String getSimpleName() {
         String type = getType();
 
@@ -55,14 +81,29 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return type.substring(type.lastIndexOf('.') + 1);
     }
 
+    /**
+     * Gets the JVM Spec class name. (ex, java.lang.String = Ljava/lang/String;)
+     *
+     * @return JVM Spec class name
+     */
     default String getJavaSpecName() {
         return "L" + this.getType().replace('.', '/') + ";";
     }
 
+    /**
+     * Returns true if this {@link CodeType} is a primitive type.
+     *
+     * @return True if this {@link CodeType} is a primitive type.
+     */
     default boolean isPrimitive() {
         return false;
     }
 
+    /**
+     * Returns true if this {@link CodeType} is a interface type.
+     *
+     * @return True if this {@link CodeType} is a interface type.
+     */
     default boolean isInterface() {
         return false;
     }
@@ -77,26 +118,51 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return true;
     }
 
-    default int compareTo(CodeType other) {
-        return this.getJavaSpecName().compareTo(other.getJavaSpecName());
-    }
-
+    /**
+     * Returns true if this {@link CodeType} is an array type.
+     *
+     * @return True if this {@link CodeType} is an array type.
+     */
     default boolean isArray() {
         return false;
     }
 
+    /**
+     * Convert this {@link CodeType} to a {@link CodeTypeArray}.
+     *
+     * @param dimensions Dimension of the array.
+     * @return {@link CodeTypeArray} with specified dimension.
+     */
     default CodeType toArray(int dimensions) {
         return new CodeTypeArray(this, dimensions);
     }
 
+    /**
+     * Gets the wrapper type.
+     *
+     * @return Wrapper type if is a primitive type, otherwise return null.
+     */
     default CodeType getWrapperType() {
         return null;
     }
 
+    /**
+     * Gets the primitive type.
+     *
+     * @return Primitive type if is a wrapper type, otherwise return null.
+     */
     default CodeType getPrimitiveType() {
         return null;
     }
 
+    /**
+     * Gets the array base component.
+     *
+     * Example, if is a {@code String[]}, returns {@link String}, if is {@code Integer[][][]}
+     * returns {@link Integer}, the Java equivalent method returns: {@code Integer[][]}.
+     *
+     * @return Array base component.
+     */
     default CodeType getArrayBaseComponent() {
         if (this instanceof CodeTypeArray) {
             return ((CodeTypeArray) this).getComponent();
@@ -105,8 +171,19 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return this;
     }
 
+    /**
+     * Returns true if this {@link CodeType} is equals to another {@link CodeType}.
+     *
+     * @param another Another {@link CodeType}.
+     * @return True if this {@link CodeType} is equals to another {@link CodeType}.
+     */
     default boolean is(CodeType another) {
         return this.compareTo(another) == 0;
+    }
+
+    @Override
+    default int compareTo(CodeType other) {
+        return this.getJavaSpecName().compareTo(other.getJavaSpecName());
     }
 
 }

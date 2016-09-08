@@ -37,7 +37,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface TryBlock extends Bodied, MultiBodied, Expressionable, CodePart {
+public interface TryBlock extends Bodied, MultiBodied, CodePart {
     List<CatchBlock> getCatchBlocks();
 
     Optional<CodeSource> getFinallyBlock();
@@ -50,7 +50,6 @@ public interface TryBlock extends Bodied, MultiBodied, Expressionable, CodePart 
      * @return Optional of {@link TryWithResources#getVariable()} or empty if is not a {@link
      * TryWithResources} block.
      */
-    @Override
     Optional<CodePart> getExpression();
 
     @Override

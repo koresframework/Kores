@@ -32,9 +32,13 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Return a {@link CodePart}.
  */
 public interface Return extends CodePart, Typed {
 
+    /**
+     * Gets the value to return.
+     * @return Value to return.
+     */
     Optional<CodePart> getValue();
 }

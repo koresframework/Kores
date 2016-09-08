@@ -34,23 +34,26 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 11/05/16.
- */
-
-/**
- * {@link Typed#getType()} will return first exception type.
+ * Catch block.
  */
 public interface CatchBlock extends Bodied, Typed {
+
+    /**
+     * Gets the exception types.
+     *
+     * @return Exception types.
+     */
     List<CodeType> getExceptionTypes();
 
+    /**
+     * Gets the field to store exception.
+     *
+     * @return Field to store exception.
+     */
     CodeField getField();
 
     @Override
     default Optional<CodeType> getType() {
-        List<CodeType> exceptionTypes = getExceptionTypes();
-        if (exceptionTypes.isEmpty())
-            return Optional.empty();
-
-        return Optional.of(exceptionTypes.get(0));
+        return this.getField().getType();
     }
 }

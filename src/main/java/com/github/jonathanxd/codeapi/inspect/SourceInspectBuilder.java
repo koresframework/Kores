@@ -40,42 +40,99 @@ import java.util.function.Predicate;
  */
 public class SourceInspectBuilder<R> {
 
+    /**
+     * Predicate to test {@link CodePart}
+     */
     private Predicate<CodePart> partPredicate;
+
+    /**
+     * Predicate to test {@link Bodied} elements. If test returns true, inspect elements inside the
+     * {@link Bodied}.
+     */
     private Predicate<Bodied> subFindPredicate;
+
+    /**
+     * True to inspect {@link CodeSource}, and not only sub elements.
+     */
     private boolean inspectCodeSource = true;
+
+    /**
+     * {@link CodePart} mapper.
+     */
     @SuppressWarnings("unchecked")
     private Function<CodePart, R> mapper = codePart -> (R) codePart;
 
     private SourceInspectBuilder() {
     }
 
+    /**
+     * Create the {@link com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder}.
+     *
+     * @param <R> Type of resulting elements.
+     * @return {@link com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder}.
+     */
     static <R> SourceInspectBuilder<R> builder() {
         return new SourceInspectBuilder<>();
     }
 
+    /**
+     * Find the elements that predicate accept.
+     *
+     * @param codePartPredicate Predicate to test elements.
+     * @return {@code this}
+     */
     public SourceInspectBuilder<R> find(Predicate<CodePart> codePartPredicate) {
         this.partPredicate = codePartPredicate;
 
         return this;
     }
 
+    /**
+     * Inspect elements inside specific {@link Bodied} elements.
+     *
+     * @param predicate Predicate to test {@link Bodied}s to be analyzed.
+     * @return {@code this}
+     */
     public SourceInspectBuilder<R> inside(Predicate<Bodied> predicate) {
         this.subFindPredicate = predicate;
         this.inspectCodeSource = false;
         return this;
     }
 
+    /**
+     * Include elements inside {@link Bodied}.
+     *
+     * @param predicate Predicate to test {@link Bodied}s to include in inspection.
+     * @return {@code this}
+     */
     public SourceInspectBuilder<R> include(Predicate<Bodied> predicate) {
         this.subFindPredicate = predicate;
 
         return this;
     }
 
+    /**
+     * Set to include code source inspection.
+     *
+     * If set to true, {@link SourceInspect} will inspect code source instead of inspect only sub
+     * elements.
+     *
+     * @param inspectCodeSource If set to true, {@link SourceInspect} will inspect code source
+     *                          instead of inspect only sub elements.
+     * @return {@code this}
+     */
     public SourceInspectBuilder<R> includeSource(boolean inspectCodeSource) {
         this.inspectCodeSource = inspectCodeSource;
         return this;
     }
 
+    /**
+     * Map the accepted elements to another type.
+     *
+     * @param mapper Mapper function
+     * @param <V>    Type of resulting elements.
+     * @return {@code this}
+     */
     @SuppressWarnings("unchecked")
     public <V> SourceInspectBuilder<V> mapTo(Function<CodePart, V> mapper) {
         this.mapper = (Function<CodePart, R>) mapper;
@@ -83,12 +140,23 @@ public class SourceInspectBuilder<R> {
         return (SourceInspectBuilder<V>) this;
     }
 
+    /**
+     * Inspect the {@link CodeSource}.
+     *
+     * @param codeSource Source to inspect.
+     * @return List with accepted elements.
+     */
     public List<R> inspect(CodeSource codeSource) {
         SourceInspect<R> build = this.build();
 
         return build.inspect(codeSource);
     }
 
+    /**
+     * Build the {@link SourceInspect}.
+     *
+     * @return {@link SourceInspect}.
+     */
     public SourceInspect<R> build() {
         return new SourceInspect<>(this.partPredicate, this.inspectCodeSource, this.subFindPredicate, this.mapper);
     }

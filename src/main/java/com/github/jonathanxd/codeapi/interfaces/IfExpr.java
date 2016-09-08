@@ -31,12 +31,35 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.operators.Operator;
 
 /**
- * Created by jonathan on 12/05/16.
+ * If expression.
+ *
+ * <pre>
+ *     {@code
+ *          expr1 operation expr2
+ *     }
+ * </pre>
+ *
+ * @see IfBlock
  */
 public interface IfExpr extends CodePart {
+    /**
+     * Gets the first expression.
+     *
+     * @return First expression.
+     */
     CodePart getExpr1();
 
+    /**
+     * Gets the operation.
+     *
+     * @return Operation.
+     */
     Operator getOperation();
 
+    /**
+     * Gets the second expression.
+     *
+     * @return Second expression
+     */
     CodePart getExpr2();
 }

@@ -27,14 +27,20 @@
  */
 package com.github.jonathanxd.codeapi.sugar;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
 
 /**
  * Sugar syntax generator.
- *
- * This class has no methods because the required phases to generate a new {@link
- * com.github.jonathanxd.codeapi.CodePart} may be completely different depending of the target
- * {@link com.github.jonathanxd.codeapi.CodePart}.
  */
-public interface Generator extends PartProcessor {
+public interface Generator<T extends CodePart> extends PartProcessor {
+
+    /**
+     * Generate the sugar syntax.
+     *
+     * @return Generated sugar syntax.
+     */
+    CodeSource generate(T t);
+
 }

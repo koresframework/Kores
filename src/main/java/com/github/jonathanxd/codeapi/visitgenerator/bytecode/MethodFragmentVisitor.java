@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
@@ -55,7 +56,7 @@ public class MethodFragmentVisitor implements Visitor<MethodFragment, Byte, Obje
             extraData.registerData(MethodFragmentVisitor.FRAGMENT_TYPE_INFO, methodFragment);
             visitorGenerator.generateTo(MethodInvocation.class, methodFragment, extraData, navigator, null, mvData);
         } else {
-            visitorGenerator.generateTo(CodeMethod.class, methodFragment.getMethod(), extraData, navigator, null, null);
+            visitorGenerator.generateTo(MethodDeclaration.class, methodFragment.getMethod(), extraData, navigator, null, null);
         }
 
         return new Byte[0];

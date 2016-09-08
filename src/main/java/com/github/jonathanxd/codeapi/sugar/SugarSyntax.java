@@ -38,11 +38,11 @@ import com.github.jonathanxd.codeapi.gen.PartProcessor;
  * @param <T> CodePart
  */
 public interface SugarSyntax<T extends CodePart> {
+
     /**
      * Create a generator for this {@link SugarSyntax}
      *
-     * @param t Part
      * @return new {@link Generator}
      */
-    Generator createGenerator(T t);
+    Generator<T> getGenerator();
 }

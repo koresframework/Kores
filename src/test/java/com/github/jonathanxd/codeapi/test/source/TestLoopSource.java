@@ -88,11 +88,9 @@ public class TestLoopSource {
                                 )
                         ),
 
-                        Helper.createFor(Helper.expression(
-                                new CodeField("i", PredefinedTypes.INT, Literals.INT(0))
-                                ),
+                        Helper.createFor(new CodeField("i", PredefinedTypes.INT, Literals.INT(0)),
                                 Helper.createIfVal().add1(Helper.check(accessI, Operators.LESS_THAN, Literals.INT(100))).make(),
-                                Helper.expression(Helper.operateLocalVariable("i", PredefinedTypes.INT, Operators.INCREMENT)),
+                                Helper.operateLocalVariable("i", PredefinedTypes.INT, Operators.INCREMENT),
                                 Helper.sourceOf(
                                         Predefined.invokePrintln(new CodeArgument(accessI, int.class))
                                 )),

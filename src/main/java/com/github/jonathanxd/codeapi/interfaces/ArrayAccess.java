@@ -32,9 +32,14 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Access an array.
  */
 public interface ArrayAccess extends CodePart {
 
+    /**
+     * Array to access.
+     *
+     * @return Array to access.
+     */
     Optional<CodePart> getTarget();
 }

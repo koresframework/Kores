@@ -31,26 +31,46 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
 /**
- * Created by jonathan on 18/06/16.
+ * An array {@link CodeType}.
  */
 @GenerateTo(CodeType.class)
 class CodeTypeArray implements CodeType {
 
+    /**
+     * Array component.
+     */
     private final CodeType component;
-    private final int size;
 
-    CodeTypeArray(CodeType component, int size) {
+    /**
+     * Dimension of the array.
+     */
+    private final int dimension;
+
+    /**
+     * Create a {@link CodeTypeArray} from a component and dimensions.
+     * @param component Component
+     * @param dimension Dimensions.
+     */
+    CodeTypeArray(CodeType component, int dimension) {
         this.component = component;
-        this.size = size;
+        this.dimension = dimension;
     }
 
+    /**
+     * Gets the array component.
+     * @return Array component.
+     */
+    public CodeType getComponent() {
+        return this.component;
+    }
+    
     @Override
     public String getType() {
-        String name = component.getType();
+        String name = this.component.getType();
 
         StringBuilder sb = new StringBuilder();
 
-        for (int x = 0; x < size; ++x)
+        for (int x = 0; x < this.dimension; ++x)
             sb.append("[]");
 
         return name + sb.toString();
@@ -58,7 +78,7 @@ class CodeTypeArray implements CodeType {
 
     @Override
     public String getJavaSpecName() {
-        return Common.codeTypeToArray(component, size);
+        return Common.codeTypeToArray(component, dimension);
     }
 
     @Override
@@ -87,16 +107,12 @@ class CodeTypeArray implements CodeType {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int x = 0; x < size; ++x)
+        for (int x = 0; x < dimension; ++x)
             sb.append("[]");
 
         return name + sb.toString();
     }
-
-    public CodeType getComponent() {
-        return component;
-    }
-
+    
     @Override
     public boolean isArray() {
         return true;

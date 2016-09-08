@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 04/09/16.
+ * Try with resources statement.
  */
 public interface TryWithResources extends TryBlock {
 
@@ -42,7 +42,6 @@ public interface TryWithResources extends TryBlock {
      * @return Variable of Try-with-resources (value must be {@link AutoCloseable}
      */
     VariableDeclaration getVariable();
-
 
     @Override
     default Optional<CodePart> getExpression() {

@@ -37,10 +37,18 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 
 /**
- * Created by jonathan on 21/08/16.
+ * Utilities.
  */
 public class CodeArgumentUtil {
 
+    /**
+     * Create a checked argument array. This method will use value of {@code passed} parameters and
+     * types of {@code expected} parameters.
+     *
+     * @param expected Expected parameters.
+     * @param passed   Provided parameters
+     * @return Array with checked arguments.
+     */
     public static CodeArgument[] createChecked(CodeArgument[] expected, CodeArgument[] passed) {
 
         CodeArgument[] newArguments = new CodeArgument[passed.length];

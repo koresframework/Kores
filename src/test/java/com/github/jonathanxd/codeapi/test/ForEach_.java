@@ -60,8 +60,8 @@ public class ForEach_ {
                 constructor(PUBLIC, codeClass1, new CodeParameter[]{new CodeParameter("strList", Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))},
                         codeConstructor -> sourceOfParts(
                                 Helper.createForEach(new CodeField("str", PredefinedTypes.STRING),
-                                        Helper.expression(Helper.accessLocalVariable("strList",
-                                                Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))), Helper.sourceOf(
+                                        Helper.accessLocalVariable("strList",
+                                                Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING)), Helper.sourceOf(
                                                 Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class), String.class))
                                         ))
                         ))

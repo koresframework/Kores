@@ -33,17 +33,26 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Access a array value.
  */
 public interface ArrayLoad extends CodePart, Typed, ArrayAccess {
 
+    /**
+     * Gets the index of the value in array.
+     *
+     * @return Index of the value in array
+     */
     CodePart getIndex();
+
+    /**
+     * Gets the type of value.
+     *
+     * @return Type of value.
+     */
+    CodeType getValueType();
 
     @Override
     default Optional<CodeType> getType() {
-        return Optional.ofNullable(getValueType());
+        return Optional.ofNullable(this.getValueType());
     }
-
-    CodeType getValueType();
-
 }

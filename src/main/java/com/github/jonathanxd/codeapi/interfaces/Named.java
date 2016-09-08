@@ -27,9 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
+
 /**
- * Created by jonathan on 09/05/16.
+ * A element that have a name.
  */
-public interface Named {
+public interface Named extends CodePart {
+    /**
+     * Gets the name.
+     *
+     * @return Name.
+     */
     String getName();
 }

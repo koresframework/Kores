@@ -32,10 +32,15 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Variable declaration.
  */
 public interface VariableDeclaration extends VariableAccess, CodePart {
 
+    /**
+     * Gets the value.
+     *
+     * @return Value.
+     */
     Optional<CodePart> getValue();
 
 

@@ -33,20 +33,40 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Base class of all elements that support bodies.
  */
 public interface Bodied extends CodePart {
 
+    /**
+     * Gets the body.
+     * @return Body.
+     */
     Optional<CodeSource> getBody();
 
+    /**
+     * Gets the body.
+     * @return Body.
+     */
     default CodeSource getRequiredBody() {
         return this.getBody().orElse(new CodeSource());
     }
 
+    /**
+     * Returns true if has body defined.
+     * @return True if has body defined.
+     */
     default boolean hasBody() {
         return this.getBody().isPresent();
     }
 
+    /**
+     * Check if the body is not recursive.
+     *
+     * Recommended to call this method in the constructor.
+     *
+     * @param bodied Body to check.
+     * @throws IllegalStateException If the body is recursive.
+     */
     static void checkBody(Bodied bodied) {
         Optional<CodeSource> bodyOpt = bodied.getBody();
 

@@ -34,10 +34,15 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Access Array length.
  */
 public interface ArrayLength extends CodePart, ArrayAccess, Typed {
 
+    /**
+     * Gets the array to access length.
+     *
+     * @return Array to access length
+     */
     Optional<CodePart> getTarget();
 
     @Override

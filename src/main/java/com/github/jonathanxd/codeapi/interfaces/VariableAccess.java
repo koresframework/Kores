@@ -31,14 +31,31 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Access to a variable.
  */
 public interface VariableAccess extends CodePart, Typed {
+
+    /**
+     * Gets the localization of the variable.
+     * @return Localization of the variable.
+     */
     CodeType getLocalization();
 
+    /**
+     * Gets the instance of field.
+     * @return Instance of field.
+     */
     CodePart getAt();
 
+    /**
+     * Gets the name of field.
+     * @return Name of field.
+     */
     String getName();
 
+    /**
+     * Gets the variable value type.
+     * @return Variable value type.
+     */
     CodeType getVariableType();
 }

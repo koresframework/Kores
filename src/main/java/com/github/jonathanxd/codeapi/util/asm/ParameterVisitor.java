@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.common.MVData;
 import org.objectweb.asm.AnnotationVisitor;
 
 /**
- * Created by jonathan on 04/09/16.
+ * Internal undocumented.
  */
 public class ParameterVisitor {
 

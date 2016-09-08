@@ -33,24 +33,43 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 15/05/16.
+ * A for block statement.
+ *
+ * <pre>
+ *     {@code
+ *          for(init; expression; update) body
+ *     }
+ *</pre>
  */
 public interface ForBlock extends Bodied, IfBlock {
 
+    /**
+     * Gets the for initialization.
+     */
     Optional<CodePart> getForInit();
+
+    /**
+     * Gets the for expression.
+     *
+     * @return For expression,
+     */
+    List<CodePart> getForExpression();
+
+    /**
+     * Gets the for update.
+     *
+     * @return For update.
+     */
+    Optional<CodePart> getForUpdate();
 
     @Override
     default List<CodePart> getIfExprsAndOps() {
-        return getForExpression();
+        return this.getForExpression();
     }
 
     @Override
     default Optional<ElseBlock> getElseBlock() {
         return Optional.empty();
     }
-
-    List<CodePart> getForExpression();
-
-    Optional<CodePart> getForUpdate();
 
 }

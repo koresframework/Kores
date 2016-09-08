@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
@@ -46,7 +47,7 @@ import com.github.jonathanxd.codeapi.util.BiMultiVal;
 public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock> {
 
     @Override
-    Generator createGenerator(ForEachBlock forEachBlock);
+    Generator getGenerator();
 
     /**
      * This generator creates the elements required to construct a {@link
@@ -58,7 +59,7 @@ public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock> 
      *     }
      * </pre>).
      */
-    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator {
+    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator<ForEachBlock> {
         /**
          * Create for initialization ({@code for(initialization; condition; update) body}).
          *
@@ -86,5 +87,15 @@ public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock> 
          * @return For body
          */
         CodeSource declareBody();
+
+        @Override
+        default CodeSource generate(ForEachBlock forEachBlock) {
+            return Helper.sourceOf(Helper.createFor(
+                    this.createInitialization(),
+                    this.createCondition(),
+                    this.createUpdate(),
+                    this.declareBody()
+            ));
+        }
     }
 }

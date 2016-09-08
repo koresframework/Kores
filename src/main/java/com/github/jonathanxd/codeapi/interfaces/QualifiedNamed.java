@@ -28,8 +28,12 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A element that have a qualified name.
  */
 public interface QualifiedNamed extends Named {
+    /**
+     * Gets the qualified name.
+     * @return Qualified name.
+     */
     String getQualifiedName();
 }

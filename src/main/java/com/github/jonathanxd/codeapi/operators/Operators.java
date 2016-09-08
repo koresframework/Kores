@@ -37,6 +37,8 @@ import org.objectweb.asm.Opcodes;
  */
 
 /**
+ * {@link Operator Operators} constants.
+ *
  * @see <a href=https://docs.oracle.com/javase/tutorial/java/nutsandbolts/opsummary.html>Summary of
  * Operators</a>
  */

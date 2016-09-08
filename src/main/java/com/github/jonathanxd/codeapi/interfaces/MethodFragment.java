@@ -29,18 +29,17 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 
 /**
- * Created by jonathan on 21/08/16.
- */
-
-/**
- * Methods fragment is generated into {@link com.github.jonathanxd.codeapi.impl.CodeInterface} and
- * invoked.
+ * Method fragment is a method invocation and declaration in the CallSite. Commonly used in lambdas.
  */
 public interface MethodFragment extends MethodInvocation, CodeElement, CodePart {
 
-    CodeMethod getMethod();
+    /**
+     * Gets the method declaration.
+     *
+     * @return Method declaration.
+     */
+    MethodDeclaration getMethod();
 
 }

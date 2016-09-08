@@ -35,13 +35,28 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A JVM Literal.
+ *
+ * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
  */
 public abstract class Literal implements CodePart, Named, Typed {
 
+    /**
+     * Name of the literal.
+     */
     private final String name;
+
+    /**
+     * Literal data type.
+     */
     private final CodeType dataType;
 
+    /**
+     * Create a literal.
+     *
+     * @param name     Literal name.
+     * @param dataType Literal data type.
+     */
     public Literal(String name, CodeType dataType) {
         this.name = name;
         this.dataType = dataType;
@@ -56,7 +71,6 @@ public abstract class Literal implements CodePart, Named, Typed {
     public boolean isExpression() {
         return true;
     }
-
 
     @Override
     public Optional<CodeType> getType() {

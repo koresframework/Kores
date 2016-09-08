@@ -32,9 +32,15 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A element that can hold a value.
  */
 public interface Valuable {
+
+    /**
+     * Gets the value.
+     *
+     * @return Value.
+     */
     Optional<CodePart> getValue();
 
 }

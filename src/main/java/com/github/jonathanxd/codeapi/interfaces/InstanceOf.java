@@ -36,13 +36,23 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Check if a {@link CodePart} is a instance of {@link CodeType}.
  */
 public interface InstanceOf extends CodePart, Typed {
 
+    /**
+     * Gets the part to check.
+     * @return Part to check.
+     */
     CodePart getPart();
+
+    /**
+     * Gets the type.
+     * @return Type.
+     */
     CodeType getCheckType();
 
+    @Override
     default Optional<CodeType> getType() {
         return Optional.of(PredefinedTypes.BOOLEAN);
     }

@@ -27,14 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * An element that can implement types.
  */
-public interface Implementer {
+public interface Implementer extends CodePart {
+    /**
+     * Gets the implementation list.
+     * @return Implementation list
+     */
     List<CodeType> getImplementations();
 
 }

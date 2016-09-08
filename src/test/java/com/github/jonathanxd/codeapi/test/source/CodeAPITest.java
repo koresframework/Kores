@@ -202,22 +202,5 @@ public class CodeAPITest {
         System.out.println("source = " + source);
         // Generate: public interface MyClass implements javax.annotation.processing.Processor { { public static void println ( java.lang.Object msg ) { java.lang.System . out . println ( msg ) ; } } }
 
-        //if(x) { } else { }
-
-        // Helper.ifExpression(Keywords.IF,
-        //   Helper.expressions(
-        //     Helper.accessVariable(local(), "x")
-        //   )
-        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
-
-        // if(x || y) { } else { }
-
-        // Helper.ifExpression(Keywords.IF,
-        //   Helper.expressions(
-        //     Helper.accessVariable(local(), "x"),
-        //     Helper.operator(Operators.OR) // Operators.BITWISE_AND
-        //   )
-        //   , IFBODY, Helper.elseExpression(BODY | EXPRESSION))
-
-    }
+   }
 }

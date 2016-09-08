@@ -28,12 +28,11 @@
 package com.github.jonathanxd.codeapi.types;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Null code type.
  */
 public class NullType implements CodeType {
 
     private static final NullType TYPE = new NullType();
-
 
     private NullType() {
     }

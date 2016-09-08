@@ -35,10 +35,22 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 12/05/16.
+ * A if statement.
+ *
+ * <pre>
+ *     {@code
+ *          if(IfExpr) body
+ *     }
+ * </pre>
+ *
+ * @see IfExpr
  */
 public interface IfBlock extends Bodied, MultiBodied, IfExpressionable, CodePart {
 
+    /**
+     * Gets the else statement.
+     * @return Else statement
+     */
     Optional<ElseBlock> getElseBlock();
 
     @Override

@@ -33,13 +33,23 @@ import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Operator.
+ *
+ * Example of operators: Increment, Decrement, Less_than, etc...
  */
 @GenerateTo(Named.class)
 public class Operator implements CodePart, Named {
 
+    /**
+     * Name of the operator.
+     */
     private final String name;
 
+    /**
+     * Create a operator.
+     *
+     * @param name Name of operator.
+     */
     public Operator(String name) {
         this.name = name;
     }

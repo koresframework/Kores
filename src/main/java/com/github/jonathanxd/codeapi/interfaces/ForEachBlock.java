@@ -31,14 +31,31 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.IterationType;
 
 /**
- * Created by jonathan on 15/05/16.
+ * A for each block that iterates an element.
+ *
+ * @see IterationType
  */
 public interface ForEachBlock extends Bodied {
 
+    /**
+     * Gets the for each field.
+     *
+     * @return For each field.
+     */
     FieldDeclaration getField();
 
+    /**
+     * Gets the iteration type.
+     *
+     * @return Iteration type.
+     */
     IterationType getIterationType();
 
+    /**
+     * Gets the iterable element.
+     *
+     * @return Iterable element.
+     */
     CodePart getIterableElement();
 
 }

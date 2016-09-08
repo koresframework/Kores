@@ -30,10 +30,13 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Throw a exception.
  */
 public interface ThrowException extends CodePart {
-
-
+    /**
+     * Gets the exception part to throw.
+     *
+     * @return Exception part to throw.
+     */
     CodePart getPartToThrow();
 }

@@ -30,14 +30,36 @@ package com.github.jonathanxd.codeapi.types;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 
 /**
- * Created by jonathan on 03/09/16.
+ * Plain string code type.
  */
 @GenerateTo(CodeType.class)
 public class PlainCodeType implements CodeType {
 
+    /**
+     * Canonical name.
+     */
     private final String canonicalName;
+
+    /**
+     * Is interface.
+     */
     private final boolean isInterface;
 
+    /**
+     * Create a {@link PlainCodeType} from canonical name.
+     *
+     * @param canonicalName Canonical name.
+     */
+    public PlainCodeType(String canonicalName) {
+        this(canonicalName, false);
+    }
+
+    /**
+     * Create a {@link PlainCodeType} from canonical name.
+     *
+     * @param canonicalName Canonical name.
+     * @param isInterface   Is interface.
+     */
     public PlainCodeType(String canonicalName, boolean isInterface) {
         this.canonicalName = canonicalName;
         this.isInterface = isInterface;

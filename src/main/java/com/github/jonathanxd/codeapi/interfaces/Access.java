@@ -34,12 +34,20 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Access to a Scope.
  */
 public interface Access extends CodePart {
 
+    /**
+     * Localization of the scope.
+     * @return Localization of the scope.
+     */
     Optional<CodeType> getLocalization();
 
+    /**
+     * Keyword of the access.
+     * @return Keyword of the access.
+     */
     Keyword keyword();
 
 }

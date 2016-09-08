@@ -27,13 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A element that have parameters.
  */
-public interface Parameterizable {
+public interface Parameterizable extends CodePart {
+    /**
+     * Gets the parameter list.
+     *
+     * @return Parameter list.
+     */
     List<CodeParameter> getParameters();
 }

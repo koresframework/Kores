@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Else statement.
  */
 public interface ElseBlock extends Bodied, CodePart {
 }

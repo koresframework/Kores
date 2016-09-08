@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
@@ -47,9 +48,17 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
     private final InvokeType invokeType;
     private final CodeType localization;
     private final CodePart target;
-    private final MethodSpec spec;
+    private final MethodSpecification spec;
 
     public MethodInvocationImpl(InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+        this(null, invokeType, codeType, target, (MethodSpecification) spec);
+    }
+
+    public MethodInvocationImpl(InvokeDynamic dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+        this(dynamicInvoke, invokeType, codeType, target, (MethodSpecification) spec);
+    }
+
+    public MethodInvocationImpl(InvokeType invokeType, CodeType codeType, CodePart target, MethodSpecification spec) {
         this.dynamicInvoke = null;
         this.invokeType = invokeType;
         this.localization = codeType;
@@ -57,7 +66,7 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
         this.spec = spec;
     }
 
-    public MethodInvocationImpl(InvokeDynamic dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpec spec) {
+    public MethodInvocationImpl(InvokeDynamic dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpecification spec) {
         this.dynamicInvoke = dynamicInvoke;
         this.invokeType = invokeType;
         this.localization = codeType;
@@ -67,26 +76,27 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
 
     @Override
     public CodeType getLocalization() {
-        return localization;
+        return this.localization;
     }
 
     @Override
     public InvokeType getInvokeType() {
-        return invokeType;
+        return this.invokeType;
     }
 
+    @Override
     public Optional<InvokeDynamic> getInvokeDynamic() {
-        return Optional.ofNullable(dynamicInvoke);
+        return Optional.ofNullable(this.dynamicInvoke);
     }
 
     @Override
     public CodePart getTarget() {
-        return target;
+        return this.target;
     }
 
     @Override
-    public MethodSpec getSpec() {
-        return spec;
+    public MethodSpecification getSpec() {
+        return this.spec;
     }
 
     @Override

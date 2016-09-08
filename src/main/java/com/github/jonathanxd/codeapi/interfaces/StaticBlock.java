@@ -41,37 +41,44 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 15/05/16.
+ * Static block.
  */
 public interface StaticBlock extends CodeElement, MethodDeclaration, Bodied {
-    String NAME = "<clinit>";
 
-    Collection<CodeModifier> MODIFIERS = Collections.singletonList(CodeModifier.STATIC);
-    List<CodeParameter> PARAMETERS = Collections.emptyList();
-    CodeType RETURN_TYPE = PredefinedTypes.VOID;
 
     @Override
     default String getName() {
-        return "<clinit>";
+        return Constants.NAME;
     }
 
     @Override
     default Collection<CodeModifier> getModifiers() {
-        return MODIFIERS;
+        return Constants.MODIFIERS;
     }
 
     @Override
     default List<CodeParameter> getParameters() {
-        return PARAMETERS;
+        return Constants.PARAMETERS;
     }
 
     @Override
     default Optional<CodeType> getReturnType() {
-        return Optional.of(RETURN_TYPE);
+        return Optional.of(Constants.RETURN_TYPE);
     }
 
     @Override
     default GenericSignature<GenericType> getGenericSignature() {
         return GenericSignature.empty();
+    }
+
+    class Constants {
+        private static final String NAME = "<clinit>";
+        private static final Collection<CodeModifier> MODIFIERS = Collections.singletonList(CodeModifier.STATIC);
+        private static final List<CodeParameter> PARAMETERS = Collections.emptyList();
+        private static final CodeType RETURN_TYPE = PredefinedTypes.VOID;
+
+        Constants() {
+            throw new IllegalStateException("Singleton class.");
+        }
     }
 }

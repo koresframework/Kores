@@ -33,14 +33,21 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * An element that hold arguments.
  */
 public interface Argumenterizable extends CodePart {
+
+    /**
+     * Gets the argument list.
+     * @return Argument list.
+     */
     List<CodeArgument> getArguments();
 
+    /**
+     * True if is array arguments.
+     * @return True if is array arguments.
+     */
     default boolean isArray() {
         return false;
     }
 }
-
-// if((d = get()) != -1) {

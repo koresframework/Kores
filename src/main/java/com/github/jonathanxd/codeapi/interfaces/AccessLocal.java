@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import java.util.Optional;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Access to {@code local} scope.
  */
 @GenerateTo(Access.class)
 public interface AccessLocal extends Access {

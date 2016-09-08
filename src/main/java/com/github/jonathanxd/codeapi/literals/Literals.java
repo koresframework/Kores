@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 /**
- * Created by jonathan on 07/05/16.
+ * {@link Literal Literals} constants.
  */
 public final class Literals {
 

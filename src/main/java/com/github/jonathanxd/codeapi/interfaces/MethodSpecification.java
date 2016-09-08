@@ -32,14 +32,29 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Specification of a method.
  */
 public interface MethodSpecification extends Argumenterizable, CodePart {
 
+    /**
+     * Gets the name of the method.
+     *
+     * @return Name of the method.
+     */
     String getMethodName();
 
+    /**
+     * Gets the description of the method.
+     *
+     * @return description of the method.
+     */
     TypeSpec getMethodDescription();
 
+    /**
+     * Gets the method type.
+     *
+     * @return Method type
+     */
     MethodType getMethodType();
 
 }

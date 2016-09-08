@@ -31,10 +31,15 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.iutils.optional.Require;
 
 /**
- * Created by jonathan on 05/09/16.
+ * A element that have a type.
  */
 public interface RequiredTyped extends Typed {
 
+    /**
+     * Gets the required type.
+     *
+     * @return Required type.
+     */
     default CodeType getRequiredType() {
         return Require.require(this.getType(), "Type is required!");
     }

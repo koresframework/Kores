@@ -27,13 +27,20 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A element that can return a value.
  */
-public interface Returnable {
+public interface Returnable extends CodePart {
+
+    /**
+     * Gets the return type.
+     *
+     * @return Return type.
+     */
     Optional<CodeType> getReturnType();
 }

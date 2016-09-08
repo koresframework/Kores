@@ -30,37 +30,77 @@ package com.github.jonathanxd.codeapi.generic;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
- * TODO: Documentation.
- * @param <T>
+ * Hold information about generic signatures.
+ *
+ * @param <T> Type of {@link GenericType}.
  */
 public class GenericSignature<T extends GenericType> {
 
+    /**
+     * Empty generic signature.
+     */
     private static final GenericSignature<?> EMPTY = new GenericSignature<>(new GenericType[0]);
 
+    /**
+     * Generic types.
+     */
     private final T[] types;
 
+    /**
+     * Create new generic signature.
+     *
+     * @param types Generic Types.
+     */
     public GenericSignature(T[] types) {
         this.types = types;
     }
 
+    /**
+     * Create generic signature.
+     *
+     * @param types Generic Types.
+     * @param <T>   Type of {@link GenericType}
+     * @return New {@link GenericSignature} holding {@link GenericType}s of type {@link T}
+     */
     @SafeVarargs
     public static <T extends GenericType> GenericSignature<T> create(T... types) {
         return new GenericSignature<>(types);
     }
 
+    /**
+     * Empty generic signature.
+     *
+     * @param <T> Type of {@link GenericType}.
+     * @return Empty {@link GenericSignature}.
+     */
     @SuppressWarnings("unchecked")
     public static <T extends GenericType> GenericSignature<T> empty() {
         return (GenericSignature<T>) EMPTY;
     }
 
+    /**
+     * Gets the generic types (copy of types array).
+     *
+     * @return Generic types.
+     */
     public T[] getTypes() {
-        return types.clone();
+        return this.types.clone();
     }
 
+    /**
+     * Returns true if this generic signature is empty (no types).
+     *
+     * @return true if this generic signature is empty (no types).
+     */
     public boolean isEmpty() {
         return this == EMPTY || types.length == 0;
     }
 
+    /**
+     * Returns true if this generic signature is not empty.
+     *
+     * @return true if this generic signature is not empty.
+     */
     public boolean isNotEmpty() {
         return !this.isEmpty();
     }

@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.keywords;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 
 /**
- * Created by jonathan on 07/05/16.
+ * {@link Keyword Keywords} constant
  */
 public class Keywords {
 
