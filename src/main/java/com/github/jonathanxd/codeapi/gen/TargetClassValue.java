@@ -32,23 +32,21 @@ import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.List;
 
-/**
- * Created by jonathan on 09/05/16.
- */
 
-// BUGS, and bugs, use TargetValue instead
+/**
+ * BUGS, and bugs, use TargetValue instead.
+ *
+ * @param <TARGET>
+ * @param <C>
+ */
 class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<Class<?>, TARGET, C> {
 
     private final Class<?> value;
     private final Parent<Generator<?, TARGET, C>> current;
 
-    public TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
+    TargetClassValue(Class<?> value, Parent<Generator<?, TARGET, C>> current) {
         this.value = value;
         this.current = current;
-    }
-
-    public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(Class<?> targetClass, Parent<Generator<?, TARGET, C>> current) {
-        return new TargetClassValue<>(targetClass, current);
     }
 
     @Override
@@ -61,8 +59,13 @@ class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implement
         }
     }
 
+    /**
+     * Gets the Parent generators (bug tracing).
+     *
+     * @return Parent generators (bug tracing).
+     */
     public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
+        return this.current;
     }
 
     @Override

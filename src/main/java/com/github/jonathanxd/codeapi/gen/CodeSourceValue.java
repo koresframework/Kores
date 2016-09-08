@@ -34,18 +34,45 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * {@link Value} that holds {@link CodeSource}.
+ *
+ * This value call generator of each element in provided {@link #source}.
+ *
+ * @param <TARGET> Result Object type.
+ * @param <C>      Generator type.
  */
 public class CodeSourceValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<CodeSource, TARGET, C> {
 
+    /**
+     * Code source
+     */
     private final CodeSource source;
+
+    /**
+     * Parent generators (bug tracing).
+     */
     private final Parent<Generator<?, TARGET, C>> current;
 
+    /**
+     * Constructor
+     *
+     * @param source  Code Source
+     * @param current Parent generators (bug tracing).
+     */
     public CodeSourceValue(CodeSource source, Parent<Generator<?, TARGET, C>> current) {
         this.source = source;
         this.current = current;
     }
 
+    /**
+     * Create the value
+     *
+     * @param source   Code Source
+     * @param current  Parent generators (bug tracing).
+     * @param <TARGET> Result Object type.
+     * @param <C>      Generator type.
+     * @return {@link CodeSourceValue}
+     */
     public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<CodeSource, TARGET, C> create(CodeSource source, Parent<Generator<?, TARGET, C>> current) {
         return new CodeSourceValue<>(source, current);
     }
@@ -66,8 +93,13 @@ public class CodeSourceValue<TARGET, C extends AbstractGenerator<TARGET, C>> imp
         });
     }
 
+    /**
+     * Gets the Parent generators (bug tracing).
+     *
+     * @return Parent generators (bug tracing).
+     */
     public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
+        return this.current;
     }
 
     @Override

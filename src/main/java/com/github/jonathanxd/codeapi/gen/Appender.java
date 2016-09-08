@@ -28,16 +28,33 @@
 package com.github.jonathanxd.codeapi.gen;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Appender of {@link T}
+ *
+ * @param <T> Type
  */
 public abstract class Appender<T> {
+    /**
+     * Append/add {@code elem} to the list.
+     *
+     * @param elem Element to append.
+     */
     public abstract void add(T elem);
 
+    /**
+     * Append/add an array of elements.
+     *
+     * @param elems Element array.
+     */
     public final void addAll(T[] elems) {
         for (T elem : elems) {
             add(elem);
         }
     }
 
+    /**
+     * Get the resulting value.
+     *
+     * @return Result value.
+     */
     public abstract T get();
 }

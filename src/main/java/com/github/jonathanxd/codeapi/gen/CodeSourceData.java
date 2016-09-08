@@ -33,22 +33,44 @@ import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class CodeSourceData {
 
+/**
+ * Data of source.
+ */
+public class CodeSourceData {
+    /**
+     * Code source
+     */
     private final CodeSource source;
 
+    /**
+     * Current index container.
+     */
     private final IntContainer currentIndex;
 
+    /**
+     * Constructor
+     * @param source          Source
+     * @param currentIndex    Current index in the source element.
+     */
     public CodeSourceData(CodeSource source, IntContainer currentIndex) {
         this.source = source;
         this.currentIndex = currentIndex;
     }
 
+    /**
+     * Gets the source
+     * @return Source
+     */
     public CodeSource getSource() {
-        return source;
+        return this.source;
     }
 
+    /**
+     * Gets the current index.
+     * @return Current index.
+     */
     public int getCurrentIndex() {
-        return currentIndex.get();
+        return this.currentIndex.get();
     }
 }

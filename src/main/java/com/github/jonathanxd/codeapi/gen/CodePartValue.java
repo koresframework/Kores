@@ -35,18 +35,43 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A {@link Value} that holds a {@link CodePart} and generate {@link TARGET} from the part.
+ *
+ * This value call another generators that supports the provided {@link CodePart}.
+ *
+ * @param <TARGET> Output object type.
+ * @param <C>      Generator type.
  */
 public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<CodePart, TARGET, C> {
 
+    /**
+     * Part
+     */
     private final CodePart part;
+
+    /**
+     * Parent Generators (bug tracing)
+     */
     private final Parent<Generator<?, TARGET, C>> current;
 
+    /**
+     * Constructor
+     * @param part       Part
+     * @param current    Parent generators (bug tracing).
+     */
     public CodePartValue(CodePart part, Parent<Generator<?, TARGET, C>> current) {
         this.part = part;
         this.current = current;
     }
 
+    /**
+     * Create value from part and parent generators.
+     * @param part        Part
+     * @param current     Parent generators
+     * @param <TARGET>    Output object type.
+     * @param <C>         Generator type.
+     * @return
+     */
     public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<CodePart, TARGET, C> create(CodePart part, Parent<Generator<?, TARGET, C>> current) {
         return new CodePartValue<>(part, current);
     }
@@ -75,8 +100,13 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
         }
     }
 
+    /**
+     * Gets the Parent generators (bug tracing).
+     *
+     * @return Parent generators (bug tracing).
+     */
     public Parent<Generator<?, TARGET, C>> getParents() {
-        return current;
+        return this.current;
     }
 
     @Override

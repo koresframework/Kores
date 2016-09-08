@@ -32,16 +32,38 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Multiple {@link Value}.
+ *
+ * This value calls the {@link Value#apply(Object, Object, Appender, CodeSourceData, MapData)} of
+ * each provided values.
+ *
+ * @param <TARGET> Result Object type.
+ * @param <C>      Generator type.
  */
 public class MultiValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<List<Value<?, TARGET, C>>, TARGET, C> {
 
+    /**
+     * Values
+     */
     private final List<Value<?, TARGET, C>> value;
 
+    /**
+     * Constructor
+     *
+     * @param value Values
+     */
     public MultiValue(List<Value<?, TARGET, C>> value) {
         this.value = value;
     }
 
+    /**
+     * Create {@link MultiValue} from {@code values}
+     *
+     * @param value    Values
+     * @param <TARGET> Result Object type.
+     * @param <C>      Generator type.
+     * @return {@link MultiValue}
+     */
     public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<List<Value<?, TARGET, C>>, TARGET, C> create(List<Value<?, TARGET, C>> value) {
         return new MultiValue<>(value);
     }

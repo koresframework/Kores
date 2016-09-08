@@ -33,7 +33,15 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.List;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Generator of {@link OUT} from part {@link INP} that supports {@link CodeGenerator} of type {@link
+ * C}.
+ *
+ * Implementations process the part {@link INP} and return {@link Value}s, these values may call
+ * another generator, append the value, or do other things.
+ *
+ * @param <INP> Input part type
+ * @param <OUT> Resulting object type
+ * @param <C>   Supported {@link CodeGenerator}
  */
 public interface Generator<INP, OUT, C> extends PartProcessor {
     List<Value<?, OUT, C>> gen(INP inp, C c, Parent<Generator<?, OUT, C>> parents, CodeSourceData codeSourceData, MapData data);

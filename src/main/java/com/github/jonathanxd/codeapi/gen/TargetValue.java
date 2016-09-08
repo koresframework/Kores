@@ -34,21 +34,67 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.List;
 
 /**
- * Created by jonathan on 09/05/16.
+ * {@link Value} that holds object of type {@link V}.
+ *
+ * This {@link Value} process the provided {@link #val} using {@link
+ * AbstractGenerator#generateTo(Class, Object, Parent, CodeSourceData, MapData)} and call applier
+ * methods of the resulted {@link Value}s.
+ *
+ * @param <V>      Value type.
+ * @param <TARGET> Output object type.
+ * @param <C>      Generator type.
  */
 public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> extends TargetClassValue<TARGET, C> {
 
+    /**
+     * Value.
+     */
     private final V val;
 
+    /**
+     * Constructor
+     *
+     * @param value   Value type used to determine which {@link Generator} to be used to process
+     *                {@code val}.
+     * @param val     Value
+     * @param parents Parent Generators (bug tracing).
+     */
     TargetValue(Class<?> value, V val, Parent<Generator<?, TARGET, C>> parents) {
         super(value, parents);
         this.val = val;
     }
 
+    /**
+     * Create {@link TargetValue}.
+     *
+     * @param targetClass Value type used to determine which {@link Generator} to be used to process
+     *                    {@code val}.
+     * @param val         Value.
+     * @param parents     Parent Generators (bug tracing).
+     * @param <V>         Value type.
+     * @param <TARGET>    Output object type.
+     * @param <C>         Generator type.
+     * @return {@link TargetValue}.
+     */
     public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(Class<?> targetClass, V val, Parent<Generator<?, TARGET, C>> parents) {
         return new TargetValue<Object, TARGET, C>(targetClass, val, parents);
     }
 
+    /**
+     * Create {@link TargetValue}.
+     *
+     * Value type is inferred automatically by the {@link AbstractGenerator}.
+     *
+     * Not recommended for
+     * complex {@link com.github.jonathanxd.codeapi.CodePart}s
+     *
+     * @param val      Value.
+     * @param parents  Parent Generators (bug tracing).
+     * @param <V>      Value type.
+     * @param <TARGET> Output object type.
+     * @param <C>      Generator type.
+     * @return {@link TargetValue}.
+     */
     public static <V, TARGET, C extends AbstractGenerator<TARGET, C>> Value<Class<?>, TARGET, C> create(V val, Parent<Generator<?, TARGET, C>> parents) {
         if (val instanceof CodeType) {
             return create(CodeType.class, val, parents);
@@ -64,6 +110,11 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
         to.forEach(d -> d.apply(value, abstractGenerator, appender, codeSourceData, data));
     }
 
+    /**
+     * Gets the Value.
+     *
+     * @return Value.
+     */
     public V getVal() {
         return val;
     }

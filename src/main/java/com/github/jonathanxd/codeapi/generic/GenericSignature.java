@@ -30,7 +30,8 @@ package com.github.jonathanxd.codeapi.generic;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
- * Created by jonathan on 05/07/16.
+ * TODO: Documentation.
+ * @param <T>
  */
 public class GenericSignature<T extends GenericType> {
 

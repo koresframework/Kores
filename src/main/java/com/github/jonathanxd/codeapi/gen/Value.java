@@ -30,10 +30,38 @@ package com.github.jonathanxd.codeapi.gen;
 import com.github.jonathanxd.iutils.data.MapData;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Value.
+ *
+ * A value is a holder of information.
+ *
+ * Values can have different behaviors, a value process the provided information and generate the
+ * {@link TARGET} object directly or indirectly.
+ *
+ * Example of {@link Value} that generated {@link TARGET} directly: {@link PlainValue},
+ *
+ * Example of {@link Value} that generated {@link TARGET} indirectly: {@link TargetValue},
+ *
+ * @param <T>      Type of value.
+ * @param <TARGET> Target object type.
+ * @param <C>      Generator type.
  */
 public interface Value<T, TARGET, C> {
+
+    /**
+     * Gets the value.
+     *
+     * @return Value.
+     */
     T getValue();
 
+    /**
+     * Apply the information.
+     *
+     * @param value          Current value.
+     * @param generator      Generator.
+     * @param appender       Appender.
+     * @param codeSourceData Data of the source.
+     * @param data           Data of the processing environment.
+     */
     void apply(TARGET value, C generator, Appender<TARGET> appender, CodeSourceData codeSourceData, MapData data);
 }

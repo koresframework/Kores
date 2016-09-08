@@ -31,10 +31,24 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.iutils.option.Options;
 
 /**
- * Created by jonathan on 07/05/16.
+ * Represents a source generator that output element of type {@link OUT}
+ *
+ * @param <OUT> Output element type.
  */
 public interface CodeGenerator<OUT> {
+
+    /**
+     * Generate object of type {@link OUT} from {@link CodeSource}.
+     *
+     * @param source Source of parts.
+     * @return Generated object.
+     */
     OUT gen(CodeSource source);
 
+    /**
+     * Gets the {@link Options} instance.
+     *
+     * @return {@link Options} instance.
+     */
     Options getOptions();
 }

@@ -30,16 +30,35 @@ package com.github.jonathanxd.codeapi.gen;
 import com.github.jonathanxd.iutils.data.MapData;
 
 /**
- * Created by jonathan on 09/05/16.
+ * Value of plain {@link TARGET}.
+ *
+ * This {@link Value} append the provided {@link #value} in {@link Appender}.
+ *
+ * @param <TARGET> Output object type.
+ * @param <C>      Generator type.
  */
 public class PlainValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<TARGET, TARGET, C> {
 
+    /**
+     * Plain {@link TARGET}.
+     */
     private final TARGET value;
 
+    /**
+     * Constructor
+     * @param value    Plain value.
+     */
     public PlainValue(TARGET value) {
         this.value = value;
     }
 
+    /**
+     * Create {@link PlainValue}.
+     * @param value       Plain value.
+     * @param <TARGET> Output object type.
+     * @param <C>      Generator type.
+     * @return {@link PlainValue}
+     */
     public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<TARGET, TARGET, C> create(TARGET value) {
         return new PlainValue<>(value);
     }
