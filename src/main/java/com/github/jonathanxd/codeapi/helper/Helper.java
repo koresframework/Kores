@@ -81,7 +81,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
-import com.github.jonathanxd.codeapi.util.WeakValueHashMap;
+import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
 import org.objectweb.asm.Type;
 

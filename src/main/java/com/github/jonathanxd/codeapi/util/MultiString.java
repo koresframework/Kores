@@ -33,7 +33,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Created by jonathan on 15/08/16.
+ * Internal undocumented.
  */
 public class MultiString {
 

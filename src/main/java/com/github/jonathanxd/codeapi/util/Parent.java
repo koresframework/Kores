@@ -33,35 +33,78 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Created by jonathan on 10/05/16.
+ * Parent information.
  */
 public class Parent<T> {
 
+    /**
+     * Information.
+     */
     private final T current;
+
+    /**
+     * Object processed.
+     */
     private final Object target;
+
+    /**
+     * Parent
+     */
     private final Parent<T> parent;
 
+    /**
+     * Constructor
+     *
+     * @param current Current information.
+     * @param target  Object processed.
+     * @param parent  Parent.
+     */
     public Parent(T current, Object target, Parent<T> parent) {
         this.current = current;
         this.target = target;
         this.parent = parent;
     }
 
+    /**
+     * Create a {@link Parent} instance.
+     *
+     * @param current Current information.
+     * @param target  Object processed.
+     * @param parent  Parent.
+     * @param <T>     Type of current information.
+     * @return New {@link Parent} instance.
+     */
     public static <T> Parent<T> create(T current, Object target, Parent<T> parent) {
         return new Parent<>(current, target, parent);
     }
 
-    public Parent<T> getParent() {
-        return parent;
-    }
-
+    /**
+     * Gets the current information.
+     *
+     * @return Current information.
+     */
     public T getCurrent() {
-        return current;
+        return this.current;
     }
 
+    /**
+     * Gets the processed object.
+     *
+     * @return Processed object.
+     */
     public Object getTarget() {
-        return target;
+        return this.target;
     }
+
+    /**
+     * Gets the parent.
+     *
+     * @return Parent.
+     */
+    public Parent<T> getParent() {
+        return this.parent;
+    }
+
 
     /**
      * Consume this and parents
@@ -76,10 +119,22 @@ public class Parent<T> {
         } while ((parent = parent.getParent()) != null);
     }
 
+    /**
+     * Find an element assignable to type {@code valueType}.
+     *
+     * @param valueType Type.
+     * @return Found Parent, empty otherwise.
+     */
     public Optional<Parent<T>> find(Class<?> valueType) {
         return find(t -> valueType.isAssignableFrom(t.getTarget().getClass()));
     }
 
+    /**
+     * Find an element of type {@code valueType}.
+     *
+     * @param valueType Type.
+     * @return Found Parent, empty otherwise.
+     */
     public Optional<Parent<T>> findEqual(Class<?> valueType) {
         return find(t -> valueType == t.getTarget().getClass());
     }

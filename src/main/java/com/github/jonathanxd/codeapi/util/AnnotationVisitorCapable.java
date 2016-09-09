@@ -36,14 +36,14 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.TypePath;
 
 /**
- * Created by jonathan on 03/09/16.
+ * Internal class. Universalise asm annotation visitors.
  */
 public interface AnnotationVisitorCapable {
     AnnotationVisitor visitAnnotation(String desc, boolean visible);
 
 
     AnnotationVisitor visitTypeAnnotation(int typeRef,
-                                                 TypePath typePath, String desc, boolean visible);
+                                          TypePath typePath, String desc, boolean visible);
 
     AnnotationVisitor visitParameterAnnotation(int parameter, String desc, boolean visible);
 

@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by jonathan on 22/04/16.
+ * Internal undocumented.
  */
 public class ClassUtil {
 

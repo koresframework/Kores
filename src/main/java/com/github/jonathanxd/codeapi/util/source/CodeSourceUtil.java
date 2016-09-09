@@ -141,6 +141,16 @@ public class CodeSourceUtil {
         }
     }
 
+    /**
+     * Find an element in a code source. (Highly recommended to use {@link
+     * com.github.jonathanxd.codeapi.inspect.SourceInspect} instead of this.
+     *
+     * @param codeSource Code Source.
+     * @param predicate  Predicate.
+     * @param function   Mapper.
+     * @param <U>        Mapped return type.
+     * @return List of mapped parts.
+     */
     public static <U> List<U> find(CodeSource codeSource, Predicate<CodePart> predicate, Function<CodePart, U> function) {
         List<U> list = new ArrayList<>();
 

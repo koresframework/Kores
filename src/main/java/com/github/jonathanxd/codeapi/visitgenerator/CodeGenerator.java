@@ -32,10 +32,21 @@ import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.iutils.option.Options;
 
 /**
- * Created by jonathan on 07/05/16.
+ * A Machine code generator (bytecode).
+ * @param <OUT>    Type of output.
  */
 public interface CodeGenerator<OUT> {
+
+    /**
+     * Gen {@link OUT} from {@link CodeSource source}.
+     * @param source Source.
+     * @return Generated.
+     */
     Result<OUT[]> gen(CodeSource source);
 
+    /**
+     * Gets the options.
+     * @return Options
+     */
     Options getOptions();
 }

@@ -27,16 +27,23 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by jonathan on 04/07/16.
+ * Utility.
  */
 public class ArrayToList {
 
-
+    /**
+     * Convert array to immutable list.
+     *
+     * @param array Array
+     * @param <T>   Type
+     * @return Immutable list.
+     */
     public static <T> List<T> toList(T[] array) {
         if (array.length == 0)
             return Collections.emptyList();
@@ -45,6 +52,24 @@ public class ArrayToList {
             return Collections.singletonList(array[0]);
 
         return Arrays.asList(array);
+    }
+
+    /**
+     * Convert array to mutable list.
+     *
+     * @param array Array
+     * @param <T>   Type
+     * @return Immutable list.
+     */
+    public static <T> List<T> toMutableList(T[] array) {
+        if (array.length == 0)
+            return new ArrayList<>();
+
+        List<T> list = new ArrayList<>();
+
+        Collections.addAll(list, array);
+
+        return list;
     }
 
 }

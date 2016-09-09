@@ -32,10 +32,16 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
 /**
- * Created by jonathan on 21/08/16.
+ * Utility of generic types.
  */
 public class GenericTypeUtil {
 
+    /**
+     * Convert generic signature to string.
+     *
+     * @param genericSignature Generic signature.
+     * @return Generic signature string.
+     */
     public static String toSourceString(GenericSignature<?> genericSignature) {
         StringBuilder sb = new StringBuilder();
 
@@ -55,6 +61,12 @@ public class GenericTypeUtil {
         return sb.toString();
     }
 
+    /**
+     * Convert generic type to string.
+     *
+     * @param genericType Generic type.
+     * @return Generic type string.
+     */
     public static String toSourceString(GenericType genericType) {
 
         StringBuilder sb = new StringBuilder();

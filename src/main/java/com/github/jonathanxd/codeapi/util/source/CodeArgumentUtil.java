@@ -63,26 +63,71 @@ public class CodeArgumentUtil {
 
     }
 
+    /**
+     * Convert from {@link Parameter} to {@link CodeParameter}.
+     *
+     * @param parameters Parameters.
+     * @return Converted parameters.
+     */
     public static CodeParameter[] fromJavaParameters(Parameter[] parameters) {
         return Arrays.stream(parameters).map(CodeArgumentUtil::lambda$from$javaParameter$to$codeParameter).toArray(CodeParameter[]::new);
     }
 
+    /**
+     * Convert from {@link Parameter} to {@link CodeParameter}.
+     *
+     * @param parameter Parameter.
+     * @return Converted parameter.
+     */
     private static CodeParameter lambda$from$javaParameter$to$codeParameter(Parameter parameter) {
         return new CodeParameter(parameter.getName(), Helper.getJavaType(parameter.getType()));
     }
 
+    /**
+     * Convert from {@link CodeParameter} to {@link CodeArgument}.
+     *
+     * Parameters will be converted to local access of variables.
+     *
+     * @param parameters Parameters.
+     * @return Converted arguments.
+     */
     public static CodeArgument[] argumentsFromParameters(CodeParameter[] parameters) {
         return Arrays.stream(parameters).map(CodeArgumentUtil::lambda$from$parameter$to$argument).toArray(CodeArgument[]::new);
     }
 
+    /**
+     * Convert from {@link CodeParameter} to {@link CodeArgument}.
+     *
+     * Parameter will be converted to local access of variables.
+     *
+     * @param parameter Parameter.
+     * @return Converted argument.
+     */
     private static CodeArgument lambda$from$parameter$to$argument(CodeParameter parameter) {
         return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
     }
 
+
+    /**
+     * Convert from {@link Parameter} to {@link CodeArgument}.
+     *
+     * Parameters will be converted to local access of variables.
+     *
+     * @param parameters Parameters.
+     * @return Converted arguments.
+     */
     public static CodeArgument[] argumentsFromJavaParameters(Parameter[] parameters) {
         return Arrays.stream(parameters).map(CodeArgumentUtil::lambda$from$javaParameter$to$argument).toArray(CodeArgument[]::new);
     }
 
+    /**
+     * Convert from {@link Parameter} to {@link CodeArgument}.
+     *
+     * Parameter will be converted to local access of variables.
+     *
+     * @param parameter Parameter.
+     * @return Converted argument.
+     */
     private static CodeArgument lambda$from$javaParameter$to$argument(Parameter parameter) {
         return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), Helper.getJavaType(parameter.getType())), true, Helper.getJavaType(parameter.getType()));
     }

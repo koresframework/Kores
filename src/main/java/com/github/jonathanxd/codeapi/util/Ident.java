@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util;
 
 /**
- * Created by jonathan on 15/08/16.
+ * Internal class undocumented.
  */
 public class Ident {
 

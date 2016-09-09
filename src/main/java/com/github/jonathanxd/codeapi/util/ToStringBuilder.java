@@ -35,7 +35,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Created by jonathan on 21/08/16.
+ * String helper.
  */
 public class ToStringBuilder {
 

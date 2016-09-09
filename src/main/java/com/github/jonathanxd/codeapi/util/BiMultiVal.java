@@ -35,21 +35,47 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Multiple values.
+ *
+ * @param <T> Base type.
+ * @param <U> Type 1.
+ * @param <V> Type 2.
  */
 public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
 
+    /**
+     * List of parts.
+     */
     private final StaticList<T> staticList;
 
     private BiMultiVal(StaticList<T> staticList) {
         this.staticList = staticList;
     }
 
-
+    /**
+     * Create adder.
+     *
+     * @param baseType Base type.
+     * @param cl       Type 1.
+     * @param cl2      Type 2.
+     * @param <T>      Base type.
+     * @param <U>      Type 1.
+     * @param <V>      Type 2.
+     * @return Adder.
+     */
     public static <T, U extends T, V extends T> Adder<T, U, V> create(Class<T> baseType, Class<U> cl, Class<V> cl2) {
         return new Adder<>(baseType);
     }
 
+    /**
+     * Create an adder from another.
+     *
+     * @param adder Adder
+     * @param <T>   Base type.
+     * @param <U>   Type 1.
+     * @param <V>   Type 2.
+     * @return Adder.
+     */
     public static <T, U extends T, V extends T> Adder<T, U, V> create(Adder<T, U, V> adder) {
         return new Adder<>(adder.baseType);
     }
@@ -59,6 +85,11 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
         return staticList.iterator();
     }
 
+    /**
+     * Convert to collection.
+     *
+     * @return Collection.
+     */
     public Collection<T> toCollection() {
         List<T> list = new ArrayList<>();
 
@@ -69,15 +100,41 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
         return list;
     }
 
+    /**
+     * Adder of multiple value types. Commonly used in if expressions.
+     *
+     * This adder creates a list that supports only 2 types of elements {@link U} and {@link V}.
+     *
+     * @param <T> Base type.
+     * @param <U> Type 1.
+     * @param <V> Type 2.
+     */
     public static class Adder<T, U extends T, V extends T> {
 
+        /**
+         * Base type.
+         */
         private final Class<T> baseType;
+
+        /**
+         * Element list.
+         */
         private final List<T> list = new ArrayList<>();
 
+        /**
+         * Create adder from base type.
+         *
+         * @param baseType Base type.
+         */
         protected Adder(Class<T> baseType) {
             this.baseType = baseType;
         }
 
+        /**
+         * Create multi val.
+         *
+         * @return multi val.
+         */
         public BiMultiVal<T, U, V> make() {
 
             StaticList<T> staticListOf = StaticList.createStaticListOf(baseType, list.size());
@@ -87,21 +144,23 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
             return new BiMultiVal<>(staticListOf);
         }
 
-        public Adder<T, U, V> and(U u) {
-            list.add(u);
-            return this;
-        }
-
-        public Adder<T, U, V> or(V v) {
-            list.add(v);
-            return this;
-        }
-
+        /**
+         * Adds a element of first type.
+         *
+         * @param u Element.
+         * @return this adder.
+         */
         public Adder<T, U, V> add1(U u) {
             list.add(u);
             return this;
         }
 
+        /**
+         * Adds a element of second type.
+         *
+         * @param v Element.
+         * @return this adder.
+         */
         public Adder<T, U, V> add2(V v) {
             list.add(v);
             return this;

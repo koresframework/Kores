@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import org.objectweb.asm.Label;
 
 /**
- * Created by jonathan on 06/06/16.
+ * Internal class undocumented.
  */
 public final class Variable {
 

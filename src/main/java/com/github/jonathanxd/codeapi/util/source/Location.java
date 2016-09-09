@@ -28,9 +28,16 @@
 package com.github.jonathanxd.codeapi.util.source;
 
 /**
- * Created by jonathan on 25/07/16.
+ * Location to insert element.
  */
 public enum Location {
+    /**
+     * Insert before.
+     */
     BEFORE,
+
+    /**
+     * Insert after.
+     */
     AFTER
 }

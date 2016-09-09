@@ -47,7 +47,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Created by jonathan on 03/06/16.
+ * A visit based generator.
  */
 public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
@@ -61,18 +61,43 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
     private final Map<Class<?>, Visitor<?, T, ?>> visitors = new HashMap<>();
 
+    /**
+     * Add a visitor.
+     *
+     * @param cClass    Type of part.
+     * @param ctVisitor Visitor.
+     * @param <C>       Type of part.
+     */
     public <C extends CodePart> void addVisitor(Class<C> cClass, Visitor<? extends C, T, ?> ctVisitor) {
         visitors.put(cClass, ctVisitor);
     }
 
+    /**
+     * Add a visitor.
+     *
+     * @param cClass    Type of part.
+     * @param ctVisitor Visitor.
+     * @param <C>       Type of part.
+     */
     public <C extends CodePart> void addSuperVisitor(Class<C> cClass, Visitor<? super C, T, ?> ctVisitor) {
         visitors.put(cClass, ctVisitor);
     }
 
+    /**
+     * Added a unchecked visitor.
+     *
+     * @param cClass    Type of part.
+     * @param ctVisitor Visitor.
+     */
     public void addUncheckedVisitor(Class<?> cClass, Visitor<?, T, ?> ctVisitor) {
         visitors.put(cClass, ctVisitor);
     }
 
+    /**
+     * Create data.
+     *
+     * @return Data.
+     */
     protected abstract MapData makeData();
 
     @Override
@@ -106,12 +131,36 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
         return new Result<>(appender.get(), extraData);
     }
 
+    /**
+     * Create appender.
+     *
+     * @return Appender.
+     */
     public abstract Appender<T> createAppender();
 
+    /**
+     * Visit part.
+     *
+     * @param partClass  Type of visitor part.
+     * @param codePart   Part.
+     * @param extraData  Data.
+     * @param nav        Navigator.
+     * @param additional Additional object.
+     */
     public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Object additional) {
         this.generateTo(partClass, codePart, extraData, nav, null, additional);
     }
 
+    /**
+     * Visit part.
+     *
+     * @param partClass  Type of visitor part.
+     * @param codePart   Part.
+     * @param extraData  Data.
+     * @param nav        Navigator.
+     * @param consumer   Consumer
+     * @param additional Additional object.
+     */
     public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Consumer<T[]> consumer, Object additional) {
         try {
             Visitor<?, T, ?> tVisitor = get(partClass);
