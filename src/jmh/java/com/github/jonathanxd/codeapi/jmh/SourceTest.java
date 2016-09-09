@@ -48,6 +48,6 @@ public class SourceTest {
     @Fork(value = 5)
     public void bench() {
         Bi<ClassDeclaration, CodeSource> gen = CommonGen.gen();
-        CommonSourceTest.test(this.getClass(), gen._2());
+        CommonSourceTest.test(gen._2());
     }
 }

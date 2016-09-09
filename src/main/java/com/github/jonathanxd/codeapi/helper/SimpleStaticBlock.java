@@ -40,7 +40,7 @@ import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 public class SimpleStaticBlock extends CodeMethod implements StaticBlock {
 
     public SimpleStaticBlock(CodeSource body) {
-        super(StaticBlock.NAME, StaticBlock.MODIFIERS, StaticBlock.PARAMETERS, StaticBlock.RETURN_TYPE, body);
+        super(StaticBlock.Constants.NAME, StaticBlock.Constants.MODIFIERS, StaticBlock.Constants.PARAMETERS, StaticBlock.Constants.RETURN_TYPE, body);
     }
 
     @Override

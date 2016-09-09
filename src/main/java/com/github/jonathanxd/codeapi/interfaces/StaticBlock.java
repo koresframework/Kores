@@ -72,10 +72,10 @@ public interface StaticBlock extends CodeElement, MethodDeclaration, Bodied {
     }
 
     class Constants {
-        private static final String NAME = "<clinit>";
-        private static final Collection<CodeModifier> MODIFIERS = Collections.singletonList(CodeModifier.STATIC);
-        private static final List<CodeParameter> PARAMETERS = Collections.emptyList();
-        private static final CodeType RETURN_TYPE = PredefinedTypes.VOID;
+        public static final String NAME = "<clinit>";
+        public static final Collection<CodeModifier> MODIFIERS = Collections.singletonList(CodeModifier.STATIC);
+        public static final List<CodeParameter> PARAMETERS = Collections.emptyList();
+        public static final CodeType RETURN_TYPE = PredefinedTypes.VOID;
 
         Constants() {
             throw new IllegalStateException("Singleton class.");

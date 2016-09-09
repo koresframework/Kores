@@ -74,23 +74,16 @@ public final class IterationTypes {
         private int indexFields = 0;
 
         @Override
-        public Generator createGenerator(ForEachBlock forEachBlock) {
-            return new Gen(forEachBlock);
+        public Generator getGenerator() {
+            return new Gen();
         }
 
         public class Gen implements IterationType.Generator {
 
-            private final ForEachBlock forEachBlock;
-            private final CodePart iterableElement;
-            private final String fieldName;
-            private final FieldDeclaration indexFieldDecl;
-
-            public Gen(ForEachBlock forEachBlock) {
-                this.forEachBlock = forEachBlock;
-                this.iterableElement = forEachBlock.getIterableElement();
-                this.fieldName = "$index#" + (++indexFields);
-                this.indexFieldDecl = new HiddenField(fieldName, PredefinedTypes.INT, Literals.INT(0));
-            }
+            private ForEachBlock forEachBlock;
+            private CodePart iterableElement;
+            private String fieldName;
+            private FieldDeclaration indexFieldDecl;
 
             @Override
             public CodeSource createInitialization() {
@@ -120,6 +113,16 @@ public final class IterationTypes {
 
                 return body;
             }
+
+            @Override
+            public CodeSource generate(ForEachBlock forEachBlock) {
+                this.forEachBlock = forEachBlock;
+                this.iterableElement = forEachBlock.getIterableElement();
+                this.fieldName = "$index#" + (++indexFields);
+                this.indexFieldDecl = new HiddenField(fieldName, PredefinedTypes.INT, Literals.INT(0));
+
+                return Generator.super.generate(forEachBlock);
+            }
         }
     }
 
@@ -130,29 +133,17 @@ public final class IterationTypes {
         private int iterFields = 0;
 
         @Override
-        public Generator createGenerator(ForEachBlock forEachBlock) {
-            return new Gen(forEachBlock);
+        public Generator getGenerator() {
+            return new Gen();
         }
 
         public class Gen implements IterationType.Generator {
-            private final CodeType iterType = Helper.getJavaType(Iterator.class);
-            private final FieldDeclaration iterableField;
-            private final ForEachBlock forEachBlock;
-            private final String fieldName;
-            private final VariableDeclaration field;
+            private CodeType iterType = Helper.getJavaType(Iterator.class);
+            private FieldDeclaration iterableField;
+            private ForEachBlock forEachBlock;
+            private String fieldName;
+            private VariableDeclaration field;
 
-
-            public Gen(ForEachBlock forEachBlock) {
-                this.forEachBlock = forEachBlock;
-                this.field = forEachBlock.getField();
-
-                CodePart iterableElement = forEachBlock.getIterableElement();
-
-                this.fieldName = "$iter#" + (++iterFields);
-                this.iterableField = new HiddenField(fieldName, iterType,
-                        CodeAPI.invokeInterface(Iterable.class, iterableElement, "iterator",
-                                new TypeSpec(Helper.getJavaType(Iterator.class))));
-            }
 
             @Override
             public CodeSource createInitialization() {
@@ -192,6 +183,20 @@ public final class IterationTypes {
                 forEachBlock.getBody().ifPresent(codeSource::addAll);
 
                 return codeSource;
+            }
+
+            @Override
+            public CodeSource generate(ForEachBlock forEachBlock) {
+                this.forEachBlock = forEachBlock;
+                this.field = forEachBlock.getField();
+
+                CodePart iterableElement = forEachBlock.getIterableElement();
+
+                this.fieldName = "$iter#" + (++iterFields);
+                this.iterableField = new HiddenField(fieldName, iterType,
+                        CodeAPI.invokeInterface(Iterable.class, iterableElement, "iterator",
+                                new TypeSpec(Helper.getJavaType(Iterator.class))));
+                return Generator.super.generate(forEachBlock);
             }
         }
     }

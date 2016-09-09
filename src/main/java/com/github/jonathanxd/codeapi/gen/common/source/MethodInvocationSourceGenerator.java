@@ -77,7 +77,7 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
         Optional<InvokeDynamic> invokeDynamicOpt = methodInvocationImpl.getInvokeDynamic();
 
         CodePart target = methodInvocationImpl.getTarget();
-        MethodSpec spec = methodInvocationImpl.getSpec();
+        MethodSpecification spec = methodInvocationImpl.getSpec();
         InvokeType invokeType = methodInvocationImpl.getInvokeType();
         methodInvocationImpl.getSpec();
 

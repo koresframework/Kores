@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -77,7 +78,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
             visitorGenerator.generateTo(target.getClass(), target, extraData, navigator, null, mvData);
         }
 
-        MethodSpec spec = methodInvocation.getSpec();
+        MethodSpecification spec = methodInvocation.getSpec();
 
         visitorGenerator.generateTo(Argumenterizable.class, spec, extraData, navigator, null, mvData);
 

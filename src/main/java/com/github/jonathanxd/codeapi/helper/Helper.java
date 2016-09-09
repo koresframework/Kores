@@ -63,6 +63,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
@@ -418,7 +419,7 @@ public final class Helper {
     public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment dynamicInvoke) {
         MethodFragment methodFragment = dynamicInvoke.getMethodFragment();
 
-        MethodSpec spec = methodFragment.getSpec();
+        MethodSpecification spec = methodFragment.getSpec();
 
 
         MethodSpec newSpec = new MethodSpec(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
@@ -431,7 +432,7 @@ public final class Helper {
     }
 
     public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
-        MethodSpec spec = methodInvocation.getSpec();
+        MethodSpecification spec = methodInvocation.getSpec();
 
         MethodSpec newSpec = new MethodSpec(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
 
