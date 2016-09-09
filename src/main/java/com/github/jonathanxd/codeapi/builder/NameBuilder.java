@@ -25,27 +25,15 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-/**
- * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
- */
-public interface CodeRoot extends CodeElement, Bodied {
-
+public interface NameBuilder<T, R extends NameBuilder<T, R>> extends Builder<T> {
     /**
-     * Gets collections with all elements inside of this element.
+     * Set name.
      *
-     * @return Collections with all elements inside of this element.
+     * @param name Name.
+     * @return This.
      */
-    default Collection<CodeElement> getAllElements() {
-        CodeSource sources = getBody().orElse(new CodeSource());
-        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
-    }
-
+    R withName(String name);
 
 }

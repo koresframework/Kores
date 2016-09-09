@@ -28,9 +28,14 @@
 package com.github.jonathanxd.codeapi;
 
 /**
- * Created by jonathan on 09/05/16.
+ * A CodePart is an element that can exists in the source code.
  */
-public interface CodePart extends CodeBase {
+public interface CodePart {
+
+    /**
+     * Returns true if this is a expression part, false otherwise.
+     * @return Returns true if this is a expression part, false otherwise.
+     */
     default boolean isExpression() {
         return false;
     }

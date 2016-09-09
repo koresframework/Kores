@@ -25,10 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.builder;
 
-/**
- * Created by jonathan on 07/05/16.
- */
-public interface CodeBase {
+import com.github.jonathanxd.codeapi.CodeSource;
+
+public interface BodyBuilder<T, R extends BodyBuilder<T, R>> extends Builder<T> {
+    /**
+     * Set body of {@link R}.
+     *
+     * @param body Body.
+     * @return This.
+     */
+    R withBody(CodeSource body);
+
 }

@@ -59,6 +59,14 @@ public class CodeConstructor extends CodeMethod implements ConstructorDeclaratio
         super(declaringClass.getSimpleName(), modifiers, parameters, Helper.getJavaType(Void.TYPE), GenericSignature.empty(), annotations, body);
     }
 
+    public CodeConstructor(Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeSource body) {
+        super("<init>", modifiers, parameters, Helper.getJavaType(Void.TYPE), body);
+    }
+
+    public CodeConstructor(Collection<CodeModifier> modifiers, List<CodeParameter> parameters, List<Annotation> annotations, CodeSource body) {
+        super("<init>", modifiers, parameters, Helper.getJavaType(Void.TYPE), GenericSignature.empty(), annotations, body);
+    }
+
     /**
      * Constructor return type is always declaring class type
      *

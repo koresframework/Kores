@@ -25,27 +25,40 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.util.ArrayToList;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
- */
-public interface CodeRoot extends CodeElement, Bodied {
+public interface ParameterBuilder<T, R extends ParameterBuilder<T, R>> extends Builder<T> {
+    /**
+     * Set the parameters.
+     *
+     * @param parameters Parameters.
+     * @return This.
+     */
+    R withParameters(List<CodeParameter> parameters);
 
     /**
-     * Gets collections with all elements inside of this element.
+     * Set the parameters.
      *
-     * @return Collections with all elements inside of this element.
+     * @param parameters Parameters.
+     * @return This.
      */
-    default Collection<CodeElement> getAllElements() {
-        CodeSource sources = getBody().orElse(new CodeSource());
-        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
+    default R withParameters(CodeParameter... parameters) {
+        return this.withParameters(ArrayToList.toList(parameters));
     }
 
-
+    /**
+     * Set one parameter.
+     *
+     * @param parameter Parameter.
+     * @return This.
+     */
+    default R withParameter(CodeParameter parameter) {
+        return this.withParameters(Collections.singletonList(parameter));
+    }
 }

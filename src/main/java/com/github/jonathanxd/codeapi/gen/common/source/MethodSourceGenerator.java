@@ -29,9 +29,11 @@ package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
+import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
@@ -47,6 +49,7 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
@@ -73,8 +76,25 @@ public class MethodSourceGenerator implements Generator<MethodDeclaration, Strin
             values.add(TargetValue.create(Returnable.class, codeMethod, parents));
         }
 
+        if(codeMethod instanceof ConstructorDeclaration) {
+
+            String name = codeMethod.getName();
+
+            Optional<Parent<Generator<?, String, PlainSourceGenerator>>> generatorParent = parents.find(CodeClass.class);
+
+            if(generatorParent.isPresent()) {
+                Parent<Generator<?, String, PlainSourceGenerator>> generatorParent1 = generatorParent.get();
+                CodeClass target = (CodeClass) generatorParent1.getTarget();
+
+                name = target.getSimpleName();
+            }
+
+            values.add(PlainValue.create(name));
+        } else {
+            values.add(TargetValue.create(Named.class, codeMethod, parents));
+        }
+
         values.addAll(Arrays.asList(
-                TargetValue.create(Named.class, codeMethod, parents),
                 TargetValue.create(Parameterizable.class, codeMethod, parents),
                 TargetValue.create(Bodied.class, codeMethod, parents)
         ));

@@ -35,31 +35,70 @@ import org.objectweb.asm.Handle;
 import org.objectweb.asm.Type;
 
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 /**
- * Dynamic invocation
- * *undocumented
+ * Dynamic invocation of a method using a Bootstrap.
  */
 public class InvokeDynamic {
 
+    /**
+     * Specification of method.
+     */
     private final FullMethodSpec methodSpec;
 
     private InvokeDynamic(FullMethodSpec fullMethodSpec) {
         this.methodSpec = fullMethodSpec;
     }
 
+    /**
+     * Generate a lambda invocation of an SAM interface method.
+     *
+     * @param fullMethodSpec Specification of SAM interface method, example: {@link
+     *                       Supplier#get()}.
+     * @param expectedTypes  Expected types (example: If a {@link Supplier} of {@link String},
+     *                       expected return type is {@link Supplier}).
+     * @return Lambda method reference.
+     */
     public static LambdaMethodReference invokeDynamicLambda(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes) {
         return new LambdaMethodReference(fullMethodSpec, expectedTypes);
     }
 
+    /**
+     * Generate a lambda invocation of an SAM interface method.
+     *
+     * @param fullMethodSpec Specification of SAM interface method, example: {@link
+     *                       Supplier#get()}.
+     * @param expectedTypes  Expected types (example: If a {@link Supplier} of {@link String},
+     *                       expected return type is {@link Supplier}).
+     * @param fragment       Fragment (like lambda body).
+     * @return Lambda method reference.
+     */
     public static LambdaFragment invokeDynamicLambdaFragment(FullMethodSpec fullMethodSpec, TypeSpec expectedTypes, MethodFragment fragment) {
         return new LambdaFragment(fullMethodSpec, expectedTypes, fragment);
     }
 
+    /**
+     * Invoke a bootstrap method.
+     *
+     * @param invokeType          Type of invocation.
+     * @param bootstrapMethodSpec Bootstrap method specification.
+     * @return Invocation of bootstrap method.
+     */
     public static Bootstrap invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec) {
         return new Bootstrap(bootstrapMethodSpec, invokeType);
     }
 
+    /**
+     * Invoke a bootstrap method.
+     *
+     * @param invokeType          Type of invocation.
+     * @param bootstrapMethodSpec Bootstrap method specification.
+     * @param args                Bootstrap arguments: must be an {@link String}, {@link Integer},
+     *                            {@link Long}, {@link Float}, {@link Double}, {@link CodeType}, or
+     *                            {@link FullInvokeSpec}.
+     * @return Invocation of bootstrap method.
+     */
     public static Bootstrap invokeDynamicBootstrap(InvokeType invokeType, FullMethodSpec bootstrapMethodSpec, Object... args) {
         return new Bootstrap(bootstrapMethodSpec, invokeType, args);
     }
@@ -73,7 +112,7 @@ public class InvokeDynamic {
     }
 
     public FullMethodSpec getMethodSpec() {
-        return methodSpec;
+        return this.methodSpec;
     }
 
     public static class LambdaMethodReference extends InvokeDynamic {
@@ -132,10 +171,10 @@ public class InvokeDynamic {
         }
 
         public Object[] toAsmArguments() {
-            Object[] asmArgs = new Object[arguments.length];
+            Object[] asmArgs = new Object[this.arguments.length];
 
-            for (int i = 0; i < arguments.length; i++) {
-                Object arg = arguments[i];
+            for (int i = 0; i < this.arguments.length; i++) {
+                Object arg = this.arguments[i];
                 final Object converted;
 
                 if (arg instanceof String || arg instanceof Integer || arg instanceof Long || arg instanceof Float || arg instanceof Double) {
@@ -151,7 +190,7 @@ public class InvokeDynamic {
                             Common.typeSpecToAsm(invokeSpec),
                             invokeSpec.getInvokeType() == InvokeType.INVOKE_INTERFACE);
                 } else {
-                    throw new IllegalArgumentException("Illegal argument at index '" + i + "' of arguments array [" + Arrays.toString(arguments) + "], element type unsupported! Read the documentation.");
+                    throw new IllegalArgumentException("Illegal argument at index '" + i + "' of arguments array [" + Arrays.toString(this.arguments) + "], element type unsupported! Read the documentation.");
                 }
 
                 asmArgs[i] = converted;
@@ -161,11 +200,11 @@ public class InvokeDynamic {
         }
 
         public InvokeType getInvokeType() {
-            return invokeType;
+            return this.invokeType;
         }
 
         public Object[] getArguments() {
-            return arguments;
+            return this.arguments;
         }
     }
 }

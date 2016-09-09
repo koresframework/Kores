@@ -25,27 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.ArrayToList;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
-/**
- * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
- */
-public interface CodeRoot extends CodeElement, Bodied {
-
+public interface GenericSignatureBuilder<T, R extends GenericSignatureBuilder<T, R>> extends Builder<T> {
     /**
-     * Gets collections with all elements inside of this element.
+     * Set generic signature.
      *
-     * @return Collections with all elements inside of this element.
+     * @param genericSignature Generic signature.
+     * @return This.
      */
-    default Collection<CodeElement> getAllElements() {
-        CodeSource sources = getBody().orElse(new CodeSource());
-        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
-    }
-
-
+    R withGenericSignature(GenericSignature<GenericType> genericSignature);
 }

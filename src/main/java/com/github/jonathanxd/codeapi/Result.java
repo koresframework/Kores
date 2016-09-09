@@ -36,7 +36,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by jonathan on 18/06/16.
+ * Result of the element process.
+ *
+ * @param <OUT> Output result.
  */
 public class Result<OUT> {
 
@@ -48,14 +50,32 @@ public class Result<OUT> {
         this.data = data;
     }
 
+    /**
+     * Gets the result.
+     *
+     * @return Result.
+     */
     public OUT getResult() {
         return result;
     }
 
+    /**
+     * Gets the data.
+     *
+     * @return Data.
+     */
     public MapData getData() {
         return data;
     }
 
+    /**
+     * Find a tag line in stacktrace.
+     *
+     * @param qualifiedNamed     Qualified named.
+     * @param stackTraceElements Stack trace.
+     * @return Tag line.
+     * @throws IllegalArgumentException If cannot find tag line.
+     */
     public TagLine<?, ?> findTagLine(QualifiedNamed qualifiedNamed, StackTraceElement[] stackTraceElements) throws IllegalArgumentException {
         for (StackTraceElement stackTraceElement : stackTraceElements) {
             if (stackTraceElement.getClassName().equals(qualifiedNamed.getQualifiedName())) {
@@ -66,6 +86,13 @@ public class Result<OUT> {
         throw new IllegalArgumentException("No tags in stack trace '" + Arrays.toString(stackTraceElements) + "'");
     }
 
+    /**
+     * Find a tag line linked to a line.
+     *
+     * @param line Line
+     * @return Found Tag line.
+     * @throws IllegalArgumentException If cannot find tag line.
+     */
     public TagLine<?, ?> findTagLine(int line) throws IllegalArgumentException {
         List<TagLine<?, ?>> allAsList = getData().getAllAsList(BytecodeGenerator.LINES_REPRESENTATION);
 

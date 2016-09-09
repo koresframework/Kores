@@ -31,7 +31,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by jonathan on 07/05/16.
+ * A list of all elements in the source code.
+ *
+ * TODO: Concurrent and Immutable versions.
  */
 public class CodeSource extends ArrayList<CodePart> implements CodePart {
 

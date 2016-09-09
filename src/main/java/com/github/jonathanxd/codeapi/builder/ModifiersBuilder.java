@@ -25,27 +25,42 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
-/**
- * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
- */
-public interface CodeRoot extends CodeElement, Bodied {
+public interface ModifiersBuilder<T, R extends ModifiersBuilder<T, R>> extends Builder<T> {
+    /**
+     * Set modifiers.
+     *
+     * @param modifiers Code Modifiers
+     * @return This.
+     */
+    R withModifiers(Collection<CodeModifier> modifiers);
 
     /**
-     * Gets collections with all elements inside of this element.
+     * Set modifiers.
      *
-     * @return Collections with all elements inside of this element.
+     * @param modifiers Modifiers.
+     * @return This.
      */
-    default Collection<CodeElement> getAllElements() {
-        CodeSource sources = getBody().orElse(new CodeSource());
-        return sources.stream().filter(part -> part instanceof CodeElement).map(part -> (CodeElement) part).collect(Collectors.toList());
+    default R withModifiers(CodeModifier... modifiers) {
+        return this.withModifiers(ArrayToList.toList(modifiers));
     }
 
-
+    /**
+     * Set modifiers
+     *
+     * @param modifiers Java Modifiers flag: {@link java.lang.reflect.Modifier} ({@link
+     *                  java.lang.reflect.Modifier#PUBLIC}, {@link java.lang.reflect.Modifier#PRIVATE},
+     *                  {@link java.lang.reflect.Modifier#PROTECTED}, 0 to package-private, etc...
+     *                  visibility).
+     * @return This.
+     */
+    default R withModifiers(int modifiers) {
+        return this.withModifiers(CodeModifier.extractModifiers(modifiers));
+    }
 }
