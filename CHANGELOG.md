@@ -4,10 +4,11 @@
 
 ###### 1.13.0
 
-| Name                  | Type          | Issue       | Commit                                   |
-| --------------------- | ------------- | ----------- | ---------------------------------------- |
-| Documentation         | Improvements  |  None       | ?                                        |
-| Auto-Boxing on IfBlock| Fix           |  None       | 0ab5d08e6e7bed1a9259f21b90c78a35d0acb256 |
+| Name                   | Type          | Issue       | Commit                                   |
+| ---------------------- | ------------- | ----------- | ---------------------------------------- |
+| `Break` and `Continue` | Feature       |  None       | ca85b283613b984078056bbf4c8293f804a65ae7 |
+| Documentation & Cleanup| Improvements  |  None       | from 0ab5d08e6e7bed1a9259f21b90c78a35d0acb256 to 034d719172baec12dc4082c746c77f665a319d7f |
+| Auto-Boxing on IfBlock | Fix           |  None       | 0ab5d08e6e7bed1a9259f21b90c78a35d0acb256 |
 
 ###### 1.12.0
 
