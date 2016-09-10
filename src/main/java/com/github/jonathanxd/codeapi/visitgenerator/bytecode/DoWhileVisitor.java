@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
@@ -60,6 +61,9 @@ public class DoWhileVisitor implements Visitor<DoWhileBlock, Byte, MVData>, Opco
 
         Label whileStart = new Label();
         Label outOfIf = new Label();
+        Label insideStart = new Label();
+        Label insideEnd = new Label();
+        Label outsideEnd = new Label();
 
         CodeSource source = new CodeSource();
 
@@ -67,9 +71,24 @@ public class DoWhileVisitor implements Visitor<DoWhileBlock, Byte, MVData>, Opco
 
         mv.visitLabel(whileStart);
 
+
+        mv.visitLabel(insideStart);
+
+        Flow flow = new Flow(whileStart, insideStart, insideEnd, outsideEnd);
+
+        extraData.registerData(ConstantDatas.FLOW_TYPE_INFO, flow);
+
+        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, navigator, null, mvData);
+
         whileBlock.getBody().ifPresent(body -> visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, mvData));
 
+        mv.visitLabel(insideEnd);
+
         BytecodeIfBlockVisitor.visit(ifBlock, whileStart, outOfIf, true, true, extraData, navigator, visitorGenerator, mvData);
+
+        extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
+
+        mv.visitLabel(outsideEnd);
 
         return new Byte[0];
     }

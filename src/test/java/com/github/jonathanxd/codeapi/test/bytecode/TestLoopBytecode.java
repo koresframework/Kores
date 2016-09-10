@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
@@ -40,6 +41,7 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
@@ -94,6 +96,8 @@ public class TestLoopBytecode {
                                 Helper.createIfVal().add1(Helper.check(accessI, Operators.LESS_THAN, Literals.INT(100))).make(),
                                 Helper.operateLocalVariable("i", PredefinedTypes.INT, Operators.INCREMENT),
                                 Helper.sourceOf(
+                                        CodeAPI.ifBlock(CodeAPI.check(accessI, Operators.EQUAL_TO, Literals.INT(5)),
+                                                CodeAPI.sourceOfParts(CodeAPI.aContinue())),
                                         Predefined.invokePrintln(new CodeArgument(accessI, int.class))
                                 )),
 
@@ -102,7 +106,9 @@ public class TestLoopBytecode {
 
                         Helper.createDoWhile(Helper.sourceOf(
                                 Predefined.invokePrintln(new CodeArgument(accessU, int.class)),
-                                Helper.operateLocalVariable("u", PredefinedTypes.INT, Operators.INCREMENT)
+                                Helper.operateLocalVariable("u", PredefinedTypes.INT, Operators.INCREMENT),
+                                CodeAPI.ifBlock(CodeAPI.ifExprs(CodeAPI.check(accessU, Operators.EQUAL_TO, Literals.INT(2))),
+                                        CodeAPI.sourceOfParts(CodeAPI.aBreak()))
 
                         ), Helper.createIfVal().add1(Helper.check(accessU, Operators.LESS_THAN, Literals.INT(5))).make()),
                         // Chama um metodo Virtual (metodos de instancia) na Classe PrintStream

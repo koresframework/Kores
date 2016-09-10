@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
@@ -57,6 +58,9 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
         MethodVisitor mv = mvData.getMethodVisitor();
 
         Label whileStart = new Label();
+        Label insideStart = new Label();
+        Label insideEnd = new Label();
+        Label outsideEnd = new Label();
 
         CodeSource source = new CodeSource();
 
@@ -67,12 +71,24 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
         mv.visitLabel(whileStart);
 
         InstructionCodePart instructionCodePart =
-                (value, extraData1, navigator1, visitorGenerator1, additional) -> mv.visitJumpInsn(GOTO, whileStart);
+                (value, extraData1, navigator1, visitorGenerator1, additional) -> {
+                    mv.visitLabel(insideEnd); // Outside of while (continue;)
+                    mv.visitJumpInsn(GOTO, whileStart);
+                };
 
         source.add(instructionCodePart);
 
+        mv.visitLabel(insideStart);
+
+        Flow flow = new Flow(whileStart, insideStart, insideEnd, outsideEnd);
+
+        extraData.registerData(ConstantDatas.FLOW_TYPE_INFO, flow);
+
         visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, navigator, null, mvData);
 
+        extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
+
+        mv.visitLabel(outsideEnd); // break;
 
         return new Byte[0];
     }
@@ -87,52 +103,3 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
 
     }
 }
-/*
-mv.visitIntInsn(BIPUSH, 8);
-            mv.visitTypeInsn(ANEWARRAY, "java/lang/String");
-            mv.visitInsn(DUP);
-            mv.visitInsn(ICONST_0);
-            mv.visitLdcInsn("A");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitInsn(ICONST_1);
-            mv.visitLdcInsn("B");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitInsn(ICONST_2);
-            mv.visitLdcInsn("C");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitInsn(ICONST_3);
-            mv.visitLdcInsn("D");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitInsn(ICONST_4);
-            mv.visitLdcInsn("E");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitInsn(ICONST_5);
-            mv.visitLdcInsn("F");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitIntInsn(BIPUSH, 6);
-            mv.visitLdcInsn("G");
-            mv.visitInsn(AASTORE);
-            mv.visitInsn(DUP);
-            mv.visitIntInsn(BIPUSH, 7);
-            mv.visitLdcInsn("H");
-            mv.visitInsn(AASTORE);
-            mv.visitVarInsn(ASTORE, 1);
-            Label l1 = new Label();
-            mv.visitLabel(l1);
-            mv.visitLineNumber(66, l1);
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitInsn(ARRAYLENGTH);
-            mv.visitVarInsn(ISTORE, 2);
-            Label l2 = new Label();
-            mv.visitLabel(l2);
-            mv.visitLineNumber(68, l2);
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "[Ljava/lang/String;", "clone", "()Ljava/lang/Object;", false);
-            mv.visitInsn(POP);
- */

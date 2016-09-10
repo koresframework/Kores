@@ -51,19 +51,23 @@ import com.github.jonathanxd.codeapi.helper.ArrayStoreEx;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
+import com.github.jonathanxd.codeapi.impl.BreakImpl;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.ContinueImpl;
 import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.Break;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
@@ -1903,6 +1907,31 @@ public final class CodeAPI {
         return ifBlock__Factory(groups, body, null);
     }
 
+
+    /**
+     * Create a if statement.
+     *
+     * @param ifExpr    Expression.
+     * @param body      Body of the if.
+     * @param elseBlock Else block of the if.
+     * @return If statement.
+     */
+    public static IfBlock ifBlock(IfExpr ifExpr, CodeSource body, ElseBlock elseBlock) {
+        return ifBlock__Factory(CodeAPI.ifExprs(ifExpr), body, elseBlock);
+    }
+
+    /**
+     * Create a if statement.
+     *
+     * @param ifExpr    Expression.
+     * @param body   Body of the if.
+     * @return If statement.
+     */
+    public static IfBlock ifBlock(IfExpr ifExpr, CodeSource body) {
+        return ifBlock__Factory(CodeAPI.ifExprs(ifExpr), body, null);
+    }
+
+
     // Factory
     private static IfBlock ifBlock__Factory(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, ElseBlock elseBlock) {
         return Helper.ifExpression(groups, body, elseBlock);
@@ -1991,6 +2020,27 @@ public final class CodeAPI {
     // Factory
     private static ElseBlock elseBlock__Factory(CodeSource body) {
         return Helper.elseExpression(body);
+    }
+
+    // =========================================================
+    //          Break and Continue
+    // =========================================================
+
+    public static Break aBreak() {
+        return CodeAPI.break__Factory();
+    }
+
+    public static Continue aContinue() {
+        return CodeAPI.continue__Factory();
+    }
+
+    // Factory
+    private static Break break__Factory() {
+        return new BreakImpl();
+    }
+
+    private static Continue continue__Factory() {
+        return new ContinueImpl();
     }
 
     // =========================================================

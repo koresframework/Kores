@@ -28,84 +28,41 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
-import com.github.jonathanxd.codeapi.interfaces.ForBlock;
-import com.github.jonathanxd.codeapi.interfaces.IfBlock;
+import com.github.jonathanxd.codeapi.interfaces.Break;
+import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.iterator.Navigator;
 
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
+import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
+public class ContinueVisitor implements Visitor<Continue, Byte, MVData>, Opcodes {
 
-    public static final ForIVisitor INSTANCE = new ForIVisitor();
-
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(ForBlock forBlock,
+    public Byte[] visit(Continue aContinue,
                         MapData extraData,
                         Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        MethodVisitor visitor = mvData.getMethodVisitor();
 
-        Label outsideStart = new Label();
-        Label whileStart = new Label();
-        Label whileEnd = new Label();
-        Label outsideEnd = new Label();
+        Optional<Flow> optional = extraData.getOptional(ConstantDatas.FLOW_TYPE_INFO);
 
-        mv.visitLabel(outsideStart);
+        Flow flow = optional.orElseThrow(() -> new IllegalArgumentException("Cannot 'continue' outside a flow!"));
 
-        forBlock.getForInit().ifPresent(forInit -> visitorGenerator.generateTo(forInit.getClass(), forInit, extraData, navigator, null, mvData));
-
-
-        CodeSource source = new CodeSource();
-
-        forBlock.getBody().ifPresent(source::addAll);
-
-        IfBlock ifBlock = SimpleIfBlock.instance(forBlock, source);
-
-        mv.visitLabel(whileStart);
-
-        Flow flow = new Flow(outsideStart, whileStart, whileEnd, outsideEnd);
-
-        extraData.registerData(ConstantDatas.FLOW_TYPE_INFO, flow);
-
-        InstructionCodePart instructionCodePart =
-                (value, extraData1, navigator1, visitorGenerator1, additional) -> {
-                    mv.visitLabel(whileEnd);
-                    forBlock.getForUpdate().ifPresent(forUpdate -> visitorGenerator.generateTo(forUpdate.getClass(), forUpdate, extraData, navigator, null, mvData));
-                    mv.visitJumpInsn(GOTO, whileStart);
-                };
-
-        source.add(instructionCodePart);
-
-        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, navigator, null, mvData);
-
-        extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
-
-        mv.visitLabel(outsideEnd);
+        visitor.visitJumpInsn(Opcodes.GOTO, flow.getInsideEnd());
 
         return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         ForBlock forBlock,
-                         MapData extraData,
-                         Navigator<CodePart> navigator,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
     }
 }

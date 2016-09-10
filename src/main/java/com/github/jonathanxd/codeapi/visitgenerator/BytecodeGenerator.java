@@ -37,9 +37,11 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.Break;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
@@ -72,10 +74,12 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayConstructVisit
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayLengthVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayLoadVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ArrayStoreVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.BreakVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.CastedVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.CodeMethodVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.CodeSourceVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ConstructorVisitor;
+import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ContinueVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.DoWhileVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.FieldVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.ForEachVisitor;
@@ -158,6 +162,8 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         addVisitor(TryWithResources.class, new TryWithResourcesVisitor());
         addVisitor(InstanceOf.class, new InstanceOfVisitor());
         addVisitor(IfExpr.class, new IfExprVisitor()); /* Sugar Syntax to a IfBlock */
+        addVisitor(Break.class, new BreakVisitor());
+        addVisitor(Continue.class, new ContinueVisitor());
     }
 
     public BytecodeGenerator() {

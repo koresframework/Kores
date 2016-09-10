@@ -41,12 +41,14 @@ import com.github.jonathanxd.codeapi.gen.common.source.ArrayLengthSourceGenerato
 import com.github.jonathanxd.codeapi.gen.common.source.ArrayLoadSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArrayStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.BodiedSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.BreakSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CatchBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ClassTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeSourceSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.CodeTypeSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.ContinueSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ElseBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.EnumValueSourceGenerator;
@@ -97,8 +99,10 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.Break;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
@@ -231,6 +235,10 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         // Instance Of
         register(InstanceOf.class, InstanceOfSourceGenerator.INSTANCE);
+
+        // Control flow.
+        register(Break.class, BreakSourceGenerator.INSTANCE);
+        register(Continue.class, ContinueSourceGenerator.INSTANCE);
     }
 
     @SuppressWarnings("deprecation")
