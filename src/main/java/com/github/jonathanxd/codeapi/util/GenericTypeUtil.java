@@ -95,16 +95,20 @@ public class GenericTypeUtil {
                 boolean extendsOrSuper = bound.sign().equals("+") || bound.sign().equals("-");
 
                 if (bound.sign().equals("+")) {
-                    sb.append("extends");
+                    sb.append(" extends ");
                 } else if (bound.sign().equals("-")) {
-                    sb.append("super");
+                    sb.append(" super ");
                 } else {
                     sb.append("<");
                 }
 
                 CodeType type = bound.getType();
 
-                sb.append(type.getCanonicalName());
+                if(type instanceof GenericType) {
+                    sb.append(toSourceString((GenericType) type));
+                }else {
+                    sb.append(type.getCanonicalName());
+                }
 
                 if (!extendsOrSuper) {
                     sb.append(">");

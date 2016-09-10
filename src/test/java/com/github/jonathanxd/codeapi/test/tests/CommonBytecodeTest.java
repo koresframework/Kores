@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.test.tests;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.test.bytecode.BCLoader;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
@@ -45,6 +46,14 @@ import java.util.function.Function;
 public class CommonBytecodeTest {
 
     public static @Named("Instance") Object test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source) {
+        return CommonBytecodeTest.test(testClass, (TypeDeclaration) mainClass, source);
+    }
+
+    public static @Named("Instance") Object test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
+        return CommonBytecodeTest.test(testClass, (TypeDeclaration) mainClass, source, function);
+    }
+
+    public static @Named("Instance") Object test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source) {
         return test(testClass, mainClass, source, aClass -> {
             try {
                 return aClass.newInstance();
@@ -54,7 +63,7 @@ public class CommonBytecodeTest {
         });
     }
 
-    public static @Named("Instance") Object test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
+    public static @Named("Instance") Object test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         Result<Byte[]> gen = bytecodeGenerator.gen(source);
