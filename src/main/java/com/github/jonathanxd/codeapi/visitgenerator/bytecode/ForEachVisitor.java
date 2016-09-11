@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MVData;
@@ -35,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Opcodes;
 
@@ -47,20 +45,20 @@ public class ForEachVisitor implements Visitor<ForEachBlock, Byte, MVData>, Opco
     public static final ForEachVisitor INSTANCE = new ForEachVisitor();
 
     @Override
-    public Byte[] visit(ForEachBlock forEachBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
+    public Byte[] visit(ForEachBlock forEachBlock, MapData extraData, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
         IterationType iterationType = forEachBlock.getIterationType();
         IterationType.Generator start = iterationType.getGenerator();
 
         CodeSource generated = start.generate(forEachBlock);
 
-        visitorGenerator.generateTo(CodeSource.class, generated, extraData, navigator, null, additional);
+        visitorGenerator.generateTo(CodeSource.class, generated, extraData, null, additional);
 
         return new Byte[0];
     }
 
     @Override
-    public void endVisit(Byte[] r, ForEachBlock forEachBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
+    public void endVisit(Byte[] r, ForEachBlock forEachBlock, MapData extraData, VisitorGenerator<Byte> visitorGenerator, MVData additional) {
 
     }
 }

@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -47,23 +46,22 @@ public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opc
     @Override
     public Byte[] visit(ArrayStore arrayStore,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        visitorGenerator.generateTo(ArrayAccess.class, arrayStore, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(ArrayAccess.class, arrayStore, extraData, null, mvData);
 
         CodePart index = arrayStore.getIndex();
 
-        visitorGenerator.generateTo(index.getClass(), index, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
         //Common.runForInt(arrayStore.getIndex(), additional); // Iconst, bipush, etc
 
         CodePart value = arrayStore.getValueToStore();
 
-        visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
         int opcode = Common.getOpcodeForType(arrayStore.getValueType(), IASTORE);
 
@@ -78,7 +76,6 @@ public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opc
     public void endVisit(Byte[] r,
                          ArrayStore arrayStore,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

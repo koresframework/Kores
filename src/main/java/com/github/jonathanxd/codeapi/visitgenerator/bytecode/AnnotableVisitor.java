@@ -27,13 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Opcodes;
 
@@ -47,14 +45,13 @@ public class AnnotableVisitor implements Visitor<Annotable, Byte, Object>, Opcod
     @Override
     public Byte[] visit(Annotable annotable,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         Object additional) {
 
         List<Annotation> annotations = annotable.getAnnotations();
 
         for (Annotation annotation : annotations) {
-            visitorGenerator.generateTo(Annotation.class, annotation, extraData, navigator, null, additional);
+            visitorGenerator.generateTo(Annotation.class, annotation, extraData, null, additional);
         }
 
 
@@ -67,7 +64,6 @@ public class AnnotableVisitor implements Visitor<Annotable, Byte, Object>, Opcod
     public void endVisit(Byte[] r,
                          Annotable annotable,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
 

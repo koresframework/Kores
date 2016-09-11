@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -47,17 +46,16 @@ public class ArrayLoadVisitor implements Visitor<ArrayLoad, Byte, MVData>, Opcod
     @Override
     public Byte[] visit(ArrayLoad arrayLoad,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        visitorGenerator.generateTo(ArrayAccess.class, arrayLoad, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(ArrayAccess.class, arrayLoad, extraData, null, mvData);
 
         CodePart index = arrayLoad.getIndex();
 
-        visitorGenerator.generateTo(index.getClass(), index, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
         //Common.runForInt(index, additional); // Iconst, bipush, etc
 
@@ -74,7 +72,6 @@ public class ArrayLoadVisitor implements Visitor<ArrayLoad, Byte, MVData>, Opcod
     public void endVisit(Byte[] r,
                          ArrayLoad arrayLoad,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

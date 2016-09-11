@@ -40,7 +40,6 @@ import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.MethodVisitor;
@@ -61,7 +60,6 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
     @Override
     public Byte[] visit(VariableOperate variableOperate,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -93,8 +91,8 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
         OptionalInt varPosOpt = mvData.getVarPos(variable);
 
-        if(!varPosOpt.isPresent())
-            throw new IllegalStateException("Cannot find variable '"+variable+"' in stack table: "+mvData.getVariables());
+        if (!varPosOpt.isPresent())
+            throw new IllegalStateException("Cannot find variable '" + variable + "' in stack table: " + mvData.getVariables());
 
         int i = (int) varPosOpt.getAsInt();
 
@@ -116,23 +114,23 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
                 }
             }
 
-            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: "+operation);
+            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: " + operation);
 
-            visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, null, mvData);
 
-            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
-            operateVisit(variableOperate, operation, extraData, navigator, null, mvData);
+            operateVisit(variableOperate, operation, extraData, null, mvData);
 
             //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
         } else {
-            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: "+operation);
+            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: " + operation);
 
-            visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, null, mvData);
 
-            visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
-            operateVisit(variableOperate, operation, extraData, navigator, null, mvData);
+            operateVisit(variableOperate, operation, extraData, null, mvData);
 
             //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
 
@@ -142,7 +140,7 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
         return new Byte[0];
     }
 
-    private void operateVisit(VariableOperate variableOperate, Operator operation, MapData extraData, Navigator<CodePart> navigator, Object o, MVData mvData) {
+    private void operateVisit(VariableOperate variableOperate, Operator operation, MapData extraData, Object o, MVData mvData) {
         CodeType variableType = variableOperate.getVariableType();
 
 
@@ -172,7 +170,6 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
     public void endVisit(Byte[] r,
                          VariableOperate operate,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

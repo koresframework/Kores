@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
@@ -37,7 +36,6 @@ import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -53,7 +51,6 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
     @Override
     public Byte[] visit(ForBlock forBlock,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -66,7 +63,7 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
 
         mv.visitLabel(outsideStart);
 
-        forBlock.getForInit().ifPresent(forInit -> visitorGenerator.generateTo(forInit.getClass(), forInit, extraData, navigator, null, mvData));
+        forBlock.getForInit().ifPresent(forInit -> visitorGenerator.generateTo(forInit.getClass(), forInit, extraData, null, mvData));
 
 
         CodeSource source = new CodeSource();
@@ -82,15 +79,15 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
         extraData.registerData(ConstantDatas.FLOW_TYPE_INFO, flow);
 
         InstructionCodePart instructionCodePart =
-                (value, extraData1, navigator1, visitorGenerator1, additional) -> {
+                (value, extraData1, visitorGenerator1, additional) -> {
                     mv.visitLabel(whileEnd);
-                    forBlock.getForUpdate().ifPresent(forUpdate -> visitorGenerator.generateTo(forUpdate.getClass(), forUpdate, extraData, navigator, null, mvData));
+                    forBlock.getForUpdate().ifPresent(forUpdate -> visitorGenerator.generateTo(forUpdate.getClass(), forUpdate, extraData, null, mvData));
                     mv.visitJumpInsn(GOTO, whileStart);
                 };
 
         source.add(instructionCodePart);
 
-        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, null, mvData);
 
         extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
 
@@ -103,7 +100,6 @@ public class ForIVisitor implements Visitor<ForBlock, Byte, MVData>, Opcodes {
     public void endVisit(Byte[] r,
                          ForBlock forBlock,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

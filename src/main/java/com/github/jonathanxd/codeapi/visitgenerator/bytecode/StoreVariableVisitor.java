@@ -40,7 +40,6 @@ import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -59,13 +58,12 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
     @Override
     public Byte[] visit(VariableDeclaration variableDeclaration,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
+        TypeDeclaration typeDeclaration = Util.find(TypeVisitor.CODE_TYPE_REPRESENTATION, extraData, null);
 
         CodeType localization = variableDeclaration.getLocalization();
 
@@ -78,10 +76,10 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
         if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
         } else if (at != null) {
-            visitorGenerator.generateTo(at.getClass(), at, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(at.getClass(), at, extraData, null, mvData);
         }
 
-        visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
         // IF AT == NULL && LOCALIZATION == NULL ? I'AM STORING A LOCAL FIELD
         // IF AT != NULL IAM
@@ -114,7 +112,7 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
 
                 if (variableDeclaration instanceof HiddenField) {
                     i = mvData.storeInternalVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null)
-                        .orElseThrow(() -> mvData.failStore(variableDeclaration));
+                            .orElseThrow(() -> mvData.failStore(variableDeclaration));
                 } else {
                     i = mvData.storeVar(variableDeclaration.getName(), variableDeclaration.getVariableType(), i_label, null)
                             .orElseThrow(() -> mvData.failStore(variableDeclaration));
@@ -147,7 +145,6 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
     public void endVisit(Byte[] r,
                          VariableDeclaration variableDeclaration,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

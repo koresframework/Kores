@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
@@ -37,7 +36,6 @@ import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -51,7 +49,6 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
     @Override
     public Byte[] visit(WhileBlock whileBlock,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -71,7 +68,7 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
         mv.visitLabel(whileStart);
 
         InstructionCodePart instructionCodePart =
-                (value, extraData1, navigator1, visitorGenerator1, additional) -> {
+                (value, extraData1, visitorGenerator1, additional) -> {
                     mv.visitLabel(insideEnd); // Outside of while (continue;)
                     mv.visitJumpInsn(GOTO, whileStart);
                 };
@@ -84,7 +81,7 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
 
         extraData.registerData(ConstantDatas.FLOW_TYPE_INFO, flow);
 
-        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, null, mvData);
 
         extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
 
@@ -97,7 +94,6 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
     public void endVisit(Byte[] r,
                          WhileBlock whileBlock,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

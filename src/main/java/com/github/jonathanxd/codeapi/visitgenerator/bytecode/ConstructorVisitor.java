@@ -27,13 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Opcodes;
 
@@ -45,15 +43,15 @@ public class ConstructorVisitor implements Visitor<ConstructorDeclaration, Byte,
     public static final ConstructorVisitor INSTANCE = new ConstructorVisitor();
 
     @Override
-    public Byte[] visit(ConstructorDeclaration codeConstructor, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(ConstructorDeclaration codeConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
-        visitorGenerator.generateTo(MethodDeclaration.class, codeConstructor, extraData, navigator, null, null);
+        visitorGenerator.generateTo(MethodDeclaration.class, codeConstructor, extraData, null, null);
 
         return new Byte[0];
     }
 
     @Override
-    public void endVisit(Byte[] r, ConstructorDeclaration codeConstructor, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, ConstructorDeclaration codeConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

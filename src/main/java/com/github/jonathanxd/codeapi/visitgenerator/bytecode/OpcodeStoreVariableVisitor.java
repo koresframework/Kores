@@ -36,7 +36,6 @@ import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -52,13 +51,12 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
 
     public static void visit(VariableDeclaration variableDeclaration,
                              MapData extraData,
-                             Navigator<CodePart> navigator,
                              VisitorGenerator<Byte> visitorGenerator,
                              MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
+        TypeDeclaration typeDeclaration = Util.find(TypeVisitor.CODE_TYPE_REPRESENTATION, extraData, null);
 
         CodeType localization = variableDeclaration.getLocalization();
 
@@ -68,7 +66,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
         if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
         } else if (at != null) {
-            visitorGenerator.generateTo(at.getClass(), at, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(at.getClass(), at, extraData, null, mvData);
         }
 
         if (at == null) {

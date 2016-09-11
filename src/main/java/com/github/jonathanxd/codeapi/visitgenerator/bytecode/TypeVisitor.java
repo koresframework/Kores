@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
@@ -45,7 +44,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
@@ -73,7 +71,6 @@ public class TypeVisitor implements Visitor<TypeDeclaration, Byte, Object>, Opco
     @Override
     public Byte[] visit(TypeDeclaration typeDeclaration,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         Object additional) {
 
@@ -134,35 +131,29 @@ public class TypeVisitor implements Visitor<TypeDeclaration, Byte, Object>, Opco
         cw.visit(52, modifiers, className, genericRepresentation, Common.codeTypeToSimpleAsm(superClass), impls);
 
         // Visit Annotations
-        visitorGenerator.generateTo(Annotable.class, typeDeclaration, extraData, navigator, null, null);
+        visitorGenerator.generateTo(Annotable.class, typeDeclaration, extraData, null, null);
 
         Optional<CodeSource> bodyOpt = typeDeclaration.getBody();
         if (bodyOpt.isPresent()) {
             CodeSource body = bodyOpt.get();
 
-            if(body.size() > 0) {
-                visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, null);
+            if (body.size() > 0) {
+                visitorGenerator.generateTo(CodeSource.class, body, extraData, null, null);
             }
 
             boolean constructor = body.stream().filter(c -> c instanceof ConstructorDeclaration).findAny().isPresent();
 
             if (!constructor && typeDeclaration instanceof ClassDeclaration) { // Interfaces has no super call.
                 ConstructorDeclaration codeConstructor = new CodeConstructor(typeDeclaration, Collections.singleton(CodeModifier.PUBLIC), Collections.emptyList(), null);
-                visitorGenerator.generateTo(ConstructorDeclaration.class, codeConstructor, extraData, navigator, null, null);
+                visitorGenerator.generateTo(ConstructorDeclaration.class, codeConstructor, extraData, null, null);
             }
 
         }
 
-        Collection<MethodFragment> all = extraData.getAll(MethodFragmentVisitor.FRAGMENT_TYPE_INFO);
-
-        if (!all.isEmpty()) {
-            for (MethodFragment methodFragment : all) {
-                visitorGenerator.generateTo(MethodFragment.class, methodFragment, extraData, navigator, null, null);
-            }
-        }
+        MethodFragmentVisitor.visitFragmentsGeneration(visitorGenerator, extraData);
 
 
-        StaticBlockVisitor.generate(extraData, navigator, visitorGenerator, cw, typeDeclaration);
+        StaticBlockVisitor.generate(extraData, visitorGenerator, cw, typeDeclaration);
 
         cw.visitEnd();
 
@@ -173,7 +164,6 @@ public class TypeVisitor implements Visitor<TypeDeclaration, Byte, Object>, Opco
     public void endVisit(Byte[] r,
                          TypeDeclaration codeInterface,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
         extraData.unregisterData(CODE_TYPE_REPRESENTATION, codeInterface);

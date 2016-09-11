@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
@@ -35,7 +34,6 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -54,7 +52,6 @@ public class IfExprVisitor implements Visitor<IfExpr, Byte, MVData>, Opcodes {
     @Override
     public Byte[] visit(IfExpr ifExpr,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -69,7 +66,7 @@ public class IfExprVisitor implements Visitor<IfExpr, Byte, MVData>, Opcodes {
                         Literals.BOOLEAN(false)
                 ));
 
-        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, navigator, mvData);
+        visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, mvData);
 
         return new Byte[0];
     }
@@ -78,7 +75,6 @@ public class IfExprVisitor implements Visitor<IfExpr, Byte, MVData>, Opcodes {
     public void endVisit(Byte[] r,
                          IfExpr ifExpr,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

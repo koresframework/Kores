@@ -70,7 +70,7 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
      * @param current     Parent generators
      * @param <TARGET>    Output object type.
      * @param <C>         Generator type.
-     * @return
+     * @return {@link CodePartValue} instance.
      */
     public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<CodePart, TARGET, C> create(CodePart part, Parent<Generator<?, TARGET, C>> current) {
         return new CodePartValue<>(part, current);

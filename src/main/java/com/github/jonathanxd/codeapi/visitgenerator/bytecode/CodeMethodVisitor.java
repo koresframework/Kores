@@ -54,7 +54,6 @@ import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -74,7 +73,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
     public static final CodeMethodVisitor INSTANCE = new CodeMethodVisitor();
 
-    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, Navigator<CodePart> navigator, MVData mvData) {
+    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, MVData mvData) {
 
         if (searchInitThis(typeDeclaration, methodBody)) {
             // Calling this() will redirect to a constructor that initialize variables
@@ -96,14 +95,14 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
             Optional<CodePart> valueOpt = codeField.getValue();
 
-            if(valueOpt.isPresent()) {
+            if (valueOpt.isPresent()) {
                 CodePart value = valueOpt.get();
 
                 Label labeln = new Label();
 
                 mv.visitLabel(labeln);
                 mv.visitVarInsn(ALOAD, 0);
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
                 mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
             }
@@ -130,7 +129,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             String name = codeField.getName();
             Optional<CodePart> value = codeField.getValue();
 
-            if(value.isPresent()) {
+            if (value.isPresent()) {
                 codeSource.add(Helper.setThisVariable(name, type, value.get()));
             }
         }
@@ -201,15 +200,25 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
     }
 
     @Override
-    public Byte[] visit(MethodDeclaration codeMethod, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
 
 
-        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
+        TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'!");
 
-        ClassWriter cw = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
+        //Optional<ClassWriter> optional = extraData.getOptional(TypeVisitor.CLASS_WRITER_REPRESENTATION);
 
+        ClassWriter cw = Util.find(TypeVisitor.CLASS_WRITER_REPRESENTATION, extraData, additional);
+
+/*
+        if(additional != null && additional instanceof ClassWriter) {
+            cw = (ClassWriter) additional;
+        } else {
+            cw = optional.orElseThrow(() -> new IllegalArgumentException("ClassWriter not registered. Register 'TypeVisitor.CLASS_WRITER_REPRESENTATION'!"));
+        }
+
+*/
         Optional<CodeSource> bodyOpt = codeMethod.getBody();
 
         Collection<CodeModifier> modifiers = new ArrayList<>(codeMethod.getModifiers());
@@ -249,12 +258,12 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
         MVData mvData = new MVData(mv, vars);
 
-        visitorGenerator.generateTo(Annotable.class, codeMethod, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(Annotable.class, codeMethod, extraData, null, mvData);
 
         for (int i = 0; i < parameters.size(); i++) {
             CodeParameter codeParameter = parameters.get(i);
 
-            visitorGenerator.generateTo(Annotable.class, codeParameter, extraData, navigator, null, new ParameterVisitor(mvData, i));
+            visitorGenerator.generateTo(Annotable.class, codeParameter, extraData, null, new ParameterVisitor(mvData, i));
         }
 
         if (codeMethod.hasBody() || isConstructor) {
@@ -277,7 +286,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
             if (isConstructor) {
                 if (isGenerated) {
-                    CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, navigator, mvData);
+                    CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, mvData);
                 } else {
 
 
@@ -290,7 +299,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             }
 
             if (methodSource != null) {
-                visitorGenerator.generateTo(CodeSource.class, methodSource, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(CodeSource.class, methodSource, extraData, null, mvData);
             }
 
             /**
@@ -322,7 +331,7 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
     }
 
     @Override
-    public void endVisit(Byte[] r, MethodDeclaration codeMethod, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

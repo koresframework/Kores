@@ -25,23 +25,26 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.sugar;
+package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.PartProcessor;
+import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.iutils.object.TypeInfo;
 
-/**
- * Sugar syntax generator.
- */
-public interface Generator<T extends CodePart> extends PartProcessor {
+import java.util.Optional;
 
-    /**
-     * Generate the sugar syntax.
-     *
-     * @param t Sugar syntax instance.
-     * @return Generated sugar syntax.
-     */
-    CodeSource generate(T t);
+public class Util {
+
+    @SuppressWarnings("unchecked")
+    public static <T> T find(TypeInfo<T> typeInfo, MapData data, Object additional) {
+        Class<? extends T> aClass = typeInfo.getAClass();
+
+        Optional<T> optional = data.getOptional(typeInfo);
+
+        if (additional != null && aClass.isInstance(additional)) {
+            return (T) additional;
+        } else {
+            return optional.orElseThrow(() -> new IllegalArgumentException("Could not determine: " + typeInfo + "! You must to register. Current additional data: " + additional));
+        }
+    }
 
 }

@@ -27,19 +27,18 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.Opcodes;
+
+import java.util.Collection;
 
 /**
  * Created by jonathan on 21/08/16.
@@ -48,22 +47,32 @@ public class MethodFragmentVisitor implements Visitor<MethodFragment, Byte, Obje
 
     public static final TypeInfo<MethodFragment> FRAGMENT_TYPE_INFO = TypeInfo.aUnique(MethodFragment.class);
 
+    public static void visitFragmentsGeneration(VisitorGenerator<?> visitorGenerator, MapData extraData) {
+        Collection<MethodFragment> all = extraData.getAll(MethodFragmentVisitor.FRAGMENT_TYPE_INFO);
+
+        if (!all.isEmpty()) {
+            for (MethodFragment methodFragment : all) {
+                visitorGenerator.generateTo(MethodFragment.class, methodFragment, extraData, null, null);
+            }
+        }
+    }
+
     @Override
-    public Byte[] visit(MethodFragment methodFragment, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(MethodFragment methodFragment, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         if (additional != null && additional instanceof MVData) {
             MVData mvData = (MVData) additional;
             extraData.registerData(MethodFragmentVisitor.FRAGMENT_TYPE_INFO, methodFragment);
-            visitorGenerator.generateTo(MethodInvocation.class, methodFragment, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(MethodInvocation.class, methodFragment, extraData, null, mvData);
         } else {
-            visitorGenerator.generateTo(MethodDeclaration.class, methodFragment.getMethod(), extraData, navigator, null, null);
+            visitorGenerator.generateTo(MethodDeclaration.class, methodFragment.getMethod(), extraData, null, null);
         }
 
         return new Byte[0];
     }
 
     @Override
-    public void endVisit(Byte[] r, MethodFragment methodFragment, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, MethodFragment methodFragment, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

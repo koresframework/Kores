@@ -36,7 +36,6 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -51,7 +50,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
     public static final ArrayConstructVisitor INSTANCE = new ArrayConstructVisitor();
 
     @Override
-    public Byte[] visit(ArrayConstructor arrayConstructor, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
+    public Byte[] visit(ArrayConstructor arrayConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
@@ -64,14 +63,14 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
 
         if (multi && !initialize) {
             for (CodePart i : dimensions) {
-                visitorGenerator.generateTo(i.getClass(), i, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(i.getClass(), i, extraData, null, mvData);
             }
             //throw new TODOException("Multi-dimensional arrays not implemented yet!");
             mv.visitMultiANewArrayInsn(Common.codeTypeToArray(arrayConstructor.getArrayType(), dimensions.length), dimensions.length);
         } else {
             CodePart dimensionX = dimensions.length != 0 ? dimensions[0] : Literals.INT(0);
 
-            visitorGenerator.generateTo(dimensionX.getClass(), dimensionX, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(dimensionX.getClass(), dimensionX, extraData, null, mvData);
 
             //Common.codeTypeToSimpleAsm(arrayConstructor.getArrayType()
 
@@ -85,7 +84,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
 
             for (ArrayStore arrayStore : arrayConstructor.getArrayValues()) {
                 mv.visitInsn(DUP);
-                visitorGenerator.generateTo(ArrayStore.class, arrayStore, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(ArrayStore.class, arrayStore, extraData, null, mvData);
             }
 
 
@@ -95,7 +94,7 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
     }
 
     @Override
-    public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
+    public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
 
     }
 

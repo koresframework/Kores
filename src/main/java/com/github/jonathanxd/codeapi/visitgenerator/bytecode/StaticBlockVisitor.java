@@ -40,7 +40,6 @@ import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
 import com.github.jonathanxd.iutils.optional.Require;
 
@@ -63,7 +62,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     public static final TypeInfo<StaticBlock> STATIC_BLOCKS =
             TypeInfo.a(StaticBlock.class).setUnique(true).build();
 
-    public static void generate(MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, ClassWriter cw, TypeDeclaration typeDeclaration) {
+    public static void generate(MapData extraData, VisitorGenerator<?> visitorGenerator, ClassWriter cw, TypeDeclaration typeDeclaration) {
 
         MethodVisitor mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
 
@@ -93,7 +92,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
 
                 mv.visitLabel(labeln);
 
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
                 Optional<CodeType> type = codeField.getType();
 
@@ -107,7 +106,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
         Collection<StaticBlock> staticBlocks = extraData.getAll(STATIC_BLOCKS);
 
         for (StaticBlock staticBlock : staticBlocks) {
-            staticBlock.getBody().ifPresent(codeSource -> visitorGenerator.generateTo(CodeSource.class, codeSource, extraData, navigator, null, mvData));
+            staticBlock.getBody().ifPresent(codeSource -> visitorGenerator.generateTo(CodeSource.class, codeSource, extraData, null, mvData));
         }
 
 
@@ -117,7 +116,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     }
 
     @Override
-    public Byte[] visit(StaticBlock staticBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(StaticBlock staticBlock, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         extraData.registerData(STATIC_BLOCKS, staticBlock);
 
@@ -125,7 +124,7 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     }
 
     @Override
-    public void endVisit(Byte[] r, StaticBlock staticBlock, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, StaticBlock staticBlock, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 

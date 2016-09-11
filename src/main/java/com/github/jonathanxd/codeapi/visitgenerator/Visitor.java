@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.visitgenerator;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 /**
  * A part visitor.
@@ -45,25 +44,22 @@ public interface Visitor<T extends CodePart, R, L> extends PartProcessor {
      *
      * @param t                Part to visit.
      * @param extraData        Data.
-     * @param navigator        Navigator
      * @param visitorGenerator Generator.
      * @param additional       Additional element.
      * @return Result.
      */
-    R[] visit(T t, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional);
+    R[] visit(T t, MapData extraData, VisitorGenerator<R> visitorGenerator, L additional);
 
     /**
      * End a visit to a {@link CodePart} of type {@link T}.
      *
-     * @param r                Result of {@link #visit(CodePart, MapData, Navigator,
-     *                         VisitorGenerator, Object)} invocation.
+     * @param r                Result of {@link #visit(CodePart, MapData, VisitorGenerator, Object)} invocation.
      * @param t                Part to visit.
      * @param extraData        Data.
-     * @param navigator        Navigator
      * @param visitorGenerator Generator.
      * @param additional       Additional element.
      */
-    default void endVisit(R[] r, T t, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<R> visitorGenerator, L additional) {
+    default void endVisit(R[] r, T t, MapData extraData, VisitorGenerator<R> visitorGenerator, L additional) {
 
     }
 }

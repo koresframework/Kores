@@ -45,6 +45,8 @@ public interface ForBlock extends Bodied, IfBlock {
 
     /**
      * Gets the for initialization.
+     *
+     * @return For initialization.
      */
     Optional<CodePart> getForInit();
 

@@ -36,8 +36,8 @@ import java.util.List;
 /**
  * BUGS, and bugs, use TargetValue instead.
  *
- * @param <TARGET>
- * @param <C>
+ * @param <TARGET> Output object type.
+ * @param <C>      Generator type.
  */
 class TargetClassValue<TARGET, C extends AbstractGenerator<TARGET, C>> implements Value<Class<?>, TARGET, C> {
 

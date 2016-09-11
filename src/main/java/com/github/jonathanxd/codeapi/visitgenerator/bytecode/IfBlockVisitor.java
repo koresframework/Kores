@@ -27,13 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -49,7 +47,6 @@ public class IfBlockVisitor implements Visitor<IfBlock, Byte, MVData>, Opcodes {
     @Override
     public Byte[] visit(IfBlock ifBlock,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -60,7 +57,7 @@ public class IfBlockVisitor implements Visitor<IfBlock, Byte, MVData>, Opcodes {
 
         methodVisitor.visitLabel(startIfLabel);
 
-        BytecodeIfBlockVisitor.visit(ifBlock, startIfLabel, endIfLabel, false, false, extraData, navigator, visitorGenerator, mvData);
+        BytecodeIfBlockVisitor.visit(ifBlock, startIfLabel, endIfLabel, false, false, extraData, visitorGenerator, mvData);
 
         methodVisitor.visitLabel(endIfLabel);
 
@@ -72,7 +69,6 @@ public class IfBlockVisitor implements Visitor<IfBlock, Byte, MVData>, Opcodes {
     public void endVisit(Byte[] r,
                          IfBlock ifBlock,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

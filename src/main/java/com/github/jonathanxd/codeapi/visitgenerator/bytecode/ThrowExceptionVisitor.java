@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -48,7 +47,6 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
     @Override
     public Byte[] visit(ThrowException e,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -56,7 +54,7 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
 
         CodePart partToThrow = e.getPartToThrow();
 
-        visitorGenerator.generateTo(partToThrow.getClass(), partToThrow, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(partToThrow.getClass(), partToThrow, extraData, null, mvData);
 
         //visitorGenerator.generateTo(invoke.getClass(), invoke, extraData, navigator, null, mvData);
         /*CodeType exceptionType = e.getType().orElseThrow(NullPointerException::new);
@@ -80,7 +78,6 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
     public void endVisit(Byte[] r,
                          ThrowException e,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

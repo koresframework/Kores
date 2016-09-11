@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
@@ -45,7 +44,6 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Opcodes;
 
@@ -71,7 +69,6 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
     @Override
     public Byte[] visit(TryWithResources tryWithResources,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -79,7 +76,7 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
         VariableDeclaration variable = tryWithResources.getVariable();
 
         // Generate try-catch initialize field
-        visitorGenerator.generateTo(CodeField.class, variable, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(CodeField.class, variable, extraData, null, mvData);
 
         int num = this.getAndIncrementTryWithRes();
 
@@ -91,7 +88,7 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
                 PredefinedTypes.THROWABLE,
                 Literals.NULL);
 
-        visitorGenerator.generateTo(CodeField.class, throwableField, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(CodeField.class, throwableField, extraData, null, mvData);
 
         // Generate try block
         String catch_ = "$catch#" + num;
@@ -151,7 +148,7 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
                         tryWithResources.getFinallyBlock().orElse(new CodeSource())
                 ));
 
-        visitorGenerator.generateTo(TryCatchBlock.class, tryCatchBlock, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(TryCatchBlock.class, tryCatchBlock, extraData, null, mvData);
 
         //additional.visitVarInsn(ALOAD, 0);
 
@@ -162,7 +159,6 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
     public void endVisit(Byte[] r,
                          TryWithResources tryWithResources,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

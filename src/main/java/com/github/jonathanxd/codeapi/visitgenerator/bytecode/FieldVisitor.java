@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
@@ -37,8 +36,6 @@ import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -50,14 +47,10 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
     public static final FieldVisitor INSTANCE = new FieldVisitor();
 
-    public static final TypeInfo<FieldDeclaration> FIELDS_TO_ASSIGN =
-            TypeInfo.a(FieldDeclaration.class).setUnique(true).build();
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public Byte[] visit(FieldDeclaration codeField,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         Object additional) {
 
@@ -69,17 +62,17 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
         } else {
             if (additional instanceof MVData) {
 
-                visitorGenerator.generateTo(VariableDeclaration.class, codeField, extraData, navigator, null, additional);
+                visitorGenerator.generateTo(VariableDeclaration.class, codeField, extraData, null, additional);
 
                 return new Byte[0];
             } else {
-                throw new RuntimeException("Cannot handle additional: " + additional.getClass().getCanonicalName());
+                //throw new RuntimeException("Cannot handle additional: " + additional.getClass().getCanonicalName());
             }
         }
 
         int asm = Common.modifierToAsm(codeField.getModifiers());
 
-        ClassWriter required = extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);
+        ClassWriter required = Util.find(TypeVisitor.CLASS_WRITER_REPRESENTATION, extraData, additional);/*extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);*/
 
         String signature = null;
 
@@ -91,7 +84,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
         org.objectweb.asm.FieldVisitor fieldVisitor = required.visitField(asm, codeField.getName(), Common.codeTypeToFullAsm(type), signature, null);
 
-        visitorGenerator.generateTo(Annotable.class, codeField, extraData, navigator, null, fieldVisitor);
+        visitorGenerator.generateTo(Annotable.class, codeField, extraData, null, fieldVisitor);
 
         return new Byte[0];
     }
@@ -100,7 +93,6 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
     public void endVisit(Byte[] r,
                          FieldDeclaration codeField,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
     }

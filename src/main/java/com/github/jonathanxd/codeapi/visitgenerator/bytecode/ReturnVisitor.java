@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -50,14 +48,13 @@ public class ReturnVisitor implements Visitor<Return, Byte, MVData>, Opcodes {
     @Override
     public Byte[] visit(Return aReturn,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
         aReturn.getValue().ifPresent(codePart ->
-                visitorGenerator.generateTo(codePart.getClass(), codePart, extraData, navigator, null, mvData));
+                visitorGenerator.generateTo(codePart.getClass(), codePart, extraData, null, mvData));
 
         CodeType toRet = aReturn.getType().orElse(null);
 
@@ -84,7 +81,6 @@ public class ReturnVisitor implements Visitor<Return, Byte, MVData>, Opcodes {
     public void endVisit(Byte[] r,
                          Return aReturn,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

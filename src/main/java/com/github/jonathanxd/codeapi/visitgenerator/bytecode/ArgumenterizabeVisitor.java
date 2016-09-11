@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.MethodVisitor;
@@ -50,7 +49,6 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
     @Override
     public Byte[] visit(Argumenterizable argumenterizable,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -63,7 +61,7 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
             for (CodeArgument argument : arguments) {
                 CodePart value = Require.require(argument.getValue());
 
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
                 if (argument.isCasted()) {
                     additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(Require.require(argument.getType())));
@@ -78,7 +76,7 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
 
                 CodePart value = Require.require(argument.getValue());
 
-                visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
                 if (argument.isCasted()) {
                     additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(Require.require(argument.getType())));
@@ -95,7 +93,6 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
     public void endVisit(Byte[] r,
                          Argumenterizable argumenterizable,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

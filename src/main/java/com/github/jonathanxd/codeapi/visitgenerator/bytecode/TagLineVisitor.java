@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -48,7 +47,6 @@ public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opc
     @Override
     public Byte[] visit(TagLine<?, ?> tagLine,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -66,7 +64,7 @@ public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opc
 
         additional.visitLineNumber(line, label);
 
-        visitorGenerator.generateTo(value.getClass(), value, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
         additional.visitLabel(new Label());
         //additional.visitVarInsn(ALOAD, 0);
@@ -78,7 +76,6 @@ public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opc
     public void endVisit(Byte[] r,
                          TagLine<?, ?> tagLine,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

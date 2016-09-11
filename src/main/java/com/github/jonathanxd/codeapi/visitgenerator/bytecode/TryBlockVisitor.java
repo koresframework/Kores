@@ -42,7 +42,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -70,7 +69,6 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
     @Override
     public Byte[] visit(TryBlock tryBlock,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -112,7 +110,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         mv.visitLabel(l0);
 
-        tryBlock.getBody().ifPresent(body -> visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, mvData));
+        tryBlock.getBody().ifPresent(body -> visitorGenerator.generateTo(CodeSource.class, body, extraData, null, mvData));
 
 
         mv.visitLabel(l1);
@@ -121,7 +119,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
         if (INLINE_FINALLY) {
             if (finallyBlock != null) {
                 mv.visitLabel(finallyBlock);
-                visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, null, mvData);
             }
         }
 
@@ -159,7 +157,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
             if (fieldValue.isPresent()) {
                 CodePart valuePart = fieldValue.get();
 
-                visitorGenerator.generateTo(valuePart.getClass(), valuePart, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(valuePart.getClass(), valuePart, extraData, null, mvData);
 
                 mv.visitVarInsn(ASTORE, stackPos);
             }
@@ -176,7 +174,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
                 Logger.getLogger("Inliner").warning("Is not recommended to use non-inlined finally in Bytecode generation because the behavior is inconsistent.");
 
-                toAdd = Helper.sourceOf((InstructionCodePart) (value, extraData1, navigator1, visitorGenerator1, additional) ->
+                toAdd = Helper.sourceOf((InstructionCodePart) (value, extraData1, visitorGenerator1, additional) ->
                         mv.visitJumpInsn(GOTO, finallyBlock));
             }
 
@@ -195,14 +193,14 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
                     return false;
                 }, toAdd, codeSource1);
 
-                visitorGenerator.generateTo(CodeSource.class, codeSource1, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(CodeSource.class, codeSource1, extraData, null, mvData);
             }
 
 
             if (!booleanContainer.get()) {
                 if (INLINE_FINALLY) {
                     if (finallyBlock != null) {
-                        visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
+                        visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, null, mvData);
                     }
                 } else if (!INLINE_FINALLY && finallyBlock != null) {
                     mv.visitJumpInsn(GOTO, finallyBlock);
@@ -218,7 +216,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         if (!INLINE_FINALLY && finallyBlock != null) {
             mv.visitLabel(finallyBlock);
-            visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(CodeSource.class, finallySource, extraData, null, mvData);
         }
 
         mv.visitLabel(outOfIf);
@@ -233,7 +231,6 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
     public void endVisit(Byte[] r,
                          TryBlock tryBlock,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

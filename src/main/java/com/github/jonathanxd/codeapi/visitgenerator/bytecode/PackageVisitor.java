@@ -27,12 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.object.TypeInfo;
 
 /**
@@ -47,7 +45,7 @@ public class PackageVisitor implements Visitor<PackageDeclaration, Byte, Object>
 
     @Override
     public Byte[] visit(PackageDeclaration packageDeclaration,
-                        MapData extraData, Navigator<CodePart> navigator,
+                        MapData extraData,
                         VisitorGenerator<Byte> visitorGenerator,
                         Object additional) {
 
@@ -60,7 +58,6 @@ public class PackageVisitor implements Visitor<PackageDeclaration, Byte, Object>
     public void endVisit(Byte[] r,
                          PackageDeclaration packageDeclaration,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
 

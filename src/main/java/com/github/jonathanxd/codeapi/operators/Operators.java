@@ -109,11 +109,6 @@ public class Operators {
         throw new RuntimeException("Cannot determine primitive opcode of '" + operator + "'");
     }
 
-    /**
-     * PT: Se eu receber um == eu devo falar para a JVM:
-     *
-     * SE NAO FOR IGUAL, PULE PARA 'LABEL TAL', entao, eu preciso inverter as operacoes
-     */
     public static int inversePrimitiveToAsm(Operator operator) {
         if (operator == EQUAL_TO) {
             // PARA SER IGUAL, NAO PODE SER DIFERENTE

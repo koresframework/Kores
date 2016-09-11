@@ -38,7 +38,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.MethodVisitor;
@@ -52,7 +51,6 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
     @Override
     public Byte[] visit(Casted casted,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -66,7 +64,7 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
         CodePart autoboxing = autoboxing(from, to, castedPart);
 
         if (autoboxing != null) {
-            visitorGenerator.generateTo(autoboxing.getClass(), autoboxing, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(autoboxing.getClass(), autoboxing, extraData, null, mvData);
 
             if ((from.isPrimitive() && !to.isPrimitive())
                     && !from.getWrapperType().getCanonicalName().equals(to.getCanonicalName())) {
@@ -74,7 +72,7 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
             }
 
         } else {
-            visitorGenerator.generateTo(castedPart.getClass(), castedPart, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(castedPart.getClass(), castedPart, extraData, null, mvData);
 
             if (!from.equals(to)) {
                 if (to.isPrimitive()) {
@@ -94,7 +92,6 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
     public void endVisit(Byte[] r,
                          Casted casted,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

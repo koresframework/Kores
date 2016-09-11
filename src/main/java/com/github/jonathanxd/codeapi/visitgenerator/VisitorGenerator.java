@@ -105,30 +105,35 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
         MapData extraData = makeData();
 
+        return this.gen(source, extraData, null);
+    }
+
+    public Result<T[]> gen(CodeSource source, MapData data, Object additional) {
+
         Appender<T> appender = createAppender();
 
-        extraData.registerData(APPENDER_REPRESENTATION, appender);
+        data.registerData(APPENDER_REPRESENTATION, appender);
 
-        extraData.registerData(VISITOR_REPRESENTATION, this);
+        data.registerData(VISITOR_REPRESENTATION, this);
 
 
         for (int i = 0; i < source.size(); i++) {
             CodePart codePart = source.get(i);
 
-            Navigator<CodePart> nav = new Nav(source);
-
-            nav.navigateTo(i);
-
             Class<? extends CodePart> aClass = codePart.getClass();
 
 
-            generateTo(aClass, codePart, extraData, nav, appender::addAll, null);
-
+            generateTo(aClass, codePart, data, appender::addAll, additional);
 
         }
 
+        data.unregisterData(APPENDER_REPRESENTATION, appender);
 
-        return new Result<>(appender.get(), extraData);
+        data.unregisterData(VISITOR_REPRESENTATION, this);
+
+
+
+        return new Result<>(appender.get(), (MapData) data.clone());
     }
 
     /**
@@ -144,11 +149,10 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
      * @param partClass  Type of visitor part.
      * @param codePart   Part.
      * @param extraData  Data.
-     * @param nav        Navigator.
      * @param additional Additional object.
      */
-    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Object additional) {
-        this.generateTo(partClass, codePart, extraData, nav, null, additional);
+    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Object additional) {
+        this.generateTo(partClass, codePart, extraData, null, additional);
     }
 
     /**
@@ -157,36 +161,35 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
      * @param partClass  Type of visitor part.
      * @param codePart   Part.
      * @param extraData  Data.
-     * @param nav        Navigator.
      * @param consumer   Consumer
      * @param additional Additional object.
      */
-    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Navigator<CodePart> nav, Consumer<T[]> consumer, Object additional) {
+    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Consumer<T[]> consumer, Object additional) {
         try {
             Visitor<?, T, ?> tVisitor = get(partClass);
 
-            T[] visit = visit(tVisitor, codePart, extraData, nav, additional);
+            T[] visit = visit(tVisitor, codePart, extraData, additional);
 
             if (consumer != null)
                 consumer.accept(visit);
 
-            endVisit(tVisitor, visit, codePart, extraData, nav, additional);
+            endVisit(tVisitor, visit, codePart, extraData, additional);
         } catch (Throwable t) {
-            if (t instanceof ProcessingException)
+            if(t instanceof ProcessingException)
                 throw t;
 
-            new ProcessingException("Error while processing type: '" + partClass + "', Part: '" + codePart + "'.", t).printStackTrace();
+            throw new ProcessingException("Error while processing type: '" + partClass + "', Part: '" + codePart + "'.", t);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private <L extends CodePart, D> T[] visit(Visitor<L, T, D> visitor, Object value, MapData extraData, Navigator<CodePart> tNavigator, Object additional) {
-        return visitor.visit((L) value, extraData, tNavigator, this, (D) additional);
+    private <L extends CodePart, D> T[] visit(Visitor<L, T, D> visitor, Object value, MapData extraData, Object additional) {
+        return visitor.visit((L) value, extraData, this, (D) additional);
     }
 
     @SuppressWarnings("unchecked")
-    private <L extends CodePart, D> void endVisit(Visitor<L, T, D> visitor, T[] results, Object value, MapData extraData, Navigator<CodePart> tNavigator, Object additional) {
-        visitor.endVisit(results, (L) value, extraData, tNavigator, this, (D) additional);
+    private <L extends CodePart, D> void endVisit(Visitor<L, T, D> visitor, T[] results, Object value, MapData extraData, Object additional) {
+        visitor.endVisit(results, (L) value, extraData, this, (D) additional);
     }
 
     @SuppressWarnings("unchecked")
@@ -208,58 +211,4 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
         }
     }
 
-    public static final class Nav implements Navigator<CodePart> {
-
-        final CodeSource source;
-        int pos = 0;
-
-        public Nav(CodeSource source) {
-            this.source = source;
-        }
-
-        @Override
-        public boolean has(int i) {
-            return i < source.size();
-        }
-
-        @Override
-        public CodePart navigateTo(int i) {
-            pos = i;
-            return currentValue();
-        }
-
-        @Override
-        public CodePart currentValue() {
-            return source.get(pos);
-        }
-
-        @Override
-        public void goNextWhen(Predicate<CodePart> predicate) {
-            while (has(pos) && predicate.test(currentValue())) {
-                ++pos;
-            }
-        }
-
-        @Override
-        public int currentIndex() {
-            return pos;
-        }
-
-        @Override
-        public List<CodePart> collect(int to) {
-
-            int currentIndex = pos;
-
-            List<CodePart> list = new ArrayList<>();
-
-            to += currentIndex;
-
-            do {
-                list.add(source.get(currentIndex));
-                ++currentIndex;
-            } while (this.has(currentIndex) && currentIndex < to);
-
-            return list;
-        }
-    }
 }

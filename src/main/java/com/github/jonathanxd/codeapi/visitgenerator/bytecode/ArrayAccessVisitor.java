@@ -33,9 +33,7 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.Optional;
@@ -48,7 +46,6 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
     @Override
     public Byte[] visit(ArrayAccess arrayAccess,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -57,7 +54,7 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
         if (targetOpt.isPresent()) {
             CodePart target = targetOpt.get();
 
-            visitorGenerator.generateTo(target.getClass(), target, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(target.getClass(), target, extraData, null, mvData);
         }
 
         return new Byte[0];
@@ -67,7 +64,6 @@ public class ArrayAccessVisitor implements Visitor<ArrayAccess, Byte, MVData>, O
     public void endVisit(Byte[] r,
                          ArrayAccess arrayAccess,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 

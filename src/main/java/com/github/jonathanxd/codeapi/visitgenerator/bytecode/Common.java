@@ -50,8 +50,10 @@ import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
 
-import org.objectweb.asm.*;
 import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -710,10 +712,10 @@ public class Common {
 
     public static void visitAnnotationValue(org.objectweb.asm.AnnotationVisitor annotationVisitor, String key, Object value) {
 
-        if(value.getClass().isArray()) {
+        if (value.getClass().isArray()) {
             Object[] values = (Object[]) value;
 
-            if(Arrays.stream(values).filter(o -> o instanceof Annotation || o instanceof EnumValue).findAny().isPresent()) {
+            if (Arrays.stream(values).filter(o -> o instanceof Annotation || o instanceof EnumValue).findAny().isPresent()) {
                 AnnotationVisitor annotationVisitor1 = annotationVisitor.visitArray(key);
 
                 for (Object o : values) {
@@ -726,14 +728,14 @@ public class Common {
             }
         }
 
-        if(value instanceof EnumValue) {
+        if (value instanceof EnumValue) {
             EnumValue enumValue = (EnumValue) value;
             annotationVisitor.visitEnum(enumValue.getName(), Common.codeTypeToFullAsm(enumValue.getEnumType()), enumValue.getEnumValue());
 
             return;
         }
 
-        if(value instanceof Annotation) {
+        if (value instanceof Annotation) {
             Annotation annotation = (Annotation) value;
             String asmType = Common.codeTypeToFullAsm(annotation.getType().orElseThrow(NullPointerException::new));
 
@@ -746,7 +748,7 @@ public class Common {
             visitor2.visitEnd();
         }
 
-        if(value instanceof CodeType) {
+        if (value instanceof CodeType) {
             value = Type.getType(Common.codeTypeToFullAsm(((CodeType) value)));
         }
 

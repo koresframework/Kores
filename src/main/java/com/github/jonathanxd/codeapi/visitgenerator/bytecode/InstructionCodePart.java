@@ -31,28 +31,27 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 /**
  * Created by jonathan on 14/06/16.
  */
 @FunctionalInterface
 public interface InstructionCodePart extends CodePart {
-    void apply(Object value, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<?> visitorGenerator, Object additional);
+    void apply(Object value, MapData extraData, VisitorGenerator<?> visitorGenerator, Object additional);
 
 
     class InstructionCodePartVisitor implements Visitor<InstructionCodePart, Byte, Object> {
 
         @Override
-        public Byte[] visit(InstructionCodePart instructionCodePart, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+        public Byte[] visit(InstructionCodePart instructionCodePart, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
-            instructionCodePart.apply(instructionCodePart, extraData, navigator, visitorGenerator, additional);
+            instructionCodePart.apply(instructionCodePart, extraData, visitorGenerator, additional);
 
             return new Byte[0];
         }
 
         @Override
-        public void endVisit(Byte[] r, InstructionCodePart instructionCodePart, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+        public void endVisit(Byte[] r, InstructionCodePart instructionCodePart, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         }
     }

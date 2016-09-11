@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.visitgenerator.Appender;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -43,29 +42,24 @@ public class CodeSourceVisitor implements Visitor<CodeSource, Byte, Object> {
     public static final CodeSourceVisitor INSTANCE = new CodeSourceVisitor();
 
     @Override
-    public Byte[] visit(CodeSource codeSource, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public Byte[] visit(CodeSource codeSource, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
         Appender<Byte> appender = visitorGenerator.createAppender();
 
         for (int i = 0; i < codeSource.size(); i++) {
             CodePart codePart = codeSource.get(i);
 
-            Navigator<CodePart> nav = new VisitorGenerator.Nav(codeSource);
-
-            nav.navigateTo(i);
-
             Class<? extends CodePart> aClass = codePart.getClass();
 
 
-            visitorGenerator.generateTo(aClass, codePart, extraData, nav, appender::addAll, additional);
-
+            visitorGenerator.generateTo(aClass, codePart, extraData, appender::addAll, additional);
         }
 
         return appender.get();
     }
 
     @Override
-    public void endVisit(Byte[] r, CodeSource codeSource, MapData extraData, Navigator<CodePart> navigator, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void endVisit(Byte[] r, CodeSource codeSource, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 }

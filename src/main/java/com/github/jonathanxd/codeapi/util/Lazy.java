@@ -25,23 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.sugar;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.PartProcessor;
+import java.util.function.Supplier;
 
 /**
- * Sugar syntax generator.
+ * Lazy initialized value.
+ * @param <T> Type of value;
  */
-public interface Generator<T extends CodePart> extends PartProcessor {
+public class Lazy<T> {
 
-    /**
-     * Generate the sugar syntax.
-     *
-     * @param t Sugar syntax instance.
-     * @return Generated sugar syntax.
-     */
-    CodeSource generate(T t);
+    private final Supplier<T> initializer;
+    private T cached = null;
 
+    public Lazy(Supplier<T> initializer) {
+        this.initializer = initializer;
+    }
+
+    public T get() {
+        if(this.cached == null)
+            this.cached = initializer.get();
+
+        return this.cached;
+    }
 }

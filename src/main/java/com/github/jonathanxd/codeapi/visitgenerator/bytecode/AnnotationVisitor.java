@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
@@ -36,9 +35,10 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
-import org.objectweb.asm.*;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import java.util.Optional;
 
@@ -50,7 +50,6 @@ public class AnnotationVisitor implements Visitor<Annotation, Byte, Object>, Opc
     @Override
     public Byte[] visit(Annotation annotation,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         Object additional) {
 
@@ -58,23 +57,23 @@ public class AnnotationVisitor implements Visitor<Annotation, Byte, Object>, Opc
 
         AnnotationVisitorCapable annotationVisitorCapable = null;
 
-        if(additional == null
+        if (additional == null
                 && (classWriterOpt = extraData.getOptional(TypeVisitor.CLASS_WRITER_REPRESENTATION)).isPresent()) {
 
             ClassWriter classWriter = classWriterOpt.orElseThrow(NullPointerException::new);
 
             annotationVisitorCapable = new AnnotationVisitorCapable.ClassWriterVisitorCapable(classWriter);
-        } else if(additional instanceof MVData) {
+        } else if (additional instanceof MVData) {
             MVData mvData = (MVData) additional;
 
             MethodVisitor methodVisitor = mvData.getMethodVisitor();
 
             annotationVisitorCapable = new AnnotationVisitorCapable.MethodVisitorCapable(methodVisitor);
-        } else if(additional instanceof org.objectweb.asm.FieldVisitor) {
+        } else if (additional instanceof org.objectweb.asm.FieldVisitor) {
             org.objectweb.asm.FieldVisitor fieldVisitor = (org.objectweb.asm.FieldVisitor) additional;
 
             annotationVisitorCapable = new AnnotationVisitorCapable.FieldVisitorCapable(fieldVisitor);
-        } else if(additional instanceof ParameterVisitor) {
+        } else if (additional instanceof ParameterVisitor) {
             ParameterVisitor parameterVisitor = (ParameterVisitor) additional;
 
             annotationVisitorCapable = new AnnotationVisitorCapable.ParameterVisitorCapable(parameterVisitor);
@@ -93,7 +92,6 @@ public class AnnotationVisitor implements Visitor<Annotation, Byte, Object>, Opc
     public void endVisit(Byte[] r,
                          Annotation annotation,
                          MapData extraData,
-                         Navigator<CodePart> navigator,
                          VisitorGenerator<Byte> visitorGenerator,
                          Object additional) {
 

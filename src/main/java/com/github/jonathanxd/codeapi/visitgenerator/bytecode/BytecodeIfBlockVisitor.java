@@ -39,8 +39,6 @@ import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.string.JString;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -63,7 +61,6 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                              boolean revert,
                              boolean jumpToStart,
                              MapData extraData,
-                             Navigator<CodePart> navigator,
                              VisitorGenerator<Byte> visitorGenerator,
                              MVData mvData) {
 
@@ -107,25 +104,25 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
                 if (expr1Primitive != expr2Primitive) {
 
-                    if(expr2Primitive) {
+                    if (expr2Primitive) {
                         expr1 = Helper.cast(expr1Type, expr2Type, expr1);
                     } else {
                         expr2 = Helper.cast(expr2Type, expr1Type, expr2);
                     }
                 }
 
-                visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, navigator, null, mvData);
+                visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, null, mvData);
 
                 Label lbl = jumpToStart ? ifStartLabel : !isInverse ? inIfLabel : (elseLabel == null ? outOfIfLabel : elseLabel); // Jump to else if exists
 
                 if (expr2 == Literals.NULL) {
                     additional.visitJumpInsn(Operators.nullCheckToAsm(ifExpr.getOperation(), isInverse), lbl);
                 } else if (Common.isPrimitive(expr1) && Common.isPrimitive(expr2)) {
-                    visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, navigator, null, mvData);
+                    visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 
                     additional.visitJumpInsn(Operators.primitiveToAsm(ifExpr.getOperation(), isInverse), lbl);
                 } else {
-                    visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, navigator, null, mvData);
+                    visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 
                     additional.visitJumpInsn(Operators.referenceToAsm(ifExpr.getOperation(), isInverse), lbl);
                 }
@@ -136,7 +133,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
         CodeSource body = ifBlock.getBody().orElseThrow(RuntimeException::new);
 
-        visitorGenerator.generateTo(CodeSource.class, body, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(CodeSource.class, body, extraData, null, mvData);
 
         if (elseLabel != null) {
             additional.visitJumpInsn(GOTO, outOfIfLabel);
@@ -146,7 +143,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
         if (elseLabel != null) {
             additional.visitLabel(elseLabel);
 
-            if(elseBlock.isPresent()) {
+            if (elseBlock.isPresent()) {
 
                 ElseBlock elseBlock_ = elseBlock.get();
 
@@ -155,7 +152,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                 if (elseBodyOpt.isPresent()) {
                     CodeSource elseBody = elseBodyOpt.get();
 
-                    visitorGenerator.generateTo(CodeSource.class, elseBody, extraData, navigator, null, mvData);
+                    visitorGenerator.generateTo(CodeSource.class, elseBody, extraData, null, mvData);
                 }
             }
         }

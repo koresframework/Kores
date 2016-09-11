@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
@@ -42,7 +41,6 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
@@ -56,7 +54,6 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
     @Override
     public Byte[] visit(MethodInvocation methodInvocation,
                         MapData extraData,
-                        Navigator<CodePart> navigator,
                         VisitorGenerator<Byte> visitorGenerator,
                         MVData mvData) {
 
@@ -75,12 +72,12 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
         CodePart target = methodInvocation.getTarget();
 
         if (target != null && !(target instanceof CodeType)) {
-            visitorGenerator.generateTo(target.getClass(), target, extraData, navigator, null, mvData);
+            visitorGenerator.generateTo(target.getClass(), target, extraData, null, mvData);
         }
 
         MethodSpecification spec = methodInvocation.getSpec();
 
-        visitorGenerator.generateTo(Argumenterizable.class, spec, extraData, navigator, null, mvData);
+        visitorGenerator.generateTo(Argumenterizable.class, spec, extraData, null, mvData);
 
         if (invokeDynamic != null) {
 
@@ -150,7 +147,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
     @Override
     public void endVisit(Byte[] r,
                          MethodInvocation methodInvocation,
-                         MapData extraData, Navigator<CodePart> navigator,
+                         MapData extraData,
                          VisitorGenerator<Byte> visitorGenerator,
                          MVData mvData) {
 
