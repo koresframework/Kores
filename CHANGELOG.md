@@ -2,6 +2,15 @@
 
 `since 1.11`
 
+###### 1.14.0
+| Name                   | Type          | Issue       | Commit                                   |
+| ---------------------- | ------------- | ----------- | ---------------------------------------- |
+| Improved Code to work..| Feature       |  None       | e50425a6e8220f1a90cbfd042a7b456e631729c5 |
+| Documentation Fixes    | Fix           |  None       | e50425a6e8220f1a90cbfd042a7b456e631729c5 |
+| Cleanup                | Improvements  |  None       | e50425a6e8220f1a90cbfd042a7b456e631729c5 |
+
+
+
 ###### 1.13.0
 
 | Name                   | Type          | Issue       | Commit                                   |
