@@ -356,7 +356,7 @@ public class Generic implements GenericType {
 
     @Override
     public boolean isType() {
-        return this.isType;
+        return !this.isWildcard() && this.isType;
     }
 
     @Override

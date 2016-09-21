@@ -99,7 +99,9 @@ public class GenericTypeUtil {
                 } else if (bound.sign().equals("-")) {
                     sb.append(" super ");
                 } else {
-                    sb.append("<");
+                    if(i == 0) {
+                        sb.append("<");
+                    }
                 }
 
                 CodeType type = bound.getType();
@@ -110,12 +112,14 @@ public class GenericTypeUtil {
                     sb.append(type.getCanonicalName());
                 }
 
-                if (!extendsOrSuper) {
+                if (!extendsOrSuper && !hasNext) {
                     sb.append(">");
                 }
 
-                if (hasNext) {
-                    sb.append("&");
+                if (hasNext && extendsOrSuper) {
+                    sb.append(" & ");
+                } else if(hasNext) {
+                    sb.append(", ");
                 }
             }
 

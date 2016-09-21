@@ -27,33 +27,36 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.test.GenericClass_;
-import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
-import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.test.CommonGen;
+import com.github.jonathanxd.codeapi.types.Generic;
 
 import org.junit.Test;
 
+import java.lang.reflect.Modifier;
+import java.util.Map;
+
 /**
- * Created by jonathan on 07/07/16.
+ * Created by jonathan on 18/06/16.
  */
-public class TestGenericClass {
-
+public class MapGeneric {
     @Test
-    public void genericClass() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = GenericClass_.$();
-        CommonSourceTest.test($._2()).consume(System.out::println).expect("package com ; \n" +
-                "public class Generic < T extends java.util.List<T> > implements java.util.List<T> { \n" +
-                "    public static < T extends java.util.List<T> > void test ( T val ) { \n" +
-                "         T fieldi = null ; \n" +
-                "         \n" +
-                "    } \n" +
-                "    \n" +
-                "    public T test ; \n" +
-                "     \n" +
-                "} \n\n");
-    }
+    public void arrayTest() {
 
+        CodeSource cs = new CodeSource();
+
+        cs.add(CodeAPI.aClass(Modifier.PUBLIC, "com.ACS", aClass -> CodeAPI.sourceOfParts(
+                CodeAPI.field(Generic.type(Helper.getJavaType(Map.class)).of(PredefinedTypes.STRING).of(PredefinedTypes.INTEGER_TYPE), "upo", Literals.NULL)
+        )));
+
+        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
+
+        System.out.println(plainSourceGenerator.gen(cs));
+
+    }
 }

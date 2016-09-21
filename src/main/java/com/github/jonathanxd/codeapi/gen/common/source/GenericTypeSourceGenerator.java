@@ -35,10 +35,12 @@ import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,55 +55,6 @@ public class GenericTypeSourceGenerator implements Generator<GenericType, String
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(GenericType genericType, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
-
-        if (genericType.isType()) {
-            values.add(TargetValue.create(CodeType.class, genericType, parents));
-        } else {
-            if (!genericType.isWildcard()) {
-                values.add(PlainValue.create(genericType.name()));
-            } else {
-                values.add(PlainValue.create("?"));
-            }
-        }
-
-
-        GenericType.Bound<CodeType>[] bounds = genericType.bounds();
-
-        if (bounds.length != 0) {
-
-            for (int i = 0; i < bounds.length; i++) {
-
-                boolean hasNext = i + 1 < bounds.length;
-
-                GenericType.Bound<CodeType> bound = bounds[i];
-
-                boolean extendsOrSuper = bound.sign().equals("+") || bound.sign().equals("-");
-
-                if (bound.sign().equals("+")) {
-                    values.add(PlainValue.create("extends"));
-                } else if (bound.sign().equals("-")) {
-                    values.add(PlainValue.create("super"));
-                } else {
-                    values.add(PlainValue.create("<"));
-                }
-
-                CodeType type = bound.getType();
-
-                values.add(TargetValue.create(type.getClass(), type, parents));
-
-                if (!extendsOrSuper) {
-                    values.add(PlainValue.create(">"));
-                }
-
-                if (hasNext) {
-                    values.add(PlainValue.create("&"));
-                }
-            }
-
-        }
-
-        return values;
+        return Collections.singletonList(PlainValue.create(GenericTypeUtil.toSourceString(genericType)));
     }
 }
