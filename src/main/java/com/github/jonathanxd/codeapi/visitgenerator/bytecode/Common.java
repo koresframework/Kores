@@ -572,7 +572,11 @@ public class Common {
             GenericType.Bound<CodeType>[] bounds = genericType.bounds();
 
             if (bounds.length == 0) {
-                return fixResult("T" + name + ";"/*(genericType.isType() ? ";" : "")*/);
+                if(!genericType.isType()) {
+                    return fixResult("T" + name + ";"/*(genericType.isType() ? ";" : "")*/);
+                }else {
+                    return name + ";";
+                }
             } else {
                 return fixResult(!genericType.isWildcard()
                         ? (name + "<" + bounds(genericType.isWildcard(), bounds) + ">;")
