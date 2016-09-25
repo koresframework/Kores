@@ -112,15 +112,26 @@ public class TypeVisitor implements Visitor<TypeDeclaration, Byte, Object>, Opco
 
         CodeType superClass = Common.getSuperClass(typeDeclaration);
 
+        boolean superClassIsGeneric = superClass instanceof GenericType;
+        boolean anyInterfaceIsGeneric = implementations.stream().anyMatch(codeType -> codeType instanceof GenericType);
+
         GenericType[] types = typeDeclaration.getGenericSignature().getTypes();
 
         String genericRepresentation = null;
 
-        if (types.length > 0) {
+        if(types.length > 0) {
             genericRepresentation = Common.genericTypesToAsmString(types);
+        }
+
+        if (types.length > 0 || superClassIsGeneric || anyInterfaceIsGeneric) {
+
+            if(genericRepresentation == null)
+                genericRepresentation = "";
 
             genericRepresentation += Common.toAsm(superClass);
+        }
 
+        if(types.length > 0 || anyInterfaceIsGeneric) {
             StringBuilder sb = new StringBuilder();
 
             implementations.forEach(codeType -> sb.append(Common.toAsm(codeType)));
