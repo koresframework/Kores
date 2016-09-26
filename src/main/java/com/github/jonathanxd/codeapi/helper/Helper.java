@@ -32,7 +32,9 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
@@ -41,6 +43,7 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.InstanceOfImpl;
 import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
@@ -70,6 +73,7 @@ import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -85,6 +89,7 @@ import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
 import org.objectweb.asm.Type;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -273,6 +278,54 @@ public final class Helper {
 
     public static VariableOperate operateLocalVariable(FieldDeclaration fieldDeclaration, Operator operation) {
         return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
+    }
+
+
+    public static CodeMethod bridgeMethod(CodeMethod current, FullMethodSpec methodSpec) {
+        List<CodeType> parameterTypes = methodSpec.getParameterTypes();
+        List<CodeParameter> currentParameters = current.getParameters();
+
+        if (parameterTypes.size() > currentParameters.size())
+            throw new IllegalArgumentException("Specified target method has more parameters than current method!");
+
+        CodeType currentReturnType = current.getReturnType().orElse(PredefinedTypes.VOID);
+
+        boolean return_ = !currentReturnType.is(PredefinedTypes.VOID);
+
+        List<CodeParameter> codeParameters = new ArrayList<>();
+        List<CodeArgument> codeArguments = new ArrayList<>();
+
+        for (int i = 0; i < currentParameters.size(); i++) {
+            CodeParameter currentParameter = currentParameters.get(i);
+            CodeType currentType = currentParameter.getRequiredType();
+            CodeType targetType = parameterTypes.get(i);
+
+            codeParameters.add(new CodeParameter(currentParameter.getName(), targetType));
+
+            codeArguments.add(new CodeArgument(
+                    Helper.cast(targetType, currentType, Helper.accessLocalVariable(currentParameter.getName(), targetType)), currentType
+            ));
+        }
+
+
+        CodePart toAdd = Helper.invoke((InvokeType) null, (CodeType) null, Helper.accessThis(),
+                new MethodSpec(methodSpec.getMethodName(), methodSpec.getReturnType(), codeArguments));
+
+        if (return_) {
+            toAdd = Helper.returnValue(methodSpec.getReturnType(), Helper.cast(currentReturnType, methodSpec.getReturnType(), toAdd));
+        }
+
+        List<CodeModifier> codeModifiers = new ArrayList<>(current.getModifiers());
+
+        codeModifiers.add(CodeModifier.BRIDGE);
+
+        return new CodeMethod(methodSpec.getMethodName(),
+                codeModifiers,
+                codeParameters,
+                currentReturnType,
+                Helper.sourceOf(
+                        toAdd
+                ));
     }
 
     public static Casted cast(CodeType originalType, CodeType type, CodePart castedPart) {

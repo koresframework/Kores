@@ -41,7 +41,11 @@ import static com.github.jonathanxd.codeapi.common.ModifierType.OTHER;
 import static com.github.jonathanxd.codeapi.common.ModifierType.SERIALIZATION;
 import static com.github.jonathanxd.codeapi.common.ModifierType.VISIBILITY;
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
+import static org.objectweb.asm.Opcodes.ACC_ANNOTATION;
+import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
+import static org.objectweb.asm.Opcodes.ACC_ENUM;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
+import static org.objectweb.asm.Opcodes.ACC_MANDATED;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
@@ -49,7 +53,9 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.ACC_STRICT;
 import static org.objectweb.asm.Opcodes.ACC_SYNCHRONIZED;
+import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 import static org.objectweb.asm.Opcodes.ACC_TRANSIENT;
+import static org.objectweb.asm.Opcodes.ACC_VARARGS;
 import static org.objectweb.asm.Opcodes.ACC_VOLATILE;
 
 /**
@@ -62,7 +68,10 @@ public enum CodeModifier implements CodePart {
     STATIC(OTHER), FINAL(OTHER),
     TRANSIENT(SERIALIZATION),
     VOLATILE(CONCURRENCY), SYNCHRONIZED(CONCURRENCY),
-    NATIVE(OTHER), STRICTFP(OTHER);
+    NATIVE(OTHER), STRICTFP(OTHER),
+    BRIDGE(OTHER), VARARGS(OTHER),
+    SYNTHETIC(OTHER), ANNOTATION(OTHER),
+    ENUM(OTHER), MANDATED(OTHER);
 
     /**
      * Name of the modifier (source code generation)
@@ -173,6 +182,29 @@ public enum CodeModifier implements CodePart {
             collection.add(STRICTFP);
         }
 
+        if (Internal.isBridge(modifiers)) {
+            collection.add(BRIDGE);
+        }
+
+        if (Internal.isVarArgs(modifiers)) {
+            collection.add(VARARGS);
+        }
+
+        if (Internal.isSynthetic(modifiers)) {
+            collection.add(SYNTHETIC);
+        }
+
+        if (Internal.isAnnotation(modifiers)) {
+            collection.add(ANNOTATION);
+        }
+
+        if (Internal.isEnum(modifiers)) {
+            collection.add(ENUM);
+        }
+
+        if (Internal.isMandated(modifiers)) {
+            collection.add(MANDATED);
+        }
 
         return collection;
     }
@@ -237,6 +269,18 @@ public enum CodeModifier implements CodePart {
                 return Modifier.TRANSIENT;
             case VOLATILE:
                 return Modifier.VOLATILE;
+            case BRIDGE:
+                return Internal.BRIDGE;
+            case VARARGS:
+                return Internal.VARARGS;
+            case SYNTHETIC:
+                return Internal.SYNTHETIC;
+            case ANNOTATION:
+                return Internal.ANNOTATION;
+            case ENUM:
+                return Internal.ENUM;
+            case MANDATED:
+                return Internal.MANDATED;
             default:
                 return 0;
         }
@@ -292,6 +336,18 @@ public enum CodeModifier implements CodePart {
                 return ACC_TRANSIENT;
             case VOLATILE:
                 return ACC_VOLATILE;
+            case BRIDGE:
+                return ACC_BRIDGE;
+            case VARARGS:
+                return ACC_VARARGS;
+            case SYNTHETIC:
+                return ACC_SYNTHETIC;
+            case ANNOTATION:
+                return ACC_ANNOTATION;
+            case ENUM:
+                return ACC_ENUM;
+            case MANDATED:
+                return ACC_MANDATED;
             default:
                 return 0;
         }
@@ -313,5 +369,38 @@ public enum CodeModifier implements CodePart {
 
     public String getExpr() {
         return this.expr == null ? this.name().toLowerCase() : this.expr;
+    }
+
+    static class Internal {
+        static final int BRIDGE = 0x00000040;
+        static final int VARARGS = 0x00000080;
+        static final int SYNTHETIC = 0x00001000;
+        static final int ANNOTATION = 0x00002000;
+        static final int ENUM = 0x00004000;
+        static final int MANDATED = 0x00008000;
+
+        static boolean isBridge(int modifiers) {
+            return (modifiers & BRIDGE) != 0;
+        }
+
+        static boolean isVarArgs(int modifiers) {
+            return (modifiers & VARARGS) != 0;
+        }
+
+        static boolean isSynthetic(int modifiers) {
+            return (modifiers & SYNTHETIC) != 0;
+        }
+
+        static boolean isAnnotation(int modifiers) {
+            return (modifiers & ANNOTATION) != 0;
+        }
+
+        static boolean isEnum(int modifiers) {
+            return (modifiers & ENUM) != 0;
+        }
+
+        static boolean isMandated(int modifiers) {
+            return (modifiers & MANDATED) != 0;
+        }
     }
 }

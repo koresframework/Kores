@@ -59,13 +59,21 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-
         InvokeType invokeType = methodInvocation.getInvokeType();
+        CodeType localization = methodInvocation.getLocalization();
+
+        if(invokeType == null) {
+            if(localization == null) {
+                localization = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot determine current type!");
+            }
+
+            invokeType = InvokeType.get(localization);
+        }
 
         InvokeDynamic invokeDynamic = methodInvocation.getInvokeDynamic().orElse(null);
 
         if (methodInvocation.getSpec().getMethodType() == MethodType.CONSTRUCTOR) {
-            additional.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()));
+            additional.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(localization));
             additional.visitInsn(DUP);
         }
 
@@ -97,7 +105,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
                 Object[] objects = {
                         Type.getType(Common.fullSpecToFullAsm(methodSpec)),
                         new Handle(/*Opcodes.H_INVOKEINTERFACE*/ InvokeType.toAsm_H(invokeType),
-                                Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()),
+                                Common.codeTypeToSimpleAsm(localization),
                                 spec.getMethodName(),
                                 Common.typeSpecToAsm(spec.getMethodDescription()),
                                 methodInvocation.getInvokeType() == InvokeType.INVOKE_INTERFACE),
@@ -106,7 +114,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
                 };
 
                 String local = "("
-                        + (invokeType != InvokeType.INVOKE_STATIC ? Common.codeTypeToFullAsm(methodInvocation.getLocalization()) : "")
+                        + (invokeType != InvokeType.INVOKE_STATIC ? Common.codeTypeToFullAsm(localization) : "")
                         + ")" + Common.codeTypeToFullAsm(methodSpec.getLocation());
 
                 additional.visitInvokeDynamicInsn(methodSpec.getMethodName(), local, metafactory, objects);
@@ -134,7 +142,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
 
             additional.visitMethodInsn(
                 /*Type like invokestatic*/InvokeType.toAsm(invokeType),
-                /*Localization*/Common.codeTypeToSimpleAsm(methodInvocation.getLocalization()),
+                /*Localization*/Common.codeTypeToSimpleAsm(localization),
                 /*Method name*/spec.getMethodName(),
                 /*(ARGUMENT)RETURN*/Common.typeSpecToAsm(spec.getMethodDescription()),
                     methodInvocation.getInvokeType() == InvokeType.INVOKE_INTERFACE);
