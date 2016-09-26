@@ -2,6 +2,18 @@
 
 `since 1.11`
 
+###### 1.15.0
+| Name                   | Type          | Issue       | Commit                                   |
+| ---------------------- | ------------- | ----------- | ---------------------------------------- |
+| Bridge Methods (ma...) | Feature       |  #19: (is not a fix, only helps to solve the problem)  | 847532e6a9b9b1cbf209879e93261ded2ef186a7 |
+
+###### 1.14.*
+| Name                   | Type          | Issue       | Commit                                   |
+| ---------------------- | ------------- | ----------- | ---------------------------------------- |
+| Fix ASM generic sig... | Fix           |  None       | 38d429c46210b8b4c0da038d480b7519a051c787 |
+| Generic Inheritance fix| Fix           |  None       | 979251593c0e939d2de1d0ed5b3407a4bd47fac3 |
+
+
 ###### 1.14.0
 | Name                   | Type          | Issue       | Commit                                   |
 | ---------------------- | ------------- | ----------- | ---------------------------------------- |
