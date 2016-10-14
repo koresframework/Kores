@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.test.InstanceOf_;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.exceptions.RethrowException;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class InstanceOfTest {
 
     @Test
     public void instanceOfTest() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = InstanceOf_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = InstanceOf_.$();
         @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2());
         try {
             test.getClass().getDeclaredMethod("test", Object.class).invoke(test, 1);

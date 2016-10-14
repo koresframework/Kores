@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.test.TryWithResourcesTest_;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.codeapi.test.tests.SourceTest;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ import org.junit.Test;
 public class TryWithResourcesTest {
     @Test
     public void testSource() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
         SourceTest test = CommonSourceTest.test($._2());
         test.expect("package test ; \n" +
                 "public class TryWithResourcesTestClass { \n" +

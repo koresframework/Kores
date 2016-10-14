@@ -103,10 +103,10 @@ import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TryWithResourcesVis
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.TypeVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.WhileVisitor;
-import com.github.jonathanxd.iutils.arrays.JwArray;
+import com.github.jonathanxd.iutils.builders.ByteBuilder;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.object.AbstractTypeInfo;
-import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
+import com.github.jonathanxd.iutils.type.TypeInfo;
 import com.github.jonathanxd.iutils.option.Options;
 
 import java.util.function.Function;
@@ -191,7 +191,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
     private static class ByteAppender extends Appender<Byte> {
 
-        final JwArray<Byte> byteArrays = new JwArray<>();
+        final ByteBuilder byteBuilder = new ByteBuilder();
 
         ByteAppender() {
 
@@ -199,12 +199,12 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
 
         @Override
         public void add(Byte elem) {
-            byteArrays.add(elem);
+            byteBuilder.append(elem);
         }
 
         @Override
         public Byte[] get() {
-            return byteArrays.toGenericArray(Byte[].class);
+            return byteBuilder.toByteArray();
         }
     }
 }

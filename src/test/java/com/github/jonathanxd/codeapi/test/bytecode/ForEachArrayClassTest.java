@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.test.ForEachArray_;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.exceptions.RethrowException;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class ForEachArrayClassTest {
 
     @Test
     public void test() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEachArray_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEachArray_.$();
         CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass -> {
             try {
                 return aClass.getConstructor(String[].class).newInstance((Object) new String[]{"A", "B", "C", "D"});

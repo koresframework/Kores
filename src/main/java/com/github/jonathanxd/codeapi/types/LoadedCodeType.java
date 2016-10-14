@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.iutils.object.Primitive;
+import com.github.jonathanxd.iutils.type.Primitive;
 
 /**
  * A {@link CodeTypeArray} that are loaded by JVM.

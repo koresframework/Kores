@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.GenericClass_;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class TestGenericClass {
 
     @Test
     public void genericClass() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = GenericClass_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = GenericClass_.$();
         CommonSourceTest.test($._2()).consume(System.out::println).expect("package com ; \n" +
                 "public class Generic < T extends java.util.List<T> > implements java.util.List<T> { \n" +
                 "    public static < T extends java.util.List<T> > void test ( T val ) { \n" +

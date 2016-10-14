@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Assert;
 
@@ -51,7 +51,7 @@ import static java.lang.reflect.Modifier.PUBLIC;
  */
 public class ForEach_ {
 
-    public static Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
         Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode(), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode());
         Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING));
@@ -67,7 +67,7 @@ public class ForEach_ {
                         ))
         ));
 
-        return new Bi<>(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 
 }

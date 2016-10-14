@@ -75,7 +75,7 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
 
 
         if (at == null && localization == null) {
-            additional.visitVarInsn(ALOAD, 0); // Legacy
+            localization = typeDeclaration.get();
         } else if (at != null) {
             visitorGenerator.generateTo(at.getClass(), at, extraData, null, mvData);
         }

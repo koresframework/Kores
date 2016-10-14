@@ -29,25 +29,35 @@ package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.test.ForEach_;
+import com.github.jonathanxd.codeapi.test.ForEachArray_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
 import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.exceptions.RethrowException;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
-/**
- * Created by jonathan on 07/07/16.
- */
-public class TestForeachClass {
+import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Created by jonathan on 05/07/16.
+ */
+public class ForEachArrayClassTest {
+    public static String v;
     @Test
-    public void genericClass() {
-        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEach_.$();
-        CommonSourceTest.test($._2()).consume(System.out::println).expect("package com ; \n" +
+    public void test() {
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = ForEachArray_.$();
+        SourceTest test = CommonSourceTest.test($._2());
+
+        test.consume(System.out::println)
+                .expect("package com ; \n" +
                 "public class ForEach { \n" +
-                "    public ForEach ( java.util.List<java.lang.String> strList ) { \n" +
-                "        for (  java.lang.String str : strList ) { \n" +
+                "    public static java.lang.String stra = \"XA\" ; \n" +
+                "    public ForEach ( java.lang.String[] strArray ) { \n" +
+                "         java.lang.String v = com.ForEach . stra ; \n" +
+                "        for (  java.lang.String str : strArray ) { \n" +
                 "            java.lang.System . out . println ( str ) ; \n" +
                 "             \n" +
                 "        } \n" +
@@ -56,7 +66,7 @@ public class TestForeachClass {
                 "    } \n" +
                 "    \n" +
                 "     \n" +
-                "} \n\n");
+                "} \n" +
+                "\n");
     }
-
 }

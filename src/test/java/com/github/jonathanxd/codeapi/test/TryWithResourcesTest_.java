@@ -39,7 +39,7 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Collections;
 
@@ -53,7 +53,7 @@ import static java.lang.reflect.Modifier.PUBLIC;
 public class TryWithResourcesTest_ {
     //
 
-    public static Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
         TryWithResources tryWithResources = new TryWithResourcesImpl(
                 new CodeField("trm", Helper.getJavaType(Trm.class),
@@ -75,7 +75,7 @@ public class TryWithResourcesTest_ {
                                 ))
                 ));
 
-        return new Bi<>(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 
 

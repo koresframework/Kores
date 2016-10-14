@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.jmh;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -47,7 +47,7 @@ public class SourceTest {
     @Measurement(iterations = 10)
     @Fork(value = 5)
     public void bench() {
-        Bi<ClassDeclaration, CodeSource> gen = CommonGen.gen();
+        Pair<ClassDeclaration, CodeSource> gen = CommonGen.gen();
         CommonSourceTest.test(gen._2());
     }
 }

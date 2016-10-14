@@ -34,17 +34,13 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.iterator.Navigator;
-import com.github.jonathanxd.iutils.object.AbstractTypeInfo;
-import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
+import com.github.jonathanxd.iutils.type.TypeInfo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * A visit based generator.
@@ -132,7 +128,6 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
         data.unregisterData(VISITOR_REPRESENTATION, this);
 
 
-
         return new Result<>(appender.get(), (MapData) data.clone());
     }
 
@@ -175,7 +170,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
 
             endVisit(tVisitor, visit, codePart, extraData, additional);
         } catch (Throwable t) {
-            if(t instanceof ProcessingException)
+            if (t instanceof ProcessingException)
                 throw t;
 
             throw new ProcessingException("Error while processing type: '" + partClass + "', Part: '" + codePart + "'.", t);

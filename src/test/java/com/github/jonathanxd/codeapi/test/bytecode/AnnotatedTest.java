@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.AnnotatedTest_;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class AnnotatedTest {
 
     @Test
     public void annotatedTest() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = AnnotatedTest_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = AnnotatedTest_.$();
         @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2());
     }
 

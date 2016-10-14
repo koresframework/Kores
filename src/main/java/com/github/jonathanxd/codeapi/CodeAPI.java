@@ -1294,9 +1294,22 @@ public final class CodeAPI {
      * @param fieldType Type of the field.
      * @param name      Name of the field.
      * @return Access to a static field.
+     * @deprecated Incorrect behavior
      */
+    @Deprecated
     public static VariableAccess accessStaticThisField(CodeType fieldType, String name) {
         return accessField__Factory(null, Helper.accessThis(), fieldType, name);
+    }
+
+    /**
+     * Access a static field of current class.
+     *
+     * @param fieldType Type of the field.
+     * @param name      Name of the field.
+     * @return Access to a static field.
+     */
+    public static VariableAccess accessStaticField(CodeType fieldType, String name) {
+        return accessField__Factory(null, null, fieldType, name);
     }
 
     /**
@@ -1330,9 +1343,7 @@ public final class CodeAPI {
      * @param fieldType Type of the field.
      * @param name      Name of the field.
      * @return Access to a static field of current class.
-     * @deprecated Use {@link #accessStaticThisField(CodeType, String)} instead of this.
      */
-    @Deprecated
     public static VariableAccess accessThisField(CodeType fieldType, String name) {
         return accessField__Factory(null, Helper.accessThis(), fieldType, name);
     }
@@ -1356,10 +1367,22 @@ public final class CodeAPI {
      * @param fieldType Type of the field.
      * @param name      Name of the field.
      * @return Access to a static field.
+     * @deprecated Incorrect behavior
      */
-
+    @Deprecated
     public static VariableAccess accessStaticThisField(Class<?> fieldType, String name) {
         return accessField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name);
+    }
+
+    /**
+     * Access a static field of current class.
+     *
+     * @param fieldType Type of the field.
+     * @param name      Name of the field.
+     * @return Access to a static field.
+     */
+    public static VariableAccess accessStaticField(Class<?> fieldType, String name) {
+        return accessField__Factory(null, null, Helper.getJavaType(fieldType), name);
     }
 
     /**
@@ -1393,9 +1416,7 @@ public final class CodeAPI {
      * @param fieldType Type of the field.
      * @param name      Name of the field.
      * @return Access to a static field of current class.
-     * @deprecated Use {@link #accessStaticThisField(Class, String)} instead of this.
      */
-    @Deprecated
     public static VariableAccess accessThisField(Class<?> fieldType, String name) {
         return accessField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name);
     }

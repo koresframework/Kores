@@ -39,7 +39,7 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.PlainCodeType;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,7 +53,7 @@ import static java.lang.reflect.Modifier.*;
 public class AnnotatedTest_ {
     //
 
-    public static Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
 
@@ -81,7 +81,7 @@ public class AnnotatedTest_ {
                                         }))))
                 ));
 
-        return new Bi<>(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 
     public enum MyEnum {

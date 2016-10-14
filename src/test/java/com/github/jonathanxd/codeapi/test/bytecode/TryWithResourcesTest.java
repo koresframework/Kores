@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.TryWithResourcesTest_;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class TryWithResourcesTest {
 
     @Test(expected = IllegalStateException.class)
     public void tryWithResourcesTest() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = TryWithResourcesTest_.$();
         @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2());
     }
 

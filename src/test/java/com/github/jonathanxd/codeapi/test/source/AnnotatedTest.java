@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.test.AnnotatedTest_;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.codeapi.test.tests.SourceTest;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class AnnotatedTest {
 
     @Test
     public void annotatedTest() {
-        Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = AnnotatedTest_.$();
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = AnnotatedTest_.$();
         SourceTest test = CommonSourceTest.test($._2());
         test.expect("package test ; \n" +
                 "@ com.github.jonathanxd.codeapi.test.AnnotatedTest_.Simple ( { com.github.jonathanxd.codeapi.test.AnnotatedTest_.MyEnum . A , com.github.jonathanxd.codeapi.test.AnnotatedTest_.MyEnum . B , com.github.jonathanxd.codeapi.test.AnnotatedTest_.MyEnum . C  } ) \n" +

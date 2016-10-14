@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -35,24 +36,30 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Bi;
+import com.github.jonathanxd.iutils.object.Pair;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
+import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
+import static com.github.jonathanxd.codeapi.CodeAPI.field;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
+import static java.lang.reflect.Modifier.STATIC;
 
 /**
  * Created by jonathan on 07/07/16.
  */
 public class ForEachArray_ {
 
-    public static Bi<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
         CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
+                field(PUBLIC | STATIC, String.class, "stra", Literals.STRING("XA")),
                 constructor(PUBLIC, codeClass1, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
                         codeConstructor -> sourceOfParts(
+                                field(String.class, "v", accessStaticField(String.class, "stra")),
                                 Helper.createForEachArray(new CodeField("str", PredefinedTypes.STRING),
                                         Helper.accessLocalVariable("strArray",
                                                 PredefinedTypes.STRING.toArray(1)), Helper.sourceOf(
@@ -61,7 +68,7 @@ public class ForEachArray_ {
                         ))
         ));
 
-        return new Bi<>(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 
 }

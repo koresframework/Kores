@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -44,7 +43,7 @@ import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.jonathanxd.iutils.type.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -119,19 +118,19 @@ public class TypeVisitor implements Visitor<TypeDeclaration, Byte, Object>, Opco
 
         String genericRepresentation = null;
 
-        if(types.length > 0) {
+        if (types.length > 0) {
             genericRepresentation = Common.genericTypesToAsmString(types);
         }
 
         if (types.length > 0 || superClassIsGeneric || anyInterfaceIsGeneric) {
 
-            if(genericRepresentation == null)
+            if (genericRepresentation == null)
                 genericRepresentation = "";
 
             genericRepresentation += Common.toAsm(superClass);
         }
 
-        if(types.length > 0 || anyInterfaceIsGeneric) {
+        if (types.length > 0 || anyInterfaceIsGeneric) {
             StringBuilder sb = new StringBuilder();
 
             implementations.forEach(codeType -> sb.append(Common.toAsm(codeType)));
