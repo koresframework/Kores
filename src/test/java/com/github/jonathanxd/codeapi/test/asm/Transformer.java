@@ -70,6 +70,9 @@ public class Transformer {
     @Test
     public void transform() throws Throwable {
 
+        if(ResultSaver.IS_GRADLE_ENVIRONMENT)
+            return;
+
         WrappedPrintStream wrappedPrintStream = new WrappedPrintStream(System.out);
         System.setOut(wrappedPrintStream);
 
