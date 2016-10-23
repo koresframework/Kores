@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;

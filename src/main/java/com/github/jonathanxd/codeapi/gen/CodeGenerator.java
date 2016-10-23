@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.gen;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.option.Options;
 
@@ -77,6 +78,17 @@ public interface CodeGenerator<OUT> {
      * @return Generated object.
      */
     OUT gen(CodeSource source, MapData data, Object additional);
+
+    /**
+     * Register a sugar syntax. The generation of {@link T} will be delegated into {@link
+     * SugarSyntax#getGenerator() sugar.Generator}.
+     *
+     * @param type        Type
+     * @param sugarSyntax Sugar syntax.
+     * @param <T>         Type of supported part.
+     * @return Old {@link SugarSyntax} registered to {@code type}.
+     */
+    <T extends CodePart> SugarSyntax<?> registerSugarSyntax(Class<T> type, SugarSyntax<T> sugarSyntax);
 
     /**
      * Gets the {@link Options} instance.

@@ -28,15 +28,13 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.iutils.exceptions.RethrowException;
 
 import org.junit.Test;

@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.test.bytecode.BCLoader;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.junit.Assert;
@@ -47,7 +47,6 @@ import org.objectweb.asm.Opcodes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

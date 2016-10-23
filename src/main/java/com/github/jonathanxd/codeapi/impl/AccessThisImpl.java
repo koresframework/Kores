@@ -44,10 +44,6 @@ public class AccessThisImpl extends AccessImpl implements AccessThis {
         super();
     }
 
-    public AccessThisImpl(CodeType localization) {
-        super(localization);
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())

@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;

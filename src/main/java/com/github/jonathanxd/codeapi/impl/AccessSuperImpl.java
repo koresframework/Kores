@@ -44,10 +44,6 @@ public class AccessSuperImpl extends AccessImpl implements AccessSuper {
         super();
     }
 
-    public AccessSuperImpl(CodeType localization) {
-        super(localization);
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())

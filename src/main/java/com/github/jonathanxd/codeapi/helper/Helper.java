@@ -41,7 +41,9 @@ import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.impl.AccessInnerImpl;
 import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
+import com.github.jonathanxd.codeapi.impl.AccessOuterImpl;
 import com.github.jonathanxd.codeapi.impl.AccessSuperImpl;
 import com.github.jonathanxd.codeapi.impl.AccessThisImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
@@ -74,6 +76,8 @@ import com.github.jonathanxd.codeapi.impl.VariableDeclarationImpl;
 import com.github.jonathanxd.codeapi.impl.VariableOperateImpl;
 import com.github.jonathanxd.codeapi.impl.WhileBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.AccessInner;
+import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
@@ -185,16 +189,19 @@ public final class Helper {
         return new AccessSuperImpl();
     }
 
-    public static AccessSuper accessSuper(CodeType at) {
+    /*public static AccessSuper accessSuper(CodeType at) {
         return new AccessSuperImpl(at);
-    }
+    }*/
 
     public static AccessThis accessThis() {
         return new AccessThisImpl();
     }
 
-    public static AccessThis accessThis(CodeType at) {
-        return new AccessThisImpl(at);
+    public static AccessInner accessInner(CodeType at) {
+        return new AccessInnerImpl(at);
+    }
+    public static AccessOuter accessOuter(CodeType at) {
+        return new AccessOuterImpl(at);
     }
 
     public static VariableAccess accessVariable(VariableDeclaration variableDeclaration) {

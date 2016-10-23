@@ -44,7 +44,7 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.HiddenField;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.HiddenField;
 
 import java.util.Iterator;
 

@@ -43,14 +43,14 @@ import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLengthImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLoadImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayStoreImpl;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.impl.BreakImpl;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
@@ -59,6 +59,11 @@ import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.ContinueImpl;
 import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
+import com.github.jonathanxd.codeapi.interfaces.AccessInner;
+import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
@@ -92,9 +97,9 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.types.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
-import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -1927,7 +1932,7 @@ public final class CodeAPI {
     /**
      * Create a if statement.
      *
-     * @param ifExpr    Expression.
+     * @param ifExpr Expression.
      * @param body   Body of the if.
      * @return If statement.
      */
@@ -2437,7 +2442,7 @@ public final class CodeAPI {
     public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, scope, returnType, parameters, arguments, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
@@ -2470,7 +2475,7 @@ public final class CodeAPI {
     public static MethodFragment fragmentStatic(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.STATIC, returnType, parameters, arguments, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
@@ -2503,7 +2508,7 @@ public final class CodeAPI {
     public static MethodFragment fragmentInstance(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.INSTANCE, returnType, parameters, arguments, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
@@ -2540,7 +2545,7 @@ public final class CodeAPI {
     public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, scope, toCodeType(returnType), parameters, arguments, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
@@ -2573,7 +2578,7 @@ public final class CodeAPI {
     public static MethodFragment fragmentStatic(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.STATIC, toCodeType(returnType), parameters, arguments, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
@@ -2606,7 +2611,7 @@ public final class CodeAPI {
     public static MethodFragment fragmentInstance(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.INSTANCE, toCodeType(returnType), parameters, arguments, new CodeSource());
 
-        if(source != null)
+        if (source != null)
             return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
@@ -2620,6 +2625,112 @@ public final class CodeAPI {
     // =========================================================
     //          Utils
     // =========================================================
+
+    /**
+     * Access this {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * Equivalent to Java {@code this}.
+     *
+     * @return Access this {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessThis accessThis() {
+        return Helper.accessThis();
+    }
+
+    /**
+     * Access super type of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * Equivalent to Java {@code super}.
+     *
+     * @return Access super type of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessSuper accessSuper() {
+        return Helper.accessSuper();
+    }
+
+    /**
+     * Access enclosing class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * Equivalent to Java {@code CLASS.this}.
+     *
+     * @param localization Localization of outer class.
+     * @return Access enclosing class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessOuter accessOuter(CodeType localization) {
+        return Helper.accessOuter(localization);
+    }
+
+    /**
+     * Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * @param localization Inner class localization
+     * @return Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessInner accessInner(CodeType localization) {
+        return Helper.accessInner(localization);
+    }
+
+    /**
+     * Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * @param name        Inner class name
+     * @param isInterface Is the inner class a interface.
+     * @return Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessInner accessInner(String name, boolean isInterface) {
+        return Helper.accessInner(CodeAPI.plainType(name, isInterface));
+    }
+
+    /**
+     * Access a inner interface class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * @param name Inner interface name.
+     * @return Access a inner interface class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessInner accessInnerInterface(String name) {
+        return Helper.accessInner(CodeAPI.plainInterfaceType(name));
+    }
+
+    /**
+     * Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     *
+     * @param name Inner class name.
+     * @return Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
+     */
+    public static AccessInner accessInnerClass(String name) {
+        return Helper.accessInner(CodeAPI.plainClassType(name));
+    }
+
+    /**
+     * Plain code type.
+     *
+     * @param name        Name of the type.
+     * @param isInterface Is the type an interface.
+     * @return {@link PlainCodeType Plain Code Type} representation.
+     */
+    public static PlainCodeType plainType(String name, boolean isInterface) {
+        return new PlainCodeType(name, isInterface);
+    }
+
+    /**
+     * Plain interface code type.
+     *
+     * @param name Name of the type.
+     * @return {@link PlainCodeType Plain Code Type} representation.
+     */
+    public static PlainCodeType plainInterfaceType(String name) {
+        return new PlainCodeType(name, true);
+    }
+
+    /**
+     * Plain class code type.
+     *
+     * @param name Name of the type.
+     * @return {@link PlainCodeType Plain Code Type} representation.
+     */
+    public static PlainCodeType plainClassType(String name) {
+        return new PlainCodeType(name, false);
+    }
 
     /**
      * Convert Java {@link Class class} to CodeAPI {@link CodeType type}.
@@ -2716,7 +2827,7 @@ public final class CodeAPI {
     /**
      * Generator Specific features
      *
-     * Not supported by Java Source Code generation. ({@link com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator}).
+     * Not supported by Java Source Code generation. ({@link PlainSourceGenerator}).
      */
     public static class Specific {
         // =========================================================

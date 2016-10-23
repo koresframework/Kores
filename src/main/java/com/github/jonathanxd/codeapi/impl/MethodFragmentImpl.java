@@ -42,7 +42,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 
 import java.util.Arrays;
 import java.util.Random;

@@ -54,4 +54,8 @@ public abstract class AccessImpl implements Access {
         return Optional.ofNullable(this.localization);
     }
 
+    public CodeType getLocalizationUnchecked() {
+        return this.getLocalization().orElseThrow(NullPointerException::new);
+    }
+
 }

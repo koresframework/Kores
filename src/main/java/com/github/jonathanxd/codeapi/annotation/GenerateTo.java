@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.annotation;
 
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.Visitor;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
 
 import java.lang.annotation.Documented;
@@ -39,9 +42,9 @@ import java.lang.annotation.Target;
  * Point to the base element.
  *
  * The class provided to {@link #value()} property will be used by {@link
- * com.github.jonathanxd.codeapi.gen.CodeGenerator} and {@link com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator}
- * to determine the {@link com.github.jonathanxd.codeapi.gen.Generator} and {@link
- * com.github.jonathanxd.codeapi.visitgenerator.Visitor} respectively.
+ * com.github.jonathanxd.codeapi.gen.CodeGenerator} and {@link VisitorGenerator}
+ * to determine the {@link ValueGenerator} and {@link
+ * Visitor} respectively.
  *
  * Example:
  *

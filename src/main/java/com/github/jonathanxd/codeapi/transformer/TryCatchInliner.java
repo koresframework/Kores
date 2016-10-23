@@ -29,10 +29,10 @@ package com.github.jonathanxd.codeapi.transformer;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.TargetValue;
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
+import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.util.Parent;
@@ -51,7 +51,7 @@ public class TryCatchInliner {
     public static boolean inlineSource(Optional<CodeSource> bodyOpt,
                                        Optional<CodeSource> finallyBlockOpt,
                                        List<Value<?, String, PlainSourceGenerator>> values,
-                                       Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+                                       Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents) {
 
         if (bodyOpt.isPresent() && finallyBlockOpt.isPresent()) {
             CodeSource codeSource = bodyOpt.get();

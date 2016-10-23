@@ -63,8 +63,8 @@ public class InnerClassTest_ {
                         Literals.STRING("XSD"),
                         Arrays.asList(CodeModifier.PUBLIC)),
                 CodeAPI.constructor(PUBLIC, constructor -> CodeAPI.sourceOfParts(
-                        CodeAPI.invokeVirtual(new PlainCodeType("Inner", false),
-                        CodeAPI.invokeConstructor(new PlainCodeType("Inner", false)),
+                        CodeAPI.invokeVirtual(CodeAPI.accessInnerClass("Inner"),
+                        CodeAPI.invokeConstructor(CodeAPI.accessInnerClass("Inner")),
                                 "call", CodeAPI.typeSpec(String.class))
                 )),
                 CodeAPI.method(PUBLIC, "mm", PredefinedTypes.VOID, codeMethod -> CodeAPI.sourceOfParts(
@@ -73,10 +73,10 @@ public class InnerClassTest_ {
                 aClass(PUBLIC, "Inner", codeClass2 -> sourceOfParts(
                         method(PUBLIC, "call", PredefinedTypes.STRING, method -> sourceOfParts(
                                 Predefined.invokePrintln(argument(
-                                        accessField(codeClass1, Helper.accessThis(codeClass1), PredefinedTypes.STRING, "field"),
+                                        accessField(codeClass1, Helper.accessOuter(codeClass1), PredefinedTypes.STRING, "field"),
                                         PredefinedTypes.STRING
                                 )),
-                                CodeAPI.invokeVirtual(codeClass1, Helper.accessThis(codeClass1), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID)),
+                                CodeAPI.invokeVirtual(codeClass1, Helper.accessOuter(codeClass1), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID)),
                                 CodeAPI.returnValue(String.class, Literals.STRING("A"))
                         ))
                 ))

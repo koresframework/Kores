@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.test.tests;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 
 /**
  * Created by jonathan on 07/07/16.

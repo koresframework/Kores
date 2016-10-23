@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 
 /**
  * An array {@link CodeType}.

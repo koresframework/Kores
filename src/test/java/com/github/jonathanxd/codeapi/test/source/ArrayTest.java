@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.test.CommonGen;
 
 import org.junit.Test;
