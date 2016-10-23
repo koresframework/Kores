@@ -52,8 +52,8 @@ public class GenericInterfaceTest {
 
         CodeSource codeSource = CodeAPI.sourceOfParts(codeClass);
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(codeSource);
-        ResultSaver.save(this.getClass(), gen.getResult());
+        byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
+        ResultSaver.save(this.getClass(), gen);
     }
 
 }

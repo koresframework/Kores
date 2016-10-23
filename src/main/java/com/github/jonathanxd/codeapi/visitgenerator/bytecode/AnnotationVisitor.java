@@ -28,11 +28,13 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -45,12 +47,12 @@ import java.util.Optional;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class AnnotationVisitor implements Visitor<Annotation, Byte, Object>, Opcodes {
+public class AnnotationVisitor implements VoidVisitor<Annotation, BytecodeClass, Object>, Opcodes {
 
     @Override
-    public Byte[] visit(Annotation annotation,
+    public void voidVisit(Annotation annotation,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         Object additional) {
 
         Optional<ClassWriter> classWriterOpt;
@@ -82,18 +84,6 @@ public class AnnotationVisitor implements Visitor<Annotation, Byte, Object>, Opc
         Conditions.checkNotNull(annotationVisitorCapable, "Cannot determine visitor!", NullPointerException::new);
 
         Common.visitAnnotation(annotation, annotationVisitorCapable);
-
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         Annotation annotation,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         Object additional) {
 
     }
 }

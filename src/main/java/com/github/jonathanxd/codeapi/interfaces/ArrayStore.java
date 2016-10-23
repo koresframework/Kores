@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
@@ -43,8 +44,30 @@ public interface ArrayStore extends CodePart, Valuable, ArrayLoad {
      */
     CodePart getValueToStore();
 
+    /**
+     * Sets the value to store.
+     *
+     * @return new instance.
+     */
+    ArrayStore setValueToStore(CodePart valueToStore);
+
     @Override
     default Optional<CodePart> getValue() {
         return Optional.ofNullable(getValueToStore());
     }
+
+    @Override
+    ArrayStore setValue(CodePart value);
+
+    @Override
+    ArrayStore setIndex(CodePart index);
+
+    @Override
+    ArrayStore setValueType(CodeType type);
+
+    @Override
+    ArrayStore setTarget(CodePart target);
+
+    @Override
+    ArrayStore setType(CodeType codeType);
 }

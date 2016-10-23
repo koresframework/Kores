@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
@@ -39,6 +40,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -55,7 +57,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, Opcodes {
+public class StaticBlockVisitor implements VoidVisitor<StaticBlock, BytecodeClass, Object>, Opcodes {
 
     public static final StaticBlockVisitor INSTANCE = new StaticBlockVisitor();
 
@@ -116,15 +118,9 @@ public class StaticBlockVisitor implements Visitor<StaticBlock, Byte, Object>, O
     }
 
     @Override
-    public Byte[] visit(StaticBlock staticBlock, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void voidVisit(StaticBlock staticBlock, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
         extraData.registerData(STATIC_BLOCKS, staticBlock);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r, StaticBlock staticBlock, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
 
     }
 

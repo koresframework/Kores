@@ -44,10 +44,18 @@ public interface Argumenterizable extends CodePart {
     List<CodeArgument> getArguments();
 
     /**
+     * Sets the argument list.
+     * @param codeArgumentList Argument list.
+     * @return New instance.
+     */
+    Argumenterizable setArguments(List<CodeArgument> codeArgumentList);
+
+    /**
      * True if is array arguments.
      * @return True if is array arguments.
      */
     default boolean isArray() {
         return false;
     }
+
 }

@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
+import com.github.jonathanxd.codeapi.gen.CodeGenerator;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
@@ -45,7 +46,7 @@ import java.util.function.Consumer;
 /**
  * A visit based generator.
  */
-public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
+public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
 
     public static final TypeInfo<Appender> APPENDER_REPRESENTATION =
             TypeInfo.of(Appender.class).setUnique(true).build();
@@ -97,14 +98,14 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
     protected abstract MapData makeData();
 
     @Override
-    public Result<T[]> gen(CodeSource source) {
+    public T[] gen(CodeSource source) {
 
         MapData extraData = makeData();
 
         return this.gen(source, extraData, null);
     }
 
-    public Result<T[]> gen(CodeSource source, MapData data, Object additional) {
+    public T[] gen(CodeSource source, MapData data, Object additional) {
 
         Appender<T> appender = createAppender();
 
@@ -128,7 +129,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T> {
         data.unregisterData(VISITOR_REPRESENTATION, this);
 
 
-        return new Result<>(appender.get(), (MapData) data.clone());
+        return appender.get();
     }
 
     /**

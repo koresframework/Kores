@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
+import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
@@ -58,10 +58,10 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
 
         TypeDeclaration typeDeclaration = Util.find(TypeVisitor.CODE_TYPE_REPRESENTATION, extraData, null);
 
-        CodeType localization = variableDeclaration.getLocalization();
+        CodeType localization = variableDeclaration.getLocalization().orElse(null);
 
 
-        CodePart at = variableDeclaration.getAt();
+        CodePart at = variableDeclaration.getTarget().orElse(null);
 
         if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
@@ -78,7 +78,7 @@ public class OpcodeStoreVariableVisitor implements Opcodes {
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableDeclaration.getName(), Common.codeTypeToFullAsm(variableDeclaration.getVariableType()));
             }
         } else {
-            if (at instanceof AccessLocalEx) {
+            if (at instanceof AccessLocalImpl) {
 
                 Label i_label = new Label();
 

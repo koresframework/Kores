@@ -43,10 +43,19 @@ public interface ArrayLength extends CodePart, ArrayAccess, Typed {
      *
      * @return Array to access length
      */
+    @Override
     Optional<CodePart> getTarget();
+
+    @Override
+    ArrayLength setTarget(CodePart target);
 
     @Override
     default Optional<CodeType> getType() {
         return Optional.of(PredefinedTypes.INT);
+    }
+
+    @Override
+    default ArrayLength setType(CodeType codeType) {
+        return this;
     }
 }

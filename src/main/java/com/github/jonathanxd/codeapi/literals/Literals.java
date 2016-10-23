@@ -158,7 +158,6 @@ public final class Literals {
         SimpleLiteral(String name, CodeType dataType) {
             super(name, dataType);
         }
-
     }
 
     @GenerateTo(Literal.class)

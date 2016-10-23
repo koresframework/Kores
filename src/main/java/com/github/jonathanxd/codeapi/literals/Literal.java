@@ -63,6 +63,16 @@ public abstract class Literal implements CodePart, Named, Typed {
     }
 
     @Override
+    public Literal setName(String name) {
+        return new Literal(name, this.getType().orElse(null)) {};
+    }
+
+    @Override
+    public Literal setType(CodeType codeType) {
+        return new Literal(this.getName(), codeType) {};
+    }
+
+    @Override
     public String getName() {
         return name;
     }

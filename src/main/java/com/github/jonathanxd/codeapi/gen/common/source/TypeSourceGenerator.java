@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.PkgDclEx;
+import com.github.jonathanxd.codeapi.impl.PackageDeclarationImpl;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
@@ -78,7 +78,7 @@ public class TypeSourceGenerator implements Generator<TypeDeclaration, String, P
         String packageName = codeInterface.getPackageName();
 
         if (packageName != null && !packageName.isEmpty()) {
-            values.add(0, TargetValue.create(PackageDeclaration.class, new PkgDclEx(packageName), parents));
+            values.add(0, TargetValue.create(PackageDeclaration.class, new PackageDeclarationImpl(packageName), parents));
         }
 
         if (codeInterface instanceof Extender) {

@@ -38,9 +38,20 @@ import java.util.Optional;
  * Created by jonathan on 11/05/16.
  */
 public interface TryBlock extends Bodied, MultiBodied, CodePart {
+
     List<CatchBlock> getCatchBlocks();
 
+    TryBlock setCatchBlocks(List<CatchBlock> catchBlocks);
+
     Optional<CodeSource> getFinallyBlock();
+
+    TryBlock setFinallyBlock(CodeSource finallyBlock);
+
+    @Override
+    TryBlock setBodies(List<CodeSource> sourceList);
+
+    @Override
+    TryBlock setBody(CodeSource body);
 
     /**
      * Gets the expression of try-with-resources statement.
@@ -51,6 +62,13 @@ public interface TryBlock extends Bodied, MultiBodied, CodePart {
      * TryWithResources} block.
      */
     Optional<CodePart> getExpression();
+
+    /**
+     * Sets the expression of try-with-resources statement.
+     *
+     * @param expression Expression.
+     */
+    TryBlock setExpression(CodePart expression);
 
     @Override
     default List<CodeSource> getBodies() {

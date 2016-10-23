@@ -53,7 +53,7 @@ public class FinalFieldWithThis {
                 CodeAPI.sourceOfParts(
                         CodeAPI.field(Modifier.PRIVATE | Modifier.FINAL, TestBox.class, "testField",
                                 CodeAPI.invokeConstructor(TestBox.class, CodeAPI.argument(Helper.accessThis(), Object.class))),
-                        CodeAPI.constructor(Modifier.PUBLIC, codeClass, codeConstructor -> CodeAPI.sourceOfParts(
+                        CodeAPI.constructor(Modifier.PUBLIC, codeConstructor -> CodeAPI.sourceOfParts(
                                 Helper.invokeSuperInit(Helper.getJavaType(TestBox.class), CodeAPI.argument(Literals.NULL, Object.class))
                         ))
                 ));

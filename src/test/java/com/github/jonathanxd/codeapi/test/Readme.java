@@ -61,7 +61,7 @@ public class Readme {
         CodeSource source = emptySource();
 
         CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
-                constructor(PUBLIC, codeClass, codeConstructor -> sourceOfParts(
+                constructor(PUBLIC, codeConstructor -> sourceOfParts(
                         invokeVirtual(PrintStream.class,
                                 accessStaticField(System.class, PrintStream.class, "out"),
                                 "println",
@@ -80,9 +80,8 @@ public class Readme {
 
         System.out.println(plainSource);
 
-        Byte[] bytecode = bytecodeGenerator.gen(source).getResult();
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecode);
-        
+        byte[] bytes = bytecodeGenerator.gen(source)[0].getBytecode();
+
         BCLoader bytecodeLoader = new BCLoader();
 
         Class<?> cl = bytecodeLoader.define(myClass, bytes);

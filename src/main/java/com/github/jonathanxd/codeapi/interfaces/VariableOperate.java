@@ -44,5 +44,13 @@ public interface VariableOperate extends VariableDeclaration, CodePart {
      */
     Optional<Operator> getOperation();
 
+    /**
+     * Sets the operation.
+     *
+     * @param operation Operation.
+     * @return new instance.
+     */
+    VariableOperate setOperation(Operator operation);
+
 
 }

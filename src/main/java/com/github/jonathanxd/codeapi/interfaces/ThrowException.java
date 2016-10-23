@@ -39,4 +39,12 @@ public interface ThrowException extends CodePart {
      * @return Exception part to throw.
      */
     CodePart getPartToThrow();
+
+    /**
+     * Gets the exception part to throw.
+     *
+     * @param partToThrow Exception part to throw.
+     * @return new instance.
+     */
+    ThrowException setPartToThrow(CodePart partToThrow);
 }

@@ -68,7 +68,7 @@ public class CommonGen {
         };
 
         Require.require(codeClass.getBody()).addAll(sourceOfParts(
-                constructor(PUBLIC, codeClass, source(
+                constructor(PUBLIC, source(
                         new CodeField("array", PredefinedTypes.STRING.toArray(2),
                                 Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
                                         argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values), PredefinedTypes.STRING.toArray(1)),
@@ -87,6 +87,6 @@ public class CommonGen {
                 )))
         );
 
-        return new Pair<>(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 }

@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
@@ -61,7 +62,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                              boolean revert,
                              boolean jumpToStart,
                              MapData extraData,
-                             VisitorGenerator<Byte> visitorGenerator,
+                             VisitorGenerator<BytecodeClass> visitorGenerator,
                              MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();

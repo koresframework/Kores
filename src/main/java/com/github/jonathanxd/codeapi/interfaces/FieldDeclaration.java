@@ -28,9 +28,29 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.types.CodeType;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Declaration of a field.
  */
 public interface FieldDeclaration extends CodeElement, VariableDeclaration, Named, Typed, Valuable, Modifierable, Annotable {
+    @Override
+    FieldDeclaration setName(String name);
+
+    @Override
+    FieldDeclaration setValue(CodePart value);
+
+    @Override
+    FieldDeclaration setType(CodeType codeType);
+
+    @Override
+    FieldDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    FieldDeclaration setModifiers(Collection<CodeModifier> modifiers);
 }

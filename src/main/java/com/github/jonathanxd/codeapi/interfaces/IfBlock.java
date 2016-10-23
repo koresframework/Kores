@@ -49,9 +49,18 @@ public interface IfBlock extends Bodied, MultiBodied, IfExpressionable, CodePart
 
     /**
      * Gets the else statement.
+     *
      * @return Else statement
      */
     Optional<ElseBlock> getElseBlock();
+
+    /**
+     * Sets the else statement.
+     *
+     * @param elseBlock Else statement
+     * @return new instance.
+     */
+    IfBlock setElseBlock(ElseBlock elseBlock);
 
     @Override
     default List<CodeSource> getBodies() {
@@ -65,4 +74,15 @@ public interface IfBlock extends Bodied, MultiBodied, IfExpressionable, CodePart
 
         return codeSources;
     }
+
+    @Override
+    IfBlock setBody(CodeSource body);
+
+    @Override
+    default IfBlock setBodies(List<CodeSource> sourceList) {
+        return this.setBody(new CodeSource(sourceList));
+    }
+
+    @Override
+    IfBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
 }

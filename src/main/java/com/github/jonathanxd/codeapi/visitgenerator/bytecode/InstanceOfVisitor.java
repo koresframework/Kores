@@ -29,10 +29,12 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -41,13 +43,13 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class InstanceOfVisitor implements Visitor<InstanceOf, Byte, MVData>, Opcodes {
+public class InstanceOfVisitor implements VoidVisitor<InstanceOf, BytecodeClass, MVData>, Opcodes {
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(InstanceOf instanceOf,
+    public void voidVisit(InstanceOf instanceOf,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor visitor = mvData.getMethodVisitor();
@@ -59,7 +61,6 @@ public class InstanceOfVisitor implements Visitor<InstanceOf, Byte, MVData>, Opc
 
         visitor.visitTypeInsn(Opcodes.INSTANCEOF, Common.codeTypeToSimpleAsm(codeType));
 
-        return new Byte[0];
     }
 
 }

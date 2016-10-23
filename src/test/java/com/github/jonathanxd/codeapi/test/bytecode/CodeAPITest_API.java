@@ -88,9 +88,7 @@ public class CodeAPITest_API {
     public byte[] generate(CodeSource source) {
         BytecodeGenerator generator = new BytecodeGenerator();
 
-        Byte[] gen = generator.gen(source).getResult();
-
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
+        byte[] bytes = generator.gen(source)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), bytes);
 

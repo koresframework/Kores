@@ -30,9 +30,11 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
 
@@ -44,12 +46,12 @@ import java.util.List;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, MVData>, Opcodes {
+public class ArgumenterizabeVisitor implements VoidVisitor<Argumenterizable, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(Argumenterizable argumenterizable,
+    public void voidVisit(Argumenterizable argumenterizable,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -83,18 +85,6 @@ public class ArgumenterizabeVisitor implements Visitor<Argumenterizable, Byte, M
                 }
             }
         }
-
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         Argumenterizable argumenterizable,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }

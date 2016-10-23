@@ -34,6 +34,7 @@ public interface CodePart {
 
     /**
      * Returns true if this is a expression part, false otherwise.
+     *
      * @return Returns true if this is a expression part, false otherwise.
      */
     default boolean isExpression() {

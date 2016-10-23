@@ -27,31 +27,64 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Opcodes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ConstructorVisitor implements Visitor<ConstructorDeclaration, Byte, Object>, Opcodes {
+public class ConstructorVisitor implements Visitor<ConstructorDeclaration, BytecodeClass, Object>, Opcodes {
 
     public static final ConstructorVisitor INSTANCE = new ConstructorVisitor();
 
     @Override
-    public Byte[] visit(ConstructorDeclaration codeConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public BytecodeClass[] visit(ConstructorDeclaration codeConstructor, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
+
+        List<FieldDeclaration> outerFields = extraData.getAllAsList(TypeVisitor.OUTER_FIELD_REPRESENTATION);
+
+        if (!outerFields.isEmpty()) {
+            TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'!");
+
+            List<CodeParameter> parameters = new ArrayList<>(codeConstructor.getParameters());
+            CodeSource source = new CodeSource(codeConstructor.getBody().orElse(new CodeSource()));
+
+            for (FieldDeclaration outerField : outerFields) {
+                parameters.add(0, new CodeParameter(outerField.getName(), outerField.getVariableType()));
+
+                source =
+                        CodeSourceUtil.insertAfterOrEnd(
+                                part -> part instanceof MethodInvocation
+                                        && CodeMethodVisitor.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                CodeAPI.sourceOfParts(
+                                        CodeAPI.setThisField(outerField.getVariableType(), outerField.getName(),
+                                                CodeAPI.accessLocalVariable(outerField.getVariableType(), outerField.getName()))
+                                ),
+                                source);
+            }
+
+            codeConstructor = codeConstructor.setParameters(parameters);
+            codeConstructor = codeConstructor.setBody(source);
+        }
 
         visitorGenerator.generateTo(MethodDeclaration.class, codeConstructor, extraData, null, null);
 
-        return new Byte[0];
+        return new BytecodeClass[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r, ConstructorDeclaration codeConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
-    }
 }

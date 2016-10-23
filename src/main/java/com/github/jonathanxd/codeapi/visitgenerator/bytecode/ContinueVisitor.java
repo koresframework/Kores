@@ -29,9 +29,11 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -42,13 +44,13 @@ import java.util.Optional;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ContinueVisitor implements Visitor<Continue, Byte, MVData>, Opcodes {
+public class ContinueVisitor implements VoidVisitor<Continue, BytecodeClass, MVData>, Opcodes {
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(Continue aContinue,
+    public void voidVisit(Continue aContinue,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor visitor = mvData.getMethodVisitor();
@@ -58,7 +60,5 @@ public class ContinueVisitor implements Visitor<Continue, Byte, MVData>, Opcodes
         Flow flow = optional.orElseThrow(() -> new IllegalArgumentException("Cannot 'continue' outside a flow!"));
 
         visitor.visitJumpInsn(Opcodes.GOTO, flow.getInsideEnd());
-
-        return new Byte[0];
     }
 }

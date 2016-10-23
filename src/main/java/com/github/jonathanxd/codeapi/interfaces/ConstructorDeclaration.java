@@ -27,9 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -42,4 +49,24 @@ public interface ConstructorDeclaration extends MethodDeclaration {
         return Optional.of(PredefinedTypes.VOID);
     }
 
+    @Override
+    ConstructorDeclaration setName(String name);
+
+    @Override
+    ConstructorDeclaration setBody(CodeSource body);
+
+    @Override
+    ConstructorDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    ConstructorDeclaration setReturnType(CodeType returnType);
+
+    @Override
+    ConstructorDeclaration setParameters(List<CodeParameter> codeParameters);
+
+    @Override
+    ConstructorDeclaration setModifiers(Collection<CodeModifier> modifiers);
+
+    @Override
+    ConstructorDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
 }

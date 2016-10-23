@@ -28,10 +28,12 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -41,14 +43,14 @@ import org.objectweb.asm.Type;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ReturnVisitor implements Visitor<Return, Byte, MVData>, Opcodes {
+public class ReturnVisitor implements VoidVisitor<Return, BytecodeClass, MVData>, Opcodes {
 
     public static final ReturnVisitor INSTANCE = new ReturnVisitor();
 
     @Override
-    public Byte[] visit(Return aReturn,
+    public void voidVisit(Return aReturn,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
@@ -73,16 +75,6 @@ public class ReturnVisitor implements Visitor<Return, Byte, MVData>, Opcodes {
 
         mv.visitInsn(opcode);
 
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         Return aReturn,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
 
     }
 }

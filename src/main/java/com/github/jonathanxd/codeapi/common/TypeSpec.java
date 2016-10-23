@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -41,7 +42,7 @@ import java.util.Optional;
 /**
  * Specification of return type and parameter types.
  *
- * Commonly this specification is used by {@link com.github.jonathanxd.codeapi.helper.MethodSpec} to
+ * Commonly this specification is used by {@link MethodSpecImpl} to
  * specify a method to be invoked.
  */
 public class TypeSpec implements Typed, RequiredTyped, CodePart {
@@ -73,6 +74,16 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
      */
     public TypeSpec(CodeType returnType, Class<?>... parameterTypes) {
         this(returnType, parameterTypes.length <= 0 ? null : Arrays.asList(Helper.getJavaTypes(parameterTypes)));
+    }
+
+    /**
+     * Constructor
+     *
+     * @param returnType     Return type
+     * @param parameterTypes Parameter types
+     */
+    public TypeSpec(Class<?> returnType, Class<?>... parameterTypes) {
+        this(Helper.getJavaType(returnType), parameterTypes.length <= 0 ? null : Arrays.asList(Helper.getJavaTypes(parameterTypes)));
     }
 
     /**
@@ -124,4 +135,16 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
         return "TypeSpec[returnType=" + this.getReturnType() + ", parameterSpec=" + getParameterTypes() + "]";
     }
 
+    @Override
+    public TypeSpec setType(CodeType codeType) {
+        return this.setReturnType(codeType);
+    }
+
+    public TypeSpec setReturnType(CodeType returnType) {
+        return new TypeSpec(returnType, this.getParameterTypes());
+    }
+
+    public TypeSpec setParameterTypes(List<CodeType> parameterTypes) {
+        return new TypeSpec(this.getReturnType(), parameterTypes);
+    }
 }

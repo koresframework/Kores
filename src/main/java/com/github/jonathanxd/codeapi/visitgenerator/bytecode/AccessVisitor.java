@@ -29,12 +29,14 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.exceptions.TODOException;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -43,13 +45,13 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class AccessVisitor implements Visitor<Access, Byte, MVData>, Opcodes {
+public class AccessVisitor implements VoidVisitor<Access, BytecodeClass, MVData>, Opcodes {
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(Access access,
+    public void voidVisit(Access access,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -67,15 +69,6 @@ public class AccessVisitor implements Visitor<Access, Byte, MVData>, Opcodes {
 
         //additional.visitVarInsn(ALOAD, 0);
 
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         Access access,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }

@@ -38,8 +38,17 @@ import java.util.List;
 public interface Implementer extends CodePart {
     /**
      * Gets the implementation list.
+     *
      * @return Implementation list
      */
     List<CodeType> getImplementations();
+
+    /**
+     * Sets the implementation list.
+     *
+     * @param implementations Implementation list
+     * @return new instance.
+     */
+    Implementer setImplementations(List<CodeType> implementations);
 
 }

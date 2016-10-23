@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.TagLineEx;
+import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
@@ -71,7 +71,7 @@ public class TryCatchInliner {
 
         CodeSource toAdd = new CodeSource();
 
-        toAdd.add(new TagLineEx<>("Inlined finally", toAdd0));
+        toAdd.add(new TagLineImpl<>("Inlined finally", toAdd0));
 
         CodeSource codeSource = CodeSourceUtil.insertBefore(codePart -> {
             if (codePart instanceof ThrowException) {

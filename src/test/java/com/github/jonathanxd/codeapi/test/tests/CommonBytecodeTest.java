@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.tests;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Result;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
@@ -66,15 +67,25 @@ public class CommonBytecodeTest {
     public static @Named("Instance") Object test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
-
-        ResultSaver.save(testClass, gen.getResult());
-
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define(mainClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        BytecodeClass[] bytecodeClasses = bytecodeGenerator.gen(source);
 
-        return function.apply(define);
+        Class<?> first = null;
+
+        for (BytecodeClass bytecodeClass : bytecodeClasses) {
+            TypeDeclaration type = bytecodeClass.getType();
+            byte[] bytecode = bytecodeClass.getBytecode();
+
+            ResultSaver.save(testClass, type.getSimpleName(), bytecode);
+
+            Class<?> define = bcLoader.define(type, bytecode);
+
+            if(first == null)
+                first = define;
+        }
+
+        return function.apply(first);
     }
 
 }

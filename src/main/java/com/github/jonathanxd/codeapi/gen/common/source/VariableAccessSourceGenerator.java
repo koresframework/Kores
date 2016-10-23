@@ -34,7 +34,9 @@ import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -58,19 +60,16 @@ public class VariableAccessSourceGenerator implements Generator<VariableAccess, 
     public List<Value<?, String, PlainSourceGenerator>> gen(VariableAccess variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        CodePart at = variableAccess.getAt();
-        CodeType localization = variableAccess.getLocalization();
+        CodePart at = variableAccess.getTarget().orElse(null);
+        CodeType localization = variableAccess.getLocalization().orElse(null);
 
         if (at == null && localization == null) {
-            localization = (CodeType) parents.find(TypeDeclaration.class)
+            variableAccess = variableAccess.setLocalization((CodeType) parents.find(TypeDeclaration.class)
                     .orElseThrow(() -> new IllegalArgumentException("Cannot determine target type."))
-                    .getTarget();
+                    .getTarget());
         }
 
-        if (localization != null && !(localization instanceof AccessLocal)) {
-            values.add(TargetValue.create(CodeType.class, localization, parents));
-            values.add(PlainValue.create("."));
-        }
+        values.add(TargetValue.create(Accessor.class, variableAccess, parents));
 
         values.add(PlainValue.create(variableAccess.getName()));
 

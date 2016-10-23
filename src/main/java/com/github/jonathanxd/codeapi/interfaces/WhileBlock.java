@@ -27,9 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+
+import java.util.List;
+
 /**
  * While statement.
  */
 public interface WhileBlock extends SimpleWhileBlock, Bodied {
+    @Override
+    WhileBlock setElseBlock(ElseBlock elseBlock);
 
+    @Override
+    WhileBlock setBody(CodeSource body);
+
+    @Override
+    WhileBlock setBodies(List<CodeSource> sourceList);
+
+    @Override
+    WhileBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
 }

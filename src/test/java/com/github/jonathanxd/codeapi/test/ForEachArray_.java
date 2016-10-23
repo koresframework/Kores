@@ -57,7 +57,7 @@ public class ForEachArray_ {
 
         CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
                 field(PUBLIC | STATIC, String.class, "stra", Literals.STRING("XA")),
-                constructor(PUBLIC, codeClass1, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
+                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
                         codeConstructor -> sourceOfParts(
                                 field(String.class, "v", accessStaticField(String.class, "stra")),
                                 Helper.createForEachArray(new CodeField("str", PredefinedTypes.STRING),

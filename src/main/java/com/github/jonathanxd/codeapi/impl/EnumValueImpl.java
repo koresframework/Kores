@@ -46,12 +46,32 @@ public class EnumValueImpl implements EnumValue {
     }
 
     @Override
+    public EnumValueImpl setName(String name) {
+        return this.setEnumValue(name);
+    }
+
+    @Override
+    public EnumValueImpl setType(CodeType codeType) {
+        return this.setEnumType(codeType);
+    }
+
+    @Override
     public CodeType getEnumType() {
         return this.enumType;
     }
 
     @Override
+    public EnumValueImpl setEnumType(CodeType codeType) {
+        return new EnumValueImpl(codeType, this.getEnumValue());
+    }
+
+    @Override
     public String getEnumValue() {
         return this.entry;
+    }
+
+    @Override
+    public EnumValueImpl setEnumValue(String entry) {
+        return new EnumValueImpl(this.getEnumType(), entry);
     }
 }

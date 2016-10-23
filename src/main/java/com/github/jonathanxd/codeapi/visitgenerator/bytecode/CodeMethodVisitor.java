@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -53,6 +54,7 @@ import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.ClassWriter;
@@ -69,7 +71,7 @@ import java.util.function.Predicate;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Object>, Opcodes {
+public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, BytecodeClass, Object>, Opcodes {
 
     public static final CodeMethodVisitor INSTANCE = new CodeMethodVisitor();
 
@@ -149,9 +151,9 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
     }
 
     public static boolean isInitForThat(TypeDeclaration typeDeclaration, MethodInvocation methodInvocation) {
-        boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().compareTo(c) == 0).isPresent());
+        boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
 
-        boolean accept = (methodInvocation.getTarget() instanceof AccessThis || methodInvocation.getTarget() instanceof AccessSuper);
+        boolean accept = (methodInvocation.getTarget().orElse(null) instanceof AccessThis || methodInvocation.getTarget().orElse(null) instanceof AccessSuper);
 
         return any
                 && accept
@@ -175,10 +177,10 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
             if (codePart instanceof MethodInvocation) {
                 MethodInvocation mi = (MethodInvocation) codePart;
 
-                boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> mi.getLocalization().compareTo(c) == 0).isPresent());
+                boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> mi.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
 
                 if (any
-                        && targetAccessPredicate.test(mi.getTarget())
+                        && targetAccessPredicate.test(mi.getTarget().orElse(null))
                         && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
 
                         && mi.getSpec().getMethodName().equals("<init>")) {
@@ -200,25 +202,15 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
     }
 
     @Override
-    public Byte[] visit(MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void voidVisit(MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
         boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
 
 
         TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'!");
 
-        //Optional<ClassWriter> optional = extraData.getOptional(TypeVisitor.CLASS_WRITER_REPRESENTATION);
-
         ClassWriter cw = Util.find(TypeVisitor.CLASS_WRITER_REPRESENTATION, extraData, additional);
 
-/*
-        if(additional != null && additional instanceof ClassWriter) {
-            cw = (ClassWriter) additional;
-        } else {
-            cw = optional.orElseThrow(() -> new IllegalArgumentException("ClassWriter not registered. Register 'TypeVisitor.CLASS_WRITER_REPRESENTATION'!"));
-        }
-
-*/
         Optional<CodeSource> bodyOpt = codeMethod.getBody();
 
         Collection<CodeModifier> modifiers = new ArrayList<>(codeMethod.getModifiers());
@@ -326,12 +318,6 @@ public class CodeMethodVisitor implements Visitor<MethodDeclaration, Byte, Objec
 
 
         mv.visitEnd();
-
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r, MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
-    }
 }

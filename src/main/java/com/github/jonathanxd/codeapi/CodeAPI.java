@@ -44,12 +44,12 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.ArrayConstructorEx;
-import com.github.jonathanxd.codeapi.helper.ArrayLengthEx;
-import com.github.jonathanxd.codeapi.helper.ArrayLoadEx;
-import com.github.jonathanxd.codeapi.helper.ArrayStoreEx;
+import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayLengthImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayLoadImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayStoreImpl;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.impl.BreakImpl;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -811,49 +811,28 @@ public final class CodeAPI {
         return ConstructorBuilder.builder();
     }
 
-    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, CodeParameter... parameters) {
-        return constructor__factory(modifiers, declaringClass, null, parameters);
+    public static CodeConstructor constructor(int modifiers, CodeParameter... parameters) {
+        return constructor__factory(modifiers, null, parameters);
     }
 
-    public static CodeConstructor constructor(int modifiers, CodeType declaringClass) {
-        return constructor__factory(modifiers, declaringClass, null);
-    }
-
-
-    /// Class
-
-    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, CodeParameter... parameters) {
-        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), null, parameters);
-    }
-
-    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass) {
-        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), null);
+    public static CodeConstructor constructor(int modifiers) {
+        return constructor__factory(modifiers, null);
     }
 
     // ** Source **
 
-    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, CodeParameter[] parameters, Function<CodeConstructor, CodeSource> source) {
-        return constructor__factory(modifiers, declaringClass, source, parameters);
+    public static CodeConstructor constructor(int modifiers, CodeParameter[] parameters, Function<CodeConstructor, CodeSource> source) {
+        return constructor__factory(modifiers, source, parameters);
     }
 
-    public static CodeConstructor constructor(int modifiers, CodeType declaringClass, Function<CodeConstructor, CodeSource> source) {
-        return constructor__factory(modifiers, declaringClass, source);
+    public static CodeConstructor constructor(int modifiers, Function<CodeConstructor, CodeSource> source) {
+        return constructor__factory(modifiers, source);
     }
 
-
-    /// Class
-
-    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, CodeParameter[] parameters, Function<CodeConstructor, CodeSource> source) {
-        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), source, parameters);
-    }
-
-    public static CodeConstructor constructor(int modifiers, Class<?> declaringClass, Function<CodeConstructor, CodeSource> source) {
-        return constructor__factory(modifiers, Helper.getJavaType(declaringClass), source);
-    }
 
     // Factory
-    private static CodeConstructor constructor__factory(int modifiers, CodeType declaringClass, Function<CodeConstructor, CodeSource> source, CodeParameter... parameters) {
-        CodeConstructor codeConstructor = new CodeConstructor(declaringClass, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), new CodeSource());
+    private static CodeConstructor constructor__factory(int modifiers, Function<CodeConstructor, CodeSource> source, CodeParameter... parameters) {
+        CodeConstructor codeConstructor = new CodeConstructor(CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), new CodeSource());
 
         if (source != null)
             Require.require(codeConstructor.getBody()).addAll(source.apply(codeConstructor));
@@ -930,7 +909,7 @@ public final class CodeAPI {
     // Factory
 
     private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
-        return new ArrayConstructorEx(arrayType, dimensions, ArrayToList.toList(arguments));
+        return new ArrayConstructorImpl(arrayType, dimensions, ArrayToList.toList(arguments));
     }
 
     // =========================================================
@@ -962,15 +941,15 @@ public final class CodeAPI {
     // Factory
 
     private static ArrayLength getArrayLength__factory(VariableAccess access) {
-        return new ArrayLengthEx(access);
+        return new ArrayLengthImpl(access);
     }
 
     private static ArrayLoad getArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType) {
-        return new ArrayLoadEx(index, access, arrayType);
+        return new ArrayLoadImpl(index, access, arrayType);
     }
 
     private static ArrayStore setArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType, CodePart value) {
-        return new ArrayStoreEx(index, access, arrayType, value);
+        return new ArrayStoreImpl(index, access, arrayType, value);
     }
 
 
@@ -1254,12 +1233,12 @@ public final class CodeAPI {
 
     // Factory
 
-    private static MethodSpec spec__factory(String methodName, TypeSpec methodDescription, MethodType methodType, CodeArgument... arguments) {
-        return new MethodSpec(methodName, ArrayToList.toList(arguments), methodDescription, methodType);
+    private static MethodSpecImpl spec__factory(String methodName, TypeSpec methodDescription, MethodType methodType, CodeArgument... arguments) {
+        return new MethodSpecImpl(methodName, ArrayToList.toList(arguments), methodDescription, methodType);
     }
 
-    private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
-        return Helper.invoke(invokeType, localization, target, methodSpec);
+    private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, MethodSpecImpl methodSpecImpl) {
+        return Helper.invoke(invokeType, localization, target, methodSpecImpl);
     }
 
     private static MethodInvocation invokeDynamic__factory(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
@@ -1285,7 +1264,7 @@ public final class CodeAPI {
      * @return Access to {@code declaration}.
      */
     public static VariableAccess accessDeclaration(VariableDeclaration declaration) {
-        return accessField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName());
+        return accessField__Factory(declaration.getLocalization().orElse(null), declaration.getTarget().orElse(null), declaration.getVariableType(), declaration.getName());
     }
 
     /**
@@ -1443,7 +1422,7 @@ public final class CodeAPI {
 
 
     public static VariableDeclaration setDeclarationValue(VariableDeclaration declaration, CodePart value) {
-        return setField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName(), value);
+        return setField__Factory(declaration.getLocalization().orElse(null), declaration.getTarget().orElse(null), declaration.getVariableType(), declaration.getName(), value);
     }
 
     public static VariableDeclaration setStaticThisField(CodeType fieldType, String name, CodePart value) {
@@ -1498,11 +1477,11 @@ public final class CodeAPI {
     // =========================================================
 
     public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation, CodePart value) {
-        return operateField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName(), operation, value);
+        return operateField__Factory(declaration.getLocalization().orElse(null), declaration.getTarget().orElse(null), declaration.getVariableType(), declaration.getName(), operation, value);
     }
 
     public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation) {
-        return operateField__Factory(declaration.getLocalization(), declaration.getAt(), declaration.getVariableType(), declaration.getName(), operation, null);
+        return operateField__Factory(declaration.getLocalization().orElse(null), declaration.getTarget().orElse(null), declaration.getVariableType(), declaration.getName(), operation, null);
     }
 
     public static VariableOperate operateStaticThisField(CodeType fieldType, String name, Operator operation, CodePart value) {
@@ -1616,7 +1595,7 @@ public final class CodeAPI {
     }
 
     private static ThrowException throwException__Factory(CodeType exceptionType, CodeArgument... arguments) {
-        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType, new MethodSpec(null, Arrays.asList(arguments), (CodeType) null, MethodType.CONSTRUCTOR));
+        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType, new MethodSpecImpl(null, Arrays.asList(arguments), (CodeType) null, MethodType.CONSTRUCTOR));
         return throwException__Factory(invoke);
     }
 

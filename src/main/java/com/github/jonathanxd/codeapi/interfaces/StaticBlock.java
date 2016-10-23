@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
@@ -52,8 +53,18 @@ public interface StaticBlock extends CodeElement, MethodDeclaration, Bodied {
     }
 
     @Override
+    default StaticBlock setName(String name) {
+        return this;
+    }
+
+    @Override
     default Collection<CodeModifier> getModifiers() {
         return Constants.MODIFIERS;
+    }
+
+    @Override
+    default StaticBlock setModifiers(Collection<CodeModifier> modifiers) {
+        return this;
     }
 
     @Override
@@ -62,13 +73,36 @@ public interface StaticBlock extends CodeElement, MethodDeclaration, Bodied {
     }
 
     @Override
+    default StaticBlock setParameters(List<CodeParameter> codeParameters) {
+        return this;
+    }
+
+    @Override
     default Optional<CodeType> getReturnType() {
         return Optional.of(Constants.RETURN_TYPE);
     }
 
     @Override
+    default StaticBlock setReturnType(CodeType returnType) {
+        return this;
+    }
+
+    @Override
     default GenericSignature<GenericType> getGenericSignature() {
         return GenericSignature.empty();
+    }
+
+    @Override
+    default StaticBlock setGenericSignature(GenericSignature<GenericType> genericSignature) {
+        return this;
+    }
+
+    @Override
+    StaticBlock setBody(CodeSource body);
+
+    @Override
+    default MethodDeclaration setAnnotations(List<Annotation> annotations) {
+        return this;
     }
 
     class Constants {

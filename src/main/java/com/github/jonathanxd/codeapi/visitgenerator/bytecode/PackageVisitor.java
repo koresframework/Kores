@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -36,7 +37,7 @@ import com.github.jonathanxd.iutils.type.TypeInfo;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class PackageVisitor implements Visitor<PackageDeclaration, Byte, Object> {
+public class PackageVisitor implements Visitor<PackageDeclaration, BytecodeClass, Object> {
 
     public static final PackageVisitor INSTANCE = new PackageVisitor();
 
@@ -44,22 +45,14 @@ public class PackageVisitor implements Visitor<PackageDeclaration, Byte, Object>
             TypeInfo.a(PackageDeclaration.class).setUnique(true).build();
 
     @Override
-    public Byte[] visit(PackageDeclaration packageDeclaration,
-                        MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        Object additional) {
+    public BytecodeClass[] visit(PackageDeclaration packageDeclaration,
+                                 MapData extraData,
+                                 VisitorGenerator<BytecodeClass> visitorGenerator,
+                                 Object additional) {
 
         extraData.registerData(PACKAGE_REPRESENTATION, packageDeclaration);
 
-        return new Byte[0];
+        return new BytecodeClass[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         PackageDeclaration packageDeclaration,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         Object additional) {
-
-    }
 }

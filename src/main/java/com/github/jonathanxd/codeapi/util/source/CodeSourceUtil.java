@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MultiBodied;
+import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.function.consumer.TriConsumer;
 
 import java.util.ArrayList;
@@ -48,6 +49,64 @@ import java.util.function.Predicate;
  */
 public class CodeSourceUtil {
 
+    /**
+     * Insert element {@code toInsert} in {@code source} after element determined by {@code
+     * predicate} or at end of source if not found.
+     *
+     * @param predicate Predicate to determine element
+     * @param toInsert  Element to insert after element determined by {@code predicate}
+     * @param source    Source to find element and insert element {@code toInsert}
+     * @return {@code source}
+     */
+    public static CodeSource insertAfterOrEnd(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
+
+        BooleanContainer any = BooleanContainer.of(false);
+
+        CodeSource result = CodeSourceUtil.insertAfter(codePart -> {
+            if(predicate.test(codePart)) {
+                any.toTrue();
+                return true;
+            }
+
+            return false;
+        }, toInsert, source);
+
+        if(!any.get()) {
+            result.add(toInsert);
+        }
+
+        return result;
+    }
+
+    /**
+     * Insert element {@code toInsert} in {@code source} before element determined by {@code
+     * predicate} or at end of source if not found.
+     *
+     * @param predicate Predicate to determine element
+     * @param toInsert  Element to insert after element determined by {@code predicate}
+     * @param source    Source to find element and insert element {@code toInsert}
+     * @return {@code source}
+     */
+    public static CodeSource insertBeforeOrEnd(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
+
+        BooleanContainer any = BooleanContainer.of(false);
+
+        CodeSource result = CodeSourceUtil.insertBefore(codePart -> {
+            if(predicate.test(codePart)) {
+                any.toTrue();
+                return true;
+            }
+
+            return false;
+        }, toInsert, source);
+
+        if(!any.get()) {
+            result.add(toInsert);
+        }
+
+        return result;
+    }
+
 
     /**
      * Insert element {@code toInsert} in {@code source} after element determined by {@code
@@ -60,10 +119,16 @@ public class CodeSourceUtil {
      */
     public static CodeSource insertAfter(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
 
+        BooleanContainer any = BooleanContainer.of(false);
+
         CodeSourceUtil.visit(source, (part, location, codeParts) -> {
+            if (any.get())
+                return;
+
             if (location == Location.AFTER) {
                 if (predicate.test(part)) {
                     codeParts.addAll(toInsert);
+                    any.set(true);
                 }
             }
         });
@@ -83,10 +148,16 @@ public class CodeSourceUtil {
      */
     public static CodeSource insertBefore(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
 
+        BooleanContainer any = BooleanContainer.of(false);
+
         CodeSourceUtil.visit(source, (part, location, codeParts) -> {
+            if (any.get())
+                return;
+
             if (location == Location.BEFORE) {
                 if (predicate.test(part)) {
                     codeParts.addAll(toInsert);
+                    any.set(true);
                 }
             }
         });

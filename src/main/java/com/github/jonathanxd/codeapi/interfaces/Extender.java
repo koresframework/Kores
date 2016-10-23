@@ -36,6 +36,19 @@ import java.util.Optional;
  * A element that can extends a type.
  */
 public interface Extender extends CodePart {
+    /**
+     * Gets the super type.
+     *
+     * @return Super type.
+     */
     Optional<CodeType> getSuperType();
+
+    /**
+     * Sets the super type.
+     *
+     * @param superType Super type.
+     * @return new instance.
+     */
+    Extender setSuperType(CodeType superType);
 
 }

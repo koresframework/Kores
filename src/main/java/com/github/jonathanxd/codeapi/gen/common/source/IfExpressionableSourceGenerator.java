@@ -59,7 +59,7 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        //values.add(ValueImpl.create("("));
+        values.add(PlainValue.create("("));
 
         Collection<CodePart> ifExprs = ifExpressionable.getIfExprsAndOps();
 
@@ -83,7 +83,7 @@ public class IfExpressionableSourceGenerator implements Generator<IfExpressionab
 
         }
 
-        //values.add(ValueImpl.create(")"));
+        values.add(PlainValue.create(")"));
 
 
         return values;

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
@@ -109,12 +110,14 @@ import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 import com.github.jonathanxd.iutils.option.Options;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class BytecodeGenerator extends VisitorGenerator<Byte> {
+public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
 
     public static final TypeInfo<Function<TypeDeclaration, String>> SOURCE_FILE_FUNCTION =
             new AbstractTypeInfo<Function<TypeDeclaration, String>>(true) {
@@ -180,7 +183,7 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
     }
 
     @Override
-    public Appender<Byte> createAppender() {
+    public Appender<BytecodeClass> createAppender() {
         return new ByteAppender();
     }
 
@@ -189,22 +192,25 @@ public class BytecodeGenerator extends VisitorGenerator<Byte> {
         return this.options;
     }
 
-    private static class ByteAppender extends Appender<Byte> {
+    private static class ByteAppender extends Appender<BytecodeClass> {
 
-        final ByteBuilder byteBuilder = new ByteBuilder();
+        private final List<BytecodeClass> bytecodeClassList = new ArrayList<>();
 
         ByteAppender() {
 
         }
 
         @Override
-        public void add(Byte elem) {
-            byteBuilder.append(elem);
+        public void add(BytecodeClass elem) {
+            if(elem == null)
+                return;
+
+            this.bytecodeClassList.add(elem);
         }
 
         @Override
-        public Byte[] get() {
-            return byteBuilder.toByteArray();
+        public BytecodeClass[] get() {
+            return this.bytecodeClassList.stream().toArray(BytecodeClass[]::new);
         }
     }
 }

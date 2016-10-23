@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.visitgenerator.Appender;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
@@ -37,14 +38,14 @@ import com.github.jonathanxd.iutils.data.MapData;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class CodeSourceVisitor implements Visitor<CodeSource, Byte, Object> {
+public class CodeSourceVisitor implements Visitor<CodeSource, BytecodeClass, Object> {
 
     public static final CodeSourceVisitor INSTANCE = new CodeSourceVisitor();
 
     @Override
-    public Byte[] visit(CodeSource codeSource, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public BytecodeClass[] visit(CodeSource codeSource, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
-        Appender<Byte> appender = visitorGenerator.createAppender();
+        Appender<BytecodeClass> appender = visitorGenerator.createAppender();
 
         for (int i = 0; i < codeSource.size(); i++) {
             CodePart codePart = codeSource.get(i);
@@ -56,10 +57,5 @@ public class CodeSourceVisitor implements Visitor<CodeSource, Byte, Object> {
         }
 
         return appender.get();
-    }
-
-    @Override
-    public void endVisit(Byte[] r, CodeSource codeSource, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
     }
 }

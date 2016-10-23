@@ -50,6 +50,9 @@ public abstract class Appender<T> {
      * @param elems Element array.
      */
     public final void addAll(T[] elems) {
+        if(elems == null)
+            return;
+
         for (T elem : elems) {
             add(elem);
         }

@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.CatchExBlock;
+import com.github.jonathanxd.codeapi.impl.CatchBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
@@ -98,7 +98,7 @@ public class TryBlockSourceGenerator implements Generator<TryBlock, String, Plai
 
                 CodeSource modified = TryCatchInliner.insertInlineSecure(codeSource, finallyBlockSource);
 
-                catchBlock = new CatchExBlock(catchBlock.getField(), catchBlock.getExceptionTypes(), modified);
+                catchBlock = new CatchBlockImpl(catchBlock.getField(), catchBlock.getExceptionTypes(), modified);
             }
 
             values.add(TargetValue.create(catchBlock.getClass(), catchBlock, parents));

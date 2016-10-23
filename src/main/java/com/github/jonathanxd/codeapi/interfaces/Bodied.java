@@ -44,6 +44,13 @@ public interface Bodied extends CodePart {
     Optional<CodeSource> getBody();
 
     /**
+     * Sets the body.
+     * @param body Body.
+     * @return new instance.
+     */
+    Bodied setBody(CodeSource body);
+
+    /**
      * Gets the body.
      * @return Body.
      */

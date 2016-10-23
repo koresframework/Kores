@@ -58,7 +58,7 @@ public class ArrayParameterTest {
         ClassDeclaration codeClass = aClass(PUBLIC, name);
 
         Require.require(codeClass.getBody()).addAll(sourceOfParts(
-                constructor(PUBLIC, codeClass, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(
+                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(
                         new CodeField("cf", Helper.getJavaType(Object.class), Helper.cast(Helper.getJavaType(Text[].class), PredefinedTypes.OBJECT, Helper.accessLocalVariable("par", Text[].class))),
                         new CodeField("lt", Helper.getJavaType(Text[].class), Helper.cast(PredefinedTypes.OBJECT, Helper.getJavaType(Text[].class), Helper.accessLocalVariable("cf", Object.class)))
                 )))
@@ -66,7 +66,7 @@ public class ArrayParameterTest {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(codeClass)).getResult());
+        byte[] bytes = bytecodeGenerator.gen(sourceOfParts(codeClass))[0].getBytecode();
 
         ResultSaver.save(getClass(), bytes);
 

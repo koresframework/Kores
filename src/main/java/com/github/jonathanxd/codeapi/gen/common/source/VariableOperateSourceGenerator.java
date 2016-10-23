@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -57,10 +58,7 @@ public class VariableOperateSourceGenerator implements Generator<VariableOperate
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (operate.getLocalization() != null && !(operate.getLocalization() instanceof AccessLocal)) {
-            values.add(CodePartValue.create(operate.getLocalization(), parents));
-            values.add(PlainValue.create("."));
-        }
+        values.add(TargetValue.create(Accessor.class, operate, parents));
 
         values.add(PlainValue.create(operate.getName()));
 

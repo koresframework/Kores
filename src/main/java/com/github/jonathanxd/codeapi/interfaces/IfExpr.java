@@ -50,6 +50,14 @@ public interface IfExpr extends CodePart {
     CodePart getExpr1();
 
     /**
+     * Sets the first expression.
+     *
+     * @param expr expression.
+     * @return new instance.
+     */
+    IfExpr setExpr1(CodePart expr);
+
+    /**
      * Gets the operation.
      *
      * @return Operation.
@@ -57,9 +65,25 @@ public interface IfExpr extends CodePart {
     Operator getOperation();
 
     /**
+     * Sets the operation.
+     *
+     * @param operation Operation.
+     * @return new instance.
+     */
+    IfExpr setOperation(Operator operation);
+
+    /**
      * Gets the second expression.
      *
      * @return Second expression
      */
     CodePart getExpr2();
+
+    /**
+     * Sets the second expression.
+     *
+     * @param expr Second expression
+     * @return new instance.
+     */
+    IfExpr setExpr2(CodePart expr);
 }

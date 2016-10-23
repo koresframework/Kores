@@ -29,10 +29,12 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -42,12 +44,12 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opcodes {
+public class TagLineVisitor implements VoidVisitor<TagLine<?, ?>, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(TagLine<?, ?> tagLine,
+    public void voidVisit(TagLine<?, ?> tagLine,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -67,17 +69,6 @@ public class TagLineVisitor implements Visitor<TagLine<?, ?>, Byte, MVData>, Opc
         visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
         additional.visitLabel(new Label());
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         TagLine<?, ?> tagLine,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
 
     }
 }

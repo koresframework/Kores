@@ -29,9 +29,11 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -40,14 +42,14 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVData>, Opcodes {
+public class ThrowExceptionVisitor implements VoidVisitor<ThrowException, BytecodeClass, MVData>, Opcodes {
 
     public static final ThrowExceptionVisitor INSTANCE = new ThrowExceptionVisitor();
 
     @Override
-    public Byte[] visit(ThrowException e,
+    public void voidVisit(ThrowException e,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -56,30 +58,7 @@ public class ThrowExceptionVisitor implements Visitor<ThrowException, Byte, MVDa
 
         visitorGenerator.generateTo(partToThrow.getClass(), partToThrow, extraData, null, mvData);
 
-        //visitorGenerator.generateTo(invoke.getClass(), invoke, extraData, navigator, null, mvData);
-        /*CodeType exceptionType = e.getType().orElseThrow(NullPointerException::new);
-        List<CodeArgument> arguments = e.getArguments();
-
-        MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exceptionType, exceptionType,
-                new MethodSpec((String) null, arguments,
-                        <init>
-                        (CodeType) nullPredefinedTypes#VOID,
-                        MethodType.CONSTRUCTOR));*/
-
-
         additional.visitInsn(ATHROW);
-
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         ThrowException e,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }

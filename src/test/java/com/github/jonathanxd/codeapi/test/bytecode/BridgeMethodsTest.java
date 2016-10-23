@@ -90,13 +90,13 @@ public class BridgeMethodsTest {
         CodeSource codeSource = CodeAPI.sourceOfParts(typeDeclaration);
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
-        Result<Byte[]> gen = bytecodeGenerator.gen(codeSource);
+        byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
 
-        ResultSaver.save(this.getClass(), gen.getResult());
+        ResultSaver.save(this.getClass(), gen);
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define(typeDeclaration, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = bcLoader.define(typeDeclaration, gen);
         Iterate<Iterable<?>> o = (Iterate<Iterable<?>>) define.newInstance();
 
         List<Object> iterable = new ArrayList<>();

@@ -57,7 +57,7 @@ public class ForEach_ {
         Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING));
 
         CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
-                constructor(PUBLIC, codeClass1, new CodeParameter[]{new CodeParameter("strList", Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))},
+                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("strList", Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))},
                         codeConstructor -> sourceOfParts(
                                 Helper.createForEach(new CodeField("str", PredefinedTypes.STRING),
                                         Helper.accessLocalVariable("strList",

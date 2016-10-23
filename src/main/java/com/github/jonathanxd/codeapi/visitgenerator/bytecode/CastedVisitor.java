@@ -31,11 +31,13 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -46,12 +48,12 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
+public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(Casted casted,
+    public void voidVisit(Casted casted,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -77,24 +79,12 @@ public class CastedVisitor implements Visitor<Casted, Byte, MVData>, Opcodes {
             if (!from.equals(to)) {
                 if (to.isPrimitive()) {
                     Common.convertToPrimitive(from, to, additional);
-                    return new Byte[0];
+                    return;
                 }
 
                 additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(to));
             }
         }
-
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         Casted casted,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
     }
 
     // CAST DE -> PARA

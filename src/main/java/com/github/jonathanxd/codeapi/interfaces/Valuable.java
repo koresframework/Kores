@@ -43,4 +43,10 @@ public interface Valuable {
      */
     Optional<CodePart> getValue();
 
+    /**
+     * Sets the value.
+     * @param value Value.
+     * @return new instance.
+     */
+    Valuable setValue(CodePart value);
 }

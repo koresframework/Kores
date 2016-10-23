@@ -38,8 +38,17 @@ public interface PackageDeclaration extends CodePart {
 
     /**
      * Gets the package name.
+     *
      * @return Package name.
      */
     Optional<String> getPackage();
+
+    /**
+     * Sets the package name.
+     *
+     * @param packageName Package name.
+     * @return new instance.
+     */
+    PackageDeclaration setPackage(String packageName);
 
 }

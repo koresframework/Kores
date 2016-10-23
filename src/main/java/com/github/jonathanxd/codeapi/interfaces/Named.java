@@ -39,4 +39,11 @@ public interface Named extends CodePart {
      * @return Name.
      */
     String getName();
+
+    /**
+     * Sets the name.
+     * @param name Name
+     * @return new instance with new name.
+     */
+    Named setName(String name);
 }

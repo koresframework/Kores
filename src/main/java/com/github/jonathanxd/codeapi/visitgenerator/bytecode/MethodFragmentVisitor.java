@@ -28,11 +28,13 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 
@@ -43,7 +45,7 @@ import java.util.Collection;
 /**
  * Created by jonathan on 21/08/16.
  */
-public class MethodFragmentVisitor implements Visitor<MethodFragment, Byte, Object>, Opcodes {
+public class MethodFragmentVisitor implements VoidVisitor<MethodFragment, BytecodeClass, Object>, Opcodes {
 
     public static final TypeInfo<MethodFragment> FRAGMENT_TYPE_INFO = TypeInfo.aUnique(MethodFragment.class);
 
@@ -58,7 +60,7 @@ public class MethodFragmentVisitor implements Visitor<MethodFragment, Byte, Obje
     }
 
     @Override
-    public Byte[] visit(MethodFragment methodFragment, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+    public void voidVisit(MethodFragment methodFragment, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
         if (additional != null && additional instanceof MVData) {
             MVData mvData = (MVData) additional;
@@ -67,12 +69,5 @@ public class MethodFragmentVisitor implements Visitor<MethodFragment, Byte, Obje
         } else {
             visitorGenerator.generateTo(MethodDeclaration.class, methodFragment.getMethod(), extraData, null, null);
         }
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r, MethodFragment methodFragment, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
     }
 }

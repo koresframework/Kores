@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -35,6 +36,8 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
@@ -43,6 +46,7 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
@@ -66,6 +70,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -334,12 +339,16 @@ public class Common {
 
     }
 
+    public static int modifierToAsm(TypeDeclaration typeDeclaration) {
+        return Common.modifierToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType() == ClassType.INTERFACE);
+    }
+
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers) {
         return CodeModifier.toAsmAccess(codeModifiers);
     }
 
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers, boolean isInterface) {
-        return (isInterface ? Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
+        return (isInterface ? Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
     }
     /*
     public static String getClassName(CodeInterface class_, Data data) {
@@ -353,16 +362,6 @@ public class Common {
 
         return className;
     }*/
-
-    public static int modifierToAsm(TypeDeclaration codeInterface) {
-        int asm = CodeModifier.toAsmAccess(codeInterface.getModifiers());
-
-        if (!(codeInterface instanceof ClassDeclaration)) {
-            asm += Opcodes.ACC_INTERFACE;
-        }
-
-        return asm;
-    }
 
     public static String getClassName(TypeDeclaration class_, MapData data) {
         return class_.getType().replace('.', '/');
@@ -503,6 +502,56 @@ public class Common {
 
     public static String argumentsToAsm(Collection<CodeArgument> codeArguments) {
         return codeTypesToFullAsm(codeArguments.stream().map(CodeArgument::getRequiredType).toArray(CodeType[]::new));
+    }
+
+    public static String genericTypesToAsmString(TypeDeclaration typeDeclaration, CodeType superClass, Collection<CodeType> implementations, boolean superClassIsGeneric, boolean anyInterfaceIsGeneric) {
+        GenericType[] types = typeDeclaration.getGenericSignature().getTypes();
+
+        String genericRepresentation = null;
+
+        if (types.length > 0) {
+            genericRepresentation = Common.genericTypesToAsmString(types);
+        }
+
+        if (types.length > 0 || superClassIsGeneric || anyInterfaceIsGeneric) {
+
+            if (genericRepresentation == null)
+                genericRepresentation = "";
+
+            genericRepresentation += Common.toAsm(superClass);
+        }
+
+        if (types.length > 0 || anyInterfaceIsGeneric) {
+            StringBuilder sb = new StringBuilder();
+
+            implementations.forEach(codeType -> sb.append(Common.toAsm(codeType)));
+
+            genericRepresentation += sb.toString();
+        }
+
+        return genericRepresentation;
+    }
+
+    public static String getNewName(String name, CodeSource source) {
+        List<CodeField> inspect = SourceInspect.find(codePart -> codePart instanceof CodeField)
+                .includeSource(true)
+                .include(bodied -> bodied instanceof CodeSource)
+                .mapTo(codePart -> (CodeField) codePart)
+                .inspect(source);
+
+        while(Common.contains(name, inspect))
+            name += "$1";
+
+        return name;
+    }
+
+    public static boolean contains(String name, List<CodeField> codeFields) {
+        for (CodeField codeField : codeFields) {
+            if(codeField.getName().equals(name))
+                return true;
+        }
+
+        return false;
     }
 
     public static String genericTypesToAsmString(GenericType[] generics) {

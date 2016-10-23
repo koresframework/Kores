@@ -76,12 +76,12 @@ public class InterfaceTest {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
+        byte[] gen = bytecodeGenerator.gen(source)[0].getBytecode();
 
-        ResultSaver.save(this.getClass(), gen.getResult());
+        ResultSaver.save(this.getClass(), gen);
 
 
-        Class<?> define = new BCLoader().define(codeInterface, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = new BCLoader().define(codeInterface, gen);
 
         /*try {
             //My o = (My) define.newInstance();

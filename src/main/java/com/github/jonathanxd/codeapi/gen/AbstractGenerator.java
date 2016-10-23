@@ -97,8 +97,10 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
 
     @SuppressWarnings("UnnecessaryQualifiedReference")
     @Override
-    public synchronized T gen(CodeSource source) {
-        MapData processingData = new MapData();
+    public synchronized T gen(CodeSource source, MapData processingData, Object additional) {
+
+        if(processingData == null)
+            processingData = new MapData();
 
         Appender<T> appender = createAppender();
 

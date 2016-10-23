@@ -30,32 +30,77 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
+import java.util.Optional;
+
 /**
  * Access to a variable.
  */
-public interface VariableAccess extends CodePart, Typed {
+public interface VariableAccess extends CodePart, Typed, Accessor {
 
     /**
      * Gets the localization of the variable.
+     *
      * @return Localization of the variable.
      */
-    CodeType getLocalization();
+    @Override
+    Optional<CodeType> getLocalization();
+
+    /**
+     * Gets the localization of the variable.
+     *
+     * @param localization Localization of the variable.
+     * @return new instance.
+     */
+    @Override
+    VariableAccess setLocalization(CodeType localization);
 
     /**
      * Gets the instance of field.
+     *
      * @return Instance of field.
      */
-    CodePart getAt();
+    @Override
+    Optional<CodePart> getTarget();
+
+    /**
+     * Gets the instance of field.
+     *
+     * @param at Instance of field.
+     * @return new instance.
+     */
+    @Override
+    VariableAccess setTarget(CodePart at);
 
     /**
      * Gets the name of field.
+     *
      * @return Name of field.
      */
     String getName();
 
     /**
+     * Gets the name of field.
+     *
+     * @param name Name of field.
+     * @return new instance.
+     */
+    VariableAccess setName(String name);
+
+    /**
      * Gets the variable value type.
+     *
      * @return Variable value type.
      */
     CodeType getVariableType();
+
+    /**
+     * Gets the variable value type.
+     *
+     * @param type Variable value type.
+     * @return new instance.
+     */
+    VariableAccess setVariableType(CodeType type);
+
+    @Override
+    VariableAccess setType(CodeType codeType);
 }

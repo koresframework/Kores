@@ -43,4 +43,7 @@ public interface RequiredTyped extends Typed {
     default CodeType getRequiredType() {
         return Require.require(this.getType(), "Type is required!");
     }
+
+    @Override
+    RequiredTyped setType(CodeType codeType);
 }

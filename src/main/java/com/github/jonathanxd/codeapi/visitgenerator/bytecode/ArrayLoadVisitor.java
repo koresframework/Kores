@@ -29,10 +29,12 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -41,12 +43,12 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArrayLoadVisitor implements Visitor<ArrayLoad, Byte, MVData>, Opcodes {
+public class ArrayLoadVisitor implements VoidVisitor<ArrayLoad, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(ArrayLoad arrayLoad,
+    public void voidVisit(ArrayLoad arrayLoad,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -57,23 +59,8 @@ public class ArrayLoadVisitor implements Visitor<ArrayLoad, Byte, MVData>, Opcod
 
         visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
-        //Common.runForInt(index, additional); // Iconst, bipush, etc
-
         int opcode = Common.getOpcodeForType(arrayLoad.getValueType(), IALOAD);
 
         additional.visitInsn(opcode);
-
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         ArrayLoad arrayLoad,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
     }
 }

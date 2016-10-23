@@ -43,4 +43,12 @@ public interface Returnable extends CodePart {
      * @return Return type.
      */
     Optional<CodeType> getReturnType();
+
+    /**
+     * Sets the return type.
+     *
+     * @param returnType Return type.
+     * @return new instance.
+     */
+    Returnable setReturnType(CodeType returnType);
 }

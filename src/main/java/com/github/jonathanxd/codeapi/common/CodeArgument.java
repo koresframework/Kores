@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
@@ -136,6 +137,11 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     }
 
     @Override
+    public CodeArgument setValue(CodePart value) {
+        return new CodeArgument(value, this.isCasted(), this.getType().orElse(null));
+    }
+
+    @Override
     public Optional<CodeType> getType() {
         if (this.type == null) {
             try {
@@ -146,5 +152,10 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
         }
 
         return Optional.ofNullable(this.type);
+    }
+
+    @Override
+    public CodeArgument setType(CodeType codeType) {
+        return new CodeArgument(this.getValue().orElse(null), this.isCasted(), codeType);
     }
 }

@@ -43,6 +43,14 @@ public interface TryWithResources extends TryBlock {
      */
     VariableDeclaration getVariable();
 
+    /**
+     * Sets the Variable of Try-with-resources (value must be {@link AutoCloseable}
+     *
+     * @param variable Variable of Try-with-resources (value must be {@link AutoCloseable}
+     * @return new instance.
+     */
+    TryWithResources setVariable(VariableDeclaration variable);
+
     @Override
     default Optional<CodePart> getExpression() {
         return Optional.of(this.getVariable());

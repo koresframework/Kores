@@ -30,11 +30,13 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -45,12 +47,12 @@ import java.util.List;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MVData>, Opcodes {
+public class ArrayConstructVisitor implements VoidVisitor<ArrayConstructor, BytecodeClass, MVData>, Opcodes {
 
     public static final ArrayConstructVisitor INSTANCE = new ArrayConstructVisitor();
 
     @Override
-    public Byte[] visit(ArrayConstructor arrayConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
+    public void voidVisit(ArrayConstructor arrayConstructor, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
@@ -89,14 +91,6 @@ public class ArrayConstructVisitor implements Visitor<ArrayConstructor, Byte, MV
 
 
         }
-
-        return new Byte[0];
     }
-
-    @Override
-    public void endVisit(Byte[] r, ArrayConstructor arrayConstructor, MapData extraData, VisitorGenerator<Byte> visitorGenerator, MVData mvData) {
-
-    }
-
 
 }

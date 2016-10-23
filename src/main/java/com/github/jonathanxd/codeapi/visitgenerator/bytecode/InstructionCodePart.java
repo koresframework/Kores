@@ -28,8 +28,10 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 /**
@@ -40,19 +42,14 @@ public interface InstructionCodePart extends CodePart {
     void apply(Object value, MapData extraData, VisitorGenerator<?> visitorGenerator, Object additional);
 
 
-    class InstructionCodePartVisitor implements Visitor<InstructionCodePart, Byte, Object> {
+    class InstructionCodePartVisitor implements VoidVisitor<InstructionCodePart, BytecodeClass, Object> {
 
         @Override
-        public Byte[] visit(InstructionCodePart instructionCodePart, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
+        public void voidVisit(InstructionCodePart instructionCodePart, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
             instructionCodePart.apply(instructionCodePart, extraData, visitorGenerator, additional);
 
-            return new Byte[0];
         }
 
-        @Override
-        public void endVisit(Byte[] r, InstructionCodePart instructionCodePart, MapData extraData, VisitorGenerator<Byte> visitorGenerator, Object additional) {
-
-        }
     }
 }

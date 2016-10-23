@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.IterationType;
 
 /**
@@ -45,11 +46,27 @@ public interface ForEachBlock extends Bodied {
     FieldDeclaration getField();
 
     /**
+     * Sets the for each field.
+     *
+     * @param fieldDeclaration For each field.
+     * @return new instance.
+     */
+    ForEachBlock setField(FieldDeclaration fieldDeclaration);
+
+    /**
      * Gets the iteration type.
      *
      * @return Iteration type.
      */
     IterationType getIterationType();
+
+    /**
+     * Sets the iteration type.
+     *
+     * @param iterationType Iteration type.
+     * @return new instance.
+     */
+    ForEachBlock setIterationType(IterationType iterationType);
 
     /**
      * Gets the iterable element.
@@ -58,4 +75,14 @@ public interface ForEachBlock extends Bodied {
      */
     CodePart getIterableElement();
 
+    /**
+     * Sets the iterable element.
+     *
+     * @param element Iterable element.
+     * @return new instance.
+     */
+    ForEachBlock setIterableElement(CodePart element);
+
+    @Override
+    ForEachBlock setBody(CodeSource body);
 }

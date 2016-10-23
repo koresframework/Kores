@@ -28,8 +28,11 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+
+import java.util.List;
 
 /**
  * Specification of a method.
@@ -43,6 +46,15 @@ public interface MethodSpecification extends Argumenterizable, CodePart {
      */
     String getMethodName();
 
+
+    /**
+     * Sets the name of the method.
+     *
+     * @param name Name of the method.
+     * @return new instance.
+     */
+    MethodSpecification setMethodName(String name);
+
     /**
      * Gets the description of the method.
      *
@@ -51,10 +63,28 @@ public interface MethodSpecification extends Argumenterizable, CodePart {
     TypeSpec getMethodDescription();
 
     /**
+     * Sets the description of the method.
+     *
+     * @param desc description of the method.
+     * @return new instance.
+     */
+    MethodSpecification setMethodDescription(TypeSpec desc);
+
+    /**
      * Gets the method type.
      *
      * @return Method type
      */
     MethodType getMethodType();
 
+    /**
+     * Sets the method type.
+     *
+     * @param type Method type
+     * @return new instance.
+     */
+    MethodSpecification setMethodType(MethodType type);
+
+    @Override
+    MethodSpecification setArguments(List<CodeArgument> codeArgumentList);
 }

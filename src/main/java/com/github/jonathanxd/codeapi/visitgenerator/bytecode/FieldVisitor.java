@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
@@ -43,15 +44,15 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Opcodes {
+public class FieldVisitor implements Visitor<FieldDeclaration, BytecodeClass, Object>, Opcodes {
 
     public static final FieldVisitor INSTANCE = new FieldVisitor();
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(FieldDeclaration codeField,
+    public BytecodeClass[] visit(FieldDeclaration codeField,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         Object additional) {
 
         if (additional == null) {
@@ -64,7 +65,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
                 visitorGenerator.generateTo(VariableDeclaration.class, codeField, extraData, null, additional);
 
-                return new Byte[0];
+                return new BytecodeClass[0];
             } else {
                 //throw new RuntimeException("Cannot handle additional: " + additional.getClass().getCanonicalName());
             }
@@ -86,14 +87,6 @@ public class FieldVisitor implements Visitor<FieldDeclaration, Byte, Object>, Op
 
         visitorGenerator.generateTo(Annotable.class, codeField, extraData, null, fieldVisitor);
 
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         FieldDeclaration codeField,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         Object additional) {
+        return new BytecodeClass[0];
     }
 }

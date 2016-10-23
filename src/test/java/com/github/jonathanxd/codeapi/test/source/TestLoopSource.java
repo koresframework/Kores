@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -109,7 +109,7 @@ public class TestLoopSource {
                                 accessStaticVariable(System.class, "out", PrintStream.class),
                                 // Especificação do metodo
                                 // Informa que o metodo é println, e retorna um void
-                                new MethodSpec("println", Void.TYPE,
+                                new MethodSpecImpl("println", Void.TYPE,
                                         // Adiciona um argumento String
                                         // Informa qual o tipo de argumento esperado no metodo, nao necessariamente o que foi passado
                                         singletonList(new CodeArgument(Literals.STRING("Hello World"), String.class))))

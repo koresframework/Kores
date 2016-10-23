@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.annotation;
 
+import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -43,7 +45,7 @@ import java.lang.annotation.Target;
  *
  * Example:
  *
- * {@link com.github.jonathanxd.codeapi.helper.MethodInvocationImpl} points to {@link
+ * {@link MethodInvocationImpl} points to {@link
  * com.github.jonathanxd.codeapi.interfaces.MethodInvocation} because the first 'implements' entry
  * is {@link com.github.jonathanxd.codeapi.CodePart} and the {@code generators} and {@code visitors}
  * cannot ensure the correct {@link com.github.jonathanxd.codeapi.gen.PartProcessor} to use.

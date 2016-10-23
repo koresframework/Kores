@@ -54,8 +54,23 @@ public class InstanceOfImpl implements InstanceOf {
     }
 
     @Override
+    public InstanceOf setPart(CodePart part) {
+        return new InstanceOfImpl(part, this.getCheckType());
+    }
+
+    @Override
     public CodeType getCheckType() {
         return this.type;
+    }
+
+    @Override
+    public InstanceOf setCheckType(CodeType type) {
+        return new InstanceOfImpl(this.getPart(), type);
+    }
+
+    @Override
+    public InstanceOf setType(CodeType codeType) {
+        return this.setCheckType(codeType);
     }
 
     @Override

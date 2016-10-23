@@ -30,11 +30,12 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.impl.IfBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -44,12 +45,12 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes {
+public class WhileVisitor implements VoidVisitor<WhileBlock, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(WhileBlock whileBlock,
+    public void voidVisit(WhileBlock whileBlock,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
@@ -63,7 +64,7 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
 
         whileBlock.getBody().ifPresent(source::addAll);
 
-        IfBlock ifBlock = SimpleIfBlock.instance(whileBlock, source);
+        IfBlock ifBlock = IfBlockImpl.instance(whileBlock, source);
 
         mv.visitLabel(whileStart);
 
@@ -86,16 +87,6 @@ public class WhileVisitor implements Visitor<WhileBlock, Byte, MVData>, Opcodes 
         extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
 
         mv.visitLabel(outsideEnd); // break;
-
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         WhileBlock whileBlock,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }

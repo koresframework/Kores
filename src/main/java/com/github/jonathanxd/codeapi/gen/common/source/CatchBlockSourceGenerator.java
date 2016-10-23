@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -93,7 +94,7 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
         CodeSource source2 = new CodeSource();
 
-        CodeField field = catchBlock.getField();
+        FieldDeclaration field = catchBlock.getField();
 
         if(!field.getValue().isPresent()) {
             field = new CodeField(field.getName(), field.getVariableType(), Helper.accessLocalVariable(catchName, Throwable.class), field.getModifiers(), field.getAnnotations());

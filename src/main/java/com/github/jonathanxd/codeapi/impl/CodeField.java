@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
@@ -79,13 +80,23 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     @Override
-    public CodeType getLocalization() {
-        return this.type;
+    public Optional<CodeType> getLocalization() {
+        return Optional.ofNullable(this.type);
     }
 
     @Override
-    public CodePart getAt() {
-        return Helper.accessLocal();
+    public VariableAccess setLocalization(CodeType localization) {
+        return null;
+    }
+
+    @Override
+    public Optional<CodePart> getTarget() {
+        return Optional.of(Helper.accessLocal());
+    }
+
+    @Override
+    public VariableAccess setTarget(CodePart at) {
+        return null;
     }
 
     @Override
@@ -104,13 +115,43 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     @Override
+    public VariableAccess setVariableType(CodeType type) {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
-                .add("at", this.getAt())
+                .add("at", this.getTarget())
                 .add("modifiers", this.getModifiers())
                 .add("type", this.getVariableType().getCanonicalName())
                 .add("name", this.getName())
                 .addOptional("value", this.getValue())
                 .toString();
+    }
+
+    @Override
+    public CodeField setName(String name) {
+        return new CodeField(name, this.getVariableType(), this.getValue().orElse(null), this.getModifiers(), this.getAnnotations());
+    }
+
+    @Override
+    public CodeField setValue(CodePart value) {
+        return new CodeField(this.getName(), this.getVariableType(), value, this.getModifiers(), this.getAnnotations());
+    }
+
+    @Override
+    public CodeField setType(CodeType codeType) {
+        return new CodeField(this.getName(), codeType, this.getValue().orElse(null), this.getModifiers(), this.getAnnotations());
+    }
+
+    @Override
+    public CodeField setAnnotations(List<Annotation> annotations) {
+        return new CodeField(this.getName(), this.getVariableType(), this.getValue().orElse(null), this.getModifiers(), annotations);
+    }
+
+    @Override
+    public CodeField setModifiers(Collection<CodeModifier> modifiers) {
+        return new CodeField(this.getName(), this.getVariableType(), this.getValue().orElse(null), modifiers, this.getAnnotations());
     }
 }

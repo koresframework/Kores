@@ -28,11 +28,13 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -46,13 +48,13 @@ import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 /**
  * Assignment if expression visitor
  */
-public class IfExprVisitor implements Visitor<IfExpr, Byte, MVData>, Opcodes {
+public class IfExprVisitor implements VoidVisitor<IfExpr, BytecodeClass, MVData>, Opcodes {
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(IfExpr ifExpr,
+    public void voidVisit(IfExpr ifExpr,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor visitor = mvData.getMethodVisitor();
@@ -67,16 +69,5 @@ public class IfExprVisitor implements Visitor<IfExpr, Byte, MVData>, Opcodes {
                 ));
 
         visitorGenerator.generateTo(IfBlock.class, ifBlock, extraData, mvData);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         IfExpr ifExpr,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
     }
 }

@@ -41,12 +41,38 @@ import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
+import com.github.jonathanxd.codeapi.impl.AccessSuperImpl;
+import com.github.jonathanxd.codeapi.impl.AccessThisImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayLengthImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayLoadImpl;
+import com.github.jonathanxd.codeapi.impl.ArrayStoreImpl;
+import com.github.jonathanxd.codeapi.impl.CastedImpl;
+import com.github.jonathanxd.codeapi.impl.CatchBlockImpl;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.DoWhileBlockImpl;
+import com.github.jonathanxd.codeapi.impl.ElseBlockImpl;
+import com.github.jonathanxd.codeapi.impl.ForBlockImpl;
+import com.github.jonathanxd.codeapi.impl.ForEachBlockImpl;
+import com.github.jonathanxd.codeapi.impl.IfBlockImpl;
+import com.github.jonathanxd.codeapi.impl.IfExprImpl;
 import com.github.jonathanxd.codeapi.impl.InstanceOfImpl;
 import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
+import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
+import com.github.jonathanxd.codeapi.impl.ReturnImpl;
+import com.github.jonathanxd.codeapi.impl.StaticBlockImpl;
+import com.github.jonathanxd.codeapi.impl.TagLineImpl;
+import com.github.jonathanxd.codeapi.impl.ThrowExceptionImpl;
+import com.github.jonathanxd.codeapi.impl.TryBlockImpl;
 import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
+import com.github.jonathanxd.codeapi.impl.VariableAccessImpl;
+import com.github.jonathanxd.codeapi.impl.VariableDeclarationImpl;
+import com.github.jonathanxd.codeapi.impl.VariableOperateImpl;
+import com.github.jonathanxd.codeapi.impl.WhileBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -73,7 +99,6 @@ import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -113,15 +138,15 @@ public final class Helper {
      * @return Access to local variable. Same as {@code null}.
      */
     public static Access accessLocal() {
-        return new AccessLocalEx();
+        return new AccessLocalImpl();
     }
 
     public static ArrayLoad accessArrayValue(CodePart target, CodePart index, CodeType valueType) {
-        return new ArrayLoadEx(index, target, valueType);
+        return new ArrayLoadImpl(index, target, valueType);
     }
 
     public static ArrayLength arrayLength(CodePart target) {
-        return new ArrayLengthEx(target);
+        return new ArrayLengthImpl(target);
     }
 
     public static VariableAccess accessLocalVariable(String name) {
@@ -145,139 +170,139 @@ public final class Helper {
     }
 
     public static VariableAccess accessStaticVariable(Class<?> localization, String name, Class<?> variableType) {
-        return new SimpleVariableAccess(getJavaType(localization), name, getJavaType(variableType));
+        return new VariableAccessImpl(getJavaType(localization), name, getJavaType(variableType));
     }
 
     public static VariableAccess accessStaticVariable(Class<?> localization, String name, CodeType variableType) {
-        return new SimpleVariableAccess(getJavaType(localization), name, variableType);
+        return new VariableAccessImpl(getJavaType(localization), name, variableType);
     }
 
     public static VariableAccess accessStaticVariable(CodeType localization, String name, CodeType variableType) {
-        return new SimpleVariableAccess(localization, name, variableType);
+        return new VariableAccessImpl(localization, name, variableType);
     }
 
     public static AccessSuper accessSuper() {
-        return new AccessSuperEx();
+        return new AccessSuperImpl();
     }
 
     public static AccessSuper accessSuper(CodeType at) {
-        return new AccessSuperEx(at);
+        return new AccessSuperImpl(at);
     }
 
     public static AccessThis accessThis() {
-        return new AccessThisEx();
+        return new AccessThisImpl();
     }
 
     public static AccessThis accessThis(CodeType at) {
-        return new AccessThisEx(at);
+        return new AccessThisImpl(at);
     }
 
     public static VariableAccess accessVariable(VariableDeclaration variableDeclaration) {
-        return accessVariable(variableDeclaration.getLocalization(), variableDeclaration.getAt(), variableDeclaration.getName(), variableDeclaration.getVariableType());
+        return accessVariable(variableDeclaration.getLocalization().orElse(null), variableDeclaration.getTarget().orElse(null), variableDeclaration.getName(), variableDeclaration.getVariableType());
     }
 
     public static VariableAccess accessVariable(CodeType localization, CodePart at, String name) {
-        return new SimpleVariableAccess(localization, at, name, null);
+        return new VariableAccessImpl(localization, at, name, null);
     }
 
     public static VariableAccess accessVariable(CodeType localization, CodePart at, String name, CodeType variableType) {
-        return new SimpleVariableAccess(localization, at, name, variableType);
+        return new VariableAccessImpl(localization, at, name, variableType);
     }
 
     public static VariableAccess accessVariable(CodeType localization, String name) {
-        return new SimpleVariableAccess(localization, name, null);
+        return new VariableAccessImpl(localization, name, null);
     }
 
     public static VariableAccess accessVariable(CodeType localization, String name, CodeType variableType) {
-        return new SimpleVariableAccess(localization, name, variableType);
+        return new VariableAccessImpl(localization, name, variableType);
     }
 
     public static VariableAccess accessVariable(CodeType localization, String name, Class<?> variableType) {
-        return new SimpleVariableAccess(localization, name, getJavaType(variableType));
+        return new VariableAccessImpl(localization, name, getJavaType(variableType));
     }
 
     public static VariableAccess accessVariable(Class<?> localization, String name, Class<?> variableType) {
-        return new SimpleVariableAccess(getJavaType(localization), name, getJavaType(variableType));
+        return new VariableAccessImpl(getJavaType(localization), name, getJavaType(variableType));
     }
 
     /////////// OPERATE VARIABLES
     public static VariableOperate operateVariable(VariableDeclaration variableDeclaration, Operator operation) {
-        return operateVariable(variableDeclaration.getLocalization(), variableDeclaration.getAt(), variableDeclaration.getName(), variableDeclaration.getVariableType(), operation);
+        return operateVariable(variableDeclaration.getLocalization().orElse(null), variableDeclaration.getTarget().orElse(null), variableDeclaration.getName(), variableDeclaration.getVariableType(), operation);
     }
 
     public static VariableOperate operateVariable(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation) {
-        return new SimpleVariableOperate(localization, at, name, variableType, operation, null);
+        return new VariableOperateImpl(localization, at, name, variableType, operation, null);
     }
 
     public static VariableOperate operateVariable(CodeType localization, String name, Operator operation) {
-        return new SimpleVariableOperate(localization, name, null, operation, null);
+        return new VariableOperateImpl(localization, name, null, operation, null);
     }
 
     public static VariableOperate operateVariable(CodeType localization, String name, CodeType variableType, Operator operation) {
-        return new SimpleVariableOperate(localization, name, variableType, operation, null);
+        return new VariableOperateImpl(localization, name, variableType, operation, null);
     }
 
     public static VariableOperate operateVariable(CodeType localization, String name, Class<?> variableType, Operator operation) {
-        return new SimpleVariableOperate(localization, name, getJavaType(variableType), operation, null);
+        return new VariableOperateImpl(localization, name, getJavaType(variableType), operation, null);
     }
 
     /////////// WITH VALUE
 
     public static VariableOperate operateVariable(Class<?> localization, String name, Class<?> variableType, Operator operation) {
-        return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, null);
+        return new VariableOperateImpl(getJavaType(localization), name, getJavaType(variableType), operation, null);
     }
 
     public static VariableOperate operateVariable(VariableDeclaration variableDeclaration, Operator operation, CodePart value) {
-        return operateVariable(variableDeclaration.getLocalization(), variableDeclaration.getAt(), variableDeclaration.getName(), variableDeclaration.getVariableType(), operation, value);
+        return operateVariable(variableDeclaration.getLocalization().orElse(null), variableDeclaration.getTarget().orElse(null), variableDeclaration.getName(), variableDeclaration.getVariableType(), operation, value);
     }
 
     public static VariableOperate operateVariable(CodeType localization, CodePart at, String name, CodeType variableType, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(localization, at, name, variableType, operation, value);
+        return new VariableOperateImpl(localization, at, name, variableType, operation, value);
     }
 
     public static VariableOperate operateVariable(CodeType localization, String name, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(localization, name, null, operation, value);
+        return new VariableOperateImpl(localization, name, null, operation, value);
     }
 
     public static VariableOperate operateVariable(CodeType localization, String name, CodeType variableType, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(localization, name, variableType, operation, value);
+        return new VariableOperateImpl(localization, name, variableType, operation, value);
     }
 
     public static VariableOperate operateVariable(CodeType localization, String name, Class<?> variableType, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(localization, name, getJavaType(variableType), operation, value);
+        return new VariableOperateImpl(localization, name, getJavaType(variableType), operation, value);
     }
 
 
     //////////// Other
 
     public static VariableOperate operateVariable(Class<?> localization, String name, Class<?> variableType, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(getJavaType(localization), name, getJavaType(variableType), operation, value);
+        return new VariableOperateImpl(getJavaType(localization), name, getJavaType(variableType), operation, value);
     }
 
     public static VariableOperate operateLocalVariable(String name, Class<?> variableType, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(null, accessLocal(), name, getJavaType(variableType), operation, value);
+        return new VariableOperateImpl(null, accessLocal(), name, getJavaType(variableType), operation, value);
     }
 
     public static VariableOperate operateLocalVariable(String name, CodeType variableType, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(null, accessLocal(), name, variableType, operation, value);
+        return new VariableOperateImpl(null, accessLocal(), name, variableType, operation, value);
     }
 
     public static VariableOperate operateLocalVariable(String name, Class<?> variableType, Operator operation) {
-        return new SimpleVariableOperate(null, accessLocal(), name, getJavaType(variableType), operation, null);
+        return new VariableOperateImpl(null, accessLocal(), name, getJavaType(variableType), operation, null);
     }
 
     public static VariableOperate operateLocalVariable(String name, CodeType variableType, Operator operation) {
-        return new SimpleVariableOperate(null, accessLocal(), name, variableType, operation, null);
+        return new VariableOperateImpl(null, accessLocal(), name, variableType, operation, null);
     }
 
     public static VariableOperate operateLocalVariable(FieldDeclaration fieldDeclaration, Operator operation, CodePart value) {
-        return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, value);
+        return new VariableOperateImpl(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, value);
     }
 
     /////////// OPERATE VARIABLES
 
     public static VariableOperate operateLocalVariable(FieldDeclaration fieldDeclaration, Operator operation) {
-        return new SimpleVariableOperate(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
+        return new VariableOperateImpl(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
     }
 
 
@@ -309,7 +334,7 @@ public final class Helper {
 
 
         CodePart toAdd = Helper.invoke((InvokeType) null, (CodeType) null, Helper.accessThis(),
-                new MethodSpec(methodSpec.getMethodName(), methodSpec.getReturnType(), codeArguments));
+                new MethodSpecImpl(methodSpec.getMethodName(), methodSpec.getReturnType(), codeArguments));
 
         if (return_) {
             toAdd = Helper.returnValue(methodSpec.getReturnType(), Helper.cast(currentReturnType, methodSpec.getReturnType(), toAdd));
@@ -329,22 +354,22 @@ public final class Helper {
     }
 
     public static Casted cast(CodeType originalType, CodeType type, CodePart castedPart) {
-        return new CastedExPart(originalType, type, castedPart);
+        return new CastedImpl(originalType, type, castedPart);
     }
 
     @SuppressWarnings("unchecked")
     public static CatchBlock catchBlock(List<CodeType> catchExceptions, String variable, CodeSource body) {
 
-        return new CatchExBlock(new CodeField(variable, PredefinedTypes.THROWABLE), catchExceptions, body);
+        return new CatchBlockImpl(new CodeField(variable, PredefinedTypes.THROWABLE), catchExceptions, body);
     }
 
     public static CatchBlock catchBlock(List<CodeType> catchExceptions, CodeField variable, CodeSource body) {
 
-        return new CatchExBlock(variable, catchExceptions, body);
+        return new CatchBlockImpl(variable, catchExceptions, body);
     }
 
     public static IfExpr check(CodePart expr1, Operator operation, CodePart expr2) {
-        return new IfExprEx(expr1, operation, expr2);
+        return new IfExprImpl(expr1, operation, expr2);
     }
 
     public static IfExpr checkNotNull(CodePart expr1) {
@@ -356,36 +381,36 @@ public final class Helper {
     }
 
     public static DoWhileBlock createDoWhile(CodeSource body, BiMultiVal<CodePart, IfExpr, Operator> expression) {
-        return new SimpleExDoWhileBlock(expression, body);
+        return new DoWhileBlockImpl(expression, body);
     }
 
     public static ForBlock createFor(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> expression, CodePart update, CodeSource body) {
 
-        return new SimpleForBlock(initialization, expression, update, body);
+        return new ForBlockImpl(initialization, expression, update, body);
     }
 
     public static ForEachBlock createForEach(FieldDeclaration field, IterationType iterationType, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, iterationType, expression, body);
+        return new ForEachBlockImpl(field, iterationType, expression, body);
     }
 
     public static ForEachBlock createForEach(FieldDeclaration field, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
+        return new ForEachBlockImpl(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
     }
 
     public static ForEachBlock createForEachArray(FieldDeclaration field, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, IterationTypes.ARRAY, expression, body);
+        return new ForEachBlockImpl(field, IterationTypes.ARRAY, expression, body);
     }
 
     public static ForEachBlock createForEachIterable(FieldDeclaration field, CodePart expression, CodeSource body) {
-        return new ForEachBlockEx(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
+        return new ForEachBlockImpl(field, IterationTypes.ITERABLE_ELEMENT, expression, body);
     }
 
     public static WhileBlock createWhile(BiMultiVal<CodePart, IfExpr, Operator> expression, CodeSource body) {
-        return new SimpleExWhileBlock(expression, body);
+        return new WhileBlockImpl(expression, body);
     }
 
     public static ElseBlock elseExpression(CodeSource elseSource) {
-        return new SimpleElseBlock(elseSource);
+        return new ElseBlockImpl(elseSource);
     }
 
     @SuppressWarnings("unchecked")
@@ -454,7 +479,7 @@ public final class Helper {
     }
 
     public static <ID, T extends CodePart> TagLine<ID, T> tagLine(ID identification, T value) {
-        return new TagLineEx<>(identification, value);
+        return new TagLineImpl<>(identification, value);
     }
 
     public static BiMultiVal.Adder<CodePart, IfExpr, Operator> createIfVal() {
@@ -462,11 +487,11 @@ public final class Helper {
     }
 
     public static IfBlock ifExpression(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body /*, ElseBlock else*/) {
-        return new SimpleIfBlock(body, groups, null);
+        return new IfBlockImpl(body, groups, null);
     }
 
     public static IfBlock ifExpression(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, ElseBlock elseBlock) {
-        return new SimpleIfBlock(body, groups, elseBlock);
+        return new IfBlockImpl(body, groups, elseBlock);
     }
 
     public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment dynamicInvoke) {
@@ -475,21 +500,21 @@ public final class Helper {
         MethodSpecification spec = methodFragment.getSpec();
 
 
-        MethodSpec newSpec = new MethodSpec(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
+        MethodSpecImpl newSpec = new MethodSpecImpl(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
 
         return new MethodInvocationImpl(dynamicInvoke,
                 methodFragment.getInvokeType(),
-                methodFragment.getLocalization(),
-                methodFragment.getTarget(),
+                methodFragment.getLocalization().orElse(null),
+                methodFragment.getTarget().orElse(null),
                 newSpec);
     }
 
     public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
         MethodSpecification spec = methodInvocation.getSpec();
 
-        MethodSpec newSpec = new MethodSpec(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
+        MethodSpecImpl newSpec = new MethodSpecImpl(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
 
-        return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization(), methodInvocation.getTarget(),
+        return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization().orElse(null), methodInvocation.getTarget().orElse(null),
                 newSpec);
     }
 
@@ -499,45 +524,45 @@ public final class Helper {
         return new MethodFragmentImpl(codeInterface, scope, returnType, parameters, arguments, body);
     }
 
-    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(invokeType, localization, target, methodSpec);
+    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpecImpl methodSpecImpl) {
+        return new MethodInvocationImpl(invokeType, localization, target, methodSpecImpl);
     }
 
-    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(invokeType, getJavaType(localization), target, methodSpec);
+    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, MethodSpecImpl methodSpecImpl) {
+        return new MethodInvocationImpl(invokeType, getJavaType(localization), target, methodSpecImpl);
     }
 
-    public static MethodInvocation invokeSuper(CodeType localization, MethodSpec methodSpec) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(), methodSpec);
+    public static MethodInvocation invokeSuper(CodeType localization, MethodSpecImpl methodSpecImpl) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(), methodSpecImpl);
     }
 
     public static MethodInvocation invokeSuperInit(CodeType localization, CodeArgument... arguments) {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
-                new MethodSpec("<init>", PredefinedTypes.VOID, Arrays.asList(arguments)));
+                new MethodSpecImpl("<init>", PredefinedTypes.VOID, Arrays.asList(arguments)));
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type) {
-        return new ArrayConstructorEx(type, new CodePart[]{}, null);
+        return new ArrayConstructorImpl(type, new CodePart[]{}, null);
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type, CodeArgument[] arguments) {
-        return new ArrayConstructorEx(type, new CodePart[]{Literals.INT(arguments.length)}, Arrays.asList(arguments));
+        return new ArrayConstructorImpl(type, new CodePart[]{Literals.INT(arguments.length)}, Arrays.asList(arguments));
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type, CodePart[] dimensions) {
-        return new ArrayConstructorEx(type, dimensions, null);
+        return new ArrayConstructorImpl(type, dimensions, null);
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type, CodePart[] dimensions, CodeArgument[] arguments) {
-        return new ArrayConstructorEx(type, dimensions, Arrays.asList(arguments));
+        return new ArrayConstructorImpl(type, dimensions, Arrays.asList(arguments));
     }
 
     public static MethodInvocation invokeConstructor(CodeType type) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(MethodType.CONSTRUCTOR));
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl(MethodType.CONSTRUCTOR));
     }
 
     public static MethodInvocation invokeConstructor(CodeType type, CodeArgument[] arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpec(Arrays.asList(arguments), MethodType.CONSTRUCTOR));
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl(Arrays.asList(arguments), MethodType.CONSTRUCTOR));
     }
 
     public static InstanceOf isInstanceOf(CodePart part, CodeType type) {
@@ -566,51 +591,51 @@ public final class Helper {
     }
 
     public static Return returnValue(CodeType returnType, CodePart value) {
-        return new ReturnEx(returnType, value);
+        return new ReturnImpl(returnType, value);
     }
 
     public static ArrayStore setArrayValue(CodePart target, CodePart index, CodeType valueType, CodePart value) {
-        return new ArrayStoreEx(index, target, valueType, value);
+        return new ArrayStoreImpl(index, target, valueType, value);
     }
 
     public static VariableDeclaration setVariable(CodeType localization, CodePart at, String variable, CodePart value) {
-        return new SimpleVariableDeclaration(localization, at, variable, null, value);
+        return new VariableDeclarationImpl(localization, at, variable, null, value);
     }
 
     public static VariableDeclaration setVariable(CodeType localization, CodePart at, String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableDeclaration(localization, at, variable, varType, value);
+        return new VariableDeclarationImpl(localization, at, variable, varType, value);
     }
 
     public static VariableDeclaration setVariable(CodeType localization, String variable, CodePart value) {
-        return new SimpleVariableDeclaration(localization, null, variable, null, value);
+        return new VariableDeclarationImpl(localization, null, variable, null, value);
     }
 
     public static VariableDeclaration setVariable(CodeType localization, String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableDeclaration(localization, null, variable, varType, value);
+        return new VariableDeclarationImpl(localization, null, variable, varType, value);
     }
 
     public static VariableDeclaration setLocalVariable(String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableDeclaration(null, accessLocal(), variable, varType, value);
+        return new VariableDeclarationImpl(null, accessLocal(), variable, varType, value);
     }
 
     public static VariableDeclaration setLocalVariable(String variable, Class<?> varType, CodePart value) {
-        return new SimpleVariableDeclaration(null, accessLocal(), variable, Helper.getJavaType(varType), value);
+        return new VariableDeclarationImpl(null, accessLocal(), variable, Helper.getJavaType(varType), value);
     }
 
     public static VariableDeclaration setThisVariable(String variable, CodeType varType, CodePart value) {
-        return new SimpleVariableDeclaration(null, accessThis(), variable, varType, value);
+        return new VariableDeclarationImpl(null, accessThis(), variable, varType, value);
     }
 
     public static VariableDeclaration setThisVariable(String variable, Class<?> varType, CodePart value) {
-        return new SimpleVariableDeclaration(null, accessThis(), variable, Helper.getJavaType(varType), value);
+        return new VariableDeclarationImpl(null, accessThis(), variable, Helper.getJavaType(varType), value);
     }
 
     public static VariableAccess simpleVariable(String name) {
-        return new SimpleVariableAccess(null, name, null);
+        return new VariableAccessImpl(null, name, null);
     }
 
     public static CodePart simpleVariable(String name, CodeType type) {
-        return new SimpleVariableAccess(null, name, type);
+        return new VariableAccessImpl(null, name, type);
     }
 
     public static CodeSource sourceOf(CodePart... parts) {
@@ -622,27 +647,27 @@ public final class Helper {
     }
 
     public static CodeElement staticBlock(CodeSource body) {
-        return new SimpleStaticBlock(body);
+        return new StaticBlockImpl(body);
     }
 
     public static TryBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks) {
 
-        return new TryCatchBlock(catchBlocks, sourceOf(toSurround));
+        return new TryBlockImpl(catchBlocks, sourceOf(toSurround));
     }
 
     public static TryBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks) {
 
-        return new TryCatchBlock(catchBlocks, toSurround);
+        return new TryBlockImpl(catchBlocks, toSurround);
     }
 
     public static TryBlock surround(CodePart toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
 
-        return new TryCatchBlock(catchBlocks, sourceOf(toSurround), finallyBlock);
+        return new TryBlockImpl(catchBlocks, sourceOf(toSurround), finallyBlock);
     }
 
     public static TryBlock surround(CodeSource toSurround, List<CatchBlock> catchBlocks, CodeSource finallyBlock) {
 
-        return new TryCatchBlock(catchBlocks, toSurround, finallyBlock);
+        return new TryBlockImpl(catchBlocks, toSurround, finallyBlock);
     }
 
     public static TryWithResources tryWithResources(VariableDeclaration variableDeclaration, CodeSource body) {
@@ -664,7 +689,7 @@ public final class Helper {
     public static ThrowException throwException(CodeType exception, CodeArgument[] arguments) {
 
         MethodInvocation invoke = Helper.invoke(InvokeType.INVOKE_SPECIAL, exception, exception,
-                new MethodSpec(null, Arrays.asList(arguments),
+                new MethodSpecImpl(null, Arrays.asList(arguments),
                         /*<init>*/
                         (CodeType) null/*PredefinedTypes#VOID*/,
                         MethodType.CONSTRUCTOR));
@@ -673,7 +698,7 @@ public final class Helper {
     }
 
     public static ThrowException throwException(CodePart partToThrow) {
-        return new ThrowExceptionEx(partToThrow);
+        return new ThrowExceptionImpl(partToThrow);
     }
 
     public static final class ExpressionAdder extends BiMultiVal.Adder<CodePart, IfExpr, Operator> {
@@ -762,6 +787,11 @@ public final class Helper {
 
         @Override
         public String getName() {
+            throw new IllegalStateException("Empty element");
+        }
+
+        @Override
+        public Named setName(String name) {
             throw new IllegalStateException("Empty element");
         }
 

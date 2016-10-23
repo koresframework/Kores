@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 
 import java.io.PrintStream;
@@ -52,6 +53,6 @@ public final class Predefined {
     public static MethodInvocation invokePrintln(CodeArgument... arguments) {
         return Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                 Helper.accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpec("println", PredefinedTypes.VOID, Arrays.asList(arguments)));
+                new MethodSpecImpl("println", PredefinedTypes.VOID, Arrays.asList(arguments)));
     }
 }

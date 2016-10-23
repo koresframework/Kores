@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.gen.AbstractGenerator;
 import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.common.source.AccessSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.common.source.AccessorSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.AnnotableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.AnnotationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.ArgumenterizableSourceGenerator;
@@ -88,9 +89,10 @@ import com.github.jonathanxd.codeapi.gen.common.source.VariableOperateSourceGene
 import com.github.jonathanxd.codeapi.gen.common.source.VariableStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.common.source.WhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
-import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
+import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
+import com.github.jonathanxd.codeapi.impl.VariableAccessImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
@@ -200,6 +202,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(TagLine.class, TagLineSourceGenerator.INSTANCE);
         register(VariableOperate.class, VariableOperateSourceGenerator.INSTANCE);
         register(ClassType.class, ClassTypeSourceGenerator.INSTANCE);
+        register(Accessor.class, AccessorSourceGenerator.INSTANCE);
 
         // While & Do
         register(DoWhileBlock.class, DoWhileBlockSourceGenerator.INSTANCE);
@@ -214,7 +217,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(MethodInvocation.class, MethodInvocationSourceGenerator.INSTANCE);
 
         // Helper
-        register(SimpleVariableAccess.class, HelperVASourceGenerator.INSTANCE);
+        register(VariableAccessImpl.class, HelperVASourceGenerator.INSTANCE);
         register(MethodInvocationImpl.class, HelperMISourceGenerator.INSTANCE);
 
         // Cast

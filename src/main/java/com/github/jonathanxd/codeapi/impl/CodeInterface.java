@@ -141,4 +141,39 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
                 .add("extends", this.getImplementations())
                 .toString();
     }
+
+    @Override
+    public CodeInterface setName(String name) {
+        return this.setQualifiedName(name);
+    }
+
+    @Override
+    public CodeInterface setQualifiedName(String name) {
+        return new CodeInterface(name, this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeInterface setBody(CodeSource body) {
+        return new CodeInterface(this.getQualifiedName(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), body);
+    }
+
+    @Override
+    public CodeInterface setAnnotations(List<Annotation> annotations) {
+        return new CodeInterface(this.getQualifiedName(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), annotations, this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeInterface setModifiers(Collection<CodeModifier> modifiers) {
+        return new CodeInterface(this.getQualifiedName(), modifiers, this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeInterface setImplementations(List<CodeType> implementations) {
+        return new CodeInterface(this.getQualifiedName(), this.getModifiers(), implementations, this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeInterface setGenericSignature(GenericSignature<GenericType> genericSignature) {
+        return new CodeInterface(this.getQualifiedName(), this.getModifiers(), this.getImplementations(), genericSignature, this.getAnnotations(), this.getBody().orElse(null));
+    }
 }

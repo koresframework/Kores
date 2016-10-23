@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -51,7 +51,6 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -80,7 +79,7 @@ public class CodeAPITestBytecode {
         source.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Rethrow from var '"+variable+"'!"), PredefinedTypes.STRING)));
 
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, Throwable.class, Helper.accessLocalVariable(variable, Throwable.class),
-                new MethodSpec("printStackTrace", PredefinedTypes.VOID, Collections.emptyList())));
+                new MethodSpecImpl("printStackTrace", PredefinedTypes.VOID, Collections.emptyList())));
 
         /*source.add(Helper.throwException(Helper.getJavaType(RuntimeException.class), new CodeArgument[]{
                 new CodeArgument(Helper.accessLocalVariable(variable, Helper.getJavaType(Throwable.class)), false, Helper.getJavaType(Throwable.class))
@@ -92,9 +91,9 @@ public class CodeAPITestBytecode {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println", Void.TYPE, Collections.singletonList(new CodeArgument(varToPrint, false, Object.class)));
+        MethodSpecImpl methodSpecImpl = new MethodSpecImpl("println", Void.TYPE, Collections.singletonList(new CodeArgument(varToPrint, false, Object.class)));
 
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class), Helper.accessVariable(Helper.getJavaType(System.class), "out", PrintStream.class), methodSpec);
+        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class), Helper.accessVariable(Helper.getJavaType(System.class), "out", PrintStream.class), methodSpecImpl);
     }
 
     private static CodeMethod createMethod() {
@@ -158,7 +157,7 @@ public class CodeAPITestBytecode {
 
         // Add Invocation of println method declared in 'System.out' ('variable')
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class), variable,
-                new MethodSpec("println", Collections.singletonList(
+                new MethodSpecImpl("println", Collections.singletonList(
                         // with argument 'msgVar' (Method msg parameter)
                         new CodeArgument(msgVar,
                                 // Cast type? = false
@@ -215,9 +214,7 @@ public class CodeAPITestBytecode {
 
         BytecodeGenerator generator = new BytecodeGenerator();
 
-        Byte[] gen = generator.gen(mySource).getResult();
-
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
+        byte[] bytes = generator.gen(mySource)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), bytes);
 

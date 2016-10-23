@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -41,12 +41,10 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -117,7 +115,7 @@ public class TestLoopBytecode {
                                 accessStaticVariable(System.class, "out", PrintStream.class),
                                 // Especificação do metodo
                                 // Informa que o metodo é println, e retorna um void
-                                new MethodSpec("println", Void.TYPE,
+                                new MethodSpecImpl("println", Void.TYPE,
                                         // Adiciona um argumento String
                                         // Informa qual o tipo de argumento esperado no metodo, nao necessariamente o que foi passado
                                         singletonList(new CodeArgument(Literals.STRING("Hello World"), String.class))))
@@ -131,13 +129,13 @@ public class TestLoopBytecode {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(codeSource).getResult();
+        byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), gen);
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
+        Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), gen);
 
         try {
             define.newInstance();

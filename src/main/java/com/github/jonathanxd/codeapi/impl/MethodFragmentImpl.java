@@ -27,18 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodInvocationImpl;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
@@ -72,9 +73,9 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
                 body);
     }
 
-    private static MethodSpec createSpec(CodeInterface codeInterface, CodeType returnType, CodeArgument[] arguments) {
+    private static MethodSpecImpl createSpec(CodeInterface codeInterface, CodeType returnType, CodeArgument[] arguments) {
 
-        return new MethodSpec(codeInterface.getSimpleName() + "_fragment$" + randomNumber(),
+        return new MethodSpecImpl(codeInterface.getSimpleName() + "_fragment$" + randomNumber(),
                 Common.specFromLegacy(returnType, arguments),
                 Arrays.asList(arguments));
     }
@@ -86,5 +87,35 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
     @Override
     public MethodDeclaration getMethod() {
         return this.codeMethod;
+    }
+
+    @Override
+    public MethodFragmentImpl setLocalization(CodeType localization) {
+        return this;
+    }
+
+    @Override
+    public MethodFragmentImpl setInvokeType(InvokeType invokeType) {
+        return this;
+    }
+
+    @Override
+    public MethodFragmentImpl setInvokeDynamic(InvokeDynamic invokeDynamic) {
+        return this;
+    }
+
+    @Override
+    public MethodFragmentImpl setType(CodeType codeType) {
+        return this;
+    }
+
+    @Override
+    public MethodFragmentImpl setTarget(CodePart target) {
+        return this;
+    }
+
+    @Override
+    public MethodFragmentImpl setSpec(MethodSpecification specification) {
+        return this;
     }
 }

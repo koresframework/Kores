@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -37,8 +38,8 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
 
@@ -53,19 +54,19 @@ import java.util.OptionalInt;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, Opcodes {
+public class OperateVisitor implements VoidVisitor<VariableOperate, BytecodeClass, MVData>, Opcodes {
 
     public static final OperateVisitor INSTANCE = new OperateVisitor();
 
     @Override
-    public Byte[] visit(VariableOperate variableOperate,
+    public void voidVisit(VariableOperate variableOperate,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 
-        CodePart at = variableOperate.getAt();
+        CodePart at = variableOperate.getTarget().orElse(null);
 
         Operator operation = Require.require(variableOperate.getOperation(), "Operation is required.");
 
@@ -99,18 +100,18 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
         if (at instanceof AccessLocal) {
             if (operation == Operators.INCREMENT) {
                 mv.visitIincInsn(i, 1);
-                return new Byte[0];
+                return;
             } else if (operation == Operators.DECREMENT) {
                 mv.visitIincInsn(i, -1);
-                return new Byte[0];
+                return;
             } else if (constantVal) {
                 if (operation == Operators.ADD) {
                     mv.visitIincInsn(i, constant);
-                    return new Byte[0];
+                    return;
                 }
                 if (operation == Operators.SUBTRACT) {
                     mv.visitIincInsn(i, -constant);
-                    return new Byte[0];
+                    return;
                 }
             }
 
@@ -132,12 +133,8 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
 
             operateVisit(variableOperate, operation, extraData, null, mvData);
 
-            //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
-
         }
 
-
-        return new Byte[0];
     }
 
     private void operateVisit(VariableOperate variableOperate, Operator operation, MapData extraData, Object o, MVData mvData) {
@@ -163,15 +160,6 @@ public class OperateVisitor implements Visitor<VariableOperate, Byte, MVData>, O
         if (opcode != -1)
             mvData.getMethodVisitor().visitInsn(opcode);
 
-
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         VariableOperate operate,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
 
     }
 }

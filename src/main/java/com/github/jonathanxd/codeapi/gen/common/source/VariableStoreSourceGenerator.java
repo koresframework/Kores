@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -58,14 +59,7 @@ public class VariableStoreSourceGenerator implements Generator<VariableDeclarati
     public List<Value<?, String, PlainSourceGenerator>> gen(VariableDeclaration variableDeclaration, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        if (variableDeclaration.getLocalization() != null && !(variableDeclaration.getAt() instanceof AccessLocal)) {
-            values.add(TargetValue.create(CodeType.class, variableDeclaration.getLocalization(), parents));
-            values.add(PlainValue.create("."));
-        } else if (variableDeclaration.getAt() != null && !(variableDeclaration.getAt() instanceof AccessLocal)) {
-            values.add(CodePartValue.create(variableDeclaration.getAt(), parents));
-            values.add(PlainValue.create("."));
-        }
-
+        values.add(TargetValue.create(Accessor.class, variableDeclaration, parents));
 
         values.add(PlainValue.create(variableDeclaration.getName()));
         values.add(PlainValue.create("="));

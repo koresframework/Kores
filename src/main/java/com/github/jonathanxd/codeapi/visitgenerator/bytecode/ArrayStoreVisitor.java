@@ -29,10 +29,12 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -41,13 +43,13 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opcodes {
+public class ArrayStoreVisitor implements VoidVisitor<ArrayStore, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(ArrayStore arrayStore,
-                        MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
+    public void voidVisit(ArrayStore arrayStore,
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
@@ -57,8 +59,6 @@ public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opc
 
         visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
-        //Common.runForInt(arrayStore.getIndex(), additional); // Iconst, bipush, etc
-
         CodePart value = arrayStore.getValueToStore();
 
         visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
@@ -66,18 +66,6 @@ public class ArrayStoreVisitor implements Visitor<ArrayStore, Byte, MVData>, Opc
         int opcode = Common.getOpcodeForType(arrayStore.getValueType(), IASTORE);
 
         additional.visitInsn(opcode);
-
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         ArrayStore arrayStore,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
 
     }
 }

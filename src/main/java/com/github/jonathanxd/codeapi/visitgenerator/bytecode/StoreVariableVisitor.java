@@ -29,7 +29,8 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
@@ -37,8 +38,8 @@ import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -51,27 +52,27 @@ import java.util.Optional;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, MVData>, Opcodes {
+public class StoreVariableVisitor implements VoidVisitor<VariableDeclaration, BytecodeClass, MVData>, Opcodes {
 
     public static final StoreVariableVisitor INSTANCE = new StoreVariableVisitor();
 
     @Override
-    public Byte[] visit(VariableDeclaration variableDeclaration,
+    public void voidVisit(VariableDeclaration variableDeclaration,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
         TypeDeclaration typeDeclaration = Util.find(TypeVisitor.CODE_TYPE_REPRESENTATION, extraData, null);
 
-        CodeType localization = variableDeclaration.getLocalization();
+        CodeType localization = variableDeclaration.getLocalization().orElse(null);
 
 
         CodePart value = variableDeclaration.getValue().orElse(Literals.NULL);
 
         // AT PODE SER: AccessThis, AccessSuper ou null -> AccessLocal | AccessStatic
-        CodePart at = variableDeclaration.getAt();
+        CodePart at = variableDeclaration.getTarget().orElse(null);
 
         if (at == null && localization == null) {
             additional.visitVarInsn(ALOAD, 0); // Legacy
@@ -92,7 +93,7 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
                 additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableDeclaration.getName(), Common.codeTypeToFullAsm(variableDeclaration.getVariableType()));
             }
         } else {
-            if (at instanceof AccessLocalEx) {
+            if (at instanceof AccessLocalImpl) {
 
                 Optional<Variable> var = mvData.getVar(variableDeclaration.getName(), variableDeclaration.getVariableType());
 
@@ -138,15 +139,6 @@ public class StoreVariableVisitor implements Visitor<VariableDeclaration, Byte, 
 
         //additional.visitVarInsn(ALOAD, 0);
 
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         VariableDeclaration variableDeclaration,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }

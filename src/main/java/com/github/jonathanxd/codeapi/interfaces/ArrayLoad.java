@@ -45,14 +45,34 @@ public interface ArrayLoad extends CodePart, Typed, ArrayAccess {
     CodePart getIndex();
 
     /**
+     * Sets the index of the value in array.
+     *
+     * @return new instance.
+     */
+    ArrayLoad setIndex(CodePart index);
+
+    /**
      * Gets the type of value.
      *
      * @return Type of value.
      */
     CodeType getValueType();
 
+    /**
+     * Sets the type of value.
+     *
+     * @return new instance.
+     */
+    ArrayLoad setValueType(CodeType type);
+
     @Override
     default Optional<CodeType> getType() {
         return Optional.ofNullable(this.getValueType());
     }
+
+    @Override
+    ArrayLoad setTarget(CodePart target);
+
+    @Override
+    ArrayLoad setType(CodeType codeType);
 }

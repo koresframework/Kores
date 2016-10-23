@@ -39,8 +39,7 @@ import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.PlainValue;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
@@ -76,12 +75,11 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
         Optional<InvokeDynamic> invokeDynamicOpt = methodInvocationImpl.getInvokeDynamic();
 
-        CodePart target = methodInvocationImpl.getTarget();
+        CodePart target = methodInvocationImpl.getTarget().orElse(null);
         MethodSpecification spec = methodInvocationImpl.getSpec();
         InvokeType invokeType = methodInvocationImpl.getInvokeType();
-        methodInvocationImpl.getSpec();
 
-        CodeType localization = methodInvocationImpl.getLocalization();
+        CodeType localization = methodInvocationImpl.getLocalization().orElse(null);
 
         final String METHOD_SEPARATOR;
 
@@ -110,13 +108,11 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
 
                 return values;
 
-                //METHOD_SEPARATOR = ".";
-
             } else if (isInvokeDynamicLambda(invokeDynamic)) {
                 if (spec.getArguments().isEmpty()) {
                     METHOD_SEPARATOR = "::";
                 } else {
-                    values.add(PlainValue.create("() ->")); // No arguments at time
+                    values.add(PlainValue.create("() ->"));
                     METHOD_SEPARATOR = ".";
                 }
             } else {
@@ -126,38 +122,30 @@ public class MethodInvocationSourceGenerator implements Generator<MethodInvocati
             METHOD_SEPARATOR = ".";
         }
 
+        // Is method reference
         boolean isRef = METHOD_SEPARATOR.equals("::");
+        boolean isCtr = spec.getMethodName().equals("<init>");
 
 
-        boolean isCtr = spec.getMethodType() == MethodType.CONSTRUCTOR;
-        if (isCtr && !isRef) {
+        MethodInvocation mi = methodInvocationImpl;
+
+        if(isCtr && !isRef) {
             values.add(TargetValue.create(Keywords.NEW, parents));
+            mi = mi.setTarget(null);
         }
 
-        if (target != localization) {
-            if (target != null) {
+        values.addAll(AccessorSourceGenerator.gen(mi, !isRef && !isCtr, parents));
 
-
-                values.add(CodePartValue.create(target, parents));
-                if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
-                    values.add(PlainValue.create(METHOD_SEPARATOR)); //TODO: REVIEW
-                }
-            }
+        if(isRef) {
+            values.add(PlainValue.create(METHOD_SEPARATOR));
         }
 
-        if (localization != null && (invokeType == InvokeType.INVOKE_STATIC || isCtr)) {
-            values.add(TargetValue.create(CodeType.class, localization, parents));
-
-            if (!isCtr && !spec.isArray() && !spec.getMethodName().equals("<init>")) {
-                values.add(PlainValue.create(METHOD_SEPARATOR));
-            }
-        }
-
-        if (isCtr && isRef) {
+        if(isCtr && isRef) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
         values.add(TargetValue.create(MethodSpecification.class, spec, parents));
+
 
         if (Util.isBody(parents)) {
             values.add(PlainValue.create(";"));

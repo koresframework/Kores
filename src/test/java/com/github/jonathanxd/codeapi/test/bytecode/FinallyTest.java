@@ -55,7 +55,7 @@ public class FinallyTest {
         CodeClass codeInterface;
 
         codeSource.add(codeInterface = CodeAPI.aClass(Modifier.PUBLIC, "test.Btc", codeClass -> CodeAPI.sourceOfParts(
-                CodeAPI.constructor(Modifier.PUBLIC, codeClass, codeConstructor -> CodeAPI.sourceOfParts(
+                CodeAPI.constructor(Modifier.PUBLIC, codeConstructor -> CodeAPI.sourceOfParts(
                         Helper.surround(CodeAPI.sourceOfParts(
                                 Helper.throwException(Helper.getJavaType(RuntimeException.class), new CodeArgument[]{
                                     CodeAPI.argument(Literals.STRING("EXCEPTION"), String.class)

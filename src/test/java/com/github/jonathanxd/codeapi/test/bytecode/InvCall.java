@@ -61,7 +61,7 @@ public class InvCall {
 
         CodeSource source = sourceOfParts(codeClass = aClass(PUBLIC, "test.Impl", My.class, new Class[0], codeClass0 -> sourceOfParts(
 
-                constructor(PUBLIC, codeClass0, codeConstructor -> sourceOfParts(
+                constructor(PUBLIC, codeConstructor -> sourceOfParts(
                         new CodeField("blc", STRING, Literals.STRING("099")),
 
                         Helper.invokeSuperInit(Helper.getJavaType(My.class), argument(accessLocalVariable(STRING, "blc"), STRING))
@@ -73,12 +73,12 @@ public class InvCall {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
+        byte[] gen = bytecodeGenerator.gen(source)[0].getBytecode();
 
-        ResultSaver.save(this.getClass(), gen.getResult());
+        ResultSaver.save(this.getClass(), gen);
 
 
-        Class<?> define = new BCLoader().define(codeClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = new BCLoader().define(codeClass, gen);
 
         try {
             My o = (My) define.newInstance();

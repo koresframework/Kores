@@ -30,9 +30,11 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
@@ -40,6 +42,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -56,7 +59,7 @@ import java.util.logging.Logger;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes {
+public class TryBlockVisitor implements VoidVisitor<TryBlock, BytecodeClass, MVData>, Opcodes {
 
     private static int unknownException = 0;
 
@@ -67,9 +70,9 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
     }
 
     @Override
-    public Byte[] visit(TryBlock tryBlock,
+    public void voidVisit(TryBlock tryBlock,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         final boolean INLINE_FINALLY = visitorGenerator.getOptions().getOrElse(CodeOptions.INLINE_FINALLY, Boolean.TRUE);
@@ -147,7 +150,7 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
             mv.visitLabel(label);
 
-            CodeField field = catchBlock.getField();
+            FieldDeclaration field = catchBlock.getField();
             Optional<CodePart> fieldValue = field.getValue();
 
             mvData.redefineVar(stackPos, field.getName(), field.getVariableType(), label, endLabel);
@@ -223,57 +226,5 @@ public class TryBlockVisitor implements Visitor<TryBlock, Byte, MVData>, Opcodes
 
         // OUT OF --
 
-
-        return new Byte[0];
     }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         TryBlock tryBlock,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
-
-    /*
-    mv = cw.visitMethod(ACC_PUBLIC, "ldcIng", "()V", null, null);
-            mv.visitCode();
-            Label l0 = new Label();
-            Label l1 = new Label();
-            Label l2 = new Label();
-            mv.visitTryCatchBlock(l0, l1, l2, "java/lang/RuntimeException");
-            Label l3 = new Label();
-            mv.visitTryCatchBlock(l0, l1, l3, "java/io/IOException");
-            Label l4 = new Label();
-            mv.visitLabel(l4);
-            mv.visitLineNumber(91, l4);
-            mv.visitLdcInsn("V");
-            mv.visitVarInsn(ASTORE, 1);
-            mv.visitLabel(l0);
-            mv.visitLineNumber(93, l0);
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "com/github/jonathanxd/codeapi/test/Simple", "lt", "(Ljava/lang/String;)V", false);
-            mv.visitLabel(l1);
-            mv.visitLineNumber(98, l1);
-            Label l5 = new Label();
-            mv.visitJumpInsn(GOTO, l5);
-            mv.visitLabel(l2);
-            mv.visitLineNumber(94, l2);
-            mv.visitFrame(Opcodes.F_FULL, 2, new Object[]{"com/github/jonathanxd/codeapi/test/Simple", "java/lang/String"}, 1, new Object[]{"java/lang/RuntimeException"});
-            mv.visitVarInsn(ASTORE, 2);
-            Label l6 = new Label();
-            mv.visitLabel(l6);
-            mv.visitLineNumber(98, l6);
-            mv.visitJumpInsn(GOTO, l5);
-            mv.visitLabel(l3);
-            mv.visitLineNumber(96, l3);
-            mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{"java/io/IOException"});
-            mv.visitVarInsn(ASTORE, 2);
-            mv.visitLabel(l5);
-            mv.visitLineNumber(99, l5);
-            mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-            mv.visitInsn(RETURN);
-     */
 }

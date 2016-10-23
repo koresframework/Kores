@@ -95,6 +95,11 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
     }
 
     @Override
+    public CodeClass setSuperType(CodeType superType) {
+        return new CodeClass(this.getQualifiedName(), this.getModifiers(), superType, this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
     public boolean isExpression() {
         return true;
     }
@@ -102,6 +107,41 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
     @Override
     public ClassType getClassType() {
         return ClassType.CLASS;
+    }
+
+    @Override
+    public CodeClass setName(String name) {
+        return this.setQualifiedName(name);
+    }
+
+    @Override
+    public CodeClass setQualifiedName(String name) {
+        return new CodeClass(name, this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeClass setBody(CodeSource body) {
+        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), body);
+    }
+
+    @Override
+    public CodeClass setAnnotations(List<Annotation> annotations) {
+        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), annotations, this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeClass setModifiers(Collection<CodeModifier> modifiers) {
+        return new CodeClass(this.getQualifiedName(), modifiers, this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeClass setImplementations(List<CodeType> implementations) {
+        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), implementations, this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeClass setGenericSignature(GenericSignature<GenericType> genericSignature) {
+        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), genericSignature, this.getAnnotations(), this.getBody().orElse(null));
     }
 
     @Override

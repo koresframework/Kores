@@ -43,9 +43,15 @@ public interface EnumValue extends Named, Typed, CodePart {
     }
 
     @Override
+    EnumValue setName(String name);
+
+    @Override
     default Optional<CodeType> getType() {
         return Optional.ofNullable(this.getEnumType());
     }
+
+    @Override
+    EnumValue setType(CodeType codeType);
 
     /**
      * Gets the type of enum.
@@ -55,9 +61,25 @@ public interface EnumValue extends Named, Typed, CodePart {
     CodeType getEnumType();
 
     /**
+     * Sets the type of enum.
+     *
+     * @param codeType Type of enum.
+     * @return new instance.
+     */
+    EnumValue setEnumType(CodeType codeType);
+
+    /**
      * Gets the enum entry name.
      *
      * @return Enum entry name.
      */
     String getEnumValue();
+
+    /**
+     * Sets the enum entry name.
+     *
+     * @param entry Enum entry name.
+     * @return new instance.
+     */
+    EnumValue setEnumValue(String entry);
 }

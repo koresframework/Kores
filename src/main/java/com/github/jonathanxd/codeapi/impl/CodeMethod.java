@@ -115,4 +115,38 @@ public class CodeMethod extends AbstractBodiedParam implements MethodDeclaration
                 .toString();
     }
 
+    @Override
+    public CodeMethod setName(String name) {
+        return new CodeMethod(name, this.getModifiers(), this.getParameters(), this.getReturnType().orElse(null), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeMethod setBody(CodeSource body) {
+        return new CodeMethod(this.getName(), this.getModifiers(), this.getParameters(), this.getReturnType().orElse(null), this.getGenericSignature(), this.getAnnotations(), body);
+    }
+
+    @Override
+    public CodeMethod setAnnotations(List<Annotation> annotations) {
+        return new CodeMethod(this.getName(), this.getModifiers(), this.getParameters(), this.getReturnType().orElse(null), this.getGenericSignature(), annotations, this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeMethod setReturnType(CodeType returnType) {
+        return new CodeMethod(this.getName(), this.getModifiers(), this.getParameters(), returnType, this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeMethod setParameters(List<CodeParameter> codeParameters) {
+        return new CodeMethod(this.getName(), this.getModifiers(), codeParameters, this.getReturnType().orElse(null), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeMethod setModifiers(Collection<CodeModifier> modifiers) {
+        return new CodeMethod(this.getName(), modifiers, this.getParameters(), this.getReturnType().orElse(null), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeMethod setGenericSignature(GenericSignature<GenericType> genericSignature) {
+        return new CodeMethod(this.getName(), this.getModifiers(), this.getParameters(), this.getReturnType().orElse(null), genericSignature, this.getAnnotations(), this.getBody().orElse(null));
+    }
 }

@@ -51,6 +51,20 @@ public final class ResultSaver {
         }
     }
 
+    public static void save(Class<?> ofClass, String tag, byte[] result) {
+        if(IS_GRADLE_ENVIRONMENT)
+            return;
+
+        try {
+            File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_"+tag+"_Result.class");
+
+
+            Files.write(file.toPath(), result, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void save(Class<?> ofClass, byte[] result) {
         if(IS_GRADLE_ENVIRONMENT)
             return;

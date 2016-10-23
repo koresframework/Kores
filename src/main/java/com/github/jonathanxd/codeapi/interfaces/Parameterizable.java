@@ -42,4 +42,13 @@ public interface Parameterizable extends CodePart {
      * @return Parameter list.
      */
     List<CodeParameter> getParameters();
+
+
+    /**
+     * Sets the parameter list.
+     *
+     * @param codeParameters Parameter list.
+     * @return new instance.
+     */
+    Parameterizable setParameters(List<CodeParameter> codeParameters);
 }

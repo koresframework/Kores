@@ -51,6 +51,14 @@ public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
     CodeType getArrayType();
 
     /**
+     * Sets the array type.
+     *
+     * @param arrayType Type of the array.
+     * @return New instance.
+     */
+    ArrayConstructor setArrayType(CodeType arrayType);
+
+    /**
      * Gets the array dimensions.
      *
      * @return Array dimensions.
@@ -58,12 +66,20 @@ public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
     CodePart[] getDimensions();
 
     /**
+     * Sets the array dimensions.
+     *
+     * @param dimensions Array dimensions.
+     * @return new instance.
+     */
+    ArrayConstructor setDimensions(CodePart[] dimensions);
+
+    /**
      * Gets the array value list.
      *
      * @return Array value list.
      */
     default List<ArrayStore> getArrayValues() {
-        List<CodeArgument> arguments = getArguments();
+        List<CodeArgument> arguments = this.getArguments();
         List<ArrayStore> arrayStores = new ArrayList<>();
 
         for (int i = 0; i < arguments.size(); i++) {
@@ -76,13 +92,20 @@ public interface ArrayConstructor extends Typed, CodePart, Argumenterizable {
     }
 
     @Override
+    default Optional<CodeType> getType() {
+        return Optional.ofNullable(this.getArrayType());
+    }
+
+    @Override
+    ArrayConstructor setType(CodeType codeType);
+
+    @Override
     default boolean isArray() {
         return true;
     }
 
     @Override
-    default Optional<CodeType> getType() {
-        return Optional.ofNullable(this.getArrayType());
-    }
+    ArrayConstructor setArguments(List<CodeArgument> codeArgumentList);
+
 
 }

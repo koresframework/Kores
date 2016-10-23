@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
@@ -93,7 +93,7 @@ public class TestForLoop {
 
         CodeField xField = new CodeField("x", Helper.getJavaType(Integer.TYPE), Literals.INT(0), Collections.emptyList());
 
-        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), new MethodSpec("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class)), Helper.getJavaType(Object.class)))));
+        CodePart invokePrintln = Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(OutputStream.class)), new MethodSpecImpl("println", Collections.singletonList(new CodeArgument(accessLocalVariable("obj", Helper.getJavaType(Object.class)), Helper.getJavaType(Object.class)))));
 
         CodePart addToX = Helper.operateLocalVariable(xField, Operators.INCREMENT);
 

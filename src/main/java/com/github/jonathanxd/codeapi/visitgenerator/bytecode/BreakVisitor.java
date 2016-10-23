@@ -29,9 +29,11 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Break;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -42,13 +44,13 @@ import java.util.Optional;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class BreakVisitor implements Visitor<Break, Byte, MVData>, Opcodes {
+public class BreakVisitor implements VoidVisitor<Break, BytecodeClass, MVData>, Opcodes {
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public Byte[] visit(Break aBreak,
+    public void voidVisit(Break aBreak,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor visitor = mvData.getMethodVisitor();
@@ -59,6 +61,5 @@ public class BreakVisitor implements Visitor<Break, Byte, MVData>, Opcodes {
 
         visitor.visitJumpInsn(Opcodes.GOTO, flow.getOutsideEnd());
 
-        return new Byte[0];
     }
 }

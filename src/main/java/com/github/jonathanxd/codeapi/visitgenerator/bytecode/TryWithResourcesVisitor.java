@@ -31,9 +31,10 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
+import com.github.jonathanxd.codeapi.impl.TryBlockImpl;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
@@ -41,8 +42,8 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Opcodes;
@@ -54,7 +55,7 @@ import java.util.List;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, MVData>, Opcodes {
+public class TryWithResourcesVisitor implements VoidVisitor<TryWithResources, BytecodeClass, MVData>, Opcodes {
 
     private int TRY_WITH_RESOURCES_VARIABLES = 0;
 
@@ -67,10 +68,10 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
     }
 
     @Override
-    public Byte[] visit(TryWithResources tryWithResources,
-                        MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
+    public void voidVisit(TryWithResources tryWithResources,
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          MVData mvData) {
 
 
         VariableDeclaration variable = tryWithResources.getVariable();
@@ -148,19 +149,8 @@ public class TryWithResourcesVisitor implements Visitor<TryWithResources, Byte, 
                         tryWithResources.getFinallyBlock().orElse(new CodeSource())
                 ));
 
-        visitorGenerator.generateTo(TryCatchBlock.class, tryCatchBlock, extraData, null, mvData);
-
-        //additional.visitVarInsn(ALOAD, 0);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         TryWithResources tryWithResources,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
+        visitorGenerator.generateTo(TryBlockImpl.class, tryCatchBlock, extraData, null, mvData);
 
     }
+
 }

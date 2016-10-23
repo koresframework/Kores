@@ -27,19 +27,28 @@
  */
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
+import com.github.jonathanxd.codeapi.common.InnerType;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Lazy;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.iutils.containers.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Handle;
@@ -47,27 +56,58 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, MVData>, Opcodes {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MethodInvocationVisitor implements Visitor<MethodInvocation, BytecodeClass, MVData>, Opcodes {
 
     public static final MethodInvocationVisitor INSTANCE = new MethodInvocationVisitor();
 
     @Override
-    public Byte[] visit(MethodInvocation methodInvocation,
+    public BytecodeClass[] visit(MethodInvocation methodInvocation,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
         InvokeType invokeType = methodInvocation.getInvokeType();
-        CodeType localization = methodInvocation.getLocalization();
+        CodeType localization = methodInvocation.getLocalization().orElse(null);
+        CodePart target = methodInvocation.getTarget().orElse(null);
+
+        Lazy<CodeType> enclosingType = new Lazy<>(() -> extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot determine current type!"));
 
         if(invokeType == null) {
             if(localization == null) {
-                localization = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot determine current type!");
+                localization = enclosingType.get();
             }
 
             invokeType = InvokeType.get(localization);
+        }
+
+        if(localization != null) {
+
+            MutableContainer<CodeType> of = MutableContainer.of(localization);
+
+            methodInvocation = Util.fixAccessor(methodInvocation, extraData, of, (mi, innerType) -> {
+                if(mi.get().getSpec().getMethodName().equals("<init>")) {
+                    MethodSpecification spec = mi.get().getSpec();
+                    TypeSpec methodDescription = spec.getMethodDescription();
+
+                    List<CodeType> parameterTypes = new ArrayList<>(methodDescription.getParameterTypes());
+                    List<CodeArgument> arguments = new ArrayList<>(spec.getArguments());
+
+                    arguments.add(0, CodeAPI.argument(Helper.accessThis()));
+                    parameterTypes.add(0, enclosingType.get());
+
+                    methodDescription = methodDescription.setParameterTypes(parameterTypes);
+
+                    mi.set(mi.get().setSpec(spec.setArguments(arguments).setMethodDescription(methodDescription)));
+                }
+            });
+
+
+            localization = of.get();
         }
 
         InvokeDynamic invokeDynamic = methodInvocation.getInvokeDynamic().orElse(null);
@@ -77,7 +117,10 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
             additional.visitInsn(DUP);
         }
 
-        CodePart target = methodInvocation.getTarget();
+        CodePart access = Util.accessEnclosingClass(extraData, target, localization, visitorGenerator, mvData);
+
+        if(access != null)
+            target = access;
 
         if (target != null && !(target instanceof CodeType)) {
             visitorGenerator.generateTo(target.getClass(), target, extraData, null, mvData);
@@ -149,22 +192,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byte, 
         }
 
 
-        return new Byte[0];
+        return new BytecodeClass[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         MethodInvocation methodInvocation,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }
-/*
-mv.visitTypeInsn(NEW, "com/github/jonathanxd/codeapi/test/Simple$Dado");
-            mv.visitInsn(DUP);
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitLdcInsn("JOAO");
-            mv.visitMethodInsn(INVOKESPECIAL, "com/github/jonathanxd/codeapi/test/Simple$Dado", "<init>", "(Lcom/github/jonathanxd/codeapi/test/Simple;Ljava/lang/String;)V", false);
- */

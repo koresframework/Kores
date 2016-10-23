@@ -45,6 +45,14 @@ public interface Casted extends CodePart, Typed {
     CodeType getOriginalType();
 
     /**
+     * Sets the original type.
+     *
+     * @param codeType Type.
+     * @return new instance.
+     */
+    Casted setOriginalType(CodeType codeType);
+
+    /**
      * Gets the target type of the cast.
      *
      * @return Target type of the cast.
@@ -60,4 +68,13 @@ public interface Casted extends CodePart, Typed {
      */
     Optional<CodePart> getCastedPart();
 
+    /**
+     * Sets the part to cast.
+     *
+     * @return new instance..
+     */
+    Casted setCastedPart(CodePart part);
+
+    @Override
+    Casted setType(CodeType codeType);
 }

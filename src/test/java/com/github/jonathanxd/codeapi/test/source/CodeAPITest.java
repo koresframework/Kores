@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -81,9 +81,9 @@ public class CodeAPITest {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println", Collections.singletonList(new CodeArgument(varToPrint, getJavaType(String.class))));
+        MethodSpecImpl methodSpecImpl = new MethodSpecImpl("println", Collections.singletonList(new CodeArgument(varToPrint, getJavaType(String.class))));
 
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ (CodeType) null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpec);
+        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ (CodeType) null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpecImpl);
     }
 
     private static CodeMethod createMethod() {
@@ -136,7 +136,7 @@ public class CodeAPITest {
         CodePart msgVar = Helper.accessLocalVariable("msg", getJavaType(String.class));
 
         // Add Invocation of println method declared in 'System.out' ('variable')
-        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/PrintStream.class, variable, new MethodSpec(
+        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/PrintStream.class, variable, new MethodSpecImpl(
                 "println", Collections.singletonList(
                 // with argument 'msgVar' (Method msg parameter)
                 new CodeArgument(msgVar,
@@ -146,7 +146,7 @@ public class CodeAPITest {
                         getJavaType(Object.class))), PredefinedTypes.VOID, MethodType.METHOD)));
 
         source.add(Helper.invoke(InvokeType.INVOKE_STATIC, CodeAPITest.class, null,
-                new MethodSpec("test",
+                new MethodSpecImpl("test",
                         new TypeSpec(PredefinedTypes.VOID),
                         Collections.singletonList(new CodeArgument(Literals.STRING("Test"))))));
 

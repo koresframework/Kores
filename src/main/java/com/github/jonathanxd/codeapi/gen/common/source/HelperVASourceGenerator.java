@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.SimpleVariableAccess;
+import com.github.jonathanxd.codeapi.impl.VariableAccessImpl;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Created by jonathan on 09/05/16.
  */
-public class HelperVASourceGenerator implements Generator<SimpleVariableAccess, String, PlainSourceGenerator> {
+public class HelperVASourceGenerator implements Generator<VariableAccessImpl, String, PlainSourceGenerator> {
 
     public static final HelperVASourceGenerator INSTANCE = new HelperVASourceGenerator();
 
@@ -51,7 +51,7 @@ public class HelperVASourceGenerator implements Generator<SimpleVariableAccess, 
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(SimpleVariableAccess variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(VariableAccessImpl variableAccess, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         return Collections.singletonList(
                 TargetValue.create(VariableAccess.class, variableAccess, parents)

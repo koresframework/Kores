@@ -30,11 +30,12 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.SimpleIfBlock;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.impl.IfBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -44,14 +45,14 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class DoWhileVisitor implements Visitor<DoWhileBlock, Byte, MVData>, Opcodes {
+public class DoWhileVisitor implements VoidVisitor<DoWhileBlock, BytecodeClass, MVData>, Opcodes {
 
     public static final DoWhileVisitor INSTANCE = new DoWhileVisitor();
 
     @Override
-    public Byte[] visit(DoWhileBlock whileBlock,
+    public void voidVisit(DoWhileBlock whileBlock,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
@@ -64,7 +65,7 @@ public class DoWhileVisitor implements Visitor<DoWhileBlock, Byte, MVData>, Opco
 
         CodeSource source = new CodeSource();
 
-        IfBlock ifBlock = SimpleIfBlock.instance(whileBlock, source);
+        IfBlock ifBlock = IfBlockImpl.instance(whileBlock, source);
 
         mv.visitLabel(whileStart);
 
@@ -86,16 +87,6 @@ public class DoWhileVisitor implements Visitor<DoWhileBlock, Byte, MVData>, Opco
         extraData.unregisterData(ConstantDatas.FLOW_TYPE_INFO, flow);
 
         mv.visitLabel(outsideEnd);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         DoWhileBlock whileBlock,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
 
     }
 }

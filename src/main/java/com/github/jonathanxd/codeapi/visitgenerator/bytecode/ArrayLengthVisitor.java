@@ -28,10 +28,12 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -40,12 +42,12 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class ArrayLengthVisitor implements Visitor<ArrayLength, Byte, MVData>, Opcodes {
+public class ArrayLengthVisitor implements VoidVisitor<ArrayLength, BytecodeClass, MVData>, Opcodes {
 
     @Override
-    public Byte[] visit(ArrayLength arrayLength,
+    public void voidVisit(ArrayLength arrayLength,
                         MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
+                        VisitorGenerator<BytecodeClass> visitorGenerator,
                         MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
@@ -53,16 +55,5 @@ public class ArrayLengthVisitor implements Visitor<ArrayLength, Byte, MVData>, O
         visitorGenerator.generateTo(ArrayAccess.class, arrayLength, extraData, null, mvData);
 
         additional.visitInsn(ARRAYLENGTH);
-
-        return new Byte[0];
-    }
-
-    @Override
-    public void endVisit(Byte[] r,
-                         ArrayLength arrayLength,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
     }
 }

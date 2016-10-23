@@ -28,37 +28,42 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.InnerType;
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.helper.AccessLocalEx;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
+import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
+import com.github.jonathanxd.iutils.containers.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
 /**
  * Created by jonathan on 03/06/16.
  */
-public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVData>, Opcodes {
+public class VariableAccessVisitor implements VoidVisitor<VariableAccess, BytecodeClass, MVData>, Opcodes {
 
     public static final VariableAccessVisitor INSTANCE = new VariableAccessVisitor();
 
     @Override
-    public Byte[] visit(VariableAccess variableAccess,
-                        MapData extraData,
-                        VisitorGenerator<Byte> visitorGenerator,
-                        MVData mvData) {
+    public void voidVisit(VariableAccess variableAccess,
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
@@ -68,15 +73,33 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
                 //extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'.")
         );
 
-        CodeType localization = variableAccess.getLocalization();
+        CodeType localization = variableAccess.getLocalization().orElse(null);
 
         // AT PODE SER: AccessThis, AccessSuper ou null -> AccessLocal | AccessStatic
-        CodePart at = variableAccess.getAt();
+        CodePart at = variableAccess.getTarget().orElse(null);
 
 
-        if (at == null && localization == null) {
+        boolean isNull = at == null && localization == null;
+
+        if (isNull) {
             localization = typeDeclaration.get();
-        } else if (at != null) {
+        }
+
+        if(localization != null) {
+
+            MutableContainer<CodeType> of = MutableContainer.of(localization);
+
+            variableAccess = Util.fixAccessor(variableAccess, extraData, of, null);
+
+            localization = of.get();
+        }
+
+        CodePart access = Util.accessEnclosingClass(extraData, at, localization, visitorGenerator, mvData);
+
+        if(access != null)
+            at = access;
+
+        if(!isNull & at != null) {
             visitorGenerator.generateTo(at.getClass(), at, extraData, null, mvData);
         }
 
@@ -90,52 +113,43 @@ public class VariableAccessVisitor implements Visitor<VariableAccess, Byte, MVDa
                 additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(typeDeclaration.get()), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
             }
         } else {
-            if (at instanceof AccessLocalEx) {
 
-                Optional<Variable> var = mvData.getVar(variableAccess.getName(), variableAccess.getVariableType());
+                if (at instanceof AccessLocalImpl) {
+
+                    Optional<Variable> var = mvData.getVar(variableAccess.getName(), variableAccess.getVariableType());
 
 
-                if (!var.isPresent())
-                    throw new RuntimeException("Variable '" + variableAccess.getName() + "' Type: '" + variableAccess.getVariableType().getJavaSpecName() + "' Not found in local variables map");
+                    if (!var.isPresent())
+                        throw new RuntimeException("Variable '" + variableAccess.getName() + "' Type: '" + variableAccess.getVariableType().getJavaSpecName() + "' Not found in local variables map");
 
-                Variable variable = var.get();
+                    Variable variable = var.get();
 
-                OptionalInt varPosOpt = mvData.getVarPos(variable);
+                    OptionalInt varPosOpt = mvData.getVarPos(variable);
 
-                if (!varPosOpt.isPresent())
-                    throw mvData.failFind(variable);
+                    if (!varPosOpt.isPresent())
+                        throw mvData.failFind(variable);
 
-                int i = varPosOpt.getAsInt();
+                    int i = varPosOpt.getAsInt();
 
-                Type type = Type.getType(variable.getType().getJavaSpecName());
+                    Type type = Type.getType(variable.getType().getJavaSpecName());
 
-                int opcode = type.getOpcode(ILOAD); // ALOAD
+                    int opcode = type.getOpcode(ILOAD); // ALOAD
 
-                additional.visitVarInsn(opcode, i);
+                    additional.visitVarInsn(opcode, i);
 
-                //additional.visitLocalVariable();
-                //additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));*/
-            } else if (at instanceof AccessThis) {
-                // THIS
-                additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(typeDeclaration.get()), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
-            } else {
-                additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
-            }
-
+                    //additional.visitLocalVariable();
+                    //additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));*/
+                } else if (at instanceof AccessThis) {
+                    // THIS
+                    additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(typeDeclaration.get()), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
+                } else {
+                    additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
+                }
 
         }
 
         //additional.visitVarInsn(ALOAD, 0);
 
-        return new Byte[0];
     }
 
-    @Override
-    public void endVisit(Byte[] r,
-                         VariableAccess variableAccess,
-                         MapData extraData,
-                         VisitorGenerator<Byte> visitorGenerator,
-                         MVData mvData) {
-
-    }
 }
