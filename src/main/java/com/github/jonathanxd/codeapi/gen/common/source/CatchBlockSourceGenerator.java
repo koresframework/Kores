@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.common.source;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.gen.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
@@ -90,9 +91,9 @@ public class CatchBlockSourceGenerator implements Generator<CatchBlock, String, 
 
         values.add(PlainValue.create("(" + sj.toString() + " " + catchName + ")"));
 
-        CodeSource codeSource = catchBlock.getBody().orElse(new CodeSource());
+        CodeSource codeSource = catchBlock.getBody().orElse(CodeSource.empty());
 
-        CodeSource source2 = new CodeSource();
+        MutableCodeSource source2 = new MutableCodeSource();
 
         FieldDeclaration field = catchBlock.getField();
 

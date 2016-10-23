@@ -110,7 +110,7 @@ public class IfBlockImpl implements IfBlock {
 
     @Override
     public IfBlockImpl setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 
     @Override

@@ -146,7 +146,7 @@ public class TryWithResourcesVisitor implements VoidVisitor<TryWithResources, By
                                                         closeInvocation
                                                 )))
                                 )),
-                        tryWithResources.getFinallyBlock().orElse(new CodeSource())
+                        tryWithResources.getFinallyBlock().orElse(CodeSource.empty())
                 ));
 
         visitorGenerator.generateTo(TryBlockImpl.class, tryCatchBlock, extraData, null, mvData);

@@ -52,7 +52,7 @@ public final class ConstructorBuilder implements Builder<CodeConstructor>,
     private List<Annotation> annotations = new ArrayList<>();
     private List<CodeParameter> parameterList = new ArrayList<>();
     private Collection<CodeModifier> modifiers = new ArrayList<>();
-    private CodeSource body = new CodeSource();
+    private CodeSource body = CodeSource.empty();
 
     private ConstructorBuilder() {
 

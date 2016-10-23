@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -50,7 +51,7 @@ public class FinallyTest {
 
     @Test(expected = RuntimeException.class)
     public void test() {
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
         CodeClass codeInterface;
 

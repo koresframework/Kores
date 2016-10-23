@@ -105,7 +105,7 @@ public class TryWithResourcesImpl extends TryBlockImpl implements TryWithResourc
 
     @Override
     public TryWithResourcesImpl setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 
     @Override

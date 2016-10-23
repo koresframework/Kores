@@ -55,14 +55,12 @@ public class ArrayParameterTest {
     public void arrayTest() {
 
 
-        ClassDeclaration codeClass = aClass(PUBLIC, name);
-
-        Require.require(codeClass.getBody()).addAll(sourceOfParts(
+        ClassDeclaration codeClass = aClass(PUBLIC, name, source(
                 constructor(PUBLIC, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(
                         new CodeField("cf", Helper.getJavaType(Object.class), Helper.cast(Helper.getJavaType(Text[].class), PredefinedTypes.OBJECT, Helper.accessLocalVariable("par", Text[].class))),
                         new CodeField("lt", Helper.getJavaType(Text[].class), Helper.cast(PredefinedTypes.OBJECT, Helper.getJavaType(Text[].class), Helper.accessLocalVariable("cf", Object.class)))
-                )))
-        );
+                ))
+        ));
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 

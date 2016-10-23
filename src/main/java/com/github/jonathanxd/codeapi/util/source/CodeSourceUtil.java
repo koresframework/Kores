@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.util.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MultiBodied;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
@@ -58,11 +59,11 @@ public class CodeSourceUtil {
      * @param source    Source to find element and insert element {@code toInsert}
      * @return {@code source}
      */
-    public static CodeSource insertAfterOrEnd(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
+    public static MutableCodeSource insertAfterOrEnd(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
 
         BooleanContainer any = BooleanContainer.of(false);
 
-        CodeSource result = CodeSourceUtil.insertAfter(codePart -> {
+        MutableCodeSource result = CodeSourceUtil.insertAfter(codePart -> {
             if(predicate.test(codePart)) {
                 any.toTrue();
                 return true;
@@ -87,11 +88,11 @@ public class CodeSourceUtil {
      * @param source    Source to find element and insert element {@code toInsert}
      * @return {@code source}
      */
-    public static CodeSource insertBeforeOrEnd(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
+    public static MutableCodeSource insertBeforeOrEnd(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
 
         BooleanContainer any = BooleanContainer.of(false);
 
-        CodeSource result = CodeSourceUtil.insertBefore(codePart -> {
+        MutableCodeSource result = CodeSourceUtil.insertBefore(codePart -> {
             if(predicate.test(codePart)) {
                 any.toTrue();
                 return true;
@@ -117,11 +118,11 @@ public class CodeSourceUtil {
      * @param source    Source to find element and insert element {@code toInsert}
      * @return {@code source}
      */
-    public static CodeSource insertAfter(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
+    public static MutableCodeSource insertAfter(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
 
         BooleanContainer any = BooleanContainer.of(false);
 
-        CodeSourceUtil.visit(source, (part, location, codeParts) -> {
+        return CodeSourceUtil.visit(source, (part, location, codeParts) -> {
             if (any.get())
                 return;
 
@@ -132,8 +133,6 @@ public class CodeSourceUtil {
                 }
             }
         });
-
-        return source;
     }
 
 
@@ -146,11 +145,11 @@ public class CodeSourceUtil {
      * @param source    Source to find element and insert element {@code toInsert}
      * @return {@code source}
      */
-    public static CodeSource insertBefore(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
+    public static MutableCodeSource insertBefore(Predicate<CodePart> predicate, CodeSource toInsert, CodeSource source) {
 
         BooleanContainer any = BooleanContainer.of(false);
 
-        CodeSourceUtil.visit(source, (part, location, codeParts) -> {
+        return CodeSourceUtil.visit(source, (part, location, codeParts) -> {
             if (any.get())
                 return;
 
@@ -161,8 +160,6 @@ public class CodeSourceUtil {
                 }
             }
         });
-
-        return source;
     }
 
 
@@ -178,9 +175,9 @@ public class CodeSourceUtil {
      * @param codeSource Code Source to visit
      * @param consumer   Consumer
      */
-    public static void visit(CodeSource codeSource, TriConsumer<CodePart, Location, CodeSource> consumer) {
+    public static MutableCodeSource visit(CodeSource codeSource, TriConsumer<CodePart, Location, MutableCodeSource> consumer) {
 
-        CodeSource returnSource = new CodeSource();
+        MutableCodeSource returnSource = new MutableCodeSource();
 
         for (CodePart codePart : codeSource) {
             CodeSourceUtil.consumeIfExists(codePart, codePart0 -> consumer.accept(codePart0, Location.BEFORE, returnSource));
@@ -188,9 +185,8 @@ public class CodeSourceUtil {
             CodeSourceUtil.consumeIfExists(codePart, codePart0 -> consumer.accept(codePart0, Location.AFTER, returnSource));
         }
 
-        codeSource.clear();
+        return returnSource;
 
-        codeSource.addAll(returnSource);
     }
 
 

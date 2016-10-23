@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.inspect;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.builder.CodeInterfaceBuilder;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 
 import java.util.List;
@@ -66,10 +67,10 @@ public class SourceInspectBuilder<R> {
     }
 
     /**
-     * Create the {@link com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder}.
+     * Create the {@link CodeInterfaceBuilder}.
      *
      * @param <R> Type of resulting elements.
-     * @return {@link com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder}.
+     * @return {@link CodeInterfaceBuilder}.
      */
     static <R> SourceInspectBuilder<R> builder() {
         return new SourceInspectBuilder<>();

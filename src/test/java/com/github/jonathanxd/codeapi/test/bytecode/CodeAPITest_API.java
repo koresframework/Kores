@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -53,7 +54,7 @@ public class CodeAPITest_API {
     @Test
     public void codeAPITest() {
 
-        CodeSource mySource = new CodeSource();
+        MutableCodeSource mySource = new MutableCodeSource();
 
         String name = this.getClass().getCanonicalName()+"_Generated";
 

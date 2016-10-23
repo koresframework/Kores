@@ -25,44 +25,52 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.Optional;
+import java.util.Collection;
 
 /**
- * Created by jonathan on 12/05/16.
+ * Created by jonathan on 04/06/16.
  */
-@GenerateTo(ElseBlock.class)
-public class ElseBlockImpl implements ElseBlock {
+public final class CodeFieldBuilder {
+    private CodeType type;
+    private CodePart value;
+    private String name;
+    private Collection<CodeModifier> modifiers;
 
-    private final CodeSource elseSource;
-
-    public ElseBlockImpl(CodeSource elseSource) {
-        this.elseSource = elseSource;
-        Bodied.checkBody(this);
+    private CodeFieldBuilder() {
     }
 
-
-    @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(elseSource);
+    public static CodeFieldBuilder builder() {
+        return new CodeFieldBuilder();
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .toString();
+    public CodeFieldBuilder withType(CodeType type) {
+        this.type = type;
+        return this;
     }
 
-    @Override
-    public ElseBlockImpl setBody(CodeSource body) {
-        return new ElseBlockImpl(body);
+    public CodeFieldBuilder withValue(CodePart value) {
+        this.value = value;
+        return this;
+    }
+
+    public CodeFieldBuilder withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public CodeFieldBuilder withModifiers(Collection<CodeModifier> modifiers) {
+        this.modifiers = modifiers;
+        return this;
+    }
+
+    public CodeField build() {
+        return new CodeField(name, type, value, modifiers);
     }
 }

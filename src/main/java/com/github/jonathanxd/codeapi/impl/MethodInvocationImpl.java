@@ -50,22 +50,18 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
     private final CodePart target;
     private final MethodSpecification spec;
 
-    public MethodInvocationImpl(InvokeType invokeType, CodeType codeType, CodePart target, MethodSpecImpl spec) {
-        this(null, invokeType, codeType, target, spec);
-    }
-
-    public MethodInvocationImpl(InvokeType invokeType, CodeType codeType, CodePart target, MethodSpecification spec) {
+    public MethodInvocationImpl(InvokeType invokeType, CodeType localization, CodePart target, MethodSpecification spec) {
         this.dynamicInvoke = null;
         this.invokeType = invokeType;
-        this.localization = codeType;
+        this.localization = localization;
         this.target = target;
         this.spec = spec;
     }
 
-    public MethodInvocationImpl(InvokeDynamic dynamicInvoke, InvokeType invokeType, CodeType codeType, CodePart target, MethodSpecification spec) {
+    public MethodInvocationImpl(InvokeDynamic dynamicInvoke, InvokeType invokeType, CodeType localization, CodePart target, MethodSpecification spec) {
         this.dynamicInvoke = dynamicInvoke;
         this.invokeType = invokeType;
-        this.localization = codeType;
+        this.localization = localization;
         this.target = target;
         this.spec = spec;
     }

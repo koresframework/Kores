@@ -25,11 +25,11 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
@@ -38,46 +38,46 @@ import java.util.List;
 /**
  * Created by jonathan on 04/06/16.
  */
-public final class CodeMethodBuilder {
-    private CodeType returnType;
+public final class CodeClassBuilder {
+    private CodeType superType;
     private CodeSource body;
-    private String name;
+    private String qualifiedName;
+    private List<CodeType> implementations;
     private Collection<CodeModifier> modifiers;
-    private List<CodeParameter> parameters;
 
-    private CodeMethodBuilder() {
+    private CodeClassBuilder() {
     }
 
-    public static CodeMethodBuilder builder() {
-        return new CodeMethodBuilder();
+    public static CodeClassBuilder builder() {
+        return new CodeClassBuilder();
     }
 
-    public CodeMethodBuilder withReturnType(CodeType returnType) {
-        this.returnType = returnType;
+    public CodeClassBuilder withSuperType(CodeType superType) {
+        this.superType = superType;
         return this;
     }
 
-    public CodeMethodBuilder withBody(CodeSource body) {
+    public CodeClassBuilder withBody(CodeSource body) {
         this.body = body;
         return this;
     }
 
-    public CodeMethodBuilder withName(String name) {
-        this.name = name;
+    public CodeClassBuilder withQualifiedName(String qualifiedName) {
+        this.qualifiedName = qualifiedName;
         return this;
     }
 
-    public CodeMethodBuilder withModifiers(Collection<CodeModifier> modifiers) {
+    public CodeClassBuilder withImplementations(List<CodeType> implementations) {
+        this.implementations = implementations;
+        return this;
+    }
+
+    public CodeClassBuilder withModifiers(Collection<CodeModifier> modifiers) {
         this.modifiers = modifiers;
         return this;
     }
 
-    public CodeMethodBuilder withParameters(List<CodeParameter> parameters) {
-        this.parameters = parameters;
-        return this;
-    }
-
-    public CodeMethod build() {
-        return new CodeMethod(name, modifiers, parameters, returnType, body);
+    public CodeClass build() {
+        return new CodeClass(qualifiedName, modifiers, superType, implementations, body);
     }
 }

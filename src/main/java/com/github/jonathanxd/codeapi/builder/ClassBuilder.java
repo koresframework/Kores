@@ -53,7 +53,7 @@ public final class ClassBuilder implements Builder<CodeClass> {
     private GenericSignature<GenericType> genericSignature;
     private CodeType superClass = PredefinedTypes.OBJECT;
     private List<CodeType> implementations = new ArrayList<>();
-    private CodeSource body = new CodeSource();
+    private CodeSource body = CodeSource.empty();
 
     private ClassBuilder() {
 

@@ -80,7 +80,7 @@ public interface IfBlock extends Bodied, MultiBodied, IfExpressionable, CodePart
 
     @Override
     default IfBlock setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 
     @Override

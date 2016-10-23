@@ -51,7 +51,7 @@ public final class InterfaceBuilder implements Builder<CodeInterface> {
     private String qualifiedName;
     private GenericSignature<GenericType> genericSignature;
     private List<CodeType> implementations = new ArrayList<>();
-    private CodeSource body = new CodeSource();
+    private CodeSource body = CodeSource.empty();
 
     private InterfaceBuilder() {
 

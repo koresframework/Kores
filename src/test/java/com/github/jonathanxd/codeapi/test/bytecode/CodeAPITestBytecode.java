@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -36,11 +38,11 @@ import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeClassBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeFieldBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeFieldBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
@@ -74,7 +76,7 @@ public class CodeAPITestBytecode {
     public final String b = "9";
 
     private static CodeSource rethrow(String variable) {
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         source.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Rethrow from var '"+variable+"'!"), PredefinedTypes.STRING)));
 
@@ -98,7 +100,7 @@ public class CodeAPITestBytecode {
 
     private static CodeMethod createMethod() {
 
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         // Declare 'println' method
         CodeMethod codeMethod = CodeMethodBuilder.builder()
@@ -122,7 +124,7 @@ public class CodeAPITestBytecode {
         )));
 
         // Create method body source
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         IfBlock ifBlock = Helper.ifExpression(Helper.createIfVal()
                 .add1(Helper.check(Helper.accessLocalVariable("msg", PredefinedTypes.OBJECT), Operators.NOT_EQUAL_TO, Literals.NULL)).make(),
@@ -189,11 +191,9 @@ public class CodeAPITestBytecode {
     @Test
     public void codeAPITest() {
 
-        // Create a list of CodePart (source)
-        CodeSource mySource = new CodeSource();
 
         // Create source of 'codeClass'
-        CodeSource codeClassSource = new CodeSource();
+        MutableCodeSource codeClassSource = new MutableCodeSource();
 
         // Define a interface
         CodeClass codeClass = CodeClassBuilder.builder()
@@ -204,8 +204,8 @@ public class CodeAPITestBytecode {
                 .withBody(codeClassSource)
                 .build();
 
-        // Adds to source list
-        mySource.add(codeClass);
+        // Create a list of CodePart (source)
+        CodeSource mySource = CodeAPI.sourceOfParts(codeClass);
 
         CodeMethod method = createMethod();
 

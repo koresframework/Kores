@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -40,7 +41,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -74,10 +75,10 @@ public class TestBytecode {
     @Test
     public void testBytecode() {
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
 
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
         CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
                 Collections.singletonList(CodeModifier.PUBLIC),
@@ -170,7 +171,7 @@ public class TestBytecode {
     }
 
     public CodeMethod makeCM() {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("printIt", Collections.singletonList(CodeModifier.PUBLIC),
                 Collections.singletonList(new CodeParameter("n", Helper.getJavaType(Object.class))),
@@ -197,7 +198,7 @@ public class TestBytecode {
     }
 
     public CodeMethod makeCM2() {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("check",
                 Collections.singletonList(CodeModifier.PUBLIC),

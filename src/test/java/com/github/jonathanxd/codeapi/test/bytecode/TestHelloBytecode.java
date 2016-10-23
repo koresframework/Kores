@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -35,7 +36,7 @@ import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
@@ -59,9 +60,9 @@ public class TestHelloBytecode {
     @Test
     public void testBytecode() {
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
         CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
                 singletonList(CodeModifier.PUBLIC),

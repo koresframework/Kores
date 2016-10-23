@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InnerType;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
@@ -127,7 +128,7 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
         Optional<CodeSource> bodyOpt = typeDeclaration.getBody();
 
-        Pair<List<TypeDeclaration>, CodeSource> pair = Util.grabAndRemoveInnerDecl(bodyOpt.orElse(null));
+        Pair<List<TypeDeclaration>, MutableCodeSource> pair = Util.grabAndRemoveInnerDecl(bodyOpt.orElse(null));
 
         List<TypeDeclaration> typeDeclarationList = Collections.emptyList();
 
@@ -146,7 +147,7 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
                 extraData.registerData(INNER_TYPE_REPRESENTATION, new InnerType(originalDeclList.get(i), typeDeclarationList.get(i)));
             }
 
-            CodeSource body = pair._2();
+            MutableCodeSource body = pair._2();
 
             // Create outer fields
 

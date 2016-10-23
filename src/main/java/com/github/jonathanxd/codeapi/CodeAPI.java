@@ -331,7 +331,7 @@ public final class CodeAPI {
         CodeInterface codeInterface = new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource());
 
         if (source != null)
-            Require.require(codeInterface.getBody()).addAll(source.apply(codeInterface));
+            return codeInterface.setBody(source.apply(codeInterface));
 
         return codeInterface;
     }
@@ -635,7 +635,7 @@ public final class CodeAPI {
         CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayToList.toList(implementations), signature, Arrays.asList(annotations), new CodeSource());
 
         if (source != null)
-            Require.require(codeClass.getBody()).addAll(source.apply(codeClass));
+            return codeClass.setBody(source.apply(codeClass));
 
         return codeClass;
     }
@@ -793,7 +793,7 @@ public final class CodeAPI {
         CodeMethod method = new CodeMethod(name, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), returnType, signature, new CodeSource());
 
         if (source != null)
-            Require.require(method.getBody()).addAll(source.apply(method));
+            return method.setBody(source.apply(method));
 
         return method;
     }
@@ -835,7 +835,7 @@ public final class CodeAPI {
         CodeConstructor codeConstructor = new CodeConstructor(CodeModifier.extractModifiers(modifiers), ArrayToList.toList(parameters), new CodeSource());
 
         if (source != null)
-            Require.require(codeConstructor.getBody()).addAll(source.apply(codeConstructor));
+            return codeConstructor.setBody(source.apply(codeConstructor));
 
         return codeConstructor;
     }
@@ -957,8 +957,12 @@ public final class CodeAPI {
     //          Source
     // =========================================================
 
-    public static CodeSource emptySource(CodePart... codeParts) {
+    public static CodeSource emptySource() {
         return new CodeSource();
+    }
+
+    public static MutableCodeSource emptyMutableSource() {
+        return new MutableCodeSource();
     }
 
     public static CodeSource sourceOfParts(CodePart... codeParts) {
@@ -2433,7 +2437,8 @@ public final class CodeAPI {
     public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, scope, returnType, parameters, arguments, new CodeSource());
 
-        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+        if(source != null)
+            return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
     }
@@ -2465,7 +2470,8 @@ public final class CodeAPI {
     public static MethodFragment fragmentStatic(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.STATIC, returnType, parameters, arguments, new CodeSource());
 
-        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+        if(source != null)
+            return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
     }
@@ -2497,7 +2503,8 @@ public final class CodeAPI {
     public static MethodFragment fragmentInstance(CodeInterface codeInterface, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.INSTANCE, returnType, parameters, arguments, new CodeSource());
 
-        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+        if(source != null)
+            return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
     }
@@ -2533,7 +2540,8 @@ public final class CodeAPI {
     public static MethodFragment fragment(CodeInterface codeInterface, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, scope, toCodeType(returnType), parameters, arguments, new CodeSource());
 
-        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+        if(source != null)
+            return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
     }
@@ -2565,7 +2573,8 @@ public final class CodeAPI {
     public static MethodFragment fragmentStatic(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.STATIC, toCodeType(returnType), parameters, arguments, new CodeSource());
 
-        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+        if(source != null)
+            return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
     }
@@ -2597,7 +2606,8 @@ public final class CodeAPI {
     public static MethodFragment fragmentInstance(CodeInterface codeInterface, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, Function<MethodFragment, CodeSource> source) {
         MethodFragment methodFragment = fragment__factory(codeInterface, Scope.INSTANCE, toCodeType(returnType), parameters, arguments, new CodeSource());
 
-        Require.require(methodFragment.getMethod().getBody()).addAll(source.apply(methodFragment));
+        if(source != null)
+            return methodFragment.setMethod(methodFragment.getMethod().setBody(source.apply(methodFragment)));
 
         return methodFragment;
     }

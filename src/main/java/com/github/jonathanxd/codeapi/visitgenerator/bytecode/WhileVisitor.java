@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
@@ -60,7 +61,7 @@ public class WhileVisitor implements VoidVisitor<WhileBlock, BytecodeClass, MVDa
         Label insideEnd = new Label();
         Label outsideEnd = new Label();
 
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         whileBlock.getBody().ifPresent(source::addAll);
 

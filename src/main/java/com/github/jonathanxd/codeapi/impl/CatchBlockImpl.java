@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 
 import java.util.Collections;
 import java.util.List;

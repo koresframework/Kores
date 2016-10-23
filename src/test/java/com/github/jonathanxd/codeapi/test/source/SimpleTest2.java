@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -57,10 +58,10 @@ public class SimpleTest2 {
     @Test
     public void simpleTest() {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
+        MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de CodeAPITest
         CodeClass codeClass = new CodeClass("CodeAPITest",

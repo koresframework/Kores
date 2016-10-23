@@ -106,7 +106,7 @@ public class ForBlockImpl extends IfBlockImpl implements ForBlock {
 
     @Override
     public ForBlockImpl setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 
     @Override

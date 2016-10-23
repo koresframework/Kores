@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
@@ -40,7 +39,6 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
@@ -184,7 +182,7 @@ public class TryBlockVisitor implements VoidVisitor<TryBlock, BytecodeClass, MVD
             BooleanContainer booleanContainer = new BooleanContainer(false);
 
             if (codeSource != null) {
-                CodeSource codeSource1 = new CodeSource(codeSource);
+                CodeSource codeSource1 = CodeSource.fromIterable(codeSource);
 
 
                 codeSource1 = CodeSourceUtil.insertBefore(codePart -> {

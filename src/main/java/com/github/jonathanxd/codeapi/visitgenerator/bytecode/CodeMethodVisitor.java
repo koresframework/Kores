@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -52,7 +53,6 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
-import com.github.jonathanxd.codeapi.visitgenerator.Visitor;
 import com.github.jonathanxd.codeapi.visitgenerator.VisitorGenerator;
 import com.github.jonathanxd.codeapi.visitgenerator.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -113,7 +113,8 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
     }
 
     public static CodeSource finalFieldsToSource(CodeSource classSource, MapData extraData) {
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
+
         /**
          * Declare variables
          */
@@ -265,7 +266,7 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
             CodeSource bodySource = bodyOpt.orElse(null);
 
-            CodeSource methodSource = bodySource == null ? null : new CodeSource(bodySource);
+            CodeSource methodSource = bodySource == null ? null : CodeSource.fromIterable(bodySource);
 
             boolean isGenerated = false;
 

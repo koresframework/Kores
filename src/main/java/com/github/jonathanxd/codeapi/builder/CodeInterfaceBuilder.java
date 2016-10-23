@@ -25,10 +25,11 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
@@ -37,46 +38,40 @@ import java.util.List;
 /**
  * Created by jonathan on 04/06/16.
  */
-public final class CodeClassBuilder {
-    private CodeType superType;
+public final class CodeInterfaceBuilder {
     private CodeSource body;
     private String qualifiedName;
     private List<CodeType> implementations;
     private Collection<CodeModifier> modifiers;
 
-    private CodeClassBuilder() {
+    private CodeInterfaceBuilder() {
     }
 
-    public static CodeClassBuilder builder() {
-        return new CodeClassBuilder();
+    public static CodeInterfaceBuilder builder() {
+        return new CodeInterfaceBuilder();
     }
 
-    public CodeClassBuilder withSuperType(CodeType superType) {
-        this.superType = superType;
-        return this;
-    }
-
-    public CodeClassBuilder withBody(CodeSource body) {
+    public CodeInterfaceBuilder withBody(CodeSource body) {
         this.body = body;
         return this;
     }
 
-    public CodeClassBuilder withQualifiedName(String qualifiedName) {
+    public CodeInterfaceBuilder withQualifiedName(String qualifiedName) {
         this.qualifiedName = qualifiedName;
         return this;
     }
 
-    public CodeClassBuilder withImplementations(List<CodeType> implementations) {
+    public CodeInterfaceBuilder withImplementations(List<CodeType> implementations) {
         this.implementations = implementations;
         return this;
     }
 
-    public CodeClassBuilder withModifiers(Collection<CodeModifier> modifiers) {
+    public CodeInterfaceBuilder withModifiers(List<CodeModifier> modifiers) {
         this.modifiers = modifiers;
         return this;
     }
 
-    public CodeClass build() {
-        return new CodeClass(qualifiedName, modifiers, superType, implementations, body);
+    public CodeInterface build() {
+        return new CodeInterface(qualifiedName, modifiers, implementations, body);
     }
 }

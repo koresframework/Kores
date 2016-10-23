@@ -25,52 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-import java.util.Collection;
-import java.util.List;
+public class IterableUtil {
 
-/**
- * Created by jonathan on 04/06/16.
- */
-public final class CodeInterfaceBuilder {
-    private CodeSource body;
-    private String qualifiedName;
-    private List<CodeType> implementations;
-    private Collection<CodeModifier> modifiers;
-
-    private CodeInterfaceBuilder() {
+    public static <T> Stream<T> stream(Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false);
     }
 
-    public static CodeInterfaceBuilder builder() {
-        return new CodeInterfaceBuilder();
-    }
 
-    public CodeInterfaceBuilder withBody(CodeSource body) {
-        this.body = body;
-        return this;
-    }
-
-    public CodeInterfaceBuilder withQualifiedName(String qualifiedName) {
-        this.qualifiedName = qualifiedName;
-        return this;
-    }
-
-    public CodeInterfaceBuilder withImplementations(List<CodeType> implementations) {
-        this.implementations = implementations;
-        return this;
-    }
-
-    public CodeInterfaceBuilder withModifiers(List<CodeModifier> modifiers) {
-        this.modifiers = modifiers;
-        return this;
-    }
-
-    public CodeInterface build() {
-        return new CodeInterface(qualifiedName, modifiers, implementations, body);
-    }
 }

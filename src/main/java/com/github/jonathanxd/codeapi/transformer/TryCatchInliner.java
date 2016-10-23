@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.transformer;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.gen.Generator;
 import com.github.jonathanxd.codeapi.gen.TargetValue;
 import com.github.jonathanxd.codeapi.gen.Value;
@@ -69,11 +70,11 @@ public class TryCatchInliner {
 
         BooleanContainer booleanContainer = new BooleanContainer(false);
 
-        CodeSource toAdd = new CodeSource();
+        MutableCodeSource toAdd = new MutableCodeSource();
 
         toAdd.add(new TagLineImpl<>("Inlined finally", toAdd0));
 
-        CodeSource codeSource = CodeSourceUtil.insertBefore(codePart -> {
+        MutableCodeSource codeSource = CodeSourceUtil.insertBefore(codePart -> {
             if (codePart instanceof ThrowException) {
                 booleanContainer.set(true);
                 return true;

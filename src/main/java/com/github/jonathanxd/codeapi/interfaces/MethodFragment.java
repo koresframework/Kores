@@ -45,6 +45,27 @@ public interface MethodFragment extends MethodInvocation, CodeElement, CodePart 
      */
     MethodDeclaration getMethod();
 
+    /**
+     * Sets the method declaration.
+     *
+     * @param method Method declaration.
+     * @return new instance.
+     */
+    MethodFragment setMethod(MethodDeclaration method);
+
+    /**
+     * Gets the target declaration.
+     * @return Target declaration.
+     */
+    TypeDeclaration getTargetDeclaration();
+
+    /**
+     * Sets the target declaration.
+     * @param targetDeclaration Target declaration.
+     * @return new instance.
+     */
+    MethodFragment setTargetDeclaration(TypeDeclaration targetDeclaration);
+
     @Override
     MethodFragment setLocalization(CodeType localization);
 

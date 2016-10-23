@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
@@ -44,6 +45,7 @@ import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
+import static com.github.jonathanxd.codeapi.CodeAPI.emptyMutableSource;
 import static com.github.jonathanxd.codeapi.CodeAPI.emptySource;
 import static com.github.jonathanxd.codeapi.CodeAPI.invokeVirtual;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
@@ -58,7 +60,7 @@ public class Readme {
 
     @Test
     public void readme() {
-        CodeSource source = emptySource();
+        MutableCodeSource source = emptyMutableSource();
 
         CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
                 constructor(PUBLIC, codeConstructor -> sourceOfParts(

@@ -129,6 +129,6 @@ public class TryBlockImpl implements TryBlock {
 
     @Override
     public TryBlockImpl setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 }

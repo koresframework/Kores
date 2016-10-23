@@ -62,7 +62,7 @@ public class ConstructorVisitor implements Visitor<ConstructorDeclaration, Bytec
             TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'!");
 
             List<CodeParameter> parameters = new ArrayList<>(codeConstructor.getParameters());
-            CodeSource source = new CodeSource(codeConstructor.getBody().orElse(new CodeSource()));
+            CodeSource source = CodeSource.fromIterable(codeConstructor.getBody().orElse(CodeSource.empty()));
 
             for (FieldDeclaration outerField : outerFields) {
                 parameters.add(0, new CodeParameter(outerField.getName(), outerField.getVariableType()));

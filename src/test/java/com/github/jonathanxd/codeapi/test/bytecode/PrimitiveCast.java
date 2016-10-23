@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -70,7 +71,7 @@ public class PrimitiveCast {
     @Test
     public void codeAPITest() {
 
-        CodeSource mySource = new CodeSource();
+
 
         String name = this.getClass().getCanonicalName()+"_Generated";
 
@@ -100,7 +101,7 @@ public class PrimitiveCast {
                         ))
         ));
 
-        mySource.add(codeClass);
+        CodeSource mySource = CodeAPI.sourceOfParts(codeClass);
 
 
 

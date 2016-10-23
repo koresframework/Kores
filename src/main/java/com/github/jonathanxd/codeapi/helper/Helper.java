@@ -639,11 +639,7 @@ public final class Helper {
     }
 
     public static CodeSource sourceOf(CodePart... parts) {
-        CodeSource source = new CodeSource();
-
-        Collections.addAll(source, parts);
-
-        return source;
+        return CodeSource.fromArray(parts);
     }
 
     public static CodeElement staticBlock(CodeSource body) {

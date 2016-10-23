@@ -25,51 +25,60 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by jonathan on 04/06/16.
  */
-public final class CodeFieldBuilder {
-    private CodeType type;
-    private CodePart value;
+public final class CodeMethodBuilder {
+    private CodeType returnType;
+    private CodeSource body;
     private String name;
     private Collection<CodeModifier> modifiers;
+    private List<CodeParameter> parameters;
 
-    private CodeFieldBuilder() {
+    private CodeMethodBuilder() {
     }
 
-    public static CodeFieldBuilder builder() {
-        return new CodeFieldBuilder();
+    public static CodeMethodBuilder builder() {
+        return new CodeMethodBuilder();
     }
 
-    public CodeFieldBuilder withType(CodeType type) {
-        this.type = type;
+    public CodeMethodBuilder withReturnType(CodeType returnType) {
+        this.returnType = returnType;
         return this;
     }
 
-    public CodeFieldBuilder withValue(CodePart value) {
-        this.value = value;
+    public CodeMethodBuilder withBody(CodeSource body) {
+        this.body = body;
         return this;
     }
 
-    public CodeFieldBuilder withName(String name) {
+    public CodeMethodBuilder withName(String name) {
         this.name = name;
         return this;
     }
 
-    public CodeFieldBuilder withModifiers(Collection<CodeModifier> modifiers) {
+    public CodeMethodBuilder withModifiers(Collection<CodeModifier> modifiers) {
         this.modifiers = modifiers;
         return this;
     }
 
-    public CodeField build() {
-        return new CodeField(name, type, value, modifiers);
+    public CodeMethodBuilder withParameters(List<CodeParameter> parameters) {
+        this.parameters = parameters;
+        return this;
+    }
+
+    public CodeMethod build() {
+        return new CodeMethod(name, modifiers, parameters, returnType, body);
     }
 }

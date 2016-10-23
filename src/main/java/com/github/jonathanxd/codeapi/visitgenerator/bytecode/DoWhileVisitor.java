@@ -63,7 +63,7 @@ public class DoWhileVisitor implements VoidVisitor<DoWhileBlock, BytecodeClass, 
         Label insideEnd = new Label();
         Label outsideEnd = new Label();
 
-        CodeSource source = new CodeSource();
+        CodeSource source = CodeSource.empty();
 
         IfBlock ifBlock = IfBlockImpl.instance(whileBlock, source);
 

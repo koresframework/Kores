@@ -54,7 +54,7 @@ public class BodiedSourceGenerator implements Generator<Bodied, String, PlainSou
     public List<Value<?, String, PlainSourceGenerator>> gen(Bodied bodied, PlainSourceGenerator plainSourceGenerator, Parent<Generator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        CodeSource body = bodied.getBody().orElse(new CodeSource());
+        CodeSource body = bodied.getBody().orElse(CodeSource.empty());
 
         boolean isExpr = bodied.isExpression();
 

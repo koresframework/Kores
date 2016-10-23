@@ -72,7 +72,7 @@ public class WhileBlockImpl extends IfBlockImpl implements WhileBlock {
 
     @Override
     public WhileBlockImpl setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 
     @Override

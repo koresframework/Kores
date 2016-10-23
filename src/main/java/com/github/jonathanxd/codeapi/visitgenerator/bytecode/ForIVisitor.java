@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
@@ -67,7 +68,7 @@ public class ForIVisitor implements VoidVisitor<ForBlock, BytecodeClass, MVData>
         forBlock.getForInit().ifPresent(forInit -> visitorGenerator.generateTo(forInit.getClass(), forInit, extraData, null, mvData));
 
 
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         forBlock.getBody().ifPresent(source::addAll);
 

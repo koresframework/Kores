@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -64,7 +65,7 @@ public class TestForLoop {
     @Test
     public void simpleTest() {
 
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         PlainSourceGenerator generator = new PlainSourceGenerator();
 
@@ -84,7 +85,7 @@ public class TestForLoop {
 
     private CodePart createMethod() {
 
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod method = new CodeMethod("printX", Collections.emptyList(),
                 Arrays.asList(new CodeParameter("y", getJavaType(Integer.TYPE)), new CodeParameter("obj", getJavaType(Object.class))),

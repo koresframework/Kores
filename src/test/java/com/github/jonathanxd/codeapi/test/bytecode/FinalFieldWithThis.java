@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -47,7 +48,7 @@ public class FinalFieldWithThis {
 
     @Test
     public void finalFieldWithThis() {
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
         CodeClass testField = CodeAPI.aClass(Modifier.PUBLIC, "finalfieldwiththis.Test", TestBox.class, new Class[0], codeClass ->
                 CodeAPI.sourceOfParts(

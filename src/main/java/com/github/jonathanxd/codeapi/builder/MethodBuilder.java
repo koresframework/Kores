@@ -56,7 +56,7 @@ public final class MethodBuilder implements Builder<CodeMethod>,
     private CodeType returnType = PredefinedTypes.VOID;
     private String name;
     private Collection<CodeModifier> modifiers = new ArrayList<>();
-    private CodeSource body = new CodeSource();
+    private CodeSource body = CodeSource.empty();
 
     private MethodBuilder() {
 

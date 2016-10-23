@@ -72,7 +72,7 @@ public class DoWhileBlockImpl extends WhileBlockImpl implements DoWhileBlock {
 
     @Override
     public DoWhileBlockImpl setBodies(List<CodeSource> sourceList) {
-        return this.setBody(new CodeSource(sourceList));
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
 
     @Override

@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.visitgenerator.bytecode;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InnerType;
 import com.github.jonathanxd.codeapi.common.MVData;
@@ -68,19 +69,19 @@ public class Util {
         }
     }
 
-    public static Pair<List<TypeDeclaration>, CodeSource> grabAndRemoveInnerDecl(CodeSource source) {
+    public static Pair<List<TypeDeclaration>, MutableCodeSource> grabAndRemoveInnerDecl(CodeSource source) {
 
         if (source == null)
             return null;
 
         List<TypeDeclaration> typeDeclarationList = new ArrayList<>();
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
-        Pair<List<TypeDeclaration>, CodeSource> pair = Pair.of(typeDeclarationList, codeSource);
+        Pair<List<TypeDeclaration>, MutableCodeSource> pair = Pair.of(typeDeclarationList, codeSource);
 
         for (CodePart part : source) {
             if (part instanceof CodeSource) {
-                Pair<List<TypeDeclaration>, CodeSource> listCodeSourcePair = Util.grabAndRemoveInnerDecl((CodeSource) part);
+                Pair<List<TypeDeclaration>, MutableCodeSource> listCodeSourcePair = Util.grabAndRemoveInnerDecl((CodeSource) part);
 
                 typeDeclarationList.addAll(listCodeSourcePair._1());
 
@@ -108,7 +109,7 @@ public class Util {
 
             cw.visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
 
-            CodeSource source = new CodeSource(innerClass.getBody().orElse(new CodeSource()));
+            MutableCodeSource source = new MutableCodeSource(innerClass.getBody().orElse(CodeSource.empty()));
 
             InstructionCodePart instructionCodePart = (value, extraData, visitorGenerator, additional) -> {
                 extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION)

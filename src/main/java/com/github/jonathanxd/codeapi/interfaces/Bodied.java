@@ -55,7 +55,7 @@ public interface Bodied extends CodePart {
      * @return Body.
      */
     default CodeSource getRequiredBody() {
-        return this.getBody().orElse(new CodeSource());
+        return this.getBody().orElse(CodeSource.empty());
     }
 
     /**

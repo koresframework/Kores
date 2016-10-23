@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.test.source;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -42,11 +43,11 @@ import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeFieldBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeFieldBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeInterfaceBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
@@ -70,7 +71,7 @@ import static com.github.jonathanxd.codeapi.helper.Helper.getJavaType;
 public class CodeAPITest {
 
     private static CodeSource rethrow(String variable) {
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         source.add(Helper.throwException(getJavaType(RuntimeException.class), new CodeArgument[]{
                 new CodeArgument(Helper.accessLocalVariable(variable, getJavaType(String.class)), false, getJavaType(Throwable.class))
@@ -88,7 +89,7 @@ public class CodeAPITest {
 
     private static CodeMethod createMethod() {
 
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         // Declare 'println' method
 
@@ -105,7 +106,7 @@ public class CodeAPITest {
                 .build();
 
         // Create method body source
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         IfBlock ifBlock = Helper.ifExpression(Helper.createIfVal()
                         .add1(Helper.checkNotNull(Helper.accessLocalVariable("msg", getJavaType(String.class)))).make(),
@@ -170,7 +171,7 @@ public class CodeAPITest {
     public void codeAPITest() {
 
         // Create a list of CodePart (source)
-        CodeSource mySource = new CodeSource();
+        MutableCodeSource mySource = new MutableCodeSource();
 
         CodeMethod method = createMethod();
 

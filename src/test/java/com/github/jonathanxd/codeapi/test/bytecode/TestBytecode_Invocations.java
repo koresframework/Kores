@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -44,7 +45,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
@@ -138,8 +139,8 @@ public class TestBytecode_Invocations {
     @Test
     public void testBytecode() {
 
-        CodeSource codeSource = new CodeSource();
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
         CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName() + "_Generated",
                 Collections.singletonList(CodeModifier.PUBLIC),
@@ -220,10 +221,10 @@ public class TestBytecode_Invocations {
                     if(element.getClassName().equals(codeClass.getQualifiedName())) {
                         int line = element.getLineNumber();
                         try {
-                            //TODO: Fix
-                            //TagLine<?, ?> tagLine = result.findTagLine(line);
+                            // TODO: Fix
+                            // TagLine<?, ?> tagLine = result.findTagLine(line);
 
-                            //System.out.println("Error occurred at tag: '"+tagLine.getIdentifier()+"'");
+                            // System.out.println("Error occurred at tag: '"+tagLine.getIdentifier()+"'");
                         }catch (Exception ignored) {}
                     }
                 }
@@ -247,7 +248,7 @@ public class TestBytecode_Invocations {
     }
 
     public CodeMethod makeCM() {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("printIt", Collections.singletonList(CodeModifier.PUBLIC),
                 Collections.singletonList(new CodeParameter("n", Helper.getJavaType(Object.class))),
@@ -274,7 +275,7 @@ public class TestBytecode_Invocations {
     }
 
     public CodeMethod makeCM2(CodeInterface codeInterface) {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("check",
                 Collections.singletonList(CodeModifier.PUBLIC),

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -61,10 +62,10 @@ public class SimpleTest2_Bytecode {
     @Test
     public void simpleTest() throws NoSuchFieldException {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
+        MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de SimpleTest2_bytecode
         CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",

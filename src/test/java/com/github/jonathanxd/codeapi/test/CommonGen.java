@@ -53,8 +53,6 @@ public class CommonGen {
     public static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
     public static CodeSource gen() {
-        CodeClass codeClass = aClass(PUBLIC, name);
-
         CodeArgument[] values = {
                 new CodeArgument(STRING("A"), PredefinedTypes.STRING), new CodeArgument(STRING("B"), PredefinedTypes.STRING),
                 new CodeArgument(STRING("C"), PredefinedTypes.STRING), new CodeArgument(STRING("D"), PredefinedTypes.STRING),
@@ -67,7 +65,7 @@ public class CommonGen {
                 new CodeArgument(STRING("J"), PredefinedTypes.STRING)
         };
 
-        Require.require(codeClass.getBody()).addAll(sourceOfParts(
+        CodeClass codeClass = aClass(PUBLIC, name, source(
                 constructor(PUBLIC, source(
                         new CodeField("array", PredefinedTypes.STRING.toArray(2),
                                 Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
@@ -85,8 +83,9 @@ public class CommonGen {
                                 PredefinedTypes.STRING))
 
 
-                )))
-        );
+                ))
+        ));
+
 
         return sourceOfParts(codeClass);
     }
