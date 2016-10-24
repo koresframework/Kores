@@ -70,7 +70,7 @@ public class ConstructorVisitor implements Visitor<ConstructorDeclaration, Bytec
                 source =
                         CodeSourceUtil.insertAfterOrEnd(
                                 part -> part instanceof MethodInvocation
-                                        && CodeMethodVisitor.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                        && Common.isInitForThat(typeDeclaration, (MethodInvocation) part),
                                 CodeAPI.sourceOfParts(
                                         CodeAPI.setThisField(outerField.getVariableType(), outerField.getName(),
                                                 CodeAPI.accessLocalVariable(outerField.getVariableType(), outerField.getName()))

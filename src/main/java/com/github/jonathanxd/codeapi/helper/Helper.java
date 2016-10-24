@@ -41,6 +41,7 @@ import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.impl.AccessInnerImpl;
 import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.impl.AccessOuterImpl;
@@ -50,6 +51,7 @@ import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLengthImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLoadImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayStoreImpl;
+import com.github.jonathanxd.codeapi.impl.CaseImpl;
 import com.github.jonathanxd.codeapi.impl.CastedImpl;
 import com.github.jonathanxd.codeapi.impl.CatchBlockImpl;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -67,6 +69,7 @@ import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.impl.ReturnImpl;
 import com.github.jonathanxd.codeapi.impl.StaticBlockImpl;
+import com.github.jonathanxd.codeapi.impl.SwitchImpl;
 import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.impl.ThrowExceptionImpl;
 import com.github.jonathanxd.codeapi.impl.TryBlockImpl;
@@ -84,6 +87,7 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.interfaces.Case;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
@@ -99,10 +103,12 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.Return;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -358,6 +364,15 @@ public final class Helper {
                 Helper.sourceOf(
                         toAdd
                 ));
+    }
+
+    public static Switch aSwitch(SwitchType switchType, Typed value, List<Case> caseList) {
+        return new SwitchImpl(switchType, value, caseList);
+    }
+
+
+    public static Case aCase(Typed value, CodeSource body) {
+        return new CaseImpl(value, body);
     }
 
     public static Casted cast(CodeType originalType, CodeType type, CodePart castedPart) {

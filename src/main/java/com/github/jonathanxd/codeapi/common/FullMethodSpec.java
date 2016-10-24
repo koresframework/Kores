@@ -80,7 +80,7 @@ public class FullMethodSpec extends TypeSpec {
      *
      * @return Localization of invocation target.
      */
-    public CodeType getLocation() {
+    public CodeType getLocalization() {
         return this.location;
     }
 

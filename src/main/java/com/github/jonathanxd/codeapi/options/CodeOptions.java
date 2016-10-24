@@ -42,4 +42,19 @@ public class CodeOptions {
      * Source Code: Inline finally blocks inside try and catches. (default: false)
      */
     public static final Option<Boolean> INLINE_FINALLY = new Option<>();
+
+
+    /**
+     * Validate constructor this() invocation.
+     *
+     * Default: true
+     */
+    public static final Option<Boolean> VALIDATE_THIS = new Option<>();
+
+    /**
+     * Validate constructor this() invocation.
+     *
+     * Default: true
+     */
+    public static final Option<Boolean> VALIDATE_SUPER = new Option<>();
 }

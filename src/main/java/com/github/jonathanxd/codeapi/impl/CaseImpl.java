@@ -25,74 +25,47 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.interfaces.Case;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 
 import java.util.Optional;
 
 /**
- * Enum value of a {@link Annotation} property.
+ * @see Case
  */
-public interface EnumValue extends Named, Typed, CodePart {
+@GenerateTo(Case.class)
+public class CaseImpl implements Case {
 
-    @Override
-    default String getName() {
-        return this.getEnumValue();
+    private final Typed value;
+    private final CodeSource body;
+
+    public CaseImpl(Typed value, CodeSource body) {
+        this.value = value;
+        this.body = body;
     }
 
     @Override
-    EnumValue setName(String name);
-
-    @Override
-    default Optional<CodeType> getType() {
-        return Optional.ofNullable(this.getEnumType());
+    public Optional<CodePart> getValue() {
+        return Optional.ofNullable(this.value);
     }
 
     @Override
-    EnumValue setType(CodeType codeType);
+    public Case setValue(CodePart value) {
+        return new CaseImpl((Typed) value, this.getBody().orElse(null));
+    }
 
-    /**
-     * Gets the type of enum.
-     *
-     * @return Type of enum.
-     */
-    CodeType getEnumType();
+    @Override
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(body);
+    }
 
-    /**
-     * Sets the type of enum.
-     *
-     * @param codeType Type of enum.
-     * @return new instance.
-     */
-    EnumValue setEnumType(CodeType codeType);
-
-    /**
-     * Gets the enum entry name.
-     *
-     * @return Enum entry name.
-     */
-    String getEnumValue();
-
-    /**
-     * Sets the enum entry name.
-     *
-     * @param entry Enum entry name.
-     * @return new instance.
-     */
-    EnumValue setEnumValue(String entry);
-
-    /**
-     * Gets the ordinal value.
-     * @return Ordinal value.
-     */
-    int getOrdinal();
-
-    /**
-     * Sets the ordinal value.
-     * @param ordinal Ordinal value.
-     * @return new instance.
-     */
-    EnumValue setOrdinal(int ordinal);
+    @Override
+    public Case setBody(CodeSource body) {
+        return new CaseImpl((Typed) this.getValue().orElse(null), this.getBody().orElse(null));
+    }
 }

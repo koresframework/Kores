@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,6 +52,14 @@ public class ContinueSourceGenerator implements ValueGenerator<Continue, String,
 
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(Continue aContinue, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        return Collections.singletonList(PlainValue.create("continue"));
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        values.add(PlainValue.create("continue"));
+
+        if (Util.isBody(parents)) {
+            values.add(PlainValue.create(";"));
+        }
+
+        return values;
     }
 }

@@ -27,67 +27,72 @@
  */
 package com.github.jonathanxd.codeapi.impl;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.EnumValue;
+import com.github.jonathanxd.codeapi.common.SwitchType;
+import com.github.jonathanxd.codeapi.interfaces.Case;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 /**
- * Created by jonathan on 03/09/16.
+ * @see Switch
  */
-@GenerateTo(EnumValue.class)
-public class EnumValueImpl implements EnumValue {
+@GenerateTo(Switch.class)
+public class SwitchImpl implements Switch {
 
-    private final CodeType enumType;
-    private final String entry;
-    private final int ordinal;
+    private final SwitchType switchType;
+    private final Typed at;
+    private final List<Case> cases;
 
-    public EnumValueImpl(CodeType enumType, String entry) {
-        this(enumType, entry, -1);
-    }
-
-    public EnumValueImpl(CodeType enumType, String entry, int ordinal) {
-        this.enumType = enumType;
-        this.entry = entry;
-        this.ordinal = ordinal;
+    public SwitchImpl(SwitchType switchType, Typed at, List<Case> cases) {
+        this.switchType = switchType;
+        this.at = at;
+        this.cases = cases == null ? Collections.emptyList() : Collections.unmodifiableList(cases);
     }
 
     @Override
-    public EnumValueImpl setName(String name) {
-        return this.setEnumValue(name);
+    public SwitchType getSwitchType() {
+        return this.switchType;
     }
 
     @Override
-    public EnumValueImpl setType(CodeType codeType) {
-        return this.setEnumType(codeType);
+    public Switch setSwitchType(SwitchType switchType) {
+        return new SwitchImpl(switchType, (Typed) this.getValue().orElse(null), this.getCases());
     }
 
     @Override
-    public CodeType getEnumType() {
-        return this.enumType;
+    public List<Case> getCases() {
+        return this.cases;
     }
 
     @Override
-    public EnumValueImpl setEnumType(CodeType codeType) {
-        return new EnumValueImpl(codeType, this.getEnumValue(), this.getOrdinal());
+    public Switch setCases(List<Case> caseList) {
+        return new SwitchImpl(this.getSwitchType(), (Typed) this.getValue().orElse(null), caseList);
     }
 
     @Override
-    public String getEnumValue() {
-        return this.entry;
+    public Optional<CodePart> getValue() {
+        return Optional.ofNullable(this.at);
     }
 
     @Override
-    public EnumValueImpl setEnumValue(String entry) {
-        return new EnumValueImpl(this.getEnumType(), entry, this.getOrdinal());
+    public Switch setValue(CodePart value) {
+        return new SwitchImpl(this.getSwitchType(), (Typed) value, this.getCases());
     }
 
     @Override
-    public int getOrdinal() {
-        return this.ordinal;
+    public Optional<CodeType> getType() {
+        return ((Typed) this.getValue().orElseThrow(NullPointerException::new)).getType();
     }
 
     @Override
-    public EnumValue setOrdinal(int ordinal) {
-        return new EnumValueImpl(this.getEnumType(), this.getEnumValue(), ordinal);
+    public Switch setType(CodeType codeType) {
+        return this.setValue(((Typed) this.getValue().orElseThrow(NullPointerException::new)).setType(codeType));
     }
+
 }

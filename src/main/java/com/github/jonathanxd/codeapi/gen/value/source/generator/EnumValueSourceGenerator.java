@@ -55,8 +55,13 @@ public class EnumValueSourceGenerator implements ValueGenerator<EnumValue, Strin
     public List<Value<?, String, PlainSourceGenerator>> gen(EnumValue enumValue, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(TargetValue.create(CodeType.class, enumValue.getEnumType(), parents));
-        values.add(PlainValue.create("."));
+        CodeType enumType = enumValue.getEnumType();
+
+        if(enumType != null) {
+            values.add(TargetValue.create(CodeType.class, enumType, parents));
+            values.add(PlainValue.create("."));
+        }
+
         values.add(PlainValue.create(enumValue.getEnumValue()));
 
 

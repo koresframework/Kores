@@ -27,31 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
-import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.Extender;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
@@ -59,14 +49,12 @@ import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -75,145 +63,15 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
     public static final CodeMethodVisitor INSTANCE = new CodeMethodVisitor();
 
-    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, MVData mvData) {
 
-        if (searchInitThis(typeDeclaration, methodBody)) {
-            // Calling this() will redirect to a constructor that initialize variables
-            // This check is very limited because at bytecode level it is fully allowed:
-            // if(x) {
-            //   this(); /* no initialization needed */
-            // } else {
-            //   // Initialization needed, but CodeAPI will not generate the initialization
-            //   // because cannot analyze control flow.
-            // }
-            return;
-        }
-
-        /**
-         * Declare variables
-         */
-        Collection<FieldDeclaration> all = CodeSourceUtil.find(
-                typeDeclaration.getBody().orElseThrow(NullPointerException::new),
-                codePart ->
-                        codePart instanceof CodeField
-                                && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
-                                && ((CodeField) codePart).getValue().isPresent(),
-                codePart -> (CodeField) codePart);
-
-        for (FieldDeclaration codeField : all) {
-
-            Optional<CodePart> valueOpt = codeField.getValue();
-
-            if (valueOpt.isPresent()) {
-                CodePart value = valueOpt.get();
-
-                Label labeln = new Label();
-
-                mv.visitLabel(labeln);
-                mv.visitVarInsn(ALOAD, 0);
-                visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
-
-                mv.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
-            }
-
-        }
-    }
-
-    public static CodeSource finalFieldsToSource(CodeSource classSource, MapData extraData) {
-        MutableCodeSource codeSource = new MutableCodeSource();
-
-        /**
-         * Declare variables
-         */
-        Collection<FieldDeclaration> all = CodeSourceUtil.find(
-                classSource,
-                codePart ->
-                        codePart instanceof CodeField
-                                && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
-                                && ((CodeField) codePart).getValue().isPresent(),
-                codePart -> (CodeField) codePart);
-
-        for (FieldDeclaration codeField : all) {
-
-            CodeType type = codeField.getVariableType();
-            String name = codeField.getName();
-            Optional<CodePart> value = codeField.getValue();
-
-            if (value.isPresent()) {
-                codeSource.add(Helper.setThisVariable(name, type, value.get()));
-            }
-        }
-
-        return codeSource;
-    }
-
-    public static void generateSuperInvoke(TypeDeclaration typeDeclaration, MethodVisitor mv) {
-        mv.visitVarInsn(ALOAD, 0);
-
-        CodeType superType = ((Extender) typeDeclaration).getSuperType().orElse(null);
-        if (superType == null) {
-            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-        } else {
-            mv.visitMethodInsn(INVOKESPECIAL, Common.codeTypeToSimpleAsm(superType), "<init>", "()V", false);
-        }
-    }
-
-    public static boolean isInitForThat(TypeDeclaration typeDeclaration, MethodInvocation methodInvocation) {
-        boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
-
-        boolean accept = (methodInvocation.getTarget().orElse(null) instanceof AccessThis || methodInvocation.getTarget().orElse(null) instanceof AccessSuper);
-
-        return any
-                && accept
-                && methodInvocation.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
-
-                && methodInvocation.getSpec().getMethodName().equals("<init>");
-
-    }
-
-    public static boolean searchForInitTo(TypeDeclaration typeDeclaration, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {
-        if (codeParts == null)
-            return false;
-
-        for (CodePart codePart : codeParts) {
-            if (codePart instanceof Bodied) {
-                if (searchForSuper(typeDeclaration, ((Bodied) codePart).getBody().orElse(null))) {
-                    return true;
-                }
-            }
-
-            if (codePart instanceof MethodInvocation) {
-                MethodInvocation mi = (MethodInvocation) codePart;
-
-                boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> mi.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
-
-                if (any
-                        && targetAccessPredicate.test(mi.getTarget().orElse(null))
-                        && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
-
-                        && mi.getSpec().getMethodName().equals("<init>")) {
-                    return true;
-                }
-            }
-
-        }
-
-        return false;
-    }
-
-    public static boolean searchInitThis(TypeDeclaration typeDeclaration, CodeSource codeParts) {
-        return searchForInitTo(typeDeclaration, codeParts, codePart -> codePart instanceof AccessThis);
-    }
-
-    public static boolean searchForSuper(TypeDeclaration typeDeclaration, CodeSource codeParts) {
-        return searchForInitTo(typeDeclaration, codeParts, codePart -> codePart instanceof AccessSuper);
-    }
 
     @Override
     public void voidVisit(MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
-        boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
+        boolean validateSuper = visitorGenerator.getOptions().getOrElse(CodeOptions.VALIDATE_SUPER, true);
+        boolean validateThis = visitorGenerator.getOptions().getOrElse(CodeOptions.VALIDATE_THIS, true);
 
+        boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
 
         TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'!");
 
@@ -233,8 +91,6 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
         String asmParameters = Common.parametersToAsm(parameters);
 
 
-        // Important: Method Visitor
-
         String signature = Common.methodGenericSignature(codeMethod);
 
         String methodName = codeMethod.getName();
@@ -245,9 +101,7 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
         org.objectweb.asm.MethodVisitor mv = cw.visitMethod(asmModifiers, methodName, "(" + asmParameters + ")" + codeMethod.getReturnType().orElse(PredefinedTypes.VOID).getJavaSpecName(), signature, null);
 
-        //mv.visitVarInsn(ALOAD, 1);
         final List<Variable> vars = new ArrayList<>();
-
 
         if (modifiers.contains(CodeModifier.STATIC)) {
             Common.parametersToVars(parameters,/* to */ vars);
@@ -278,22 +132,20 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
             boolean isGenerated = false;
 
             if (typeDeclaration instanceof ClassDeclaration && isConstructor) {
-                if (!searchForSuper(typeDeclaration, methodSource)) {
-                    CodeMethodVisitor.generateSuperInvoke(typeDeclaration, mv);
+                if (!Common.searchForSuper(typeDeclaration, methodSource, validateSuper)) {
+                    Common.generateSuperInvoke(typeDeclaration, mv);
                     isGenerated = true;
                 }
             }
 
             if (isConstructor) {
                 if (isGenerated) {
-                    CodeMethodVisitor.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, mvData);
+                    Common.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, mvData, validateThis);
                 } else {
-
-
                     methodSource =
                             CodeSourceUtil.insertAfter(
-                                    part -> part instanceof MethodInvocation && CodeMethodVisitor.isInitForThat(typeDeclaration, (MethodInvocation) part),
-                                    CodeMethodVisitor.finalFieldsToSource(typeDeclaration.getBody().orElseThrow(NullPointerException::new), extraData),
+                                    part -> part instanceof MethodInvocation && Common.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                    Common.finalFieldsToSource(typeDeclaration.getBody().orElseThrow(NullPointerException::new)),
                                     methodSource);
                 }
             }
@@ -327,5 +179,7 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
         mv.visitEnd();
     }
+
+
 
 }

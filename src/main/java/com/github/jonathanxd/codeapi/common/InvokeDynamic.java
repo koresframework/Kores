@@ -185,7 +185,7 @@ public class InvokeDynamic {
                     FullInvokeSpec invokeSpec = (FullInvokeSpec) arg;
 
                     converted = new Handle(InvokeType.toAsm_H(invokeSpec.getInvokeType()),
-                            Common.codeTypeToSimpleAsm(invokeSpec.getLocation()),
+                            Common.codeTypeToSimpleAsm(invokeSpec.getLocalization()),
                             invokeSpec.getMethodName(),
                             Common.typeSpecToAsm(invokeSpec),
                             invokeSpec.getInvokeType() == InvokeType.INVOKE_INTERFACE);

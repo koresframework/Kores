@@ -72,11 +72,7 @@ public class MethodInvocationSourceGenerator implements ValueGenerator<MethodInv
 
         Optional<InvokeDynamic> invokeDynamicOpt = methodInvocationImpl.getInvokeDynamic();
 
-        CodePart target = methodInvocationImpl.getTarget().orElse(null);
         MethodSpecification spec = methodInvocationImpl.getSpec();
-        InvokeType invokeType = methodInvocationImpl.getInvokeType();
-
-        CodeType localization = methodInvocationImpl.getLocalization().orElse(null);
 
         final String METHOD_SEPARATOR;
 
@@ -146,14 +142,10 @@ public class MethodInvocationSourceGenerator implements ValueGenerator<MethodInv
 
         if (Util.isBody(parents)) {
             values.add(PlainValue.create(";"));
-        } else {
-            debug();
         }
 
         return values;
     }
 
 
-    private void debug() {
-    }
 }

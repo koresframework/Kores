@@ -28,71 +28,38 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
-/**
- * Enum value of a {@link Annotation} property.
- */
-public interface EnumValue extends Named, Typed, CodePart {
+public interface Case extends Valuable, Typed, Bodied, CodePart {
 
     @Override
-    default String getName() {
-        return this.getEnumValue();
-    }
+    Optional<CodePart> getValue();
 
     @Override
-    EnumValue setName(String name);
+    Case setValue(CodePart value);
 
     @Override
     default Optional<CodeType> getType() {
-        return Optional.ofNullable(this.getEnumType());
+        Optional<CodePart> value = this.getValue();
+
+        if (!value.isPresent())
+            return Optional.empty();
+
+        return ((Typed) value.get()).getType();
     }
 
     @Override
-    EnumValue setType(CodeType codeType);
+    default Case setType(CodeType codeType) {
+        return this.setValue(this.getValue().map(codePart -> ((Typed) codePart).setType(codeType)).orElse(null));
+    }
 
-    /**
-     * Gets the type of enum.
-     *
-     * @return Type of enum.
-     */
-    CodeType getEnumType();
+    @Override
+    Case setBody(CodeSource body);
 
-    /**
-     * Sets the type of enum.
-     *
-     * @param codeType Type of enum.
-     * @return new instance.
-     */
-    EnumValue setEnumType(CodeType codeType);
-
-    /**
-     * Gets the enum entry name.
-     *
-     * @return Enum entry name.
-     */
-    String getEnumValue();
-
-    /**
-     * Sets the enum entry name.
-     *
-     * @param entry Enum entry name.
-     * @return new instance.
-     */
-    EnumValue setEnumValue(String entry);
-
-    /**
-     * Gets the ordinal value.
-     * @return Ordinal value.
-     */
-    int getOrdinal();
-
-    /**
-     * Sets the ordinal value.
-     * @param ordinal Ordinal value.
-     * @return new instance.
-     */
-    EnumValue setOrdinal(int ordinal);
+    default boolean isDefault() {
+        return !this.getValue().isPresent();
+    }
 }

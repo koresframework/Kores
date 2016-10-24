@@ -25,74 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.SwitchTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Optional;
+import org.junit.Test;
 
-/**
- * Enum value of a {@link Annotation} property.
- */
-public interface EnumValue extends Named, Typed, CodePart {
+public class SwitchSourceTest {
 
-    @Override
-    default String getName() {
-        return this.getEnumValue();
+    @Test
+    public void switchTest() {
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = SwitchTest_.$();
+
+        SourceTest test = CommonSourceTest.test($._2());
+
+        test.consume(System.out::println);
     }
 
-    @Override
-    EnumValue setName(String name);
-
-    @Override
-    default Optional<CodeType> getType() {
-        return Optional.ofNullable(this.getEnumType());
-    }
-
-    @Override
-    EnumValue setType(CodeType codeType);
-
-    /**
-     * Gets the type of enum.
-     *
-     * @return Type of enum.
-     */
-    CodeType getEnumType();
-
-    /**
-     * Sets the type of enum.
-     *
-     * @param codeType Type of enum.
-     * @return new instance.
-     */
-    EnumValue setEnumType(CodeType codeType);
-
-    /**
-     * Gets the enum entry name.
-     *
-     * @return Enum entry name.
-     */
-    String getEnumValue();
-
-    /**
-     * Sets the enum entry name.
-     *
-     * @param entry Enum entry name.
-     * @return new instance.
-     */
-    EnumValue setEnumValue(String entry);
-
-    /**
-     * Gets the ordinal value.
-     * @return Ordinal value.
-     */
-    int getOrdinal();
-
-    /**
-     * Sets the ordinal value.
-     * @param ordinal Ordinal value.
-     * @return new instance.
-     */
-    EnumValue setOrdinal(int ordinal);
 }

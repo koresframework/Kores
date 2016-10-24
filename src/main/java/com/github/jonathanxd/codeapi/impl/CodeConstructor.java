@@ -49,7 +49,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 07/05/16.
  */
-@GenerateTo(MethodDeclaration.class)
+@GenerateTo(ConstructorDeclaration.class)
 public class CodeConstructor extends CodeMethod implements ConstructorDeclaration {
 
     public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeSource body) {

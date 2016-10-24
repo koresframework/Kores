@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
@@ -42,6 +43,7 @@ import java.util.Optional;
 /**
  * Declaration of a constructor.
  */
+@GenerateTo(ConstructorDeclaration.class)
 public interface ConstructorDeclaration extends MethodDeclaration {
 
     @Override

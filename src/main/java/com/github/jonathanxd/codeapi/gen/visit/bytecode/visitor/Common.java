@@ -27,23 +27,38 @@
  */
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
+import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
+import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.ClassType;
@@ -51,10 +66,14 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.iutils.option.Options;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -68,8 +87,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 import java.util.StringJoiner;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -749,6 +770,62 @@ public class Common {
             throw new IllegalArgumentException("Cannot cast '" + from + "' to '" + to + "'!");
     }
 
+    public static void visitLambdaInvocation(InvokeDynamic.LambdaMethodReference lambdaDynamic,
+                                             InvokeType invokeType,
+                                             CodeType localization,
+                                             MethodSpecification spec,
+                                             MethodVisitor mv) {
+
+        FullMethodSpec methodSpec = lambdaDynamic.getMethodSpec();
+        TypeSpec expectedTypes = lambdaDynamic.getExpectedTypes();
+
+        Handle metafactory = new Handle(Opcodes.H_INVOKESTATIC,
+                "java/lang/invoke/LambdaMetafactory",
+                "metafactory",
+                "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+                false);
+
+        Object[] objects = {
+                Type.getType(Common.fullSpecToFullAsm(methodSpec)),
+                new Handle(/*Opcodes.H_INVOKEINTERFACE*/ InvokeType.toAsm_H(invokeType),
+                        Common.codeTypeToSimpleAsm(localization),
+                        spec.getMethodName(),
+                        Common.typeSpecToAsm(spec.getMethodDescription()),
+                        invokeType == InvokeType.INVOKE_INTERFACE),
+
+                Type.getType(Common.fullSpecToFullAsm(expectedTypes))
+        };
+
+        String local = "("
+                + (invokeType != InvokeType.INVOKE_STATIC ? Common.codeTypeToFullAsm(localization) : "")
+                + ")" + Common.codeTypeToFullAsm(methodSpec.getLocalization());
+
+        mv.visitInvokeDynamicInsn(methodSpec.getMethodName(), local, metafactory, objects);
+
+
+    }
+
+    public static void visitBootstrapInvocation(InvokeDynamic.Bootstrap bootstrap, MethodSpecification spec, MethodVisitor mv) {
+        Handle handle = Common.toHandle(bootstrap);
+
+        mv.visitInvokeDynamicInsn(spec.getMethodName(), Common.typeSpecToAsm(spec.getMethodDescription()), handle, bootstrap.toAsmArguments());
+    }
+
+    public static Handle toHandle(InvokeDynamic.Bootstrap bootstrap) {
+        FullMethodSpec bootstrapMethodSpec = bootstrap.getMethodSpec();
+        InvokeType btpInvokeType = bootstrap.getInvokeType();
+
+        String methodName = bootstrapMethodSpec.getMethodName();
+        CodeType bsmLocalization = bootstrapMethodSpec.getLocalization();
+
+        return new Handle(InvokeType.toAsm_H(btpInvokeType),
+                Common.codeTypeToSimpleAsm(bsmLocalization),
+                methodName,
+                Common.fullSpecToFullAsm(bootstrapMethodSpec),
+                btpInvokeType.isInterface());
+    }
+
+
     public static void visitAnnotation(Annotation annotation, AnnotationVisitorCapable annotationVisitorCapable) {
         String annotationTypeAsm = Common.codeTypeToFullAsm(annotation.getType().orElseThrow(NullPointerException::new));
         org.objectweb.asm.AnnotationVisitor annotationVisitor = annotationVisitorCapable.visitAnnotation(annotationTypeAsm, annotation.isVisible());
@@ -805,5 +882,188 @@ public class Common {
         }
 
         annotationVisitor.visit(key, value);
+    }
+
+
+
+
+    //////////////////////////////////////////////////
+    //              Find Super or This              //
+    //////////////////////////////////////////////////
+
+    public static boolean isInitForThat(TypeDeclaration typeDeclaration, MethodInvocation methodInvocation) {
+        boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
+
+        boolean accept = (methodInvocation.getTarget().orElse(null) instanceof AccessThis || methodInvocation.getTarget().orElse(null) instanceof AccessSuper);
+
+        return any
+                && accept
+                && methodInvocation.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
+
+                && methodInvocation.getSpec().getMethodName().equals("<init>");
+
+    }
+
+    public static SearchResult searchForInitTo(TypeDeclaration typeDeclaration, CodeSource codeParts, Predicate<CodePart> targetAccessPredicate) {
+        return Common.searchForInitTo(typeDeclaration, codeParts, true, targetAccessPredicate, false);
+    }
+
+    public static SearchResult searchForInitTo(TypeDeclaration typeDeclaration, CodeSource codeParts, boolean includeChild, Predicate<CodePart> targetAccessPredicate, boolean isSub) {
+        if (codeParts == null)
+            return SearchResult.FALSE;
+
+        for (CodePart codePart : codeParts) {
+            if ((codePart instanceof Bodied && includeChild)) {
+                SearchResult searchResult = searchForInitTo(typeDeclaration, ((Bodied) codePart).getBody().orElse(null), includeChild, targetAccessPredicate, true);
+
+                if(searchResult.found)
+                    return searchResult;
+
+            }
+
+            if(codePart instanceof CodeSource) { // Another CodeSource is part of the Enclosing Source
+                SearchResult searchResult = searchForInitTo(typeDeclaration, ((CodeSource) codePart), includeChild, targetAccessPredicate, true);
+
+                if(searchResult.found)
+                    return searchResult;
+            }
+
+            if (codePart instanceof MethodInvocation) {
+                MethodInvocation mi = (MethodInvocation) codePart;
+
+                boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> mi.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
+
+                if (any
+                        && targetAccessPredicate.test(mi.getTarget().orElse(null))
+                        && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
+
+                        && mi.getSpec().getMethodName().equals("<init>")) {
+                    return new SearchResult(true, isSub);
+                }
+            }
+
+        }
+
+        return SearchResult.FALSE;
+    }
+
+    public static boolean searchInitThis(TypeDeclaration typeDeclaration, CodeSource codeParts, boolean validate) {
+        SearchResult searchResult = Common.searchForInitTo(typeDeclaration, codeParts, !validate, codePart -> codePart instanceof AccessThis, false);
+
+        if(validate)
+            searchResult = Common.validateConstructor(searchResult);
+
+        return searchResult.found;
+    }
+
+    public static boolean searchForSuper(TypeDeclaration typeDeclaration, CodeSource codeParts, boolean validate) {
+        SearchResult searchResult = Common.searchForInitTo(typeDeclaration, codeParts, !validate, codePart -> codePart instanceof AccessSuper, false);
+
+        if(validate)
+            searchResult = Common.validateConstructor(searchResult);
+
+        return searchResult.found;
+    }
+
+    public static SearchResult validateConstructor(SearchResult searchResult) {
+        if(searchResult.foundOnSub)
+            throw new IllegalArgumentException("Don't invoke super() or this() inside a Bodied Element.");
+
+        return searchResult;
+    }
+
+    static final class SearchResult {
+        public final boolean found;
+        public final boolean foundOnSub;
+
+        public static final SearchResult FALSE = new SearchResult(false, false);
+
+        private SearchResult(boolean found, boolean foundOnSub) {
+            this.found = found;
+            this.foundOnSub = foundOnSub;
+        }
+    }
+
+
+    public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, MVData mvData, boolean validate) {
+
+        if (Common.searchInitThis(typeDeclaration, methodBody, validate)) {
+            return;
+        }
+
+        /**
+         * Declare variables
+         */
+        Collection<FieldDeclaration> all = CodeSourceUtil.find(
+                typeDeclaration.getBody().orElseThrow(NullPointerException::new),
+                codePart ->
+                        codePart instanceof CodeField
+                                && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
+                                && ((CodeField) codePart).getValue().isPresent(),
+                codePart -> (CodeField) codePart);
+
+
+        Label label = new Label();
+        mv.visitLabel(label);
+
+        for (FieldDeclaration codeField : all) {
+
+            Optional<CodePart> valueOpt = codeField.getValue();
+
+            if (valueOpt.isPresent()) {
+                CodePart value = valueOpt.get();
+                // No visitor overhead.
+                mv.visitVarInsn(Opcodes.ALOAD, 0);
+
+                visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
+
+                // No visitor overhead.
+                mv.visitFieldInsn(Opcodes.PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(codeField.getType().get()));
+            }
+
+        }
+    }
+
+
+    public static void generateSuperInvoke(TypeDeclaration typeDeclaration, MethodVisitor mv) {
+        mv.visitVarInsn(Opcodes.ALOAD, 0);
+
+        CodeType superType = ((Extender) typeDeclaration).getSuperType().orElse(null);
+
+        if (superType == null) {
+            // No visitor overhead.
+            mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+        } else {
+            // No visitor overhead.
+            mv.visitMethodInsn(Opcodes.INVOKESPECIAL, Common.codeTypeToSimpleAsm(superType), "<init>", "()V", false);
+        }
+    }
+
+    public static CodeSource finalFieldsToSource(CodeSource classSource) {
+        MutableCodeSource codeSource = new MutableCodeSource();
+
+        /**
+         * Declare variables
+         */
+        Collection<FieldDeclaration> all = CodeSourceUtil.find(
+                classSource,
+                codePart ->
+                        codePart instanceof CodeField
+                                && !((CodeField) codePart).getModifiers().contains(CodeModifier.STATIC)
+                                && ((CodeField) codePart).getValue().isPresent(),
+                codePart -> (CodeField) codePart);
+
+        for (FieldDeclaration codeField : all) {
+
+            CodeType type = codeField.getVariableType();
+            String name = codeField.getName();
+            Optional<CodePart> value = codeField.getValue();
+
+            if (value.isPresent()) {
+                codeSource.add(Helper.setThisVariable(name, type, value.get()));
+            }
+        }
+
+        return codeSource;
     }
 }

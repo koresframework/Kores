@@ -27,39 +27,67 @@
  */
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.SwitchType;
+import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Break;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Case;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class BreakSourceGenerator implements ValueGenerator<Break, String, PlainSourceGenerator> {
+public class SwitchSourceGenerator implements ValueGenerator<Switch, String, PlainSourceGenerator> {
 
-    public static final BreakSourceGenerator INSTANCE = new BreakSourceGenerator();
+    public static final SwitchSourceGenerator INSTANCE = new SwitchSourceGenerator();
 
-    private BreakSourceGenerator() {
+    private SwitchSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Break aBreak, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Switch aSwitch, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(PlainValue.create("break"));
+        SwitchType switchType = aSwitch.getSwitchType();
 
-        if (Util.isBody(parents)) {
-            values.add(PlainValue.create(";"));
+        CodePart value = aSwitch.getValue().orElseThrow(NullPointerException::new);
+        CodeType valueType = aSwitch.getType().orElseThrow(NullPointerException::new);
+
+        if(switchType != SwitchTypes.NUMERIC
+                && switchType != SwitchTypes.ENUM
+                && !valueType.is(PredefinedTypes.STRING)) {
+
+            values.add(CodeSourceValue.create(switchType.getGenerator().generate(aSwitch), parents));
+        } else {
+            values.add(PlainValue.create("switch"));
+            values.add(PlainValue.create("("));
+            values.add(TargetValue.create(value, parents));
+            values.add(PlainValue.create(")"));
+
+            values.add(PlainValue.create("{"));
+
+            for (Case aCase : aSwitch.getCases()) {
+                values.add(TargetValue.create(Case.class, aCase, parents));
+            }
+
+            values.add(PlainValue.create("}"));
         }
+
 
         return values;
     }

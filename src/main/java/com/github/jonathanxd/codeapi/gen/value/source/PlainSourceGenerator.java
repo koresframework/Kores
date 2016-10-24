@@ -44,6 +44,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.ArrayLoadSourceG
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ArrayStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.BodiedSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.BreakSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.CaseSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.CastedPartSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.CatchBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ClassTypeSourceGenerator;
@@ -82,6 +83,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.ReturnableSource
 import com.github.jonathanxd.codeapi.gen.value.source.generator.SimpleWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.StaticBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.SugarSyntaxGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.SwitchSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.TagLineSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ThrowExceptionGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.TryBlockSourceGenerator;
@@ -104,8 +106,10 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.Break;
+import com.github.jonathanxd.codeapi.interfaces.Case;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
@@ -131,6 +135,7 @@ import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.Returnable;
 import com.github.jonathanxd.codeapi.interfaces.SimpleWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
@@ -190,7 +195,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(StaticBlock.class, StaticBlockSourceGenerator.INSTANCE);
         register(ForBlock.class, ForBlockSourceGenerator.INSTANCE);
         register(Access.class, AccessSourceGenerator.INSTANCE);
-        //register(CodeClass.class, ClassSourceGenerator.INSTANCE);
+        registerSuper(ConstructorDeclaration.class, MethodSourceGenerator.INSTANCE);
         register(Extender.class, ExtenderSourceGenerator.INSTANCE);
         register(PackageDeclaration.class, PackageDeclarationSourceGenerator.INSTANCE);
         register(ThrowException.class, ThrowExceptionGenerator.INSTANCE);
@@ -245,6 +250,10 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         // Control flow.
         register(Break.class, BreakSourceGenerator.INSTANCE);
         register(Continue.class, ContinueSourceGenerator.INSTANCE);
+
+        // Switch & Case
+        register(Switch.class, SwitchSourceGenerator.INSTANCE);
+        register(Case.class, CaseSourceGenerator.INSTANCE);
     }
 
     @SuppressWarnings("deprecation")

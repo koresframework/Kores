@@ -27,39 +27,63 @@
  */
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.SwitchType;
+import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Break;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Case;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class BreakSourceGenerator implements ValueGenerator<Break, String, PlainSourceGenerator> {
+public class CaseSourceGenerator implements ValueGenerator<Case, String, PlainSourceGenerator> {
 
-    public static final BreakSourceGenerator INSTANCE = new BreakSourceGenerator();
+    public static final CaseSourceGenerator INSTANCE = new CaseSourceGenerator();
 
-    private BreakSourceGenerator() {
+    private CaseSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Break aBreak, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+    public List<Value<?, String, PlainSourceGenerator>> gen(Case aCase, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
         List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
 
-        values.add(PlainValue.create("break"));
+        Optional<CodePart> valueOpt = aCase.getValue();
 
-        if (Util.isBody(parents)) {
-            values.add(PlainValue.create(";"));
+
+        if(aCase.isDefault()) {
+            values.add(PlainValue.create("default"));
+        } else {
+            values.add(PlainValue.create("case"));
         }
+
+        if(valueOpt.isPresent()) {
+            CodePart value = valueOpt.get();
+
+            values.add(TargetValue.create(value, parents));
+        }
+
+        values.add(PlainValue.create(":"));
+
+        values.add(TargetValue.create(CodeSource.class, aCase.getBody().orElseThrow(NullPointerException::new), parents));
+
+
 
         return values;
     }

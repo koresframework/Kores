@@ -42,6 +42,8 @@ import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.common.SwitchType;
+import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
@@ -70,6 +72,7 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.Break;
+import com.github.jonathanxd.codeapi.interfaces.Case;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
@@ -85,9 +88,11 @@ import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.Return;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
@@ -1121,6 +1126,19 @@ public final class CodeAPI {
     }
 
     /**
+     * Invoke a static method in current TypeDeclaration.
+     *
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of static method.
+     */
+    public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, null, null,
+                spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
+    }
+
+    /**
      * Invoke a instance method.
      *
      * @param localization      Localization of the method.
@@ -1132,6 +1150,32 @@ public final class CodeAPI {
      */
     public static MethodInvocation invokeVirtual(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, localization, target,
+                spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
+    }
+
+    /**
+     * Invoke a instance method of current type declaration.
+     *
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of instance method.
+     */
+    public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, null, CodeAPI.accessThis(),
+                spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
+    }
+
+    /**
+     * Invoke a interface method of current type declaration.
+     *
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of interface method.
+     */
+    public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, null, CodeAPI.accessThis(),
                 spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
     }
 
@@ -1282,19 +1326,6 @@ public final class CodeAPI {
      * @param fieldType Type of the field.
      * @param name      Name of the field.
      * @return Access to a static field.
-     * @deprecated Incorrect behavior
-     */
-    @Deprecated
-    public static VariableAccess accessStaticThisField(CodeType fieldType, String name) {
-        return accessField__Factory(null, Helper.accessThis(), fieldType, name);
-    }
-
-    /**
-     * Access a static field of current class.
-     *
-     * @param fieldType Type of the field.
-     * @param name      Name of the field.
-     * @return Access to a static field.
      */
     public static VariableAccess accessStaticField(CodeType fieldType, String name) {
         return accessField__Factory(null, null, fieldType, name);
@@ -1348,19 +1379,6 @@ public final class CodeAPI {
     }
 
     // Class
-
-    /**
-     * Access a static field of current class.
-     *
-     * @param fieldType Type of the field.
-     * @param name      Name of the field.
-     * @return Access to a static field.
-     * @deprecated Incorrect behavior
-     */
-    @Deprecated
-    public static VariableAccess accessStaticThisField(Class<?> fieldType, String name) {
-        return accessField__Factory(null, Helper.accessThis(), Helper.getJavaType(fieldType), name);
-    }
 
     /**
      * Access a static field of current class.
@@ -1782,7 +1800,7 @@ public final class CodeAPI {
     }
 
     // =========================================================
-    //          Annotations Enum Values
+    //          Annotations & Case Enum Values
     // =========================================================
 
     /**
@@ -1805,6 +1823,16 @@ public final class CodeAPI {
      */
     public static EnumValue enumValue(CodeType enumType, String entry) {
         return enumValue__factory(enumType, entry);
+    }
+
+    /**
+     * EnumValue in Case check.
+     *
+     * @param entry    Enum entry (aka Field)
+     * @return Enum value
+     */
+    public static EnumValue enumValue(String entry) {
+        return enumValue__factory(null, entry);
     }
 
     // Factory
@@ -2621,6 +2649,49 @@ public final class CodeAPI {
     private static MethodFragment fragment__factory(CodeInterface codeInterface, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
         return Helper.methodFragment(codeInterface, scope, returnType, parameters, arguments, body);
     }
+
+    // =========================================================
+    //          Switch & Case
+    // =========================================================
+
+    public static Switch switchInt(Typed value, Case... cases) {
+        return switch__factory(SwitchTypes.NUMERIC, value, ArrayToList.toList(cases));
+    }
+
+    public static Switch switchString(Typed value, Case... cases) {
+        return switch__factory(SwitchTypes.STRING, value, ArrayToList.toList(cases));
+    }
+
+    public static Switch switchEnum(Typed value, Case... cases) {
+        return switch__factory(SwitchTypes.ENUM, value, ArrayToList.toList(cases));
+    }
+
+    public static Switch switchObject(Typed value, Case... cases) {
+        return switch__factory(SwitchTypes.OBJECT, value, ArrayToList.toList(cases));
+    }
+
+    public static Switch switchDefined(SwitchType switchType, Typed value, Case... cases) {
+        return switch__factory(switchType, value, ArrayToList.toList(cases));
+    }
+
+    // Case
+    public static Case aCase(Typed value, CodeSource body) {
+        return case__factory(value, body);
+    }
+
+    public static Case caseDefault(CodeSource body) {
+        return case__factory(null, body);
+    }
+
+    // Factory
+    private static Switch switch__factory(SwitchType switchType, Typed value, List<Case> caseList) {
+        return Helper.aSwitch(switchType, value, caseList);
+    }
+
+    private static Case case__factory(Typed value, CodeSource body) {
+        return Helper.aCase(value, body);
+    }
+
 
     // =========================================================
     //          Utils
