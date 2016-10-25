@@ -25,47 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Case;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.test.SwitchTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Optional;
+import org.junit.Test;
 
-/**
- * @see Case
- */
-@GenerateTo(Case.class)
-public class CaseImpl implements Case {
+import java.lang.reflect.InvocationTargetException;
 
-    private final Typed value;
-    private final CodeSource body;
+public class SwitchTest {
 
-    public CaseImpl(Typed value, CodeSource body) {
-        this.value = value;
-        this.body = body;
+    @Test
+    public void switchTest() {
+
+        Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $ = SwitchTest_.$();
+
+        @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass -> {
+            try {
+                return aClass.getDeclaredConstructor(int.class, int.class, SwitchTest_.TestEnum.class, String.class, Object.class)
+                        .newInstance(3, 10, SwitchTest_.TestEnum.B, "AHEAD", new MyObj());
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                throw new RethrowException(e);
+            }
+        });
     }
 
-    @Override
-    public Optional<CodePart> getValue() {
-        return Optional.ofNullable(this.value);
-    }
-
-    @Override
-    public Case setValue(CodePart value) {
-        return new CaseImpl((Typed) value, this.getBody().orElse(null));
-    }
-
-    @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(body);
-    }
-
-    @Override
-    public Case setBody(CodeSource body) {
-        return new CaseImpl((Typed) this.getValue().orElse(null), body);
+    public static class MyObj {
+        @Override
+        public int hashCode() {
+            return 0;
+        }
     }
 }

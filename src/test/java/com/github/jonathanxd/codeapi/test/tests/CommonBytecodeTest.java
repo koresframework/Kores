@@ -79,7 +79,9 @@ public class CommonBytecodeTest {
 
             Class<?> define = bcLoader.define(type, bytecode);
 
-            if(first == null)
+            if(mainClass != null && type.is(mainClass))
+                first = define;
+            else if(first == null)
                 first = define;
         }
 

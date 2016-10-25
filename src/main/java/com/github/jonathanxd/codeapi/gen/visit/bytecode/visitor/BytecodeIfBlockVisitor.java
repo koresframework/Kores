@@ -31,14 +31,15 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -111,7 +112,13 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
                 visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, null, mvData);
 
-                Label lbl = jumpToStart ? ifStartLabel : !isInverse ? inIfLabel : (elseLabel == null ? outOfIfLabel : elseLabel); // Jump to else if exists
+                Label lbl;
+
+                if(ifBlock instanceof SwitchVisitor.SwitchIfBlock) { // Workaround ?
+                    lbl = extraData.getRequired(ConstantDatas.FLOW_TYPE_INFO).getInsideEnd();
+                } else {
+                    lbl = jumpToStart ? ifStartLabel : !isInverse ? inIfLabel : (elseLabel == null ? outOfIfLabel : elseLabel); // Jump to else if exists
+                }
 
                 if (expr2 == Literals.NULL) {
                     additional.visitJumpInsn(Operators.nullCheckToAsm(ifExpr.getOperation(), isInverse), lbl);

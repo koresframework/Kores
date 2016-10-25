@@ -34,23 +34,23 @@ import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.iutils.data.MapData;
 
-public class SugarSyntaxVisitor<T extends CodePart, V> implements VoidVisitor<T, V, Object> {
+public class SugarSyntaxVisitor<T extends CodePart, R extends CodePart, V> implements VoidVisitor<T, V, Object> {
 
-    private final SugarSyntax<T> sugarSyntax;
+    private final SugarSyntax<T, R> sugarSyntax;
 
-    public SugarSyntaxVisitor(SugarSyntax<T> sugarSyntax) {
+    public SugarSyntaxVisitor(SugarSyntax<T, R> sugarSyntax) {
         this.sugarSyntax = sugarSyntax;
     }
 
     @Override
     public void voidVisit(T t, MapData extraData, VisitorGenerator<V> visitorGenerator, Object additional) {
 
-        CodeSource generated = this.getSugarSyntax().getGenerator().generate(t);
+        CodePart generated = this.getSugarSyntax().getGenerator().generate(t);
 
         visitorGenerator.generateTo(generated.getClass(), generated, extraData, null);
     }
 
-    public SugarSyntax<T> getSugarSyntax() {
+    public SugarSyntax<T, R> getSugarSyntax() {
         return this.sugarSyntax;
     }
 }

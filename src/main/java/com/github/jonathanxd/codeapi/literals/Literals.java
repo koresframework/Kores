@@ -278,9 +278,15 @@ public final class Literals {
 
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
+        private final String original;
+
         QuotedStringLiteral(String name) {
             super('"' + name + '"', TYPE);
+            this.original = name;
         }
 
+        public String getOriginal() {
+            return this.original;
+        }
     }
 }

@@ -41,11 +41,11 @@ import com.github.jonathanxd.iutils.data.MapData;
 import java.util.Collections;
 import java.util.List;
 
-public class SugarSyntaxGenerator<T extends CodePart> implements ValueGenerator<T, String, PlainSourceGenerator> {
+public class SugarSyntaxGenerator<T extends CodePart, E extends CodePart> implements ValueGenerator<T, String, PlainSourceGenerator> {
 
-    private final SugarSyntax<T> sugarSyntax;
+    private final SugarSyntax<T, E> sugarSyntax;
 
-    public SugarSyntaxGenerator(SugarSyntax<T> sugarSyntax) {
+    public SugarSyntaxGenerator(SugarSyntax<T, E> sugarSyntax) {
         this.sugarSyntax = sugarSyntax;
     }
 
@@ -53,12 +53,12 @@ public class SugarSyntaxGenerator<T extends CodePart> implements ValueGenerator<
     public List<Value<?, String, PlainSourceGenerator>> gen(T part, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
 
-        CodeSource generated = this.getSugarSyntax().getGenerator().generate(part);
+        CodePart generated = this.getSugarSyntax().getGenerator().generate(part);
 
         return Collections.singletonList(TargetValue.create(generated.getClass(), generated, parents));
     }
 
-    public SugarSyntax<T> getSugarSyntax() {
+    public SugarSyntax<T, E> getSugarSyntax() {
         return this.sugarSyntax;
     }
 }

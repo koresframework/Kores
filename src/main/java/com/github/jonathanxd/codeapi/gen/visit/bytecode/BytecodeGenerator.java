@@ -43,6 +43,7 @@ import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.MethodFragmentVi
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.OperateVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.PackageVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.StaticBlockVisitor;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.SwitchVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TagLineVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TryBlockVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TypeVisitor;
@@ -75,6 +76,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
+import com.github.jonathanxd.codeapi.interfaces.Switch;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
@@ -168,6 +170,7 @@ public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
         addVisitor(IfExpr.class, new IfExprVisitor()); /* Sugar Syntax to a IfBlock */
         addVisitor(Break.class, new BreakVisitor());
         addVisitor(Continue.class, new ContinueVisitor());
+        addVisitor(Switch.class, new SwitchVisitor());
     }
 
     public BytecodeGenerator() {

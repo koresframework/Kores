@@ -35,14 +35,16 @@ import com.github.jonathanxd.codeapi.gen.PartProcessor;
  * changes how a {@link CodePart} ({@link T}) is generated without creating a new {@link
  * PartProcessor} and registering that.
  *
- * @param <T> CodePart
+ * @param <T> Input CodePart
+ *           @param <E> Output CodePart
+ *
  */
-public interface SugarSyntax<T extends CodePart> {
+public interface SugarSyntax<T extends CodePart, E extends CodePart> {
 
     /**
      * Create a generator for this {@link SugarSyntax}
      *
      * @return new {@link Generator}
      */
-    Generator<T> getGenerator();
+    Generator<T, E> getGenerator();
 }

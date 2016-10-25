@@ -271,15 +271,15 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
     }
 
     @Override
-    public <T extends CodePart> SugarSyntax<?> registerSugarSyntax(Class<T> type, SugarSyntax<T> sugarSyntax) {
+    public <T extends CodePart, E extends CodePart> SugarSyntax<?, ?> registerSugarSyntax(Class<T> type, SugarSyntax<T, E> sugarSyntax) {
 
-        SugarSyntax<?> syntax = null;
+        SugarSyntax<?, ?> syntax = null;
 
         if(this.getRegistry().containsKey(type)) {
             ValueGenerator<?, String, PlainSourceGenerator> generator = this.getRegistry().get(type);
 
-            if(generator instanceof SugarSyntaxGenerator<?>)
-                syntax = ((SugarSyntaxGenerator<?>) generator).getSugarSyntax();
+            if(generator instanceof SugarSyntaxGenerator<?, ?>)
+                syntax = ((SugarSyntaxGenerator<?, ?>) generator).getSugarSyntax();
         }
 
         this.getRegistry().put(type, new SugarSyntaxGenerator<>(sugarSyntax));

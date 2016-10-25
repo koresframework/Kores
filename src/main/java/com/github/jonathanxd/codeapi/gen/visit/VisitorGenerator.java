@@ -100,15 +100,15 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
     protected abstract MapData makeData();
 
     @Override
-    public <V extends CodePart> SugarSyntax<?> registerSugarSyntax(Class<V> type, SugarSyntax<V> sugarSyntax) {
+    public <V extends CodePart, R extends CodePart> SugarSyntax<?, ?> registerSugarSyntax(Class<V> type, SugarSyntax<V, R> sugarSyntax) {
 
-        SugarSyntax<?> syntax = null;
+        SugarSyntax<?, ?> syntax = null;
 
         if(this.visitors.containsKey(type)) {
             Visitor<?, T, ?> tVisitor = this.visitors.get(type);
 
-            if(tVisitor instanceof SugarSyntaxVisitor<?, ?>) {
-                syntax = ((SugarSyntaxVisitor<?, ?>) tVisitor).getSugarSyntax();
+            if(tVisitor instanceof SugarSyntaxVisitor<?, ?, ?>) {
+                syntax = ((SugarSyntaxVisitor<?, ?, ?>) tVisitor).getSugarSyntax();
             }
 
         }

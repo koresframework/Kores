@@ -50,6 +50,7 @@ public class SwitchTest_ {
                 .withBody(CodeAPI.sourceOfParts(
 
                         CodeAPI.constructorBuilder()
+                                .withModifiers(Modifier.PUBLIC)
                                 .withParameters(CodeAPI.parameters(
                                         CodeAPI.parameter(int.class, "number"),
                                         CodeAPI.parameter(int.class, "number2"),
@@ -81,6 +82,8 @@ public class SwitchTest_ {
                                                 // String
                                                 CodeAPI.switchString(CodeAPI.accessLocalVariable(String.class, "str"),
                                                         CodeAPI.aCase(Literals.STRING("AHEAD"), CodeAPI.sourceOfParts(print("AHEAD"), CodeAPI.aBreak())),
+                                                        CodeAPI.aCase(Literals.STRING("XM"), CodeAPI.sourceOfParts(print("XM"), CodeAPI.aBreak())),
+                                                        CodeAPI.aCase(Literals.STRING("AH"), CodeAPI.sourceOfParts(print("AH"), CodeAPI.aBreak())),
                                                         CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("default")))),
 
                                                 // Object

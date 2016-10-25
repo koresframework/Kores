@@ -85,10 +85,11 @@ public interface CodeGenerator<OUT> {
      *
      * @param type        Type
      * @param sugarSyntax Sugar syntax.
-     * @param <T>         Type of supported part.
+     * @param <T>         Type of supported input part.
+     * @param <R>         Type of output part.
      * @return Old {@link SugarSyntax} registered to {@code type}.
      */
-    <T extends CodePart> SugarSyntax<?> registerSugarSyntax(Class<T> type, SugarSyntax<T> sugarSyntax);
+    <T extends CodePart, R extends CodePart> SugarSyntax<?, ?> registerSugarSyntax(Class<T> type, SugarSyntax<T, R> sugarSyntax);
 
     /**
      * Gets the {@link Options} instance.

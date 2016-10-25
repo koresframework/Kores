@@ -28,11 +28,9 @@
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
@@ -68,11 +66,11 @@ public class SwitchSourceGenerator implements ValueGenerator<Switch, String, Pla
         CodePart value = aSwitch.getValue().orElseThrow(NullPointerException::new);
         CodeType valueType = aSwitch.getType().orElseThrow(NullPointerException::new);
 
-        if(switchType != SwitchTypes.NUMERIC
+        if (switchType != SwitchTypes.NUMERIC
                 && switchType != SwitchTypes.ENUM
                 && !valueType.is(PredefinedTypes.STRING)) {
 
-            values.add(CodeSourceValue.create(switchType.getGenerator().generate(aSwitch), parents));
+            values.add(TargetValue.create(switchType.getGenerator().generate(aSwitch), parents));
         } else {
             values.add(PlainValue.create("switch"));
             values.add(PlainValue.create("("));

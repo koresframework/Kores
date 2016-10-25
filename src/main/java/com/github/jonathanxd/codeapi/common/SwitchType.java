@@ -37,13 +37,14 @@ import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.sugar.Generator;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * Transformation applier, this Switch object must be transformed into an INT.
  */
-public interface SwitchType extends PartProcessor, SugarSyntax<Switch> {
+public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
 
     default boolean isUnique() {
         return false;
@@ -56,7 +57,7 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch> {
      * This generator will not be called if the {@link SwitchType} is {@link SwitchTypes#NUMERIC}.
      *
      */
-    abstract class SwitchGenerator implements Generator<Switch> {
+    abstract class SwitchGenerator implements Generator<Switch, Switch> {
 
         /**
          * Translate switch to integer.
@@ -79,14 +80,12 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch> {
         }
 
         @Override
-        public CodeSource generate(Switch aSwitch) {
-            Switch translatedSwitch = this.checkType(this.translateSwitch(aSwitch).setSwitchType(SwitchTypes.NUMERIC));
+        public Switch generate(Switch aSwitch) {
+            List<Case> caseList = aSwitch.getCases().stream().map(
+                    aCase -> aCase.isDefault() ? aCase : this.checkType(this.translateCase(aCase, aSwitch))
+            ).collect(Collectors.toList());
 
-            return CodeAPI.sourceOfParts(
-                    translatedSwitch.setCases(translatedSwitch.getCases().stream().map(
-                            aCase -> aCase.isDefault() ? aCase : this.checkType(this.translateCase(aCase, translatedSwitch))
-                    ).collect(Collectors.toList()))
-            );
+            return this.checkType(this.translateSwitch(aSwitch).setSwitchType(SwitchTypes.NUMERIC).setCases(caseList));
         }
 
         private <R extends Typed> R checkType(R typed) {

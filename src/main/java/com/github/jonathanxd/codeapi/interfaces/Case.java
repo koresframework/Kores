@@ -62,4 +62,8 @@ public interface Case extends Valuable, Typed, Bodied, CodePart {
     default boolean isDefault() {
         return !this.getValue().isPresent();
     }
+
+    default boolean isNotDefault() {
+        return !this.isDefault();
+    }
 }
