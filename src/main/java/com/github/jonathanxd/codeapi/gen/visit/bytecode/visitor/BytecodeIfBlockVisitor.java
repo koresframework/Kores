@@ -125,19 +125,6 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                 }
 
                 if(firstIsBoolean || secondIsBoolean) {
-                    // if expr1 == true : ifne
-                    // if expr2 == true : ifne
-
-                    // if expr1 == false : ifeq
-                    // if expr2 == false : ifeq
-
-                    // if expr1 != true : ifeq
-                    // if expr2 != true : ifeq
-
-                    // if expr1 != false : ifne
-                    // if expr2 != false : ifne
-
-
                     boolean operatorIsEq = operation == Operators.EQUAL_TO;
 
                     boolean value = firstIsBoolean ? Common.getBooleanValue(expr1) : Common.getBooleanValue(expr2);
