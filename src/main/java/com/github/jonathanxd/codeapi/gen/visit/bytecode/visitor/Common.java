@@ -360,7 +360,8 @@ public class Common {
     }
 
     public static int modifierToAsm(TypeDeclaration typeDeclaration) {
-        return Common.modifierToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType() == ClassType.INTERFACE);
+        return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
+                Common.modifierToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType() == ClassType.INTERFACE);
     }
 
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers) {

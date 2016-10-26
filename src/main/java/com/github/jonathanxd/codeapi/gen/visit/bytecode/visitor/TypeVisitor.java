@@ -118,7 +118,6 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
         // Generic Types
         String genericRepresentation = Common.genericTypesToAsmString(typeDeclaration, superClass, implementations, superClassIsGeneric, anyInterfaceIsGeneric);
-        ;
 
         // Visit class
         cw.visit(52, modifiers, className, genericRepresentation, Common.codeTypeToSimpleAsm(superClass), asmImplementations);
