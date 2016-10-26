@@ -370,18 +370,6 @@ public class Common {
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers, boolean isInterface) {
         return (isInterface ? Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
     }
-    /*
-    public static String getClassName(CodeInterface class_, Data data) {
-        String className = class_.getJavaSpecName();
-
-        Optional<PackageDeclaration<?>> optional = data.getOptionalCasted(PackageVisitor.PACKAGE_REPRESENTATION);
-
-        if (optional.isPresent()) {
-            className = optional.get().getPackage().get().replace('.', '/') + '/' + className;
-        }
-
-        return className;
-    }*/
 
     public static String getClassName(TypeDeclaration class_, MapData data) {
         return class_.getType().replace('.', '/');

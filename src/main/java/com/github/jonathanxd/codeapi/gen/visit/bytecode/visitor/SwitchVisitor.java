@@ -282,7 +282,7 @@ public class SwitchVisitor implements VoidVisitor<Switch, BytecodeClass, MVData>
 
                 return aCase.setBody(CodeAPI.sourceOfParts(
                         new SwitchIfBlock(codeSource,
-                                Collections.singletonList(CodeAPI.checkFalse(
+                                Collections.singletonList(CodeAPI.checkTrue(
                                         CodeAPI.invokeVirtual(Object.class, switchValue, "equals",
                                                 CodeAPI.typeSpec(PredefinedTypes.BOOLEAN, PredefinedTypes.OBJECT),
                                                 CodeAPI.argument(caseValue)
