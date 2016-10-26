@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -87,30 +88,10 @@ public class BytecodeIfBlockVisitor implements Opcodes {
             }
 
             if (current instanceof IfExpr) {
+
                 IfExpr ifExpr = (IfExpr) current;
 
-                boolean isInverse = !revert == (next == null || next != Operators.OR);
-
-
-                CodePart expr1 = ifExpr.getExpr1();
-                CodePart expr2 = ifExpr.getExpr2();
-
-                CodeType expr1Type = Common.getType(expr1);
-                CodeType expr2Type = Common.getType(expr2);
-
-                boolean expr1Primitive = Common.isPrimitive(expr1);
-                boolean expr2Primitive = Common.isPrimitive(expr2);
-
-                if (expr1Primitive != expr2Primitive) {
-
-                    if (expr2Primitive) {
-                        expr1 = Helper.cast(expr1Type, expr2Type, expr1);
-                    } else {
-                        expr2 = Helper.cast(expr2Type, expr1Type, expr2);
-                    }
-                }
-
-                visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, null, mvData);
+                final boolean isInverse = !revert == (next == null || next != Operators.OR);
 
                 Label lbl;
 
@@ -120,16 +101,90 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                     lbl = jumpToStart ? ifStartLabel : !isInverse ? inIfLabel : (elseLabel == null ? outOfIfLabel : elseLabel); // Jump to else if exists
                 }
 
-                if (expr2 == Literals.NULL) {
-                    additional.visitJumpInsn(Operators.nullCheckToAsm(ifExpr.getOperation(), isInverse), lbl);
-                } else if (Common.isPrimitive(expr1) && Common.isPrimitive(expr2)) {
-                    visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 
-                    additional.visitJumpInsn(Operators.primitiveToAsm(ifExpr.getOperation(), isInverse), lbl);
+                Operator operation = ifExpr.getOperation();
+
+                CodePart expr1 = ifExpr.getExpr1();
+                CodePart expr2 = ifExpr.getExpr2();
+
+                CodeType expr1Type = Common.getType(expr1);
+                CodeType expr2Type = Common.getType(expr2);
+
+                boolean firstIsBoolean = false;
+                boolean secondIsBoolean = false;
+
+                boolean expr1Primitive = Common.isPrimitive(expr1);
+                boolean expr2Primitive = Common.isPrimitive(expr2);
+
+                if(expr1Primitive) {
+                    firstIsBoolean = Common.isBoolean(expr1);
+                }
+
+                if(expr2Primitive) {
+                    secondIsBoolean = Common.isBoolean(expr2);
+                }
+
+                if(firstIsBoolean || secondIsBoolean) {
+                    // if expr1 == true : ifne
+                    // if expr2 == true : ifne
+
+                    // if expr1 == false : ifeq
+                    // if expr2 == false : ifeq
+
+                    // if expr1 != true : ifeq
+                    // if expr2 != true : ifeq
+
+                    // if expr1 != false : ifne
+                    // if expr2 != false : ifne
+
+
+                    boolean operatorIsEq = operation == Operators.EQUAL_TO;
+
+                    boolean value = firstIsBoolean ? Common.getBooleanValue(expr1) : Common.getBooleanValue(expr2);
+
+                    int opcode = Common.getIfNeEqOpcode(value);
+
+                    if(!operatorIsEq)
+                        opcode = Common.invertIfNeEqOpcode(opcode);
+
+                    if(isInverse)
+                        opcode = Common.invertIfNeEqOpcode(opcode);
+
+
+                    if (firstIsBoolean) {
+                        visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
+                        additional.visitJumpInsn(opcode, lbl);
+                    } else {
+                        visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, null, mvData);
+                        additional.visitJumpInsn(opcode, lbl);
+                    }
                 } else {
-                    visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 
-                    additional.visitJumpInsn(Operators.referenceToAsm(ifExpr.getOperation(), isInverse), lbl);
+                    // Old Code ->
+                    // TODO: Rewrite
+
+                    if (expr1Primitive != expr2Primitive) {
+
+                        if (expr2Primitive) {
+                            expr1 = Helper.cast(expr1Type, expr2Type, expr1);
+                        } else {
+                            expr2 = Helper.cast(expr2Type, expr1Type, expr2);
+                        }
+                    }
+
+                    visitorGenerator.generateTo(expr1.getClass(), expr1, extraData, null, mvData);
+
+                    if (expr2 == Literals.NULL) {
+                        additional.visitJumpInsn(Operators.nullCheckToAsm(operation, isInverse), lbl);
+                    } else if (Common.isPrimitive(expr1) && Common.isPrimitive(expr2)) {
+                        visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
+
+                        additional.visitJumpInsn(Operators.primitiveToAsm(operation, isInverse), lbl);
+                    } else {
+                        visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
+
+                        additional.visitJumpInsn(Operators.referenceToAsm(operation, isInverse), lbl);
+                    }
                 }
             }
 

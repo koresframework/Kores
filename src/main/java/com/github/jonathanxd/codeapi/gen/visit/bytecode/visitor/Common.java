@@ -385,6 +385,22 @@ public class Common {
         return className;
     }
 
+    public static int invertIfNeEqOpcode(int opcode) {
+        return opcode == Opcodes.IFNE ? Opcodes.IFEQ : Opcodes.IFNE;
+    }
+
+    public static int getIfNeEqOpcode(boolean value) {
+        return value ? Opcodes.IFNE : Opcodes.IFEQ;
+    }
+
+    public static boolean isBoolean(CodePart part) {
+        return part instanceof Literals.BoolLiteral;
+    }
+
+    public static boolean getBooleanValue(CodePart part) {
+        return ((Literals.BoolLiteral) part).getValue();
+    }
+
     public static TypeSpec specFromLegacy(CodeType returnType, Collection<CodeArgument> arguments) {
         return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
                 arguments.stream().map(t -> Require.require(t.getType())).collect(Collectors.toList())

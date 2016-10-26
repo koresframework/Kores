@@ -2005,7 +2005,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static IfExpr checkTrue(CodePart part) {
-        return Helper.check(part, Operators.NOT_EQUAL_TO, Literals.BOOLEAN(false));
+        return Helper.check(part, Operators.EQUAL_TO, Literals.BOOLEAN(true));
     }
 
     /**
