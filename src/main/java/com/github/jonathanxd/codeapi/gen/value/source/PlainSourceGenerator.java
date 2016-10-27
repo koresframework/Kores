@@ -54,6 +54,9 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.CodeTypeSourceGe
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ContinueSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ElseBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.EntryHolderSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.EntrySourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.EnumSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.EnumValueSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ExtenderSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.FieldSourceGenerator;
@@ -113,6 +116,9 @@ import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+import com.github.jonathanxd.codeapi.interfaces.EntryHolder;
+import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
@@ -254,6 +260,11 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         // Switch & Case
         register(Switch.class, SwitchSourceGenerator.INSTANCE);
         register(Case.class, CaseSourceGenerator.INSTANCE);
+
+        // Enum & Enum Entries
+        register(EnumDeclaration.class, EnumSourceGenerator.INSTANCE);
+        register(EntryHolder.class, EntryHolderSourceGenerator.INSTANCE);
+        register(EnumEntry.class, EntrySourceGenerator.INSTANCE);
     }
 
     @SuppressWarnings("deprecation")

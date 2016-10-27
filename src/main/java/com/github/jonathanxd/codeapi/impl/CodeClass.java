@@ -111,7 +111,8 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
 
     @Override
     public CodeClass setName(String name) {
-        return this.setQualifiedName(name);
+        String newName = (!this.getPackageName().isEmpty() ? this.getPackageName() + "." : "")+name;
+        return this.setQualifiedName(newName);
     }
 
     @Override

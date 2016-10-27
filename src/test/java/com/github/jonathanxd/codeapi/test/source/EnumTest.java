@@ -25,47 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.test.source;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.test.EnumTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+import org.junit.Test;
 
-    /**
-     * Enum
-     */
-    ENUM("enum"),
+public class EnumTest {
 
-    /**
-     * Annotation
-     */
-    ANNOTATION("@interface");
+    @Test
+    public void test() {
+        Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $ = EnumTest_.$();
 
-    private final String plainName;
+        SourceTest test = CommonSourceTest.test($._2());
 
-    ClassType(String plainName) {
-        this.plainName = plainName;
+        test.consume(System.out::println);
     }
 
-    public String getPlainName() {
-        return this.plainName;
-    }
-
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
-    }
 }

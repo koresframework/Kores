@@ -25,47 +25,52 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.interfaces;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+import java.util.List;
+import java.util.Optional;
 
-    /**
-     * Enum
-     */
-    ENUM("enum"),
+public interface EnumEntry extends CodePart, Named, Bodied, Argumenterizable {
+    @Override
+    EnumEntry setName(String name);
+
+    @Override
+    EnumEntry setBody(CodeSource body);
 
     /**
-     * Annotation
+     * Gets the enum constructor specification.
+     *
+     * @return Enum constructor specification.
      */
-    ANNOTATION("@interface");
+    Optional<TypeSpec> getConstructorSpec();
 
-    private final String plainName;
+    /**
+     * Sets the enum constructor specification.
+     *
+     * @param spec Specification.
+     * @return new instance.
+     */
+    EnumEntry setConstructorSpec(TypeSpec spec);
 
-    ClassType(String plainName) {
-        this.plainName = plainName;
-    }
+    /**
+     * Gets the enum constructor arguments.
+     *
+     * @return Enum constructor arguments.
+     */
+    @Override
+    List<CodeArgument> getArguments();
 
-    public String getPlainName() {
-        return this.plainName;
-    }
-
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
-    }
+    /**
+     * Sets the enum constructor arguments.
+     *
+     * @param arguments Enum constructor arguments.
+     * @return new instance.
+     */
+    @Override
+    EnumEntry setArguments(List<CodeArgument> arguments);
 }

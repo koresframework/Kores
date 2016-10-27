@@ -25,47 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.gen.value.source.generator;
+
+import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
+import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.iutils.data.MapData;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Type of the class.
+ * Created by jonathan on 09/05/16.
  */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+public class EnumSourceGenerator implements ValueGenerator<EnumDeclaration, String, PlainSourceGenerator> {
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+    public static final EnumSourceGenerator INSTANCE = new EnumSourceGenerator();
 
-    /**
-     * Enum
-     */
-    ENUM("enum"),
-
-    /**
-     * Annotation
-     */
-    ANNOTATION("@interface");
-
-    private final String plainName;
-
-    ClassType(String plainName) {
-        this.plainName = plainName;
+    private EnumSourceGenerator() {
     }
 
-    public String getPlainName() {
-        return this.plainName;
-    }
+    @Override
+    public List<Value<?, String, PlainSourceGenerator>> gen(EnumDeclaration enumDeclaration, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+        return Collections.singletonList(TargetValue.create(TypeDeclaration.class, enumDeclaration, parents));
 
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
     }
 }

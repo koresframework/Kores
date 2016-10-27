@@ -25,47 +25,10 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.test.other;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+public interface ABC {
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+    int getA();
 
-    /**
-     * Enum
-     */
-    ENUM("enum"),
-
-    /**
-     * Annotation
-     */
-    ANNOTATION("@interface");
-
-    private final String plainName;
-
-    ClassType(String plainName) {
-        this.plainName = plainName;
-    }
-
-    public String getPlainName() {
-        return this.plainName;
-    }
-
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
-    }
 }

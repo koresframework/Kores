@@ -25,47 +25,59 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.interfaces;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.types.ClassType;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+import java.util.Collection;
+import java.util.List;
 
-    /**
-     * Enum
-     */
-    ENUM("enum"),
-
-    /**
-     * Annotation
-     */
-    ANNOTATION("@interface");
-
-    private final String plainName;
-
-    ClassType(String plainName) {
-        this.plainName = plainName;
+public interface EnumDeclaration extends TypeDeclaration, Implementer, EntryHolder {
+    @Override
+    default ClassType getClassType() {
+        return ClassType.ENUM;
     }
 
-    public String getPlainName() {
-        return this.plainName;
-    }
+    @Override
+    EnumDeclaration setName(String name);
 
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
+    @Override
+    EnumDeclaration setBody(CodeSource body);
 
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
-    }
+    @Override
+    EnumDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    EnumDeclaration setModifiers(Collection<CodeModifier> modifiers);
+
+    @Override
+    EnumDeclaration setImplementations(List<CodeType> implementations);
+
+    @Override
+    EnumDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    @Override
+    EnumDeclaration setQualifiedName(String name);
+
+    /**
+     * Gets the enum entries.
+     *
+     * @return Enum entries.
+     */
+    @Override
+    List<EnumEntry> getEntries();
+
+    /**
+     * Sets the enum entries.
+     *
+     * @param entries Enum entries.
+     * @return new instance.
+     */
+    @Override
+    EnumDeclaration setEntries(List<EnumEntry> entries);
 }

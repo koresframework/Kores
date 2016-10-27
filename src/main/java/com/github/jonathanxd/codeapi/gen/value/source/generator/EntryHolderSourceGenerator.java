@@ -29,30 +29,52 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
 import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.types.ClassType;
+import com.github.jonathanxd.codeapi.interfaces.Access;
+import com.github.jonathanxd.codeapi.interfaces.EntryHolder;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
+import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by jonathan on 09/05/16.
  */
-public class ClassTypeSourceGenerator implements ValueGenerator<ClassType, String, PlainSourceGenerator> {
+public class EntryHolderSourceGenerator implements ValueGenerator<EntryHolder, String, PlainSourceGenerator> {
 
-    public static final ClassTypeSourceGenerator INSTANCE = new ClassTypeSourceGenerator();
+    public static final EntryHolderSourceGenerator INSTANCE = new EntryHolderSourceGenerator();
 
-    private ClassTypeSourceGenerator() {
+    private EntryHolderSourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(ClassType classType, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        return Collections.singletonList(PlainValue.create(classType.getPlainName()));
+    public List<Value<?, String, PlainSourceGenerator>> gen(EntryHolder entryHolder, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        List<EnumEntry> entries = entryHolder.getEntries();
+
+        Iterator<EnumEntry> iterator = entries.iterator();
+
+        while (iterator.hasNext()) {
+            EnumEntry enumEntry = iterator.next();
+
+            values.add(TargetValue.create(EnumEntry.class, enumEntry, parents));
+
+            if(iterator.hasNext())
+                values.add(PlainValue.create(","));
+        }
+
+        values.add(PlainValue.create(";"));
+
+        return values;
     }
 }
-
-

@@ -67,7 +67,7 @@ public class CommonGen {
                 new CodeArgument(STRING("J"), PredefinedTypes.STRING)
         };
 
-        Require.require(codeClass.getBody()).addAll(sourceOfParts(
+        codeClass = codeClass.setBody(sourceOfParts(
                 constructor(PUBLIC, source(
                         new CodeField("array", PredefinedTypes.STRING.toArray(2),
                                 Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{

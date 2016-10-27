@@ -25,47 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.test;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.builder.EnumBuilder;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.impl.CodeEnum;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+import java.lang.reflect.Modifier;
 
-    /**
-     * Enum
-     */
-    ENUM("enum"),
+public class EnumTest_ {
 
-    /**
-     * Annotation
-     */
-    ANNOTATION("@interface");
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+        CodeEnum codeEnum = EnumBuilder.builder()
+                .withModifiers(Modifier.PUBLIC)
+                .withQualifiedName("com.MyEnum")
+                .withEntries(CodeAPI.enumEntry("A", CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))), CodeAPI.enumEntry("B"))//
+                .build();
 
-    private final String plainName;
-
-    ClassType(String plainName) {
-        this.plainName = plainName;
+        return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));
     }
 
-    public String getPlainName() {
-        return this.plainName;
-    }
-
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
-    }
 }

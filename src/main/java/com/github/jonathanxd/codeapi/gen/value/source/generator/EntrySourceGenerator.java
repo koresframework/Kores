@@ -27,32 +27,47 @@
  */
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
 import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.types.ClassType;
+import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Created by jonathan on 09/05/16.
- */
-public class ClassTypeSourceGenerator implements ValueGenerator<ClassType, String, PlainSourceGenerator> {
+public class EntrySourceGenerator implements ValueGenerator<EnumEntry, String, PlainSourceGenerator> {
 
-    public static final ClassTypeSourceGenerator INSTANCE = new ClassTypeSourceGenerator();
+    public static final EntrySourceGenerator INSTANCE = new EntrySourceGenerator();
 
-    private ClassTypeSourceGenerator() {
+    private EntrySourceGenerator() {
     }
 
     @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(ClassType classType, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        return Collections.singletonList(PlainValue.create(classType.getPlainName()));
+    public List<Value<?, String, PlainSourceGenerator>> gen(EnumEntry enumEntry, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+        values.add(PlainValue.create(enumEntry.getName())); // Or TargetValue.create(Named.class) but I want to avoid the overhead.
+
+        Optional<TypeSpec> constructorSpec = enumEntry.getConstructorSpec();
+
+        if (constructorSpec.isPresent()) {
+            values.add(TargetValue.create(Argumenterizable.class, enumEntry, parents));
+        }
+
+        if (enumEntry.hasBody()) {
+            values.add(TargetValue.create(Bodied.class, enumEntry, parents));
+        }
+
+        return values;
     }
 }
-
-

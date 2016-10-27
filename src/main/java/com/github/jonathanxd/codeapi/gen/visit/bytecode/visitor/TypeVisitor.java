@@ -183,7 +183,7 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
             boolean constructor = body.stream().filter(c -> c instanceof ConstructorDeclaration).findAny().isPresent();
 
-            if (!constructor && typeDeclaration.getClassType() == ClassType.CLASS) { // Interfaces has no super call.
+            if (!constructor && typeDeclaration.getClassType().isClass()) { // Interfaces has no super call.
                 ConstructorDeclaration codeConstructor = new CodeConstructor(typeDeclaration, Collections.singleton(CodeModifier.PUBLIC), Collections.emptyList(), null);
                 visitorGenerator.generateTo(ConstructorDeclaration.class, codeConstructor, extraData, null, null);
             }

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi;
 
 import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.builder.ConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.EnumBuilder;
 import com.github.jonathanxd.codeapi.builder.InterfaceBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodBuilder;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
@@ -60,6 +61,7 @@ import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.ContinueImpl;
+import com.github.jonathanxd.codeapi.impl.EnumEntryImpl;
 import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessInner;
@@ -78,6 +80,7 @@ import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
@@ -648,6 +651,74 @@ public final class CodeAPI {
             return codeClass.setBody(source.apply(codeClass));
 
         return codeClass;
+    }
+
+    // =========================================================
+    //          Enums
+    // =========================================================
+
+    /**
+     * Creates a new enum builder.
+     *
+     * @return New enum builder
+     */
+    public static EnumBuilder enumBuilder() {
+        return EnumBuilder.builder();
+    }
+
+    /**
+     * Create an named enum entry.
+     *
+     * @param name name of enum entry.
+     * @return New enum entry.
+     */
+    public static EnumEntry enumEntry(String name) {
+        return enumEntry__factory(name, null, null, null);
+    }
+
+    /**
+     * Create an named enum entry with a body.
+     *
+     * @param name Name of enum entry.
+     * @param body Body of enum entry.
+     * @return New enum entry.
+     */
+    public static EnumEntry enumEntry(String name, CodeSource body) {
+        return enumEntry__factory(name, body, null, null);
+    }
+
+    /**
+     * Create a new enum entry that calls the Enum constructor.
+     *
+     * @param name                 Name of entry.
+     * @param constructorSpec      Constructor specification.
+     * @param constructorArguments Constructor arguments.
+     * @return new enum entry.
+     */
+    public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments) {
+        return enumEntry__factory(name, null, constructorSpec, constructorArguments);
+    }
+
+    /**
+     * Create a new enum entry that have a body and calls the Enum constructor.
+     *
+     * @param name                 Name of entry.
+     * @param constructorSpec      Constructor specification.
+     * @param constructorArguments Constructor arguments.
+     * @param body                 Enum entry body.
+     * @return new enum entry.
+     */
+    public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments, CodeSource body) {
+        if(body.isEmpty())
+            body = null;
+
+        return enumEntry__factory(name, body, constructorSpec, constructorArguments);
+    }
+
+    // Factory
+
+    private static EnumEntry enumEntry__factory(String name, CodeSource body, TypeSpec spec, List<CodeArgument> arguments) {
+        return new EnumEntryImpl(name, body, spec, arguments);
     }
 
     // =========================================================
@@ -1828,7 +1899,7 @@ public final class CodeAPI {
     /**
      * EnumValue in Case check.
      *
-     * @param entry    Enum entry (aka Field)
+     * @param entry Enum entry (aka Field)
      * @return Enum value
      */
     public static EnumValue enumValue(String entry) {

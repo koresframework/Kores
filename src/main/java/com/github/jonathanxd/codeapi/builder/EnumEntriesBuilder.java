@@ -25,47 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.builder;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
+import com.github.jonathanxd.codeapi.util.ArrayToList;
 
-    /**
-     * Interface
-     */
-    INTERFACE("interface"),
+import java.util.List;
 
+public interface EnumEntriesBuilder<T, R extends EnumEntriesBuilder<T, R>> extends Builder<T> {
     /**
-     * Enum
+     * Set enum entries.
+     *
+     * @param entries Entries.
+     * @return This.
      */
-    ENUM("enum"),
+    R withEntries(List<EnumEntry> entries);
 
     /**
-     * Annotation
+     * Set annotations.
+     *
+     * @param entries Entries.
+     * @return This.
      */
-    ANNOTATION("@interface");
-
-    private final String plainName;
-
-    ClassType(String plainName) {
-        this.plainName = plainName;
-    }
-
-    public String getPlainName() {
-        return this.plainName;
-    }
-
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
+    default R withEntries(EnumEntry... entries) {
+        return this.withEntries(ArrayToList.toList(entries));
     }
 }

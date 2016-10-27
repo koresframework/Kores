@@ -30,11 +30,16 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceValue;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.Value;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.EntryHolder;
+import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -57,18 +62,23 @@ public class BodiedSourceGenerator implements ValueGenerator<Bodied, String, Pla
         CodeSource body = bodied.getBody().orElse(CodeSource.empty());
 
         boolean isExpr = bodied.isExpression();
+        boolean isEmpty = body.isEmpty() && !(bodied instanceof TypeDeclaration); // Type declaration must have a body.
 
-        if (isExpr || !body.isEmpty()) {
+        if (isExpr || !isEmpty) {
             values.add(PlainValue.create("{"));
         }
 
-        if (body.isEmpty() && !isExpr) {
+        if(bodied instanceof EntryHolder) {
+            values.add(TargetValue.create(EntryHolder.class, bodied, parents));
+        }
+
+        if (isEmpty && !isExpr) {
             values.add(PlainValue.create(";"));
         }
 
         values.add(CodeSourceValue.create(body, parents));
 
-        if (isExpr || !body.isEmpty()) {
+        if (isExpr || !isEmpty) {
             values.add(PlainValue.create("}"));
         }
 

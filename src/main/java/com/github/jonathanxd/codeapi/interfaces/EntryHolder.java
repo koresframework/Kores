@@ -25,47 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.types;
+package com.github.jonathanxd.codeapi.interfaces;
 
-/**
- * Type of the class.
- */
-public enum ClassType {
-    /**
-     * Class
-     */
-    CLASS("class"),
+import com.github.jonathanxd.codeapi.CodePart;
 
+import java.util.List;
+
+public interface EntryHolder extends CodePart {
     /**
-     * Interface
+     * Gets the entries.
+     *
+     * @return Entries.
      */
-    INTERFACE("interface"),
+    List<EnumEntry> getEntries();
 
     /**
-     * Enum
+     * Sets the entries.
+     *
+     * @param entries Entries.
+     * @return new instance.
      */
-    ENUM("enum"),
-
-    /**
-     * Annotation
-     */
-    ANNOTATION("@interface");
-
-    private final String plainName;
-
-    ClassType(String plainName) {
-        this.plainName = plainName;
-    }
-
-    public String getPlainName() {
-        return this.plainName;
-    }
-
-    public boolean isClass() {
-        return this == CLASS || this == ENUM;
-    }
-
-    public boolean isInterface() {
-        return this == INTERFACE || this == ANNOTATION;
-    }
+    EnumDeclaration setEntries(List<EnumEntry> entries);
 }
