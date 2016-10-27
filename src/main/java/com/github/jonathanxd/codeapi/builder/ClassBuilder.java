@@ -176,6 +176,18 @@ public final class ClassBuilder implements Builder<CodeClass> {
      * @param implementations Implementations.
      * @return This.
      */
+    public ClassBuilder withImplementations(List<CodeType> implementations) {
+        this.implementations = implementations;
+        return this;
+    }
+
+
+    /**
+     * Set implementations of this interface.
+     *
+     * @param implementations Implementations.
+     * @return This.
+     */
     public ClassBuilder withImplementations(CodeType... implementations) {
         this.implementations = ArrayToList.toList(implementations);
         return this;

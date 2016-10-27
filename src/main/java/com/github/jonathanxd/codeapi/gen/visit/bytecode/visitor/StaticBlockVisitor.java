@@ -112,7 +112,11 @@ public class StaticBlockVisitor implements VoidVisitor<StaticBlock, BytecodeClas
 
 
         mv.visitInsn(RETURN);
-        mv.visitMaxs(0, 0);
+        try {
+            mv.visitMaxs(0, 0);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         mv.visitEnd();
     }
 

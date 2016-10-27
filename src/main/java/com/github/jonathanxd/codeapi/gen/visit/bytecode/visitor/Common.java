@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
@@ -50,25 +51,26 @@ import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.Named;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.Variable;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.option.Options;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -80,6 +82,8 @@ import org.objectweb.asm.Type;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -90,6 +94,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.StringJoiner;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -557,6 +562,13 @@ public class Common {
         return genericRepresentation;
     }
 
+    public static String getNewName(String name, List<? extends Named> nameds) {
+        while (Common.contains(name, nameds))
+            name += "$1";
+
+        return name;
+    }
+
     public static String getNewName(String name, CodeSource source) {
         List<CodeField> inspect = SourceInspect.find(codePart -> codePart instanceof CodeField)
                 .includeSource(true)
@@ -564,15 +576,15 @@ public class Common {
                 .mapTo(codePart -> (CodeField) codePart)
                 .inspect(source);
 
-        while(Common.contains(name, inspect))
+        while (Common.contains(name, inspect))
             name += "$1";
 
         return name;
     }
 
-    public static boolean contains(String name, List<CodeField> codeFields) {
-        for (CodeField codeField : codeFields) {
-            if(codeField.getName().equals(name))
+    public static boolean contains(String name, List<? extends Named> codeFields) {
+        for (Named named : codeFields) {
+            if (named.getName().equals(name))
                 return true;
         }
 
@@ -646,9 +658,9 @@ public class Common {
             GenericType.Bound<CodeType>[] bounds = genericType.bounds();
 
             if (bounds.length == 0) {
-                if(!genericType.isType()) {
+                if (!genericType.isType()) {
                     return fixResult("T" + name + ";"/*(genericType.isType() ? ";" : "")*/);
-                }else {
+                } else {
                     return name + ";";
                 }
             } else {
@@ -890,21 +902,18 @@ public class Common {
     }
 
 
-
-
     //////////////////////////////////////////////////
     //              Find Super or This              //
     //////////////////////////////////////////////////
 
     public static boolean isInitForThat(TypeDeclaration typeDeclaration, MethodInvocation methodInvocation) {
-        boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> methodInvocation.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
+        boolean any = methodInvocation.getSpec().getMethodType() == MethodType.SUPER_CONSTRUCTOR;
 
         boolean accept = (methodInvocation.getTarget().orElse(null) instanceof AccessThis || methodInvocation.getTarget().orElse(null) instanceof AccessSuper);
 
         return any
                 && accept
                 && methodInvocation.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
-
                 && methodInvocation.getSpec().getMethodName().equals("<init>");
 
     }
@@ -921,27 +930,24 @@ public class Common {
             if ((codePart instanceof Bodied && includeChild)) {
                 SearchResult searchResult = searchForInitTo(typeDeclaration, ((Bodied) codePart).getBody().orElse(null), includeChild, targetAccessPredicate, true);
 
-                if(searchResult.found)
+                if (searchResult.found)
                     return searchResult;
 
             }
 
-            if(codePart instanceof CodeSource) { // Another CodeSource is part of the Enclosing Source
+            if (codePart instanceof CodeSource) { // Another CodeSource is part of the Enclosing Source
                 SearchResult searchResult = searchForInitTo(typeDeclaration, ((CodeSource) codePart), includeChild, targetAccessPredicate, true);
 
-                if(searchResult.found)
+                if (searchResult.found)
                     return searchResult;
             }
 
             if (codePart instanceof MethodInvocation) {
                 MethodInvocation mi = (MethodInvocation) codePart;
 
-                boolean any = ((typeDeclaration instanceof Extender) && ((Extender) typeDeclaration).getSuperType().filter(c -> mi.getLocalization().orElse(null).compareTo(c) == 0).isPresent());
-
-                if (any
+                if (mi.getSpec().getMethodType() == MethodType.SUPER_CONSTRUCTOR
                         && targetAccessPredicate.test(mi.getTarget().orElse(null))
                         && mi.getInvokeType().equals(InvokeType.INVOKE_SPECIAL)
-
                         && mi.getSpec().getMethodName().equals("<init>")) {
                     return new SearchResult(true, isSub);
                 }
@@ -955,7 +961,7 @@ public class Common {
     public static boolean searchInitThis(TypeDeclaration typeDeclaration, CodeSource codeParts, boolean validate) {
         SearchResult searchResult = Common.searchForInitTo(typeDeclaration, codeParts, !validate, codePart -> codePart instanceof AccessThis, false);
 
-        if(validate)
+        if (validate)
             searchResult = Common.validateConstructor(searchResult);
 
         return searchResult.found;
@@ -964,31 +970,169 @@ public class Common {
     public static boolean searchForSuper(TypeDeclaration typeDeclaration, CodeSource codeParts, boolean validate) {
         SearchResult searchResult = Common.searchForInitTo(typeDeclaration, codeParts, !validate, codePart -> codePart instanceof AccessSuper, false);
 
-        if(validate)
+        if (validate)
             searchResult = Common.validateConstructor(searchResult);
 
         return searchResult.found;
     }
 
     public static SearchResult validateConstructor(SearchResult searchResult) {
-        if(searchResult.foundOnSub)
+        if (searchResult.foundOnSub)
             throw new IllegalArgumentException("Don't invoke super() or this() inside a Bodied Element.");
 
         return searchResult;
     }
 
-    static final class SearchResult {
-        public final boolean found;
-        public final boolean foundOnSub;
+    public static Collection<CodeModifier> getEnumModifiers(EnumDeclaration enumDeclaration) {
+        Collection<CodeModifier> modifiers = new TreeSet<>(enumDeclaration.getModifiers());
 
-        public static final SearchResult FALSE = new SearchResult(false, false);
+        modifiers.add(CodeModifier.ENUM);
 
-        private SearchResult(boolean found, boolean foundOnSub) {
-            this.found = found;
-            this.foundOnSub = foundOnSub;
+        if (enumDeclaration.getEntries().stream().anyMatch(Bodied::hasBody)) {
+            modifiers.add(CodeModifier.ABSTRACT);
+        } else {
+            modifiers.add(CodeModifier.FINAL);
         }
+
+        return modifiers;
     }
 
+    public static CodeSource generateEnumClassSource(EnumDeclaration enumDeclaration) {
+        List<FieldDeclaration> fields = new ArrayList<>();
+        List<EnumEntry> entries = enumDeclaration.getEntries();
+
+        for (int i = 0; i < entries.size(); i++) {
+            EnumEntry enumEntry = entries.get(i);
+            // TODO: Inner classes
+            fields.add(CodeAPI.field(Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL | CodeModifier.Internal.ENUM, enumDeclaration, enumEntry.getName(),
+                    Common.callConstructor(enumDeclaration, enumEntry, i)));
+        }
+
+        MutableCodeSource codeSource = new MutableCodeSource();
+
+        codeSource.addAll(fields);
+
+        String valuesFieldName = Common.getNewName("$VALUES", codeSource);
+
+        int fieldSize = fields.size();
+
+        CodeType arrayType = enumDeclaration.toArray(1);
+
+        CodeArgument[] arrayArguments = fields.stream()
+                .map(fieldDeclaration -> CodeAPI.argument(CodeAPI.accessStaticField(fieldDeclaration.getVariableType(), fieldDeclaration.getName()), fieldDeclaration.getVariableType()))
+                .toArray(CodeArgument[]::new);
+
+        CodeField valuesField = CodeAPI.field(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL, arrayType, valuesFieldName,
+                CodeAPI.arrayConstruct(enumDeclaration, new CodePart[] { Literals.INT(fieldSize) }, arrayArguments));
+
+        codeSource.add(valuesField);
+
+        MutableCodeSource source = enumDeclaration.getBody().map(MutableCodeSource::new).orElse(new MutableCodeSource());
+
+        // Gen methods
+        fixConstructor(enumDeclaration, source);
+
+        codeSource.addAll(source);
+
+        // Enum.values() method.
+        codeSource.add(CodeAPI.methodBuilder()
+                .withModifiers(Modifier.PUBLIC | Modifier.STATIC)
+                .withName("values")
+                .withReturnType(arrayType)
+                .withBody(CodeAPI.sourceOfParts(
+                        CodeAPI.returnValue(arrayType, CodeAPI.cast(PredefinedTypes.OBJECT, arrayType, CodeAPI.invokeVirtual(arrayType, CodeAPI.accessStaticField(valuesField.getVariableType(), valuesField.getName()),
+                                "clone", CodeAPI.typeSpec(PredefinedTypes.OBJECT))))
+
+                ))
+                .build());
+
+        // Enum.valueOf(String) method.
+        codeSource.add(CodeAPI.methodBuilder()
+                .withModifiers(Modifier.PUBLIC | Modifier.STATIC)
+                .withName("valueOf")
+                .withParameters(CodeAPI.parameter(PredefinedTypes.STRING, "name"))
+                .withReturnType(enumDeclaration)
+                .withBody(CodeAPI.sourceOfParts(
+                        CodeAPI.returnValue(PredefinedTypes.ENUM, CodeAPI.cast(PredefinedTypes.ENUM, enumDeclaration,
+                                CodeAPI.invokeStatic(PredefinedTypes.ENUM, "valueOf", CodeAPI.typeSpec(
+                                        PredefinedTypes.ENUM,
+                                        PredefinedTypes.CLASS,
+                                        PredefinedTypes.STRING),
+                                        CodeAPI.argument(Literals.CLASS(enumDeclaration)),
+                                        CodeAPI.argument(CodeAPI.accessLocalVariable(PredefinedTypes.STRING, "name")))))
+
+                ))
+                .build());
+
+
+        return codeSource;
+    }
+
+    private static CodePart callConstructor(EnumDeclaration enumDeclaration, EnumEntry enumEntry, int ordinal) {
+        Optional<TypeSpec> constructorSpecOpt = enumEntry.getConstructorSpec();
+
+        List<CodeArgument> arguments = new ArrayList<>();
+
+        arguments.add(CodeAPI.argument(Literals.STRING(enumEntry.getName())));
+        arguments.add(CodeAPI.argument(Literals.INT(ordinal)));
+
+        TypeSpec spec = new TypeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING, PredefinedTypes.INT);
+
+        if (constructorSpecOpt.isPresent()) {
+            TypeSpec typeSpec = constructorSpecOpt.get();
+
+            List<CodeType> parameterTypes = new ArrayList<>(spec.getParameterTypes());
+
+            parameterTypes.addAll(typeSpec.getParameterTypes());
+
+            spec = spec.setParameterTypes(parameterTypes);
+
+            arguments.addAll(enumEntry.getArguments());
+        }
+
+        return CodeAPI.invokeConstructor(enumDeclaration, spec, arguments);
+    }
+
+    private static void fixConstructor(EnumDeclaration enumDeclaration, MutableCodeSource originalSource) {
+        List<ConstructorDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof ConstructorDeclaration)
+                .include(bodied -> bodied instanceof CodeSource)
+                .includeSource(true)
+                .mapTo(codePart -> (ConstructorDeclaration) codePart)
+                .inspect(originalSource);
+
+        if (inspect.isEmpty()) {
+            originalSource.add(CodeAPI.constructor(Modifier.PRIVATE, CodeAPI.parameters(CodeAPI.parameter(PredefinedTypes.STRING, "name"),
+                    CodeAPI.parameter(PredefinedTypes.INT, "ordinal")),
+                    ctr -> CodeAPI.sourceOfParts(
+                            CodeAPI.invokeSuperConstructor(CodeAPI.constructorTypeSpec(PredefinedTypes.STRING, PredefinedTypes.INT),
+                                    CodeAPI.argument(CodeAPI.accessLocalVariable(PredefinedTypes.STRING, "name")),
+                                    CodeAPI.argument(CodeAPI.accessLocalVariable(PredefinedTypes.INT, "ordinal")))
+                    )));
+            // generate
+        } else {
+            // modify
+            for (ConstructorDeclaration constructorDeclaration : inspect) {
+                List<CodeParameter> parameters = new ArrayList<>(constructorDeclaration.getParameters());
+
+                String name = Common.getNewName("$name", parameters);
+                String ordinal = Common.getNewName("$ordinal", parameters);
+
+                parameters.addAll(0, Arrays.asList(
+                        CodeAPI.parameter(PredefinedTypes.STRING, name),
+                        CodeAPI.parameter(PredefinedTypes.INT, ordinal)));
+
+                MutableCodeSource source = constructorDeclaration.getBody().map(MutableCodeSource::new).orElse(new MutableCodeSource());
+
+                source.add(0, Helper.invokeSuperInit(PredefinedTypes.ENUM,
+                        CodeAPI.argument(CodeAPI.accessLocalVariable(PredefinedTypes.STRING, name), PredefinedTypes.STRING),
+                        CodeAPI.argument(CodeAPI.accessLocalVariable(PredefinedTypes.INT, ordinal), PredefinedTypes.INT)));
+
+                originalSource.remove(constructorDeclaration);
+
+                originalSource.add(constructorDeclaration.setBody(source).setParameters(parameters));
+            }
+        }
+    }
 
     public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, MVData mvData, boolean validate) {
 
@@ -1028,7 +1172,6 @@ public class Common {
 
         }
     }
-
 
     public static void generateSuperInvoke(TypeDeclaration typeDeclaration, MethodVisitor mv) {
         mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -1070,5 +1213,16 @@ public class Common {
         }
 
         return codeSource;
+    }
+
+    static final class SearchResult {
+        public static final SearchResult FALSE = new SearchResult(false, false);
+        public final boolean found;
+        public final boolean foundOnSub;
+
+        private SearchResult(boolean found, boolean foundOnSub) {
+            this.found = found;
+            this.foundOnSub = foundOnSub;
+        }
     }
 }

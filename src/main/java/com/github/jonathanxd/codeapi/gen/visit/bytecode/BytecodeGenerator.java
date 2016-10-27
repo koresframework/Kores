@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ArrayLengthVisit
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ArrayStoreVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.CodeMethodVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.CodeSourceVisitor;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.EnumVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ForEachVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.IfBlockVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
@@ -64,6 +65,7 @@ import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
+import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForBlock;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
@@ -171,6 +173,8 @@ public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
         addVisitor(Break.class, new BreakVisitor());
         addVisitor(Continue.class, new ContinueVisitor());
         addVisitor(Switch.class, new SwitchVisitor());
+
+        addVisitor(EnumDeclaration.class, new EnumVisitor());
     }
 
     public BytecodeGenerator() {

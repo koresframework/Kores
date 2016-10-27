@@ -371,35 +371,35 @@ public enum CodeModifier implements CodePart {
         return this.expr == null ? this.name().toLowerCase() : this.expr;
     }
 
-    static class Internal {
-        static final int BRIDGE = 0x00000040;
-        static final int VARARGS = 0x00000080;
-        static final int SYNTHETIC = 0x00001000;
-        static final int ANNOTATION = 0x00002000;
-        static final int ENUM = 0x00004000;
-        static final int MANDATED = 0x00008000;
+    public static class Internal {
+        public static final int BRIDGE = 0x00000040;
+        public static final int VARARGS = 0x00000080;
+        public static final int SYNTHETIC = 0x00001000;
+        public static final int ANNOTATION = 0x00002000;
+        public static final int ENUM = 0x00004000;
+        public static final int MANDATED = 0x00008000;
 
-        static boolean isBridge(int modifiers) {
+        public static boolean isBridge(int modifiers) {
             return (modifiers & BRIDGE) != 0;
         }
 
-        static boolean isVarArgs(int modifiers) {
+        public static boolean isVarArgs(int modifiers) {
             return (modifiers & VARARGS) != 0;
         }
 
-        static boolean isSynthetic(int modifiers) {
+        public static boolean isSynthetic(int modifiers) {
             return (modifiers & SYNTHETIC) != 0;
         }
 
-        static boolean isAnnotation(int modifiers) {
+        public static boolean isAnnotation(int modifiers) {
             return (modifiers & ANNOTATION) != 0;
         }
 
-        static boolean isEnum(int modifiers) {
+        public static boolean isEnum(int modifiers) {
             return (modifiers & ENUM) != 0;
         }
 
-        static boolean isMandated(int modifiers) {
+        public static boolean isMandated(int modifiers) {
             return (modifiers & MANDATED) != 0;
         }
     }

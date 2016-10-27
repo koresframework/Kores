@@ -69,7 +69,8 @@ public class MethodSpecificationSourceGenerator implements ValueGenerator<Method
         }
 
 
-        if (methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD || methodSpecification.getMethodType() == MethodType.DYNAMIC_CONSTRUCTOR) {
+        if (methodSpecification.getMethodType() == MethodType.DYNAMIC_METHOD ||
+                methodSpecification.getMethodType() == MethodType.DYNAMIC_CONSTRUCTOR) {
             if (arguments.isEmpty()) {
                 return values;
             }

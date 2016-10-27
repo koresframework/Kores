@@ -25,30 +25,46 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.EnumBuilder;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.impl.CodeEnum;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.Visitor;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.object.Pair;
+import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.iutils.data.MapData;
 
-import java.lang.reflect.Modifier;
+import org.objectweb.asm.Opcodes;
 
-public class EnumTest_ {
+import java.util.Collection;
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeEnum codeEnum = EnumBuilder.builder()
-                .withModifiers(Modifier.PUBLIC)
-                .withQualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
-                .withEntries(CodeAPI.enumEntry("A"), CodeAPI.enumEntry("B"))//
+public class EnumVisitor implements Visitor<EnumDeclaration, BytecodeClass, Object>, Opcodes {
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public BytecodeClass[] visit(EnumDeclaration enumDeclaration,
+                                 MapData extraData,
+                                 VisitorGenerator<BytecodeClass> visitorGenerator,
+                                 Object o) {
+
+        Collection<CodeModifier> enumModifiers = Common.getEnumModifiers(enumDeclaration);
+        CodeSource source = Common.generateEnumClassSource(enumDeclaration);
+
+        TypeDeclaration typeDeclaration = CodeAPI.aClassBuilder()
+                .withModifiers(enumModifiers)
+                .withQualifiedName(enumDeclaration.getQualifiedName())
+                .withSuperClass(Generic.type(PredefinedTypes.ENUM).of(enumDeclaration))
+                .withImplementations(enumDeclaration.getImplementations())
+                .withBody(source)
                 .build();
 
-        return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));
+        return visitorGenerator.generateTo(typeDeclaration.getClass(), typeDeclaration, extraData, o);
     }
+
 
 }

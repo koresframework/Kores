@@ -49,6 +49,7 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLengthImpl;
@@ -709,7 +710,7 @@ public final class CodeAPI {
      * @return new enum entry.
      */
     public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments, CodeSource body) {
-        if(body.isEmpty())
+        if (body.isEmpty())
             body = null;
 
         return enumEntry__factory(name, body, constructorSpec, constructorArguments);
@@ -1162,6 +1163,54 @@ public final class CodeAPI {
     // =========================================================
 
     /**
+     * Invoke this constructor.
+     *
+     * @param constructorSpec Type specification of constructor.
+     * @param arguments       Constructor Arguments.
+     * @return Invocation of super constructor of current class.
+     */
+    public static MethodInvocation invokeThisConstructor(TypeSpec constructorSpec, CodeArgument... arguments) {
+        return invokeThisConstructor__factory(constructorSpec, arguments);
+    }
+
+    /**
+     * Invoke super constructor of current type declaration.
+     *
+     * @param constructorSpec Type specification of constructor.
+     * @param arguments       Constructor Arguments.
+     * @return Invocation of super constructor of current class.
+     */
+    public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, CodeArgument... arguments) {
+        return invokeSuperConstructor__factory(null, constructorSpec, arguments);
+    }
+
+    /**
+     * Invoke super constructor of current type declaration.
+     *
+     * @param superClass      Super class of current type declaration (if null, CodeAPI will
+     *                        determine it automatically).
+     * @param constructorSpec Type specification of constructor.
+     * @param arguments       Constructor Arguments.
+     * @return Invocation of super constructor of current type declaration.
+     */
+    public static MethodInvocation invokeSuperConstructor(CodeType superClass, TypeSpec constructorSpec, CodeArgument... arguments) {
+        return invokeSuperConstructor__factory(superClass, constructorSpec, arguments);
+    }
+
+    /**
+     * Invoke super constructor of current type declaration.
+     *
+     * @param superClass      Super class of current type declaration (if null, CodeAPI will
+     *                        determine it automatically).
+     * @param constructorSpec Type specification of constructor.
+     * @param arguments       Constructor Arguments.
+     * @return Invocation of super constructor of current type declaration.
+     */
+    public static MethodInvocation invokeSuperConstructor(Class<?> superClass, TypeSpec constructorSpec, CodeArgument... arguments) {
+        return invokeSuperConstructor__factory(Helper.getJavaType(superClass), constructorSpec, arguments);
+    }
+
+    /**
      * Invoke constructor of a {@link CodeType}.
      *
      * @param type Type to invoke constructor.
@@ -1180,6 +1229,30 @@ public final class CodeAPI {
      */
     public static MethodInvocation invokeConstructor(CodeType type, CodeArgument... arguments) {
         return invokeConstructor__factory(type, arguments);
+    }
+
+    /**
+     * Invoke constructor of a {@link CodeType}.
+     *
+     * @param type      Type to invoke constructor.
+     * @param spec      Method specification.
+     * @param arguments Arguments to pass to constructor.
+     * @return Invocation of constructor of {@code type} with provided arguments.
+     */
+    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, CodeArgument... arguments) {
+        return invokeConstructor__factory(type, spec, Arrays.asList(arguments));
+    }
+
+    /**
+     * Invoke constructor of a {@link CodeType}.
+     *
+     * @param type      Type to invoke constructor.
+     * @param spec      Method specification.
+     * @param arguments Arguments to pass to constructor.
+     * @return Invocation of constructor of {@code type} with provided arguments.
+     */
+    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
+        return invokeConstructor__factory(type, spec, arguments);
     }
 
     /**
@@ -1375,6 +1448,19 @@ public final class CodeAPI {
 
     private static MethodInvocation invokeConstructor__factory(CodeType type, CodeArgument... arguments) {
         return Helper.invokeConstructor(type, arguments);
+    }
+
+    private static MethodInvocation invokeConstructor__factory(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
+        return Helper.invokeConstructor(type, spec, arguments);
+    }
+
+    private static MethodInvocation invokeSuperConstructor__factory(CodeType type, TypeSpec constructorSpec, CodeArgument... arguments) {
+        return Helper.invokeSuperInit(type, constructorSpec, arguments);
+    }
+
+    private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, CodeArgument... arguments) {
+        return Helper.invoke(InvokeType.INVOKE_SPECIAL, (CodeType) null, CodeAPI.accessThis(),
+                new MethodSpecImpl("<init>", Arrays.asList(arguments), constructorSpec, MethodType.SUPER_CONSTRUCTOR));
     }
 
     // =========================================================
@@ -1937,14 +2023,47 @@ public final class CodeAPI {
         return typeSpec__factory(returnType, parameterTypes);
     }
 
+    /**
+     * Specification of a constructor signature.
+     *
+     * @param parameterTypes Parameter types.
+     * @return Specification of a signature.
+     */
+    public static TypeSpec constructorTypeSpec(CodeType... parameterTypes) {
+        return typeSpec__factory(PredefinedTypes.VOID, parameterTypes);
+    }
+
     // Class
 
+    /**
+     * Specification of a signature.
+     *
+     * @param returnType Return type.
+     * @return Specification of a signature.
+     */
     public static TypeSpec typeSpec(Class<?> returnType) {
         return typeSpec__factory(toCodeType(returnType), new CodeType[]{});
     }
 
+    /**
+     * Specification of a signature.
+     *
+     * @param returnType     Return type.
+     * @param parameterTypes Parameter types.
+     * @return Specification of a signature.
+     */
     public static TypeSpec typeSpec(Class<?> returnType, Class<?>... parameterTypes) {
         return typeSpec__factory(toCodeType(returnType), toCodeType(parameterTypes));
+    }
+
+    /**
+     * Specification of a constructor signature.
+     *
+     * @param parameterTypes Parameter types.
+     * @return Specification of a signature.
+     */
+    public static TypeSpec constructorTypeSpec(Class<?>... parameterTypes) {
+        return typeSpec__factory(PredefinedTypes.VOID, toCodeType(parameterTypes));
     }
 
     // Factory

@@ -25,30 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.EnumBuilder;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.impl.CodeEnum;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.test.EnumTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.iutils.annotations.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import java.lang.reflect.Modifier;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class EnumTest_ {
+public class EnumTest {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeEnum codeEnum = EnumBuilder.builder()
-                .withModifiers(Modifier.PUBLIC)
-                .withQualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
-                .withEntries(CodeAPI.enumEntry("A"), CodeAPI.enumEntry("B"))//
-                .build();
+    @SuppressWarnings("unchecked")
+    @Test
+    public void test() {
+        Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $ = EnumTest_.$();
 
-        return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));
+        @Named("Instance") Class<Enum> test = (Class<Enum>) CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass -> aClass);
+
+        Enum a = Enum.valueOf(test, "A");
+
+        Assert.assertEquals(0, a.ordinal());
+        Assert.assertEquals("A", a.name());
     }
 
 }
+

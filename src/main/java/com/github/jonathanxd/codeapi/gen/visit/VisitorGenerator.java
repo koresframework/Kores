@@ -168,8 +168,8 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
      * @param extraData  Data.
      * @param additional Additional object.
      */
-    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Object additional) {
-        this.generateTo(partClass, codePart, extraData, null, additional);
+    public T[] generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Object additional) {
+        return this.generateTo(partClass, codePart, extraData, null, additional);
     }
 
     /**
@@ -181,7 +181,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
      * @param consumer   Consumer
      * @param additional Additional object.
      */
-    public void generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Consumer<T[]> consumer, Object additional) {
+    public T[] generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Consumer<T[]> consumer, Object additional) {
         try {
             Visitor<?, T, ?> tVisitor = get(partClass);
 
@@ -191,6 +191,8 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
                 consumer.accept(visit);
 
             endVisit(tVisitor, visit, codePart, extraData, additional);
+
+            return visit;
         } catch (Throwable t) {
             if (t instanceof ProcessingException)
                 throw t;

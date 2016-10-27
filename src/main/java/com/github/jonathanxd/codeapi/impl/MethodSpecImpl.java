@@ -71,6 +71,10 @@ public class MethodSpecImpl implements MethodSpecification {
         this(methodName, arguments, Helper.getJavaType(returnType), MethodType.METHOD);
     }
 
+    public MethodSpecImpl(String methodName, CodeType returnType, List<CodeArgument> arguments, MethodType methodType) {
+        this(methodName, arguments, returnType, methodType);
+    }
+
     public MethodSpecImpl(String methodName, Class<?> returnType, List<CodeArgument> arguments, MethodType methodType) {
         this(methodName, arguments, Helper.getJavaType(returnType), methodType);
     }

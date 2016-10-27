@@ -47,6 +47,8 @@ public final class PredefinedTypes {
     public static final LoadedCodeType<Object> OBJECT = new PredefinedType<>(Object.class);
     public static final LoadedCodeType<String> STRING = new PredefinedType<>(String.class);
     public static final LoadedCodeType<System> SYSTEM = new PredefinedType<>(System.class);
+    public static final LoadedCodeType<Enum> ENUM = new PredefinedType<>(Enum.class);
+    public static final LoadedCodeType<Class> CLASS = new PredefinedType<>(Class.class);
 
     public static final LoadedCodeType<Void> VOID = new PredefinedType<>(Void.TYPE);
 

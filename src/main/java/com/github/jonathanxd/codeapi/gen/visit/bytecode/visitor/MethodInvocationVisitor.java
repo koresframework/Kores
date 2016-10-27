@@ -39,7 +39,9 @@ import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.Visitor;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.interfaces.Extender;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -69,6 +71,22 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
 
         Lazy<CodeType> enclosingType = new Lazy<>(() -> extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot determine current type!"));
 
+        if (localization == null
+                && methodInvocation.getSpec().getMethodType() == MethodType.SUPER_CONSTRUCTOR) {
+
+            CodePart part = methodInvocation.getTarget().orElse(null);
+
+            CodeType enclosing = enclosingType.get();
+
+            CodeType target = part == null || part instanceof AccessSuper
+                    ? (enclosing instanceof Extender ? ((Extender) enclosing).getSuperType().orElse(null) : null)
+                    : enclosing;
+
+            if (target == null)
+                throw new IllegalArgumentException("Cannot invoke super constructor of type: '" + enclosing + "'. No Super class.");
+
+            localization = target;
+        }
 
         // If localization is not null
         if (localization != null) {
@@ -116,7 +134,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
         }
 
         if (specification.getMethodName().equals("<init>")
-                || specification.getMethodType() == MethodType.CONSTRUCTOR) {
+                && specification.getMethodType() == MethodType.CONSTRUCTOR) {
             // Invoke constructor
             mv.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(localization));
             mv.visitInsn(DUP);

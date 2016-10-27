@@ -42,6 +42,7 @@ import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.impl.AccessInnerImpl;
 import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.impl.AccessOuterImpl;
@@ -560,7 +561,12 @@ public final class Helper {
 
     public static MethodInvocation invokeSuperInit(CodeType localization, CodeArgument... arguments) {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
-                new MethodSpecImpl("<init>", PredefinedTypes.VOID, Arrays.asList(arguments)));
+                new MethodSpecImpl("<init>", PredefinedTypes.VOID, Arrays.asList(arguments), MethodType.SUPER_CONSTRUCTOR));
+    }
+
+    public static MethodInvocation invokeSuperInit(CodeType localization, TypeSpec spec, CodeArgument... arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
+                new MethodSpecImpl("<init>", Arrays.asList(arguments), spec, MethodType.SUPER_CONSTRUCTOR));
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type) {
@@ -585,6 +591,10 @@ public final class Helper {
 
     public static MethodInvocation invokeConstructor(CodeType type, CodeArgument[] arguments) {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl(Arrays.asList(arguments), MethodType.CONSTRUCTOR));
+    }
+
+    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl("<init>", arguments, spec, MethodType.CONSTRUCTOR));
     }
 
     public static InstanceOf isInstanceOf(CodePart part, CodeType type) {
