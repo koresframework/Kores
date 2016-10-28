@@ -365,6 +365,11 @@ public class Common {
 
     }
 
+    public static int innerModifierToAsm(TypeDeclaration typeDeclaration) {
+        return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
+                Common.modifierToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType().isInterface());
+    }
+
     public static int modifierToAsm(TypeDeclaration typeDeclaration) {
         Collection<CodeModifier> modifiers = new ArrayList<>(typeDeclaration.getModifiers());
 

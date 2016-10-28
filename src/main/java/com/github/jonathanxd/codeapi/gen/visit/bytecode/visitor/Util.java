@@ -102,11 +102,7 @@ public class Util {
         String name = Common.codeTypeToSimpleAsm(outer);
 
         for (TypeDeclaration innerClass : innerClasses) {
-            int modifiers = Common.modifierToAsm(innerClass);
-
-
-
-            //cw.visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
+            int modifiers = Common.innerModifierToAsm(innerClass);
             cw.visitInnerClass(Common.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
 
 
@@ -115,8 +111,6 @@ public class Util {
             InstructionCodePart instructionCodePart = (value, extraData, visitorGenerator, additional) -> {
                 extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION)
                         .visitInnerClass(Common.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
-
-                        //.visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
             };
 
             source.add(0, instructionCodePart);
