@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.ArrayAppender;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.AnnotationPropertyVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ArrayAccessVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ArrayLengthVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ArrayStoreVisitor;
@@ -47,12 +48,15 @@ import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.StaticBlockVisit
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.SwitchVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TagLineVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TryBlockVisitor;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TypeAnnotationVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TypeVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.VariableAccessVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.WhileVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.AnnotationDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
@@ -175,6 +179,9 @@ public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
         addVisitor(Switch.class, new SwitchVisitor());
 
         addVisitor(EnumDeclaration.class, new EnumVisitor());
+
+        addVisitor(AnnotationDeclaration.class, new TypeAnnotationVisitor());
+        addVisitor(AnnotationProperty.class, new AnnotationPropertyVisitor());
     }
 
     public BytecodeGenerator() {

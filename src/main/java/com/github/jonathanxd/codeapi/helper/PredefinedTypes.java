@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 
 import org.objectweb.asm.Type;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
@@ -48,6 +49,7 @@ public final class PredefinedTypes {
     public static final LoadedCodeType<String> STRING = new PredefinedType<>(String.class);
     public static final LoadedCodeType<System> SYSTEM = new PredefinedType<>(System.class);
     public static final LoadedCodeType<Enum> ENUM = new PredefinedType<>(Enum.class);
+    public static final LoadedCodeType<Annotation> ANNOTATION = new PredefinedType<>(Annotation.class);
     public static final LoadedCodeType<Class> CLASS = new PredefinedType<>(Class.class);
     public static final LoadedCodeType<Override> OVERRIDE = new PredefinedType<>(Override.class);
 

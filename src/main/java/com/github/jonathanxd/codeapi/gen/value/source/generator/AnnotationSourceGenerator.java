@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
-import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
@@ -53,39 +53,7 @@ public class AnnotationSourceGenerator implements ValueGenerator<Annotation, Str
     private AnnotationSourceGenerator() {
     }
 
-    @Override
-    public List<Value<?, String, PlainSourceGenerator>> gen(Annotation annotation, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
-        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
-
-
-        values.add(PlainValue.create("@"));
-        values.add(TargetValue.create(CodeType.class, annotation.getType().orElseThrow(NullPointerException::new), parents));
-
-        Map<String, Object> valuesMap = annotation.getValues();
-
-        values.add(PlainValue.create("("));
-
-        if(valuesMap.size() == 1 && valuesMap.containsKey("value")) {
-            Object value = valuesMap.get("value");
-
-            this.addType(value, values, parents);
-        } else {
-
-            valuesMap.forEach((key, value) -> {
-                values.add(PlainValue.create(key));
-                values.add(PlainValue.create("="));
-
-               this.addType(value, values, parents);
-            });
-        }
-
-        values.add(PlainValue.create(")"));
-        values.add(PlainValue.create("\n"));
-
-        return values;
-    }
-
-    private void addType(Object value, List<Value<?, String, PlainSourceGenerator>> values, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents) {
+    public static void addType(Object value, List<Value<?, String, PlainSourceGenerator>> values, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents) {
         if (value instanceof CodeType) {
             values.add(TargetValue.create(CodeType.class, value, parents));
         } else if (value instanceof EnumValue) {
@@ -100,16 +68,50 @@ public class AnnotationSourceGenerator implements ValueGenerator<Annotation, Str
             for (int i = 0; i < valuesObj.length; i++) {
                 Object o = valuesObj[i];
 
-                this.addType(o, values, parents);
+                AnnotationSourceGenerator.addType(o, values, parents);
 
-                if(i + 1 < valuesObj.length) {
+                if (i + 1 < valuesObj.length) {
                     values.add(PlainValue.create(","));
                 }
             }
 
             values.add(PlainValue.create("}"));
+        } else if (value instanceof String) {
+            values.add(PlainValue.create("\"" + String.valueOf(value) + "\""));
         } else {
             values.add(PlainValue.create(value.toString()));
         }
+    }
+
+    @Override
+    public List<Value<?, String, PlainSourceGenerator>> gen(Annotation annotation, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
+        List<Value<?, String, PlainSourceGenerator>> values = new ArrayList<>();
+
+
+        values.add(PlainValue.create("@"));
+        values.add(TargetValue.create(CodeType.class, annotation.getType().orElseThrow(NullPointerException::new), parents));
+
+        Map<String, Object> valuesMap = annotation.getValues();
+
+        values.add(PlainValue.create("("));
+
+        if (valuesMap.size() == 1 && valuesMap.containsKey("value")) {
+            Object value = valuesMap.get("value");
+
+            AnnotationSourceGenerator.addType(value, values, parents);
+        } else {
+
+            valuesMap.forEach((key, value) -> {
+                values.add(PlainValue.create(key));
+                values.add(PlainValue.create("="));
+
+                AnnotationSourceGenerator.addType(value, values, parents);
+            });
+        }
+
+        values.add(PlainValue.create(")"));
+        values.add(PlainValue.create("\n"));
+
+        return values;
     }
 }

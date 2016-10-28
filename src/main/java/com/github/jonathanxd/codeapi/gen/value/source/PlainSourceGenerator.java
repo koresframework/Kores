@@ -36,7 +36,9 @@ import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.AccessSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.AccessorSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.AnnotableSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.AnnotationPropertySourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.AnnotationSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.AnnotationTypeSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ArgumenterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ArrayConstructorSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ArrayLengthSourceGenerator;
@@ -102,6 +104,8 @@ import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.AnnotationDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
@@ -265,6 +269,10 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(EnumDeclaration.class, EnumSourceGenerator.INSTANCE);
         register(EntryHolder.class, EntryHolderSourceGenerator.INSTANCE);
         register(EnumEntry.class, EntrySourceGenerator.INSTANCE);
+
+        // Annotation & Annotation Property
+        register(AnnotationDeclaration.class, AnnotationTypeSourceGenerator.INSTANCE);
+        register(AnnotationProperty.class, AnnotationPropertySourceGenerator.INSTANCE);
     }
 
     @SuppressWarnings("deprecation")

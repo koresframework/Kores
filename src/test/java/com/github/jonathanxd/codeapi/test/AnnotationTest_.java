@@ -25,65 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literals;
+package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
+import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Optional;
+import java.lang.reflect.Modifier;
 
-/**
- * A JVM Literal.
- *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
- */
-public abstract class Literal implements CodePart, Named, Typed {
+public class AnnotationTest_ {
 
-    /**
-     * Name of the literal.
-     */
-    private final String name;
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+        CodeAnnotation build = AnnotationBuilder.builder()
+                .withModifiers(Modifier.PUBLIC)
+                .withQualifiedName("com.MyAnnotation")
+                .withProperties(new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "value", null),
+                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "id", "A"))
+                .build();
 
-    /**
-     * Literal data type.
-     */
-    private final CodeType dataType;
-
-    /**
-     * Create a literal.
-     *
-     * @param name     Literal name.
-     * @param dataType Literal data type.
-     */
-    public Literal(String name, CodeType dataType) {
-        this.name = name;
-        this.dataType = dataType;
-    }
-
-    @Override
-    public Literal setName(String name) {
-        return new Literal(name, this.getType().orElse(null)) {};
-    }
-
-    @Override
-    public Literal setType(CodeType codeType) {
-        return new Literal(this.getName(), codeType) {};
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.dataType);
+        return Pair.of(build, CodeAPI.sourceOfParts(build));
     }
 }

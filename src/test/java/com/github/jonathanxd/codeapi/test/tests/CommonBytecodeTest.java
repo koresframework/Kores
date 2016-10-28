@@ -48,7 +48,7 @@ public class CommonBytecodeTest {
         return CommonBytecodeTest.test(testClass, (TypeDeclaration) mainClass, source);
     }
 
-    public static @Named("Instance") Object test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
+    public static @Named("Instance") <R> R test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source, Function<Class<?>, R> function) {
         return CommonBytecodeTest.test(testClass, (TypeDeclaration) mainClass, source, function);
     }
 
@@ -62,7 +62,7 @@ public class CommonBytecodeTest {
         });
     }
 
-    public static @Named("Instance") Object test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
+    public static @Named("Instance") <R> R test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source, Function<Class<?>, R> function) {
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         BCLoader bcLoader = new BCLoader();

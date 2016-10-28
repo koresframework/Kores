@@ -25,65 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literals;
+package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.test.AnnotationTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Optional;
+import org.junit.Test;
 
 /**
- * A JVM Literal.
- *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
+ * Created by jonathan on 03/09/16.
  */
-public abstract class Literal implements CodePart, Named, Typed {
+public class AnnotationTest {
 
-    /**
-     * Name of the literal.
-     */
-    private final String name;
+    @Test
+    public void annotationTest() {
+        Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $ = AnnotationTest_.$();
 
-    /**
-     * Literal data type.
-     */
-    private final CodeType dataType;
+        SourceTest test = CommonSourceTest.test($._2());
 
-    /**
-     * Create a literal.
-     *
-     * @param name     Literal name.
-     * @param dataType Literal data type.
-     */
-    public Literal(String name, CodeType dataType) {
-        this.name = name;
-        this.dataType = dataType;
+        test.consume(System.out::println);
     }
 
-    @Override
-    public Literal setName(String name) {
-        return new Literal(name, this.getType().orElse(null)) {};
-    }
-
-    @Override
-    public Literal setType(CodeType codeType) {
-        return new Literal(this.getName(), codeType) {};
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.dataType);
-    }
 }

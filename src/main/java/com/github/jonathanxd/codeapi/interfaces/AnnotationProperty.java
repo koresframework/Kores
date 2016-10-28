@@ -25,65 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literals;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
+import java.util.List;
 import java.util.Optional;
 
-/**
- * A JVM Literal.
- *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
- */
-public abstract class Literal implements CodePart, Named, Typed {
+public interface AnnotationProperty extends Named, Typed, RequiredTyped, Annotable, Returnable {
+    @Override
+    AnnotationProperty setName(String name);
 
-    /**
-     * Name of the literal.
-     */
-    private final String name;
+    AnnotationProperty setValue(Object value);
 
-    /**
-     * Literal data type.
-     */
-    private final CodeType dataType;
+    @Override
+    AnnotationProperty setAnnotations(List<Annotation> annotations);
 
-    /**
-     * Create a literal.
-     *
-     * @param name     Literal name.
-     * @param dataType Literal data type.
-     */
-    public Literal(String name, CodeType dataType) {
-        this.name = name;
-        this.dataType = dataType;
+    Optional<Object> getValue();
+
+    @Override
+    AnnotationProperty setType(CodeType codeType);
+
+    @Override
+    default AnnotationProperty setReturnType(CodeType returnType) {
+        return this.setType(returnType);
     }
 
     @Override
-    public Literal setName(String name) {
-        return new Literal(name, this.getType().orElse(null)) {};
-    }
-
-    @Override
-    public Literal setType(CodeType codeType) {
-        return new Literal(this.getName(), codeType) {};
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.dataType);
+    default Optional<CodeType> getReturnType() {
+        return this.getType();
     }
 }

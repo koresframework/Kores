@@ -25,65 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literals;
-
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Optional;
+package com.github.jonathanxd.codeapi.util;
 
 /**
- * A JVM Literal.
- *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
+ * Empty utility class (only reference)
  */
-public abstract class Literal implements CodePart, Named, Typed {
-
-    /**
-     * Name of the literal.
-     */
-    private final String name;
-
-    /**
-     * Literal data type.
-     */
-    private final CodeType dataType;
-
-    /**
-     * Create a literal.
-     *
-     * @param name     Literal name.
-     * @param dataType Literal data type.
-     */
-    public Literal(String name, CodeType dataType) {
-        this.name = name;
-        this.dataType = dataType;
-    }
-
-    @Override
-    public Literal setName(String name) {
-        return new Literal(name, this.getType().orElse(null)) {};
-    }
-
-    @Override
-    public Literal setType(CodeType codeType) {
-        return new Literal(this.getName(), codeType) {};
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.dataType);
+public final class Empty {
+    private Empty() {
+        throw new RuntimeException();
     }
 }

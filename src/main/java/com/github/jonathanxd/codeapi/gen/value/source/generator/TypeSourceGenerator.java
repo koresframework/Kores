@@ -85,11 +85,11 @@ public class TypeSourceGenerator implements ValueGenerator<TypeDeclaration, Stri
             values.add(TargetValue.create(Extender.class, codeInterface, parents));
         }
 
-        values.addAll(Arrays.asList(
-                TargetValue.create(Implementer.class, codeInterface, parents),
+        if(codeInterface instanceof Implementer) {
+            values.add(TargetValue.create(Implementer.class, codeInterface, parents));
+        }
 
-                TargetValue.create(Bodied.class, codeInterface, parents)
-        ));
+        values.add(TargetValue.create(Bodied.class, codeInterface, parents));
 
         return values;
     }

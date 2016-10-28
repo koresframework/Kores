@@ -25,65 +25,62 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literals;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
-import java.util.Optional;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * A JVM Literal.
- *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
- */
-public abstract class Literal implements CodePart, Named, Typed {
+public interface AnnotationDeclaration extends TypeDeclaration {
+
+    @Override
+    AnnotationDeclaration setName(String name);
+
+    @Override
+    AnnotationDeclaration setQualifiedName(String name);
+
+    @Override
+    AnnotationDeclaration setBody(CodeSource body);
+
+    @Override
+    AnnotationDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    AnnotationDeclaration setModifiers(Collection<CodeModifier> modifiers);
+
+    @Override
+    AnnotationDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    @Override
+    AnnotationDeclaration setOuterClass(CodeType outerClass);
 
     /**
-     * Name of the literal.
-     */
-    private final String name;
-
-    /**
-     * Literal data type.
-     */
-    private final CodeType dataType;
-
-    /**
-     * Create a literal.
+     * Gets annotation properties.
      *
-     * @param name     Literal name.
-     * @param dataType Literal data type.
+     * @return Annotation properties.
      */
-    public Literal(String name, CodeType dataType) {
-        this.name = name;
-        this.dataType = dataType;
-    }
+    List<AnnotationProperty> getProperties();
+
+    /**
+     * Sets annotation properties.
+     *
+     * @param properties Annotation properties.
+     * @return new instance.
+     */
+    AnnotationDeclaration setProperties(List<AnnotationProperty> properties);
 
     @Override
-    public Literal setName(String name) {
-        return new Literal(name, this.getType().orElse(null)) {};
+    default ClassType getClassType() {
+        return ClassType.ANNOTATION;
     }
 
-    @Override
-    public Literal setType(CodeType codeType) {
-        return new Literal(this.getName(), codeType) {};
-    }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean isExpression() {
-        return true;
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.dataType);
-    }
 }
