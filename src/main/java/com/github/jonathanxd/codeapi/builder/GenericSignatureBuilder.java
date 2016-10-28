@@ -28,11 +28,7 @@
 package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.ArrayToList;
-
-import java.util.List;
 
 public interface GenericSignatureBuilder<T, R extends GenericSignatureBuilder<T, R>> extends Builder<T> {
     /**

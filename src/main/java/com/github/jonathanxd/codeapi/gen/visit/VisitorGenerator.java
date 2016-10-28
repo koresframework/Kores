@@ -31,10 +31,10 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
+import com.github.jonathanxd.codeapi.gen.ArrayAppender;
 import com.github.jonathanxd.codeapi.gen.CodeGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.SugarSyntaxVisitor;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.gen.ArrayAppender;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
@@ -104,10 +104,10 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
 
         SugarSyntax<?, ?> syntax = null;
 
-        if(this.visitors.containsKey(type)) {
+        if (this.visitors.containsKey(type)) {
             Visitor<?, T, ?> tVisitor = this.visitors.get(type);
 
-            if(tVisitor instanceof SugarSyntaxVisitor<?, ?, ?>) {
+            if (tVisitor instanceof SugarSyntaxVisitor<?, ?, ?>) {
                 syntax = ((SugarSyntaxVisitor<?, ?, ?>) tVisitor).getSugarSyntax();
             }
 

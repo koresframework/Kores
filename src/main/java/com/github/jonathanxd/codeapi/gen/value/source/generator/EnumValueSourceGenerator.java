@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
-import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -57,7 +57,7 @@ public class EnumValueSourceGenerator implements ValueGenerator<EnumValue, Strin
 
         CodeType enumType = enumValue.getEnumType();
 
-        if(enumType != null) {
+        if (enumType != null) {
             values.add(TargetValue.create(CodeType.class, enumType, parents));
             values.add(PlainValue.create("."));
         }

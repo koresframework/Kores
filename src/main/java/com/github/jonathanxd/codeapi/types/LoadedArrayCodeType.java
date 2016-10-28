@@ -43,8 +43,9 @@ class LoadedArrayCodeType<T> extends CodeTypeArray implements LoadedCodeType<T> 
 
     /**
      * Create a {@link LoadedArrayCodeType} from a type and component.
+     *
      * @param loadedType Loaded Type
-     * @param component Component
+     * @param component  Component
      * @param dimensions Dimensions.
      */
     LoadedArrayCodeType(Class<T> loadedType, LoadedCodeType<?> component, int dimensions) {

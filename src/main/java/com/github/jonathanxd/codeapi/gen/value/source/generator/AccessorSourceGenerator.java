@@ -30,10 +30,10 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.value.CodePartValue;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
@@ -64,15 +64,14 @@ public class AccessorSourceGenerator implements ValueGenerator<Accessor, String,
         CodeType localization = accessor.getLocalization().orElse(null);
         boolean targetIsAccess = target != null && target instanceof Access;
 
-        if(target != null && !targetIsAccess && target != localization) {
+        if (target != null && !targetIsAccess && target != localization) {
             values.add(CodePartValue.create(target, parents));
 
-            if (separator){
+            if (separator) {
                 values.add(PlainValue.create("."));
                 anySeparator = true;
             }
-        }else
-        if (localization != null && !(target instanceof AccessLocal)) {
+        } else if (localization != null && !(target instanceof AccessLocal)) {
             values.add(TargetValue.create(CodeType.class, localization, parents));
             if (separator) {
                 values.add(PlainValue.create("."));

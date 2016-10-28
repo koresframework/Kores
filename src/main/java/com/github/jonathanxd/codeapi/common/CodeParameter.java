@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.Named;
@@ -99,6 +98,11 @@ public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Ann
     }
 
     @Override
+    public CodeParameter setType(CodeType codeType) {
+        return new CodeParameter(this.getName(), codeType, this.getAnnotations());
+    }
+
+    @Override
     public List<Annotation> getAnnotations() {
         return this.annotations;
     }
@@ -106,11 +110,5 @@ public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Ann
     @Override
     public CodeParameter setAnnotations(List<Annotation> annotations) {
         return new CodeParameter(this.getName(), this.getType().orElse(null), annotations);
-    }
-
-
-    @Override
-    public CodeParameter setType(CodeType codeType) {
-        return new CodeParameter(this.getName(), codeType, this.getAnnotations());
     }
 }

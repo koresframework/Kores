@@ -30,10 +30,10 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
-import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -56,15 +56,15 @@ public class CatchBlockSourceGenerator implements ValueGenerator<CatchBlock, Str
 
     private static int CATCH_VAR_COUNT = 0;
 
+    private CatchBlockSourceGenerator() {
+    }
+
     private static int getAndIncrementCatchVar() {
         int i = CATCH_VAR_COUNT;
 
         ++CATCH_VAR_COUNT;
 
         return i;
-    }
-
-    private CatchBlockSourceGenerator() {
     }
 
     @Override
@@ -87,7 +87,7 @@ public class CatchBlockSourceGenerator implements ValueGenerator<CatchBlock, Str
             }
         }
 
-        String catchName = "internal__catch$"+getAndIncrementCatchVar();
+        String catchName = "internal__catch$" + getAndIncrementCatchVar();
 
         values.add(PlainValue.create("(" + sj.toString() + " " + catchName + ")"));
 
@@ -97,7 +97,7 @@ public class CatchBlockSourceGenerator implements ValueGenerator<CatchBlock, Str
 
         FieldDeclaration field = catchBlock.getField();
 
-        if(!field.getValue().isPresent()) {
+        if (!field.getValue().isPresent()) {
             field = new CodeField(field.getName(), field.getVariableType(), Helper.accessLocalVariable(catchName, Throwable.class), field.getModifiers(), field.getAnnotations());
         }
 

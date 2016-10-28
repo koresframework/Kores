@@ -31,6 +31,7 @@ import java.util.function.Supplier;
 
 /**
  * Lazy initialized value.
+ *
  * @param <T> Type of value;
  */
 public class Lazy<T> {
@@ -43,7 +44,7 @@ public class Lazy<T> {
     }
 
     public T get() {
-        if(this.cached == null)
+        if (this.cached == null)
             this.cached = initializer.get();
 
         return this.cached;

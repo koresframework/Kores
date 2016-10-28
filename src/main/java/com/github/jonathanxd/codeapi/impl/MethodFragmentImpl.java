@@ -36,13 +36,13 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.Scope;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -103,6 +103,11 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
     }
 
     @Override
+    public MethodFragmentImpl setMethod(MethodDeclaration method) {
+        return new MethodFragmentImpl(this.getTargetDeclaration(), this.getInvokeDynamic().orElse(null), this.getInvokeType(), this.getType().orElse(null), this.getTarget().orElse(null), this.getSpec(), method);
+    }
+
+    @Override
     public TypeDeclaration getTargetDeclaration() {
         return this.targetDeclaration;
     }
@@ -110,11 +115,6 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
     @Override
     public MethodFragmentImpl setTargetDeclaration(TypeDeclaration targetDeclaration) {
         return new MethodFragmentImpl(targetDeclaration, this.getInvokeDynamic().orElse(null), this.getInvokeType(), this.getType().orElse(null), this.getTarget().orElse(null), this.getSpec(), this.getMethod());
-    }
-
-    @Override
-    public MethodFragmentImpl setMethod(MethodDeclaration method) {
-        return new MethodFragmentImpl(this.getTargetDeclaration(), this.getInvokeDynamic().orElse(null), this.getInvokeType(), this.getType().orElse(null), this.getTarget().orElse(null), this.getSpec(), method);
     }
 
     @Override

@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,6 +62,11 @@ public class CatchBlockImpl implements CatchBlock {
     }
 
     @Override
+    public CatchBlockImpl setBody(CodeSource body) {
+        return new CatchBlockImpl(this.getField(), this.getExceptionTypes(), body);
+    }
+
+    @Override
     public List<CodeType> getExceptionTypes() {
         return this.exceptionTypes;
     }
@@ -85,11 +89,6 @@ public class CatchBlockImpl implements CatchBlock {
     @Override
     public CatchBlockImpl setType(CodeType codeType) {
         return new CatchBlockImpl(this.getField().setType(codeType), this.getExceptionTypes(), this.getBody().orElse(null));
-    }
-
-    @Override
-    public CatchBlockImpl setBody(CodeSource body) {
-        return new CatchBlockImpl(this.getField(), this.getExceptionTypes(), body);
     }
 
     @Override

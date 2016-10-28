@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 
 import java.util.Optional;
 
@@ -56,13 +55,13 @@ public class ElseBlockImpl implements ElseBlock {
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .toString();
+    public ElseBlockImpl setBody(CodeSource body) {
+        return new ElseBlockImpl(body);
     }
 
     @Override
-    public ElseBlockImpl setBody(CodeSource body) {
-        return new ElseBlockImpl(body);
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .toString();
     }
 }

@@ -152,8 +152,8 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
 import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.literals.Literal;
@@ -294,10 +294,10 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         SugarSyntax<?, ?> syntax = null;
 
-        if(this.getRegistry().containsKey(type)) {
+        if (this.getRegistry().containsKey(type)) {
             ValueGenerator<?, String, PlainSourceGenerator> generator = this.getRegistry().get(type);
 
-            if(generator instanceof SugarSyntaxGenerator<?, ?>)
+            if (generator instanceof SugarSyntaxGenerator<?, ?>)
                 syntax = ((SugarSyntaxGenerator<?, ?>) generator).getSugarSyntax();
         }
 
@@ -341,13 +341,13 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
                 elem = elem.substring(0, elem.length() - 1);
             }
 
-            if(!elem.equals("\n"))
+            if (!elem.equals("\n"))
                 this.multiString.add(elem);
 
-            if(elem.equals("@"))
+            if (elem.equals("@"))
                 this.isAnnotation = true;
 
-            if(elem.equals("\n") && this.isAnnotation) {
+            if (elem.equals("\n") && this.isAnnotation) {
                 this.isAnnotation = false;
             }
 
@@ -355,19 +355,19 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
                     || endsWithOpenBr
                     || endsWithCloseBr
                     || elem.equals("\n")) {
-                if(!this.isAnnotation) {
+                if (!this.isAnnotation) {
                     this.multiString.newLine();
                 }
             }
 
             if (endsWithOpenBr) {
-                if(!this.isAnnotation) {
+                if (!this.isAnnotation) {
                     this.indentation.addIdent();
                 }
             }
 
             if (endsWithCloseBr) {
-                if(!this.isAnnotation) {
+                if (!this.isAnnotation) {
                     this.indentation.removeIdent();
                     this.multiString.add("}");
                     this.multiString.newLine();

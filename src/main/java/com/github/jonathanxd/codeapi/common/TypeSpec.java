@@ -60,7 +60,7 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
     /**
      * Constructor
      *
-     * @param returnType     Return type
+     * @param returnType Return type
      */
     public TypeSpec(CodeType returnType) {
         this(returnType, (List<CodeType>) null);
@@ -112,6 +112,11 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
         return Optional.of(this.getReturnType());
     }
 
+    @Override
+    public TypeSpec setType(CodeType codeType) {
+        return this.setReturnType(codeType);
+    }
+
     /**
      * Gets the return type
      *
@@ -119,6 +124,10 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
      */
     public CodeType getReturnType() {
         return this.returnType;
+    }
+
+    public TypeSpec setReturnType(CodeType returnType) {
+        return new TypeSpec(returnType, this.getParameterTypes());
     }
 
     /**
@@ -130,21 +139,12 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
         return this.parameterTypes;
     }
 
+    public TypeSpec setParameterTypes(List<CodeType> parameterTypes) {
+        return new TypeSpec(this.getReturnType(), parameterTypes);
+    }
+
     @Override
     public String toString() {
         return "TypeSpec[returnType=" + this.getReturnType() + ", parameterSpec=" + getParameterTypes() + "]";
-    }
-
-    @Override
-    public TypeSpec setType(CodeType codeType) {
-        return this.setReturnType(codeType);
-    }
-
-    public TypeSpec setReturnType(CodeType returnType) {
-        return new TypeSpec(returnType, this.getParameterTypes());
-    }
-
-    public TypeSpec setParameterTypes(List<CodeType> parameterTypes) {
-        return new TypeSpec(this.getReturnType(), parameterTypes);
     }
 }

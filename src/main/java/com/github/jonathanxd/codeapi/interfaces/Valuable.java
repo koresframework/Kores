@@ -45,6 +45,7 @@ public interface Valuable {
 
     /**
      * Sets the value.
+     *
      * @param value Value.
      * @return new instance.
      */

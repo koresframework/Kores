@@ -36,23 +36,38 @@ public interface AnnotationProperty extends Named, Typed, RequiredTyped, Annotab
     @Override
     AnnotationProperty setName(String name);
 
-    AnnotationProperty setValue(Object value);
-
     @Override
     AnnotationProperty setAnnotations(List<Annotation> annotations);
 
+    /**
+     * Gets the annotation value.
+     *
+     * @return Annotation value.
+     */
     Optional<Object> getValue();
+
+    /**
+     * Sets the annotation value.
+     *
+     * The Annotation value must be: {@link Byte}, {@link Boolean}, {@link Character}, {@link
+     * Short}, {@link Integer}, {@link Long}, {@link Float}, {@link Double}, {@link String}, {@link
+     * CodeType}, OBJECT, ARRAY, {@link EnumValue} or other {@link Annotation}.
+     *
+     * @param value Annotation value.
+     * @return new instance.
+     */
+    AnnotationProperty setValue(Object value);
 
     @Override
     AnnotationProperty setType(CodeType codeType);
 
     @Override
-    default AnnotationProperty setReturnType(CodeType returnType) {
-        return this.setType(returnType);
+    default Optional<CodeType> getReturnType() {
+        return this.getType();
     }
 
     @Override
-    default Optional<CodeType> getReturnType() {
-        return this.getType();
+    default AnnotationProperty setReturnType(CodeType returnType) {
+        return this.setType(returnType);
     }
 }

@@ -55,8 +55,8 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
     /**
      * Constructor
      *
-     * @param value   Value type used to determine which {@link ValueGenerator} to be used to process
-     *                {@code val}.
+     * @param value   Value type used to determine which {@link ValueGenerator} to be used to
+     *                process {@code val}.
      * @param val     Value
      * @param parents Parent Generators (bug tracing).
      */
@@ -68,8 +68,8 @@ public class TargetValue<V, TARGET, C extends AbstractGenerator<TARGET, C>> exte
     /**
      * Create {@link TargetValue}.
      *
-     * @param targetClass Value type used to determine which {@link ValueGenerator} to be used to process
-     *                    {@code val}.
+     * @param targetClass Value type used to determine which {@link ValueGenerator} to be used to
+     *                    process {@code val}.
      * @param val         Value.
      * @param parents     Parent Generators (bug tracing).
      * @param <V>         Value type.

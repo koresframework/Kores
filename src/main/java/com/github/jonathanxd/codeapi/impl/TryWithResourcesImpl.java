@@ -96,14 +96,6 @@ public class TryWithResourcesImpl extends TryBlockImpl implements TryWithResourc
     }
 
     @Override
-    public TryWithResourcesImpl setExpression(CodePart expression) {
-        if(expression instanceof VariableDeclaration)
-            return this.setVariable((VariableDeclaration) expression);
-
-        return this;
-    }
-
-    @Override
     public TryWithResourcesImpl setBodies(List<CodeSource> sourceList) {
         return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
     }
@@ -111,5 +103,13 @@ public class TryWithResourcesImpl extends TryBlockImpl implements TryWithResourc
     @Override
     public Optional<CodePart> getExpression() {
         return TryWithResources.super.getExpression();
+    }
+
+    @Override
+    public TryWithResourcesImpl setExpression(CodePart expression) {
+        if (expression instanceof VariableDeclaration)
+            return this.setVariable((VariableDeclaration) expression);
+
+        return this;
     }
 }

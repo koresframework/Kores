@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
-import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
@@ -54,7 +54,7 @@ public class CodeTypeSourceGenerator implements ValueGenerator<CodeType, String,
     @Override
     public List<Value<?, String, PlainSourceGenerator>> gen(CodeType codeType, PlainSourceGenerator plainSourceGenerator, Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents, CodeSourceData codeSourceData, MapData data) {
 
-        if(codeType instanceof GenericType)
+        if (codeType instanceof GenericType)
             return Collections.singletonList(TargetValue.create(GenericType.class, codeType, parents));
 
         return Collections.singletonList(

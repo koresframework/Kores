@@ -93,13 +93,13 @@ public class ForEachBlockImpl implements ForEachBlock {
     }
 
     @Override
-    public ForEachBlockImpl setBody(CodeSource body) {
-        return new ForEachBlockImpl(this.getField(), this.getIterationType(), this.getIterableElement(), body);
+    public Optional<CodeSource> getBody() {
+        return Optional.ofNullable(this.source);
     }
 
     @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(this.source);
+    public ForEachBlockImpl setBody(CodeSource body) {
+        return new ForEachBlockImpl(this.getField(), this.getIterationType(), this.getIterableElement(), body);
     }
 
     @Override

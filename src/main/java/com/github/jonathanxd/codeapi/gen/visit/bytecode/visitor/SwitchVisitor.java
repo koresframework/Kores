@@ -277,7 +277,7 @@ public class SwitchVisitor implements VoidVisitor<Switch, BytecodeClass, MVData>
 
                 CodeType type = Common.getType(caseValue);
 
-                if(type.is(PredefinedTypes.INT))
+                if (type.is(PredefinedTypes.INT))
                     return aCase;
 
                 return aCase.setBody(CodeAPI.sourceOfParts(

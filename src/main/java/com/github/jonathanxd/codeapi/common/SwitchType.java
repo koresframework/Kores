@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Case;
@@ -55,7 +53,6 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
 
     /**
      * This generator will not be called if the {@link SwitchType} is {@link SwitchTypes#NUMERIC}.
-     *
      */
     abstract class SwitchGenerator implements Generator<Switch, Switch> {
 
@@ -89,7 +86,7 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
         }
 
         private <R extends Typed> R checkType(R typed) {
-            if(!Objects.requireNonNull(typed.getType().orElse(null), "Type cannot be null").is(PredefinedTypes.INT)) {
+            if (!Objects.requireNonNull(typed.getType().orElse(null), "Type cannot be null").is(PredefinedTypes.INT)) {
                 throw new IllegalArgumentException("Translated switch is not a numeric switch!");
             }
 

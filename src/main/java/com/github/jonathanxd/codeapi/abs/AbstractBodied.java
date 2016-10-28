@@ -44,6 +44,7 @@ public abstract class AbstractBodied implements Bodied {
 
     /**
      * Constructor
+     *
      * @param body Body of element
      */
     protected AbstractBodied(CodeSource body) {

@@ -89,8 +89,18 @@ public class IfBlockImpl implements IfBlock {
     }
 
     @Override
+    public IfBlockImpl setBody(CodeSource body) {
+        return new IfBlockImpl(body, this.getIfExprsAndOps(), this.getElseBlock().orElse(null));
+    }
+
+    @Override
     public List<CodePart> getIfExprsAndOps() {
         return this.ifExprs;
+    }
+
+    @Override
+    public IfBlockImpl setIfExprsAndOps(List<CodePart> ifExprsAndOps) {
+        return new IfBlockImpl(this.getBody().orElse(null), ifExprsAndOps, this.getElseBlock().orElse(null));
     }
 
     @Override
@@ -104,18 +114,8 @@ public class IfBlockImpl implements IfBlock {
     }
 
     @Override
-    public IfBlockImpl setBody(CodeSource body) {
-        return new IfBlockImpl(body, this.getIfExprsAndOps(), this.getElseBlock().orElse(null));
-    }
-
-    @Override
     public IfBlockImpl setBodies(List<CodeSource> sourceList) {
         return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
-    }
-
-    @Override
-    public IfBlockImpl setIfExprsAndOps(List<CodePart> ifExprsAndOps) {
-        return new IfBlockImpl(this.getBody().orElse(null), ifExprsAndOps, this.getElseBlock().orElse(null));
     }
 
     @Override

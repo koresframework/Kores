@@ -53,7 +53,8 @@ public interface Visitor<T extends CodePart, R, L> extends PartProcessor {
     /**
      * End a visit to a {@link CodePart} of type {@link T}.
      *
-     * @param r                Result of {@link #visit(CodePart, MapData, VisitorGenerator, Object)} invocation.
+     * @param r                Result of {@link #visit(CodePart, MapData, VisitorGenerator, Object)}
+     *                         invocation.
      * @param t                Part to visit.
      * @param extraData        Data.
      * @param visitorGenerator Generator.

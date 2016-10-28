@@ -30,6 +30,8 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
@@ -37,8 +39,6 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.iutils.containers.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -80,7 +80,7 @@ public class VariableAccessVisitor implements VoidVisitor<VariableAccess, Byteco
             localization = typeDeclaration.get();
         }
 
-        if(localization != null) {
+        if (localization != null) {
 
             MutableContainer<CodeType> of = MutableContainer.of(localization);
 
@@ -89,7 +89,7 @@ public class VariableAccessVisitor implements VoidVisitor<VariableAccess, Byteco
             localization = of.get();
         }
 
-        if(!isNull & at != null) {
+        if (!isNull & at != null) {
             visitorGenerator.generateTo(at.getClass(), at, extraData, null, mvData);
         }
 
@@ -102,34 +102,34 @@ public class VariableAccessVisitor implements VoidVisitor<VariableAccess, Byteco
             }
         } else {
 
-                if (at instanceof AccessLocalImpl) {
+            if (at instanceof AccessLocalImpl) {
 
-                    Optional<Variable> var = mvData.getVar(variableAccess.getName(), variableAccess.getVariableType());
+                Optional<Variable> var = mvData.getVar(variableAccess.getName(), variableAccess.getVariableType());
 
 
-                    if (!var.isPresent())
-                        throw new RuntimeException("Variable '" + variableAccess.getName() + "' Type: '" + variableAccess.getVariableType().getJavaSpecName() + "' Not found in local variables map");
+                if (!var.isPresent())
+                    throw new RuntimeException("Variable '" + variableAccess.getName() + "' Type: '" + variableAccess.getVariableType().getJavaSpecName() + "' Not found in local variables map");
 
-                    Variable variable = var.get();
+                Variable variable = var.get();
 
-                    OptionalInt varPosOpt = mvData.getVarPos(variable);
+                OptionalInt varPosOpt = mvData.getVarPos(variable);
 
-                    if (!varPosOpt.isPresent())
-                        throw mvData.failFind(variable);
+                if (!varPosOpt.isPresent())
+                    throw mvData.failFind(variable);
 
-                    int i = varPosOpt.getAsInt();
+                int i = varPosOpt.getAsInt();
 
-                    Type type = Type.getType(variable.getType().getJavaSpecName());
+                Type type = Type.getType(variable.getType().getJavaSpecName());
 
-                    int opcode = type.getOpcode(ILOAD); // ALOAD
+                int opcode = type.getOpcode(ILOAD); // ALOAD
 
-                    additional.visitVarInsn(opcode, i);
-                } else if (at instanceof AccessThis) {
-                    // THIS
-                    additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(typeDeclaration.get()), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
-                } else {
-                    additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
-                }
+                additional.visitVarInsn(opcode, i);
+            } else if (at instanceof AccessThis) {
+                // THIS
+                additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(typeDeclaration.get()), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
+            } else {
+                additional.visitFieldInsn(GETFIELD, Common.codeTypeToSimpleAsm(localization), variableAccess.getName(), Common.codeTypeToFullAsm(variableAccess.getVariableType()));
+            }
 
         }
 

@@ -29,9 +29,9 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.gen.visit.Visitor;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -46,9 +46,9 @@ public class LiteralVisitor implements Visitor<Literal, BytecodeClass, MVData>, 
 
     @Override
     public BytecodeClass[] visit(Literal literal,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        MVData mvData) {
+                                 MapData extraData,
+                                 VisitorGenerator<BytecodeClass> visitorGenerator,
+                                 MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 

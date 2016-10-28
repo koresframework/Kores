@@ -30,9 +30,9 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -48,9 +48,9 @@ public class ContinueVisitor implements VoidVisitor<Continue, BytecodeClass, MVD
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void voidVisit(Continue aContinue,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        MVData mvData) {
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          MVData mvData) {
 
         MethodVisitor visitor = mvData.getMethodVisitor();
 

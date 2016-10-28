@@ -27,15 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
-import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
-import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
@@ -44,7 +42,6 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -122,18 +119,18 @@ public class MethodInvocationSourceGenerator implements ValueGenerator<MethodInv
 
         MethodInvocation mi = methodInvocationImpl;
 
-        if(isCtr && !isRef) {
+        if (isCtr && !isRef) {
             values.add(TargetValue.create(Keywords.NEW, parents));
             mi = mi.setTarget(null);
         }
 
         values.addAll(AccessorSourceGenerator.gen(mi, !isRef && !isCtr, parents));
 
-        if(isRef) {
+        if (isRef) {
             values.add(PlainValue.create(METHOD_SEPARATOR));
         }
 
-        if(isCtr && isRef) {
+        if (isCtr && isRef) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 

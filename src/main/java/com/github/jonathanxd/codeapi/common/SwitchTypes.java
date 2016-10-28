@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.SwitchType.SwitchGenerator;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Case;
@@ -118,7 +117,7 @@ public final class SwitchTypes {
 
         @Override
         public Case translateCase(Case aCase, Switch aSwitch) {
-            if(aCase.isDefault())
+            if (aCase.isDefault())
                 return aCase;
 
             return aCase.setValue(Literals.INT(resolve(aCase.getValue().orElseThrow(NullPointerException::new), aSwitch)));

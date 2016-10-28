@@ -46,8 +46,9 @@ public class CodeSourceData {
 
     /**
      * Constructor
-     * @param source          Source
-     * @param currentIndex    Current index in the source element.
+     *
+     * @param source       Source
+     * @param currentIndex Current index in the source element.
      */
     public CodeSourceData(CodeSource source, IntContainer currentIndex) {
         this.source = source;
@@ -56,6 +57,7 @@ public class CodeSourceData {
 
     /**
      * Gets the source
+     *
      * @return Source
      */
     public CodeSource getSource() {
@@ -64,6 +66,7 @@ public class CodeSourceData {
 
     /**
      * Gets the current index.
+     *
      * @return Current index.
      */
     public int getCurrentIndex() {

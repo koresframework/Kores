@@ -29,11 +29,11 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -50,9 +50,9 @@ public class AnnotationVisitor implements VoidVisitor<Annotation, BytecodeClass,
 
     @Override
     public void voidVisit(Annotation annotation,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        Object additional) {
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          Object additional) {
 
         Optional<ClassWriter> classWriterOpt;
 

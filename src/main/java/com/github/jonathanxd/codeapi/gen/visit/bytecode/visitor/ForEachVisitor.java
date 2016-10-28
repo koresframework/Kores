@@ -31,9 +31,9 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Opcodes;

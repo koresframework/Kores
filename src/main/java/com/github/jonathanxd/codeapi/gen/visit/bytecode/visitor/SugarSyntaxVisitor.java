@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;

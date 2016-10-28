@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
@@ -76,13 +76,13 @@ public class MethodSourceGenerator implements ValueGenerator<MethodDeclaration, 
             values.add(TargetValue.create(Returnable.class, codeMethod, parents));
         }
 
-        if(codeMethod instanceof ConstructorDeclaration) {
+        if (codeMethod instanceof ConstructorDeclaration) {
 
             String name = codeMethod.getName();
 
             Optional<Parent<ValueGenerator<?, String, PlainSourceGenerator>>> generatorParent = parents.find(CodeClass.class);
 
-            if(generatorParent.isPresent()) {
+            if (generatorParent.isPresent()) {
                 Parent<ValueGenerator<?, String, PlainSourceGenerator>> generatorParent1 = generatorParent.get();
                 CodeClass target = (CodeClass) generatorParent1.getTarget();
 

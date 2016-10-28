@@ -52,6 +52,9 @@ public interface ConstructorDeclaration extends MethodDeclaration {
     }
 
     @Override
+    ConstructorDeclaration setReturnType(CodeType returnType);
+
+    @Override
     ConstructorDeclaration setName(String name);
 
     @Override
@@ -59,9 +62,6 @@ public interface ConstructorDeclaration extends MethodDeclaration {
 
     @Override
     ConstructorDeclaration setAnnotations(List<Annotation> annotations);
-
-    @Override
-    ConstructorDeclaration setReturnType(CodeType returnType);
 
     @Override
     ConstructorDeclaration setParameters(List<CodeParameter> codeParameters);

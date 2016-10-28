@@ -48,6 +48,7 @@ class CodeTypeArray implements CodeType {
 
     /**
      * Create a {@link CodeTypeArray} from a component and dimensions.
+     *
      * @param component Component
      * @param dimension Dimensions.
      */
@@ -58,12 +59,13 @@ class CodeTypeArray implements CodeType {
 
     /**
      * Gets the array component.
+     *
      * @return Array component.
      */
     public CodeType getComponent() {
         return this.component;
     }
-    
+
     @Override
     public String getType() {
         String name = this.component.getType();
@@ -112,7 +114,7 @@ class CodeTypeArray implements CodeType {
 
         return name + sb.toString();
     }
-    
+
     @Override
     public boolean isArray() {
         return true;

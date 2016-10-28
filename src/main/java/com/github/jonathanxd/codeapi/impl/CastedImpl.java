@@ -62,13 +62,13 @@ public class CastedImpl implements Casted {
     }
 
     @Override
-    public CastedImpl setType(CodeType codeType) {
-        return new CastedImpl(this.getOriginalType(), codeType, this.getCastedPart().orElse(null));
+    public Optional<CodeType> getType() {
+        return Optional.ofNullable(this.type);
     }
 
     @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.type);
+    public CastedImpl setType(CodeType codeType) {
+        return new CastedImpl(this.getOriginalType(), codeType, this.getCastedPart().orElse(null));
     }
 
     @Override

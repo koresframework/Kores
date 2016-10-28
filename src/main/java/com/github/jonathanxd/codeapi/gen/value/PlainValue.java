@@ -47,7 +47,8 @@ public class PlainValue<TARGET, C extends AbstractGenerator<TARGET, C>> implemen
 
     /**
      * Constructor
-     * @param value    Plain value.
+     *
+     * @param value Plain value.
      */
     public PlainValue(TARGET value) {
         this.value = value;
@@ -55,7 +56,8 @@ public class PlainValue<TARGET, C extends AbstractGenerator<TARGET, C>> implemen
 
     /**
      * Create {@link PlainValue}.
-     * @param value       Plain value.
+     *
+     * @param value    Plain value.
      * @param <TARGET> Output object type.
      * @param <C>      Generator type.
      * @return {@link PlainValue}

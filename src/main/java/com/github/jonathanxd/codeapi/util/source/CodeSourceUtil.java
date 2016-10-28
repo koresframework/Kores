@@ -64,7 +64,7 @@ public class CodeSourceUtil {
         BooleanContainer any = BooleanContainer.of(false);
 
         MutableCodeSource result = CodeSourceUtil.insertAfter(codePart -> {
-            if(predicate.test(codePart)) {
+            if (predicate.test(codePart)) {
                 any.toTrue();
                 return true;
             }
@@ -72,7 +72,7 @@ public class CodeSourceUtil {
             return false;
         }, toInsert, source);
 
-        if(!any.get()) {
+        if (!any.get()) {
             result.add(toInsert);
         }
 
@@ -93,7 +93,7 @@ public class CodeSourceUtil {
         BooleanContainer any = BooleanContainer.of(false);
 
         MutableCodeSource result = CodeSourceUtil.insertBefore(codePart -> {
-            if(predicate.test(codePart)) {
+            if (predicate.test(codePart)) {
                 any.toTrue();
                 return true;
             }
@@ -101,7 +101,7 @@ public class CodeSourceUtil {
             return false;
         }, toInsert, source);
 
-        if(!any.get()) {
+        if (!any.get()) {
             result.add(toInsert);
         }
 

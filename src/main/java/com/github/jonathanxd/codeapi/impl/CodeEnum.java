@@ -35,7 +35,6 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
@@ -76,7 +75,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setName(String name) {
-        String newName = (!this.getPackageName().isEmpty() ? this.getPackageName() + "." : "")+name;
+        String newName = (!this.getPackageName().isEmpty() ? this.getPackageName() + "." : "") + name;
         return this.setQualifiedName(newName);
     }
 

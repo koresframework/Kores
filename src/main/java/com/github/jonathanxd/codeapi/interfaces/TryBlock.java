@@ -48,9 +48,6 @@ public interface TryBlock extends Bodied, MultiBodied, CodePart {
     TryBlock setFinallyBlock(CodeSource finallyBlock);
 
     @Override
-    TryBlock setBodies(List<CodeSource> sourceList);
-
-    @Override
     TryBlock setBody(CodeSource body);
 
     /**
@@ -89,4 +86,7 @@ public interface TryBlock extends Bodied, MultiBodied, CodePart {
 
         return sources;
     }
+
+    @Override
+    TryBlock setBodies(List<CodeSource> sourceList);
 }

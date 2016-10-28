@@ -45,13 +45,10 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
-import com.github.jonathanxd.codeapi.interfaces.AnnotationDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
@@ -375,7 +372,7 @@ public class Common {
     public static int modifierToAsm(TypeDeclaration typeDeclaration) {
         Collection<CodeModifier> modifiers = new ArrayList<>(typeDeclaration.getModifiers());
 
-        if(modifiers.contains(CodeModifier.STATIC))
+        if (modifiers.contains(CodeModifier.STATIC))
             modifiers.remove(CodeModifier.STATIC);
 
         return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
@@ -435,7 +432,7 @@ public class Common {
         if (outer != null) {
             String packageName = outer.getPackageName();
 
-            if(!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
+            if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
                 // Prevent duplication of the name
                 return Util.getRealNameStr(qualifiedName, outer);
             }

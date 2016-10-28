@@ -32,11 +32,11 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.iutils.conditions.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -51,9 +51,9 @@ public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>
 
     @Override
     public void voidVisit(Casted casted,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        MVData mvData) {
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          MVData mvData) {
 
         MethodVisitor additional = mvData.getMethodVisitor();
 

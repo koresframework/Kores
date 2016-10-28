@@ -80,6 +80,11 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     @Override
+    public CodeField setType(CodeType codeType) {
+        return new CodeField(this.getName(), codeType, this.getValue().orElse(null), this.getModifiers(), this.getAnnotations());
+    }
+
+    @Override
     public Optional<CodeType> getLocalization() {
         return Optional.ofNullable(this.type);
     }
@@ -105,8 +110,18 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     @Override
+    public CodeField setName(String name) {
+        return new CodeField(name, this.getVariableType(), this.getValue().orElse(null), this.getModifiers(), this.getAnnotations());
+    }
+
+    @Override
     public List<Annotation> getAnnotations() {
         return this.annotations;
+    }
+
+    @Override
+    public CodeField setAnnotations(List<Annotation> annotations) {
+        return new CodeField(this.getName(), this.getVariableType(), this.getValue().orElse(null), this.getModifiers(), annotations);
     }
 
     @Override
@@ -131,23 +146,8 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     @Override
-    public CodeField setName(String name) {
-        return new CodeField(name, this.getVariableType(), this.getValue().orElse(null), this.getModifiers(), this.getAnnotations());
-    }
-
-    @Override
     public CodeField setValue(CodePart value) {
         return new CodeField(this.getName(), this.getVariableType(), value, this.getModifiers(), this.getAnnotations());
-    }
-
-    @Override
-    public CodeField setType(CodeType codeType) {
-        return new CodeField(this.getName(), codeType, this.getValue().orElse(null), this.getModifiers(), this.getAnnotations());
-    }
-
-    @Override
-    public CodeField setAnnotations(List<Annotation> annotations) {
-        return new CodeField(this.getName(), this.getVariableType(), this.getValue().orElse(null), this.getModifiers(), annotations);
     }
 
     @Override

@@ -79,13 +79,13 @@ public class ArrayConstructorImpl implements ArrayConstructor {
     }
 
     @Override
-    public ArrayConstructorImpl setArguments(List<CodeArgument> codeArgumentList) {
-        return new ArrayConstructorImpl(this.getArrayType(), this.getDimensions(), codeArgumentList);
+    public List<CodeArgument> getArguments() {
+        return this.arguments;
     }
 
     @Override
-    public List<CodeArgument> getArguments() {
-        return this.arguments;
+    public ArrayConstructorImpl setArguments(List<CodeArgument> codeArgumentList) {
+        return new ArrayConstructorImpl(this.getArrayType(), this.getDimensions(), codeArgumentList);
     }
 
     @Override

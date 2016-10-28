@@ -29,10 +29,10 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
-import com.github.jonathanxd.codeapi.gen.value.PlainValue;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -61,6 +61,6 @@ public class InstanceOfSourceGenerator implements ValueGenerator<InstanceOf, Str
                 TargetValue.create(part.getClass(), part, parents),
                 PlainValue.create("instanceof"),
                 TargetValue.create(CodeType.class, type, parents)
-                );
+        );
     }
 }

@@ -33,10 +33,10 @@ import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.iutils.data.MapData;
 
-import org.objectweb.asm.*;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -57,7 +57,7 @@ public class AnnotationPropertyVisitor implements VoidVisitor<AnnotationProperty
 
         Optional<Object> valueOpt = property.getValue();
 
-        if(valueOpt.isPresent()) {
+        if (valueOpt.isPresent()) {
             Object value = valueOpt.get();
 
             org.objectweb.asm.AnnotationVisitor annotationVisitor = mv.visitAnnotationDefault();

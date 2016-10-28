@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 

@@ -46,7 +46,8 @@ public interface Typed extends CodePart {
 
     /**
      * Sets the type.
-     * @param codeType    Type
+     *
+     * @param codeType Type
      * @return new instance.
      */
     Typed setType(CodeType codeType);

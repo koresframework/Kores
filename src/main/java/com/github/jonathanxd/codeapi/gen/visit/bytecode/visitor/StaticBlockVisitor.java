@@ -32,17 +32,17 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.type.TypeInfo;
 import com.github.jonathanxd.iutils.optional.Require;
+import com.github.jonathanxd.iutils.type.TypeInfo;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -114,7 +114,7 @@ public class StaticBlockVisitor implements VoidVisitor<StaticBlock, BytecodeClas
         mv.visitInsn(RETURN);
         try {
             mv.visitMaxs(0, 0);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         mv.visitEnd();

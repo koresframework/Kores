@@ -55,13 +55,13 @@ public class Operator implements CodePart, Named {
     }
 
     @Override
-    public Operator setName(String name) {
-        return new Operator(name);
+    public String getName() {
+        return name;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public Operator setName(String name) {
+        return new Operator(name);
     }
 
     @Override

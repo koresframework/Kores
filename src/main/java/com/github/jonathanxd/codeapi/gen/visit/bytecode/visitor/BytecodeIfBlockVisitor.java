@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
@@ -95,7 +94,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
                 Label lbl;
 
-                if(ifBlock instanceof SwitchVisitor.SwitchIfBlock) { // Workaround ?
+                if (ifBlock instanceof SwitchVisitor.SwitchIfBlock) { // Workaround ?
                     lbl = extraData.getRequired(ConstantDatas.FLOW_TYPE_INFO).getInsideEnd();
                 } else {
                     lbl = jumpToStart ? ifStartLabel : !isInverse ? inIfLabel : (elseLabel == null ? outOfIfLabel : elseLabel); // Jump to else if exists
@@ -116,25 +115,25 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                 boolean expr1Primitive = Common.isPrimitive(expr1);
                 boolean expr2Primitive = Common.isPrimitive(expr2);
 
-                if(expr1Primitive) {
+                if (expr1Primitive) {
                     firstIsBoolean = Common.isBoolean(expr1);
                 }
 
-                if(expr2Primitive) {
+                if (expr2Primitive) {
                     secondIsBoolean = Common.isBoolean(expr2);
                 }
 
-                if(firstIsBoolean || secondIsBoolean) {
+                if (firstIsBoolean || secondIsBoolean) {
                     boolean operatorIsEq = operation == Operators.EQUAL_TO;
 
                     boolean value = firstIsBoolean ? Common.getBooleanValue(expr1) : Common.getBooleanValue(expr2);
 
                     int opcode = Common.getIfNeEqOpcode(value);
 
-                    if(!operatorIsEq)
+                    if (!operatorIsEq)
                         opcode = Common.invertIfNeEqOpcode(opcode);
 
-                    if(isInverse)
+                    if (isInverse)
                         opcode = Common.invertIfNeEqOpcode(opcode);
 
 

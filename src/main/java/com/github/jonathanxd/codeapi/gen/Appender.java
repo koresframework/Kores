@@ -47,7 +47,7 @@ public abstract class Appender<T> {
      */
     public final void addAll(T[] elems) {
 
-        if(elems == null)
+        if (elems == null)
             return;
 
         for (T elem : elems) {

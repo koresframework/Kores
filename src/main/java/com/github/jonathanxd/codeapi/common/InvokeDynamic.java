@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Type;

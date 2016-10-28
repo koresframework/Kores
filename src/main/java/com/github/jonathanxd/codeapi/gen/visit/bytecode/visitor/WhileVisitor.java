@@ -31,11 +31,11 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.impl.IfBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.WhileBlock;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -49,9 +49,9 @@ public class WhileVisitor implements VoidVisitor<WhileBlock, BytecodeClass, MVDa
 
     @Override
     public void voidVisit(WhileBlock whileBlock,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        MVData mvData) {
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          MVData mvData) {
 
         MethodVisitor mv = mvData.getMethodVisitor();
 

@@ -261,7 +261,6 @@ public class MutableCodeSource extends CodeSource {
     }
 
 
-
     /**
      * Exposes {@link #removeRange(int, int)}
      */

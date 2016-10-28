@@ -97,7 +97,7 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
 
     @Override
     public CodeInterface setName(String name) {
-        String newName = (!this.getPackageName().isEmpty() ? this.getPackageName() + "." : "")+name;
+        String newName = (!this.getPackageName().isEmpty() ? this.getPackageName() + "." : "") + name;
         return this.setQualifiedName(newName);
     }
 

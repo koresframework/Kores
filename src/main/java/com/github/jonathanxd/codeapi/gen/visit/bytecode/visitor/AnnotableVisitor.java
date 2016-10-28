@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.interfaces.Annotable;
-import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.codeapi.interfaces.Annotable;
+import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Opcodes;
@@ -42,9 +42,9 @@ public class AnnotableVisitor implements VoidVisitor<Annotable, BytecodeClass, O
 
     @Override
     public void voidVisit(Annotable annotable,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        Object additional) {
+                          MapData extraData,
+                          VisitorGenerator<BytecodeClass> visitorGenerator,
+                          Object additional) {
 
         List<Annotation> annotations = annotable.getAnnotations();
 

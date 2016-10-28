@@ -36,8 +36,7 @@ import com.github.jonathanxd.codeapi.gen.PartProcessor;
  * PartProcessor} and registering that.
  *
  * @param <T> Input CodePart
- *           @param <E> Output CodePart
- *
+ * @param <E> Output CodePart
  */
 public interface SugarSyntax<T extends CodePart, E extends CodePart> {
 

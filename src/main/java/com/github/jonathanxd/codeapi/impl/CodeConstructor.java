@@ -36,7 +36,6 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
@@ -79,6 +78,11 @@ public class CodeConstructor extends CodeMethod implements ConstructorDeclaratio
     }
 
     @Override
+    public CodeConstructor setReturnType(CodeType returnType) {
+        return this;
+    }
+
+    @Override
     public CodeConstructor setName(String name) {
         return this;
     }
@@ -91,11 +95,6 @@ public class CodeConstructor extends CodeMethod implements ConstructorDeclaratio
     @Override
     public CodeConstructor setAnnotations(List<Annotation> annotations) {
         return new CodeConstructor(this.getModifiers(), this.getParameters(), annotations, this.getBody().orElse(null));
-    }
-
-    @Override
-    public CodeConstructor setReturnType(CodeType returnType) {
-        return this;
     }
 
     @Override

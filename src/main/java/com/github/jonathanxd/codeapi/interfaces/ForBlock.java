@@ -95,6 +95,9 @@ public interface ForBlock extends Bodied, IfBlock {
     }
 
     @Override
+    ForBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
+
+    @Override
     default Optional<ElseBlock> getElseBlock() {
         return Optional.empty();
     }
@@ -107,7 +110,4 @@ public interface ForBlock extends Bodied, IfBlock {
 
     @Override
     ForBlock setBodies(List<CodeSource> sourceList);
-
-    @Override
-    ForBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
 }

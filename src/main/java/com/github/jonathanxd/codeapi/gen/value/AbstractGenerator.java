@@ -80,7 +80,8 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     /**
      * Help generics.
      *
-     * Cast types and call {@link ValueGenerator#gen(Object, Object, Parent, CodeSourceData, MapData)}.
+     * Cast types and call {@link ValueGenerator#gen(Object, Object, Parent, CodeSourceData,
+     * MapData)}.
      *
      * @param generator      Generator
      * @param target         Target code part
@@ -101,7 +102,7 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
     @Override
     public synchronized T gen(CodeSource source, MapData processingData, Object additional) {
 
-        if(processingData == null)
+        if (processingData == null)
             processingData = new MapData();
 
         Appender<T> appender = createAppender();

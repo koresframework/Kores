@@ -73,12 +73,14 @@ public interface TypeDeclaration extends Modifierable, CodeRoot, CodeType, Quali
 
     /**
      * Gets the outer class.
+     *
      * @return Outer class.
      */
     Optional<CodeType> getOuterClass();
 
     /**
      * Sets the outer class.
+     *
      * @param outerClass Outer class.
      * @return new instance.
      */

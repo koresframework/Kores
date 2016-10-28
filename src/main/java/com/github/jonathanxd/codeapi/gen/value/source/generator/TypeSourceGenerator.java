@@ -28,9 +28,9 @@
 package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.PackageDeclarationImpl;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
@@ -85,7 +85,7 @@ public class TypeSourceGenerator implements ValueGenerator<TypeDeclaration, Stri
             values.add(TargetValue.create(Extender.class, codeInterface, parents));
         }
 
-        if(codeInterface instanceof Implementer) {
+        if (codeInterface instanceof Implementer) {
             values.add(TargetValue.create(Implementer.class, codeInterface, parents));
         }
 

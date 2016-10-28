@@ -55,12 +55,14 @@ public interface MethodFragment extends MethodInvocation, CodeElement, CodePart 
 
     /**
      * Gets the target declaration.
+     *
      * @return Target declaration.
      */
     TypeDeclaration getTargetDeclaration();
 
     /**
      * Sets the target declaration.
+     *
      * @param targetDeclaration Target declaration.
      * @return new instance.
      */

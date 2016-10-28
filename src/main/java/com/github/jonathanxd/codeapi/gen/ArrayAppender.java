@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.gen.Appender;
-
 /**
  * Appender of array of {@link T}
  *

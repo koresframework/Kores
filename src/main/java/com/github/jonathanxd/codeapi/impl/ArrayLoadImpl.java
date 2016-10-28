@@ -72,11 +72,6 @@ public class ArrayLoadImpl implements ArrayLoad {
     }
 
     @Override
-    public ArrayLoadImpl setTarget(CodePart target) {
-        return new ArrayLoadImpl(this.getIndex(), target, this.getValueType());
-    }
-
-    @Override
     public ArrayLoad setType(CodeType codeType) {
         return this.setValueType(codeType);
     }
@@ -84,6 +79,11 @@ public class ArrayLoadImpl implements ArrayLoad {
     @Override
     public Optional<CodePart> getTarget() {
         return Optional.ofNullable(this.target);
+    }
+
+    @Override
+    public ArrayLoadImpl setTarget(CodePart target) {
+        return new ArrayLoadImpl(this.getIndex(), target, this.getValueType());
     }
 
     @Override

@@ -57,8 +57,9 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
 
     /**
      * Constructor
-     * @param part       Part
-     * @param current    Parent generators (bug tracing).
+     *
+     * @param part    Part
+     * @param current Parent generators (bug tracing).
      */
     public CodePartValue(CodePart part, Parent<ValueGenerator<?, TARGET, C>> current) {
         this.part = part;
@@ -67,10 +68,11 @@ public class CodePartValue<TARGET, C extends AbstractGenerator<TARGET, C>> imple
 
     /**
      * Create value from part and parent generators.
-     * @param part        Part
-     * @param current     Parent generators
-     * @param <TARGET>    Output object type.
-     * @param <C>         Generator type.
+     *
+     * @param part     Part
+     * @param current  Parent generators
+     * @param <TARGET> Output object type.
+     * @param <C>      Generator type.
      * @return {@link CodePartValue} instance.
      */
     public static <TARGET, C extends AbstractGenerator<TARGET, C>> Value<CodePart, TARGET, C> create(CodePart part, Parent<ValueGenerator<?, TARGET, C>> current) {

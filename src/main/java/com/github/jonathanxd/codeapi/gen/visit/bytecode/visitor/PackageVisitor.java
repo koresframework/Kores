@@ -28,9 +28,9 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.gen.visit.Visitor;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 

@@ -33,6 +33,9 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InnerType;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.Visitor;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
@@ -42,9 +45,6 @@ import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.object.Pair;
 import com.github.jonathanxd.iutils.type.TypeInfo;
@@ -137,14 +137,14 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
             for (TypeDeclaration declaration : typeDeclarationList) {
                 Optional<CodeType> outerClassOpt = declaration.getOuterClass();
 
-                if(!outerClassOpt.isPresent())
-                    throw new IllegalArgumentException("No outer class defined to type: '"+declaration+"'!");
+                if (!outerClassOpt.isPresent())
+                    throw new IllegalArgumentException("No outer class defined to type: '" + declaration + "'!");
 
-                if(!outerClassOpt.get().is(typeDeclaration))
+                if (!outerClassOpt.get().is(typeDeclaration))
                     //noinspection OptionalGetWithoutIsPresent
-                    throw new IllegalArgumentException("Outer class specified to '"+declaration+"' don't matches the real outer class. " +
-                            "Specified: '"+outerClassOpt.get()+"'," +
-                            "Real: '"+typeDeclaration+"'!");
+                    throw new IllegalArgumentException("Outer class specified to '" + declaration + "' don't matches the real outer class. " +
+                            "Specified: '" + outerClassOpt.get() + "'," +
+                            "Real: '" + typeDeclaration + "'!");
             }
 
             List<TypeDeclaration> originalDeclList = new ArrayList<>(typeDeclarationList);
@@ -162,7 +162,7 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
             List<TypeDeclaration> allAsList = extraData.getAllAsList(OUTER_TYPE_REPRESENTATION);
 
-            if(!typeDeclaration.getModifiers().contains(CodeModifier.STATIC)) {
+            if (!typeDeclaration.getModifiers().contains(CodeModifier.STATIC)) {
 
 
                 if (!allAsList.isEmpty()) {

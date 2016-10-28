@@ -33,15 +33,12 @@ import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
 import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.EntryHolder;
 import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,7 +66,7 @@ public class EntryHolderSourceGenerator implements ValueGenerator<EntryHolder, S
 
             values.add(TargetValue.create(EnumEntry.class, enumEntry, parents));
 
-            if(iterator.hasNext())
+            if (iterator.hasNext())
                 values.add(PlainValue.create(","));
         }
 

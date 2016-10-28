@@ -85,12 +85,14 @@ public interface EnumValue extends Named, Typed, CodePart {
 
     /**
      * Gets the ordinal value.
+     *
      * @return Ordinal value.
      */
     int getOrdinal();
 
     /**
      * Sets the ordinal value.
+     *
      * @param ordinal Ordinal value.
      * @return new instance.
      */

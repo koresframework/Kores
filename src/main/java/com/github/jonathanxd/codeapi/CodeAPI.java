@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi;
 
+import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
 import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.builder.ConstructorBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumBuilder;
@@ -51,6 +52,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.AnnotationImpl;
+import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLengthImpl;
 import com.github.jonathanxd.codeapi.impl.ArrayLoadImpl;
@@ -69,6 +71,7 @@ import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
+import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
@@ -125,6 +128,136 @@ import java.util.function.Function;
 public final class CodeAPI {
 
     private static final Annotation[] EMPTY_ANNOTATIONS = {};
+
+    // =========================================================
+    //          Annotations
+    // =========================================================
+
+    public static AnnotationBuilder annotationBuilder() {
+        return AnnotationBuilder.builder();
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name}.
+     *
+     * @param type Property type.
+     * @param name Property name.
+     * @return Property.
+     */
+    public static AnnotationProperty property(CodeType type, String name) {
+        return factory__property(null, type, name, null);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name}.
+     *
+     * @param type Property type.
+     * @param name Property name.
+     * @return Property.
+     */
+    public static AnnotationProperty property(Class<?> type, String name) {
+        return factory__property(null, CodeAPI.toCodeType(type), name, null);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name} with default value
+     * {@code value}.
+     *
+     * @param type  Property type.
+     * @param name  Property name.
+     * @param value Default annotation value. The value must be: {@link Byte}, {@link Boolean},
+     *              {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Float},
+     *              {@link Double}, {@link String}, {@link CodeType}, OBJECT, ARRAY, {@link
+     *              EnumValue} or other {@link Annotation}.
+     * @return Property.
+     */
+    public static AnnotationProperty property(CodeType type, String name, Object value) {
+        return factory__property(null, type, name, value);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name} with default value
+     * {@code value}.
+     *
+     * @param type  Property type.
+     * @param name  Property name.
+     * @param value Default annotation value. The value must be: {@link Byte}, {@link Boolean},
+     *              {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Float},
+     *              {@link Double}, {@link String}, {@link CodeType}, OBJECT, ARRAY, {@link
+     *              EnumValue} or other {@link Annotation}.
+     * @return Property.
+     */
+    public static AnnotationProperty property(Class<?> type, String name, Object value) {
+        return factory__property(null, CodeAPI.toCodeType(type), name, value);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name} with default value
+     * {@code value} and annotated with {@code annotations}.
+     *
+     * @param annotations Annotations.
+     * @param type        Property type.
+     * @param name        Property name.
+     * @param value       Default annotation value. The value must be: {@link Byte}, {@link
+     *                    Boolean}, {@link Character}, {@link Short}, {@link Integer}, {@link Long},
+     *                    {@link Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                    ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return Property.
+     */
+    public static AnnotationProperty property(List<Annotation> annotations, CodeType type, String name, Object value) {
+        return factory__property(annotations, type, name, value);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name} with default value
+     * {@code value} and annotated with {@code annotations}.
+     *
+     * @param annotations Annotations.
+     * @param type        Property type.
+     * @param name        Property name.
+     * @param value       Default annotation value. The value must be: {@link Byte}, {@link
+     *                    Boolean}, {@link Character}, {@link Short}, {@link Integer}, {@link Long},
+     *                    {@link Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                    ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * @return Property.
+     */
+    public static AnnotationProperty property(List<Annotation> annotations, Class<?> type, String name, Object value) {
+        return factory__property(annotations, CodeAPI.toCodeType(type), name, value);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name} and annotated with
+     * {@code annotations}.
+     *
+     * @param annotations Annotations.
+     * @param type        Property type.
+     * @param name        Property name.
+     * @return Property.
+     */
+    public static AnnotationProperty property(List<Annotation> annotations, CodeType type, String name) {
+        return factory__property(annotations, type, name, null);
+    }
+
+    /**
+     * Create an annotation property of type {@code type} and name {@code name} and annotated with
+     * {@code annotations}.
+     *
+     * @param annotations Annotations.
+     * @param type        Property type.
+     * @param name        Property name.
+     * @return Property.
+     */
+    public static AnnotationProperty property(List<Annotation> annotations, Class<?> type, String name) {
+        return factory__property(annotations, CodeAPI.toCodeType(type), name, null);
+    }
+
+    private static AnnotationProperty factory__property(List<Annotation> annotationList,
+                                                        CodeType type,
+                                                        String name,
+                                                        Object value) {
+
+        return new AnnotationPropertyImpl(annotationList, type, name, value);
+    }
 
     // =========================================================
     //          Interfaces

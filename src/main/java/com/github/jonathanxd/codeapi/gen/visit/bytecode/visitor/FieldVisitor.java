@@ -29,13 +29,13 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.Visitor;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.ClassWriter;
@@ -51,9 +51,9 @@ public class FieldVisitor implements Visitor<FieldDeclaration, BytecodeClass, Ob
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public BytecodeClass[] visit(FieldDeclaration codeField,
-                        MapData extraData,
-                        VisitorGenerator<BytecodeClass> visitorGenerator,
-                        Object additional) {
+                                 MapData extraData,
+                                 VisitorGenerator<BytecodeClass> visitorGenerator,
+                                 Object additional) {
 
         if (additional == null) {
 

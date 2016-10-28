@@ -69,6 +69,7 @@ public final class InterfaceBuilder implements Builder<CodeInterface> {
 
     /**
      * Sets the outer class.
+     *
      * @param outerClass Outer class.
      * @return This.
      */

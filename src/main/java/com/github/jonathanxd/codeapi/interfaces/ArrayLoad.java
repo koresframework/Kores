@@ -71,8 +71,8 @@ public interface ArrayLoad extends CodePart, Typed, ArrayAccess {
     }
 
     @Override
-    ArrayLoad setTarget(CodePart target);
+    ArrayLoad setType(CodeType codeType);
 
     @Override
-    ArrayLoad setType(CodeType codeType);
+    ArrayLoad setTarget(CodePart target);
 }

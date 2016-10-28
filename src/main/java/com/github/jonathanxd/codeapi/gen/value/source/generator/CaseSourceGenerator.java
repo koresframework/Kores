@@ -29,19 +29,13 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.SwitchType;
-import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
-import com.github.jonathanxd.codeapi.gen.value.CodeSourceValue;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
 import com.github.jonathanxd.codeapi.gen.value.Value;
 import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Case;
-import com.github.jonathanxd.codeapi.interfaces.Switch;
-import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -67,13 +61,13 @@ public class CaseSourceGenerator implements ValueGenerator<Case, String, PlainSo
         Optional<CodePart> valueOpt = aCase.getValue();
 
 
-        if(aCase.isDefault()) {
+        if (aCase.isDefault()) {
             values.add(PlainValue.create("default"));
         } else {
             values.add(PlainValue.create("case"));
         }
 
-        if(valueOpt.isPresent()) {
+        if (valueOpt.isPresent()) {
             CodePart value = valueOpt.get();
 
             values.add(TargetValue.create(value, parents));
@@ -82,7 +76,6 @@ public class CaseSourceGenerator implements ValueGenerator<Case, String, PlainSo
         values.add(PlainValue.create(":"));
 
         values.add(TargetValue.create(CodeSource.class, aCase.getBody().orElseThrow(NullPointerException::new), parents));
-
 
 
         return values;

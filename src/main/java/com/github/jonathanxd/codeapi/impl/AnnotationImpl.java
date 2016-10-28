@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.impl;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collections;

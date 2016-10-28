@@ -42,6 +42,7 @@ public interface Named extends CodePart {
 
     /**
      * Sets the name.
+     *
      * @param name Name
      * @return new instance with new name.
      */

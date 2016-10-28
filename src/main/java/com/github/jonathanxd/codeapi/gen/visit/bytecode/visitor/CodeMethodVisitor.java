@@ -64,7 +64,6 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
     public static final CodeMethodVisitor INSTANCE = new CodeMethodVisitor();
 
 
-
     @Override
     public void voidVisit(MethodDeclaration codeMethod, MapData extraData, VisitorGenerator<BytecodeClass> visitorGenerator, Object additional) {
 
@@ -179,7 +178,6 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
         mv.visitEnd();
     }
-
 
 
 }
