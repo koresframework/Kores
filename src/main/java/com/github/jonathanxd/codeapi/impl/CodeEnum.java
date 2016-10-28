@@ -30,10 +30,12 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
@@ -45,6 +47,7 @@ import java.util.Optional;
 @GenerateTo(EnumDeclaration.class)
 public class CodeEnum implements EnumDeclaration {
 
+    private final CodeType outerClass;
     private final String qualifiedName;
     private final String name;
     private final CodeSource body;
@@ -54,14 +57,9 @@ public class CodeEnum implements EnumDeclaration {
     private final GenericSignature<GenericType> genericSignature;
     private final List<EnumEntry> entries;
 
-    public CodeEnum(String qualifiedName,
-                    CodeSource body,
-                    List<Annotation> annotations,
-                    Collection<CodeModifier> modifiers,
-                    List<CodeType> implementations,
-                    GenericSignature<GenericType> genericSignature,
-                    List<EnumEntry> entries) {
-        this.qualifiedName = qualifiedName;
+    public CodeEnum(CodeType outerClass, CodeSource body, List<Annotation> annotations, Collection<CodeModifier> modifiers, List<CodeType> implementations, GenericSignature<GenericType> genericSignature, List<EnumEntry> entries, String qualifiedName) {
+        this.outerClass = outerClass;
+        this.qualifiedName = Common.resolveRealQualified(qualifiedName, outerClass);
         this.name = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length());
         this.body = body;
         this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);
@@ -89,7 +87,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setBody(CodeSource body) {
-        return new CodeEnum(this.getQualifiedName(), body, this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries());
+        return new CodeEnum(this.getOuterClass().orElse(null), body, this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries(), this.getQualifiedName());
     }
 
     @Override
@@ -99,7 +97,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setAnnotations(List<Annotation> annotations) {
-        return new CodeEnum(this.getQualifiedName(), this.getBody().orElse(null), annotations, this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries());
+        return new CodeEnum(this.getOuterClass().orElse(null), this.getBody().orElse(null), annotations, this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries(), this.getQualifiedName());
     }
 
     @Override
@@ -109,7 +107,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setModifiers(Collection<CodeModifier> modifiers) {
-        return new CodeEnum(this.getQualifiedName(), this.getBody().orElse(null), this.getAnnotations(), modifiers, this.getImplementations(), this.getGenericSignature(), this.getEntries());
+        return new CodeEnum(this.getOuterClass().orElse(null), this.getBody().orElse(null), this.getAnnotations(), modifiers, this.getImplementations(), this.getGenericSignature(), this.getEntries(), this.getQualifiedName());
     }
 
     @Override
@@ -119,7 +117,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setImplementations(List<CodeType> implementations) {
-        return new CodeEnum(this.getQualifiedName(), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), implementations, this.getGenericSignature(), this.getEntries());
+        return new CodeEnum(this.getOuterClass().orElse(null), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), implementations, this.getGenericSignature(), this.getEntries(), this.getQualifiedName());
     }
 
     @Override
@@ -129,7 +127,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setGenericSignature(GenericSignature<GenericType> genericSignature) {
-        return new CodeEnum(this.getQualifiedName(), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), genericSignature, this.getEntries());
+        return new CodeEnum(this.getOuterClass().orElse(null), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), genericSignature, this.getEntries(), this.getQualifiedName());
     }
 
     @Override
@@ -139,7 +137,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setEntries(List<EnumEntry> entries) {
-        return new CodeEnum(this.getQualifiedName(), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), entries);
+        return new CodeEnum(this.getOuterClass().orElse(null), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), entries, this.getQualifiedName());
     }
 
     @Override
@@ -149,7 +147,7 @@ public class CodeEnum implements EnumDeclaration {
 
     @Override
     public CodeEnum setQualifiedName(String name) {
-        return new CodeEnum(name, this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries());
+        return new CodeEnum(this.getOuterClass().orElse(null), this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries(), name);
     }
 
     @Override
@@ -161,4 +159,15 @@ public class CodeEnum implements EnumDeclaration {
     public String getCanonicalName() {
         return this.getQualifiedName();
     }
+
+    @Override
+    public Optional<CodeType> getOuterClass() {
+        return Optional.ofNullable(this.outerClass);
+    }
+
+    @Override
+    public CodeEnum setOuterClass(CodeType outeClass) {
+        return new CodeEnum(outerClass, this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getImplementations(), this.getGenericSignature(), this.getEntries(), this.getName());
+    }
+
 }

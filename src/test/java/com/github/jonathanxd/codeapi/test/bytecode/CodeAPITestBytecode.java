@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -38,7 +39,6 @@ import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.builder.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.builder.CodeFieldBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
@@ -196,7 +196,7 @@ public class CodeAPITestBytecode {
         MutableCodeSource codeClassSource = new MutableCodeSource();
 
         // Define a interface
-        CodeClass codeClass = CodeClassBuilder.builder()
+        CodeClass codeClass = ClassBuilder.builder()
                 .withQualifiedName("github.com."+this.getClass().getSimpleName())
                 // Add 'public' modifier
                 .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))

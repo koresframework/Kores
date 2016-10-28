@@ -50,6 +50,10 @@ public class EnumTest {
 
         Assert.assertEquals(0, a.ordinal());
         Assert.assertEquals("A", a.name());
+
+        EnumTest_.MyItf myItf = (EnumTest_.MyItf) a;
+
+        myItf.v();
     }
 
 }

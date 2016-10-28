@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.PlainCodeType;
 import com.github.jonathanxd.iutils.annotations.Named;
@@ -57,30 +58,38 @@ public class InnerClassTest_ {
 
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = aClass(PUBLIC, "test.InnerClass", codeClass1 -> sourceOfParts(
+
+
+        CodeClass codeClass = aClass(PUBLIC, "test.InnerClass");
+
+        TypeDeclaration inner = aClass(PUBLIC, "Inner", CodeAPI.source(
+                method(PUBLIC, "call", PredefinedTypes.STRING, CodeAPI.source(
+                        Predefined.invokePrintln(argument(
+                                accessField(codeClass, Helper.accessOuter(codeClass), PredefinedTypes.STRING, "field"),
+                                PredefinedTypes.STRING
+                        )),
+                        CodeAPI.invokeVirtual(codeClass, Helper.accessOuter(codeClass), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID)),
+                        CodeAPI.returnValue(String.class, Literals.STRING("A"))
+                ))
+        )).setOuterClass(codeClass);
+
+        codeClass = codeClass.setBody(CodeAPI.sourceOfParts(
                 new CodeField("field",
                         Helper.getJavaType(String.class),
                         Literals.STRING("XSD"),
                         Arrays.asList(CodeModifier.PUBLIC)),
+
                 CodeAPI.constructor(PUBLIC, constructor -> CodeAPI.sourceOfParts(
-                        CodeAPI.invokeVirtual(CodeAPI.accessInnerClass("Inner"),
-                        CodeAPI.invokeConstructor(CodeAPI.accessInnerClass("Inner")),
+                        CodeAPI.invokeVirtual(inner,
+                                CodeAPI.invokeConstructor(inner),
                                 "call", CodeAPI.typeSpec(String.class))
                 )),
                 CodeAPI.method(PUBLIC, "mm", PredefinedTypes.VOID, codeMethod -> CodeAPI.sourceOfParts(
                         Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class))
                 )),
-                aClass(PUBLIC, "Inner", codeClass2 -> sourceOfParts(
-                        method(PUBLIC, "call", PredefinedTypes.STRING, method -> sourceOfParts(
-                                Predefined.invokePrintln(argument(
-                                        accessField(codeClass1, Helper.accessOuter(codeClass1), PredefinedTypes.STRING, "field"),
-                                        PredefinedTypes.STRING
-                                )),
-                                CodeAPI.invokeVirtual(codeClass1, Helper.accessOuter(codeClass1), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID)),
-                                CodeAPI.returnValue(String.class, Literals.STRING("A"))
-                        ))
-                ))
+                inner
         ));
+
 
         return Pair.of(codeClass, sourceOfParts(codeClass));
     }

@@ -68,7 +68,7 @@ public class TestForLoop {
 
         PlainSourceGenerator generator = new PlainSourceGenerator();
 
-        CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.Nomade",
+        CodeClass codeClass = new CodeClass(null, "me.jonathanscripter.codeapi.test.Nomade",
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null,
                 null,

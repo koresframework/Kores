@@ -40,7 +40,6 @@ import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
@@ -105,7 +104,7 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
                 : Collections.emptyList();
 
         // ASM Class name
-        String className = Common.getClassName(typeDeclaration, extraData);
+        String className = Common.getClassName(typeDeclaration);
         // ASM Class modifiers
         int modifiers = Common.modifierToAsm(typeDeclaration);
         // ASM Super Class implementation
@@ -135,11 +134,22 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
             typeDeclarationList = pair._1();
 
+            for (TypeDeclaration declaration : typeDeclarationList) {
+                Optional<CodeType> outerClassOpt = declaration.getOuterClass();
+
+                if(!outerClassOpt.isPresent())
+                    throw new IllegalArgumentException("No outer class defined to type: '"+declaration+"'!");
+
+                if(!outerClassOpt.get().is(typeDeclaration))
+                    //noinspection OptionalGetWithoutIsPresent
+                    throw new IllegalArgumentException("Outer class specified to '"+declaration+"' don't matches the real outer class. " +
+                            "Specified: '"+outerClassOpt.get()+"'," +
+                            "Real: '"+typeDeclaration+"'!");
+            }
+
             List<TypeDeclaration> originalDeclList = new ArrayList<>(typeDeclarationList);
 
             typeDeclarationList = Util.visitInner(cw, typeDeclaration, typeDeclarationList);
-
-            typeDeclarationList = Util.fixNames(typeDeclarationList, typeDeclaration);
 
             for (int i = 0; i < originalDeclList.size(); i++) {
                 // Register inner types.
@@ -152,26 +162,27 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
             List<TypeDeclaration> allAsList = extraData.getAllAsList(OUTER_TYPE_REPRESENTATION);
 
-            if (!allAsList.isEmpty()) {
+            if(!typeDeclaration.getModifiers().contains(CodeModifier.STATIC)) {
 
-                for (TypeDeclaration declaration : allAsList) {
 
-                    if(declaration.getModifiers().contains(CodeModifier.STATIC))
-                        continue;
+                if (!allAsList.isEmpty()) {
 
-                    String simpleName = declaration.getSimpleName();
+                    for (TypeDeclaration declaration : allAsList) {
 
-                    String name = Character.toLowerCase(simpleName.charAt(0))+(simpleName.length() > 1 ? simpleName.substring(1) : "");
+                        String simpleName = declaration.getSimpleName();
 
-                    String newName = Common.getNewName(name + "$outer", body);
+                        String name = Character.toLowerCase(simpleName.charAt(0)) + (simpleName.length() > 1 ? simpleName.substring(1) : "");
 
-                    CodeField field = CodeAPI.field(Modifier.PRIVATE | Modifier.FINAL, declaration, newName);
+                        String newName = Common.getNewName(name + "$outer", body);
 
-                    extraData.registerData(OUTER_FIELD_REPRESENTATION, field);
+                        CodeField field = CodeAPI.field(Modifier.PRIVATE | Modifier.FINAL, declaration, newName);
 
-                    body.add(0, field);
+                        extraData.registerData(OUTER_FIELD_REPRESENTATION, field);
+
+                        body.add(0, field);
+                    }
+
                 }
-
             }
 
 

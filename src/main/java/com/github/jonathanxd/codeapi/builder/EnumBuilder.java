@@ -49,6 +49,7 @@ public class EnumBuilder implements Builder<CodeEnum>,
         AnnotationsBuilder<CodeEnum, EnumBuilder>,
         EnumEntriesBuilder<CodeEnum, EnumBuilder> {
 
+    private CodeType outerClass;
     private Collection<CodeModifier> modifiers = new ArrayList<>();
     private List<Annotation> annotations = new ArrayList<>();
     private String qualifiedName;
@@ -69,6 +70,18 @@ public class EnumBuilder implements Builder<CodeEnum>,
     public static EnumBuilder builder() {
         return new EnumBuilder();
     }
+
+    /**
+     * Sets the outer class.
+     *
+     * @param outerClass Outer class.
+     * @return This.
+     */
+    public EnumBuilder withOuterClass(CodeType outerClass) {
+        this.outerClass = outerClass;
+        return this;
+    }
+
 
     /**
      * Set enum qualified name.
@@ -137,7 +150,7 @@ public class EnumBuilder implements Builder<CodeEnum>,
 
     @Override
     public CodeEnum build() {
-        return new CodeEnum(this.qualifiedName, this.body, this.annotations, this.modifiers, this.implementations, this.genericSignature, this.entries);
+        return new CodeEnum(outerClass, this.body, this.annotations, this.modifiers, this.implementations, this.genericSignature, this.entries, this.qualifiedName);
     }
 
 }

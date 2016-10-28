@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.builder.EnumBuilder;
 import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeEnum;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -44,11 +45,41 @@ public class EnumTest_ {
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
         CodeEnum codeEnum = EnumBuilder.builder()
                 .withModifiers(Modifier.PUBLIC)
+                .withImplementations(MyItf.class)
                 .withQualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
-                .withEntries(CodeAPI.enumEntry("A"), CodeAPI.enumEntry("B"))//
+                .withEntries(
+                        CodeAPI.enumEntry("A", CodeAPI.sourceOfParts(
+                                CodeAPI.methodBuilder()
+                                        .withModifiers(Modifier.PUBLIC)
+                                        .withAnnotations(CodeAPI.overrideAnnotation())
+                                        .withReturnType(PredefinedTypes.VOID)
+                                        .withName("v")
+                                        .withBody(CodeAPI.sourceOfParts(
+                                                Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), PredefinedTypes.STRING))
+                                        ))
+                                        .build()
+
+                        )),
+                        CodeAPI.enumEntry("B",
+                                CodeAPI.sourceOfParts(
+                                        CodeAPI.methodBuilder()
+                                                .withModifiers(Modifier.PUBLIC)
+                                                .withAnnotations(CodeAPI.overrideAnnotation())
+                                                .withReturnType(PredefinedTypes.VOID)
+                                                .withName("v")
+                                                .withBody(CodeAPI.sourceOfParts(
+                                                        Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("B"), PredefinedTypes.STRING))
+                                                ))
+                                                .build()
+
+                                ))
+                        )//
                 .build();
 
         return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));
     }
 
+    public interface MyItf {
+        void v();
+    }
 }

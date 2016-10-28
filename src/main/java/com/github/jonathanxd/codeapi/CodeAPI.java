@@ -65,7 +65,6 @@ import com.github.jonathanxd.codeapi.impl.ContinueImpl;
 import com.github.jonathanxd.codeapi.impl.EnumEntryImpl;
 import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.AccessInner;
 import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -342,7 +341,7 @@ public final class CodeAPI {
     // Factory
 
     private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeInterface, CodeSource> source, CodeType... extensions) {
-        CodeInterface codeInterface = new CodeInterface(qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource());
+        CodeInterface codeInterface = new CodeInterface(null, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource(), qualifiedName);
 
         if (source != null)
             return codeInterface.setBody(source.apply(codeInterface));
@@ -646,7 +645,7 @@ public final class CodeAPI {
     // Factory
 
     private static CodeClass aClass__factory(int modifiers, Annotation[] annotations, String qualifiedName, CodeType superType, GenericSignature<GenericType> signature, Function<CodeClass, CodeSource> source, CodeType... implementations) {
-        CodeClass codeClass = new CodeClass(qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayToList.toList(implementations), signature, Arrays.asList(annotations), new CodeSource());
+        CodeClass codeClass = new CodeClass(null, qualifiedName, CodeModifier.extractModifiers(modifiers), superType, ArrayToList.toList(implementations), signature, Arrays.asList(annotations), new CodeSource());
 
         if (source != null)
             return codeClass.setBody(source.apply(codeClass));
@@ -1787,6 +1786,10 @@ public final class CodeAPI {
     //          Annotations
     // =========================================================
 
+    public static Annotation overrideAnnotation() {
+        return CodeAPI.annotation(PredefinedTypes.OVERRIDE);
+    }
+
     // CodeType
 
     /**
@@ -2919,47 +2922,6 @@ public final class CodeAPI {
      */
     public static AccessOuter accessOuter(CodeType localization) {
         return Helper.accessOuter(localization);
-    }
-
-    /**
-     * Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     *
-     * @param localization Inner class localization
-     * @return Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     */
-    public static AccessInner accessInner(CodeType localization) {
-        return Helper.accessInner(localization);
-    }
-
-    /**
-     * Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     *
-     * @param name        Inner class name
-     * @param isInterface Is the inner class a interface.
-     * @return Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     */
-    public static AccessInner accessInner(String name, boolean isInterface) {
-        return Helper.accessInner(CodeAPI.plainType(name, isInterface));
-    }
-
-    /**
-     * Access a inner interface class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     *
-     * @param name Inner interface name.
-     * @return Access a inner interface class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     */
-    public static AccessInner accessInnerInterface(String name) {
-        return Helper.accessInner(CodeAPI.plainInterfaceType(name));
-    }
-
-    /**
-     * Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     *
-     * @param name Inner class name.
-     * @return Access a inner class of current {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration}.
-     */
-    public static AccessInner accessInnerClass(String name) {
-        return Helper.accessInner(CodeAPI.plainClassType(name));
     }
 
     /**

@@ -53,8 +53,9 @@ import java.util.Optional;
 public class CodeClass extends CodeInterface implements Extender, ClassDeclaration {
 
     private final CodeType superType;
+    private final CodeType outerClass;
 
-    public CodeClass(String qualifiedName,
+    public CodeClass(CodeType outerClass, String qualifiedName,
                      Collection<CodeModifier> modifiers,
                      CodeType superType,
                      List<CodeType> implementations,
@@ -62,26 +63,29 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
                      List<Annotation> annotations,
                      CodeSource body) {
 
-        super(qualifiedName, modifiers, implementations, signature, annotations, body);
+        super(outerClass, modifiers, implementations, signature, annotations, body, qualifiedName);
+        this.outerClass = outerClass;
         this.superType = superType;
     }
 
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
-        super(qualifiedName, modifiers, implementations, signature, body);
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body, CodeType outerClass) {
+        super(outerClass, modifiers, implementations, signature, body, qualifiedName);
+        this.superType = superType;
+        this.outerClass = outerClass;
+    }
+
+    public CodeClass(CodeType outerClass, String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, CodeSource body) {
+        super(outerClass, qualifiedName, modifiers, implementations, body);
+        this.outerClass = outerClass;
         this.superType = superType;
     }
 
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, CodeSource body) {
-        super(qualifiedName, modifiers, implementations, body);
-        this.superType = superType;
+    public CodeClass(String qualifiedName, CodeType superType, List<CodeType> implementations, CodeSource body, CodeType outerClass) {
+        this(outerClass, qualifiedName, null, superType, implementations, body);
     }
 
-    public CodeClass(String qualifiedName, CodeType superType, List<CodeType> implementations, CodeSource body) {
-        this(qualifiedName, null, superType, implementations, body);
-    }
-
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, CodeSource body) {
-        this(qualifiedName, modifiers, superType, null, body);
+    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, CodeSource body, CodeType outerClass) {
+        this(outerClass, qualifiedName, modifiers, superType, null, body);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
 
     @Override
     public CodeClass setSuperType(CodeType superType) {
-        return new CodeClass(this.getQualifiedName(), this.getModifiers(), superType, this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+        return new CodeClass(outerClass, this.getQualifiedName(), this.getModifiers(), superType, this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
     }
 
     @Override
@@ -117,32 +121,42 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
 
     @Override
     public CodeClass setQualifiedName(String name) {
-        return new CodeClass(name, this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+        return new CodeClass(this.getOuterClass().orElse(null), name, this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
     }
 
     @Override
     public CodeClass setBody(CodeSource body) {
-        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), body);
+        return new CodeClass(this.getOuterClass().orElse(null), this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), body);
     }
 
     @Override
     public CodeClass setAnnotations(List<Annotation> annotations) {
-        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), annotations, this.getBody().orElse(null));
+        return new CodeClass(this.getOuterClass().orElse(null), this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), annotations, this.getBody().orElse(null));
     }
 
     @Override
     public CodeClass setModifiers(Collection<CodeModifier> modifiers) {
-        return new CodeClass(this.getQualifiedName(), modifiers, this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+        return new CodeClass(this.getOuterClass().orElse(null), this.getQualifiedName(), modifiers, this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
     }
 
     @Override
     public CodeClass setImplementations(List<CodeType> implementations) {
-        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), implementations, this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
+        return new CodeClass(this.getOuterClass().orElse(null), this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), implementations, this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
     }
 
     @Override
     public CodeClass setGenericSignature(GenericSignature<GenericType> genericSignature) {
-        return new CodeClass(this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), genericSignature, this.getAnnotations(), this.getBody().orElse(null));
+        return new CodeClass(this.getOuterClass().orElse(null), this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), genericSignature, this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public Optional<CodeType> getOuterClass() {
+        return Optional.ofNullable(this.outerClass);
+    }
+
+    @Override
+    public CodeClass setOuterClass(CodeType outerClass) {
+        return new CodeClass(outerClass, this.getQualifiedName(), this.getModifiers(), this.getSuperType().orElse(null), this.getImplementations(), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
     }
 
     @Override

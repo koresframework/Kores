@@ -45,6 +45,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -69,6 +70,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.source.CodeArgumentUtil;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -156,7 +158,6 @@ public class Common {
     }
 
     public static void runForArrayStore(CodeType arrayType, int dimensions, MethodVisitor mv) {
-        //mv.visitIntInsn(NEWARRAY, T_INT);
         switch (arrayType.getType()) {
             case "int": {
                 mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_INT);
@@ -365,8 +366,13 @@ public class Common {
     }
 
     public static int modifierToAsm(TypeDeclaration typeDeclaration) {
+        Collection<CodeModifier> modifiers = new ArrayList<>(typeDeclaration.getModifiers());
+
+        if(modifiers.contains(CodeModifier.STATIC))
+            modifiers.remove(CodeModifier.STATIC);
+
         return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
-                Common.modifierToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType().isInterface());
+                Common.modifierToAsm(modifiers, typeDeclaration.getClassType().isInterface());
     }
 
     public static int modifierToAsm(Collection<CodeModifier> codeModifiers) {
@@ -377,18 +383,8 @@ public class Common {
         return (isInterface ? Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
     }
 
-    public static String getClassName(TypeDeclaration class_, MapData data) {
-        return class_.getType().replace('.', '/');
-    }
-
-    public static String getClassName(TypeDeclaration class_, String package_) {
-        String className = class_.getJavaSpecName();
-
-        if (package_ != null) {
-            className = package_.replace('.', '/') + '/' + className;
-        }
-
-        return className;
+    public static String getClassName(TypeDeclaration class_) {
+        return Common.codeTypeToSimpleAsm(class_);
     }
 
     public static int invertIfNeEqOpcode(int opcode) {
@@ -425,6 +421,20 @@ public class Common {
         return "(" +
                 codeTypesToFullAsm(Objects.requireNonNull(typeSpec.getParameterTypes(), "Null method spec '" + typeSpec + "' arguments!").stream().toArray(CodeType[]::new))
                 + ")" + s;
+    }
+
+    public static String resolveRealQualified(String qualifiedName, CodeType outer) {
+
+        if (outer != null) {
+            String packageName = outer.getPackageName();
+
+            if(!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
+                // Prevent duplication of the name
+                return Util.getRealNameStr(qualifiedName, outer);
+            }
+        }
+
+        return qualifiedName;
     }
 
     public static String codeTypeToSimpleAsm(CodeType type) {
@@ -560,6 +570,19 @@ public class Common {
         }
 
         return genericRepresentation;
+    }
+
+    public static String getNewInnerName(String name, TypeDeclaration typeDeclaration) {
+        List<TypeDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof TypeDeclaration)
+                .includeSource(true)
+                .include(bodied -> bodied instanceof CodeSource)
+                .mapTo(codePart -> (TypeDeclaration) codePart)
+                .inspect(typeDeclaration.getBody().orElse(CodeSource.empty()));
+
+        while (Common.contains(name, inspect))
+            name += "$1";
+
+        return name;
     }
 
     public static String getNewName(String name, List<? extends Named> nameds) {
@@ -765,8 +788,6 @@ public class Common {
         if (from.isPrimitive() && to.isPrimitive()) {
             char fromTypeChar = Character.toUpperCase(from.getType().charAt(0));
             char toTypeChar = Character.toUpperCase(to.getType().charAt(0));
-
-            System.out.println("from = " + fromTypeChar + " -> " + toTypeChar);
 
             try {
                 MethodHandle staticGetter = lookup.findStaticGetter(Opcodes.class, fromTypeChar + "2" + toTypeChar, Integer.TYPE);
@@ -1000,15 +1021,28 @@ public class Common {
     public static CodeSource generateEnumClassSource(EnumDeclaration enumDeclaration) {
         List<FieldDeclaration> fields = new ArrayList<>();
         List<EnumEntry> entries = enumDeclaration.getEntries();
+        List<TypeDeclaration> innerClasses = new ArrayList<>();
+
+        MutableCodeSource codeSource = new MutableCodeSource();
 
         for (int i = 0; i < entries.size(); i++) {
             EnumEntry enumEntry = entries.get(i);
-            // TODO: Inner classes
-            fields.add(CodeAPI.field(Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL | CodeModifier.Internal.ENUM, enumDeclaration, enumEntry.getName(),
-                    Common.callConstructor(enumDeclaration, enumEntry, i)));
-        }
+            CodePart value;
 
-        MutableCodeSource codeSource = new MutableCodeSource();
+            if (enumEntry.hasBody()) {
+
+                TypeDeclaration typeDeclaration = Common.genEnumInnerClass(enumDeclaration, enumEntry);
+
+                innerClasses.add(typeDeclaration);
+
+                value = Common.callConstructor(typeDeclaration, enumEntry, i);
+            } else {
+                value = Common.callConstructor(enumDeclaration, enumEntry, i);
+            }
+
+            fields.add(CodeAPI.field(Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL | CodeModifier.Internal.ENUM, enumDeclaration, enumEntry.getName(),
+                    value));
+        }
 
         codeSource.addAll(fields);
 
@@ -1022,8 +1056,8 @@ public class Common {
                 .map(fieldDeclaration -> CodeAPI.argument(CodeAPI.accessStaticField(fieldDeclaration.getVariableType(), fieldDeclaration.getName()), fieldDeclaration.getVariableType()))
                 .toArray(CodeArgument[]::new);
 
-        CodeField valuesField = CodeAPI.field(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL, arrayType, valuesFieldName,
-                CodeAPI.arrayConstruct(enumDeclaration, new CodePart[] { Literals.INT(fieldSize) }, arrayArguments));
+        CodeField valuesField = CodeAPI.field(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL | CodeModifier.Internal.SYNTHETIC, arrayType, valuesFieldName,
+                CodeAPI.arrayConstruct(enumDeclaration, new CodePart[]{Literals.INT(fieldSize)}, arrayArguments));
 
         codeSource.add(valuesField);
 
@@ -1064,11 +1098,14 @@ public class Common {
                 ))
                 .build());
 
+        for (TypeDeclaration innerClass : innerClasses) {
+            codeSource.add(innerClass);
+        }
 
         return codeSource;
     }
 
-    private static CodePart callConstructor(EnumDeclaration enumDeclaration, EnumEntry enumEntry, int ordinal) {
+    private static CodePart callConstructor(TypeDeclaration location, EnumEntry enumEntry, int ordinal) {
         Optional<TypeSpec> constructorSpecOpt = enumEntry.getConstructorSpec();
 
         List<CodeArgument> arguments = new ArrayList<>();
@@ -1090,7 +1127,7 @@ public class Common {
             arguments.addAll(enumEntry.getArguments());
         }
 
-        return CodeAPI.invokeConstructor(enumDeclaration, spec, arguments);
+        return CodeAPI.invokeConstructor(location, spec, arguments);
     }
 
     private static void fixConstructor(EnumDeclaration enumDeclaration, MutableCodeSource originalSource) {
@@ -1101,7 +1138,7 @@ public class Common {
                 .inspect(originalSource);
 
         if (inspect.isEmpty()) {
-            originalSource.add(CodeAPI.constructor(Modifier.PRIVATE, CodeAPI.parameters(CodeAPI.parameter(PredefinedTypes.STRING, "name"),
+            originalSource.add(CodeAPI.constructor(CodeModifier.Internal.SYNTHETIC, CodeAPI.parameters(CodeAPI.parameter(PredefinedTypes.STRING, "name"),
                     CodeAPI.parameter(PredefinedTypes.INT, "ordinal")),
                     ctr -> CodeAPI.sourceOfParts(
                             CodeAPI.invokeSuperConstructor(CodeAPI.constructorTypeSpec(PredefinedTypes.STRING, PredefinedTypes.INT),
@@ -1132,6 +1169,55 @@ public class Common {
                 originalSource.add(constructorDeclaration.setBody(source).setParameters(parameters));
             }
         }
+    }
+
+    private static TypeDeclaration genEnumInnerClass(EnumDeclaration enumDeclaration, EnumEntry enumEntry) {
+        Optional<TypeSpec> typeSpecOpt = enumEntry.getConstructorSpec();
+
+        List<CodeParameter> baseParameters = Common.getEnumBaseParameters("$name", "$ordinal");
+        CodeArgument[] arguments;
+
+        if (typeSpecOpt.isPresent()) {
+            TypeSpec typeSpec = typeSpecOpt.get();
+
+            List<CodeType> parameterTypes = typeSpec.getParameterTypes();
+
+            for (int i = 0; i < parameterTypes.size(); i++) {
+                baseParameters.add(CodeAPI.parameter(parameterTypes.get(i), "$" + i));
+            }
+        }
+
+        arguments = CodeArgumentUtil.argumentsFromParameters(baseParameters).stream().toArray(CodeArgument[]::new);
+        TypeSpec constructorSpec = CodeAPI.constructorTypeSpec(
+                baseParameters.stream()
+                        .map(CodeParameter::getRequiredType)
+                        .toArray(CodeType[]::new)
+        );
+
+        String enumEntryName = Common.getNewInnerName(enumEntry.getName() + "$Inner", enumDeclaration);
+
+        MutableCodeSource body = enumEntry.getBody().orElseThrow(NullPointerException::new).toMutable();
+
+        body.add(CodeAPI.constructorBuilder()
+                .withParameters(baseParameters)
+                .withBody(CodeAPI.sourceOfParts(
+                        CodeAPI.invokeSuperConstructor(constructorSpec, arguments)
+                ))
+                .build());
+
+        return CodeAPI.aClassBuilder()
+                .withOuterClass(enumDeclaration)
+                .withModifiers(Modifier.STATIC | CodeModifier.Internal.ENUM)
+                .withQualifiedName(enumEntryName)
+                .withSuperClass(enumDeclaration)
+                .withBody(body)
+                .build();
+    }
+
+    private static List<CodeParameter> getEnumBaseParameters(String name, String ordinal) {
+        return new ArrayList<>(Arrays.asList(
+                CodeAPI.parameter(PredefinedTypes.STRING, name),
+                CodeAPI.parameter(PredefinedTypes.INT, ordinal)));
     }
 
     public static void declareFinalFields(VisitorGenerator<?> visitorGenerator, CodeSource methodBody, TypeDeclaration typeDeclaration, MethodVisitor mv, MapData extraData, MVData mvData, boolean validate) {

@@ -141,7 +141,7 @@ public class TestBytecode_Invocations {
         MutableCodeSource codeSource = new MutableCodeSource();
         MutableCodeSource clSource = new MutableCodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName() + "_Generated",
+        CodeClass codeClass = new CodeClass(null, "fullName." + this.getClass().getSimpleName() + "_Generated",
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 

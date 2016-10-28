@@ -35,6 +35,8 @@ import com.github.jonathanxd.iutils.optional.Require;
 
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Utilities.
@@ -81,6 +83,18 @@ public class CodeArgumentUtil {
      */
     private static CodeParameter lambda$from$javaParameter$to$codeParameter(Parameter parameter) {
         return new CodeParameter(parameter.getName(), Helper.getJavaType(parameter.getType()));
+    }
+
+    /**
+     * Convert from {@link CodeParameter} to {@link CodeArgument}.
+     *
+     * Parameters will be converted to local access of variables.
+     *
+     * @param parameters Parameters.
+     * @return Converted arguments.
+     */
+    public static List<CodeArgument> argumentsFromParameters(List<CodeParameter> parameters) {
+        return parameters.stream().map(CodeArgumentUtil::lambda$from$parameter$to$argument).collect(Collectors.toList());
     }
 
     /**

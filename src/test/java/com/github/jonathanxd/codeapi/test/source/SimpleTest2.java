@@ -63,7 +63,7 @@ public class SimpleTest2 {
         MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de CodeAPITest
-        CodeClass codeClass = new CodeClass("CodeAPITest",
+        CodeClass codeClass = new CodeClass(null, "CodeAPITest",
                 // Adiciona o modifier publico
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null,

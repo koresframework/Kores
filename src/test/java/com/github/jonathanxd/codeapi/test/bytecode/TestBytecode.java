@@ -79,7 +79,7 @@ public class TestBytecode {
 
         MutableCodeSource clSource = new MutableCodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass(null, "fullName."+this.getClass().getSimpleName(),
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 

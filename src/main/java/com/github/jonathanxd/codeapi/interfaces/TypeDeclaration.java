@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Base class of all {@link TypeDeclaration}s like classes, interfaces and enums.
@@ -69,4 +70,17 @@ public interface TypeDeclaration extends Modifierable, CodeRoot, CodeType, Quali
 
     @Override
     TypeDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    /**
+     * Gets the outer class.
+     * @return Outer class.
+     */
+    Optional<CodeType> getOuterClass();
+
+    /**
+     * Sets the outer class.
+     * @param outerClass Outer class.
+     * @return new instance.
+     */
+    TypeDeclaration setOuterClass(CodeType outerClass);
 }

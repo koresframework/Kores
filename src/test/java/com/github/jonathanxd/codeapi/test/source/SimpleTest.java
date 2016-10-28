@@ -28,10 +28,10 @@
 package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.builder.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -57,7 +57,7 @@ public class SimpleTest {
         MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de CodeAPITest
-        CodeClass codeClass = CodeClassBuilder.builder()
+        CodeClass codeClass = ClassBuilder.builder()
                 .withQualifiedName("CodeAPITest")
                 // Adiciona o modifier publico
                 .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))

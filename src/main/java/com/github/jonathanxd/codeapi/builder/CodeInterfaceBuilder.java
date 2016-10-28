@@ -39,6 +39,7 @@ import java.util.List;
  * Created by jonathan on 04/06/16.
  */
 public final class CodeInterfaceBuilder {
+    private CodeType outerClass;
     private CodeSource body;
     private String qualifiedName;
     private List<CodeType> implementations;
@@ -49,6 +50,11 @@ public final class CodeInterfaceBuilder {
 
     public static CodeInterfaceBuilder builder() {
         return new CodeInterfaceBuilder();
+    }
+
+    public CodeInterfaceBuilder withOuterClass(CodeType outerClass) {
+        this.outerClass = outerClass;
+        return this;
     }
 
     public CodeInterfaceBuilder withBody(CodeSource body) {
@@ -72,6 +78,6 @@ public final class CodeInterfaceBuilder {
     }
 
     public CodeInterface build() {
-        return new CodeInterface(qualifiedName, modifiers, implementations, body);
+        return new CodeInterface(outerClass, qualifiedName, modifiers, implementations, body);
     }
 }

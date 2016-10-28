@@ -43,7 +43,6 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.impl.AccessInnerImpl;
 import com.github.jonathanxd.codeapi.impl.AccessLocalImpl;
 import com.github.jonathanxd.codeapi.impl.AccessOuterImpl;
 import com.github.jonathanxd.codeapi.impl.AccessSuperImpl;
@@ -80,7 +79,6 @@ import com.github.jonathanxd.codeapi.impl.VariableDeclarationImpl;
 import com.github.jonathanxd.codeapi.impl.VariableOperateImpl;
 import com.github.jonathanxd.codeapi.impl.WhileBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.Access;
-import com.github.jonathanxd.codeapi.interfaces.AccessInner;
 import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -204,9 +202,6 @@ public final class Helper {
         return new AccessThisImpl();
     }
 
-    public static AccessInner accessInner(CodeType at) {
-        return new AccessInnerImpl(at);
-    }
     public static AccessOuter accessOuter(CodeType at) {
         return new AccessOuterImpl(at);
     }

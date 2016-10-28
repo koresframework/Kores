@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InnerType;
-import com.github.jonathanxd.codeapi.interfaces.AccessInner;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
@@ -51,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 public class Util {
 
@@ -106,13 +104,19 @@ public class Util {
         for (TypeDeclaration innerClass : innerClasses) {
             int modifiers = Common.modifierToAsm(innerClass);
 
-            cw.visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
+
+
+            //cw.visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
+            cw.visitInnerClass(Common.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
+
 
             MutableCodeSource source = new MutableCodeSource(innerClass.getBody().orElse(CodeSource.empty()));
 
             InstructionCodePart instructionCodePart = (value, extraData, visitorGenerator, additional) -> {
                 extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION)
-                        .visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
+                        .visitInnerClass(Common.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
+
+                        //.visitInnerClass(name + "$" + innerClass.getQualifiedName(), name, innerClass.getQualifiedName(), modifiers);
             };
 
             source.add(0, instructionCodePart);
@@ -123,10 +127,8 @@ public class Util {
         return visited;
     }
 
-    public static List<TypeDeclaration> fixNames(List<TypeDeclaration> innerClasses, TypeDeclaration outer) {
-        return innerClasses.stream()
-                .map(typeDeclaration -> typeDeclaration.setName(outer.getQualifiedName() + "$" + typeDeclaration.getQualifiedName()))
-                .collect(Collectors.toList());
+    public static String getRealNameStr(String qualified, CodeType outer) {
+        return outer.getCanonicalName() + "$" + qualified;
     }
 
     /**
@@ -145,9 +147,6 @@ public class Util {
                                                      BiConsumer<MutableContainer<T>, InnerType> consumer) {
 
 
-        if(!(localization.get() instanceof AccessInner))
-            return accessor;
-
         List<InnerType> innerTypes = extraData.getAllAsList(TypeVisitor.INNER_TYPE_REPRESENTATION);
 
         for (InnerType innerType : innerTypes) {
@@ -158,7 +157,7 @@ public class Util {
                 continue;
 
 
-            if (originalDeclaration.getCanonicalName().equals(localization.get().getCanonicalName())) {
+            if (originalDeclaration.is(localization.get())) {
                 localization.set(innerType.getAdaptedDeclaration());
 
                 accessor = (T) accessor.setLocalization(localization.get());

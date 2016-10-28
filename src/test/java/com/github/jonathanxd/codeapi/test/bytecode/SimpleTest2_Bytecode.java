@@ -67,7 +67,7 @@ public class SimpleTest2_Bytecode {
         MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de SimpleTest2_bytecode
-        CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",
+        CodeClass codeClass = new CodeClass(null, "me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",
                 // Adiciona o modifier publico
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null,
