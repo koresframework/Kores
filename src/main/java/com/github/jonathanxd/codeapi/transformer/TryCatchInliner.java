@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
+import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 
 import java.util.List;
 import java.util.Optional;

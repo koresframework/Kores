@@ -28,18 +28,31 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InnerType;
+import com.github.jonathanxd.codeapi.common.MemberInfo;
+import com.github.jonathanxd.codeapi.common.MemberInfos;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
+import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
+import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
 import com.github.jonathanxd.codeapi.interfaces.Accessor;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
-import com.github.jonathanxd.iutils.containers.MutableContainer;
+import com.github.jonathanxd.codeapi.util.element.ElementUtil;
+import com.github.jonathanxd.iutils.container.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.object.Pair;
 import com.github.jonathanxd.iutils.type.TypeInfo;
@@ -217,5 +230,91 @@ public class Util {
 
 
         return null;
+    }
+
+
+    public static BytecodeClass[] access(CodePart part, CodeType localization, VisitorGenerator<BytecodeClass> visitorGenerator, MapData extraData, Object additional) {
+        if (localization != null) {
+            Optional<TypeDeclaration> declaringOpt = extraData.getOptional(TypeVisitor.OUTER_TYPE_REPRESENTATION);
+
+            InnerType innerType = null;
+            MemberInfos infos = null;
+
+            if (!declaringOpt.isPresent()) {
+                List<InnerType> innerTypes = extraData.getAllAsList(TypeVisitor.INNER_TYPE_REPRESENTATION);
+
+                for (InnerType inner : innerTypes) {
+                    TypeDeclaration adaptedDeclaration = inner.getAdaptedDeclaration();
+
+                    if (adaptedDeclaration.is(localization)) {
+                        infos = inner.getMemberInfos();
+                        declaringOpt = Optional.of(adaptedDeclaration);
+
+                        innerType = inner;
+                    }
+                }
+
+
+            }
+
+            if (innerType == null && extraData.getParent() != null) {
+                infos = extraData.getParent().getOptional(ConstantDatas.MEMBER_INFOS).orElse(null);
+            }
+
+            if (infos != null && declaringOpt.isPresent()) {
+
+                // If accessing enclosing class.
+                if (localization.is(declaringOpt.get())) {
+
+
+                    MemberInfo memberInfo;
+
+                    List<CodeArgument> codeArguments = new ArrayList<>();
+
+                    CodePart target = ((Accessor) part).getTarget().orElse(null);
+
+                    if (part instanceof VariableAccess) {
+                        VariableAccess access = (VariableAccess) part;
+                        memberInfo = infos.find(access);
+                    } else {
+                        MethodSpecification spec = ((MethodInvocation) part).getSpec();
+                        memberInfo = infos.find(spec);
+                        codeArguments.addAll(spec.getArguments());
+                    }
+
+                    if (memberInfo != null && !memberInfo.isAccessible()) {
+                        Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator);
+
+                        MethodDeclaration accessibleMember = (MethodDeclaration) memberInfo.getAccessibleMember();
+
+                        MethodInvocation invoke = ElementUtil.invoke(accessibleMember, target, codeArguments, declaringOpt.get());
+
+                        return visitorGenerator.generateTo(MethodInvocation.class, invoke, extraData, additional);
+                    }
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+    public static MemberInfos createMemberInfos(TypeDeclaration typeDeclaration) {
+        CodeSource body = typeDeclaration.getBody().orElse(CodeSource.empty());
+
+        List<CodeElement> elements = SourceInspect.find(codePart -> codePart instanceof MethodDeclaration || codePart instanceof FieldDeclaration)
+                .include(bodied -> bodied instanceof CodeSource)
+                .mapTo(codePart -> (CodeElement) codePart)
+                .inspect(body);
+
+        MemberInfos memberInfos = new MemberInfos(typeDeclaration);
+
+        for (CodeElement element : elements) {
+            if (element instanceof Modifierable) {
+                memberInfos.put(MemberInfo.of(element, !((Modifierable) element).getModifiers().contains(CodeModifier.PRIVATE)));
+            }
+        }
+
+        return memberInfos;
     }
 }

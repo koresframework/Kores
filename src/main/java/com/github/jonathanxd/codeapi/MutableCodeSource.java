@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi;
 
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.util.IterableUtil;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ import java.util.stream.Stream;
 /**
  * A mutable {@link CodeSource} backing to a {@link ArrayList}.
  */
+@GenerateTo(CodeSource.class)
 public class MutableCodeSource extends CodeSource {
 
     private final BackingArrayList backingList;

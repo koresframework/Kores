@@ -94,4 +94,8 @@ public enum MethodType {
     public MethodType toDynamic() {
         return this.dynamic != null ? this.dynamic : this;
     }
+
+    public boolean isConstructor() {
+        return this == CONSTRUCTOR || this == SUPER_CONSTRUCTOR;
+    }
 }

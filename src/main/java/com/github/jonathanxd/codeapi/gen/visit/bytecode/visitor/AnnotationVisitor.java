@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
-import com.github.jonathanxd.iutils.conditions.Conditions;
+import com.github.jonathanxd.iutils.condition.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.ClassWriter;

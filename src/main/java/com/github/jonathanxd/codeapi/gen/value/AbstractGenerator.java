@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.CodeGenerator;
 import com.github.jonathanxd.codeapi.util.ClassUtil;
 import com.github.jonathanxd.codeapi.util.Parent;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
+import com.github.jonathanxd.iutils.container.primitivecontainers.IntContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.AbstractMap;

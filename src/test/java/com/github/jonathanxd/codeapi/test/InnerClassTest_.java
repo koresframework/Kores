@@ -37,8 +37,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.PlainCodeType;
-import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Arrays;
@@ -48,6 +47,7 @@ import static com.github.jonathanxd.codeapi.CodeAPI.accessField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.method;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
+import static java.lang.reflect.Modifier.PRIVATE;
 import static java.lang.reflect.Modifier.PUBLIC;
 
 /**
@@ -58,12 +58,10 @@ public class InnerClassTest_ {
 
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
-
-
         CodeClass codeClass = aClass(PUBLIC, "test.InnerClass");
 
         TypeDeclaration inner = aClass(PUBLIC, "Inner", CodeAPI.source(
-                method(PUBLIC, "call", PredefinedTypes.STRING, CodeAPI.source(
+                method(PRIVATE, "call", PredefinedTypes.STRING, CodeAPI.source(
                         Predefined.invokePrintln(argument(
                                 accessField(codeClass, Helper.accessOuter(codeClass), PredefinedTypes.STRING, "field"),
                                 PredefinedTypes.STRING
@@ -77,7 +75,7 @@ public class InnerClassTest_ {
                 new CodeField("field",
                         Helper.getJavaType(String.class),
                         Literals.STRING("XSD"),
-                        Arrays.asList(CodeModifier.PUBLIC)),
+                        Arrays.asList(CodeModifier.PRIVATE)),
 
                 CodeAPI.constructor(PUBLIC, constructor -> CodeAPI.sourceOfParts(
                         CodeAPI.invokeVirtual(inner,

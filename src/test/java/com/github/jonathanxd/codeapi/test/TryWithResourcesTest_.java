@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
-import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Collections;

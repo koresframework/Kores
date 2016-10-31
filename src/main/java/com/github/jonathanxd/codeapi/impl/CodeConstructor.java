@@ -113,6 +113,11 @@ public class CodeConstructor extends CodeMethod implements ConstructorDeclaratio
     }
 
     @Override
+    public CodeConstructor setType(CodeType codeType) {
+        return this.setReturnType(codeType);
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
                 .add("modifiers", this.getModifiers())

@@ -149,4 +149,9 @@ public class CodeMethod extends AbstractBodiedParam implements MethodDeclaration
     public CodeMethod setParameters(List<CodeParameter> codeParameters) {
         return new CodeMethod(this.getName(), this.getModifiers(), codeParameters, this.getReturnType().orElse(null), this.getGenericSignature(), this.getAnnotations(), this.getBody().orElse(null));
     }
+
+    @Override
+    public CodeMethod setType(CodeType codeType) {
+        return this.setReturnType(codeType);
+    }
 }

@@ -27,34 +27,52 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Util;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.CodeElement;
+import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 
-public final class InnerType {
+public class MemberInfo {
+    private final CodeElement memberInstance;
+    private CodeElement accessibleMember = null;
 
-    private final TypeDeclaration originalDeclaration;
-    private TypeDeclaration adaptedDeclaration;
-    private MemberInfos memberInfos;
-
-    public InnerType(TypeDeclaration originalDeclaration, TypeDeclaration adaptedDeclaration) {
-        this.originalDeclaration = originalDeclaration;
-        this.adaptedDeclaration = adaptedDeclaration;
-        this.memberInfos = Util.createMemberInfos(this.adaptedDeclaration);
+    MemberInfo(CodeElement memberInstance, boolean isAccessible) {
+        this.memberInstance = memberInstance;
+        if (isAccessible)
+            this.accessibleMember = memberInstance;
     }
 
-    public TypeDeclaration getOriginalDeclaration() {
-        return this.originalDeclaration;
+    public CodeElement getMemberInstance() {
+        return this.memberInstance;
     }
 
-    public TypeDeclaration getAdaptedDeclaration() {
-        return this.adaptedDeclaration;
+    public CodeElement getAccessibleMember() {
+        return this.accessibleMember;
     }
 
-    public void setAdaptedDeclaration(TypeDeclaration adaptedDeclaration) {
-        this.adaptedDeclaration = adaptedDeclaration;
+    public void setAccessibleMember(CodeElement accessibleMember) {
+
+        if (this.accessibleMember != null)
+            throw new IllegalStateException("Accessible member already defined.");
+
+        this.accessibleMember = accessibleMember;
     }
 
-    public MemberInfos getMemberInfos() {
-        return this.memberInfos;
+    public boolean isAccessible() {
+        return this.getAccessibleMember() != null;
+    }
+
+    public static MemberInfo ofAccessible(CodeElement element) {
+        return new MemberInfo(element, true);
+    }
+
+    public static MemberInfo ofInaccessible(CodeElement element) {
+        return new MemberInfo(element, false);
+    }
+
+    public static MemberInfo of(CodeElement element, boolean isAccessible) {
+        return new MemberInfo(element, isAccessible);
+    }
+
+    public static <T extends CodeElement & Modifierable> MemberInfo of(T element) {
+        return MemberInfo.of(element, !element.getModifiers().contains(CodeModifier.PRIVATE));
     }
 }

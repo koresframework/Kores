@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.iutils.array.PrimitiveArrayConverter;
 
 import java.io.File;
 import java.io.IOException;

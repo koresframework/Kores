@@ -38,11 +38,12 @@ import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Declaration of a {@code method}.
  */
-public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot, Annotable {
+public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot, Annotable, Typed {
     @Override
     MethodDeclaration setName(String name);
 
@@ -63,4 +64,12 @@ public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Para
 
     @Override
     MethodDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    @Override
+    MethodDeclaration setType(CodeType codeType);
+
+    @Override
+    default Optional<CodeType> getType() {
+        return this.getReturnType();
+    }
 }

@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.value;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.IntContainer;
+import com.github.jonathanxd.iutils.container.primitivecontainers.IntContainer;
 
 /**
  * Data of source.

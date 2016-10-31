@@ -25,30 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.lang.reflect.Modifier;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class AnnotationTest_ {
+public class CodeTypeUtil {
+    public static List<CodeType> toTypes(List<? extends Typed> list) {
+        return list.stream().map(o -> o.getType().orElseThrow(NullPointerException::new)).collect(Collectors.toList());
+    }
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeAnnotation build = AnnotationBuilder.builder()
-                .withModifiers(Modifier.PUBLIC)
-                .withQualifiedName("com.MyAnnotation")
-                .withProperties(new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "value", null),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "id", "A"))
-                .build();
+    public static boolean equals(List<CodeType> types, List<CodeType> types2) {
+        if(types.size() == types2.size()) {
+            for (int i = 0; i < types.size(); i++) {
+                if(!types.get(i).is(types2.get(i)))
+                    return false;
+            }
 
-        return Pair.of(build, CodeAPI.sourceOfParts(build));
+            return true;
+        }
+
+        return false;
     }
 }

@@ -542,11 +542,11 @@ public final class Helper {
         return new MethodFragmentImpl(codeInterface, scope, returnType, parameters, arguments, body);
     }
 
-    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpecImpl methodSpecImpl) {
+    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, MethodSpecification methodSpecImpl) {
         return new MethodInvocationImpl(invokeType, localization, target, methodSpecImpl);
     }
 
-    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, MethodSpecImpl methodSpecImpl) {
+    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, MethodSpecification methodSpecImpl) {
         return new MethodInvocationImpl(invokeType, getJavaType(localization), target, methodSpecImpl);
     }
 

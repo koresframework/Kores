@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.test.bytecode.BCLoader;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
-import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.exception.RethrowException;
 
 import java.util.function.Function;
 

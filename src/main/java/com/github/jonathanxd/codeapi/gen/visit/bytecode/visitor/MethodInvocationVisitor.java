@@ -28,11 +28,14 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.common.MemberInfo;
+import com.github.jonathanxd.codeapi.common.MemberInfos;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
@@ -42,11 +45,14 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
 import com.github.jonathanxd.codeapi.interfaces.Extender;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
-import com.github.jonathanxd.iutils.containers.MutableContainer;
+import com.github.jonathanxd.codeapi.util.element.ElementUtil;
+import com.github.jonathanxd.iutils.container.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -87,6 +93,11 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
 
             localization = target;
         }
+
+        BytecodeClass[] access = Util.access(methodInvocation, localization, visitorGenerator, extraData, mvData);
+
+        if(access != null)
+            return access;
 
         // If localization is not null
         if (localization != null) {

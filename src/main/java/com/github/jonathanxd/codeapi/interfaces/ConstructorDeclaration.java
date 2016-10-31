@@ -71,4 +71,7 @@ public interface ConstructorDeclaration extends MethodDeclaration {
 
     @Override
     ConstructorDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    @Override
+    ConstructorDeclaration setType(CodeType codeType);
 }

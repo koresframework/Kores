@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.test.EnumTest_;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.codeapi.test.tests.SourceTest;
-import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;

@@ -39,7 +39,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.iutils.containers.MutableContainer;
+import com.github.jonathanxd.iutils.container.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -79,6 +79,11 @@ public class VariableAccessVisitor implements VoidVisitor<VariableAccess, Byteco
         if (isNull) {
             localization = typeDeclaration.get();
         }
+
+        BytecodeClass[] access = Util.access(variableAccess, localization, visitorGenerator, extraData, mvData);
+
+        if(access != null)
+            return;
 
         if (localization != null) {
 

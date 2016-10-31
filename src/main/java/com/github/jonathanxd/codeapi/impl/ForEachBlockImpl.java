@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.iutils.annotations.NotNull;
-import com.github.jonathanxd.iutils.conditions.Conditions;
+import com.github.jonathanxd.iutils.annotation.NotNull;
+import com.github.jonathanxd.iutils.condition.Conditions;
 
 import java.util.Optional;
 

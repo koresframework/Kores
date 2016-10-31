@@ -41,7 +41,7 @@ import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
+import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;

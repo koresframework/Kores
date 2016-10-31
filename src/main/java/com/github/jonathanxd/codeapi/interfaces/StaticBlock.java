@@ -105,6 +105,9 @@ public interface StaticBlock extends CodeElement, MethodDeclaration, Bodied {
         return this;
     }
 
+    @Override
+    StaticBlock setType(CodeType codeType);
+
     class Constants {
         public static final String NAME = "<clinit>";
         public static final Collection<CodeModifier> MODIFIERS = Collections.singletonList(CodeModifier.STATIC);

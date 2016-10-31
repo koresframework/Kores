@@ -91,4 +91,9 @@ public class StaticBlockImpl extends CodeMethod implements StaticBlock {
     public StaticBlockImpl setBody(CodeSource body) {
         return new StaticBlockImpl(body);
     }
+
+    @Override
+    public StaticBlockImpl setType(CodeType codeType) {
+        return this.setReturnType(codeType);
+    }
 }

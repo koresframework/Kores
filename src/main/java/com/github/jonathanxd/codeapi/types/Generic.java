@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.iutils.arrays.ArrayUtils;
+import com.github.jonathanxd.iutils.array.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Objects;

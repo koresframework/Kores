@@ -99,6 +99,18 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
         extraData.registerData(CODE_TYPE_REPRESENTATION, typeDeclaration);
         extraData.registerData(CLASS_WRITER_REPRESENTATION, cw);
 
+        boolean any = false;
+
+        for (InnerType innerType : extraData.getAllAsList(INNER_TYPE_REPRESENTATION)) {
+            if(innerType.getAdaptedDeclaration().is(typeDeclaration)) {
+                extraData.registerData(ConstantDatas.MEMBER_INFOS, innerType.getMemberInfos());
+                any = true;
+            }
+        }
+
+        if(!any) extraData.registerData(ConstantDatas.MEMBER_INFOS, Util.createMemberInfos(typeDeclaration));
+
+
         Collection<CodeType> implementations = typeDeclaration instanceof Implementer
                 ? ((Implementer) typeDeclaration).getImplementations()
                 : Collections.emptyList();
@@ -206,28 +218,33 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
         StaticBlockVisitor.generate(extraData, visitorGenerator, cw, typeDeclaration);
 
         List<BytecodeClass> bytecodeClassList = new ArrayList<>();
-        bytecodeClassList.add(new BytecodeClass(typeDeclaration, cw.toByteArray(), (MapData) extraData.clone()));
 
         if (pair != null) {
             // Visit inner classes
 
-            MapData data0 = new MapData();
+            MapData data0 = extraData.newChild();
 
             extraData.getAllAsList(OUTER_TYPE_REPRESENTATION)
                     .forEach(typeDcl -> data0.registerData(OUTER_TYPE_REPRESENTATION, typeDcl));
 
+            data0.getAllAsList(ConstantDatas.MEMBER_INFOS)
+                    .forEach(memberInfos -> data0.registerData(ConstantDatas.MEMBER_INFOS, memberInfos));
+
             data0.registerData(OUTER_TYPE_REPRESENTATION, typeDeclaration);
 
-            for (TypeDeclaration declaration : typeDeclarationList) {
-                MapData data = (MapData) data0.clone();
+            extraData.getAllAsList(INNER_TYPE_REPRESENTATION).stream().map(InnerType::getAdaptedDeclaration)
+                    .forEach(declaration -> {
+                        MapData data = (MapData) data0.clone();
 
-                BytecodeClass[] gen = visitorGenerator.gen(declaration, data, null);
+                        BytecodeClass[] gen = visitorGenerator.gen(declaration, data, null);
 
-                Collections.addAll(bytecodeClassList, gen);
-            }
+                        Collections.addAll(bytecodeClassList, gen);
+                    });
         }
 
         cw.visitEnd();
+
+        bytecodeClassList.add(0, new BytecodeClass(typeDeclaration, cw.toByteArray(), (MapData) extraData.clone()));
 
         return bytecodeClassList.stream().toArray(BytecodeClass[]::new);
     }

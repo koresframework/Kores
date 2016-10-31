@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MultiBodied;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
+import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.function.consumer.TriConsumer;
 
 import java.util.ArrayList;
