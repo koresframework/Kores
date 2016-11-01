@@ -268,6 +268,7 @@ public class Util {
 
 
                     MemberInfo memberInfo;
+                    boolean isConstructor = false;
 
                     List<CodeArgument> codeArguments = new ArrayList<>();
 
@@ -280,14 +281,20 @@ public class Util {
                         MethodSpecification spec = ((MethodInvocation) part).getSpec();
                         memberInfo = infos.find(spec);
                         codeArguments.addAll(spec.getArguments());
+                        isConstructor = spec.getMethodName().equals("<init>");
                     }
 
                     if (memberInfo != null && !memberInfo.isAccessible()) {
-                        if(!memberInfo.hasAccessibleMember()) {
-                            Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator);
+                        if(!memberInfo.hasAccessibleMember() || isConstructor) {
+                            Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator, isConstructor);
                         }
 
                         MethodDeclaration accessibleMember = (MethodDeclaration) memberInfo.getAccessibleMember();
+
+                        if(isConstructor) {
+                            codeArguments.add(CodeAPI.argument(CodeAPI.accessThis()));
+                            target = null;
+                        }
 
                         MethodInvocation invoke = ElementUtil.invoke(accessibleMember, target, codeArguments, declaringOpt.get());
 

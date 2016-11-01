@@ -1563,7 +1563,7 @@ public final class CodeAPI {
     // Factory
 
     private static MethodSpecImpl spec__factory(String methodName, TypeSpec methodDescription, MethodType methodType, CodeArgument... arguments) {
-        return new MethodSpecImpl(methodName, ArrayToList.toList(arguments), methodDescription, methodType);
+        return new MethodSpecImpl(methodName, methodDescription, ArrayToList.toList(arguments), methodType);
     }
 
     private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, MethodSpecImpl methodSpecImpl) {
@@ -1592,7 +1592,7 @@ public final class CodeAPI {
 
     private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, CodeArgument... arguments) {
         return Helper.invoke(InvokeType.INVOKE_SPECIAL, (CodeType) null, CodeAPI.accessThis(),
-                new MethodSpecImpl("<init>", Arrays.asList(arguments), constructorSpec, MethodType.SUPER_CONSTRUCTOR));
+                new MethodSpecImpl("<init>", constructorSpec, Arrays.asList(arguments), MethodType.SUPER_CONSTRUCTOR));
     }
 
     // =========================================================

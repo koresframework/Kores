@@ -518,7 +518,7 @@ public final class Helper {
         MethodSpecification spec = methodFragment.getSpec();
 
 
-        MethodSpecImpl newSpec = new MethodSpecImpl(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
+        MethodSpecImpl newSpec = new MethodSpecImpl(spec.getMethodName(), spec.getMethodDescription(), spec.getArguments(), spec.getMethodType().toDynamic());
 
         return new MethodInvocationImpl(dynamicInvoke,
                 methodFragment.getInvokeType(),
@@ -530,7 +530,7 @@ public final class Helper {
     public static MethodInvocation invokeDynamic(InvokeDynamic dynamicInvoke, MethodInvocation methodInvocation) {
         MethodSpecification spec = methodInvocation.getSpec();
 
-        MethodSpecImpl newSpec = new MethodSpecImpl(spec.getMethodName(), spec.getArguments(), spec.getMethodDescription(), spec.getMethodType().toDynamic());
+        MethodSpecImpl newSpec = new MethodSpecImpl(spec.getMethodName(), spec.getMethodDescription(), spec.getArguments(), spec.getMethodType().toDynamic());
 
         return new MethodInvocationImpl(dynamicInvoke, methodInvocation.getInvokeType(), methodInvocation.getLocalization().orElse(null), methodInvocation.getTarget().orElse(null),
                 newSpec);
@@ -561,7 +561,7 @@ public final class Helper {
 
     public static MethodInvocation invokeSuperInit(CodeType localization, TypeSpec spec, CodeArgument... arguments) {
         return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
-                new MethodSpecImpl("<init>", Arrays.asList(arguments), spec, MethodType.SUPER_CONSTRUCTOR));
+                new MethodSpecImpl("<init>", spec, Arrays.asList(arguments), MethodType.SUPER_CONSTRUCTOR));
     }
 
     public static ArrayConstructor invokeArrayConstructor(CodeType type) {
@@ -589,7 +589,7 @@ public final class Helper {
     }
 
     public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl("<init>", arguments, spec, MethodType.CONSTRUCTOR));
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl("<init>", spec, arguments, MethodType.CONSTRUCTOR));
     }
 
     public static InstanceOf isInstanceOf(CodePart part, CodeType type) {

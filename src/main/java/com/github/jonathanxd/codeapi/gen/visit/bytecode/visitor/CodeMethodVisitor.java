@@ -131,8 +131,11 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
             boolean isGenerated = false;
 
+            boolean initSuper = Common.searchForSuper(typeDeclaration, methodSource, validateSuper);
+            boolean initThis = Common.searchInitThis(typeDeclaration, methodSource, validateThis);
+
             if (typeDeclaration instanceof ClassDeclaration && isConstructor) {
-                if (!Common.searchForSuper(typeDeclaration, methodSource, validateSuper)) {
+                if (!initSuper && !initThis) {
                     Common.generateSuperInvoke(typeDeclaration, mv);
                     isGenerated = true;
                 }
@@ -142,11 +145,13 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
                 if (isGenerated) {
                     Common.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, mvData, validateThis);
                 } else {
-                    methodSource =
-                            CodeSourceUtil.insertAfter(
-                                    part -> part instanceof MethodInvocation && Common.isInitForThat(typeDeclaration, (MethodInvocation) part),
-                                    Common.finalFieldsToSource(typeDeclaration.getBody().orElseThrow(NullPointerException::new)),
-                                    methodSource);
+                    if (!initThis) {
+                        methodSource =
+                                CodeSourceUtil.insertAfter(
+                                        part -> part instanceof MethodInvocation && Common.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                        Common.finalFieldsToSource(typeDeclaration.getBody().orElseThrow(NullPointerException::new)),
+                                        methodSource);
+                    }
                 }
             }
 

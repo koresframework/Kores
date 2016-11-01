@@ -80,7 +80,7 @@ public class MethodSpecImpl implements MethodSpecification {
     }
 
     public MethodSpecImpl(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
-        this(methodName, arguments, methodDescription, MethodType.METHOD);
+        this(methodName, methodDescription, arguments, MethodType.METHOD);
     }
 
     public MethodSpecImpl(CodeType returnType, List<CodeArgument> arguments) {
@@ -92,11 +92,11 @@ public class MethodSpecImpl implements MethodSpecification {
     }
 
     public MethodSpecImpl(TypeSpec methodDescription, List<CodeArgument> arguments) {
-        this(null, arguments, methodDescription, MethodType.METHOD);
+        this(null, methodDescription, arguments, MethodType.METHOD);
     }
 
     public MethodSpecImpl(TypeSpec methodDescription, List<CodeArgument> arguments, MethodType methodType) {
-        this(null, arguments, methodDescription, methodType);
+        this(null, methodDescription, arguments, methodType);
     }
 
     public MethodSpecImpl(String methodName, List<CodeArgument> arguments, CodeType returnType, MethodType methodType) {
@@ -106,7 +106,7 @@ public class MethodSpecImpl implements MethodSpecification {
         this.methodType = methodType;
     }
 
-    public MethodSpecImpl(String methodName, List<CodeArgument> arguments, TypeSpec methodDescription, MethodType methodType) {
+    public MethodSpecImpl(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments, MethodType methodType) {
         this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = methodDescription;
@@ -120,7 +120,7 @@ public class MethodSpecImpl implements MethodSpecification {
 
     @Override
     public MethodSpecImpl setMethodName(String name) {
-        return new MethodSpecImpl(name, this.getArguments(), this.getMethodDescription(), this.getMethodType());
+        return new MethodSpecImpl(name, this.getMethodDescription(), this.getArguments(), this.getMethodType());
     }
 
     @Override
@@ -130,7 +130,7 @@ public class MethodSpecImpl implements MethodSpecification {
 
     @Override
     public MethodSpecImpl setMethodDescription(TypeSpec desc) {
-        return new MethodSpecImpl(this.getMethodName(), this.getArguments(), desc, this.getMethodType());
+        return new MethodSpecImpl(this.getMethodName(), desc, this.getArguments(), this.getMethodType());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MethodSpecImpl implements MethodSpecification {
 
     @Override
     public MethodSpecImpl setArguments(List<CodeArgument> codeArgumentList) {
-        return new MethodSpecImpl(this.getMethodName(), codeArgumentList, this.getMethodDescription(), this.getMethodType());
+        return new MethodSpecImpl(this.getMethodName(), this.getMethodDescription(), codeArgumentList, this.getMethodType());
     }
 
     @Override
@@ -155,7 +155,7 @@ public class MethodSpecImpl implements MethodSpecification {
 
     @Override
     public MethodSpecImpl setMethodType(MethodType type) {
-        return new MethodSpecImpl(this.getMethodName(), this.getArguments(), this.getMethodDescription(), type);
+        return new MethodSpecImpl(this.getMethodName(), this.getMethodDescription(), this.getArguments(), type);
     }
 
     @Override

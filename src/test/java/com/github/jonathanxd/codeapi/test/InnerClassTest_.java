@@ -45,6 +45,7 @@ import java.util.Arrays;
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.accessField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
+import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.method;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PRIVATE;
@@ -61,6 +62,8 @@ public class InnerClassTest_ {
         CodeClass codeClass = aClass(PUBLIC, "test.InnerClass");
 
         TypeDeclaration inner = aClass(PUBLIC, "Inner", CodeAPI.source(
+                CodeAPI.field(PUBLIC, codeClass, "a",
+                        CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CodeAPI.argument(Literals.STRING("Hello")))),
                 method(PRIVATE, "call", PredefinedTypes.STRING, CodeAPI.source(
                         Predefined.invokePrintln(argument(
                                 accessField(codeClass, Helper.accessOuter(codeClass), PredefinedTypes.STRING, "field"),
@@ -81,6 +84,9 @@ public class InnerClassTest_ {
                         CodeAPI.invokeVirtual(inner,
                                 CodeAPI.invokeConstructor(inner),
                                 "call", CodeAPI.typeSpec(String.class))
+                )),
+                constructor(PRIVATE, CodeAPI.parameters(CodeAPI.parameter(String.class, "str")), CodeAPI.source(
+                        Predefined.invokePrintln(CodeAPI.argument(CodeAPI.accessLocalVariable(String.class, "str"), String.class))
                 )),
                 CodeAPI.method(PUBLIC, "mm", PredefinedTypes.VOID, codeMethod -> CodeAPI.sourceOfParts(
                         Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class))

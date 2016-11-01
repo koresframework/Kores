@@ -1331,14 +1331,16 @@ public class Common {
                                         InnerType inner,
                                         MemberInfo memberInfo,
                                         MapData extraData,
-                                        VisitorGenerator<BytecodeClass> visitorGenerator) {
+                                        VisitorGenerator<BytecodeClass> visitorGenerator,
+                                        boolean isConstructor) {
 
-        if (!memberInfo.hasAccessibleMember()) {
+        if (!memberInfo.hasAccessibleMember()
+                || isConstructor) {
             CodeElement memberInstance = memberInfo.getMemberInstance();
 
-            MethodDeclaration gen = generatePackagePrivateAccess(outer, memberInstance);
+            MethodDeclaration gen = generatePackagePrivateAccess(outer, extraData, memberInstance);
 
-            if(inner == null) {
+            if (inner == null) {
                 visitorGenerator.generateTo(MethodDeclaration.class, gen, Objects.requireNonNull(extraData.getParent()), null);
             } else {
                 MutableCodeSource source = outer.getBody().orElse(CodeSource.empty()).toMutable();
@@ -1352,13 +1354,15 @@ public class Common {
         }
     }
 
-    private static MethodDeclaration generatePackagePrivateAccess(TypeDeclaration outer, CodePart element) {
+    private static MethodDeclaration generatePackagePrivateAccess(TypeDeclaration outer, MapData extraData, CodePart element) {
 
         if (!(element instanceof Modifierable) || !(element instanceof Typed))
             throw new IllegalArgumentException("Element doesn't match requirements: extends Modifierable & Typed.");
 
 
         CodeType type = ((Typed) element).getType().orElseThrow(NullPointerException::new);
+
+        boolean isConstructor = false;
         boolean isStatic = ((Modifierable) element).getModifiers().contains(CodeModifier.STATIC);
 
         Collection<CodeModifier> modifiers = CodeModifier.newModifierSet();
@@ -1382,7 +1386,7 @@ public class Common {
 
             parameters.addAll(methodDeclaration.getParameters());
 
-            boolean isConstructor = methodDeclaration.getName().equals("<init>");
+            isConstructor = methodDeclaration.getName().equals("<init>");
 
             InvokeType invokeType = isStatic ? InvokeType.INVOKE_STATIC :
                     (isConstructor
@@ -1391,22 +1395,42 @@ public class Common {
                             ? InvokeType.INVOKE_INTERFACE
                             : InvokeType.INVOKE_VIRTUAL));
 
-            invk = Helper.invoke(invokeType, outer, isConstructor || isStatic ? outer : CodeAPI.accessThis(),
+            List<CodeArgument> arguments = CodeArgumentUtil.argumentsFromParameters(parameters);
+
+            if (isConstructor) {
+                TypeDeclaration current = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION);
+                CodeParameter parameter = CodeAPI.parameter(current, Common.getNewName("$inner", parameters));
+
+                parameters.add(parameter);
+                //arguments.add(CodeAPI.argument(CodeAPI.accessThis(), current));
+            }
+
+            invk = Helper.invoke(invokeType, outer, isStatic ? outer : CodeAPI.accessThis(),
                     new MethodSpecImpl(methodDeclaration.getName(), methodDeclaration.getReturnType().orElse(PredefinedTypes.VOID),
-                            CodeArgumentUtil.argumentsFromParameters(parameters)));
+                            arguments, isConstructor ? MethodType.SUPER_CONSTRUCTOR : MethodType.METHOD));
         } else {
             throw new IllegalArgumentException("Cannot process: " + element + "!");
         }
 
-        return CodeAPI.methodBuilder()
-                .withName(getNewMethodName("access$000", outer.getBody().orElse(CodeSource.empty())))
-                .withModifiers(modifiers)
-                .withParameters(parameters)
-                .withReturnType(type)
-                .withBody(CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(type, invk)
-                ))
-                .build();
+        if (!isConstructor) {
+            return CodeAPI.methodBuilder()
+                    .withName(getNewMethodName("invoke$000", outer.getBody().orElse(CodeSource.empty())))
+                    .withModifiers(modifiers)
+                    .withParameters(parameters)
+                    .withReturnType(type)
+                    .withBody(CodeAPI.sourceOfParts(
+                            CodeAPI.returnValue(type, invk)
+                    ))
+                    .build();
+        } else {
+            return CodeAPI.constructorBuilder()
+                    .withModifiers(modifiers)
+                    .withParameters(parameters)
+                    .withBody(CodeAPI.sourceOfParts(
+                            invk
+                    ))
+                    .build();
+        }
     }
 
     private static MemberInfo find(MemberInfos infos, CodePart element) {

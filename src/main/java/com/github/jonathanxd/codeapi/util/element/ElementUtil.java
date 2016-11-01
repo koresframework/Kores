@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
@@ -96,10 +97,11 @@ public class ElementUtil {
 
         TypeSpec typeSpec = new TypeSpec(methodDeclaration.getReturnType().orElse(PredefinedTypes.VOID), CodeTypeUtil.toTypes(methodDeclaration.getParameters()));
 
-        return Helper.invoke(invokeType, type, target,
+        return Helper.invoke(invokeType, type, isConstructor ? type : target,
                 new MethodSpecImpl(
                         methodDeclaration.getName(),
                         typeSpec,
-                        arguments));
+                        arguments,
+                        isConstructor ? MethodType.CONSTRUCTOR : MethodType.METHOD));
     }
 }
