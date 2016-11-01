@@ -32,12 +32,12 @@ import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 
 public class MemberInfo {
     private final CodeElement memberInstance;
+    private boolean isAccessible;
     private CodeElement accessibleMember = null;
 
     MemberInfo(CodeElement memberInstance, boolean isAccessible) {
         this.memberInstance = memberInstance;
-        if (isAccessible)
-            this.accessibleMember = memberInstance;
+        this.isAccessible = isAccessible;
     }
 
     public CodeElement getMemberInstance() {
@@ -57,6 +57,10 @@ public class MemberInfo {
     }
 
     public boolean isAccessible() {
+        return this.isAccessible;
+    }
+
+    public boolean hasAccessibleMember() {
         return this.getAccessibleMember() != null;
     }
 

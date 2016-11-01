@@ -1333,7 +1333,7 @@ public class Common {
                                         MapData extraData,
                                         VisitorGenerator<BytecodeClass> visitorGenerator) {
 
-        if (!memberInfo.isAccessible()) {
+        if (!memberInfo.hasAccessibleMember()) {
             CodeElement memberInstance = memberInfo.getMemberInstance();
 
             MethodDeclaration gen = generatePackagePrivateAccess(outer, memberInstance);

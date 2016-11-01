@@ -283,13 +283,16 @@ public class Util {
                     }
 
                     if (memberInfo != null && !memberInfo.isAccessible()) {
-                        Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator);
+                        if(!memberInfo.hasAccessibleMember()) {
+                            Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator);
+                        }
 
                         MethodDeclaration accessibleMember = (MethodDeclaration) memberInfo.getAccessibleMember();
 
                         MethodInvocation invoke = ElementUtil.invoke(accessibleMember, target, codeArguments, declaringOpt.get());
 
                         return visitorGenerator.generateTo(MethodInvocation.class, invoke, extraData, additional);
+
                     }
                 }
             }
