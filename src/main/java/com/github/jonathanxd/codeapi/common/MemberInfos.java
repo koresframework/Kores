@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.CodeElement;
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
@@ -65,13 +63,13 @@ public class MemberInfos {
     public MemberInfo find(MethodSpecification methodSpecification) {
         return this.find(memberInfo ->
                 memberInfo.getMemberInstance() instanceof MethodDeclaration
-                && ElementUtil.equal((MethodDeclaration) memberInfo.getMemberInstance(), methodSpecification));
+                        && ElementUtil.equal((MethodDeclaration) memberInfo.getMemberInstance(), methodSpecification));
     }
 
     public MemberInfo find(VariableAccess access) {
         return this.find(memberInfo ->
                 memberInfo.getMemberInstance() instanceof FieldDeclaration
-                && ElementUtil.equal((FieldDeclaration) memberInfo.getMemberInstance(), access));
+                        && ElementUtil.equal((FieldDeclaration) memberInfo.getMemberInstance(), access));
     }
 
     public List<MemberInfo> getMemberInfoList() {

@@ -25,43 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 
-import java.io.PrintStream;
-import java.util.Arrays;
+import java.util.List;
 
-/**
- * Created by jonathan on 06/06/16.
- */
-public final class Predefined {
+public interface Concat extends CodePart {
+    /**
+     * Gets elements to concatenate.
+     *
+     * @return Elements to concatenate.
+     */
+    List<CodePart> getConcatenations();
 
-    Predefined() {
-    }
-
-    public static MethodInvocation toString(CodePart part) {
-        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING));
-    }
-
-    public static MethodInvocation invokePrintln(CodeArgument... arguments) {
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                Helper.accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpecImpl("println", PredefinedTypes.VOID, Arrays.asList(arguments)));
-    }
-
-    public static MethodInvocation invokePrintlnStr(CodePart part) {
-        return CodeAPI.invokeVirtual(
-                PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
-                "println",
-                CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
-                CodeAPI.argument(part));
-    }
+    /**
+     * Sets elements to concatenate.
+     *
+     * @param concatList Elements to concatenate.
+     * @return new instance.
+     */
+    Concat setConcatenations(List<CodePart> concatList);
 }

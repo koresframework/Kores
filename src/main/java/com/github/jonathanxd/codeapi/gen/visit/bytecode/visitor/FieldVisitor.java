@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.common.MemberInfo;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.Visitor;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;

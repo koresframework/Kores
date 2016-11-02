@@ -82,7 +82,7 @@ public class VariableAccessVisitor implements VoidVisitor<VariableAccess, Byteco
 
         BytecodeClass[] access = Util.access(variableAccess, localization, visitorGenerator, extraData, mvData);
 
-        if(access != null)
+        if (access != null)
             return;
 
         if (localization != null) {

@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.CodePart;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;

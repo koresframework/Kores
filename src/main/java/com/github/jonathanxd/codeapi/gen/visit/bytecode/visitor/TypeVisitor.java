@@ -102,13 +102,14 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
         boolean any = false;
 
         for (InnerType innerType : extraData.getAllAsList(INNER_TYPE_REPRESENTATION)) {
-            if(innerType.getAdaptedDeclaration().is(typeDeclaration)) {
+            if (innerType.getAdaptedDeclaration().is(typeDeclaration)) {
                 extraData.registerData(ConstantDatas.MEMBER_INFOS, innerType.getMemberInfos());
                 any = true;
             }
         }
 
-        if(!any) extraData.registerData(ConstantDatas.MEMBER_INFOS, Util.createMemberInfos(typeDeclaration));
+        if (!any)
+            extraData.registerData(ConstantDatas.MEMBER_INFOS, Util.createMemberInfos(typeDeclaration));
 
 
         Collection<CodeType> implementations = typeDeclaration instanceof Implementer

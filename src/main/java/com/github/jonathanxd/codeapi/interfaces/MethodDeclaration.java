@@ -66,10 +66,10 @@ public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Para
     MethodDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
 
     @Override
-    MethodDeclaration setType(CodeType codeType);
-
-    @Override
     default Optional<CodeType> getType() {
         return this.getReturnType();
     }
+
+    @Override
+    MethodDeclaration setType(CodeType codeType);
 }

@@ -39,9 +39,9 @@ public class CodeTypeUtil {
     }
 
     public static boolean equals(List<CodeType> types, List<CodeType> types2) {
-        if(types.size() == types2.size()) {
+        if (types.size() == types2.size()) {
             for (int i = 0; i < types.size(); i++) {
-                if(!types.get(i).is(types2.get(i)))
+                if (!types.get(i).is(types2.get(i)))
                     return false;
             }
 

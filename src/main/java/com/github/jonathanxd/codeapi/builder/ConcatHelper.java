@@ -25,43 +25,50 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.impl.ConcatImpl;
+import com.github.jonathanxd.codeapi.interfaces.Concat;
+import com.github.jonathanxd.codeapi.literals.Literals;
 
-import java.io.PrintStream;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by jonathan on 06/06/16.
- */
-public final class Predefined {
+public class ConcatHelper {
 
-    Predefined() {
+    private final List<CodePart> concatenations = new ArrayList<>();
+
+    private ConcatHelper() {
     }
 
-    public static MethodInvocation toString(CodePart part) {
-        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING));
+    public static ConcatHelper builder() {
+        return new ConcatHelper();
     }
 
-    public static MethodInvocation invokePrintln(CodeArgument... arguments) {
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                Helper.accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpecImpl("println", PredefinedTypes.VOID, Arrays.asList(arguments)));
+    public static ConcatHelper builder(CodePart part) {
+        ConcatHelper concatHelper = new ConcatHelper();
+
+        return concatHelper.concat(part);
     }
 
-    public static MethodInvocation invokePrintlnStr(CodePart part) {
-        return CodeAPI.invokeVirtual(
-                PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
-                "println",
-                CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
-                CodeAPI.argument(part));
+    public static ConcatHelper builder(String str) {
+        ConcatHelper concatHelper = new ConcatHelper();
+
+        return concatHelper.concat(str);
+    }
+
+    public ConcatHelper concat(CodePart codePart) {
+        this.concatenations.add(codePart);
+        return this;
+    }
+
+    public ConcatHelper concat(String str) {
+        this.concatenations.add(Literals.STRING(str));
+        return this;
+    }
+
+    public Concat build() {
+        return new ConcatImpl(this.concatenations);
     }
 }

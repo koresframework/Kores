@@ -45,6 +45,7 @@ import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.BreakVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.CastedVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.CodeMethodVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.CodeSourceVisitor;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ConcatVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ConstructorVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ContinueVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.DoWhileVisitor;
@@ -87,6 +88,7 @@ import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.interfaces.Break;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.Concat;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
@@ -182,6 +184,8 @@ public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
 
         addVisitor(AnnotationDeclaration.class, new TypeAnnotationVisitor());
         addVisitor(AnnotationProperty.class, new AnnotationPropertyVisitor());
+
+        addVisitor(Concat.class, new ConcatVisitor());
     }
 
     public BytecodeGenerator() {

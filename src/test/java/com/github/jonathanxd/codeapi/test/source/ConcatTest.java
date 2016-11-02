@@ -25,43 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.test.ConcatTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
+import com.github.jonathanxd.codeapi.test.tests.SourceTest;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-import java.io.PrintStream;
-import java.util.Arrays;
+import org.junit.Test;
 
 /**
- * Created by jonathan on 06/06/16.
+ * Created by jonathan on 03/09/16.
  */
-public final class Predefined {
+public class ConcatTest {
 
-    Predefined() {
+    @Test
+    public void concatTest() {
+        Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $ = ConcatTest_.$();
+
+        SourceTest test = CommonSourceTest.test($._2());
+
+        test.consume(System.out::println);
     }
 
-    public static MethodInvocation toString(CodePart part) {
-        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING));
-    }
-
-    public static MethodInvocation invokePrintln(CodeArgument... arguments) {
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                Helper.accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpecImpl("println", PredefinedTypes.VOID, Arrays.asList(arguments)));
-    }
-
-    public static MethodInvocation invokePrintlnStr(CodePart part) {
-        return CodeAPI.invokeVirtual(
-                PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
-                "println",
-                CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
-                CodeAPI.argument(part));
-    }
 }

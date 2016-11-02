@@ -52,6 +52,7 @@ public final class PredefinedTypes {
     public static final LoadedCodeType<Annotation> ANNOTATION = new PredefinedType<>(Annotation.class);
     public static final LoadedCodeType<Class> CLASS = new PredefinedType<>(Class.class);
     public static final LoadedCodeType<Override> OVERRIDE = new PredefinedType<>(Override.class);
+    public static final LoadedCodeType<StringBuilder> STRING_BUILDER = new PredefinedType<>(StringBuilder.class);
 
     public static final LoadedCodeType<Void> VOID = new PredefinedType<>(Void.TYPE);
 

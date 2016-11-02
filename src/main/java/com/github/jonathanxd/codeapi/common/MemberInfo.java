@@ -40,6 +40,22 @@ public class MemberInfo {
         this.isAccessible = isAccessible;
     }
 
+    public static MemberInfo ofAccessible(CodeElement element) {
+        return new MemberInfo(element, true);
+    }
+
+    public static MemberInfo ofInaccessible(CodeElement element) {
+        return new MemberInfo(element, false);
+    }
+
+    public static MemberInfo of(CodeElement element, boolean isAccessible) {
+        return new MemberInfo(element, isAccessible);
+    }
+
+    public static <T extends CodeElement & Modifierable> MemberInfo of(T element) {
+        return MemberInfo.of(element, !element.getModifiers().contains(CodeModifier.PRIVATE));
+    }
+
     public CodeElement getMemberInstance() {
         return this.memberInstance;
     }
@@ -62,21 +78,5 @@ public class MemberInfo {
 
     public boolean hasAccessibleMember() {
         return this.getAccessibleMember() != null;
-    }
-
-    public static MemberInfo ofAccessible(CodeElement element) {
-        return new MemberInfo(element, true);
-    }
-
-    public static MemberInfo ofInaccessible(CodeElement element) {
-        return new MemberInfo(element, false);
-    }
-
-    public static MemberInfo of(CodeElement element, boolean isAccessible) {
-        return new MemberInfo(element, isAccessible);
-    }
-
-    public static <T extends CodeElement & Modifierable> MemberInfo of(T element) {
-        return MemberInfo.of(element, !element.getModifiers().contains(CodeModifier.PRIVATE));
     }
 }

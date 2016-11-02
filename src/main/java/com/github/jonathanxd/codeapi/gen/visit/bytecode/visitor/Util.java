@@ -285,13 +285,13 @@ public class Util {
                     }
 
                     if (memberInfo != null && !memberInfo.isAccessible()) {
-                        if(!memberInfo.hasAccessibleMember() || isConstructor) {
+                        if (!memberInfo.hasAccessibleMember() || isConstructor) {
                             Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator, isConstructor);
                         }
 
                         MethodDeclaration accessibleMember = (MethodDeclaration) memberInfo.getAccessibleMember();
 
-                        if(isConstructor) {
+                        if (isConstructor) {
                             codeArguments.add(CodeAPI.argument(CodeAPI.accessThis()));
                             target = null;
                         }

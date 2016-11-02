@@ -29,8 +29,6 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.common.Flow;
 import com.github.jonathanxd.codeapi.common.MemberInfos;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 
 public final class ConstantDatas {

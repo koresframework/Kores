@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi;
 
 import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
 import com.github.jonathanxd.codeapi.builder.ClassBuilder;
+import com.github.jonathanxd.codeapi.builder.ConcatHelper;
 import com.github.jonathanxd.codeapi.builder.ConstructorBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumBuilder;
 import com.github.jonathanxd.codeapi.builder.InterfaceBuilder;
@@ -3157,6 +3158,18 @@ public final class CodeAPI {
 
     public static Class<?>[] types(Class<?>... types) {
         return types;
+    }
+
+    public static ConcatHelper concatHelper() {
+        return ConcatHelper.builder();
+    }
+
+    public static ConcatHelper concatHelper(CodePart part) {
+        return ConcatHelper.builder(part);
+    }
+
+    public static ConcatHelper concatHelper(String str) {
+        return ConcatHelper.builder(str);
     }
 
     /**

@@ -53,6 +53,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.ClassTypeSourceG
 import com.github.jonathanxd.codeapi.gen.value.source.generator.CodeParameterSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.CodeSourceSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.CodeTypeSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.ConcatSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ContinueSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.DoWhileBlockSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ElseBlockSourceGenerator;
@@ -116,6 +117,7 @@ import com.github.jonathanxd.codeapi.interfaces.Break;
 import com.github.jonathanxd.codeapi.interfaces.Case;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
+import com.github.jonathanxd.codeapi.interfaces.Concat;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Continue;
 import com.github.jonathanxd.codeapi.interfaces.DoWhileBlock;
@@ -273,6 +275,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         // Annotation & Annotation Property
         register(AnnotationDeclaration.class, AnnotationTypeSourceGenerator.INSTANCE);
         register(AnnotationProperty.class, AnnotationPropertySourceGenerator.INSTANCE);
+
+        // Concat
+        register(Concat.class, ConcatSourceGenerator.INSTANCE);
     }
 
     @SuppressWarnings("deprecation")
