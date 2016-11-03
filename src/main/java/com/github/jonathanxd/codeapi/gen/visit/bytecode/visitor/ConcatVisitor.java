@@ -59,16 +59,31 @@ public class ConcatVisitor implements VoidVisitor<Concat, BytecodeClass, MVData>
         CodePart first = concatenations.isEmpty() ? null : concatenations.get(0);
 
         if (first != null) {
-            MethodInvocation strBuilder = CodeAPI.invokeConstructor(StringBuilder.class, CodeAPI.argument(first, String.class));
 
-            for (int i = 1; i < concatenations.size(); i++) {
-                CodePart part = concatenations.get(i);
-                strBuilder = CodeAPI.invokeVirtual(STRING_BUILDER, strBuilder, "append", CodeAPI.typeSpec(STRING_BUILDER, STRING), CodeAPI.argument(part));
+            if(concatenations.size() == 1) {
+
+                visitorGenerator.generateTo(first.getClass(), first, extraData, mvData);
+
+            } else if(concatenations.size() == 2) {
+
+                MethodInvocation stringConcat = CodeAPI.invokeVirtual(String.class, first, "concat",
+                        CodeAPI.typeSpec(String.class, String.class),
+                        CodeAPI.argument(concatenations.get(1)));
+
+                visitorGenerator.generateTo(MethodInvocation.class, stringConcat, extraData, mvData);
+            } else {
+
+                MethodInvocation strBuilder = CodeAPI.invokeConstructor(StringBuilder.class, CodeAPI.argument(first, String.class));
+
+                for (int i = 1; i < concatenations.size(); i++) {
+                    CodePart part = concatenations.get(i);
+                    strBuilder = CodeAPI.invokeVirtual(STRING_BUILDER, strBuilder, "append", CodeAPI.typeSpec(STRING_BUILDER, STRING), CodeAPI.argument(part));
+                }
+
+                strBuilder = CodeAPI.invokeVirtual(OBJECT, strBuilder, "toString", CodeAPI.typeSpec(STRING));
+
+                visitorGenerator.generateTo(MethodInvocation.class, strBuilder, extraData, mvData);
             }
-
-            strBuilder = CodeAPI.invokeVirtual(OBJECT, strBuilder, "toString", CodeAPI.typeSpec(STRING));
-
-            visitorGenerator.generateTo(MethodInvocation.class, strBuilder, extraData, mvData);
         } else {
             // If the concatenations is empty
             // It is better to CodeAPI (less things to process), and is better to JVM.

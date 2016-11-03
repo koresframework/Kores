@@ -47,7 +47,9 @@ public class ConcatTest_ {
                                 .concat(" ")
                                 .concat(CodeAPI.accessLocalVariable(String.class, "av"))
                         .concat(" :D").build()),
-                        Predefined.invokePrintlnStr(CodeAPI.concatHelper().build())
+                        Predefined.invokePrintlnStr(CodeAPI.concatHelper().build()),
+                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("A").build()),
+                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("A").concat("B").build())
                 ))
         ));
 
