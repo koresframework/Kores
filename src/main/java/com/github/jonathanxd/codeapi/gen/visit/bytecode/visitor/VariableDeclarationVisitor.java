@@ -53,9 +53,9 @@ import java.util.Optional;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class StoreVariableVisitor implements VoidVisitor<VariableDeclaration, BytecodeClass, MVData>, Opcodes {
+public class VariableDeclarationVisitor implements VoidVisitor<VariableDeclaration, BytecodeClass, MVData>, Opcodes {
 
-    public static final StoreVariableVisitor INSTANCE = new StoreVariableVisitor();
+    public static final VariableDeclarationVisitor INSTANCE = new VariableDeclarationVisitor();
 
     @Override
     public void voidVisit(VariableDeclaration variableDeclaration,

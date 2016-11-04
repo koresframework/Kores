@@ -64,7 +64,7 @@ import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.OperateVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.PackageVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ReturnVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.StaticBlockVisitor;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.StoreVariableVisitor;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.VariableDeclarationVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.SwitchVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TagLineVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.ThrowExceptionVisitor;
@@ -156,7 +156,7 @@ public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
         addVisitor(TryBlock.class, new TryBlockVisitor());
         addVisitor(IfBlock.class, new IfBlockVisitor());
         addVisitor(Return.class, new ReturnVisitor());
-        addVisitor(VariableDeclaration.class, new StoreVariableVisitor());
+        addVisitor(VariableDeclaration.class, new VariableDeclarationVisitor());
         addVisitor(ThrowException.class, new ThrowExceptionVisitor());
         addVisitor(Casted.class, new CastedVisitor());
         addVisitor(Operate.class, new OperateVisitor());
