@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.builder.ConcatHelper;
 import com.github.jonathanxd.codeapi.builder.ConstructorBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumBuilder;
+import com.github.jonathanxd.codeapi.builder.IfExpressionHelper;
 import com.github.jonathanxd.codeapi.builder.InterfaceBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodBuilder;
 import com.github.jonathanxd.codeapi.builder.OperateHelper;
@@ -68,6 +69,7 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.ContinueImpl;
 import com.github.jonathanxd.codeapi.impl.EnumEntryImpl;
 import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
+import com.github.jonathanxd.codeapi.impl.IfBlockImpl;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.impl.OperateImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
@@ -2262,6 +2264,29 @@ public final class CodeAPI {
     /**
      * Create a if statement.
      *
+     * @param expressions Expressions.
+     * @param body        Body of the if.
+     * @param elseBlock   Else block of the if.
+     * @return If statement.
+     */
+    public static IfBlock ifBlock(List<CodePart> expressions, CodeSource body, ElseBlock elseBlock) {
+        return ifBlock__Factory(expressions, body, elseBlock);
+    }
+
+    /**
+     * Create a if statement.
+     *
+     * @param expressions Expressions.
+     * @param body        Body of the if.
+     * @return If statement.
+     */
+    public static IfBlock ifBlock(List<CodePart> expressions, CodeSource body) {
+        return ifBlock__Factory(expressions, body, null);
+    }
+
+    /**
+     * Create a if statement.
+     *
      * @param groups    Expressions.
      * @param body      Body of the if.
      * @param elseBlock Else block of the if.
@@ -2309,7 +2334,11 @@ public final class CodeAPI {
 
     // Factory
     private static IfBlock ifBlock__Factory(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, ElseBlock elseBlock) {
-        return Helper.ifExpression(groups, body, elseBlock);
+        return new IfBlockImpl(body, groups, elseBlock);
+    }
+
+    private static IfBlock ifBlock__Factory(List<CodePart> check, CodeSource body, ElseBlock elseBlock) {
+        return new IfBlockImpl(body, check, elseBlock);
     }
 
     // =========================================================
@@ -2366,6 +2395,10 @@ public final class CodeAPI {
      */
     public static IfExpr check(CodePart part1, Operator operator, CodePart part2) {
         return Helper.check(part1, operator, part2);
+    }
+
+    public static IfExpressionHelper expressionHelper() {
+        return IfExpressionHelper.builder();
     }
 
     // =========================================================
@@ -3184,7 +3217,7 @@ public final class CodeAPI {
     }
 
     public static ConcatHelper concatHelper(CodePart... part) {
-        if(part.length == 0)
+        if (part.length == 0)
             return ConcatHelper.builder();
 
         ConcatHelper helper = ConcatHelper.builder(part[0]);
@@ -3197,7 +3230,7 @@ public final class CodeAPI {
     }
 
     public static ConcatHelper concatHelper(String... strs) {
-        if(strs.length == 0)
+        if (strs.length == 0)
             return ConcatHelper.builder();
 
         ConcatHelper helper = ConcatHelper.builder(strs[0]);
@@ -3210,29 +3243,29 @@ public final class CodeAPI {
     }
 
     public static ConcatHelper concatHelperObj(Object... objs) {
-        if(objs.length == 0)
+        if (objs.length == 0)
             return ConcatHelper.builder();
 
         ConcatHelper helper;
 
         Object at0 = objs[0];
 
-        if(at0 instanceof CodePart) {
+        if (at0 instanceof CodePart) {
             helper = ConcatHelper.builder((CodePart) at0);
-        } else if(at0 instanceof String) {
+        } else if (at0 instanceof String) {
             helper = ConcatHelper.builder((String) at0);
         } else {
-            throw new IllegalArgumentException("Invalid element type at index 0 ("+at0+") in array: '"+Arrays.toString(objs)+"'! Acceptable types: String|CodePart");
+            throw new IllegalArgumentException("Invalid element type at index 0 (" + at0 + ") in array: '" + Arrays.toString(objs) + "'! Acceptable types: String|CodePart");
         }
 
         for (int i = 1; i < objs.length; i++) {
             Object atI = objs[i];
-            if(at0 instanceof CodePart) {
+            if (at0 instanceof CodePart) {
                 helper = helper.concat((CodePart) atI);
-            } else if(at0 instanceof String) {
+            } else if (at0 instanceof String) {
                 helper = helper.concat((String) atI);
             } else {
-                throw new IllegalArgumentException("Invalid element type at index "+i+" ("+atI+") in array: '"+Arrays.toString(objs)+"'! Acceptable types: String|CodePart");
+                throw new IllegalArgumentException("Invalid element type at index " + i + " (" + atI + ") in array: '" + Arrays.toString(objs) + "'! Acceptable types: String|CodePart");
             }
 
         }
