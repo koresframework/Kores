@@ -25,48 +25,62 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.operators.Operators;
 
-import java.io.PrintStream;
-import java.util.Arrays;
+public final class OperateHelper {
 
-/**
- * Created by jonathan on 06/06/16.
- */
-public final class Predefined {
+    private CodePart part;
 
-    Predefined() {
+    private OperateHelper(CodePart part) {
+        this.part = part;
     }
 
-    public static MethodInvocation toString(CodePart part) {
-        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING));
+    public static OperateHelper builder(CodePart part) {
+        return new OperateHelper(part);
     }
 
-    public static MethodInvocation intToString(CodePart part) {
-        return CodeAPI.invokeStatic(String.class, "valueOf", new TypeSpec(PredefinedTypes.STRING, PredefinedTypes.INT),
-                CodeAPI.argument(part));
+    public OperateHelper plus(CodePart value) {
+        Operator operation = Operators.ADD;
+
+        return this.operate(operation, value);
     }
 
-    public static MethodInvocation invokePrintln(CodeArgument... arguments) {
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                Helper.accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpecImpl("println", PredefinedTypes.VOID, Arrays.asList(arguments)));
+    public OperateHelper subtract(CodePart value) {
+        Operator operation = Operators.SUBTRACT;
+
+        return this.operate(operation, value);
     }
 
-    public static MethodInvocation invokePrintlnStr(CodePart part) {
-        return CodeAPI.invokeVirtual(
-                PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
-                "println",
-                CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
-                CodeAPI.argument(part));
+    public OperateHelper multiply(CodePart value) {
+        Operator operation = Operators.MULTIPLY;
+
+        return this.operate(operation, value);
+    }
+
+    public OperateHelper divide(CodePart value) {
+        Operator operation = Operators.DIVISION;
+
+        return this.operate(operation, value);
+    }
+
+    public OperateHelper remainder(CodePart value) {
+        Operator operation = Operators.REMAINDER;
+
+        return this.operate(operation, value);
+    }
+
+    private OperateHelper operate(Operator operation, CodePart value) {
+        this.part = CodeAPI.operate(this.part, operation, value);
+
+        return this;
+    }
+
+    public CodePart build() {
+        return this.part;
     }
 }

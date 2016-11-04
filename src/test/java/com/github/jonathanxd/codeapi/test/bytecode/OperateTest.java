@@ -25,66 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.test.AnnotationTest_;
+import com.github.jonathanxd.codeapi.test.OperateTest_;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.exception.RethrowException;
+import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Optional;
+import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
- * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
+ * Created by jonathan on 03/09/16.
  */
-public interface VariableOperate extends VariableDeclaration, Operate, CodePart {
+public class OperateTest {
 
-    /**
-     * Gets target to operate.
-     *
-     * @return Target to operate.
-     */
-    @Override
-    Optional<CodePart> getTarget();
+    @Test
+    public void operateTest() {
+        Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $ = OperateTest_.$();
+        @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass -> {
+            try {
+                aClass.getConstructor(Integer.TYPE).newInstance(2);
+            } catch (Exception e) {
+                throw new RethrowException(e);
+            }
+            return null;
+        });
+    }
 
-    /**
-     * Gets the instance of field.
-     *
-     * @param at Instance of field.
-     * @return new instance.
-     */
-    VariableOperate setTarget(CodePart at);
-
-
-    /**
-     * Gets the operation.
-     *
-     * @return Operation.
-     */
-    Optional<Operator> getOperation();
-
-    /**
-     * Sets the operation.
-     *
-     * @param operation Operation.
-     * @return new instance.
-     */
-    VariableOperate setOperation(Operator operation);
-
-    /**
-     * Gets the value.
-     *
-     * @return Value.
-     */
-    Optional<CodePart> getValue();
-
-    /**
-     * Sets the value.
-     *
-     * @param value Value.
-     * @return new instance.
-     */
-    VariableOperate setValue(CodePart value);
-
-    @Override
-    VariableOperate setType(CodeType codeType);
 }

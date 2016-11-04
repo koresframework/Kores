@@ -30,20 +30,20 @@ package com.github.jonathanxd.codeapi.interfaces;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 
 import java.util.Optional;
 
 /**
  * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
  */
-public interface VariableOperate extends VariableDeclaration, Operate, CodePart {
+public interface Operate extends CodePart, Typed {
 
     /**
      * Gets target to operate.
      *
      * @return Target to operate.
      */
-    @Override
     Optional<CodePart> getTarget();
 
     /**
@@ -52,7 +52,7 @@ public interface VariableOperate extends VariableDeclaration, Operate, CodePart 
      * @param at Instance of field.
      * @return new instance.
      */
-    VariableOperate setTarget(CodePart at);
+    Operate setTarget(CodePart at);
 
 
     /**
@@ -68,7 +68,7 @@ public interface VariableOperate extends VariableDeclaration, Operate, CodePart 
      * @param operation Operation.
      * @return new instance.
      */
-    VariableOperate setOperation(Operator operation);
+    Operate setOperation(Operator operation);
 
     /**
      * Gets the value.
@@ -83,8 +83,16 @@ public interface VariableOperate extends VariableDeclaration, Operate, CodePart 
      * @param value Value.
      * @return new instance.
      */
-    VariableOperate setValue(CodePart value);
+    Operate setValue(CodePart value);
+
 
     @Override
-    VariableOperate setType(CodeType codeType);
+    default Optional<CodeType> getType() {
+        return Optional.of(CodePartUtil.getType(this.getTarget().orElseThrow(NullPointerException::new)));
+    }
+
+    @Override
+    default Operate setType(CodeType codeType) {
+        return this;
+    }
 }

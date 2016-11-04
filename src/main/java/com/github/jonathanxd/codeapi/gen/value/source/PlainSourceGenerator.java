@@ -82,6 +82,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.MethodSourceGene
 import com.github.jonathanxd.codeapi.gen.value.source.generator.MethodSpecificationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ModifierSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.NamedSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.generator.OperateSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.PackageDeclarationSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ParameterizableSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.ReturnSourceGenerator;
@@ -141,6 +142,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Modifierable;
 import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.Operate;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
 import com.github.jonathanxd.codeapi.interfaces.Return;
@@ -220,6 +222,7 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         register(ArrayStore.class, ArrayStoreSourceGenerator.INSTANCE);
         register(ArrayLength.class, ArrayLengthSourceGenerator.INSTANCE);
         register(TagLine.class, TagLineSourceGenerator.INSTANCE);
+        register(Operate.class, OperateSourceGenerator.INSTANCE);
         register(VariableOperate.class, VariableOperateSourceGenerator.INSTANCE);
         register(ClassType.class, ClassTypeSourceGenerator.INSTANCE);
         register(Accessor.class, AccessorSourceGenerator.INSTANCE);

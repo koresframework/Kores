@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.AccessLocal;
+import com.github.jonathanxd.codeapi.interfaces.Operate;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.literals.Literal;
@@ -40,6 +41,7 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
 
@@ -54,94 +56,46 @@ import java.util.OptionalInt;
 /**
  * Created by jonathan on 03/06/16.
  */
-public class OperateVisitor implements VoidVisitor<VariableOperate, BytecodeClass, MVData>, Opcodes {
+public class OperateVisitor implements VoidVisitor<Operate, BytecodeClass, MVData>, Opcodes {
 
     public static final OperateVisitor INSTANCE = new OperateVisitor();
 
     @Override
-    public void voidVisit(VariableOperate variableOperate,
+    public void voidVisit(Operate operate,
                           MapData extraData,
                           VisitorGenerator<BytecodeClass> visitorGenerator,
                           MVData mvData) {
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        CodePart target = operate.getTarget().orElse(null);
 
-        CodePart at = variableOperate.getTarget().orElse(null);
+        Operator operation = Require.require(operate.getOperation(), "Operation is required.");
 
-        Operator operation = Require.require(variableOperate.getOperation(), "Operation is required.");
+        CodePart value = operate.getValue().orElse(null);
 
-        CodePart value = variableOperate.getValue().orElse(null);
+        visitorGenerator.generateTo(target.getClass(), target, extraData, mvData);
 
-        boolean constantVal = true;
-
-        int constant = 1;
-
-        if (value != null && (!(value instanceof Literal) || !Require.require(((Literal) value).getType(), "Literal Type required").getJavaSpecName().equals("I"))) {
-            constantVal = false;
-        } else if (value != null) {
-            constant = Integer.valueOf(((Literal) value).getName());
+        if(value != null) {
+            visitorGenerator.generateTo(value.getClass(), value, extraData, mvData);
         }
 
-        Optional<Variable> var = mvData.getVar(variableOperate.getName(), variableOperate.getVariableType());
+        if(operation == Operators.ADD
+                || operation == Operators.SUBTRACT
+                || operation == Operators.MULTIPLY
+                || operation == Operators.DIVISION
+                || operation == Operators.REMAINDER) {
+            CodeType type = CodePartUtil.getType(target);
 
-
-        if (!var.isPresent())
-            throw new RuntimeException("Variable '" + variableOperate.getName() + "' Type: '" + variableOperate.getVariableType().getJavaSpecName() + "' Not found in local variables map");
-
-        Variable variable = var.get();
-
-        OptionalInt varPosOpt = mvData.getVarPos(variable);
-
-        if (!varPosOpt.isPresent())
-            throw new IllegalStateException("Cannot find variable '" + variable + "' in stack table: " + mvData.getVariables());
-
-        int i = (int) varPosOpt.getAsInt();
-
-        if (at instanceof AccessLocal) {
-            if (operation == Operators.INCREMENT) {
-                mv.visitIincInsn(i, 1);
-                return;
-            } else if (operation == Operators.DECREMENT) {
-                mv.visitIincInsn(i, -1);
-                return;
-            } else if (constantVal) {
-                if (operation == Operators.ADD) {
-                    mv.visitIincInsn(i, constant);
-                    return;
-                }
-                if (operation == Operators.SUBTRACT) {
-                    mv.visitIincInsn(i, -constant);
-                    return;
-                }
-            }
-
-            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: " + operation);
-
-            visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, null, mvData);
-
-            visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
-
-            operateVisit(variableOperate, operation, extraData, null, mvData);
-
-            //OpcodeStoreVariableVisitor.visit(variableOperate, extraData, navigator, visitorGenerator, mvData);
+            operateVisit(type, operation, mvData);
         } else {
-            Objects.requireNonNull(value, "value is null, cannot operate without value using operator: " + operation);
-
-            visitorGenerator.generateTo(VariableAccess.class, variableOperate, extraData, null, mvData);
-
-            visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
-
-            operateVisit(variableOperate, operation, extraData, null, mvData);
-
+            throw new RuntimeException("Cannot handle operation: '"+operation+"'!");
         }
+
+
 
     }
 
-    private void operateVisit(VariableOperate variableOperate, Operator operation, MapData extraData, Object o, MVData mvData) {
-        CodeType variableType = variableOperate.getVariableType();
-
-
-        Type type = Type.getType(variableType.getJavaSpecName());
+    static void operateVisit(CodeType codeType, Operator operation, MVData mvData) {
+        Type type = Type.getType(codeType.getJavaSpecName());
 
         int opcode = -1;
 

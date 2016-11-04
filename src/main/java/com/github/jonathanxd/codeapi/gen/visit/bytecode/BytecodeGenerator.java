@@ -73,6 +73,7 @@ import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TryWithResources
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TypeAnnotationVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.TypeVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.VariableAccessVisitor;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.VariableOperateVisitor;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.WhileVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Access;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
@@ -102,6 +103,7 @@ import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.Operate;
 import com.github.jonathanxd.codeapi.interfaces.PackageDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
@@ -157,7 +159,8 @@ public class BytecodeGenerator extends VisitorGenerator<BytecodeClass> {
         addVisitor(VariableDeclaration.class, new StoreVariableVisitor());
         addVisitor(ThrowException.class, new ThrowExceptionVisitor());
         addVisitor(Casted.class, new CastedVisitor());
-        addVisitor(VariableOperate.class, new OperateVisitor());
+        addVisitor(Operate.class, new OperateVisitor());
+        addVisitor(VariableOperate.class, new VariableOperateVisitor());
         addVisitor(InstructionCodePart.class, new InstructionCodePart.InstructionCodePartVisitor());
         addVisitor(WhileBlock.class, new WhileVisitor());
         addVisitor(DoWhileBlock.class, new DoWhileVisitor());

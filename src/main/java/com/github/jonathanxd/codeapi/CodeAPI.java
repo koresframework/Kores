@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.builder.ConstructorBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumBuilder;
 import com.github.jonathanxd.codeapi.builder.InterfaceBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodBuilder;
+import com.github.jonathanxd.codeapi.builder.OperateHelper;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -68,6 +69,7 @@ import com.github.jonathanxd.codeapi.impl.ContinueImpl;
 import com.github.jonathanxd.codeapi.impl.EnumEntryImpl;
 import com.github.jonathanxd.codeapi.impl.EnumValueImpl;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
+import com.github.jonathanxd.codeapi.impl.OperateImpl;
 import com.github.jonathanxd.codeapi.interfaces.AccessOuter;
 import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
 import com.github.jonathanxd.codeapi.interfaces.AccessThis;
@@ -94,6 +96,7 @@ import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.Operate;
 import com.github.jonathanxd.codeapi.interfaces.Return;
 import com.github.jonathanxd.codeapi.interfaces.Switch;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
@@ -1790,8 +1793,12 @@ public final class CodeAPI {
     }
 
     // =========================================================
-    //          Operate Variables & Fields
+    //          Operate Variables & Fields & Values
     // =========================================================
+
+    public static Operate operate(CodePart part, Operator operation, CodePart value) {
+        return factory__operate(part, operation, value);
+    }
 
     public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation, CodePart value) {
         return operateField__Factory(declaration.getLocalization().orElse(null), declaration.getTarget().orElse(null), declaration.getVariableType(), declaration.getName(), operation, value);
@@ -1886,6 +1893,10 @@ public final class CodeAPI {
     // Factory
     private static VariableOperate operateField__Factory(CodeType localization, CodePart at, CodeType type, String name, Operator operation, CodePart value) {
         return Helper.operateVariable(localization, at, name, type, operation, value);
+    }
+
+    private static Operate factory__operate(CodePart part, Operator operation, CodePart value) {
+        return new OperateImpl(part, operation, value);
     }
 
     // =========================================================
@@ -3162,6 +3173,10 @@ public final class CodeAPI {
 
     public static ConcatHelper concatHelper() {
         return ConcatHelper.builder();
+    }
+
+    public static OperateHelper operateHelper(CodePart part) {
+        return OperateHelper.builder(part);
     }
 
     public static ConcatHelper concatHelper(CodePart part) {
