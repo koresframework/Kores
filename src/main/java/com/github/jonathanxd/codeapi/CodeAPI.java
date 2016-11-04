@@ -3175,16 +3175,73 @@ public final class CodeAPI {
         return ConcatHelper.builder();
     }
 
-    public static OperateHelper operateHelper(CodePart part) {
-        return OperateHelper.builder(part);
-    }
-
     public static ConcatHelper concatHelper(CodePart part) {
         return ConcatHelper.builder(part);
     }
 
     public static ConcatHelper concatHelper(String str) {
         return ConcatHelper.builder(str);
+    }
+
+    public static ConcatHelper concatHelper(CodePart... part) {
+        if(part.length == 0)
+            return ConcatHelper.builder();
+
+        ConcatHelper helper = ConcatHelper.builder(part[0]);
+
+        for (int i = 1; i < part.length; i++) {
+            helper = helper.concat(part[i]);
+        }
+
+        return helper;
+    }
+
+    public static ConcatHelper concatHelper(String... strs) {
+        if(strs.length == 0)
+            return ConcatHelper.builder();
+
+        ConcatHelper helper = ConcatHelper.builder(strs[0]);
+
+        for (int i = 1; i < strs.length; i++) {
+            helper = helper.concat(strs[i]);
+        }
+
+        return helper;
+    }
+
+    public static ConcatHelper concatHelperObj(Object... objs) {
+        if(objs.length == 0)
+            return ConcatHelper.builder();
+
+        ConcatHelper helper;
+
+        Object at0 = objs[0];
+
+        if(at0 instanceof CodePart) {
+            helper = ConcatHelper.builder((CodePart) at0);
+        } else if(at0 instanceof String) {
+            helper = ConcatHelper.builder((String) at0);
+        } else {
+            throw new IllegalArgumentException("Invalid element type at index 0 ("+at0+") in array: '"+Arrays.toString(objs)+"'! Acceptable types: String|CodePart");
+        }
+
+        for (int i = 1; i < objs.length; i++) {
+            Object atI = objs[i];
+            if(at0 instanceof CodePart) {
+                helper = helper.concat((CodePart) atI);
+            } else if(at0 instanceof String) {
+                helper = helper.concat((String) atI);
+            } else {
+                throw new IllegalArgumentException("Invalid element type at index "+i+" ("+atI+") in array: '"+Arrays.toString(objs)+"'! Acceptable types: String|CodePart");
+            }
+
+        }
+
+        return helper;
+    }
+
+    public static OperateHelper operateHelper(CodePart part) {
+        return OperateHelper.builder(part);
     }
 
     /**
