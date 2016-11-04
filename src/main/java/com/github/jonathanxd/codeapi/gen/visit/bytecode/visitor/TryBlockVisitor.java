@@ -40,6 +40,7 @@ import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -103,7 +104,7 @@ public class TryBlockVisitor implements VoidVisitor<TryBlock, BytecodeClass, MVD
             List<CodeType> exceptionTypes = catchBlock.getExceptionTypes();
 
             for (CodeType exceptionType : exceptionTypes) {
-                mv.visitTryCatchBlock(l0, l1, lCatch, Common.codeTypeToSimpleAsm(exceptionType));
+                mv.visitTryCatchBlock(l0, l1, lCatch, CodeTypeUtil.codeTypeToSimpleAsm(exceptionType));
             }
 
             catches.put(catchBlock, lCatch);

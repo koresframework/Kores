@@ -25,36 +25,64 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
+package com.github.jonathanxd.codeapi.util.gen;
 
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.gen.LiteralUtil;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.literals.Literals;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
-/**
- * Created by jonathan on 03/06/16.
- */
-public class LiteralVisitor implements Visitor<Literal, BytecodeClass, MVData>, Opcodes {
+public class LiteralUtil {
+    public static void visitLiteral(Literal num, MethodVisitor mv) {
+        String name = num.getName();
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+        if (num == Literals.NULL) {
 
-    @Override
-    public BytecodeClass[] visit(Literal literal,
-                                 MapData extraData,
-                                 VisitorGenerator<BytecodeClass> visitorGenerator,
-                                 MVData mvData) {
+            mv.visitInsn(Opcodes.ACONST_NULL);
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        } else if (num == Literals.TRUE) {
 
-        LiteralUtil.visitLiteral(literal, mv);
+            mv.visitInsn(Opcodes.ICONST_1);
 
-        return new BytecodeClass[0];
+        } else if (num == Literals.FALSE) {
+
+            mv.visitInsn(Opcodes.ICONST_0);
+
+        } else if (num instanceof Literals.QuotedStringLiteral) {
+
+            mv.visitLdcInsn(name.substring(1, name.length() - 1));
+
+        } else if (num instanceof Literals.ShortLiteral) {
+
+            InsnUtil.visitInt(Integer.parseInt(name), mv);
+
+        } else if (num instanceof Literals.IntLiteral) {
+
+            InsnUtil.visitInt(Integer.parseInt(name), mv);
+
+        } else if (num instanceof Literals.LongLiteral) {
+
+            InsnUtil.visitLong(Long.parseLong(name), mv);
+
+        } else if (num instanceof Literals.DoubleLiteral) {
+
+            InsnUtil.visitDouble(Double.parseDouble(name), mv);
+
+        } else if (num instanceof Literals.CharLiteral || num instanceof Literals.ByteLiteral) {
+
+            mv.visitIntInsn(Opcodes.BIPUSH, name.charAt(0));
+
+        } else if (num instanceof Literals.FloatLiteral) {
+
+            InsnUtil.visitFloat(Float.parseFloat(name), mv);
+
+        } else if (num instanceof Literals.ClassLiteral) {
+
+            Type type = Type.getType((((Literals.ClassLiteral) num).type).getJavaSpecName());
+
+            mv.visitLdcInsn(type);
+        }
     }
 }

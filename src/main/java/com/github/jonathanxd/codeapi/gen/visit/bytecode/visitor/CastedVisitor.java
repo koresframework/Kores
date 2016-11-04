@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.condition.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -69,7 +70,7 @@ public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>
 
             if ((from.isPrimitive() && !to.isPrimitive())
                     && !from.getWrapperType().getCanonicalName().equals(to.getCanonicalName())) {
-                additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(to));
+                additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(to));
             }
 
         } else {
@@ -77,11 +78,11 @@ public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>
 
             if (!from.equals(to)) {
                 if (to.isPrimitive()) {
-                    Common.convertToPrimitive(from, to, additional);
+                    CodeTypeUtil.convertToPrimitive(from, to, additional);
                     return;
                 }
 
-                additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(to));
+                additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(to));
             }
         }
     }

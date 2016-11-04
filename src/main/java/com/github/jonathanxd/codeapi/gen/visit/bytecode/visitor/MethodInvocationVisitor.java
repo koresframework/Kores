@@ -46,6 +46,9 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.MethodInvocationUtil;
+import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 import com.github.jonathanxd.iutils.container.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -141,7 +144,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
         if (specification.getMethodName().equals("<init>")
                 && specification.getMethodType() == MethodType.CONSTRUCTOR) {
             // Invoke constructor
-            mv.visitTypeInsn(NEW, Common.codeTypeToSimpleAsm(localization));
+            mv.visitTypeInsn(NEW, CodeTypeUtil.codeTypeToSimpleAsm(localization));
             mv.visitInsn(DUP);
         }
 
@@ -160,7 +163,7 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
 
                 InvokeDynamic.LambdaMethodReference lambdaDynamic = (InvokeDynamic.LambdaMethodReference) invokeDynamic;
 
-                Common.visitLambdaInvocation(lambdaDynamic, invokeType, localization, specification, mv);
+                MethodInvocationUtil.visitLambdaInvocation(lambdaDynamic, invokeType, localization, specification, mv);
 
                 if (invokeDynamic instanceof InvokeDynamic.LambdaFragment) {
                     // Register fragment to gen
@@ -169,16 +172,16 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
             } else if (InvokeDynamic.isInvokeDynamicBootstrap(invokeDynamic)) { // Generate bootstrap 'invokeDynamic'
                 InvokeDynamic.Bootstrap bootstrap = (InvokeDynamic.Bootstrap) invokeDynamic;
                 // Visit bootstrap invoke dynamic
-                Common.visitBootstrapInvocation(bootstrap, specification, mv);
+                MethodInvocationUtil.visitBootstrapInvocation(bootstrap, specification, mv);
             }
 
         } else {
 
             mv.visitMethodInsn(
                 /*Type like invokestatic*/InvokeType.toAsm(invokeType),
-                /*Localization*/Common.codeTypeToSimpleAsm(localization),
+                /*Localization*/CodeTypeUtil.codeTypeToSimpleAsm(localization),
                 /*Method name*/specification.getMethodName(),
-                /*(ARGUMENT)RETURN*/Common.typeSpecToAsm(specification.getMethodDescription()),
+                /*(ARGUMENT)RETURN*/TypeSpecUtil.typeSpecToAsm(specification.getMethodDescription()),
                     invokeType.isInterface());
         }
 

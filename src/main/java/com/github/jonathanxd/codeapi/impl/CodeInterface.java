@@ -31,7 +31,6 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.abs.AbstractBodied;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.InterfaceDeclaration;
@@ -40,6 +39,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -72,7 +72,7 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
 
         super(body);
         this.outerClass = outerClass;
-        this.qualifiedName = Common.resolveRealQualified(qualifiedName, outerClass);
+        this.qualifiedName = CodeTypeUtil.resolveRealQualified(qualifiedName, outerClass);
         this.name = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length());
         this.modifiers = modifiers == null ? Collections.emptyList() : Collections.unmodifiableCollection(modifiers);
         this.implementations = implementations == null ? Collections.emptyList() : Collections.unmodifiableList(implementations);

@@ -25,36 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
+package com.github.jonathanxd.codeapi.util.gen;
 
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.gen.LiteralUtil;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/**
- * Created by jonathan on 03/06/16.
- */
-public class LiteralVisitor implements Visitor<Literal, BytecodeClass, MVData>, Opcodes {
+import java.util.ArrayList;
+import java.util.Collection;
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+public class ModifierUtil {
+    public static int modifiersToAsm(TypeDeclaration typeDeclaration) {
+        Collection<CodeModifier> modifiers = new ArrayList<>(typeDeclaration.getModifiers());
 
-    @Override
-    public BytecodeClass[] visit(Literal literal,
-                                 MapData extraData,
-                                 VisitorGenerator<BytecodeClass> visitorGenerator,
-                                 MVData mvData) {
+        if (modifiers.contains(CodeModifier.STATIC))
+            modifiers.remove(CodeModifier.STATIC);
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
+                ModifierUtil.modifiersToAsm(modifiers, typeDeclaration.getClassType().isInterface());
+    }
 
-        LiteralUtil.visitLiteral(literal, mv);
+    public static int modifiersToAsm(Collection<CodeModifier> codeModifiers) {
+        return CodeModifier.toAsmAccess(codeModifiers);
+    }
 
-        return new BytecodeClass[0];
+    public static int modifiersToAsm(Collection<CodeModifier> codeModifiers, boolean isInterface) {
+        return (isInterface ? Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE : 0) + CodeModifier.toAsmAccess(codeModifiers);
+    }
+
+    public static int innerModifiersToAsm(TypeDeclaration typeDeclaration) {
+        return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
+                ModifierUtil.modifiersToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType().isInterface());
     }
 }

@@ -25,36 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
+package com.github.jonathanxd.codeapi.util.gen;
 
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.gen.LiteralUtil;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-
-/**
- * Created by jonathan on 03/06/16.
- */
-public class LiteralVisitor implements Visitor<Literal, BytecodeClass, MVData>, Opcodes {
-
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
-
-    @Override
-    public BytecodeClass[] visit(Literal literal,
-                                 MapData extraData,
-                                 VisitorGenerator<BytecodeClass> visitorGenerator,
-                                 MVData mvData) {
-
-        MethodVisitor mv = mvData.getMethodVisitor();
-
-        LiteralUtil.visitLiteral(literal, mv);
-
-        return new BytecodeClass[0];
+public class TypeDeclarationUtil {
+    public static String getClassName(TypeDeclaration class_) {
+        return CodeTypeUtil.codeTypeToSimpleAsm(class_);
     }
+
+    public static CodeType getSuperClass(TypeDeclaration codeInterface) {
+
+        if (codeInterface instanceof ClassDeclaration) {
+
+            return ((ClassDeclaration) codeInterface)
+                    .getSuperType()
+                    .orElse(Helper.getJavaType(Object.class));
+        }
+
+        return Helper.getJavaType(Object.class);
+    }
+
 }

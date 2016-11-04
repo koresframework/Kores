@@ -43,7 +43,12 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
+import com.github.jonathanxd.codeapi.util.gen.ConstructorUtil;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
+import com.github.jonathanxd.codeapi.util.gen.ParameterUtil;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -84,13 +89,13 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
             modifiers.add(CodeModifier.ABSTRACT);
         }
 
-        int asmModifiers = Common.modifierToAsm(modifiers);
+        int asmModifiers = ModifierUtil.modifiersToAsm(modifiers);
 
         List<CodeParameter> parameters = codeMethod.getParameters();
-        String asmParameters = Common.parametersToAsm(parameters);
+        String asmParameters = CodeTypeUtil.parametersToAsm(parameters);
 
 
-        String signature = Common.methodGenericSignature(codeMethod);
+        String signature = GenericUtil.methodGenericSignature(codeMethod);
 
         String methodName = codeMethod.getName();
 
@@ -103,10 +108,10 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
         final List<Variable> vars = new ArrayList<>();
 
         if (modifiers.contains(CodeModifier.STATIC)) {
-            Common.parametersToVars(parameters,/* to */ vars);
+            ParameterUtil.parametersToVars(parameters,/* to */ vars);
         } else {
             vars.add(new Variable("this", typeDeclaration, null, null));
-            Common.parametersToVars(parameters, /* to */ vars);
+            ParameterUtil.parametersToVars(parameters, /* to */ vars);
         }
 
         MVData mvData = new MVData(mv, vars);
@@ -130,25 +135,25 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
             boolean isGenerated = false;
 
-            boolean initSuper = Common.searchForSuper(typeDeclaration, methodSource, validateSuper);
-            boolean initThis = Common.searchInitThis(typeDeclaration, methodSource, validateThis);
+            boolean initSuper = ConstructorUtil.searchForSuper(typeDeclaration, methodSource, validateSuper);
+            boolean initThis = ConstructorUtil.searchInitThis(typeDeclaration, methodSource, validateThis);
 
             if (typeDeclaration instanceof ClassDeclaration && isConstructor) {
                 if (!initSuper && !initThis) {
-                    Common.generateSuperInvoke(typeDeclaration, mv);
+                    ConstructorUtil.generateSuperInvoke(typeDeclaration, mv);
                     isGenerated = true;
                 }
             }
 
             if (isConstructor) {
                 if (isGenerated) {
-                    Common.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, mvData, validateThis);
+                    ConstructorUtil.declareFinalFields(visitorGenerator, methodSource, typeDeclaration, mv, extraData, mvData, validateThis);
                 } else {
                     if (!initThis) {
                         methodSource =
                                 CodeSourceUtil.insertAfter(
-                                        part -> part instanceof MethodInvocation && Common.isInitForThat(typeDeclaration, (MethodInvocation) part),
-                                        Common.finalFieldsToSource(typeDeclaration.getBody().orElseThrow(NullPointerException::new)),
+                                        part -> part instanceof MethodInvocation && ConstructorUtil.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                        ConstructorUtil.generateFinalFields(typeDeclaration.getBody().orElseThrow(NullPointerException::new)),
                                         methodSource);
                     }
                 }

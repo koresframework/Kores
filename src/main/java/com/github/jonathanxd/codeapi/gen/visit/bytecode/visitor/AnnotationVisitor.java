@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
+import com.github.jonathanxd.codeapi.util.gen.AnnotationUtil;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
 import com.github.jonathanxd.iutils.condition.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -82,7 +83,7 @@ public class AnnotationVisitor implements VoidVisitor<Annotation, BytecodeClass,
 
         Conditions.checkNotNull(annotationVisitorCapable, "Cannot determine visitor!", NullPointerException::new);
 
-        Common.visitAnnotation(annotation, annotationVisitorCapable);
+        AnnotationUtil.visitAnnotation(annotation, annotationVisitorCapable);
 
     }
 }

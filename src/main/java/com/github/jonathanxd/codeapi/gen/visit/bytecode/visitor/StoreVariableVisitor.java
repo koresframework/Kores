@@ -40,6 +40,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -83,9 +84,9 @@ public class StoreVariableVisitor implements VoidVisitor<VariableDeclaration, By
 
         if (at == null) {
             if (localization != null) {
-                additional.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(localization), variableDeclaration.getName(), Common.codeTypeToFullAsm(variableDeclaration.getVariableType()));
+                additional.visitFieldInsn(PUTSTATIC, CodeTypeUtil.codeTypeToSimpleAsm(localization), variableDeclaration.getName(), CodeTypeUtil.codeTypeToFullAsm(variableDeclaration.getVariableType()));
             } else {
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableDeclaration.getName(), Common.codeTypeToFullAsm(variableDeclaration.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, CodeTypeUtil.codeTypeToSimpleAsm(typeDeclaration), variableDeclaration.getName(), CodeTypeUtil.codeTypeToFullAsm(variableDeclaration.getVariableType()));
             }
         } else {
             if (at instanceof AccessLocalImpl) {
@@ -122,9 +123,9 @@ public class StoreVariableVisitor implements VoidVisitor<VariableDeclaration, By
 
             } else if (at instanceof AccessThis) {
                 // THIS
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(typeDeclaration), variableDeclaration.getName(), Common.codeTypeToFullAsm(variableDeclaration.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, CodeTypeUtil.codeTypeToSimpleAsm(typeDeclaration), variableDeclaration.getName(), CodeTypeUtil.codeTypeToFullAsm(variableDeclaration.getVariableType()));
             } else {
-                additional.visitFieldInsn(PUTFIELD, Common.codeTypeToSimpleAsm(localization), variableDeclaration.getName(), Common.codeTypeToFullAsm(variableDeclaration.getVariableType()));
+                additional.visitFieldInsn(PUTFIELD, CodeTypeUtil.codeTypeToSimpleAsm(localization), variableDeclaration.getName(), CodeTypeUtil.codeTypeToFullAsm(variableDeclaration.getVariableType()));
             }
         }
 

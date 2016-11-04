@@ -36,6 +36,8 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.ClassWriter;
@@ -69,7 +71,7 @@ public class FieldVisitor implements Visitor<FieldDeclaration, BytecodeClass, Ob
             }
         }
 
-        int asm = Common.modifierToAsm(codeField.getModifiers());
+        int asm = ModifierUtil.modifiersToAsm(codeField.getModifiers());
 
         ClassWriter required = Util.find(TypeVisitor.CLASS_WRITER_REPRESENTATION, extraData, additional);/*extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION);*/
 
@@ -78,10 +80,10 @@ public class FieldVisitor implements Visitor<FieldDeclaration, BytecodeClass, Ob
         CodeType type = codeField.getType().orElseThrow(NullPointerException::new);
 
         if (type instanceof GenericType) {
-            signature = Common.toAsm(type);
+            signature = CodeTypeUtil.toAsm(type);
         }
 
-        org.objectweb.asm.FieldVisitor fieldVisitor = required.visitField(asm, codeField.getName(), Common.codeTypeToFullAsm(type), signature, null);
+        org.objectweb.asm.FieldVisitor fieldVisitor = required.visitField(asm, codeField.getName(), CodeTypeUtil.codeTypeToFullAsm(type), signature, null);
 
         visitorGenerator.generateTo(Annotable.class, codeField, extraData, null, fieldVisitor);
 

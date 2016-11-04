@@ -28,12 +28,12 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Objects;
@@ -144,7 +144,7 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     public Optional<CodeType> getType() {
         if (this.type == null) {
             try {
-                Common.getType(Require.require(this.getValue(), "Value is required"));
+                CodePartUtil.getType(Require.require(this.getValue(), "Value is required"));
             } catch (Exception e) {
                 return Optional.empty();
             }

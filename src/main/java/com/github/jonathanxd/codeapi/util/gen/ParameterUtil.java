@@ -25,36 +25,45 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
+package com.github.jonathanxd.codeapi.util.gen;
 
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.gen.LiteralUtil;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.util.Variable;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-/**
- * Created by jonathan on 03/06/16.
- */
-public class LiteralVisitor implements Visitor<Literal, BytecodeClass, MVData>, Opcodes {
+public class ParameterUtil {
+    public static List<Variable> parametersToVars(Collection<CodeParameter> parameters) {
+        if (parameters.isEmpty())
+            return Collections.emptyList();
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+        return parameters.stream().map(d -> new Variable(d.getName(), d.getRequiredType(), null, null)).collect(Collectors.toList());
+    }
 
-    @Override
-    public BytecodeClass[] visit(Literal literal,
-                                 MapData extraData,
-                                 VisitorGenerator<BytecodeClass> visitorGenerator,
-                                 MVData mvData) {
+    public static void parametersToVars(Collection<CodeParameter> parameters, Collection<Variable> target) {
+        if (parameters.isEmpty())
+            return;
 
-        MethodVisitor mv = mvData.getMethodVisitor();
+        parameters.stream().map(d -> new Variable(d.getName(), d.getRequiredType(), null, null)).forEach(target::add);
+    }
 
-        LiteralUtil.visitLiteral(literal, mv);
+    public static Map<String, Integer> parametersToMap(Collection<CodeParameter> parameters, int startAt) {
 
-        return new BytecodeClass[0];
+        if (parameters.isEmpty())
+            return Collections.emptyMap();
+
+        Map<String, Integer> map = new HashMap<>();
+
+        for (CodeParameter parameter : parameters) {
+            map.put(parameter.getName(), startAt);
+            ++startAt;
+        }
+
+        return map;
     }
 }

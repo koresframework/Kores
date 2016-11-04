@@ -30,13 +30,13 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -58,7 +58,7 @@ public class CodeEnum implements EnumDeclaration {
 
     public CodeEnum(CodeType outerClass, CodeSource body, List<Annotation> annotations, Collection<CodeModifier> modifiers, List<CodeType> implementations, GenericSignature<GenericType> genericSignature, List<EnumEntry> entries, String qualifiedName) {
         this.outerClass = outerClass;
-        this.qualifiedName = Common.resolveRealQualified(qualifiedName, outerClass);
+        this.qualifiedName = CodeTypeUtil.resolveRealQualified(qualifiedName, outerClass);
         this.name = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length());
         this.body = body;
         this.annotations = annotations == null ? Collections.emptyList() : Collections.unmodifiableList(annotations);

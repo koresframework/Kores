@@ -25,29 +25,52 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.util.gen;
 
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
-public class CodeTypeUtil {
-    public static List<CodeType> toTypes(List<? extends Typed> list) {
-        return list.stream().map(o -> o.getType().orElseThrow(NullPointerException::new)).collect(Collectors.toList());
-    }
-
-    public static boolean equals(List<CodeType> types, List<CodeType> types2) {
-        if (types.size() == types2.size()) {
-            for (int i = 0; i < types.size(); i++) {
-                if (!types.get(i).is(types2.get(i)))
-                    return false;
+public class ArrayUtil {
+    public static void visitArrayStore(CodeType arrayType, int dimensions, MethodVisitor mv) {
+        switch (arrayType.getType()) {
+            case "int": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_INT);
+                break;
             }
-
-            return true;
+            case "boolean": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_BOOLEAN);
+                break;
+            }
+            case "byte": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_BYTE);
+                break;
+            }
+            case "char": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_CHAR);
+                break;
+            }
+            case "double": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_DOUBLE);
+                break;
+            }
+            case "float": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_FLOAT);
+                break;
+            }
+            case "short": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_SHORT);
+                break;
+            }
+            case "long": {
+                mv.visitIntInsn(Opcodes.NEWARRAY, Opcodes.T_LONG);
+                break;
+            }
+            default: {
+                mv.visitTypeInsn(Opcodes.ANEWARRAY, CodeTypeUtil.codeTypeToSimpleArray(arrayType, dimensions));
+                break;
+            }
         }
-
-        return false;
     }
 }

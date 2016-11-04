@@ -50,6 +50,7 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -275,7 +276,7 @@ public class SwitchVisitor implements VoidVisitor<Switch, BytecodeClass, MVData>
             if (codeSource != null) {
                 CodePart caseValue = aCase.getValue().orElseThrow(NullPointerException::new);
 
-                CodeType type = Common.getType(caseValue);
+                CodeType type = CodePartUtil.getType(caseValue);
 
                 if (type.is(PredefinedTypes.INT))
                     return aCase;

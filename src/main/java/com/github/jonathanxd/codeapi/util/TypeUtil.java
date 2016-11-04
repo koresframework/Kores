@@ -25,36 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.util.gen.LiteralUtil;
-import com.github.jonathanxd.iutils.data.MapData;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * Created by jonathan on 03/06/16.
- */
-public class LiteralVisitor implements Visitor<Literal, BytecodeClass, MVData>, Opcodes {
+public class TypeUtil {
+    public static List<CodeType> toTypes(List<? extends Typed> list) {
+        return list.stream().map(o -> o.getType().orElseThrow(NullPointerException::new)).collect(Collectors.toList());
+    }
 
-    public static final LiteralVisitor INSTANCE = new LiteralVisitor();
+    public static boolean equals(List<CodeType> types, List<CodeType> types2) {
+        if (types.size() == types2.size()) {
+            for (int i = 0; i < types.size(); i++) {
+                if (!types.get(i).is(types2.get(i)))
+                    return false;
+            }
 
-    @Override
-    public BytecodeClass[] visit(Literal literal,
-                                 MapData extraData,
-                                 VisitorGenerator<BytecodeClass> visitorGenerator,
-                                 MVData mvData) {
+            return true;
+        }
 
-        MethodVisitor mv = mvData.getMethodVisitor();
-
-        LiteralUtil.visitLiteral(literal, mv);
-
-        return new BytecodeClass[0];
+        return false;
     }
 }

@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -62,7 +63,7 @@ public class ArrayStoreVisitor implements VoidVisitor<ArrayStore, BytecodeClass,
 
         visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
-        int opcode = Common.getOpcodeForType(arrayStore.getValueType(), IASTORE);
+        int opcode = CodeTypeUtil.getOpcodeForType(arrayStore.getValueType(), IASTORE);
 
         additional.visitInsn(opcode);
 

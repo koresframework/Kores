@@ -39,6 +39,7 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
@@ -97,7 +98,7 @@ public class StaticBlockVisitor implements VoidVisitor<StaticBlock, BytecodeClas
 
                 Optional<CodeType> type = codeField.getType();
 
-                mv.visitFieldInsn(PUTSTATIC, Common.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), Common.codeTypeToFullAsm(Require.require(type, "Field type required!")));
+                mv.visitFieldInsn(PUTSTATIC, CodeTypeUtil.codeTypeToSimpleAsm(typeDeclaration), codeField.getName(), CodeTypeUtil.codeTypeToFullAsm(Require.require(type, "Field type required!")));
             }
         }
 

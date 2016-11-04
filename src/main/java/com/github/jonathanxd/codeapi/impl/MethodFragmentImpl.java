@@ -36,13 +36,13 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.Scope;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -89,7 +89,7 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
     private static MethodSpecImpl createSpec(TypeDeclaration targetDeclaration, CodeType returnType, CodeArgument[] arguments) {
 
         return new MethodSpecImpl(MethodFragmentImpl.newName(targetDeclaration),
-                Common.specFromLegacy(returnType, arguments),
+                TypeSpecUtil.specFromLegacy(returnType, arguments),
                 Arrays.asList(arguments));
     }
 

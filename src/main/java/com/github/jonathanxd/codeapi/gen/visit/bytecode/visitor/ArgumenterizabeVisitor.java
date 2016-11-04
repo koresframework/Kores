@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Argumenterizable;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.InsnUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.optional.Require;
 
@@ -65,13 +67,13 @@ public class ArgumenterizabeVisitor implements VoidVisitor<Argumenterizable, Byt
                 visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
                 if (argument.isCasted()) {
-                    additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(Require.require(argument.getType())));
+                    additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(Require.require(argument.getType())));
                 }
             }
         } else {
             for (int i = 0; i < arguments.size(); i++) {
 
-                Common.runForInt(i, additional); // Visit index
+                InsnUtil.visitInt(i, additional); // Visit index
 
                 CodeArgument argument = arguments.get(i);
 
@@ -80,7 +82,7 @@ public class ArgumenterizabeVisitor implements VoidVisitor<Argumenterizable, Byt
                 visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
                 if (argument.isCasted()) {
-                    additional.visitTypeInsn(CHECKCAST, Common.codeTypeToSimpleAsm(Require.require(argument.getType())));
+                    additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(Require.require(argument.getType())));
                 }
             }
         }

@@ -38,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.util.gen.ConstructorUtil;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -70,7 +71,7 @@ public class ConstructorVisitor implements Visitor<ConstructorDeclaration, Bytec
                 source =
                         CodeSourceUtil.insertAfterOrEnd(
                                 part -> part instanceof MethodInvocation
-                                        && Common.isInitForThat(typeDeclaration, (MethodInvocation) part),
+                                        && ConstructorUtil.isInitForThat(typeDeclaration, (MethodInvocation) part),
                                 CodeAPI.sourceOfParts(
                                         CodeAPI.setThisField(outerField.getVariableType(), outerField.getName(),
                                                 CodeAPI.accessLocalVariable(outerField.getVariableType(), outerField.getName()))

@@ -44,7 +44,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.TypeUtil;
 
 import java.util.List;
 
@@ -65,9 +65,9 @@ public class ElementUtil {
 
             List<CodeParameter> parameters = methodDeclaration.getParameters();
 
-            List<CodeType> codeTypes = CodeTypeUtil.toTypes(parameters);
+            List<CodeType> codeTypes = TypeUtil.toTypes(parameters);
 
-            if (CodeTypeUtil.equals(codeTypes, methodDescription.getParameterTypes())) {
+            if (TypeUtil.equals(codeTypes, methodDescription.getParameterTypes())) {
                 return methodDeclaration.getReturnType().orElseThrow(NullPointerException::new).is(methodDescription.getReturnType());
             }
 
@@ -94,7 +94,7 @@ public class ElementUtil {
                         : InvokeType.INVOKE_VIRTUAL));
 
 
-        TypeSpec typeSpec = new TypeSpec(methodDeclaration.getReturnType().orElse(PredefinedTypes.VOID), CodeTypeUtil.toTypes(methodDeclaration.getParameters()));
+        TypeSpec typeSpec = new TypeSpec(methodDeclaration.getReturnType().orElse(PredefinedTypes.VOID), TypeUtil.toTypes(methodDeclaration.getParameters()));
 
         return Helper.invoke(invokeType, type, isConstructor ? type : target,
                 new MethodSpecImpl(

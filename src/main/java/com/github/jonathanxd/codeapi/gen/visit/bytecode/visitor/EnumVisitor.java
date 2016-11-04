@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.EnumDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.codeapi.util.gen.EnumUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Opcodes;
@@ -52,8 +53,8 @@ public class EnumVisitor implements Visitor<EnumDeclaration, BytecodeClass, Obje
                                  VisitorGenerator<BytecodeClass> visitorGenerator,
                                  Object o) {
 
-        Collection<CodeModifier> enumModifiers = Common.getEnumModifiers(enumDeclaration);
-        CodeSource source = Common.generateEnumClassSource(enumDeclaration);
+        Collection<CodeModifier> enumModifiers = EnumUtil.getEnumModifiers(enumDeclaration);
+        CodeSource source = EnumUtil.generateEnumClassSource(enumDeclaration);
 
         TypeDeclaration typeDeclaration = CodeAPI.aClassBuilder()
                 .withModifiers(enumModifiers)

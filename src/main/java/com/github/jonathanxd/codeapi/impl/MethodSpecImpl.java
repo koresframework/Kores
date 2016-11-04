@@ -31,11 +31,11 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -102,7 +102,7 @@ public class MethodSpecImpl implements MethodSpecification {
     public MethodSpecImpl(String methodName, List<CodeArgument> arguments, CodeType returnType, MethodType methodType) {
         this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
-        this.methodDescription = Common.specFromLegacy(returnType, arguments);
+        this.methodDescription = TypeSpecUtil.specFromLegacy(returnType, arguments);
         this.methodType = methodType;
     }
 

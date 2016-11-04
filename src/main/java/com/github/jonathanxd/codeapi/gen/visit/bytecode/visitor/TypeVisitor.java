@@ -45,6 +45,11 @@ import com.github.jonathanxd.codeapi.interfaces.Implementer;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
+import com.github.jonathanxd.codeapi.util.gen.TypeDeclarationUtil;
+import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.object.Pair;
 import com.github.jonathanxd.iutils.type.TypeInfo;
@@ -117,22 +122,22 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
                 : Collections.emptyList();
 
         // ASM Class name
-        String className = Common.getClassName(typeDeclaration);
+        String className = TypeDeclarationUtil.getClassName(typeDeclaration);
         // ASM Class modifiers
-        int modifiers = Common.modifierToAsm(typeDeclaration);
+        int modifiers = ModifierUtil.modifiersToAsm(typeDeclaration);
         // ASM Super Class implementation
-        CodeType superClass = Common.getSuperClass(typeDeclaration);
+        CodeType superClass = TypeDeclarationUtil.getSuperClass(typeDeclaration);
         // ASM Implementations
-        String[] asmImplementations = implementations.stream().map(Common::codeTypeToSimpleAsm).toArray(String[]::new);
+        String[] asmImplementations = implementations.stream().map(CodeTypeUtil::codeTypeToSimpleAsm).toArray(String[]::new);
 
         boolean superClassIsGeneric = superClass instanceof GenericType;
         boolean anyInterfaceIsGeneric = implementations.stream().anyMatch(codeType -> codeType instanceof GenericType);
 
         // Generic Types
-        String genericRepresentation = Common.genericTypesToAsmString(typeDeclaration, superClass, implementations, superClassIsGeneric, anyInterfaceIsGeneric);
+        String genericRepresentation = GenericUtil.genericTypesToAsmString(typeDeclaration, superClass, implementations, superClassIsGeneric, anyInterfaceIsGeneric);
 
         // Visit class
-        cw.visit(52, modifiers, className, genericRepresentation, Common.codeTypeToSimpleAsm(superClass), asmImplementations);
+        cw.visit(52, modifiers, className, genericRepresentation, CodeTypeUtil.codeTypeToSimpleAsm(superClass), asmImplementations);
 
         // Visit Annotations
         visitorGenerator.generateTo(Annotable.class, typeDeclaration, extraData, null, null);
@@ -177,7 +182,6 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
             if (!typeDeclaration.getModifiers().contains(CodeModifier.STATIC)) {
 
-
                 if (!allAsList.isEmpty()) {
 
                     for (TypeDeclaration declaration : allAsList) {
@@ -186,7 +190,7 @@ public class TypeVisitor implements Visitor<TypeDeclaration, BytecodeClass, Obje
 
                         String name = Character.toLowerCase(simpleName.charAt(0)) + (simpleName.length() > 1 ? simpleName.substring(1) : "");
 
-                        String newName = Common.getNewName(name + "$outer", body);
+                        String newName = CodeSourceUtil.getNewFieldName(name + "$outer", body);
 
                         CodeField field = CodeAPI.field(Modifier.PRIVATE | Modifier.FINAL, declaration, newName);
 

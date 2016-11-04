@@ -25,42 +25,46 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
+package com.github.jonathanxd.codeapi.util.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.MVData;
-import com.github.jonathanxd.codeapi.gen.BytecodeClass;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
-import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
-import com.github.jonathanxd.iutils.data.MapData;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+public class CodePartUtil {
+    public static boolean isPrimitive(CodePart codePart) {
+        if (codePart instanceof Literal) {
+            return Literals.isPrimitive((Literal) codePart);
+        } else if (codePart instanceof Typed) {
+            Typed typed = (Typed) codePart;
 
-/**
- * Created by jonathan on 03/06/16.
- */
-public class InstanceOfVisitor implements VoidVisitor<InstanceOf, BytecodeClass, MVData>, Opcodes {
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public void voidVisit(InstanceOf instanceOf,
-                          MapData extraData,
-                          VisitorGenerator<BytecodeClass> visitorGenerator,
-                          MVData mvData) {
-
-        MethodVisitor visitor = mvData.getMethodVisitor();
-
-        CodePart part = instanceOf.getPart();
-        CodeType codeType = instanceOf.getCheckType();
-
-        visitorGenerator.generateTo(part.getClass(), part, extraData, null, mvData);
-
-        visitor.visitTypeInsn(Opcodes.INSTANCEOF, CodeTypeUtil.codeTypeToSimpleAsm(codeType));
+            return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'")).isPrimitive();
+        } else {
+            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
+        }
 
     }
 
+    public static CodeType getType(CodePart codePart) {
+        if (codePart instanceof Literal) {
+            return ((Literal) codePart).getType().orElseThrow(NullPointerException::new);
+        } else if (codePart instanceof Typed) {
+            Typed typed = (Typed) codePart;
+
+            return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'"));
+        } else {
+            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
+        }
+
+    }
+
+    public static boolean isBoolean(CodePart part) {
+        return part instanceof Literals.BoolLiteral;
+    }
+
+    public static boolean getBooleanValue(CodePart part) {
+        return ((Literals.BoolLiteral) part).getValue();
+    }
 }

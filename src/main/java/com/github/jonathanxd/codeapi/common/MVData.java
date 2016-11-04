@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.Variable;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -277,12 +277,12 @@ public class MVData {
             Label varStart = variable.getStartLabel() != null ? variable.getStartLabel() : start;
             Label varEnd = variable.getEndLabel() != null ? variable.getEndLabel() : end;
 
-            String type = Common.codeTypeToFullAsm(variable.getType());
+            String type = CodeTypeUtil.codeTypeToFullAsm(variable.getType());
 
             String signature = null;
 
             if (variable.getType() instanceof GenericType) {
-                signature = Common.toAsm(variable.getType());
+                signature = CodeTypeUtil.toAsm(variable.getType());
             }
 
             methodVisitor.visitLocalVariable(variable.getName(), type, signature, varStart, varEnd, i);

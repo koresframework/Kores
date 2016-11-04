@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.Common;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 
 /**
  * An array {@link CodeType}.
@@ -80,7 +80,7 @@ class CodeTypeArray implements CodeType {
 
     @Override
     public String getJavaSpecName() {
-        return Common.codeTypeToArray(component, dimension);
+        return CodeTypeUtil.codeTypeToArray(component, dimension);
     }
 
     @Override

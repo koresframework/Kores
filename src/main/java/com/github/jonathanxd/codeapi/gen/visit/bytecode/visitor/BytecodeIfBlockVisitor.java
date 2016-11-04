@@ -40,6 +40,8 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
+import com.github.jonathanxd.codeapi.util.gen.IfUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.Label;
@@ -106,35 +108,35 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                 CodePart expr1 = ifExpr.getExpr1();
                 CodePart expr2 = ifExpr.getExpr2();
 
-                CodeType expr1Type = Common.getType(expr1);
-                CodeType expr2Type = Common.getType(expr2);
+                CodeType expr1Type = CodePartUtil.getType(expr1);
+                CodeType expr2Type = CodePartUtil.getType(expr2);
 
                 boolean firstIsBoolean = false;
                 boolean secondIsBoolean = false;
 
-                boolean expr1Primitive = Common.isPrimitive(expr1);
-                boolean expr2Primitive = Common.isPrimitive(expr2);
+                boolean expr1Primitive = CodePartUtil.isPrimitive(expr1);
+                boolean expr2Primitive = CodePartUtil.isPrimitive(expr2);
 
                 if (expr1Primitive) {
-                    firstIsBoolean = Common.isBoolean(expr1);
+                    firstIsBoolean = CodePartUtil.isBoolean(expr1);
                 }
 
                 if (expr2Primitive) {
-                    secondIsBoolean = Common.isBoolean(expr2);
+                    secondIsBoolean = CodePartUtil.isBoolean(expr2);
                 }
 
                 if (firstIsBoolean || secondIsBoolean) {
                     boolean operatorIsEq = operation == Operators.EQUAL_TO;
 
-                    boolean value = firstIsBoolean ? Common.getBooleanValue(expr1) : Common.getBooleanValue(expr2);
+                    boolean value = firstIsBoolean ? CodePartUtil.getBooleanValue(expr1) : CodePartUtil.getBooleanValue(expr2);
 
-                    int opcode = Common.getIfNeEqOpcode(value);
+                    int opcode = IfUtil.getIfNeEqOpcode(value);
 
                     if (!operatorIsEq)
-                        opcode = Common.invertIfNeEqOpcode(opcode);
+                        opcode = IfUtil.invertIfNeEqOpcode(opcode);
 
                     if (isInverse)
-                        opcode = Common.invertIfNeEqOpcode(opcode);
+                        opcode = IfUtil.invertIfNeEqOpcode(opcode);
 
 
                     if (firstIsBoolean) {
@@ -162,7 +164,7 @@ public class BytecodeIfBlockVisitor implements Opcodes {
 
                     if (expr2 == Literals.NULL) {
                         additional.visitJumpInsn(Operators.nullCheckToAsm(operation, isInverse), lbl);
-                    } else if (Common.isPrimitive(expr1) && Common.isPrimitive(expr2)) {
+                    } else if (CodePartUtil.isPrimitive(expr1) && CodePartUtil.isPrimitive(expr2)) {
                         visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 
                         additional.visitJumpInsn(Operators.primitiveToAsm(operation, isInverse), lbl);

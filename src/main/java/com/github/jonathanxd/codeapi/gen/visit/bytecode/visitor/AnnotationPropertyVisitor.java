@@ -33,6 +33,8 @@ import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
+import com.github.jonathanxd.codeapi.util.gen.AnnotationUtil;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.ClassWriter;
@@ -49,7 +51,7 @@ public class AnnotationPropertyVisitor implements VoidVisitor<AnnotationProperty
 
         int asmModifiers = Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT;
 
-        String type = Common.codeTypeToFullAsm(property.getType().orElseThrow(NullPointerException::new));
+        String type = CodeTypeUtil.codeTypeToFullAsm(property.getType().orElseThrow(NullPointerException::new));
 
         String name = property.getName();
 
@@ -62,7 +64,7 @@ public class AnnotationPropertyVisitor implements VoidVisitor<AnnotationProperty
 
             org.objectweb.asm.AnnotationVisitor annotationVisitor = mv.visitAnnotationDefault();
 
-            Common.visitAnnotationValue(annotationVisitor, null, value);
+            AnnotationUtil.visitAnnotationValue(annotationVisitor, null, value);
 
             annotationVisitor.visitEnd();
         }

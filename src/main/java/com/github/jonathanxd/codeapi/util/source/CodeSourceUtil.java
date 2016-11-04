@@ -30,8 +30,13 @@ package com.github.jonathanxd.codeapi.util.source;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.MultiBodied;
+import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.function.consumer.TriConsumer;
 
@@ -234,4 +239,94 @@ public class CodeSourceUtil {
         return list;
     }
 
+
+    /**
+     * Gets a new name of a inner class.
+     *
+     * @param name            Base name.
+     * @param typeDeclaration Declaration.
+     * @return A new unique name.
+     */
+    public static String getNewInnerName(String name, TypeDeclaration typeDeclaration) {
+        List<TypeDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof TypeDeclaration)
+                .includeSource(true)
+                .include(bodied -> bodied instanceof CodeSource)
+                .mapTo(codePart -> (TypeDeclaration) codePart)
+                .inspect(typeDeclaration.getBody().orElse(CodeSource.empty()));
+
+        while (CodeSourceUtil.contains(name, inspect))
+            name += "$1";
+
+        return name;
+    }
+
+    /**
+     * Gets a new name.
+     *
+     * @param name   Base name.
+     * @param nameds Elements (to find conflicts).
+     * @return A new unique name.
+     */
+    public static String getNewName(String name, List<? extends Named> nameds) {
+        while (CodeSourceUtil.contains(name, nameds))
+            name += "$1";
+
+        return name;
+    }
+
+    /**
+     * Gets a new field name.
+     *
+     * @param name   Base name.
+     * @param source Source (to find conflicts).
+     * @return A new unique name.
+     */
+    public static String getNewFieldName(String name, CodeSource source) {
+        List<CodeField> inspect = SourceInspect.find(codePart -> codePart instanceof CodeField)
+                .includeSource(true)
+                .include(bodied -> bodied instanceof CodeSource)
+                .mapTo(codePart -> (CodeField) codePart)
+                .inspect(source);
+
+        while (CodeSourceUtil.contains(name, inspect))
+            name += "$1";
+
+        return name;
+    }
+
+    /**
+     * Gets a new method name.
+     *
+     * @param name   Base name.
+     * @param source Source (to find conflicts)
+     * @return A new unique name.
+     */
+    public static String getNewMethodName(String name, CodeSource source) {
+        List<CodeMethod> inspect = SourceInspect.find(codePart -> codePart instanceof CodeMethod)
+                .includeSource(true)
+                .include(bodied -> bodied instanceof CodeSource)
+                .mapTo(codePart -> (CodeMethod) codePart)
+                .inspect(source);
+
+        while (CodeSourceUtil.contains(name, inspect))
+            name += "$1";
+
+        return name;
+    }
+
+    /**
+     * Check if any element on list has the specified {@code name}.
+     *
+     * @param name          Name.
+     * @param namedElements Elements.
+     * @return True if any element on list has the specified {@code name}.
+     */
+    public static boolean contains(String name, List<? extends Named> namedElements) {
+        for (Named named : namedElements) {
+            if (named.getName().equals(name))
+                return true;
+        }
+
+        return false;
+    }
 }

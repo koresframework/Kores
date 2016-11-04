@@ -36,6 +36,8 @@ import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.util.gen.ArrayUtil;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
@@ -66,13 +68,13 @@ public class ArrayConstructVisitor implements VoidVisitor<ArrayConstructor, Byte
             for (CodePart i : dimensions) {
                 visitorGenerator.generateTo(i.getClass(), i, extraData, null, mvData);
             }
-            mv.visitMultiANewArrayInsn(Common.codeTypeToArray(arrayConstructor.getArrayType(), dimensions.length), dimensions.length);
+            mv.visitMultiANewArrayInsn(CodeTypeUtil.codeTypeToArray(arrayConstructor.getArrayType(), dimensions.length), dimensions.length);
         } else {
             CodePart dimensionX = dimensions.length != 0 ? dimensions[0] : Literals.INT(0);
 
             visitorGenerator.generateTo(dimensionX.getClass(), dimensionX, extraData, null, mvData);
 
-            Common.runForArrayStore(arrayConstructor.getArrayType(), dimensions.length, mv); // ANEWARRAY, ANEWARRAY T_INT, etc...
+            ArrayUtil.visitArrayStore(arrayConstructor.getArrayType(), dimensions.length, mv); // ANEWARRAY, ANEWARRAY T_INT, etc...
         }
 
         if (initialize) {

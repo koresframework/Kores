@@ -51,6 +51,9 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Lazy;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.InnerUtil;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 import com.github.jonathanxd.codeapi.util.element.ElementUtil;
 import com.github.jonathanxd.iutils.container.MutableContainer;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -112,18 +115,18 @@ public class Util {
     public static List<TypeDeclaration> visitInner(ClassWriter cw, TypeDeclaration outer, List<TypeDeclaration> innerClasses) {
 
         List<TypeDeclaration> visited = new ArrayList<>();
-        String name = Common.codeTypeToSimpleAsm(outer);
+        String name = CodeTypeUtil.codeTypeToSimpleAsm(outer);
 
         for (TypeDeclaration innerClass : innerClasses) {
-            int modifiers = Common.innerModifierToAsm(innerClass);
-            cw.visitInnerClass(Common.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
+            int modifiers = ModifierUtil.innerModifiersToAsm(innerClass);
+            cw.visitInnerClass(CodeTypeUtil.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
 
 
             MutableCodeSource source = new MutableCodeSource(innerClass.getBody().orElse(CodeSource.empty()));
 
             InstructionCodePart instructionCodePart = (value, extraData, visitorGenerator, additional) -> {
                 extraData.getRequired(TypeVisitor.CLASS_WRITER_REPRESENTATION)
-                        .visitInnerClass(Common.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
+                        .visitInnerClass(CodeTypeUtil.codeTypeToSimpleAsm(innerClass), name, innerClass.getQualifiedName(), modifiers);
             };
 
             source.add(0, instructionCodePart);
@@ -286,7 +289,7 @@ public class Util {
 
                     if (memberInfo != null && !memberInfo.isAccessible()) {
                         if (!memberInfo.hasAccessibleMember() || isConstructor) {
-                            Common.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator, isConstructor);
+                            InnerUtil.genOuterAccessor(declaringOpt.get(), innerType, memberInfo, extraData, visitorGenerator, isConstructor);
                         }
 
                         MethodDeclaration accessibleMember = (MethodDeclaration) memberInfo.getAccessibleMember();
