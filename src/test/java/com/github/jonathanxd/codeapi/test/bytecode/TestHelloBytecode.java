@@ -27,20 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
@@ -60,11 +59,11 @@ public class TestHelloBytecode {
     @Test
     public void testBytecode() {
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass(null, "fullName." + this.getClass().getSimpleName(),
                 singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
@@ -80,7 +79,7 @@ public class TestHelloBytecode {
                                 accessStaticVariable(System.class, "out", PrintStream.class),
                                 // Especificação do metodo
                                 // Informa que o metodo é println, e retorna um void
-                                new MethodSpec("println", Void.TYPE,
+                                new MethodSpecImpl("println", Void.TYPE,
                                         // Adiciona um argumento String
                                         // Informa qual o tipo de argumento esperado no metodo, nao necessariamente o que foi passado
                                         singletonList(new CodeArgument(Literals.STRING("Hello World"), String.class))))
@@ -94,13 +93,13 @@ public class TestHelloBytecode {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(codeSource).getResult();
+        byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), gen);
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
+        Class<?> define = bcLoader.define("fullName." + this.getClass().getSimpleName(), gen);
 
         try {
             define.newInstance();

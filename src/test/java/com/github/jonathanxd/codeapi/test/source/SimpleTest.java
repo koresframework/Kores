@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.builder.ClassBuilder;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -51,13 +51,13 @@ public class SimpleTest {
     @Test
     public void simpleTest() {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
+        MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de CodeAPITest
-        CodeClass codeClass = CodeClassBuilder.builder()
+        CodeClass codeClass = ClassBuilder.builder()
                 .withQualifiedName("CodeAPITest")
                 // Adiciona o modifier publico
                 .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))

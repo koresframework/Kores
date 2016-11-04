@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.MethodFragment_;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
-import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;

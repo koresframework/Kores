@@ -30,23 +30,24 @@ package com.github.jonathanxd.codeapi.test.source;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeFieldBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeFieldBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.impl.CodeInterfaceBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeInterfaceBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
@@ -70,7 +71,7 @@ import static com.github.jonathanxd.codeapi.helper.Helper.getJavaType;
 public class CodeAPITest {
 
     private static CodeSource rethrow(String variable) {
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         source.add(Helper.throwException(getJavaType(RuntimeException.class), new CodeArgument[]{
                 new CodeArgument(Helper.accessLocalVariable(variable, getJavaType(String.class)), false, getJavaType(Throwable.class))
@@ -81,14 +82,14 @@ public class CodeAPITest {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println", Collections.singletonList(new CodeArgument(varToPrint, getJavaType(String.class))));
+        MethodSpecImpl methodSpecImpl = new MethodSpecImpl("println", Collections.singletonList(new CodeArgument(varToPrint, getJavaType(String.class))));
 
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ (CodeType) null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpec);
+        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/ (CodeType) null, Helper.accessVariable(Helper.localizedAtType(getJavaType(System.class)), "out", getJavaType(OutputStream.class)), methodSpecImpl);
     }
 
     private static CodeMethod createMethod() {
 
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         // Declare 'println' method
 
@@ -105,7 +106,7 @@ public class CodeAPITest {
                 .build();
 
         // Create method body source
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         IfBlock ifBlock = Helper.ifExpression(Helper.createIfVal()
                         .add1(Helper.checkNotNull(Helper.accessLocalVariable("msg", getJavaType(String.class)))).make(),
@@ -136,7 +137,7 @@ public class CodeAPITest {
         CodePart msgVar = Helper.accessLocalVariable("msg", getJavaType(String.class));
 
         // Add Invocation of println method declared in 'System.out' ('variable')
-        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/PrintStream.class, variable, new MethodSpec(
+        source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, /*Null because source generator works ok*/PrintStream.class, variable, new MethodSpecImpl(
                 "println", Collections.singletonList(
                 // with argument 'msgVar' (Method msg parameter)
                 new CodeArgument(msgVar,
@@ -146,7 +147,7 @@ public class CodeAPITest {
                         getJavaType(Object.class))), PredefinedTypes.VOID, MethodType.METHOD)));
 
         source.add(Helper.invoke(InvokeType.INVOKE_STATIC, CodeAPITest.class, null,
-                new MethodSpec("test",
+                new MethodSpecImpl("test",
                         new TypeSpec(PredefinedTypes.VOID),
                         Collections.singletonList(new CodeArgument(Literals.STRING("Test"))))));
 
@@ -170,7 +171,7 @@ public class CodeAPITest {
     public void codeAPITest() {
 
         // Create a list of CodePart (source)
-        CodeSource mySource = new CodeSource();
+        MutableCodeSource mySource = new MutableCodeSource();
 
         CodeMethod method = createMethod();
 

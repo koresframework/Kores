@@ -27,18 +27,18 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literals;
@@ -60,11 +60,11 @@ public class TestLoopSource {
     @Test
     public void testBytecode() {
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass(null, "fullName." + this.getClass().getSimpleName(),
                 singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
@@ -109,7 +109,7 @@ public class TestLoopSource {
                                 accessStaticVariable(System.class, "out", PrintStream.class),
                                 // Especificação do metodo
                                 // Informa que o metodo é println, e retorna um void
-                                new MethodSpec("println", Void.TYPE,
+                                new MethodSpecImpl("println", Void.TYPE,
                                         // Adiciona um argumento String
                                         // Informa qual o tipo de argumento esperado no metodo, nao necessariamente o que foi passado
                                         singletonList(new CodeArgument(Literals.STRING("Hello World"), String.class))))

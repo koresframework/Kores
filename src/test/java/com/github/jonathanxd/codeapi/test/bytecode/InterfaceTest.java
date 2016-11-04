@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
@@ -36,8 +35,7 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
@@ -76,12 +74,12 @@ public class InterfaceTest {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
+        byte[] gen = bytecodeGenerator.gen(source)[0].getBytecode();
 
-        ResultSaver.save(this.getClass(), gen.getResult());
+        ResultSaver.save(this.getClass(), gen);
 
 
-        Class<?> define = new BCLoader().define(codeInterface, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = new BCLoader().define(codeInterface, gen);
 
         /*try {
             //My o = (My) define.newInstance();

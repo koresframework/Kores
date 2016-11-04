@@ -28,13 +28,12 @@
 package com.github.jonathanxd.codeapi.sugar;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
 
 /**
  * Sugar syntax generator.
  */
-public interface Generator<T extends CodePart> extends PartProcessor {
+public interface Generator<T extends CodePart, R extends CodePart> extends PartProcessor {
 
     /**
      * Generate the sugar syntax.
@@ -42,6 +41,6 @@ public interface Generator<T extends CodePart> extends PartProcessor {
      * @param t Sugar syntax instance.
      * @return Generated sugar syntax.
      */
-    CodeSource generate(T t);
+    R generate(T t);
 
 }

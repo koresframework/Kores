@@ -27,14 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
@@ -43,7 +43,6 @@ import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -62,13 +61,13 @@ public class SimpleTest2_Bytecode {
     @Test
     public void simpleTest() throws NoSuchFieldException {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
+        MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de SimpleTest2_bytecode
-        CodeClass codeClass = new CodeClass("me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",
+        CodeClass codeClass = new CodeClass(null, "me.jonathanscripter.codeapi.test.SimpleTest2_bytecode",
                 // Adiciona o modifier publico
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null,
@@ -114,11 +113,11 @@ public class SimpleTest2_Bytecode {
                         )).make(), Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                                         Helper.accessStaticVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(PrintStream.class)),
-                                        new MethodSpec("println", PredefinedTypes.VOID, Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
+                                        new MethodSpecImpl("println", PredefinedTypes.VOID, Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
                                 )
                         ), Helper.elseExpression(Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class, Helper.accessStaticVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(PrintStream.class)),
-                                        new MethodSpec("println", PredefinedTypes.VOID, Collections.singletonList(new CodeArgument(
+                                        new MethodSpecImpl("println", PredefinedTypes.VOID, Collections.singletonList(new CodeArgument(
                                                 Helper.cast(stringType, stringType, Literals.QUOTED_STRING("NULL VALUE")), stringType
                                         )))
                                 ))
@@ -132,9 +131,7 @@ public class SimpleTest2_Bytecode {
         // Algumas classes são Singleton, então você não precisa instanciar.
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(source).getResult();
-
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
+        byte[] bytes = bytecodeGenerator.gen(source)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), bytes);
 

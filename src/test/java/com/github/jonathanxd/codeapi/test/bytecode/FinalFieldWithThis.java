@@ -28,12 +28,12 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
-import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.iutils.exception.RethrowException;
 
 import org.junit.Test;
 
@@ -47,13 +47,13 @@ public class FinalFieldWithThis {
 
     @Test
     public void finalFieldWithThis() {
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
         CodeClass testField = CodeAPI.aClass(Modifier.PUBLIC, "finalfieldwiththis.Test", TestBox.class, new Class[0], codeClass ->
                 CodeAPI.sourceOfParts(
                         CodeAPI.field(Modifier.PRIVATE | Modifier.FINAL, TestBox.class, "testField",
                                 CodeAPI.invokeConstructor(TestBox.class, CodeAPI.argument(Helper.accessThis(), Object.class))),
-                        CodeAPI.constructor(Modifier.PUBLIC, codeClass, codeConstructor -> CodeAPI.sourceOfParts(
+                        CodeAPI.constructor(Modifier.PUBLIC, codeConstructor -> CodeAPI.sourceOfParts(
                                 Helper.invokeSuperInit(Helper.getJavaType(TestBox.class), CodeAPI.argument(Literals.NULL, Object.class))
                         ))
                 ));

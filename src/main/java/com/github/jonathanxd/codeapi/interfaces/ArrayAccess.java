@@ -42,4 +42,12 @@ public interface ArrayAccess extends CodePart {
      * @return Array to access.
      */
     Optional<CodePart> getTarget();
+
+    /**
+     * Sets the array to access.
+     *
+     * @param target Array to access.
+     * @return New instance.
+     */
+    ArrayAccess setTarget(CodePart target);
 }

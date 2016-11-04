@@ -27,7 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.ClassType;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Declaration of a class.
@@ -38,4 +46,25 @@ public interface ClassDeclaration extends TypeDeclaration, Implementer, Extender
     default ClassType getClassType() {
         return ClassType.CLASS;
     }
+
+    @Override
+    ClassDeclaration setName(String name);
+
+    @Override
+    ClassDeclaration setBody(CodeSource body);
+
+    @Override
+    ClassDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    ClassDeclaration setSuperType(CodeType superType);
+
+    @Override
+    ClassDeclaration setModifiers(Collection<CodeModifier> modifiers);
+
+    @Override
+    ClassDeclaration setImplementations(List<CodeType> implementations);
+
+    @Override
+    ClassDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
 }

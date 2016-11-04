@@ -29,8 +29,6 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.keywords.Keyword;
-import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
@@ -42,18 +40,39 @@ public interface InstanceOf extends CodePart, Typed {
 
     /**
      * Gets the part to check.
+     *
      * @return Part to check.
      */
     CodePart getPart();
 
     /**
+     * Sets the part to check.
+     *
+     * @param part Part to check.
+     * @return new instance.
+     */
+    InstanceOf setPart(CodePart part);
+
+    /**
      * Gets the type.
+     *
      * @return Type.
      */
     CodeType getCheckType();
+
+    /**
+     * Sets the type.
+     *
+     * @param type Type.
+     * @return new instance.
+     */
+    InstanceOf setCheckType(CodeType type);
 
     @Override
     default Optional<CodeType> getType() {
         return Optional.of(PredefinedTypes.BOOLEAN);
     }
+
+    @Override
+    InstanceOf setType(CodeType codeType);
 }

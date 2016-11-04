@@ -43,4 +43,12 @@ public interface Generifiable extends CodePart {
      */
     GenericSignature<GenericType> getGenericSignature();
 
+    /**
+     * Sets the generic signature.
+     *
+     * @param genericSignature Generic Signature.
+     * @return new instance.
+     */
+    Generifiable setGenericSignature(GenericSignature<GenericType> genericSignature);
+
 }

@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.impl;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.helper.TryCatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
@@ -42,7 +41,7 @@ import java.util.Optional;
  * Created by jonathan on 04/09/16.
  */
 @GenerateTo(TryWithResources.class)
-public class TryWithResourcesImpl extends TryCatchBlock implements TryWithResources {
+public class TryWithResourcesImpl extends TryBlockImpl implements TryWithResources {
 
     private final VariableDeclaration variable;
 
@@ -77,7 +76,40 @@ public class TryWithResourcesImpl extends TryCatchBlock implements TryWithResour
     }
 
     @Override
+    public TryWithResourcesImpl setVariable(VariableDeclaration variable) {
+        return new TryWithResourcesImpl(variable, this.getCatchBlocks(), this.getBody().orElse(null), this.getFinallyBlock().orElse(null));
+    }
+
+    @Override
+    public TryWithResourcesImpl setCatchBlocks(List<CatchBlock> catchBlocks) {
+        return new TryWithResourcesImpl(this.getVariable(), catchBlocks, this.getBody().orElse(null), this.getFinallyBlock().orElse(null));
+    }
+
+    @Override
+    public TryWithResourcesImpl setFinallyBlock(CodeSource finallyBlock) {
+        return new TryWithResourcesImpl(this.getVariable(), this.getCatchBlocks(), this.getBody().orElse(null), finallyBlock);
+    }
+
+    @Override
+    public TryWithResourcesImpl setBody(CodeSource body) {
+        return new TryWithResourcesImpl(this.getVariable(), this.getCatchBlocks(), body, this.getFinallyBlock().orElse(null));
+    }
+
+    @Override
+    public TryWithResourcesImpl setBodies(List<CodeSource> sourceList) {
+        return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
+    }
+
+    @Override
     public Optional<CodePart> getExpression() {
         return TryWithResources.super.getExpression();
+    }
+
+    @Override
+    public TryWithResourcesImpl setExpression(CodePart expression) {
+        if (expression instanceof VariableDeclaration)
+            return this.setVariable((VariableDeclaration) expression);
+
+        return this;
     }
 }

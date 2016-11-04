@@ -28,15 +28,16 @@
 package com.github.jonathanxd.codeapi.transformer;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.Generator;
-import com.github.jonathanxd.codeapi.gen.TargetValue;
-import com.github.jonathanxd.codeapi.gen.Value;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.helper.TagLineEx;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.gen.value.TargetValue;
+import com.github.jonathanxd.codeapi.gen.value.Value;
+import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.impl.TagLineImpl;
 import com.github.jonathanxd.codeapi.interfaces.ThrowException;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
-import com.github.jonathanxd.iutils.containers.primitivecontainers.BooleanContainer;
+import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class TryCatchInliner {
     public static boolean inlineSource(Optional<CodeSource> bodyOpt,
                                        Optional<CodeSource> finallyBlockOpt,
                                        List<Value<?, String, PlainSourceGenerator>> values,
-                                       Parent<Generator<?, String, PlainSourceGenerator>> parents) {
+                                       Parent<ValueGenerator<?, String, PlainSourceGenerator>> parents) {
 
         if (bodyOpt.isPresent() && finallyBlockOpt.isPresent()) {
             CodeSource codeSource = bodyOpt.get();
@@ -69,11 +70,11 @@ public class TryCatchInliner {
 
         BooleanContainer booleanContainer = new BooleanContainer(false);
 
-        CodeSource toAdd = new CodeSource();
+        MutableCodeSource toAdd = new MutableCodeSource();
 
-        toAdd.add(new TagLineEx<>("Inlined finally", toAdd0));
+        toAdd.add(new TagLineImpl<>("Inlined finally", toAdd0));
 
-        CodeSource codeSource = CodeSourceUtil.insertBefore(codePart -> {
+        MutableCodeSource codeSource = CodeSourceUtil.insertBefore(codePart -> {
             if (codePart instanceof ThrowException) {
                 booleanContainer.set(true);
                 return true;

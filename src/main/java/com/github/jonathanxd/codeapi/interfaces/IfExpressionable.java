@@ -49,6 +49,19 @@ public interface IfExpressionable extends CodePart {
         }
     }
 
+    /**
+     * Gets if expressions and operators.
+     *
+     * @return If expressions and operators.
+     */
     List<CodePart> getIfExprsAndOps();
+
+    /**
+     * Sets if expressions and operators.
+     *
+     * @param ifExprsAndOps If expressions and operators.
+     * @return new instance.
+     */
+    IfExpressionable setIfExprsAndOps(List<CodePart> ifExprsAndOps);
 
 }

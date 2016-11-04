@@ -36,8 +36,8 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
@@ -48,7 +48,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 07/05/16.
  */
-@GenerateTo(MethodDeclaration.class)
+@GenerateTo(ConstructorDeclaration.class)
 public class CodeConstructor extends CodeMethod implements ConstructorDeclaration {
 
     public CodeConstructor(CodeType declaringClass, Collection<CodeModifier> modifiers, List<CodeParameter> parameters, CodeSource body) {
@@ -75,6 +75,46 @@ public class CodeConstructor extends CodeMethod implements ConstructorDeclaratio
     @Override
     public Optional<CodeType> getReturnType() {
         return Optional.of(PredefinedTypes.VOID);
+    }
+
+    @Override
+    public CodeConstructor setReturnType(CodeType returnType) {
+        return this;
+    }
+
+    @Override
+    public CodeConstructor setName(String name) {
+        return this;
+    }
+
+    @Override
+    public CodeConstructor setBody(CodeSource body) {
+        return new CodeConstructor(this.getModifiers(), this.getParameters(), this.getAnnotations(), body);
+    }
+
+    @Override
+    public CodeConstructor setAnnotations(List<Annotation> annotations) {
+        return new CodeConstructor(this.getModifiers(), this.getParameters(), annotations, this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeConstructor setParameters(List<CodeParameter> codeParameters) {
+        return new CodeConstructor(this.getModifiers(), codeParameters, this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeConstructor setModifiers(Collection<CodeModifier> modifiers) {
+        return new CodeConstructor(modifiers, this.getParameters(), this.getAnnotations(), this.getBody().orElse(null));
+    }
+
+    @Override
+    public CodeConstructor setGenericSignature(GenericSignature<GenericType> genericSignature) {
+        return this;
+    }
+
+    @Override
+    public CodeConstructor setType(CodeType codeType) {
+        return this.setReturnType(codeType);
     }
 
     @Override

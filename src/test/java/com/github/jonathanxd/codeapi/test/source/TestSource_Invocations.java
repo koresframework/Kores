@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -38,14 +38,14 @@ import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
@@ -57,6 +57,7 @@ import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.Greeter;
 import com.github.jonathanxd.codeapi.test.WorldGreeter;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.Generic;
 
 import org.junit.Test;
 
@@ -75,7 +76,7 @@ import static java.util.Collections.singletonList;
  */
 public class TestSource_Invocations {
     public static CodePart invokePrintln(CodeArgument toPrint) {
-        MethodSpec spec = new MethodSpec("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(toPrint));
+        MethodSpecImpl spec = new MethodSpecImpl("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(toPrint));
 
         return Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class),
                 Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(PrintStream.class)), spec);
@@ -88,11 +89,11 @@ public class TestSource_Invocations {
     @Test
     public void testSource() {
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName." + this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass(null, "fullName." + this.getClass().getSimpleName(),
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
@@ -109,13 +110,13 @@ public class TestSource_Invocations {
         clSource.add(codeField);
         clSource.add(codeField2);
 
-        MethodSpec spec = new MethodSpec("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(new CodeArgument(Literals.QUOTED_STRING("Hello"), false, Helper.getJavaType(String.class))));
+        MethodSpecImpl spec = new MethodSpecImpl("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(new CodeArgument(Literals.QUOTED_STRING("Hello"), false, Helper.getJavaType(String.class))));
 
         CodePart invokeTest = Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class),
                 Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(PrintStream.class)), spec);
 
         CodePart invokeTest2 = Helper.invoke(InvokeType.INVOKE_VIRTUAL, codeClass,
-                Helper.accessThis(), new MethodSpec("printIt", Helper.getJavaType(Void.TYPE),
+                Helper.accessThis(), new MethodSpecImpl("printIt", Helper.getJavaType(Void.TYPE),
                         Collections.singletonList(
                                 new CodeArgument(Literals.STRING("Oi"), false, Helper.getJavaType(Object.class)))));
 
@@ -140,7 +141,7 @@ public class TestSource_Invocations {
     }
 
     public CodeMethod makeCM() {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("printIt", Collections.singletonList(CodeModifier.PUBLIC),
                 Collections.singletonList(new CodeParameter("n", Helper.getJavaType(Object.class))),
@@ -159,7 +160,7 @@ public class TestSource_Invocations {
 
         methodSource.add(invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                 accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpec("println", Helper.getJavaType(Void.TYPE),
+                new MethodSpecImpl("println", Helper.getJavaType(Void.TYPE),
                         singletonList(new CodeArgument(Helper.accessVariable(null, Helper.accessLocal(), "n", Helper.getJavaType(Object.class)), Object.class)))));
 
 
@@ -167,7 +168,7 @@ public class TestSource_Invocations {
     }
 
     public CodeMethod makeCM2(CodeInterface codeInterface) {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("check",
                 Collections.singletonList(CodeModifier.PUBLIC),
@@ -178,7 +179,7 @@ public class TestSource_Invocations {
         // Invoke BMP
 
         methodSource.add(
-                Helper.invoke(InvokeType.INVOKE_STATIC, TestSource_Invocations.class, null, new MethodSpec(
+                Helper.invoke(InvokeType.INVOKE_STATIC, TestSource_Invocations.class, null, new MethodSpecImpl(
                         "bmp", PredefinedTypes.VOID, Arrays.asList(new CodeArgument(Literals.STRING("xy"), String.class),
                         new CodeArgument(Literals.STRING("yz"), String.class))
                 ))
@@ -190,7 +191,7 @@ public class TestSource_Invocations {
         methodSource.add(new CodeField("greeter", Helper.getJavaType(Greeter.class), Helper.invokeConstructor(Helper.getJavaType(WorldGreeter.class))));
 
         MethodInvocation greetingInvoke = Helper.invoke(InvokeType.INVOKE_INTERFACE, Greeter.class, Helper.accessLocalVariable("greeter", Greeter.class),
-                new MethodSpec("hello", String.class, emptyList()));
+                new MethodSpecImpl("hello", String.class, emptyList()));
 
         CodeField greetingVar = new CodeField("greetingVar", PredefinedTypes.STRING, greetingInvoke);
 
@@ -202,7 +203,7 @@ public class TestSource_Invocations {
 
         methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Fragment Dynamic ->"), String.class)));
 
-        CodeType supplierType = Helper.getJavaType(Supplier.class);
+        CodeType supplierType = Generic.type(Helper.getJavaType(Supplier.class)).of(PredefinedTypes.STRING);
 
         MethodInvocation dynamicSupplierGet = Helper.invokeDynamicFragment(InvokeDynamic.invokeDynamicLambdaFragment(
                 new FullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),
@@ -241,7 +242,7 @@ public class TestSource_Invocations {
 
         CodePart castedGet = Helper.cast(PredefinedTypes.OBJECT, PredefinedTypes.STRING, Helper.invoke(InvokeType.INVOKE_INTERFACE, Supplier.class,
                 Helper.accessLocalVariable(supplierVar),
-                new MethodSpec("get", PredefinedTypes.OBJECT, emptyList())));
+                new MethodSpecImpl("get", PredefinedTypes.OBJECT, emptyList())));
 
         VariableDeclaration var2 = new CodeField("str", PredefinedTypes.STRING, castedGet);
 
@@ -258,14 +259,14 @@ public class TestSource_Invocations {
                         .add1(Helper.check(Helper.accessLocalVariable("x", PredefinedTypes.INT), Operators.EQUAL_TO, Literals.INT(7)))
                         .make(),
                 Helper.sourceOf(
-                        Helper.returnValue(PredefinedTypes.BOOLEAN, Literals.INT(0))
+                        Helper.returnValue(PredefinedTypes.BOOLEAN, Literals.BOOLEAN(false))
                 )));
 
         methodSource.add(Predefined.invokePrintln(
                 new CodeArgument(Helper.accessLocalVariable("x", PredefinedTypes.INT), false, PredefinedTypes.INT)
         ));
 
-        methodSource.add(Helper.returnValue(PredefinedTypes.BOOLEAN, Literals.INT(1)));
+        methodSource.add(Helper.returnValue(PredefinedTypes.BOOLEAN, Literals.BOOLEAN(true)));
 
         return codeMethod;
     }

@@ -37,21 +37,41 @@ import java.util.Optional;
 /**
  * A method invocation.
  */
-public interface MethodInvocation extends CodePart, Typed {
+public interface MethodInvocation extends CodePart, Typed, Accessor {
 
     /**
      * Gets the localization of the method.
      *
      * @return Localization of the method.
      */
-    CodeType getLocalization();
+    @Override
+    Optional<CodeType> getLocalization();
+
+    /**
+     * Sets the localization of the method.
+     *
+     * @param localization Localization of the method.
+     * @return new instance.
+     */
+    @Override
+    MethodInvocation setLocalization(CodeType localization);
 
     /**
      * Gets the target to invoke (like instance).
      *
      * @return Target to invoke (like instance)
      */
-    CodePart getTarget();
+    @Override
+    Optional<CodePart> getTarget();
+
+    /**
+     * Gets the target to invoke (like instance).
+     *
+     * @param target Target to invoke (like instance)
+     * @return new instance.
+     */
+    @Override
+    MethodInvocation setTarget(CodePart target);
 
     /**
      * Gets the method specification.
@@ -61,11 +81,27 @@ public interface MethodInvocation extends CodePart, Typed {
     MethodSpecification getSpec();
 
     /**
+     * Gets the method specification.
+     *
+     * @param specification Method specification.
+     * @return new instance.
+     */
+    MethodInvocation setSpec(MethodSpecification specification);
+
+    /**
      * Gets the invocation type.
      *
      * @return Invocation type.
      */
     InvokeType getInvokeType();
+
+    /**
+     * Sets the invocation type.
+     *
+     * @param invokeType Invocation type.
+     * @return new instance.
+     */
+    MethodInvocation setInvokeType(InvokeType invokeType);
 
     /**
      * Gets the invoke dynamic.
@@ -74,8 +110,19 @@ public interface MethodInvocation extends CodePart, Typed {
      */
     Optional<InvokeDynamic> getInvokeDynamic();
 
+    /**
+     * Sets the invoke dynamic.
+     *
+     * @param invokeDynamic Dynamic invocation.
+     * @return new instance.
+     */
+    MethodInvocation setInvokeDynamic(InvokeDynamic invokeDynamic);
+
     @Override
     default Optional<CodeType> getType() {
-        return Optional.ofNullable(getSpec().getMethodDescription().getReturnType());
+        return Optional.ofNullable(this.getSpec().getMethodDescription().getReturnType());
     }
+
+    @Override
+    MethodInvocation setType(CodeType codeType);
 }

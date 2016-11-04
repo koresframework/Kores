@@ -27,14 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -57,13 +57,13 @@ public class SimpleTest2 {
     @Test
     public void simpleTest() {
         // Crio um novo 'código-fonte' (não um arquivo, mas sim, uma coleção de instruções, que formam um código fonte)
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         // Cria o 'codigo-fonte' da classe
-        CodeSource classSource = new CodeSource();
+        MutableCodeSource classSource = new MutableCodeSource();
 
         // Crio uma classe com nome de CodeAPITest
-        CodeClass codeClass = new CodeClass("CodeAPITest",
+        CodeClass codeClass = new CodeClass(null, "CodeAPITest",
                 // Adiciona o modifier publico
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null,
@@ -109,11 +109,11 @@ public class SimpleTest2 {
                         )).make(), Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null,
                                         Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                        new MethodSpec("println", Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
+                                        new MethodSpecImpl("println", Collections.singletonList(new CodeArgument(Helper.accessLocalVariable("myField", stringType), stringType)))
                                 )
                         ), Helper.elseExpression(Helper.sourceOf(
                                 Helper.invoke(InvokeType.INVOKE_STATIC, (CodeType) null, Helper.accessVariable(Helper.localizedAtType(Helper.getJavaType(System.class)), "out", Helper.getJavaType(OutputStream.class)),
-                                        new MethodSpec("println", Collections.singletonList(new CodeArgument(
+                                        new MethodSpecImpl("println", Collections.singletonList(new CodeArgument(
                                                 Helper.cast(Helper.getJavaType(String.class), Helper.getJavaType(String.class), Literals.QUOTED_STRING("NULL VALUE")), Helper.getJavaType(String.class)
                                         )))
                                 ))

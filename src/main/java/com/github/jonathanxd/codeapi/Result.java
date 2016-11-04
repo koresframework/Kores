@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi;
 
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.interfaces.QualifiedNamed;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.Arrays;

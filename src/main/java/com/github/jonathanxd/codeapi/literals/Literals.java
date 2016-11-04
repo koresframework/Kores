@@ -40,8 +40,8 @@ public final class Literals {
     // NullLiteral
     public static final Literal NULL = new SimpleLiteral("null", Helper.nullType());
     // BooleanLiteral
-    public static final Literal TRUE = new BoolLiteral("true");
-    public static final Literal FALSE = new BoolLiteral("false");
+    public static final Literal TRUE = new BoolLiteral(true);
+    public static final Literal FALSE = new BoolLiteral(false);
 
     public static boolean isPrimitive(CodePart codePart1, CodePart codePart2) {
         return codePart1 instanceof Literal && codePart2 instanceof Literal && isPrimitive((Literal) codePart1, (Literal) codePart2);
@@ -158,7 +158,6 @@ public final class Literals {
         SimpleLiteral(String name, CodeType dataType) {
             super(name, dataType);
         }
-
     }
 
     @GenerateTo(Literal.class)
@@ -212,8 +211,15 @@ public final class Literals {
 
         private static final CodeType TYPE = Helper.getJavaType(Boolean.TYPE);
 
-        BoolLiteral(String name) {
-            super(name, TYPE);
+        private final boolean value;
+
+        BoolLiteral(boolean value) {
+            super(String.valueOf(value), TYPE);
+            this.value = value;
+        }
+
+        public boolean getValue() {
+            return this.value;
         }
 
     }
@@ -279,9 +285,15 @@ public final class Literals {
 
         private static final CodeType TYPE = Helper.getJavaType(String.class);
 
+        private final String original;
+
         QuotedStringLiteral(String name) {
             super('"' + name + '"', TYPE);
+            this.original = name;
         }
 
+        public String getOriginal() {
+            return this.original;
+        }
     }
 }

@@ -27,7 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
+import com.github.jonathanxd.iutils.data.MapData;
 import com.github.jonathanxd.iutils.option.Options;
 
 /**
@@ -43,7 +47,49 @@ public interface CodeGenerator<OUT> {
      * @param source Source of parts.
      * @return Generated object.
      */
-    OUT gen(CodeSource source);
+    default OUT gen(CodeSource source) {
+        return this.gen(source, new MapData(), null);
+    }
+
+    /**
+     * Generate object of type {@link OUT} from {@link CodePart}.
+     *
+     * @param part Part to generate.
+     * @return Generated object.
+     */
+    default OUT gen(CodePart part) {
+        return this.gen(CodeAPI.sourceOfParts(part), new MapData(), null);
+    }
+
+    /**
+     * Generate object of type {@link OUT} from {@link CodePart}.
+     *
+     * @param part Part to generate.
+     * @return Generated object.
+     */
+    default OUT gen(CodePart part, MapData data, Object additional) {
+        return this.gen(CodeAPI.sourceOfParts(part), data, additional);
+    }
+
+    /**
+     * Generate object of type {@link OUT} from {@link CodeSource}.
+     *
+     * @param source Source of parts.
+     * @return Generated object.
+     */
+    OUT gen(CodeSource source, MapData data, Object additional);
+
+    /**
+     * Register a sugar syntax. The generation of {@link T} will be delegated into {@link
+     * SugarSyntax#getGenerator() sugar.Generator}.
+     *
+     * @param type        Type
+     * @param sugarSyntax Sugar syntax.
+     * @param <T>         Type of supported input part.
+     * @param <R>         Type of output part.
+     * @return Old {@link SugarSyntax} registered to {@code type}.
+     */
+    <T extends CodePart, R extends CodePart> SugarSyntax<?, ?> registerSugarSyntax(Class<T> type, SugarSyntax<T, R> sugarSyntax);
 
     /**
      * Gets the {@link Options} instance.

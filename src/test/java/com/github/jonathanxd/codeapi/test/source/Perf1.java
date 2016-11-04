@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.test.source;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class Perf1 {
             System.out.println("KL");
         }
 
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         PlainSourceGenerator generator = new PlainSourceGenerator();
 

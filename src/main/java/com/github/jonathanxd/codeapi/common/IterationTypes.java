@@ -30,6 +30,8 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.HiddenField;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -43,7 +45,6 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.HiddenField;
 
 import java.util.Iterator;
 
@@ -104,7 +105,7 @@ public final class IterationTypes {
             public CodeSource declareBody() {
                 FieldDeclaration field = forEachBlock.getField();
 
-                CodeSource body = new CodeSource();
+                MutableCodeSource body = new MutableCodeSource();
 
                 body.add(new CodeField(field.getName(), field.getVariableType(),
                         Helper.accessArrayValue(iterableElement, Helper.accessLocalVariable(indexFieldDecl), field.getVariableType())));
@@ -176,7 +177,7 @@ public final class IterationTypes {
                         Helper.cast(PredefinedTypes.OBJECT, field.getVariableType(), next));
 
 
-                CodeSource codeSource = new CodeSource();
+                MutableCodeSource codeSource = new MutableCodeSource();
 
                 codeSource.add(forEachField);
 

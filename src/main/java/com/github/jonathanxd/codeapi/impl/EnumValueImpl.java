@@ -39,10 +39,26 @@ public class EnumValueImpl implements EnumValue {
 
     private final CodeType enumType;
     private final String entry;
+    private final int ordinal;
 
     public EnumValueImpl(CodeType enumType, String entry) {
+        this(enumType, entry, -1);
+    }
+
+    public EnumValueImpl(CodeType enumType, String entry, int ordinal) {
         this.enumType = enumType;
         this.entry = entry;
+        this.ordinal = ordinal;
+    }
+
+    @Override
+    public EnumValueImpl setName(String name) {
+        return this.setEnumValue(name);
+    }
+
+    @Override
+    public EnumValueImpl setType(CodeType codeType) {
+        return this.setEnumType(codeType);
     }
 
     @Override
@@ -51,7 +67,27 @@ public class EnumValueImpl implements EnumValue {
     }
 
     @Override
+    public EnumValueImpl setEnumType(CodeType codeType) {
+        return new EnumValueImpl(codeType, this.getEnumValue(), this.getOrdinal());
+    }
+
+    @Override
     public String getEnumValue() {
         return this.entry;
+    }
+
+    @Override
+    public EnumValueImpl setEnumValue(String entry) {
+        return new EnumValueImpl(this.getEnumType(), entry, this.getOrdinal());
+    }
+
+    @Override
+    public int getOrdinal() {
+        return this.ordinal;
+    }
+
+    @Override
+    public EnumValue setOrdinal(int ordinal) {
+        return new EnumValueImpl(this.getEnumType(), this.getEnumValue(), ordinal);
     }
 }

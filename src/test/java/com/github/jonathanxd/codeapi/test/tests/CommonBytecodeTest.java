@@ -28,15 +28,14 @@
 package com.github.jonathanxd.codeapi.test.tests;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Result;
+import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.test.bytecode.BCLoader;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
-import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.exception.RethrowException;
 
 import java.util.function.Function;
 
@@ -49,7 +48,7 @@ public class CommonBytecodeTest {
         return CommonBytecodeTest.test(testClass, (TypeDeclaration) mainClass, source);
     }
 
-    public static @Named("Instance") Object test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
+    public static @Named("Instance") <R> R test(Class<?> testClass, ClassDeclaration mainClass, CodeSource source, Function<Class<?>, R> function) {
         return CommonBytecodeTest.test(testClass, (TypeDeclaration) mainClass, source, function);
     }
 
@@ -63,18 +62,30 @@ public class CommonBytecodeTest {
         });
     }
 
-    public static @Named("Instance") Object test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source, Function<Class<?>, Object> function) {
+    public static @Named("Instance") <R> R test(Class<?> testClass, TypeDeclaration mainClass, CodeSource source, Function<Class<?>, R> function) {
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
-
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
-
-        ResultSaver.save(testClass, gen.getResult());
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define(mainClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        BytecodeClass[] bytecodeClasses = bytecodeGenerator.gen(source);
 
-        return function.apply(define);
+        Class<?> first = null;
+
+        for (BytecodeClass bytecodeClass : bytecodeClasses) {
+            TypeDeclaration type = bytecodeClass.getType();
+            byte[] bytecode = bytecodeClass.getBytecode();
+
+            ResultSaver.save(testClass, type.getSimpleName(), bytecode);
+
+            Class<?> define = bcLoader.define(type, bytecode);
+
+            if(mainClass != null && type.is(mainClass))
+                first = define;
+            else if(first == null)
+                first = define;
+        }
+
+        return function.apply(first);
     }
 
 }

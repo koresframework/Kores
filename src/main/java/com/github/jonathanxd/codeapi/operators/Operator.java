@@ -60,6 +60,11 @@ public class Operator implements CodePart, Named {
     }
 
     @Override
+    public Operator setName(String name) {
+        return new Operator(name);
+    }
+
+    @Override
     public boolean isExpression() {
         return true;
     }

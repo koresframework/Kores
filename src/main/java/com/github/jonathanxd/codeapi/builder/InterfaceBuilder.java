@@ -46,12 +46,13 @@ import java.util.List;
  */
 public final class InterfaceBuilder implements Builder<CodeInterface> {
 
+    private CodeType outerClass = null;
     private Collection<CodeModifier> modifiers = new ArrayList<>();
     private List<Annotation> annotations = new ArrayList<>();
     private String qualifiedName;
     private GenericSignature<GenericType> genericSignature;
     private List<CodeType> implementations = new ArrayList<>();
-    private CodeSource body = new CodeSource();
+    private CodeSource body = CodeSource.empty();
 
     private InterfaceBuilder() {
 
@@ -64,6 +65,17 @@ public final class InterfaceBuilder implements Builder<CodeInterface> {
      */
     public static InterfaceBuilder builder() {
         return new InterfaceBuilder();
+    }
+
+    /**
+     * Sets the outer class.
+     *
+     * @param outerClass Outer class.
+     * @return This.
+     */
+    public InterfaceBuilder withOuterClass(CodeType outerClass) {
+        this.outerClass = outerClass;
+        return this;
     }
 
     /**
@@ -182,6 +194,6 @@ public final class InterfaceBuilder implements Builder<CodeInterface> {
 
     @Override
     public CodeInterface build() {
-        return new CodeInterface(this.qualifiedName, this.modifiers, this.implementations, this.genericSignature, this.annotations, this.body);
+        return new CodeInterface(outerClass, this.modifiers, this.implementations, this.genericSignature, this.annotations, this.body, this.qualifiedName);
     }
 }

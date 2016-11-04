@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -39,18 +38,14 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
 import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class BridgeMethodsTest {
 
@@ -90,13 +85,13 @@ public class BridgeMethodsTest {
         CodeSource codeSource = CodeAPI.sourceOfParts(typeDeclaration);
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
-        Result<Byte[]> gen = bytecodeGenerator.gen(codeSource);
+        byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
 
-        ResultSaver.save(this.getClass(), gen.getResult());
+        ResultSaver.save(this.getClass(), gen);
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define(typeDeclaration, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = bcLoader.define(typeDeclaration, gen);
         Iterate<Iterable<?>> o = (Iterate<Iterable<?>>) define.newInstance();
 
         List<Object> iterable = new ArrayList<>();

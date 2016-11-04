@@ -33,9 +33,7 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
-import com.github.jonathanxd.iutils.optional.Require;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
@@ -55,18 +53,16 @@ public class ArrayParameterTest {
     public void arrayTest() {
 
 
-        ClassDeclaration codeClass = aClass(PUBLIC, name);
-
-        Require.require(codeClass.getBody()).addAll(sourceOfParts(
-                constructor(PUBLIC, codeClass, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(
+        ClassDeclaration codeClass = aClass(PUBLIC, name, source(
+                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("par", Helper.getJavaType(Text[].class))}, source(
                         new CodeField("cf", Helper.getJavaType(Object.class), Helper.cast(Helper.getJavaType(Text[].class), PredefinedTypes.OBJECT, Helper.accessLocalVariable("par", Text[].class))),
                         new CodeField("lt", Helper.getJavaType(Text[].class), Helper.cast(PredefinedTypes.OBJECT, Helper.getJavaType(Text[].class), Helper.accessLocalVariable("cf", Object.class)))
-                )))
-        );
+                ))
+        ));
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(codeClass)).getResult());
+        byte[] bytes = bytecodeGenerator.gen(sourceOfParts(codeClass))[0].getBytecode();
 
         ResultSaver.save(getClass(), bytes);
 

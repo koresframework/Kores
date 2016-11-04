@@ -42,4 +42,12 @@ public interface MultiBodied extends CodePart {
      * @return Body list.
      */
     List<CodeSource> getBodies();
+
+    /**
+     * Gets the body list.
+     *
+     * @param sourceList Body list.
+     * @return new instance.
+     */
+    MultiBodied setBodies(List<CodeSource> sourceList);
 }

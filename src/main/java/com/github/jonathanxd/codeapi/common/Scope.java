@@ -47,7 +47,8 @@ public enum Scope {
 
     /**
      * Scope from a {@link Modifierable} instance.
-     * @param modifierable    {@link Modifierable} instance.
+     *
+     * @param modifierable {@link Modifierable} instance.
      * @return Scope
      */
     public static Scope fromModifierable(Modifierable modifierable) {

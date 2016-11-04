@@ -28,24 +28,23 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeConstructorBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeConstructorBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -66,7 +65,7 @@ import static java.util.Collections.singletonList;
  */
 public class TestBytecode {
     public static CodePart invokePrintln(CodeArgument toPrint) {
-        MethodSpec spec = new MethodSpec("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(toPrint));
+        MethodSpecImpl spec = new MethodSpecImpl("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(toPrint));
 
         return Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class),
                 Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(PrintStream.class)), spec);
@@ -75,12 +74,12 @@ public class TestBytecode {
     @Test
     public void testBytecode() {
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
 
-        CodeSource clSource = new CodeSource();
+        MutableCodeSource clSource = new MutableCodeSource();
 
-        CodeClass codeClass = new CodeClass("fullName."+this.getClass().getSimpleName(),
+        CodeClass codeClass = new CodeClass(null, "fullName."+this.getClass().getSimpleName(),
                 Collections.singletonList(CodeModifier.PUBLIC),
                 null, null, clSource);
 
@@ -97,13 +96,13 @@ public class TestBytecode {
         clSource.add(codeField);
         clSource.add(codeField2);
 
-        MethodSpec spec = new MethodSpec("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(new CodeArgument(Literals.QUOTED_STRING("Hello"), false, Helper.getJavaType(String.class))));
+        MethodSpecImpl spec = new MethodSpecImpl("println", Helper.getJavaType(Void.TYPE), Collections.singletonList(new CodeArgument(Literals.QUOTED_STRING("Hello"), false, Helper.getJavaType(String.class))));
 
         CodePart invokeTest = Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class),
                 Helper.accessVariable(Helper.getJavaType(System.class), "out", Helper.getJavaType(PrintStream.class)), spec);
 
         CodePart invokeTest2 = Helper.invoke(InvokeType.INVOKE_VIRTUAL, codeClass,
-                Helper.accessThis(), new MethodSpec("printIt", Helper.getJavaType(Void.TYPE),
+                Helper.accessThis(), new MethodSpecImpl("printIt", Helper.getJavaType(Void.TYPE),
                         Collections.singletonList(
                                 new CodeArgument(Literals.STRING("Oi"), false, Helper.getJavaType(Object.class)))));
 
@@ -122,11 +121,11 @@ public class TestBytecode {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Byte[] gen = bytecodeGenerator.gen(codeSource).getResult();
+        byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
 
         BCLoader bcLoader = new BCLoader();
 
-        Class<?> define = bcLoader.define("fullName."+this.getClass().getSimpleName(), PrimitiveArrayConverter.toPrimitive(gen));
+        Class<?> define = bcLoader.define("fullName."+this.getClass().getSimpleName(), gen);
 
         System.out.println("Class -> " + Modifier.toString(define.getModifiers()) + " " + define);
 
@@ -171,7 +170,7 @@ public class TestBytecode {
     }
 
     public CodeMethod makeCM() {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("printIt", Collections.singletonList(CodeModifier.PUBLIC),
                 Collections.singletonList(new CodeParameter("n", Helper.getJavaType(Object.class))),
@@ -190,7 +189,7 @@ public class TestBytecode {
 
         methodSource.add(invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                 accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpec("println", Helper.getJavaType(Void.TYPE),
+                new MethodSpecImpl("println", Helper.getJavaType(Void.TYPE),
                         singletonList(new CodeArgument(Helper.accessVariable(null, Helper.accessLocal(), "n", Helper.getJavaType(Object.class)), Object.class)))));
 
 
@@ -198,7 +197,7 @@ public class TestBytecode {
     }
 
     public CodeMethod makeCM2() {
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         CodeMethod codeMethod = new CodeMethod("check",
                 Collections.singletonList(CodeModifier.PUBLIC),

@@ -44,6 +44,19 @@ import org.objectweb.asm.Label;
  *     //@outsideEnd
  *
  * }</pre>
+ *
+ * <pre>{@code
+ *     //@outsideStart
+ *     switch(a) {
+ *         //@insideStart
+ *         case A: ...
+ *         case B: ...
+ *         //@insideEnd
+ *     }
+ *     //@outsideEnd
+ *
+ *
+ * }</pre>
  */
 public final class Flow {
 

@@ -44,4 +44,13 @@ public interface VariableDeclaration extends VariableAccess, CodePart {
     Optional<CodePart> getValue();
 
 
+    /**
+     * Sets the value.
+     *
+     * @param value Value.
+     * @return new instance.
+     */
+    VariableDeclaration setValue(CodePart value);
+
+
 }

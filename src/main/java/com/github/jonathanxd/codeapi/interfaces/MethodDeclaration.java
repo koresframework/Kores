@@ -29,9 +29,47 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeElement;
 import com.github.jonathanxd.codeapi.CodeRoot;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Declaration of a {@code method}.
  */
-public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot, Annotable {
+public interface MethodDeclaration extends CodeElement, Returnable, Bodied, Parameterizable, Named, Modifierable, Generifiable, CodeRoot, Annotable, Typed {
+    @Override
+    MethodDeclaration setName(String name);
+
+    @Override
+    MethodDeclaration setBody(CodeSource body);
+
+    @Override
+    MethodDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    MethodDeclaration setReturnType(CodeType returnType);
+
+    @Override
+    MethodDeclaration setParameters(List<CodeParameter> codeParameters);
+
+    @Override
+    MethodDeclaration setModifiers(Collection<CodeModifier> modifiers);
+
+    @Override
+    MethodDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    @Override
+    default Optional<CodeType> getType() {
+        return this.getReturnType();
+    }
+
+    @Override
+    MethodDeclaration setType(CodeType codeType);
 }

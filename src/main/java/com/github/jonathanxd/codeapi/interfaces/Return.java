@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
@@ -38,7 +39,19 @@ public interface Return extends CodePart, Typed {
 
     /**
      * Gets the value to return.
+     *
      * @return Value to return.
      */
     Optional<CodePart> getValue();
+
+    /**
+     * Gets the value to return.
+     *
+     * @param value Value to return.
+     * @return new instance.
+     */
+    Return setValue(CodePart value);
+
+    @Override
+    Return setType(CodeType codeType);
 }

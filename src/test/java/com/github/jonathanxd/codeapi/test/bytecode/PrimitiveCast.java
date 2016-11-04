@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.helper.Helper;
@@ -36,8 +37,7 @@ import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
@@ -70,7 +70,7 @@ public class PrimitiveCast {
     @Test
     public void codeAPITest() {
 
-        CodeSource mySource = new CodeSource();
+
 
         String name = this.getClass().getCanonicalName()+"_Generated";
 
@@ -100,7 +100,7 @@ public class PrimitiveCast {
                         ))
         ));
 
-        mySource.add(codeClass);
+        CodeSource mySource = CodeAPI.sourceOfParts(codeClass);
 
 
 
@@ -129,9 +129,7 @@ public class PrimitiveCast {
     public byte[] generate(CodeSource source) {
         BytecodeGenerator generator = new BytecodeGenerator();
 
-        Byte[] gen = generator.gen(source).getResult();
-
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
+        byte[] bytes = generator.gen(source)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), bytes);
 

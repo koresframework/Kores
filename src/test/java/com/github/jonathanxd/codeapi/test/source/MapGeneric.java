@@ -28,12 +28,11 @@
 package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.test.CommonGen;
 import com.github.jonathanxd.codeapi.types.Generic;
 
 import org.junit.Test;
@@ -48,7 +47,7 @@ public class MapGeneric {
     @Test
     public void arrayTest() {
 
-        CodeSource cs = new CodeSource();
+        MutableCodeSource cs = new MutableCodeSource();
 
         cs.add(CodeAPI.aClass(Modifier.PUBLIC, "com.ACS", aClass -> CodeAPI.sourceOfParts(
                 CodeAPI.field(Generic.type(Helper.getJavaType(Map.class)).of(PredefinedTypes.STRING).of(PredefinedTypes.INTEGER_TYPE), "upo", Literals.NULL)

@@ -44,7 +44,7 @@ import com.github.jonathanxd.codeapi.util.BiMultiVal;
  *
  * This sugar syntax generates a {@link com.github.jonathanxd.codeapi.interfaces.ForBlock}.
  */
-public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock> {
+public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock, CodeSource> {
 
     @Override
     Generator getGenerator();
@@ -59,7 +59,7 @@ public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock> 
      *     }
      * </pre>).
      */
-    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator<ForEachBlock> {
+    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator<ForEachBlock, CodeSource> {
         /**
          * Create for initialization ({@code for(initialization; condition; update) body}).
          *

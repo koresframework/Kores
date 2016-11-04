@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.test.source;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
@@ -57,7 +57,7 @@ public class InvokeSuperTest {
 
         CodeSource source = sourceOfParts(codeClass = aClass(PUBLIC, "test.Impl", My.class, new Class[0], codeClass0 -> sourceOfParts(
 
-                constructor(PUBLIC, codeClass0, codeConstructor -> sourceOfParts(
+                constructor(PUBLIC, codeConstructor -> sourceOfParts(
                         new CodeField("blc", STRING, Literals.STRING("099")),
 
                         Helper.invokeSuperInit(Helper.getJavaType(My.class), argument(accessLocalVariable(STRING, "blc"), STRING))

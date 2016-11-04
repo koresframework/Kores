@@ -45,10 +45,18 @@ public interface Annotation extends Typed, CodePart {
     boolean isVisible();
 
     /**
+     * Sets visibility.
+     *
+     * @param visible Visibility.
+     * @return New instance.
+     */
+    Annotation setVisible(boolean visible);
+
+    /**
      * Gets the Annotation values.
      *
-     * The Annotation value must be: {@link Byte}, {@link Boolean}, {@link Character}, {@link Short},
-     * {@link Integer}, {@link Long}, {@link Float}, {@link Double}, {@link String}, {@link
+     * The Annotation value must be: {@link Byte}, {@link Boolean}, {@link Character}, {@link
+     * Short}, {@link Integer}, {@link Long}, {@link Float}, {@link Double}, {@link String}, {@link
      * CodeType}, OBJECT, ARRAY, {@link EnumValue} or other {@link Annotation}.
      *
      * Key = Name of annotation key Object = Value of annotation key
@@ -56,4 +64,20 @@ public interface Annotation extends Typed, CodePart {
      * @return Annotation value.
      */
     Map<String, Object> getValues();
+
+    /**
+     * Sets the Annotation values.
+     *
+     * @param value The Annotation value must be: {@link Byte}, {@link Boolean}, {@link Character},
+     *              {@link Short}, {@link Integer}, {@link Long}, {@link Float}, {@link Double},
+     *              {@link String}, {@link CodeType}, OBJECT, ARRAY, {@link EnumValue} or other
+     *              {@link Annotation}.
+     *
+     *              Key = Name of annotation key Object = Value of annotation key
+     * @return New instance.
+     */
+    Annotation setValue(Map<String, Object> value);
+
+    @Override
+    Annotation setType(CodeType codeType);
 }

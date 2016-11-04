@@ -38,28 +38,6 @@ import java.util.Optional;
 public interface Bodied extends CodePart {
 
     /**
-     * Gets the body.
-     * @return Body.
-     */
-    Optional<CodeSource> getBody();
-
-    /**
-     * Gets the body.
-     * @return Body.
-     */
-    default CodeSource getRequiredBody() {
-        return this.getBody().orElse(new CodeSource());
-    }
-
-    /**
-     * Returns true if has body defined.
-     * @return True if has body defined.
-     */
-    default boolean hasBody() {
-        return this.getBody().isPresent();
-    }
-
-    /**
      * Check if the body is not recursive.
      *
      * Recommended to call this method in the constructor.
@@ -70,10 +48,43 @@ public interface Bodied extends CodePart {
     static void checkBody(Bodied bodied) {
         Optional<CodeSource> bodyOpt = bodied.getBody();
 
-        if(bodyOpt.isPresent()) {
-            if(bodyOpt.get().contains(bodied)) {
-                throw new IllegalStateException("You have putted "+bodied+" instance inside your own body, it may cause StackOverFlow Exception.");
+        if (bodyOpt.isPresent()) {
+            if (bodyOpt.get().contains(bodied)) {
+                throw new IllegalStateException("You have putted " + bodied + " instance inside your own body, it may cause StackOverFlow Exception.");
             }
         }
+    }
+
+    /**
+     * Gets the body.
+     *
+     * @return Body.
+     */
+    Optional<CodeSource> getBody();
+
+    /**
+     * Sets the body.
+     *
+     * @param body Body.
+     * @return new instance.
+     */
+    Bodied setBody(CodeSource body);
+
+    /**
+     * Gets the body.
+     *
+     * @return Body.
+     */
+    default CodeSource getRequiredBody() {
+        return this.getBody().orElse(CodeSource.empty());
+    }
+
+    /**
+     * Returns true if has body defined.
+     *
+     * @return True if has body defined.
+     */
+    default boolean hasBody() {
+        return this.getBody().isPresent();
     }
 }

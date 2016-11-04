@@ -28,8 +28,16 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodeRoot;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.ClassType;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.GenericType;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Base class of all {@link TypeDeclaration}s like classes, interfaces and enums.
@@ -44,4 +52,37 @@ public interface TypeDeclaration extends Modifierable, CodeRoot, CodeType, Quali
     default ClassType getClassType() {
         return ClassType.INTERFACE;
     }
+
+    @Override
+    TypeDeclaration setName(String name);
+
+    @Override
+    TypeDeclaration setQualifiedName(String name);
+
+    @Override
+    TypeDeclaration setBody(CodeSource body);
+
+    @Override
+    TypeDeclaration setAnnotations(List<Annotation> annotations);
+
+    @Override
+    TypeDeclaration setModifiers(Collection<CodeModifier> modifiers);
+
+    @Override
+    TypeDeclaration setGenericSignature(GenericSignature<GenericType> genericSignature);
+
+    /**
+     * Gets the outer class.
+     *
+     * @return Outer class.
+     */
+    Optional<CodeType> getOuterClass();
+
+    /**
+     * Sets the outer class.
+     *
+     * @param outerClass Outer class.
+     * @return new instance.
+     */
+    TypeDeclaration setOuterClass(CodeType outerClass);
 }

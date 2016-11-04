@@ -88,12 +88,27 @@ public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Ann
     }
 
     @Override
+    public CodeParameter setName(String name) {
+        return new CodeParameter(name, this.getType().orElse(null), this.getAnnotations());
+    }
+
+    @Override
     public Optional<CodeType> getType() {
         return Optional.of(this.type);
     }
 
     @Override
+    public CodeParameter setType(CodeType codeType) {
+        return new CodeParameter(this.getName(), codeType, this.getAnnotations());
+    }
+
+    @Override
     public List<Annotation> getAnnotations() {
         return this.annotations;
+    }
+
+    @Override
+    public CodeParameter setAnnotations(List<Annotation> annotations) {
+        return new CodeParameter(this.getName(), this.getType().orElse(null), annotations);
     }
 }

@@ -34,10 +34,38 @@ public enum ClassType {
     /**
      * Class
      */
-    CLASS,
+    CLASS("class"),
 
     /**
      * Interface
      */
-    INTERFACE
+    INTERFACE("interface"),
+
+    /**
+     * Enum
+     */
+    ENUM("enum"),
+
+    /**
+     * Annotation
+     */
+    ANNOTATION("@interface");
+
+    private final String plainName;
+
+    ClassType(String plainName) {
+        this.plainName = plainName;
+    }
+
+    public String getPlainName() {
+        return this.plainName;
+    }
+
+    public boolean isClass() {
+        return this == CLASS || this == ENUM;
+    }
+
+    public boolean isInterface() {
+        return this == INTERFACE || this == ANNOTATION;
+    }
 }

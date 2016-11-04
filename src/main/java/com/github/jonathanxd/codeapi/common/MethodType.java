@@ -28,7 +28,24 @@
 package com.github.jonathanxd.codeapi.common;
 
 /**
- * Types of the methods.
+ * Type of the method.
+ *
+ * Factory methods automatically determine the method type.
+ *
+ * Method types:
+ *
+ * - Dynamic method: A dynamic invocation of a JVM Method.
+ *
+ * - Dynamic constructor: A dynamic invocation of a Instance constructor.
+ *
+ * - Method: A normal invocation of a method.
+ *
+ * - Constructor: A normal invocation of a constructor, but is not related to super class
+ * initialization.
+ *
+ * - Super Constructor: A invocation of a Super class constructor, this method type couldn't be used
+ * to create a new instance of a class, the ASM and JVM will throw errors if you try to create a
+ * instance using this.
  */
 public enum MethodType {
     /**
@@ -49,7 +66,12 @@ public enum MethodType {
     /**
      * Constructor
      */
-    CONSTRUCTOR(DYNAMIC_CONSTRUCTOR);
+    CONSTRUCTOR(DYNAMIC_CONSTRUCTOR),
+
+    /**
+     * Super constructor
+     */
+    SUPER_CONSTRUCTOR;
 
     /**
      * Dynamic type corresponding to current {@link MethodType}
@@ -71,5 +93,9 @@ public enum MethodType {
      */
     public MethodType toDynamic() {
         return this.dynamic != null ? this.dynamic : this;
+    }
+
+    public boolean isConstructor() {
+        return this == CONSTRUCTOR || this == SUPER_CONSTRUCTOR;
     }
 }

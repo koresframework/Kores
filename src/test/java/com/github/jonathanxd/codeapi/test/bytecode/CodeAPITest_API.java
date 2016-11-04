@@ -28,12 +28,12 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class CodeAPITest_API {
     @Test
     public void codeAPITest() {
 
-        CodeSource mySource = new CodeSource();
+        MutableCodeSource mySource = new MutableCodeSource();
 
         String name = this.getClass().getCanonicalName()+"_Generated";
 
@@ -88,9 +88,7 @@ public class CodeAPITest_API {
     public byte[] generate(CodeSource source) {
         BytecodeGenerator generator = new BytecodeGenerator();
 
-        Byte[] gen = generator.gen(source).getResult();
-
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
+        byte[] bytes = generator.gen(source)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), bytes);
 

@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
-import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.List;
@@ -46,14 +46,36 @@ public interface CatchBlock extends Bodied, Typed {
     List<CodeType> getExceptionTypes();
 
     /**
+     * Sets the exception types.
+     *
+     * @param typeList Types.
+     * @return new instance.
+     */
+    CatchBlock setExceptionTypes(List<CodeType> typeList);
+
+    /**
      * Gets the field to store exception.
      *
      * @return Field to store exception.
      */
-    CodeField getField();
+    FieldDeclaration getField();
+
+    /**
+     * Gets the field to store exception.
+     *
+     * @param codeField Field.
+     * @return new instance.
+     */
+    CatchBlock setField(FieldDeclaration codeField);
 
     @Override
     default Optional<CodeType> getType() {
         return this.getField().getType();
     }
+
+    @Override
+    CatchBlock setType(CodeType codeType);
+
+    @Override
+    CatchBlock setBody(CodeSource body);
 }

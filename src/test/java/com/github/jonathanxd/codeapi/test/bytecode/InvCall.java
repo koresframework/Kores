@@ -28,16 +28,14 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Result;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
-import com.github.jonathanxd.iutils.exceptions.RethrowException;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
+import com.github.jonathanxd.iutils.exception.RethrowException;
 
 import org.junit.Test;
 
@@ -61,7 +59,7 @@ public class InvCall {
 
         CodeSource source = sourceOfParts(codeClass = aClass(PUBLIC, "test.Impl", My.class, new Class[0], codeClass0 -> sourceOfParts(
 
-                constructor(PUBLIC, codeClass0, codeConstructor -> sourceOfParts(
+                constructor(PUBLIC, codeConstructor -> sourceOfParts(
                         new CodeField("blc", STRING, Literals.STRING("099")),
 
                         Helper.invokeSuperInit(Helper.getJavaType(My.class), argument(accessLocalVariable(STRING, "blc"), STRING))
@@ -73,12 +71,12 @@ public class InvCall {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        Result<Byte[]> gen = bytecodeGenerator.gen(source);
+        byte[] gen = bytecodeGenerator.gen(source)[0].getBytecode();
 
-        ResultSaver.save(this.getClass(), gen.getResult());
+        ResultSaver.save(this.getClass(), gen);
 
 
-        Class<?> define = new BCLoader().define(codeClass, PrimitiveArrayConverter.toPrimitive(gen.getResult()));
+        Class<?> define = new BCLoader().define(codeClass, gen);
 
         try {
             My o = (My) define.newInstance();

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ import java.util.Optional;
  *     {@code
  *          for(init; expression; update) body
  *     }
- *</pre>
+ * </pre>
  */
 public interface ForBlock extends Bodied, IfBlock {
 
@@ -51,11 +52,27 @@ public interface ForBlock extends Bodied, IfBlock {
     Optional<CodePart> getForInit();
 
     /**
+     * Sets the for initialization.
+     *
+     * @param init For initialization.
+     * @return new instance.
+     */
+    ForBlock setForInit(CodePart init);
+
+    /**
      * Gets the for expression.
      *
      * @return For expression,
      */
     List<CodePart> getForExpression();
+
+    /**
+     * Sets the for expression.
+     *
+     * @param expression For expression,
+     * @return new instance.
+     */
+    ForBlock setForExpression(List<CodePart> expression);
 
     /**
      * Gets the for update.
@@ -64,14 +81,33 @@ public interface ForBlock extends Bodied, IfBlock {
      */
     Optional<CodePart> getForUpdate();
 
+    /**
+     * Sets the for update.
+     *
+     * @param update For update.
+     * @return new instance.
+     */
+    ForBlock setForUpdate(CodePart update);
+
     @Override
     default List<CodePart> getIfExprsAndOps() {
         return this.getForExpression();
     }
 
     @Override
+    ForBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
+
+    @Override
     default Optional<ElseBlock> getElseBlock() {
         return Optional.empty();
     }
 
+    @Override
+    ForBlock setElseBlock(ElseBlock elseBlock);
+
+    @Override
+    ForBlock setBody(CodeSource body);
+
+    @Override
+    ForBlock setBodies(List<CodeSource> sourceList);
 }

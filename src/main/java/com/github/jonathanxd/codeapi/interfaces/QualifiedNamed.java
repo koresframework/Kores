@@ -33,7 +33,16 @@ package com.github.jonathanxd.codeapi.interfaces;
 public interface QualifiedNamed extends Named {
     /**
      * Gets the qualified name.
+     *
      * @return Qualified name.
      */
     String getQualifiedName();
+
+    /**
+     * Sets the qualified name.
+     *
+     * @param name Qualified name.
+     * @return new instance.
+     */
+    QualifiedNamed setQualifiedName(String name);
 }

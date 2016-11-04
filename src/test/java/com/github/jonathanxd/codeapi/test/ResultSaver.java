@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.iutils.array.PrimitiveArrayConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +48,20 @@ public final class ResultSaver {
 
         if(IS_GRADLE_ENVIRONMENT) {
             System.out.println("Gradle environment property defined!");
+        }
+    }
+
+    public static void save(Class<?> ofClass, String tag, byte[] result) {
+        if(IS_GRADLE_ENVIRONMENT)
+            return;
+
+        try {
+            File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_"+tag+"_Result.class");
+
+
+            Files.write(file.toPath(), result, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

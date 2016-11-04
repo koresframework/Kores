@@ -27,20 +27,22 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.MethodSpec;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeClassBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeFieldBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeFieldBuilder;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.impl.CodeMethodBuilder;
+import com.github.jonathanxd.codeapi.builder.CodeMethodBuilder;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
@@ -51,7 +53,6 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -75,12 +76,12 @@ public class CodeAPITestBytecode {
     public final String b = "9";
 
     private static CodeSource rethrow(String variable) {
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         source.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Rethrow from var '"+variable+"'!"), PredefinedTypes.STRING)));
 
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, Throwable.class, Helper.accessLocalVariable(variable, Throwable.class),
-                new MethodSpec("printStackTrace", PredefinedTypes.VOID, Collections.emptyList())));
+                new MethodSpecImpl("printStackTrace", PredefinedTypes.VOID, Collections.emptyList())));
 
         /*source.add(Helper.throwException(Helper.getJavaType(RuntimeException.class), new CodeArgument[]{
                 new CodeArgument(Helper.accessLocalVariable(variable, Helper.getJavaType(Throwable.class)), false, Helper.getJavaType(Throwable.class))
@@ -92,14 +93,14 @@ public class CodeAPITestBytecode {
     }
 
     private static CodePart invokePrintlnMethod(CodePart varToPrint) {
-        MethodSpec methodSpec = new MethodSpec("println", Void.TYPE, Collections.singletonList(new CodeArgument(varToPrint, false, Object.class)));
+        MethodSpecImpl methodSpecImpl = new MethodSpecImpl("println", Void.TYPE, Collections.singletonList(new CodeArgument(varToPrint, false, Object.class)));
 
-        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class), Helper.accessVariable(Helper.getJavaType(System.class), "out", PrintStream.class), methodSpec);
+        return Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class), Helper.accessVariable(Helper.getJavaType(System.class), "out", PrintStream.class), methodSpecImpl);
     }
 
     private static CodeMethod createMethod() {
 
-        CodeSource methodSource = new CodeSource();
+        MutableCodeSource methodSource = new MutableCodeSource();
 
         // Declare 'println' method
         CodeMethod codeMethod = CodeMethodBuilder.builder()
@@ -123,7 +124,7 @@ public class CodeAPITestBytecode {
         )));
 
         // Create method body source
-        CodeSource source = new CodeSource();
+        MutableCodeSource source = new MutableCodeSource();
 
         IfBlock ifBlock = Helper.ifExpression(Helper.createIfVal()
                 .add1(Helper.check(Helper.accessLocalVariable("msg", PredefinedTypes.OBJECT), Operators.NOT_EQUAL_TO, Literals.NULL)).make(),
@@ -158,7 +159,7 @@ public class CodeAPITestBytecode {
 
         // Add Invocation of println method declared in 'System.out' ('variable')
         source.add(Helper.invoke(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(PrintStream.class), variable,
-                new MethodSpec("println", Collections.singletonList(
+                new MethodSpecImpl("println", Collections.singletonList(
                         // with argument 'msgVar' (Method msg parameter)
                         new CodeArgument(msgVar,
                                 // Cast type? = false
@@ -190,14 +191,12 @@ public class CodeAPITestBytecode {
     @Test
     public void codeAPITest() {
 
-        // Create a list of CodePart (source)
-        CodeSource mySource = new CodeSource();
 
         // Create source of 'codeClass'
-        CodeSource codeClassSource = new CodeSource();
+        MutableCodeSource codeClassSource = new MutableCodeSource();
 
         // Define a interface
-        CodeClass codeClass = CodeClassBuilder.builder()
+        CodeClass codeClass = ClassBuilder.builder()
                 .withQualifiedName("github.com."+this.getClass().getSimpleName())
                 // Add 'public' modifier
                 .withModifiers(Collections.singletonList(CodeModifier.PUBLIC))
@@ -205,8 +204,8 @@ public class CodeAPITestBytecode {
                 .withBody(codeClassSource)
                 .build();
 
-        // Adds to source list
-        mySource.add(codeClass);
+        // Create a list of CodePart (source)
+        CodeSource mySource = CodeAPI.sourceOfParts(codeClass);
 
         CodeMethod method = createMethod();
 
@@ -215,9 +214,7 @@ public class CodeAPITestBytecode {
 
         BytecodeGenerator generator = new BytecodeGenerator();
 
-        Byte[] gen = generator.gen(mySource).getResult();
-
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(gen);
+        byte[] bytes = generator.gen(mySource)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), bytes);
 

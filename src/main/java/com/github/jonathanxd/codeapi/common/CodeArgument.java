@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Objects;
@@ -136,15 +136,25 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     }
 
     @Override
+    public CodeArgument setValue(CodePart value) {
+        return new CodeArgument(value, this.isCasted(), this.getType().orElse(null));
+    }
+
+    @Override
     public Optional<CodeType> getType() {
         if (this.type == null) {
             try {
-                Common.getType(Require.require(this.getValue(), "Value is required"));
+                CodePartUtil.getType(Require.require(this.getValue(), "Value is required"));
             } catch (Exception e) {
                 return Optional.empty();
             }
         }
 
         return Optional.ofNullable(this.type);
+    }
+
+    @Override
+    public CodeArgument setType(CodeType codeType) {
+        return new CodeArgument(this.getValue().orElse(null), this.isCasted(), codeType);
     }
 }

@@ -27,14 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
@@ -44,7 +43,7 @@ import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.emptySource;
+import static com.github.jonathanxd.codeapi.CodeAPI.emptyMutableSource;
 import static com.github.jonathanxd.codeapi.CodeAPI.invokeVirtual;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.*;
@@ -58,10 +57,10 @@ public class Readme {
 
     @Test
     public void readme() {
-        CodeSource source = emptySource();
+        MutableCodeSource source = emptyMutableSource();
 
         CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
-                constructor(PUBLIC, codeClass, codeConstructor -> sourceOfParts(
+                constructor(PUBLIC, codeConstructor -> sourceOfParts(
                         invokeVirtual(PrintStream.class,
                                 accessStaticField(System.class, PrintStream.class, "out"),
                                 "println",
@@ -80,9 +79,8 @@ public class Readme {
 
         System.out.println(plainSource);
 
-        Byte[] bytecode = bytecodeGenerator.gen(source).getResult();
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecode);
-        
+        byte[] bytes = bytecodeGenerator.gen(source)[0].getBytecode();
+
         BCLoader bytecodeLoader = new BCLoader();
 
         Class<?> cl = bytecodeLoader.define(myClass, bytes);

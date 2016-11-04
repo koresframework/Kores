@@ -27,9 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.interfaces;
 
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+
+import java.util.List;
+
 /**
  * Do-while statement.
  */
 public interface DoWhileBlock extends SimpleWhileBlock, Bodied {
+    @Override
+    DoWhileBlock setElseBlock(ElseBlock elseBlock);
 
+    @Override
+    DoWhileBlock setBody(CodeSource body);
+
+    @Override
+    DoWhileBlock setBodies(List<CodeSource> sourceList);
+
+    @Override
+    DoWhileBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
 }

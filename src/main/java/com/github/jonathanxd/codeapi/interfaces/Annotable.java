@@ -38,7 +38,16 @@ public interface Annotable extends CodePart {
 
     /**
      * Gets the Annotation list.
+     *
      * @return Annotation list.
      */
     List<Annotation> getAnnotations();
+
+    /**
+     * Sets the annotations list.
+     *
+     * @param annotations Annotation list.
+     * @return New instance with new annotations.
+     */
+    Annotable setAnnotations(List<Annotation> annotations);
 }

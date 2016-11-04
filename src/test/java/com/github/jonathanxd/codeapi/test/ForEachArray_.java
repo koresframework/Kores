@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -37,7 +36,7 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotations.Named;
+import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
@@ -57,7 +56,7 @@ public class ForEachArray_ {
 
         CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
                 field(PUBLIC | STATIC, String.class, "stra", Literals.STRING("XA")),
-                constructor(PUBLIC, codeClass1, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
+                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
                         codeConstructor -> sourceOfParts(
                                 field(String.class, "v", accessStaticField(String.class, "stra")),
                                 Helper.createForEachArray(new CodeField("str", PredefinedTypes.STRING),

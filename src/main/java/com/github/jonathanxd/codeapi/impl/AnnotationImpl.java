@@ -57,12 +57,27 @@ public class AnnotationImpl implements Annotation {
     }
 
     @Override
+    public AnnotationImpl setVisible(boolean visible) {
+        return new AnnotationImpl(this.getType().orElse(null), visible, this.getValues());
+    }
+
+    @Override
     public Map<String, Object> getValues() {
         return this.values;
     }
 
     @Override
+    public AnnotationImpl setValue(Map<String, Object> value) {
+        return new AnnotationImpl(this.getType().orElse(null), this.isVisible(), value);
+    }
+
+    @Override
     public Optional<CodeType> getType() {
         return Optional.ofNullable(this.type);
+    }
+
+    @Override
+    public AnnotationImpl setType(CodeType codeType) {
+        return new AnnotationImpl(codeType, this.isVisible(), this.getValues());
     }
 }

@@ -47,13 +47,14 @@ import java.util.List;
  */
 public final class ClassBuilder implements Builder<CodeClass> {
 
+    private CodeType outerClass = null;
     private Collection<CodeModifier> modifiers = new ArrayList<>();
     private List<Annotation> annotations = new ArrayList<>();
     private String qualifiedName;
     private GenericSignature<GenericType> genericSignature;
     private CodeType superClass = PredefinedTypes.OBJECT;
     private List<CodeType> implementations = new ArrayList<>();
-    private CodeSource body = new CodeSource();
+    private CodeSource body = CodeSource.empty();
 
     private ClassBuilder() {
 
@@ -66,6 +67,17 @@ public final class ClassBuilder implements Builder<CodeClass> {
      */
     public static ClassBuilder builder() {
         return new ClassBuilder();
+    }
+
+    /**
+     * Sets the outer class.
+     *
+     * @param outerClass Outer class.
+     * @return This.
+     */
+    public ClassBuilder withOuterClass(CodeType outerClass) {
+        this.outerClass = outerClass;
+        return this;
     }
 
     /**
@@ -176,6 +188,18 @@ public final class ClassBuilder implements Builder<CodeClass> {
      * @param implementations Implementations.
      * @return This.
      */
+    public ClassBuilder withImplementations(List<CodeType> implementations) {
+        this.implementations = implementations;
+        return this;
+    }
+
+
+    /**
+     * Set implementations of this interface.
+     *
+     * @param implementations Implementations.
+     * @return This.
+     */
     public ClassBuilder withImplementations(CodeType... implementations) {
         this.implementations = ArrayToList.toList(implementations);
         return this;
@@ -205,6 +229,6 @@ public final class ClassBuilder implements Builder<CodeClass> {
 
     @Override
     public CodeClass build() {
-        return new CodeClass(this.qualifiedName, this.modifiers, this.superClass, this.implementations, this.genericSignature, this.annotations, this.body);
+        return new CodeClass(outerClass, this.qualifiedName, this.modifiers, this.superClass, this.implementations, this.genericSignature, this.annotations, this.body);
     }
 }

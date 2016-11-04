@@ -29,7 +29,8 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Type;
@@ -185,9 +186,9 @@ public class InvokeDynamic {
                     FullInvokeSpec invokeSpec = (FullInvokeSpec) arg;
 
                     converted = new Handle(InvokeType.toAsm_H(invokeSpec.getInvokeType()),
-                            Common.codeTypeToSimpleAsm(invokeSpec.getLocation()),
+                            CodeTypeUtil.codeTypeToSimpleAsm(invokeSpec.getLocalization()),
                             invokeSpec.getMethodName(),
-                            Common.typeSpecToAsm(invokeSpec),
+                            TypeSpecUtil.typeSpecToAsm(invokeSpec),
                             invokeSpec.getInvokeType() == InvokeType.INVOKE_INTERFACE);
                 } else {
                     throw new IllegalArgumentException("Illegal argument at index '" + i + "' of arguments array [" + Arrays.toString(this.arguments) + "], element type unsupported! Read the documentation.");

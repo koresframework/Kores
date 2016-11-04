@@ -140,4 +140,49 @@ public enum InvokeType {
 
         return INVOKE_VIRTUAL;
     }
+
+    /**
+     * Returns true if the InvokeType is {@link #INVOKE_STATIC}.
+     *
+     * @return True if the InvokeType is {@link #INVOKE_STATIC}.
+     */
+    public boolean isStatic() {
+        return this == INVOKE_STATIC;
+    }
+
+    /**
+     * Returns true if the InvokeType is {@link #INVOKE_VIRTUAL}.
+     *
+     * @return True if the InvokeType is {@link #INVOKE_VIRTUAL}.
+     */
+    public boolean isVirtual() {
+        return this == INVOKE_VIRTUAL;
+    }
+
+    /**
+     * Returns true if the InvokeType is {@link #INVOKE_SPECIAL}.
+     *
+     * @return True if the InvokeType is {@link #INVOKE_SPECIAL}.
+     */
+    public boolean isSpecial() {
+        return this == INVOKE_SPECIAL;
+    }
+
+    /**
+     * Returns true if the InvokeType is {@link #INVOKE_INTERFACE}.
+     *
+     * @return True if the InvokeType is {@link #INVOKE_INTERFACE}.
+     */
+    public boolean isInterface() {
+        return this == INVOKE_INTERFACE;
+    }
+
+    /**
+     * Returns true if the InvokeType is {@link #INVOKE_DYNAMIC}.
+     *
+     * @return True if the InvokeType is {@link #INVOKE_DYNAMIC}.
+     */
+    public boolean isDynamic() {
+        return this == INVOKE_DYNAMIC;
+    }
 }

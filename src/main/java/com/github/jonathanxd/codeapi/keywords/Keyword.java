@@ -57,6 +57,11 @@ public class Keyword implements CodePart, Named {
     }
 
     @Override
+    public Named setName(String name) {
+        return new Keyword(name);
+    }
+
+    @Override
     public boolean isExpression() {
         return true;
     }

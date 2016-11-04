@@ -44,4 +44,11 @@ public interface Typed extends CodePart {
      */
     Optional<CodeType> getType();
 
+    /**
+     * Sets the type.
+     *
+     * @param codeType Type
+     * @return new instance.
+     */
+    Typed setType(CodeType codeType);
 }

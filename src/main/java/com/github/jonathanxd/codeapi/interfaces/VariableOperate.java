@@ -29,13 +29,31 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.operators.Operator;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
 /**
  * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
  */
-public interface VariableOperate extends VariableDeclaration, CodePart {
+public interface VariableOperate extends VariableDeclaration, Operate, CodePart {
+
+    /**
+     * Gets target to operate.
+     *
+     * @return Target to operate.
+     */
+    @Override
+    Optional<CodePart> getTarget();
+
+    /**
+     * Gets the instance of field.
+     *
+     * @param at Instance of field.
+     * @return new instance.
+     */
+    VariableOperate setTarget(CodePart at);
+
 
     /**
      * Gets the operation.
@@ -44,5 +62,29 @@ public interface VariableOperate extends VariableDeclaration, CodePart {
      */
     Optional<Operator> getOperation();
 
+    /**
+     * Sets the operation.
+     *
+     * @param operation Operation.
+     * @return new instance.
+     */
+    VariableOperate setOperation(Operator operation);
 
+    /**
+     * Gets the value.
+     *
+     * @return Value.
+     */
+    Optional<CodePart> getValue();
+
+    /**
+     * Sets the value.
+     *
+     * @param value Value.
+     * @return new instance.
+     */
+    VariableOperate setValue(CodePart value);
+
+    @Override
+    VariableOperate setType(CodeType codeType);
 }

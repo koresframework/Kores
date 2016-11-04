@@ -36,7 +36,7 @@ public interface CATest<T> {
     void expect(T t) throws AssertionError;
 
     default CATest<T> consume(Consumer<T> consumer) {
-        consumer.accept(result());
+        consumer.accept(this.result());
 
         return this;
     }

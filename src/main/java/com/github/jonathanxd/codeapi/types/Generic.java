@@ -28,9 +28,8 @@
 package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.exceptions.TODOException;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.iutils.arrays.ArrayUtils;
+import com.github.jonathanxd.iutils.array.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -414,16 +413,56 @@ public class Generic implements GenericType {
         return new Generic(name, codeType.toArray(dimensions), bounds);
     }
 
+    /**
+     * Only determine the Wrapper type if:
+     *
+     * <pre>
+     *     {@code
+     *      isCodeType && bounds.isEmpty
+     *     }
+     * </pre>
+     *
+     * Because
+     *
+     * <pre>
+     *     {@code
+     *      int<T> is invalid.
+     *     }
+     * </pre>
+     */
     @Override
     public CodeType getWrapperType() {
-        //return codeType.getWrapperType();
-        throw new TODOException();
+
+        if (this.codeType != null && bounds.length == 0)
+            return this.codeType.getWrapperType();
+
+        return null;
     }
 
+    /**
+     * Only determine the Primitive type if:
+     *
+     * <pre>
+     *     {@code
+     *      isCodeType && bounds.isEmpty
+     *     }
+     * </pre>
+     *
+     * Because
+     *
+     * <pre>
+     *     {@code
+     *      Integer<T> is invalid
+     *      List<T> has no primitive types because List is not a wrapper type.
+     *     }
+     * </pre>
+     */
     @Override
     public CodeType getPrimitiveType() {
-        //return codeType.getPrimitiveType();
-        throw new TODOException();
+        if (this.codeType != null && bounds.length == 0)
+            return this.codeType.getPrimitiveType();
+
+        return null;
     }
 
     @Override

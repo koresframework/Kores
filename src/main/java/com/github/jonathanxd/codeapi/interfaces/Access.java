@@ -40,12 +40,14 @@ public interface Access extends CodePart {
 
     /**
      * Localization of the scope.
+     *
      * @return Localization of the scope.
      */
     Optional<CodeType> getLocalization();
 
     /**
      * Keyword of the access.
+     *
      * @return Keyword of the access.
      */
     Keyword keyword();

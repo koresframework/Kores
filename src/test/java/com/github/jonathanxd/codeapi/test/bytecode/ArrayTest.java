@@ -28,9 +28,8 @@
 package com.github.jonathanxd.codeapi.test.bytecode;
 
 import com.github.jonathanxd.codeapi.test.CommonGen;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 
 import org.junit.Test;
 
@@ -45,7 +44,7 @@ public class ArrayTest {
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
-        byte[] bytes = PrimitiveArrayConverter.toPrimitive(bytecodeGenerator.gen(sourceOfParts(CommonGen.gen())).getResult());
+        byte[] bytes = bytecodeGenerator.gen(sourceOfParts(CommonGen.gen()))[0].getBytecode();
 
         ResultSaver.save(getClass(), bytes);
 

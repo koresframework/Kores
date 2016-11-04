@@ -43,4 +43,12 @@ public interface Modifierable extends CodePart {
      */
     Collection<CodeModifier> getModifiers();
 
+    /**
+     * Sets the modifier collection.
+     *
+     * @param modifiers Modifiers.
+     * @return new instance.
+     */
+    Modifierable setModifiers(Collection<CodeModifier> modifiers);
+
 }
