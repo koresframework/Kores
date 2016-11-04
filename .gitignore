@@ -4,7 +4,7 @@
 *.iml
 *.ipr
 CompilerHints
-buid/
+build/
 out/
 .gradle
 wiki/
