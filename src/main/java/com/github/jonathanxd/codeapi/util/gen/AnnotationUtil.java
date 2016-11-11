@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.AnnotationVisitorCapable;
+import com.github.jonathanxd.codeapi.util.ArrayUtility;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Type;
@@ -55,19 +56,17 @@ public class AnnotationUtil {
     public static void visitAnnotationValue(org.objectweb.asm.AnnotationVisitor annotationVisitor, String key, Object value) {
 
         if (value.getClass().isArray()) {
-            Object[] values = (Object[]) value;
+            Object[] values = ArrayUtility.toObjectArray(value);
 
-            if (Arrays.stream(values).filter(o -> o instanceof Annotation || o instanceof EnumValue).findAny().isPresent()) {
-                AnnotationVisitor annotationVisitor1 = annotationVisitor.visitArray(key);
+            AnnotationVisitor annotationVisitor1 = annotationVisitor.visitArray(key);
 
-                for (Object o : values) {
-                    AnnotationUtil.visitAnnotationValue(annotationVisitor1, "", o);
-                }
-
-                annotationVisitor1.visitEnd();
-
-                return;
+            for (Object o : values) {
+                AnnotationUtil.visitAnnotationValue(annotationVisitor1, "", o);
             }
+
+            annotationVisitor1.visitEnd();
+
+            return;
         }
 
         if (value instanceof EnumValue) {

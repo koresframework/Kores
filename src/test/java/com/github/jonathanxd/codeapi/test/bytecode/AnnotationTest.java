@@ -42,10 +42,12 @@ import org.junit.Test;
 public class AnnotationTest {
 
     @Test
-    public void annotatedTest() {
+    public void annotatedTest() throws Throwable {
         Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $ = AnnotationTest_.$();
         @Named("Instance") Class<?> test = CommonBytecodeTest.test(this.getClass(), $._1(), $._2(), aClass ->  aClass);
         System.out.println(test.isAnnotation());
+
+        System.out.println(test.getMethod("ns").getDefaultValue());
     }
 
 }
