@@ -73,7 +73,7 @@ public class VisitManager<T extends CodePart> {
     }
 
     @SuppressWarnings("unchecked")
-    private <U extends CodePart> PartVisitor<U> getVisitor(Class<?> type) {
+    protected <U extends CodePart> PartVisitor<U> getVisitor(Class<?> type) {
         return (PartVisitor<U>) GenToUtil.get(type, this.getVisitors());
     }
 }
