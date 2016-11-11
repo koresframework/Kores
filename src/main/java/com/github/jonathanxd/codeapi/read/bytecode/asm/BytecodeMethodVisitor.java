@@ -29,15 +29,16 @@ package com.github.jonathanxd.codeapi.read.bytecode.asm;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.read.Environment;
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.InstructionCodePart;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -48,6 +49,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.TypePath;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class BytecodeMethodVisitor extends MethodVisitor {
@@ -74,7 +76,7 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     @Override
     public void visitParameter(String name, int access) {
 
-        System.out.println("Visit parameter name = "+name+", modifiers: "+ CommonRead.modifiersFromAccess(access));
+        System.out.println("Visit parameter name = " + name + ", modifiers: " + CommonRead.modifiersFromAccess(access));
         super.visitParameter(name, access);
     }
 
@@ -260,7 +262,7 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     public void visitMaxs(int maxStack, int maxLocals) {
         super.visitMaxs(maxStack, maxLocals);
 
-       //this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitMaxs(maxStack, maxLocals)));
+        //this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitMaxs(maxStack, maxLocals)));
     }
 
     @Override
@@ -275,18 +277,23 @@ public class BytecodeMethodVisitor extends MethodVisitor {
                         this.method.getReturnType().orElse(PredefinedTypes.VOID),
                         this.method.getGenericSignature(),
                         this.method.getAnnotations(),
-                        this.method.getBody().orElse(new CodeSource()));
+                        this.method.getBody().orElse(new MutableCodeSource()));
 
-        Require.require(this.declaringType.getBody())
-                .add(methodDeclaration);
+        asMutable(this.declaringType.getBody()).add(methodDeclaration);
+
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static MutableCodeSource asMutable(Optional<CodeSource> source) {
+        return (MutableCodeSource) Require.require(source);
     }
 
     private void addToBody(CodePart codePart) {
-        Require.require(this.method.getBody()).add(codePart);
+        asMutable(this.method.getBody()).add(codePart);
     }
 
     private InstructionCodePart createInstruction(Consumer<MethodVisitor> visitorConsumer) {
-        return (value, extraData, navigator, visitorGenerator, additional) -> {
+        return (value, extraData, visitorGenerator, additional) -> {
             visitorConsumer.accept(((MVData) additional).getMethodVisitor());
         };
     }
