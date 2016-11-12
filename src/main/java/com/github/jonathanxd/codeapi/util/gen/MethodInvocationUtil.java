@@ -27,17 +27,26 @@
  */
 package com.github.jonathanxd.codeapi.util.gen;
 
+import com.github.jonathanxd.codeapi.common.FullInvokeSpec;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.DescriptionHelper;
+import com.github.jonathanxd.codeapi.util.TypeResolver;
+import com.github.jonathanxd.iutils.description.Description;
+import com.github.jonathanxd.iutils.description.DescriptionUtil;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MethodInvocationUtil {
     public static void visitLambdaInvocation(InvokeDynamic.LambdaMethodReference lambdaDynamic,
@@ -93,5 +102,64 @@ public class MethodInvocationUtil {
                 methodName,
                 CodeTypeUtil.fullSpecToFullAsm(bootstrapMethodSpec),
                 btpInvokeType.isInterface());
+    }
+
+    public static FullInvokeSpec specFromHandle(Handle handle, TypeResolver typeResolver) {
+        InvokeType invokeType = InvokeType.fromAsm_H(handle.getTag());
+
+        CodeType owner = typeResolver.resolveUnknown(handle.getOwner());
+        String desc = owner.getJavaSpecName() + ":" + handle.getName() + handle.getDesc();
+
+        Description description = DescriptionUtil.parseDescription(desc);
+
+        return new FullInvokeSpec(invokeType,
+                owner,
+                typeResolver.resolveUnknown(description.getReturnType()),
+                handle.getName(),
+                Arrays.stream(description.getParameterTypes()).map(typeResolver::resolveUnknown).toArray(CodeType[]::new));
+    }
+
+    public static InvokeDynamic fromHandle(Handle handle, Object[] args, TypeResolver typeResolver) {
+        InvokeType invokeType = InvokeType.fromAsm_H(handle.getTag());
+        FullInvokeSpec fullMethodSpec = MethodInvocationUtil.specFromHandle(handle, typeResolver);
+
+        return InvokeDynamic.invokeDynamicBootstrap(invokeType, fullMethodSpec, MethodInvocationUtil.bsmArgsFromAsm(args, typeResolver));
+    }
+
+    public static Object[] bsmArgsFromAsm(Object[] asmArgs, TypeResolver typeResolver) {
+        if (asmArgs == null || asmArgs.length == 0)
+            return new Object[0];
+
+        List<Object> codeAPIArgsList = new ArrayList<>();
+
+        for (Object asmArg : asmArgs) {
+            if (asmArg instanceof Integer
+                    || asmArg instanceof Float
+                    || asmArg instanceof Long
+                    || asmArg instanceof Double
+                    || asmArg instanceof String) {
+                codeAPIArgsList.add(asmArg);
+            } else if (asmArg instanceof Type) {
+
+                Type type = (Type) asmArg;
+
+                String className = type.getClassName();
+
+                if (className != null) {
+                    // Class
+                    codeAPIArgsList.add(typeResolver.resolveUnknown(className));
+                } else {
+                    codeAPIArgsList.add(DescriptionHelper.toTypeSpec(type.getDescriptor(), typeResolver));
+                }
+
+
+            } else if (asmArg instanceof Handle) {
+                codeAPIArgsList.add(MethodInvocationUtil.specFromHandle((Handle) asmArg, typeResolver));
+            } else {
+                throw new IllegalArgumentException("Unsupported ASM BSM Argument: " + asmArg);
+            }
+        }
+
+        return codeAPIArgsList.stream().toArray(Object[]::new);
     }
 }

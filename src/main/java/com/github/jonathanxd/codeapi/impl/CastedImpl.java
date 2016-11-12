@@ -58,7 +58,7 @@ public class CastedImpl implements Casted {
 
     @Override
     public CastedImpl setCastedPart(CodePart part) {
-        return new CastedImpl(this.getOriginalType(), this.getType().orElse(null), part);
+        return new CastedImpl(this.getOriginalType().orElse(null), this.getType().orElse(null), part);
     }
 
     @Override
@@ -68,12 +68,12 @@ public class CastedImpl implements Casted {
 
     @Override
     public CastedImpl setType(CodeType codeType) {
-        return new CastedImpl(this.getOriginalType(), codeType, this.getCastedPart().orElse(null));
+        return new CastedImpl(this.getOriginalType().orElse(null), codeType, this.getCastedPart().orElse(null));
     }
 
     @Override
-    public CodeType getOriginalType() {
-        return this.originalType;
+    public Optional<CodeType> getOriginalType() {
+        return Optional.ofNullable(this.originalType);
     }
 
     @Override

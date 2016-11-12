@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.read.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 
+import java.util.List;
+
 public class EmulatedFrame {
 
     /**
@@ -40,6 +42,21 @@ public class EmulatedFrame {
      * Operand Stack
      */
     private final StackManager operandStack = new StackManager();
+
+    /**
+     * Pushes the values to {@link #localVariableTable}.
+     *
+     * Example of instructions that store value into Variable Table: istore, astore
+     *
+     * @param values Part
+     * @param startIndex Start Slot index
+     */
+    public void storeValues(List<? extends CodePart> values, int startIndex) {
+        for (int i = 0; i < values.size(); i++) {
+            this.store(values.get(i), startIndex+i);
+        }
+
+    }
 
     /**
      * Push the value to {@link #localVariableTable}.
@@ -79,5 +96,9 @@ public class EmulatedFrame {
      */
     public void loadToStack(int index) {
         this.operandStack.push(this.load(index));
+    }
+
+    public StackManager getOperandStack() {
+        return this.operandStack;
     }
 }

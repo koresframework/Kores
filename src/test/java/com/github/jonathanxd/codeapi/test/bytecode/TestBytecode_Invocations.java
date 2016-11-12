@@ -88,7 +88,7 @@ public class TestBytecode_Invocations {
             TestBytecode_Invocations.class,
             CallSite.class,
             "myBootstrap",
-            MethodHandles.Lookup.class, String.class, MethodType.class, Object[].class);
+            MethodHandles.Lookup.class, String.class, MethodType.class);
 
     public static final MethodHandle FALLBACK;
 
@@ -115,9 +115,12 @@ public class TestBytecode_Invocations {
     }
 
     public static CallSite myBootstrap(MethodHandles.Lookup caller, String name,
-                                       MethodType type, Object... parameters) throws Throwable {
+                                       MethodType type) throws Throwable {
 
         MyCallSite myCallSite = new MyCallSite(caller, name, type);
+
+        System.out.println("Name = "+name);
+        System.out.println("Type = "+type);
 
         MethodHandle methodHandle = FALLBACK.bindTo(myCallSite).asCollector(Object[].class, type.parameterCount()).asType(type);
 

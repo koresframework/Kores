@@ -25,38 +25,36 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.read.bytecode;
+package com.github.jonathanxd.codeapi.util.gen;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.common.Environment;
-import com.github.jonathanxd.codeapi.read.Reader;
-import com.github.jonathanxd.codeapi.read.bytecode.asm.BytecodeClassVisitor;
-import com.github.jonathanxd.iutils.option.Options;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.TypeResolver;
+import com.github.jonathanxd.iutils.description.Description;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BytecodeReader implements Reader<byte[]> {
+public class ArgumentUtil {
+    public static List<CodeArgument> createArguments(Description description, List<CodePart> arguments, TypeResolver typeResolver) {
+        String[] parameterTypes = description.getParameterTypes();
 
-    @Override
-    public CodePart read(byte[] bytes, Options options) {
-        Environment environment = new Environment();
+        if (parameterTypes.length != arguments.size())
+            throw new IllegalArgumentException("Parameter types size doesn't matches arguments size.");
 
-        MutableCodeSource codeSource = new MutableCodeSource();
+        List<CodeArgument> codeArgumentList = new ArrayList<>();
 
-        // Data setup
-        environment.getData().registerData(Constants.SOURCE, codeSource);
+        for (int i = 0; i < parameterTypes.length; i++) {
+            String parameterTypeStr = parameterTypes[i];
+            CodeType parameterType = typeResolver.resolveUnknown(parameterTypeStr);
 
-        ClassReader classReader = new ClassReader(bytes);
+            CodePart codePart = arguments.get(i);
 
-        classReader.accept(new BytecodeClassVisitor(Opcodes.ASM5, environment), 0);
+            codeArgumentList.add(new CodeArgument(codePart, parameterType));
 
+        }
 
-        // Data finish
-
-        environment.getData().unregisterData(Constants.SOURCE, codeSource);
-        return codeSource;
+        return codeArgumentList;
     }
-
 }

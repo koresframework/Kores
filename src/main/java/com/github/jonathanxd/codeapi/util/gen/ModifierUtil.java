@@ -29,11 +29,14 @@ package com.github.jonathanxd.codeapi.util.gen;
 
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
 
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ModifierUtil {
     public static int modifiersToAsm(TypeDeclaration typeDeclaration) {
@@ -57,5 +60,53 @@ public class ModifierUtil {
     public static int innerModifiersToAsm(TypeDeclaration typeDeclaration) {
         return (!typeDeclaration.isInterface() ? Opcodes.ACC_SUPER : 0) +
                 ModifierUtil.modifiersToAsm(typeDeclaration.getModifiers(), typeDeclaration.getClassType().isInterface());
+    }
+
+    public static Collection<CodeModifier> fromAccess(int access) {
+        Set<CodeModifier> modifiers = new HashSet<>();
+
+        if (CommonRead.is(access, Opcodes.ACC_PUBLIC)) {
+            modifiers.add(CodeModifier.PUBLIC);
+        } else if (CommonRead.is(access, Opcodes.ACC_PRIVATE)) {
+            modifiers.add(CodeModifier.PRIVATE);
+        } else if (CommonRead.is(access, Opcodes.ACC_PROTECTED)) {
+            modifiers.add(CodeModifier.PROTECTED);
+        } else {
+            modifiers.add(CodeModifier.PACKAGE_PRIVATE);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_ABSTRACT)) {
+            modifiers.add(CodeModifier.ABSTRACT);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_STATIC)) {
+            modifiers.add(CodeModifier.STATIC);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_FINAL)) {
+            modifiers.add(CodeModifier.FINAL);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_TRANSIENT)) {
+            modifiers.add(CodeModifier.TRANSIENT);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_VOLATILE)) {
+            modifiers.add(CodeModifier.VOLATILE);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_SYNCHRONIZED)) {
+            modifiers.add(CodeModifier.SYNCHRONIZED);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_NATIVE)) {
+            modifiers.add(CodeModifier.NATIVE);
+        }
+
+        if (CommonRead.is(access, Opcodes.ACC_STRICT)) {
+            modifiers.add(CodeModifier.STRICTFP);
+        }
+
+        return modifiers;
     }
 }

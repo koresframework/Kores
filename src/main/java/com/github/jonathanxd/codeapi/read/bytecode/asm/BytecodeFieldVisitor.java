@@ -28,10 +28,9 @@
 package com.github.jonathanxd.codeapi.read.bytecode.asm;
 
 import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.read.Environment;
+import com.github.jonathanxd.codeapi.common.Environment;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.AnnotationVisitor;

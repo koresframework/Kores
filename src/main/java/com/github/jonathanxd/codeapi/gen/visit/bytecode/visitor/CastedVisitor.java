@@ -45,6 +45,8 @@ import com.github.jonathanxd.iutils.optional.Require;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.util.Optional;
+
 /**
  * Created by jonathan on 03/06/16.
  */
@@ -58,30 +60,33 @@ public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>
 
         MethodVisitor additional = mvData.getMethodVisitor();
 
-        CodeType from = casted.getOriginalType();
+        Optional<CodeType> from = casted.getOriginalType();
         CodeType to = Require.require(casted.getType(), "Required cast target type");
 
         CodePart castedPart = Require.require(casted.getCastedPart(), "Required casted part");
 
-        CodePart autoboxing = autoboxing(from, to, castedPart);
 
-        if (autoboxing != null) {
+        CodePart autoboxing = from.isPresent() ? autoboxing(from.get(), to, castedPart) : null;
+
+        if (autoboxing != null && from.isPresent()) {
             visitorGenerator.generateTo(autoboxing.getClass(), autoboxing, extraData, null, mvData);
 
-            if ((from.isPrimitive() && !to.isPrimitive())
-                    && !from.getWrapperType().getCanonicalName().equals(to.getCanonicalName())) {
+            if ((from.get().isPrimitive() && !to.isPrimitive())
+                    && !from.get().getWrapperType().getCanonicalName().equals(to.getCanonicalName())) {
                 additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(to));
             }
 
         } else {
             visitorGenerator.generateTo(castedPart.getClass(), castedPart, extraData, null, mvData);
 
-            if (!from.equals(to)) {
+            if (from.isPresent() && !from.get().equals(to)) {
                 if (to.isPrimitive()) {
-                    CodeTypeUtil.convertToPrimitive(from, to, additional);
+                    CodeTypeUtil.convertToPrimitive(from.get(), to, additional);
                     return;
                 }
 
+                additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(to));
+            } else if(!from.isPresent()) {
                 additional.visitTypeInsn(CHECKCAST, CodeTypeUtil.codeTypeToSimpleAsm(to));
             }
         }

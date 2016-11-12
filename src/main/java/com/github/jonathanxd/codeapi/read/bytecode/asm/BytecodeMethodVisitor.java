@@ -27,18 +27,39 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode.asm;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.Environment;
+import com.github.jonathanxd.codeapi.common.InvokeDynamic;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MVData;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
+import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
+import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.read.Environment;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
+import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.DescriptionHelper;
+import com.github.jonathanxd.codeapi.util.gen.ArgumentUtil;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
+import com.github.jonathanxd.codeapi.util.gen.MethodInvocationUtil;
+import com.github.jonathanxd.iutils.description.Description;
+import com.github.jonathanxd.iutils.description.DescriptionUtil;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -46,39 +67,68 @@ import org.objectweb.asm.Attribute;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.TypePath;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class BytecodeMethodVisitor extends MethodVisitor {
 
+    private final EmulatedFrame frame = new EmulatedFrame();
     private final Environment environment;
     private final TypeDeclaration declaringType;
     private final MethodDeclaration method;
-    private final List<CodeParameter> parameterList = null;
+    private final List<CodeParameter> parameterList;
+    private int paramPos = 0;
 
     public BytecodeMethodVisitor(int api, Environment environment, TypeDeclaration declaringType, MethodDeclaration method) {
-        super(api);
-        this.environment = environment;
-        this.declaringType = declaringType;
-        this.method = method;
+        this(api, null, environment, declaringType, method);
     }
 
     public BytecodeMethodVisitor(int api, MethodVisitor mv, Environment environment, TypeDeclaration declaringType, MethodDeclaration method) {
         super(api, mv);
         this.environment = environment;
         this.declaringType = declaringType;
-        this.method = method;
+        this.parameterList = new ArrayList<>(method.getParameters());
+        this.method = method.setParameters(this.parameterList);
+        this.init();
+    }
+
+    private void init() {
+        int pos = 0;
+
+        if(!this.method.getModifiers().contains(CodeModifier.STATIC)) {
+            this.frame.store(CodeAPI.accessThis(), pos);
+            ++pos;
+        }
+
+        List<VariableAccess> collect = this.parameterList.stream()
+                .map(codeParameter -> CodeAPI.accessLocalVariable(codeParameter.getRequiredType(), codeParameter.getName()))
+                .collect(Collectors.toList());
+
+        this.frame.storeValues(collect, pos);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static MutableCodeSource asMutable(Optional<CodeSource> source) {
+        return (MutableCodeSource) Require.require(source);
     }
 
     @Override
     public void visitParameter(String name, int access) {
 
+        this.parameterList.set(this.paramPos, this.parameterList.get(this.paramPos).setName(name));
+
+        ++this.paramPos;
+
         System.out.println("Visit parameter name = " + name + ", modifiers: " + CommonRead.modifiersFromAccess(access));
-
-
 
         super.visitParameter(name, access);
     }
@@ -143,7 +193,21 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     public void visitTypeInsn(int opcode, String type) {
         super.visitTypeInsn(opcode, type);
 
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitTypeInsn(opcode, type)));
+        CodeType codeType = this.environment.resolveUnknown(type);
+
+        if(opcode == Opcodes.NEW) {
+            this.frame.getOperandStack().push(new NEW(codeType));
+        } else {
+            if(opcode == Opcodes.CHECKCAST) {
+                CodePart codePart = this.frame.getOperandStack().pop();
+
+                this.frame.getOperandStack().push(CodeAPI.cast(CodePartUtil.getTypeOrNull(codePart), codeType, codePart));
+            } else {
+                System.err.println("visitTypeInsn: ["+opcode+", "+type+"]");
+                this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitTypeInsn(opcode, type)));
+            }
+        }
+
     }
 
     @Override
@@ -164,16 +228,134 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         super.visitMethodInsn(opcode, owner, name, desc, itf);
 
-        CommonRead.toCodeType(this.environment, owner, itf);
+        try {
+            // Resolve the method owner type
+            CodeType ownerType = this.environment.resolve(owner, itf);
 
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitMethodInsn(opcode, owner, name, desc, itf)));
+            // Parse the method description
+            Description description = DescriptionUtil.parseDescription(ownerType.getJavaSpecName() + ":" + name + desc);
+
+            // Get number of arguments
+            int arguments = description.getParameterTypes().length;
+
+            // Pop all arguments from operand stack
+            List<CodePart> pop = this.frame.getOperandStack().pop(arguments);
+
+            // Create argument array
+            CodeArgument[] argumentsArray = pop.stream().map(CodeArgument::new).toArray(CodeArgument[]::new);
+
+            // Gets the invocation type from asm opcode
+            InvokeType invokeType = InvokeType.fromAsm(opcode);
+
+            // Invocation target part
+            CodePart target = null;
+
+            // If the invocation type is not static
+            if (invokeType != InvokeType.INVOKE_STATIC) {
+                // Pops the invocation target from operand stack
+                target = this.frame.getOperandStack().pop();
+            }
+
+            // Create TypeSpecification from the method description
+            TypeSpec spec = DescriptionHelper.toTypeSpec(description, this.environment.getTypeResolver());
+
+            // Create the method specification
+            MethodSpecification methodSpec = new MethodSpecImpl(
+                    name,
+                    // Resolve return type
+                    this.environment.resolveUnknown(description.getReturnType()),
+                    // Specify arguments
+                    Arrays.asList(argumentsArray)
+            );
+
+            // Method invocation part
+            MethodInvocation methodInvocation;
+
+            if(target != null && target instanceof NEW) {
+                // Create invocation of a constructor of a class
+                methodInvocation = CodeAPI.invokeConstructor(((NEW) target).getCodeType(), spec, argumentsArray);
+            } else {
+                // If target is not a constructor (NEW)
+                // If invoke type is special, create a super/this constructor invocation
+                if(invokeType == InvokeType.INVOKE_SPECIAL) {
+                    // If method type is same as method declaring type
+                    if(ownerType.is(this.declaringType)) {
+                        // Create this constructor invocation
+                        methodInvocation = CodeAPI.invokeThisConstructor(spec, argumentsArray);
+                    } else {
+                        // If is not same, invoke super class constructor
+                        methodInvocation = CodeAPI.invokeSuperConstructor(ownerType, spec, argumentsArray);
+                    }
+                } else {
+                    // If is not invoke special, invoke normally.
+                    methodInvocation = Helper.invoke(invokeType, ownerType, target, methodSpec);
+                }
+            }
+
+            if(!methodSpec.getMethodDescription().getReturnType().is(PredefinedTypes.VOID)
+                    || target instanceof NEW) {
+                this.frame.getOperandStack().push(methodInvocation);
+            } else {
+                this.addToBody(methodInvocation);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Method -> " + owner + ":" + name + desc);
+            e.printStackTrace();
+
+            this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitMethodInsn(opcode, owner, name, desc, itf)));
+        }
     }
 
     @Override
     public void visitInvokeDynamicInsn(String name, String desc, Handle bsm, Object... bsmArgs) {
         super.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
 
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs)));
+        try {
+            // Parse bootstrap method description
+            Description description = DescriptionUtil.parseDescription("L?;:" + name + desc);
+
+            // Get number of arguments
+            int arguments = description.getParameterTypes().length;
+
+            // Pop arguments from stack
+            List<CodePart> pop = this.frame.getOperandStack().pop(arguments);
+
+            // Create a list of arguments
+            List<CodeArgument> argumentList = pop.stream().map(CodeArgument::new).collect(Collectors.toList());
+
+            // Specify InvokeType as Dynamic
+            InvokeType invokeType = InvokeType.INVOKE_DYNAMIC;
+
+            // Create TypeSpec from bootstrap method description
+            TypeSpec typeSpec = DescriptionHelper.toTypeSpec(description, this.environment.getTypeResolver());
+
+            // Create method specification of bootstrap method
+            MethodSpecification methodSpec = new MethodSpecImpl(name, typeSpec, argumentList);
+
+            // Create dynamic invocation of the bootstrap method
+            InvokeDynamic invokeDynamic = MethodInvocationUtil.fromHandle(bsm, bsmArgs, this.environment.getTypeResolver());
+
+            // Create a method invocation of the bootstrap method
+            MethodInvocation methodInvocation = new MethodInvocationImpl(invokeType, null, null, methodSpec);
+
+            // Create Dynamic invocation version of 'methodInvocation'
+            MethodInvocation dynamicMethodInvocation = Helper.invokeDynamic(invokeDynamic, methodInvocation);
+
+            // Add invocation to the body
+            //this.addToBody(dynamicMethodInvocation);
+
+            if(!methodSpec.getMethodDescription().getReturnType().is(PredefinedTypes.VOID)) {
+                // BAD MANIPULATION MAY GENERATE A INFINITE LOOP.
+                this.frame.getOperandStack().push(dynamicMethodInvocation);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Method -> ?:" + name + desc);
+            e.printStackTrace();
+            this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs)));
+        }
+
     }
 
     @Override
@@ -192,9 +374,16 @@ public class BytecodeMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitLdcInsn(Object cst) {
+
         super.visitLdcInsn(cst);
 
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitLdcInsn(cst)));
+        //this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitLdcInsn(cst)));
+        if(CodePartUtil.Conversion.isLiteral(cst)) {
+            Literal literal = CodePartUtil.Conversion.toLiteral(cst);
+
+            this.frame.getOperandStack().push(literal);
+        }
+
     }
 
     @Override
@@ -272,6 +461,8 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     public void visitEnd() {
         super.visitEnd();
 
+
+        /*
         MethodDeclaration methodDeclaration =
                 new CodeMethod(
                         this.method.getName(),
@@ -281,14 +472,11 @@ public class BytecodeMethodVisitor extends MethodVisitor {
                         this.method.getGenericSignature(),
                         this.method.getAnnotations(),
                         this.method.getBody().orElse(new MutableCodeSource()));
+         */
+        asMutable(this.declaringType.getBody()).add(
+                this.method
+        );
 
-        asMutable(this.declaringType.getBody()).add(methodDeclaration);
-
-    }
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static MutableCodeSource asMutable(Optional<CodeSource> source) {
-        return (MutableCodeSource) Require.require(source);
     }
 
     private void addToBody(CodePart codePart) {
@@ -306,5 +494,17 @@ public class BytecodeMethodVisitor extends MethodVisitor {
             return t;
         else
             return t2;
+    }
+
+    private static final class NEW implements CodePart {
+        private final CodeType codeType;
+
+        private NEW(CodeType codeType) {
+            this.codeType = codeType;
+        }
+
+        public CodeType getCodeType() {
+            return codeType;
+        }
     }
 }

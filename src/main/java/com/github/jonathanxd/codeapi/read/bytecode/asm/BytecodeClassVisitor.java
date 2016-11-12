@@ -41,11 +41,13 @@ import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.impl.StaticBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.read.Environment;
+import com.github.jonathanxd.codeapi.common.Environment;
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
 import com.github.jonathanxd.codeapi.read.bytecode.Constants;
+import com.github.jonathanxd.codeapi.common.Signature;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
 
 import org.objectweb.asm.ClassVisitor;
@@ -81,27 +83,27 @@ public class BytecodeClassVisitor extends ClassVisitor {
 
         boolean isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
 
-        CodeType codeType = CommonRead.toCodeType(this.environment, name, isInterface);
+        CodeType codeType = this.environment.getTypeResolver().resolve(name, isInterface);
 
-        CodeType superClass = CommonRead.toCodeType(this.environment, superName, false);
+        CodeType superClass = this.environment.getTypeResolver().resolve(superName, false);
 
-        List<CodeType> interfacesTypes = Arrays.stream(interfaces).map(itfStr -> CommonRead.toCodeType(this.environment, itfStr, true)).collect(Collectors.toList());
+        List<CodeType> interfacesTypes = Arrays.stream(interfaces)
+                .map(this.environment::resolveInterface)
+                .collect(Collectors.toList());
 
-        GenericSignature<GenericType> genericSignature = CommonRead.genericSigFromString(this.environment, signature);
+        Signature signatureE = GenericUtil.Read.parseFull(this.environment.getTypeResolver(), signature);
 
-        String str = GenericUtil.genericTypesToAsmString(genericSignature.getTypes());
+        GenericSignature<GenericType> genericSignature = signatureE.getSignature();
 
-        if(signature.length() > str.length() && signature.startsWith(str)) {
-            // Supertype or interface type is generic
-            String other = signature.substring(str.length());
+        GenericType sigSuperType = signatureE.getSuperType();
+        GenericType[] sigInterfaces = signatureE.getInterfaces();
 
-            GenericSignature<GenericType> sign = CommonRead.genericSigFromString(environment, other);
+        if(sigSuperType != null)
+            superClass = sigSuperType;
 
-            System.err.println("Super class: "+signature.substring(str.length()));
+        if(sigInterfaces.length > 0)
+            interfacesTypes = Arrays.asList(sigInterfaces);
 
-            System.err.println("sign2: "+sign);
-
-        }
 
         // TODO: Annotations
         TypeDeclaration declaration;
@@ -118,7 +120,7 @@ public class BytecodeClassVisitor extends ClassVisitor {
         String sign = GenericUtil.genericTypesToAsmString(declaration, superClass, interfacesTypes, superClassIsGeneric, anyInterfaceIsGeneric);
 
         if (!signature.equals(sign)) {
-            System.err.println("Signature parsed incorrectly: expected: " + signature + ". current: " + sign);
+            throw new IllegalStateException("Signature parsed incorrectly: expected: " + signature + ". current: " + sign);
         }
 
         this.environment.getData().registerData(Constants.TYPE_DECLARATION, declaration);
@@ -133,15 +135,18 @@ public class BytecodeClassVisitor extends ClassVisitor {
 
         Collection<CodeModifier> codeModifiers = CommonRead.modifiersFromAccess(access);
 
-        CodeType type = CommonRead.toCodeType(this.environment, desc, false);
+        CodeType type = this.environment.resolveUnknown(desc);
 
         CodePart valuePart = null;
 
         if (value != null) {
-            valuePart = CommonRead.toLiteral(value);
+            valuePart = CodePartUtil.Conversion.toLiteral(value);
         }
 
-        GenericSignature<GenericType> genericSignature = CommonRead.genericSigFromString(this.environment, signature);
+        GenericSignature<GenericType> genericSignature = GenericUtil.Read.parse(this.environment.getTypeResolver(), signature);
+
+        if(genericSignature != null && genericSignature.getTypes().length == 1)
+            type = genericSignature.getTypes()[0];
 
         CodeField codeField = new CodeField(name, type, valuePart, codeModifiers);
 
@@ -177,10 +182,10 @@ public class BytecodeClassVisitor extends ClassVisitor {
             method = new CodeMethod(name, codeModifiers, codeParameters, typeSpec.getReturnType(), new MutableCodeSource());
         }
 
-        if (name.equals("<init>") || name.equals("<clinit>")) {
+        /*if (name.equals("<init>") || name.equals("<clinit>")) {
             // Avoid duplication
             return super.visitMethod(access, name, desc, signature, exceptions);
-        }
+        }*/
 
         return new BytecodeMethodVisitor(Opcodes.ASM5, this.environment, declaration, method);
     }

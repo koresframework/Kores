@@ -25,38 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.read.bytecode;
+package com.github.jonathanxd.codeapi.read.bytecode.asm;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.Environment;
-import com.github.jonathanxd.codeapi.read.Reader;
-import com.github.jonathanxd.codeapi.read.bytecode.asm.BytecodeClassVisitor;
-import com.github.jonathanxd.iutils.option.Options;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.MethodNode;
 
-public class BytecodeReader implements Reader<byte[]> {
-
-    @Override
-    public CodePart read(byte[] bytes, Options options) {
-        Environment environment = new Environment();
-
-        MutableCodeSource codeSource = new MutableCodeSource();
-
-        // Data setup
-        environment.getData().registerData(Constants.SOURCE, codeSource);
-
-        ClassReader classReader = new ClassReader(bytes);
-
-        classReader.accept(new BytecodeClassVisitor(Opcodes.ASM5, environment), 0);
-
-
-        // Data finish
-
-        environment.getData().unregisterData(Constants.SOURCE, codeSource);
-        return codeSource;
+public class MethodAnalyzer {
+    public static MethodDeclaration analyze(MethodNode methodNode, Environment environment) {
+        //String methodName = methodNode.name;
+        return null;
     }
-
 }

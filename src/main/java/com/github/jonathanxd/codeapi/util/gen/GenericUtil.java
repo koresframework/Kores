@@ -27,14 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.util.gen;
 
+import com.github.jonathanxd.codeapi.common.Signature;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.TypeResolver;
 
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class GenericUtil {
@@ -218,5 +225,169 @@ public class GenericUtil {
 
     }
 
+    public static final class Read {
+        private Read() {
+            throw new IllegalStateException();
+        }
 
+        public static Signature parseFull(TypeResolver typeResolver, String signature) {
+            if (signature == null || signature.isEmpty()) {
+                return new Signature(GenericSignature.empty(), null, null);
+            }
+
+            GenericSignature<GenericType> genericSignature = Read.parse(typeResolver, signature);
+            GenericType superType = null;
+            List<GenericType> interfaces = new ArrayList<>();
+
+            String str = GenericUtil.genericTypesToAsmString(genericSignature.getTypes());
+
+            while(signature.length() > str.length() && signature.startsWith(str)) {
+                String sub = signature.substring(str.length());
+
+                GenericSignature<GenericType> sign = Read.parse(typeResolver, sub);
+
+                if(sign == null || sign.getTypes().length != 1)
+                    break;
+
+                GenericType type = sign.getTypes()[0];
+
+                if(type == null)
+                    break;
+
+                if(superType == null)
+                    superType = type;
+                else
+                    interfaces.add(type);
+
+                str += CodeTypeUtil.toAsm(type);
+            }
+
+            return new Signature(genericSignature, superType, interfaces.stream().toArray(GenericType[]::new));
+        }
+
+        public static GenericSignature<GenericType> parse(TypeResolver typeResolver, String str) {
+            if (str == null || str.isEmpty()) {
+                return GenericSignature.empty();
+            } else {
+
+                StringCharacterIterator stringCharacterIterator = new StringCharacterIterator(str);
+
+                if (str.startsWith("<")) {
+                    return parse(stringCharacterIterator, typeResolver);
+                } else {
+                    return GenericSignature.create(parseTypeOrVar(stringCharacterIterator, typeResolver));
+                }
+
+            }
+        }
+
+        public static GenericSignature<GenericType> parse(CharacterIterator signature, TypeResolver typeResolver) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while (signature.current() != ':') {
+                if (signature.current() == CharacterIterator.DONE) {
+                    return GenericSignature.empty();
+                }
+                if (signature.current() != '<') {
+                    stringBuilder.append(signature.current());
+                }
+
+                signature.next();
+            }
+
+            signature.next();
+
+            Generic x = Generic.type(stringBuilder.toString());
+
+            Generic generic = parseTypeOrVar(signature, typeResolver);
+            return GenericSignature.create(x.extends$(generic));
+        }
+
+        public static Generic parseTypeOrVar(CharacterIterator signature, TypeResolver typeResolver) {
+            if (signature.current() == ':') {
+                signature.next();
+            }
+
+            if (signature.current() == CharacterIterator.DONE) {
+                return null;
+            }
+
+            return parseNameType(signature, typeResolver);
+        }
+
+        public static Generic parseNameType(CharacterIterator signature, TypeResolver typeResolver) {
+            char current = signature.current();
+
+            if (current == 'L') {
+                return parseJavaClass(signature, typeResolver);
+            } else if (current == 'T') {
+                return parseVar(signature);
+            }
+
+            return null;
+        }
+
+        public static Generic parseJavaClass(CharacterIterator signature, TypeResolver typeResolver) {
+            StringBuilder sb = new StringBuilder();
+
+            signature.next();
+
+            if (signature.current() == CharacterIterator.DONE) {
+                return null;
+            }
+
+            Generic generic = null;
+
+            while (signature.current() != ';' && signature.current() != '>' && signature.current() != CharacterIterator.DONE) {
+
+                if (signature.current() == '<') {
+                    String name = sb.toString();
+
+                    generic = Generic.type(typeResolver.resolveUnknown(name));
+
+                    signature.next();
+
+                    do {
+                        Generic bound = parseTypeOrVar(signature, typeResolver);
+                        generic = generic.of(bound);
+                    } while (signature.current() != '>');
+
+                }
+
+                sb.append(signature.current());
+
+                signature.next();
+            }
+
+            if (signature.current() == CharacterIterator.DONE)
+                return null;
+            signature.next();
+
+            if (generic != null) {
+                return generic;
+            } else {
+                return Generic.type(typeResolver.resolveUnknown(sb.toString()));
+            }
+        }
+
+        public static Generic parseVar(CharacterIterator signature) {
+            StringBuilder sb = new StringBuilder();
+
+            signature.next();
+            while (signature.current() != ';' && signature.current() != '>' && signature.current() != CharacterIterator.DONE) {
+                sb.append(signature.current());
+                signature.next();
+            }
+
+            if (signature.current() == CharacterIterator.DONE) {
+                return null;
+            }
+
+            if (signature.current() == ';') {
+                signature.next();
+            }
+
+            return Generic.type(sb.toString());
+        }
+    }
 }

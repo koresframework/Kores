@@ -1477,6 +1477,48 @@ public final class CodeAPI {
     }
 
     /**
+     * Invoke a special method of current type declaration.
+     *
+     * <table summary="">
+     *     <tr><th>Special Invocation cases</th></tr>
+     *     <tr><td>Constructor Methods</td></tr>
+     *     <tr><td>Super class methods</td></tr>
+     *     <tr><td>Private methods</td></tr>
+     * </table>
+     *
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of special method.
+     */
+    public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis(),
+                spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
+    }
+
+    /**
+     * Invoke a special method (aka super.method invocations).
+     *
+     * <table summary="">
+     *     <tr><th>Special Invocation cases</th></tr>
+     *     <tr><td>Constructor Methods</td></tr>
+     *     <tr><td>Super class methods</td></tr>
+     *     <tr><td>Private methods</td></tr>
+     * </table>
+     *
+     * @param localization      Localization of the method.
+     * @param target            Instance.
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of special method.
+     */
+    public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target,
+                spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
+    }
+
+    /**
      * Invoke a method dynamically.
      *
      * @param invokeDynamic    Invoke dynamic instance.

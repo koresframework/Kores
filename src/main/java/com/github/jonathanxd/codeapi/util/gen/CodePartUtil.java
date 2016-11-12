@@ -47,7 +47,7 @@ public class CodePartUtil {
 
     }
 
-    public static CodeType getType(CodePart codePart) {
+    public static CodeType getTypeOrNull(CodePart codePart) {
         if (codePart instanceof Literal) {
             return ((Literal) codePart).getType().orElseThrow(NullPointerException::new);
         } else if (codePart instanceof Typed) {
@@ -55,9 +55,17 @@ public class CodePartUtil {
 
             return typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'"));
         } else {
-            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
+            return null;
         }
+    }
 
+    public static CodeType getType(CodePart codePart) {
+        CodeType type = CodePartUtil.getTypeOrNull(codePart);
+
+        if(type == null)
+            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
+
+        return type;
     }
 
     public static boolean isBoolean(CodePart part) {
@@ -66,5 +74,43 @@ public class CodePartUtil {
 
     public static boolean getBooleanValue(CodePart part) {
         return ((Literals.BoolLiteral) part).getValue();
+    }
+
+    public static final class Conversion {
+
+        private Conversion() {
+            throw new IllegalStateException();
+        }
+
+        public static boolean isLiteral(Object o) {
+            return o instanceof Byte
+                    || o instanceof Short
+                    || o instanceof Integer
+                    || o instanceof Double
+                    || o instanceof Float
+                    || o instanceof Long
+                    || o instanceof String;
+        }
+
+        public static Literal toLiteral(Object o) {
+            if (o instanceof Byte) {
+                return Literals.BYTE((byte) o);
+            } else if (o instanceof Short) {
+                return Literals.SHORT((short) o);
+            } else if (o instanceof Integer) {
+                return Literals.INT((int) o);
+            } else if (o instanceof Double) {
+                return Literals.DOUBLE((double) o);
+            } else if (o instanceof Float) {
+                return Literals.FLOAT((float) o);
+            } else if (o instanceof Long) {
+                return Literals.LONG((long) o);
+            } else if (o instanceof String) {
+                return Literals.STRING((String) o);
+            } else {
+                throw new IllegalArgumentException("Cannot convert '" + o + "' to Literal.");
+            }
+        }
+
     }
 }

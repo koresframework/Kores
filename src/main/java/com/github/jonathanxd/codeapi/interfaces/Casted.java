@@ -42,7 +42,7 @@ public interface Casted extends CodePart, Typed {
      *
      * @return Gets the original type.
      */
-    CodeType getOriginalType();
+    Optional<CodeType> getOriginalType();
 
     /**
      * Sets the original type.

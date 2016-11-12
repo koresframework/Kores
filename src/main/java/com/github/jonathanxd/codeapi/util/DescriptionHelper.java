@@ -25,38 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.read.bytecode;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.common.Environment;
-import com.github.jonathanxd.codeapi.read.Reader;
-import com.github.jonathanxd.codeapi.read.bytecode.asm.BytecodeClassVisitor;
-import com.github.jonathanxd.iutils.option.Options;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.iutils.description.Description;
+import com.github.jonathanxd.iutils.description.DescriptionUtil;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
-public class BytecodeReader implements Reader<byte[]> {
+public class DescriptionHelper {
 
-    @Override
-    public CodePart read(byte[] bytes, Options options) {
-        Environment environment = new Environment();
+    public static TypeSpec toTypeSpec(Description description, TypeResolver resolver) {
+        String returnType = description.getReturnType();
+        String[] parameterTypes = description.getParameterTypes();
 
-        MutableCodeSource codeSource = new MutableCodeSource();
-
-        // Data setup
-        environment.getData().registerData(Constants.SOURCE, codeSource);
-
-        ClassReader classReader = new ClassReader(bytes);
-
-        classReader.accept(new BytecodeClassVisitor(Opcodes.ASM5, environment), 0);
-
-
-        // Data finish
-
-        environment.getData().unregisterData(Constants.SOURCE, codeSource);
-        return codeSource;
+        return new TypeSpec(
+                resolver.resolveUnknown(returnType),
+                Arrays.stream(parameterTypes).map(resolver::resolveUnknown).collect(Collectors.toList())
+        );
     }
 
+    public static TypeSpec toTypeSpec(String desc, TypeResolver resolver) {
+        String[] parameterTypes = DescriptionUtil.getParameterTypes(desc);
+
+        String returnType = DescriptionUtil.getReturnType(desc);
+
+        return new TypeSpec(resolver.resolveUnknown(returnType), Arrays.stream(parameterTypes).map(resolver::resolveUnknown).toArray(CodeType[]::new));
+    }
 }

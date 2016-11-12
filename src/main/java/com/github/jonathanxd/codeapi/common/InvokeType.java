@@ -82,10 +82,10 @@ public enum InvokeType {
     INVOKE_DYNAMIC;
 
     /**
-     * Convert {@link InvokeType} to asm invocation flag.
+     * Convert {@link InvokeType} to asm invocation opcode.
      *
      * @param invokeType Type to convert
-     * @return asm flag corresponding to {@code invokeType}.
+     * @return asm opcode corresponding to {@code invokeType}.
      */
     public static int toAsm(InvokeType invokeType) {
         switch (invokeType) {
@@ -105,10 +105,10 @@ public enum InvokeType {
     }
 
     /**
-     * Convert {@link InvokeType} to asm invocation flag (dynamic).
+     * Convert {@link InvokeType} to asm [dynamic] invocation opcode.
      *
      * @param invokeType Type to convert
-     * @return asm flag corresponding to {@code invokeType} (dynamic).
+     * @return asm opcode corresponding to {@code invokeType} (dynamic).
      */
     public static int toAsm_H(InvokeType invokeType) {
         switch (invokeType) {
@@ -124,6 +124,50 @@ public enum InvokeType {
                 throw new RuntimeException("Cannot invoke dynamic 'dynamic invocation'!");
             default:
                 throw new RuntimeException("Cannot determine opcode of '" + invokeType + "'");
+        }
+    }
+
+    /**
+     * Convert asm invocation opcode to {@link InvokeType}.
+     *
+     * @param opcode Opcode to convert
+     * @return asm flag corresponding to {@code invokeType}.
+     */
+    public static InvokeType fromAsm(int opcode) {
+        switch (opcode) {
+            case INVOKEINTERFACE:
+                return INVOKE_INTERFACE;
+            case INVOKESPECIAL:
+                return INVOKE_SPECIAL;
+            case INVOKEVIRTUAL:
+                return INVOKE_VIRTUAL;
+            case INVOKESTATIC:
+                return INVOKE_STATIC;
+            case INVOKEDYNAMIC:
+                return INVOKE_DYNAMIC;
+            default:
+                throw new RuntimeException("Cannot determine InvokeType of opcde '" + opcode + "'");
+        }
+    }
+
+    /**
+     * Convert asm [dynamic] invocation opcode to {@link InvokeType}.
+     *
+     * @param opcode Opcode to convert
+     * @return asm flag corresponding to {@code invokeType} (dynamic).
+     */
+    public static InvokeType fromAsm_H(int opcode) {
+        switch (opcode) {
+            case H_INVOKEINTERFACE:
+                return INVOKE_INTERFACE;
+            case H_INVOKESPECIAL:
+                return INVOKE_SPECIAL;
+            case H_INVOKEVIRTUAL:
+                return INVOKE_VIRTUAL;
+            case H_INVOKESTATIC:
+                return INVOKE_STATIC;
+            default:
+                throw new RuntimeException("Cannot determine InvokeType of opcode '" + opcode + "'");
         }
     }
 

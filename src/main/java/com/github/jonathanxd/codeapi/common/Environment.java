@@ -25,17 +25,26 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.read;
+package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.PlainCodeType;
+import com.github.jonathanxd.codeapi.util.SimpleResolver;
+import com.github.jonathanxd.codeapi.util.TypeResolver;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Environment {
+/**
+ * Bytecode reading environment
+ *
+ * Helper class.
+ */
+public class Environment implements TypeResolver {
+
+    private final TypeResolver typeResolver = new SimpleResolver(this::getType, false);
 
     private final MapData data = new MapData();
     private final Map<String, CodeType> types = new HashMap<>();
@@ -90,6 +99,30 @@ public class Environment {
         } catch (ClassNotFoundException e) {
             return null;
         }
+    }
+
+    @Override
+    public CodeType resolveUnknown(String name) {
+        return this.getTypeResolver().resolveUnknown(name);
+    }
+
+    @Override
+    public CodeType resolve(String name, boolean isInterface) {
+        return this.getTypeResolver().resolve(name, isInterface);
+    }
+
+    @Override
+    public CodeType resolveInterface(String type) {
+        return this.getTypeResolver().resolveInterface(type);
+    }
+
+    @Override
+    public CodeType resolveClass(String type) {
+        return this.getTypeResolver().resolveClass(type);
+    }
+
+    public TypeResolver getTypeResolver() {
+        return this.typeResolver;
     }
 
     protected Map<String, CodeType> getTypes() {

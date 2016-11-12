@@ -28,27 +28,18 @@
 package com.github.jonathanxd.codeapi.read.bytecode;
 
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.common.Environment;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.read.Environment;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.description.DescriptionUtil;
+import com.github.jonathanxd.iutils.description.DescriptionUtil;
 
 import org.objectweb.asm.Opcodes;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 
 public class CommonRead {
 
@@ -100,273 +91,9 @@ public class CommonRead {
         return modifiers;
     }
 
-    public static CodeType toCodeType(Environment environment, String typeStr, boolean isInterface) {
-        if (typeStr.equals(PredefinedTypes.BYTE.getJavaSpecName())) {
-            return PredefinedTypes.BYTE;
-        } else if (typeStr.equals(PredefinedTypes.SHORT.getJavaSpecName())) {
-            return PredefinedTypes.SHORT;
-        } else if (typeStr.equals(PredefinedTypes.INT.getJavaSpecName())) {
-            return PredefinedTypes.INT;
-        } else if (typeStr.equals(PredefinedTypes.FLOAT.getJavaSpecName())) {
-            return PredefinedTypes.FLOAT;
-        } else if (typeStr.equals(PredefinedTypes.DOUBLE.getJavaSpecName())) {
-            return PredefinedTypes.DOUBLE;
-        } else if (typeStr.equals(PredefinedTypes.LONG.getJavaSpecName())) {
-            return PredefinedTypes.LONG;
-        } else if (typeStr.equals(PredefinedTypes.CHAR.getJavaSpecName())) {
-            return PredefinedTypes.CHAR;
-        } else if (typeStr.equals(PredefinedTypes.STRING.getJavaSpecName())) {
-            return PredefinedTypes.STRING;
-        } else if (typeStr.equals(PredefinedTypes.BOOLEAN.getJavaSpecName())) {
-            return PredefinedTypes.BOOLEAN;
-        } else if (typeStr.equals(PredefinedTypes.VOID.getJavaSpecName())) {
-            return PredefinedTypes.VOID;
-        }
-
-        typeStr = typeStr.replace('/', '.');
-
-        if (typeStr.startsWith("L") && typeStr.endsWith(";")) {
-            typeStr = typeStr.substring(1, typeStr.length() - 1);
-        }
-
-        return environment.getType(typeStr, isInterface);
-    }
-
     public static boolean is(int byte1_, int byte2_) {
         return (byte2_ & byte1_) != 0;
     }
-
-
-    public static GenericSignature<GenericType> genericSigFromString(Environment environment, String str) {
-        if (str == null || str.isEmpty()) {
-            return GenericSignature.empty();
-        } else {
-
-            StringCharacterIterator stringCharacterIterator = new StringCharacterIterator(str);
-
-            Function<String, CodeType> func = s -> CommonRead.toCodeType(environment, s, false);
-
-            if (str.startsWith("<")) {
-                return parse(stringCharacterIterator, func);
-            } else {
-                return GenericSignature.create(parseTypeOrVar(stringCharacterIterator, func));
-            }
-
-        }
-    }
-
-    public static GenericSignature<GenericType> parse(CharacterIterator signature, Function<String, CodeType> typeResolver) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        while (signature.current() != ':') {
-            if (signature.current() == CharacterIterator.DONE) {
-                return GenericSignature.empty();
-            }
-            if (signature.current() != '<') {
-                stringBuilder.append(signature.current());
-            }
-
-            signature.next();
-        }
-
-        signature.next();
-
-        Generic x = Generic.type(stringBuilder.toString());
-
-        Generic generic = parseTypeOrVar(signature, typeResolver);
-        return GenericSignature.create(x.extends$(generic));
-    }
-
-    public static Generic parseTypeOrVar(CharacterIterator signature, Function<String, CodeType> typeResolver) {
-        if (signature.current() == ':') {
-            signature.next();
-        }
-
-        if (signature.current() == CharacterIterator.DONE) {
-            return null;
-        }
-
-        return parseNameType(signature, typeResolver);
-    }
-
-    public static Generic parseNameType(CharacterIterator signature, Function<String, CodeType> typeResolver) {
-        char current = signature.current();
-
-        if (current == 'L') {
-            return parseJavaClass(signature, typeResolver);
-        } else if (current == 'T') {
-            return parseVar(signature);
-        }
-
-        return null;
-    }
-
-    public static Generic parseJavaClass(CharacterIterator signature, Function<String, CodeType> typeResolver) {
-        StringBuilder sb = new StringBuilder();
-
-        signature.next();
-
-        if (signature.current() == CharacterIterator.DONE) {
-            return null;
-        }
-
-        Generic generic = null;
-
-        while (signature.current() != ';' && signature.current() != '>' && signature.current() != CharacterIterator.DONE) {
-
-            if (signature.current() == '<') {
-                String name = sb.toString();
-
-                generic = Generic.type(typeResolver.apply(name));
-
-                signature.next();
-
-                do {
-                    Generic bound = parseTypeOrVar(signature, typeResolver);
-                    generic = generic.of(bound);
-                } while (signature.current() != '>');
-
-            }
-
-            sb.append(signature.current());
-
-            signature.next();
-        }
-
-        if (signature.current() == CharacterIterator.DONE)
-            return null;
-        signature.next();
-
-        if (generic != null) {
-            return generic;
-        } else {
-            return Generic.type(typeResolver.apply(sb.toString()));
-        }
-    }
-
-    public static Generic parseVar(CharacterIterator signature) {
-        StringBuilder sb = new StringBuilder();
-
-        signature.next();
-        while (signature.current() != ';' && signature.current() != '>' && signature.current() != CharacterIterator.DONE) {
-            sb.append(signature.current());
-            signature.next();
-        }
-
-        if (signature.current() == CharacterIterator.DONE) {
-            return null;
-        }
-
-        if (signature.current() == ';') {
-            signature.next();
-        }
-
-        return Generic.type(sb.toString());
-    }
-
-    public static GenericSignature<GenericType> parseSignature(String generic) {
-        char[] chars = generic.toCharArray();
-
-        StringBuilder sb = new StringBuilder();
-        int ct = 0;
-
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
-
-            if (c == '<' && ct == 0) {
-                ++ct;
-            } else if (c == '>') {
-                sb.append(c);
-                if (ct == 1) {
-                    String s = sb.toString();
-                    sb.setLength(0);
-
-                    GenericType genericType = parseType(s);
-
-                    return GenericSignature.create(genericType);
-                }
-                --ct;
-            } else {
-                sb.append(c);
-            }
-        }
-
-        System.out.println(sb);
-
-        return GenericSignature.create(parseType(generic));
-    }
-
-    public static Generic parseType(String generic) {
-        char[] chars = generic.toCharArray();
-
-        String name = null;
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
-
-            if (c == ':') {
-                if (stringBuilder.length() > 0) {
-                    name = stringBuilder.toString();
-                    stringBuilder.setLength(0);
-                }
-            } else {
-                stringBuilder.append(c);
-            }
-
-        }
-
-        if (name == null) {
-            String s = stringBuilder.toString();
-            for (char c : s.toCharArray()) {
-                if (c == 'L') {
-
-                }
-            }
-        }
-
-        Generic type = Generic.type(name);
-
-        Generic type1 = parseType(stringBuilder.toString());
-
-        if (type1 != null) {
-            type = type.of(type1);
-        }
-
-        return type;
-    }
-
-    public static boolean isLiteral(Object o) {
-        return o instanceof Byte
-                || o instanceof Short
-                || o instanceof Integer
-                || o instanceof Double
-                || o instanceof Float
-                || o instanceof Long
-                || o instanceof String;
-    }
-
-    public static Literal toLiteral(Object o) {
-        if (o instanceof Byte) {
-            return Literals.BYTE((byte) o);
-        } else if (o instanceof Short) {
-            return Literals.SHORT((short) o);
-        } else if (o instanceof Integer) {
-            return Literals.INT((int) o);
-        } else if (o instanceof Double) {
-            return Literals.DOUBLE((double) o);
-        } else if (o instanceof Float) {
-            return Literals.FLOAT((float) o);
-        } else if (o instanceof Long) {
-            return Literals.LONG((long) o);
-        } else if (o instanceof String) {
-            return Literals.STRING((String) o);
-        } else {
-            throw new IllegalArgumentException("Cannot convert '" + o + "' to Literal.");
-        }
-    }
-
 
     public static TypeSpec typeSpecFromDesc(Environment environment, TypeDeclaration typeDeclaration, String methodName, String desc) {
         desc = typeDeclaration.getJavaSpecName() + ":" + methodName + desc;
@@ -374,8 +101,8 @@ public class CommonRead {
         String[] parameterTypes = DescriptionUtil.getParameterTypes(desc);
         String returnType = DescriptionUtil.getReturnType(desc);
 
-        return new TypeSpec(CommonRead.toCodeType(environment, returnType, false),
+        return new TypeSpec(environment.resolveUnknown(returnType),
                 Arrays.stream(parameterTypes)
-                        .map(s -> CommonRead.toCodeType(environment, s, false)).toArray(CodeType[]::new));
+                        .map(environment::resolveUnknown).toArray(CodeType[]::new));
     }
 }

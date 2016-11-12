@@ -25,38 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.read.bytecode;
+package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.common.Environment;
-import com.github.jonathanxd.codeapi.read.Reader;
-import com.github.jonathanxd.codeapi.read.bytecode.asm.BytecodeClassVisitor;
-import com.github.jonathanxd.iutils.option.Options;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.types.GenericType;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
+public class Signature {
 
-public class BytecodeReader implements Reader<byte[]> {
+    private final GenericSignature<GenericType> signature;
+    private final GenericType superType;
+    private final GenericType[] interfaces;
 
-    @Override
-    public CodePart read(byte[] bytes, Options options) {
-        Environment environment = new Environment();
-
-        MutableCodeSource codeSource = new MutableCodeSource();
-
-        // Data setup
-        environment.getData().registerData(Constants.SOURCE, codeSource);
-
-        ClassReader classReader = new ClassReader(bytes);
-
-        classReader.accept(new BytecodeClassVisitor(Opcodes.ASM5, environment), 0);
-
-
-        // Data finish
-
-        environment.getData().unregisterData(Constants.SOURCE, codeSource);
-        return codeSource;
+    public Signature(GenericSignature<GenericType> signature, GenericType superType, GenericType[] interfaces) {
+        this.signature = signature;
+        this.superType = superType;
+        this.interfaces = interfaces;
     }
 
+    public GenericSignature<GenericType> getSignature() {
+        return this.signature;
+    }
+
+    public GenericType getSuperType() {
+        return this.superType;
+    }
+
+    public GenericType[] getInterfaces() {
+        return this.interfaces.clone();
+    }
 }
