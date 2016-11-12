@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.generic;
 
 import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
 
 /**
  * Hold information about generic signatures.
@@ -103,5 +105,16 @@ public class GenericSignature<T extends GenericType> {
      */
     public boolean isNotEmpty() {
         return !this.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "Source{"
+                + GenericTypeUtil.toSourceString(this)
+                +"}"
+                +", "
+                +"JVM{"
+                + GenericUtil.genericSignatureToAsmString(this)
+                +"}";
     }
 }
