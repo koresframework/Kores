@@ -28,30 +28,33 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.impl.CodeClass;
+import com.github.jonathanxd.codeapi.modify.visit.VisitManager;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.lang.reflect.Modifier;
 
-public class AnnotationTest_ {
+public class VisitTest {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeAnnotation build = AnnotationBuilder.builder()
+    @Test
+    public void visitTest() {
+        VisitManager<CodeClass> codeClassVisitManager = new VisitManager<>();
+
+        codeClassVisitManager.register(CodeClass.class, (codePart, data, visitManager) -> codePart.setQualifiedName("com.XYZ"));
+
+
+        CodeClass myClass = CodeAPI.aClassBuilder()
                 .withModifiers(Modifier.PUBLIC)
-                .withQualifiedName("com.MyAnnotation")
-                .withProperties(new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "value", null),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "id", "A"),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING.toArray(1), "names", new String[]{"A", "B"}),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.INT.toArray(1), "ns", new int[]{1, 2}))
+                .withQualifiedName("com.ABC")
+                .withBody(new MutableCodeSource())
                 .build();
 
-        return Pair.of(build, CodeAPI.sourceOfParts(build));
+        CodeClass visit = codeClassVisitManager.visit(myClass);
+
+        Assert.assertEquals("com.XYZ", visit.getCanonicalName());
     }
+
 }

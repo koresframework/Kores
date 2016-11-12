@@ -25,33 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.util.gento;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 
-import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.Objects;
 
-public class AnnotationTest_ {
+public class GenToUtil {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeAnnotation build = AnnotationBuilder.builder()
-                .withModifiers(Modifier.PUBLIC)
-                .withQualifiedName("com.MyAnnotation")
-                .withProperties(new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "value", null),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "id", "A"),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING.toArray(1), "names", new String[]{"A", "B"}),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.INT.toArray(1), "ns", new int[]{1, 2}))
-                .build();
+    @SuppressWarnings("unchecked")
+    public static <V> V get(Class<?> cl, Map<Class<?>, V> map) {
+        if (map.containsKey(cl)) {
+            return map.get(cl);
+        } else {
+            GenerateTo generateTo = cl.getDeclaredAnnotation(GenerateTo.class);
 
-        return Pair.of(build, CodeAPI.sourceOfParts(build));
+            if (generateTo == null)
+                generateTo = cl.getAnnotation(GenerateTo.class);
+
+            if (generateTo != null) {
+                return Objects.requireNonNull(map.get(generateTo.value()), "Cannot get visitor for class: '" + generateTo.value().getCanonicalName() + "'");
+            } else {
+                if (cl.isSynthetic()) {
+                    Class<?>[] interfaces = cl.getInterfaces();
+                    Class<?> i = interfaces.length > 0 ? interfaces[0] : cl.getSuperclass();
+
+                    return Objects.requireNonNull(map.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "'");
+                }
+                throw new IllegalStateException("Cannot get visitor for class: '" + cl.getCanonicalName() + "'");
+            }
+        }
     }
+
 }
