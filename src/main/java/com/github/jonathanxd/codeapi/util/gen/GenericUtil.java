@@ -67,6 +67,15 @@ public class GenericUtil {
         return genericRepresentation;
     }
 
+    public static String genericSignatureToAsmString(GenericSignature<? extends GenericType> signature) {
+        GenericType[] types = signature.getTypes();
+
+        if(types.length == 1 && types[0].isType())
+            return GenericUtil.genericTypeToAsmString(types[0]);
+        else
+            return GenericUtil.genericTypesToAsmString(types);
+    }
+
     public static String genericTypesToAsmString(GenericType[] generics) {
         StringJoiner sj = new StringJoiner(";");
 
@@ -120,7 +129,7 @@ public class GenericUtil {
             }
         }
 
-        return name + ":" + (gen2 ? ":" : "") + boundToMain(generic.isWildcard(), generic.bounds());
+        return name + (!generic.isType() ? ":" : "") + (gen2 ? ":" : "") + boundToMain(generic.isWildcard(), generic.bounds());
 
     }
 

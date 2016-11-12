@@ -111,8 +111,10 @@ public class GenericSignature<T extends GenericType> {
     public String toString() {
         return "Source{"
                 + GenericTypeUtil.toSourceString(this)
-                +"}, JVM{"
-                + GenericUtil.genericTypesToAsmString(this.getTypes())
+                +"}"
+                +", "
+                +"JVM{"
+                + GenericUtil.genericSignatureToAsmString(this)
                 +"}";
     }
 }

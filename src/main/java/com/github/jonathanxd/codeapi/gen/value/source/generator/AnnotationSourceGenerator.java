@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumValue;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ArrayUtility;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -61,7 +62,7 @@ public class AnnotationSourceGenerator implements ValueGenerator<Annotation, Str
         } else if (value instanceof Annotation) {
             values.add(TargetValue.create(Annotation.class, value, parents));
         } else if (value.getClass().isArray()) {
-            Object[] valuesObj = (Object[]) value;
+            Object[] valuesObj = ArrayUtility.toObjectArray(value);
 
             values.add(PlainValue.create("{"));
 
