@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode.asm;
 
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
@@ -77,7 +78,7 @@ public class BytecodeFieldVisitor extends FieldVisitor {
     public void visitEnd() {
         super.visitEnd();
 
-        Require.require(declaringType.getBody())
+        ((MutableCodeSource) Require.require(declaringType.getBody()))
                 .add(field);
     }
 }

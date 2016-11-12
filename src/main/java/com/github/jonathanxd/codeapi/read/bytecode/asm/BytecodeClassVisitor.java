@@ -28,17 +28,17 @@
 package com.github.jonathanxd.codeapi.read.bytecode.asm;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.SimpleStaticBlock;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
 import com.github.jonathanxd.codeapi.impl.CodeInterface;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.StaticBlockImpl;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.read.Environment;
@@ -46,8 +46,7 @@ import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
 import com.github.jonathanxd.codeapi.read.bytecode.Constants;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
-import com.github.jonathanxd.iutils.optional.Require;
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -90,18 +89,36 @@ public class BytecodeClassVisitor extends ClassVisitor {
 
         GenericSignature<GenericType> genericSignature = CommonRead.genericSigFromString(this.environment, signature);
 
-        String sign = Common.genericTypesToAsmString(genericSignature.getTypes());
-        if(!signature.equals(sign)) {
-            System.err.println("Signature parsed incorrectly: expected: "+signature+". current: "+sign);
+        String str = GenericUtil.genericTypesToAsmString(genericSignature.getTypes());
+
+        if(signature.length() > str.length() && signature.startsWith(str)) {
+            // Supertype or interface type is generic
+            String other = signature.substring(str.length());
+
+            GenericSignature<GenericType> sign = CommonRead.genericSigFromString(environment, other);
+
+            System.err.println("Super class: "+signature.substring(str.length()));
+
+            System.err.println("sign2: "+sign);
+
         }
 
         // TODO: Annotations
         TypeDeclaration declaration;
 
         if (isInterface) {
-            declaration = new CodeInterface(codeType.getCanonicalName(), codeModifiers, interfacesTypes, genericSignature, new CodeSource());
+            declaration = new CodeInterface(null, codeType.getCanonicalName(), codeModifiers, interfacesTypes, genericSignature, new MutableCodeSource());
         } else {
-            declaration = new CodeClass(codeType.getCanonicalName(), codeModifiers, superClass, interfacesTypes, genericSignature, new CodeSource());
+            declaration = new CodeClass(null, codeType.getCanonicalName(), codeModifiers, superClass, interfacesTypes, genericSignature, new MutableCodeSource());
+        }
+
+        boolean superClassIsGeneric = superClass instanceof GenericType;
+        boolean anyInterfaceIsGeneric = interfacesTypes.stream().anyMatch(codeType0 -> codeType0 instanceof GenericType);
+
+        String sign = GenericUtil.genericTypesToAsmString(declaration, superClass, interfacesTypes, superClassIsGeneric, anyInterfaceIsGeneric);
+
+        if (!signature.equals(sign)) {
+            System.err.println("Signature parsed incorrectly: expected: " + signature + ". current: " + sign);
         }
 
         this.environment.getData().registerData(Constants.TYPE_DECLARATION, declaration);
@@ -153,14 +170,14 @@ public class BytecodeClassVisitor extends ClassVisitor {
         MethodDeclaration method;
 
         if (name.equals("<init>")) {
-            method = new CodeConstructor(codeModifiers, codeParameters, new CodeSource());
+            method = new CodeConstructor(codeModifiers, codeParameters, new MutableCodeSource());
         } else if (name.equals("<clinit>")) {
-            method = new SimpleStaticBlock(new CodeSource());
+            method = new StaticBlockImpl(new MutableCodeSource());
         } else {
-            method = new CodeMethod(name, codeModifiers, codeParameters, typeSpec.getReturnType(), new CodeSource());
+            method = new CodeMethod(name, codeModifiers, codeParameters, typeSpec.getReturnType(), new MutableCodeSource());
         }
 
-        if(name.equals("<init>") || name.equals("<clinit>")) {
+        if (name.equals("<init>") || name.equals("<clinit>")) {
             // Avoid duplication
             return super.visitMethod(access, name, desc, signature, exceptions);
         }

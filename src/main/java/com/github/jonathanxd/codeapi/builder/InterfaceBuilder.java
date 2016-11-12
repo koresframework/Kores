@@ -194,6 +194,6 @@ public final class InterfaceBuilder implements Builder<CodeInterface> {
 
     @Override
     public CodeInterface build() {
-        return new CodeInterface(outerClass, this.modifiers, this.implementations, this.genericSignature, this.annotations, this.body, this.qualifiedName);
+        return new CodeInterface(outerClass, this.qualifiedName, this.modifiers, this.implementations, this.genericSignature, this.annotations, this.body);
     }
 }

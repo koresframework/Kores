@@ -63,13 +63,13 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
                      List<Annotation> annotations,
                      CodeSource body) {
 
-        super(outerClass, modifiers, implementations, signature, annotations, body, qualifiedName);
+        super(outerClass, qualifiedName, modifiers, implementations, signature, annotations, body);
         this.outerClass = outerClass;
         this.superType = superType;
     }
 
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body, CodeType outerClass) {
-        super(outerClass, modifiers, implementations, signature, body, qualifiedName);
+    public CodeClass(CodeType outerClass, String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, List<CodeType> implementations, GenericSignature<GenericType> signature, CodeSource body) {
+        super(outerClass, qualifiedName, modifiers, implementations, signature, body);
         this.superType = superType;
         this.outerClass = outerClass;
     }
@@ -80,11 +80,11 @@ public class CodeClass extends CodeInterface implements Extender, ClassDeclarati
         this.superType = superType;
     }
 
-    public CodeClass(String qualifiedName, CodeType superType, List<CodeType> implementations, CodeSource body, CodeType outerClass) {
+    public CodeClass(CodeType outerClass, String qualifiedName, CodeType superType, List<CodeType> implementations, CodeSource body) {
         this(outerClass, qualifiedName, null, superType, implementations, body);
     }
 
-    public CodeClass(String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, CodeSource body, CodeType outerClass) {
+    public CodeClass(CodeType outerClass, String qualifiedName, Collection<CodeModifier> modifiers, CodeType superType, CodeSource body) {
         this(outerClass, qualifiedName, modifiers, superType, null, body);
     }
 

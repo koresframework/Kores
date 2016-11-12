@@ -27,14 +27,57 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.iutils.type.TypeInfo;
+import com.github.jonathanxd.codeapi.CodePart;
 
-public class Constants {
+public class EmulatedFrame {
 
-    public static final TypeInfo<MutableCodeSource> SOURCE = TypeInfo.aUnique(MutableCodeSource.class);
-    public static final TypeInfo<TypeDeclaration> TYPE_DECLARATION = TypeInfo.aUnique(TypeDeclaration.class);
+    /**
+     * Local variable table
+     */
+    private final LocalVariableTable localVariableTable = new LocalVariableTable();
 
+    /**
+     * Operand Stack
+     */
+    private final StackManager operandStack = new StackManager();
+
+    /**
+     * Push the value to {@link #localVariableTable}.
+     *
+     * Example of instructions that store value into Variable Table: istore, astore
+     *
+     * @param part  Part
+     * @param index Slot index
+     */
+    public void store(CodePart part, int index) {
+        this.localVariableTable.store(part, index);
+    }
+
+    /**
+     * Pop the top value of the {@link #operandStack} and push into {@link #localVariableTable}.
+     *
+     * @param index Slot index.
+     */
+    public void storeFromStack(int index) {
+        this.store(this.operandStack.pop(), index);
+    }
+
+    /**
+     * Gets the variable from {@link #localVariableTable}.
+     *
+     * @param index Slot index
+     * @return The Variable.
+     */
+    public CodePart load(int index) {
+        return this.localVariableTable.get(index);
+    }
+
+    /**
+     * Gets the variable from {@link #localVariableTable} and push to {@link #operandStack}.
+     *
+     * @param index Slot index
+     */
+    public void loadToStack(int index) {
+        this.operandStack.push(this.load(index));
+    }
 }

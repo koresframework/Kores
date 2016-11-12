@@ -480,7 +480,7 @@ public final class CodeAPI {
     // Factory
 
     private static CodeInterface anInterface__factory(int modifiers, String qualifiedName, GenericSignature<GenericType> signature, Function<CodeInterface, CodeSource> source, CodeType... extensions) {
-        CodeInterface codeInterface = new CodeInterface(null, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource(), qualifiedName);
+        CodeInterface codeInterface = new CodeInterface(null, qualifiedName, CodeModifier.extractModifiers(modifiers), ArrayToList.toList(extensions), signature, new CodeSource());
 
         if (source != null)
             return codeInterface.setBody(source.apply(codeInterface));

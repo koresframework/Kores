@@ -27,14 +27,63 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.iutils.type.TypeInfo;
+import com.github.jonathanxd.codeapi.CodePart;
 
-public class Constants {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
-    public static final TypeInfo<MutableCodeSource> SOURCE = TypeInfo.aUnique(MutableCodeSource.class);
-    public static final TypeInfo<TypeDeclaration> TYPE_DECLARATION = TypeInfo.aUnique(TypeDeclaration.class);
+public class StackManager {
 
+    private final List<CodePart> stack = new ArrayList<>();
+
+    public void push(CodePart part) {
+        this.stack.add(part);
+    }
+
+    public void push(List<CodePart> parts) {
+        this.stack.addAll(parts);
+    }
+
+    public CodePart pop() {
+        this.checkEmpty();
+
+        return this.stack.remove(this.stack.size()-1);
+    }
+
+    public List<CodePart> pop(int n) {
+        this.checkEmpty(n);
+
+        List<CodePart> popped = new ArrayList<>();
+
+        for(int x = n; x < this.stack.size(); ++x) {
+            popped.add(this.stack.remove(x));
+        }
+
+        return popped;
+    }
+
+    public CodePart peek() {
+        this.checkEmpty();
+
+        return this.stack.get(this.stack.size()-1);
+    }
+
+    public List<CodePart> peek(int n) {
+        this.checkEmpty(n);
+
+        return this.stack.subList(n, this.stack.size());
+    }
+
+    private void checkEmpty() {
+        if(this.stack.isEmpty())
+            throw new NoSuchElementException("Empty stack.");
+    }
+
+    private void checkEmpty(int n) {
+        this.checkEmpty();
+
+        if(this.stack.size() - n < 0)
+            throw new NoSuchElementException("Cannot get '"+n+"' elements from stack. Stack size: "+this.stack.size());
+    }
 }

@@ -77,6 +77,9 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     public void visitParameter(String name, int access) {
 
         System.out.println("Visit parameter name = " + name + ", modifiers: " + CommonRead.modifiersFromAccess(access));
+
+
+
         super.visitParameter(name, access);
     }
 

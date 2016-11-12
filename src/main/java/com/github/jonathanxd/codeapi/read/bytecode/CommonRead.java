@@ -38,19 +38,15 @@ import com.github.jonathanxd.codeapi.read.Environment;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 import com.github.jonathanxd.codeapi.util.description.DescriptionUtil;
-import com.github.jonathanxd.codeapi.visitgenerator.bytecode.Common;
 
 import org.objectweb.asm.Opcodes;
 
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -133,8 +129,6 @@ public class CommonRead {
             typeStr = typeStr.substring(1, typeStr.length() - 1);
         }
 
-        //String simpleName = typeStr.contains(".") ? typeStr.substring(typeStr.lastIndexOf('.') + 1, typeStr.length()) : typeStr;
-
         return environment.getType(typeStr, isInterface);
     }
 
@@ -152,7 +146,7 @@ public class CommonRead {
 
             Function<String, CodeType> func = s -> CommonRead.toCodeType(environment, s, false);
 
-            if(str.startsWith("<")) {
+            if (str.startsWith("<")) {
                 return parse(stringCharacterIterator, func);
             } else {
                 return GenericSignature.create(parseTypeOrVar(stringCharacterIterator, func));
@@ -164,11 +158,11 @@ public class CommonRead {
     public static GenericSignature<GenericType> parse(CharacterIterator signature, Function<String, CodeType> typeResolver) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        while(signature.current() != ':') {
-            if(signature.current() == CharacterIterator.DONE) {
+        while (signature.current() != ':') {
+            if (signature.current() == CharacterIterator.DONE) {
                 return GenericSignature.empty();
             }
-            if(signature.current() != '<') {
+            if (signature.current() != '<') {
                 stringBuilder.append(signature.current());
             }
 
@@ -184,11 +178,11 @@ public class CommonRead {
     }
 
     public static Generic parseTypeOrVar(CharacterIterator signature, Function<String, CodeType> typeResolver) {
-        if(signature.current() == ':') {
+        if (signature.current() == ':') {
             signature.next();
         }
 
-        if(signature.current() == CharacterIterator.DONE) {
+        if (signature.current() == CharacterIterator.DONE) {
             return null;
         }
 
@@ -198,9 +192,9 @@ public class CommonRead {
     public static Generic parseNameType(CharacterIterator signature, Function<String, CodeType> typeResolver) {
         char current = signature.current();
 
-        if(current == 'L') {
-            return parseJavaClass(signature,  typeResolver);
-        }else if(current == 'T') {
+        if (current == 'L') {
+            return parseJavaClass(signature, typeResolver);
+        } else if (current == 'T') {
             return parseVar(signature);
         }
 
@@ -212,7 +206,7 @@ public class CommonRead {
 
         signature.next();
 
-        if(signature.current() == CharacterIterator.DONE) {
+        if (signature.current() == CharacterIterator.DONE) {
             return null;
         }
 
@@ -220,7 +214,7 @@ public class CommonRead {
 
         while (signature.current() != ';' && signature.current() != '>' && signature.current() != CharacterIterator.DONE) {
 
-            if(signature.current() == '<') {
+            if (signature.current() == '<') {
                 String name = sb.toString();
 
                 generic = Generic.type(typeResolver.apply(name));
@@ -230,7 +224,7 @@ public class CommonRead {
                 do {
                     Generic bound = parseTypeOrVar(signature, typeResolver);
                     generic = generic.of(bound);
-                }while (signature.current() != '>');
+                } while (signature.current() != '>');
 
             }
 
@@ -239,11 +233,11 @@ public class CommonRead {
             signature.next();
         }
 
-        if(signature.current() == CharacterIterator.DONE)
+        if (signature.current() == CharacterIterator.DONE)
             return null;
         signature.next();
 
-        if(generic != null) {
+        if (generic != null) {
             return generic;
         } else {
             return Generic.type(typeResolver.apply(sb.toString()));
@@ -259,11 +253,11 @@ public class CommonRead {
             signature.next();
         }
 
-        if(signature.current() == CharacterIterator.DONE) {
+        if (signature.current() == CharacterIterator.DONE) {
             return null;
         }
 
-        if(signature.current() == ';') {
+        if (signature.current() == ';') {
             signature.next();
         }
 
@@ -279,11 +273,11 @@ public class CommonRead {
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
 
-            if(c == '<' && ct == 0) {
+            if (c == '<' && ct == 0) {
                 ++ct;
-            }else if(c == '>') {
+            } else if (c == '>') {
                 sb.append(c);
-                if(ct == 1) {
+                if (ct == 1) {
                     String s = sb.toString();
                     sb.setLength(0);
 
@@ -312,8 +306,8 @@ public class CommonRead {
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
 
-            if(c == ':') {
-                if(stringBuilder.length() > 0) {
+            if (c == ':') {
+                if (stringBuilder.length() > 0) {
                     name = stringBuilder.toString();
                     stringBuilder.setLength(0);
                 }
@@ -323,10 +317,10 @@ public class CommonRead {
 
         }
 
-        if(name == null) {
+        if (name == null) {
             String s = stringBuilder.toString();
             for (char c : s.toCharArray()) {
-                if(c == 'L') {
+                if (c == 'L') {
 
                 }
             }
@@ -336,7 +330,7 @@ public class CommonRead {
 
         Generic type1 = parseType(stringBuilder.toString());
 
-        if(type1 != null) {
+        if (type1 != null) {
             type = type.of(type1);
         }
 

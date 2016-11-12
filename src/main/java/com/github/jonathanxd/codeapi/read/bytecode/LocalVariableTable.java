@@ -27,14 +27,25 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.iutils.type.TypeInfo;
+import com.github.jonathanxd.codeapi.CodePart;
 
-public class Constants {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
-    public static final TypeInfo<MutableCodeSource> SOURCE = TypeInfo.aUnique(MutableCodeSource.class);
-    public static final TypeInfo<TypeDeclaration> TYPE_DECLARATION = TypeInfo.aUnique(TypeDeclaration.class);
+public class LocalVariableTable {
+
+    private final Map<Integer, CodePart> table = new HashMap<>();
+
+    public void store(CodePart part, int index) {
+        this.table.put(index, part);
+    }
+
+    public CodePart get(int index) {
+        if (!this.table.containsKey(index))
+            throw new NoSuchElementException("The slot '" + index + "' is empty.");
+
+        return this.table.get(index);
+    }
 
 }

@@ -29,15 +29,10 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Result;
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.read.bytecode.BytecodeReader;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator;
-import com.github.jonathanxd.iutils.annotations.Named;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.option.Options;
 
 import org.junit.Test;
@@ -61,7 +56,7 @@ public class TestRead {
     @Test
     public void testRead() {
 
-        if(ResultSaver.IS_GRADLE_ENVIRONMENT) {
+        if (ResultSaver.IS_GRADLE_ENVIRONMENT) {
             return;
         }
 
@@ -77,18 +72,13 @@ public class TestRead {
 
         BytecodeReader bytecodeReader = new BytecodeReader();
 
-        CodePart read = bytecodeReader.read(PrimitiveArrayConverter.fromPrimitive(bytes), new Options());
-
-
-        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
-
-        Result<Byte[]> gen = bytecodeGenerator.gen((CodeSource) read);
+        CodePart read = bytecodeReader.read(bytes, new Options());
 
         CodeSource source = (CodeSource) read;
 
         for (CodePart part : source) {
-            if(part instanceof TypeDeclaration) {
-                @Named("Instance") Object test = CommonBytecodeTest.test(this.getClass(), (ClassDeclaration) part, source);
+            if (part instanceof TypeDeclaration) {
+                Object test = CommonBytecodeTest.test(this.getClass(), (ClassDeclaration) part, source);
                 break;
             }
         }

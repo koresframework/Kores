@@ -29,29 +29,28 @@ package com.github.jonathanxd.codeapi.read.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.read.Environment;
 import com.github.jonathanxd.codeapi.read.Reader;
 import com.github.jonathanxd.codeapi.read.bytecode.asm.BytecodeClassVisitor;
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter;
+import com.github.jonathanxd.iutils.array.PrimitiveArrayConverter;
 import com.github.jonathanxd.iutils.option.Options;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 
-public class BytecodeReader implements Reader<Byte[]> {
+public class BytecodeReader implements Reader<byte[]> {
 
     @Override
-    public CodePart read(Byte[] bytes, Options options) {
+    public CodePart read(byte[] bytes, Options options) {
         Environment environment = new Environment();
 
-        CodeSource codeSource = new CodeSource();
+        MutableCodeSource codeSource = new MutableCodeSource();
 
         // Data setup
         environment.getData().registerData(Constants.SOURCE, codeSource);
 
-        byte[] primitiveBytes = PrimitiveArrayConverter.toPrimitive(bytes);
-
-        ClassReader classReader = new ClassReader(primitiveBytes);
+        ClassReader classReader = new ClassReader(bytes);
 
         classReader.accept(new BytecodeClassVisitor(Opcodes.ASM5, environment), 0);
 
