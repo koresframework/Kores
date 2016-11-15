@@ -97,6 +97,7 @@ import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.interfaces.InstanceOf;
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
@@ -314,8 +315,12 @@ public final class Helper {
         return new VariableOperateImpl(null, accessLocal(), fieldDeclaration.getName(), fieldDeclaration.getVariableType(), operation, null);
     }
 
-
+    // Compatibility
     public static CodeMethod bridgeMethod(CodeMethod current, FullMethodSpec methodSpec) {
+        return Helper.bridgeMethod((MethodDeclaration) current, methodSpec);
+    }
+
+    public static CodeMethod bridgeMethod(MethodDeclaration current, FullMethodSpec methodSpec) {
         List<CodeType> parameterTypes = methodSpec.getParameterTypes();
         List<CodeParameter> currentParameters = current.getParameters();
 

@@ -30,15 +30,18 @@ package com.github.jonathanxd.codeapi.test.bytecode;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
+import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 
 import org.junit.Test;
 
@@ -52,12 +55,38 @@ public class BridgeMethodsTest {
     @Test
     public void bridgeMethodTest() throws Throwable {
 
+        BCLoader bcLoader = new BCLoader();
+
+        TypeDeclaration itfDeclaration = CodeAPI.anInterfaceBuilder()
+                .withModifiers(Modifier.PUBLIC)
+                .withQualifiedName("com.AB")
+                .withGenericSignature(GenericSignature.create(Generic.type("T").extends$(
+                        Generic.type(Helper.getJavaType(Iterable.class)).of(Generic.wildcard())
+                )))
+                .withBody(CodeAPI.sourceOfParts(
+                        CodeAPI.methodBuilder()
+                                .withModifiers(Modifier.PUBLIC)
+                                .withName("iterate")
+                                .withReturnType(PredefinedTypes.VOID)
+                                .withParameters(CodeAPI.parameter(Generic.type("T"), "iter"))
+                                .withBody(null)
+                                .build()
+                ))
+                .build();
+
+        byte[] bts = new BytecodeGenerator().gen(itfDeclaration)[0].getBytecode();
+
+        ResultSaver.save(this.getClass(), "Itf", bts);
+
+        bcLoader.define(itfDeclaration, bts);
+
         CodeMethod method;
 
         TypeDeclaration typeDeclaration = CodeAPI.aClassBuilder()
                 .withModifiers(Modifier.PUBLIC)
                 .withQualifiedName("com.bridgeTest")
-                .withImplementations(Generic.type(Helper.getJavaType(Iterate.class)).of(PredefinedTypes.LIST))
+                //.withImplementations(Generic.type(Helper.getJavaType(Iterate.class)).of(PredefinedTypes.LIST))
+                .withImplementations(Generic.type(itfDeclaration).of(PredefinedTypes.LIST))
                 .withBody(CodeAPI.sourceOfParts(
                         method = CodeAPI.methodBuilder()
                                 .withModifiers(Modifier.PUBLIC)
@@ -77,28 +106,34 @@ public class BridgeMethodsTest {
                                                         )
                                                 ))
                                 ))
-                                .build(),
-                        Helper.bridgeMethod(method, new FullMethodSpec(Iterate.class, Void.TYPE, "iterate", Iterable.class))
+                                .build()//,
+                        //Helper.bridgeMethod(method, new FullMethodSpec(Iterate.class, Void.TYPE, "iterate", Iterable.class))
+                        //Helper.bridgeMethod(method, new FullMethodSpec(itfDeclaration, PredefinedTypes.VOID, "iterate", Helper.getJavaType(Iterable.class)))
                 ))
                 .build();
 
         CodeSource codeSource = CodeAPI.sourceOfParts(typeDeclaration);
 
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
+
+        bytecodeGenerator.getOptions().set(CodeOptions.GENERATE_BRIDGE_METHODS, true);
+
         byte[] gen = bytecodeGenerator.gen(codeSource)[0].getBytecode();
 
         ResultSaver.save(this.getClass(), gen);
 
-        BCLoader bcLoader = new BCLoader();
-
         Class<?> define = bcLoader.define(typeDeclaration, gen);
-        Iterate<Iterable<?>> o = (Iterate<Iterable<?>>) define.newInstance();
+
+        //Iterate<List<?>> o = (Iterate<List<?>>) define.newInstance();
+        Object o = define.newInstance();
 
         List<Object> iterable = new ArrayList<>();
 
         iterable.add("A");
 
-        o.iterate(iterable);
+        //o.iterate(iterable);
+        define.getDeclaredMethod("iterate", Iterable.class).invoke(o, iterable);
+
     }
 
     public interface Iterate<T extends Iterable<?>> {

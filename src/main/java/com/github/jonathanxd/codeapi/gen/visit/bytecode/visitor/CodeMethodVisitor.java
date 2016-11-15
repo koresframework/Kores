@@ -30,11 +30,14 @@ package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
@@ -43,12 +46,14 @@ import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.options.CodeOptions;
 import com.github.jonathanxd.codeapi.util.Variable;
-import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
-import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
-import com.github.jonathanxd.codeapi.util.gen.ConstructorUtil;
-import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 import com.github.jonathanxd.codeapi.util.asm.ParameterVisitor;
+import com.github.jonathanxd.codeapi.util.element.ElementUtil;
+import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.ConstructorUtil;
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 import com.github.jonathanxd.codeapi.util.gen.ParameterUtil;
+import com.github.jonathanxd.codeapi.util.source.BridgeUtil;
 import com.github.jonathanxd.codeapi.util.source.CodeSourceUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -74,10 +79,29 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
 
         boolean validateSuper = visitorGenerator.getOptions().getOrElse(CodeOptions.VALIDATE_SUPER, true);
         boolean validateThis = visitorGenerator.getOptions().getOrElse(CodeOptions.VALIDATE_THIS, true);
+        boolean genBridge = visitorGenerator.getOptions().getOrElse(CodeOptions.GENERATE_BRIDGE_METHODS, false);
 
         boolean isConstructor = codeMethod instanceof ConstructorDeclaration;
 
         TypeDeclaration typeDeclaration = extraData.getRequired(TypeVisitor.CODE_TYPE_REPRESENTATION, "Cannot find CodeClass. Register 'TypeVisitor.CODE_TYPE_REPRESENTATION'!");
+
+        if (!codeMethod.getModifiers().contains(CodeModifier.BRIDGE) && genBridge) {
+            Optional<CodeMethod> bridgeOpt = BridgeUtil.genBridgeMethod(typeDeclaration, codeMethod);
+
+            if (bridgeOpt.isPresent()) {
+                CodeMethod bridgeMethod = bridgeOpt.get();
+
+                FullMethodSpec methodSpec = ElementUtil.getMethodSpec(typeDeclaration, bridgeMethod);
+
+                boolean any = !SourceInspect.find(codePart -> codePart instanceof MethodDeclaration && ElementUtil.getMethodSpec(typeDeclaration, ((MethodDeclaration) codePart)).compareTo(methodSpec) == 0)
+                        .include(bodied -> bodied instanceof CodeSource)
+                        .inspect(typeDeclaration.getBody().orElse(CodeSource.empty())).isEmpty();
+
+                if(!any) {
+                    visitorGenerator.generateTo(bridgeMethod.getClass(), bridgeMethod, extraData, additional);
+                }
+            }
+        }
 
         ClassWriter cw = Util.find(TypeVisitor.CLASS_WRITER_REPRESENTATION, extraData, additional);
 

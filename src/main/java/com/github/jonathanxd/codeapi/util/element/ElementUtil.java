@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
@@ -46,6 +47,7 @@ import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.TypeUtil;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class ElementUtil {
@@ -102,5 +104,18 @@ public class ElementUtil {
                         typeSpec,
                         arguments,
                         isConstructor ? MethodType.CONSTRUCTOR : MethodType.METHOD));
+    }
+
+    public static FullMethodSpec getMethodSpec(Method method) {
+        return new FullMethodSpec(method.getDeclaringClass(), method.getReturnType(), method.getName(), method.getParameterTypes());
+    }
+
+    public static FullMethodSpec getMethodSpec(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
+        return new FullMethodSpec(
+                typeDeclaration,
+                methodDeclaration.getReturnType().orElse(PredefinedTypes.VOID),
+                methodDeclaration.getName(),
+                methodDeclaration.getParameters().stream().map(CodeParameter::getRequiredType).toArray(CodeType[]::new)
+        );
     }
 }

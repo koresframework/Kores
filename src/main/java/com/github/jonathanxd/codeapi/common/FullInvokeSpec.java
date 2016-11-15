@@ -75,4 +75,14 @@ public class FullInvokeSpec extends FullMethodSpec {
     public InvokeType getInvokeType() {
         return this.invokeType;
     }
+
+    @Override
+    public String toString() {
+        return "FullInvokeSpec[localization="+this.getLocalization()
+                + ", invokeType=" + this.getInvokeType()
+                + ", methodName=" + this.getMethodName()
+                + ", returnType=" + this.getReturnType()
+                + ", parameterSpec=" + this.getParameterTypes()
+                + "]";
+    }
 }

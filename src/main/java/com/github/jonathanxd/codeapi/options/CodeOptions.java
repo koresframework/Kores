@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.options;
 
+import com.github.jonathanxd.codeapi.common.FullMethodSpec;
+import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.iutils.option.Option;
 
 /**
@@ -36,10 +38,13 @@ public class CodeOptions {
     /**
      * Inline finally blocks.
      *
-     * Bytecode: If defined to false, CodeAPI will generate Goto's instructions to call
-     * finally blocks (it is bad). (default: true)
+     * Bytecode: If defined to false, CodeAPI will generate Goto's instructions to call finally
+     * blocks (it is bad). (default: true)
      *
      * Source Code: Inline finally blocks inside try and catches. (default: false)
+     *
+     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator},
+     * {@link com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator}.
      */
     public static final Option<Boolean> INLINE_FINALLY = new Option<>();
 
@@ -48,13 +53,39 @@ public class CodeOptions {
      * Validate constructor this() invocation.
      *
      * Default: true
+     *
+     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}.
      */
-    public static final Option<Boolean> VALIDATE_THIS = new Option<>();
+    public static final Option<Boolean> VALIDATE_THIS = new Option<>(true);
 
     /**
      * Validate constructor this() invocation.
      *
      * Default: true
+     *
+     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}.
      */
-    public static final Option<Boolean> VALIDATE_SUPER = new Option<>();
+    public static final Option<Boolean> VALIDATE_SUPER = new Option<>(true);
+
+    /**
+     * Automatically generation of bridge methods (beta).
+     *
+     * The generation of bridge methods will slow down the Generator, if you mind the performance
+     * don't change this option.
+     *
+     * The generation of bridge methods is very limited, the {@link com.github.jonathanxd.codeapi.util.source.BridgeUtil}
+     * will inspect super-classes (and super-interfaces) and find the overridden method. The {@link
+     * com.github.jonathanxd.codeapi.util.source.BridgeUtil} will only inspect {@link Class Java
+     * class} and {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration CodeAPI Type
+     * Declaration}, if the super-class and/or super-interfaces is of another type, {@link
+     * com.github.jonathanxd.codeapi.util.source.BridgeUtil} will ignore and bridge method will not
+     * be generated.
+     *
+     * You can add bridge methods manually with {@link com.github.jonathanxd.codeapi.helper.Helper#bridgeMethod(CodeMethod,
+     * FullMethodSpec)}.
+     *
+     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}.
+     *
+     */
+    public static final Option<Boolean> GENERATE_BRIDGE_METHODS = new Option<>(false);
 }

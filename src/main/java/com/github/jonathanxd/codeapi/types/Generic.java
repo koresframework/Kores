@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
 import com.github.jonathanxd.iutils.array.ArrayUtils;
 
 import java.util.Arrays;
@@ -339,6 +341,7 @@ public class Generic implements GenericType {
      *
      * @return Type.
      */
+    @Override
     public CodeType getCodeType() {
         return this.codeType;
     }
@@ -492,5 +495,10 @@ public class Generic implements GenericType {
         result = 31 * result + Arrays.deepHashCode(this.bounds());
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return GenericTypeUtil.toSourceString(this);
     }
 }

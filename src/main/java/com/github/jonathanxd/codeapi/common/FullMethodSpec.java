@@ -31,11 +31,13 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Specification of a invocation of a method.
  */
-public class FullMethodSpec extends TypeSpec {
+public class FullMethodSpec extends TypeSpec implements Comparable<FullMethodSpec> {
 
     /**
      * Localization of invocation target.
@@ -76,6 +78,34 @@ public class FullMethodSpec extends TypeSpec {
     }
 
     /**
+     * Constructor
+     *
+     * @param location       Localization of the invocation target (type).
+     * @param returnType     Return type of the invocation target.
+     * @param methodName     Name of the invocation target.
+     * @param parameterTypes Types of the parameters of invocation target.
+     */
+    public FullMethodSpec(CodeType location, CodeType returnType, String methodName, List<CodeType> parameterTypes) {
+        super(returnType, parameterTypes);
+        this.location = location;
+        this.methodName = methodName;
+    }
+
+    /**
+     * Constructor
+     *
+     * @param location       Localization of the invocation target (type).
+     * @param returnType     Return type of the invocation target.
+     * @param methodName     Name of the invocation target.
+     * @param parameterTypes Types of the parameters of invocation target.
+     */
+    public FullMethodSpec(Class<?> location, Class<?> returnType, String methodName, List<Class<?>> parameterTypes) {
+        super(Helper.getJavaType(returnType), parameterTypes.stream().map(Helper::getJavaType).collect(Collectors.toList()));
+        this.location = Helper.getJavaType(location);
+        this.methodName = methodName;
+    }
+
+    /**
      * Gets the localization of invocation target.
      *
      * @return Localization of invocation target.
@@ -91,5 +121,54 @@ public class FullMethodSpec extends TypeSpec {
      */
     public String getMethodName() {
         return this.methodName;
+    }
+
+    @Override
+    public FullMethodSpec setParameterTypes(List<CodeType> parameterTypes) {
+        return new FullMethodSpec(this.getLocalization(), this.getReturnType(), this.getMethodName(), parameterTypes);
+    }
+
+    @Override
+    public FullMethodSpec setReturnType(CodeType returnType) {
+        return new FullMethodSpec(this.getLocalization(), returnType, this.getMethodName(), this.getParameterTypes());
+    }
+
+    @Override
+    public FullMethodSpec setType(CodeType codeType) {
+        return this.setReturnType(codeType);
+    }
+
+    public FullMethodSpec setLocation(CodeType location) {
+        return new FullMethodSpec(location, this.getReturnType(), this.getMethodName(), this.getParameterTypes());
+    }
+
+    public FullMethodSpec setMethodName(String methodName) {
+        return new FullMethodSpec(this.getLocalization(), this.getReturnType(), methodName, this.getParameterTypes());
+    }
+
+    @Override
+    public String toString() {
+        return "FullMethodSpec[localization="+this.getLocalization()
+                + ", methodName=" + this.getMethodName()
+                + ", returnType=" + this.getReturnType()
+                + ", parameterSpec=" + this.getParameterTypes()
+                + "]";
+    }
+
+    /**
+     *
+     * This method will not compare the method localization.
+     *
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public int compareTo(FullMethodSpec o) {
+        if(o == null)
+            return -1;
+
+        return this.getMethodName().equals(o.getMethodName())
+                && this.getParameterTypes().equals(o.getParameterTypes())
+                && this.getReturnType().is(o.getReturnType()) ? 0 : 1;
     }
 }

@@ -111,4 +111,9 @@ public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Ann
     public CodeParameter setAnnotations(List<Annotation> annotations) {
         return new CodeParameter(this.getName(), this.getType().orElse(null), annotations);
     }
+
+    @Override
+    public String toString() {
+        return "CodeParameter[name="+this.getName()+", type="+this.getType()+", annotations="+this.getAnnotations()+"]";
+    }
 }

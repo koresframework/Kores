@@ -49,6 +49,13 @@ public interface GenericType extends CodeType {
     Bound<CodeType>[] bounds();
 
     /**
+     * Gets the resolved code type.
+     *
+     * @return Resolved code type.
+     */
+    CodeType getCodeType();
+
+    /**
      * Returns true if this is a Type generic type, false if is a Type Variable generic type.
      *
      * @return True if this is a Type generic type, false if is a Type Variable generic type.
