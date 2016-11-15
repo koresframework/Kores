@@ -129,6 +129,21 @@ public class MethodInvocationVisitor implements Visitor<MethodInvocation, Byteco
         CodePart target = methodInvocation.getTarget().orElse(null);
         MethodSpecification specification = methodInvocation.getSpec();
 
+        if(localization == null) {
+            localization = enclosingType.get();
+
+            // Throw exception in case of invalid invoke type
+            if(invokeType == InvokeType.INVOKE_VIRTUAL
+                    || invokeType == InvokeType.INVOKE_INTERFACE) {
+
+                InvokeType correctInvokeType = InvokeType.get(localization);
+
+                if(!invokeType.equals(correctInvokeType)) {
+                    throw new IllegalStateException("Invalid invocation type '"+invokeType+"' for CodeType: '"+localization+"' (correct invoke type: '"+correctInvokeType+"')");
+                }
+            }
+        }
+
         // If invoke type is not specified try to infer it from localization
         if (invokeType == null) {
             // If localization is not specified the target type is the enclosingClass.
