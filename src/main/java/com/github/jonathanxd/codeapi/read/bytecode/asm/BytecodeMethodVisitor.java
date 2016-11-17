@@ -175,11 +175,10 @@ public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
 
     @Override
     public void visitInsn(int opcode) {
+        super.visitInsn(opcode);
 
         label:
         {
-            // Break on opcodes that will be parsed by another method (like visitVarInsn)
-
             switch (opcode) {
                 case NOP:
                 case POP: // Ignore POP
@@ -197,8 +196,11 @@ public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
                 case DCMPL:
                 case DCMPG:
                 case MONITORENTER: // No equivalent
-                case MONITOREXIT: // No equivalent
+                case MONITOREXIT: {// No equivalent
+                    this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitInsn(opcode)));
                     break label;
+                }
+
             }
 
             CodePart value = null;
@@ -314,12 +316,11 @@ public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
 
             if (value != null)
                 this.frame.getOperandStack().push(value);
+
+            if(value == null)
+                this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitInsn(opcode)));
         }
 
-        super.visitInsn(opcode);
-
-
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitInsn(opcode)));
     }
 
     @Override
@@ -334,16 +335,26 @@ public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
             CodeType arrayType = ArrayUtil.getArrayType(operand);
 
             this.frame.getOperandStack().push(new UnsizedArray(arrayType, new CodePart[0], Collections.emptyList()));
-        }
+        } else {
 
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitIntInsn(opcode, operand)));
+            this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitIntInsn(opcode, operand)));
+        }
     }
 
     @Override
     public void visitVarInsn(int opcode, int var) {
         super.visitVarInsn(opcode, var);
 
-        this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitVarInsn(opcode, var)));
+        if(opcode == ILOAD || opcode == LLOAD || opcode == FLOAD || opcode == DLOAD || opcode == ALOAD) {
+            this.frame.loadToStack(var);
+        } else if(opcode == ISTORE || opcode == LSTORE || opcode == FSTORE || opcode == DSTORE || opcode == ASTORE) {
+            this.frame.store(this.frame.getOperandStack().pop(), var);
+        } else {
+            if(opcode == RET)
+                this.logger.warning("Cannot handle RET opcode");
+
+            this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitVarInsn(opcode, var)));
+        }
     }
 
     @Override

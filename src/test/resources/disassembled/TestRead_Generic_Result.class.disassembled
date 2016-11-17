@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TestRead_Generic_Result.class
-  Last modified 17/11/2016; size 669 bytes
-  MD5 checksum 75da6903f883cc15fb44bd6ee687e523
+  Last modified 17/11/2016; size 601 bytes
+  MD5 checksum 0972998ac42f697dfd57948ca33da034
   Compiled from "Generic.cai"
 public class com.Generic<T extends java.util.List<T>> extends java.lang.Object implements java.util.List<T>
   minor version: 0
@@ -44,19 +44,15 @@ Constant pool:
     descriptor: (Ljava/lang/Object;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=1, locals=2, args_size=1
-         0: aconst_null
-         1: astore_1
-         2: return
-         3: nop
-         4: nop
-         5: athrow
+      stack=1, locals=1, args_size=1
+         0: return
+         1: athrow
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0       6     0 param0   Ljava/lang/Object;
+            0       2     0 param0   Ljava/lang/Object;
       StackMapTable: number_of_entries = 1
         frame_type = 255 /* full_frame */
-          offset_delta = 3
+          offset_delta = 1
           locals = []
           stack = [ class java/lang/Throwable ]
 
@@ -67,17 +63,14 @@ Constant pool:
       stack=1, locals=1, args_size=1
          0: aload_0
          1: invokespecial #19                 // Method java/lang/Object."<init>":()V
-         4: aload_0
-         5: invokespecial #19                 // Method java/lang/Object."<init>":()V
-         8: return
-         9: nop
-        10: athrow
+         4: return
+         5: athrow
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      11     0  this   Lcom/Generic;
+            0       6     0  this   Lcom/Generic;
       StackMapTable: number_of_entries = 1
         frame_type = 255 /* full_frame */
-          offset_delta = 9
+          offset_delta = 5
           locals = []
           stack = [ class java/lang/Throwable ]
 
@@ -87,8 +80,7 @@ Constant pool:
     Code:
       stack=1, locals=0, args_size=0
          0: return
-         1: nop
-         2: athrow
+         1: athrow
       StackMapTable: number_of_entries = 1
         frame_type = 65 /* same_locals_1_stack_item */
           stack = [ class java/lang/Throwable ]
