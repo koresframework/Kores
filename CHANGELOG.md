@@ -2,6 +2,15 @@
 
 `since 1.11`
 
+###### Version 3.0 - Planned features.
+| Name                         | Type          | Issue       | Commit                                   |
+| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
+| Save tests and disassemble...| Feature       |  #36        | 45b0a0740b1d2faafb52fbd1591e22bba05d4897 |
+| Bitwise and neg... operation | Feature       |  #34        | f4e54c92144d1771438b889286e84ea7ac4ac529 |
+| More Builders                | Feature       |  #33        | 2d4d2d5a79f2a8647d8f43c78446fa26b15e599d |
+| Bridge methods               | Feature       |  #19        | 847532e6a9b9b1cbf209879e93261ded2ef186a7 |
+| Convert from Kotlin to Java  | Improvement?  |  #29        | Some                                     |
+
 ###### 2.0 - First Stable Release.
 | Name                         | Type          | Issue       | Commit                                   |
 | ---------------------------- | ------------- | ----------- | ---------------------------------------- |
