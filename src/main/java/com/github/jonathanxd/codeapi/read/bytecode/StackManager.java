@@ -45,6 +45,24 @@ public class StackManager {
         this.stack.addAll(parts);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T popAs(Class<T> type) {
+        CodePart pop = this.pop();
+
+        if(!type.isInstance(pop))
+            throw new ClassCastException("Value '"+pop+"' popped from stack cannot be cast to '"+type+"'!");
+
+        return (T) pop;
+    }
+
+    public List<CodePart> popAll() {
+        List<CodePart> popped = new ArrayList<>(this.stack);
+
+        this.stack.clear();
+
+        return popped;
+    }
+
     public CodePart pop() {
         this.checkEmpty();
 
@@ -54,9 +72,11 @@ public class StackManager {
     public List<CodePart> pop(int n) {
         this.checkEmpty(n);
 
+        int start = this.stack.size() - n;
+
         List<CodePart> popped = new ArrayList<>();
 
-        for(int x = n; x < this.stack.size(); ++x) {
+        for(int x = start; x < this.stack.size(); ++x) {
             popped.add(this.stack.remove(x));
         }
 

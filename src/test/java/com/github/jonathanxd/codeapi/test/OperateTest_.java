@@ -56,7 +56,17 @@ public class OperateTest_ {
                                                 )
                                                 .build()
                                 )
-                        )
+                        ),
+                        Predefined.invokePrintlnStr(Predefined.intToString(
+                                CodeAPI.operateHelper(INT(9))
+                                        .neg()
+                                        .build()
+                        )),
+                        Predefined.invokePrintlnStr(Predefined.intToString(
+                                CodeAPI.operateHelper(INT(9))
+                                        .not(INT(10))
+                                        .build()
+                        ))
 
                 ))
         ));

@@ -122,7 +122,7 @@ public class VariableOperateVisitor implements VoidVisitor<VariableOperate, Byte
 
             visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
-            OperateVisitor.operateVisit(variableOperate.getVariableType(), operation, mvData);
+            OperateVisitor.operateVisit(variableOperate.getVariableType(), operation, false, mvData);
         } else {
             Objects.requireNonNull(value, "value is null, cannot operate without value using operator: " + operation);
 
@@ -130,7 +130,7 @@ public class VariableOperateVisitor implements VoidVisitor<VariableOperate, Byte
 
             visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
-            OperateVisitor.operateVisit(variableOperate.getVariableType(), operation, mvData);
+            OperateVisitor.operateVisit(variableOperate.getVariableType(), operation, false, mvData);
 
         }
 

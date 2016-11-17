@@ -157,4 +157,9 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     public CodeArgument setType(CodeType codeType) {
         return new CodeArgument(this.getValue().orElse(null), this.isCasted(), codeType);
     }
+
+    @Override
+    public String toString() {
+        return "CodeArgument[value="+this.getValue().orElse(null)+", type="+this.getType().orElse(null)+", isCast: "+this.isCasted()+"]";
+    }
 }

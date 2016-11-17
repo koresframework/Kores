@@ -36,6 +36,9 @@ import com.github.jonathanxd.codeapi.impl.StaticBlockImpl
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead
 import com.github.jonathanxd.codeapi.read.bytecode.Constants
+import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame
+import org.objectweb.asm.tree.InsnList
+import org.objectweb.asm.tree.InsnNode
 import org.objectweb.asm.tree.MethodNode
 import org.objectweb.asm.tree.ParameterNode
 
@@ -70,5 +73,22 @@ object MethodAnalyzer {
         val instructions = methodNode.instructions
 
         return method
+    }
+
+    fun analyzeInstructions(instructions: InsnList, method: MethodDeclaration, environment: Environment) {
+
+        val frame = EmulatedFrame()
+
+        val array = instructions.toArray()
+
+        array.forEach {
+            println("InsnList: $it")
+
+            /*when(it) {
+                is InsnNode -> {
+                    it.opcode
+                }
+            }*/
+        }
     }
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.builder.OperateHelper;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
@@ -37,6 +38,7 @@ import com.github.jonathanxd.codeapi.interfaces.Operate;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.interfaces.VariableOperate;
 import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -72,6 +74,23 @@ public class OperateVisitor implements VoidVisitor<Operate, BytecodeClass, MVDat
 
         CodePart value = operate.getValue().orElse(null);
 
+        if (operation == Operators.UNARY_BITWISE_COMPLEMENT) { // ~
+            Objects.requireNonNull(value, "Value cannot be null if operation is '"+operation+"'!");
+            // Desugar
+            CodePart desugar = OperateHelper.builder(target)
+                    .subtract(
+                            OperateHelper.builder(value)
+                                    .xor(Literals.INT(-1))
+                                    .build()
+                    )
+                    .build();
+
+            visitorGenerator.generateTo(desugar.getClass(), desugar, extraData, mvData);
+
+            return;
+        }
+
+
         visitorGenerator.generateTo(target.getClass(), target, extraData, mvData);
 
         if(value != null) {
@@ -82,10 +101,17 @@ public class OperateVisitor implements VoidVisitor<Operate, BytecodeClass, MVDat
                 || operation == Operators.SUBTRACT
                 || operation == Operators.MULTIPLY
                 || operation == Operators.DIVISION
-                || operation == Operators.REMAINDER) {
+                || operation == Operators.REMAINDER
+                || operation == Operators.SIGNED_LEFT_SHIFT // <<
+                || operation == Operators.SIGNED_RIGHT_SHIFT // >>
+                || operation == Operators.UNSIGNED_RIGHT_SHIFT // >>>
+                || operation == Operators.BITWISE_EXCLUSIVE_OR // ^
+                || operation == Operators.BITWISE_INCLUSIVE_OR // |
+                || operation == Operators.BITWISE_AND // &
+                ) {
             CodeType type = CodePartUtil.getType(target);
 
-            operateVisit(type, operation, mvData);
+            operateVisit(type, operation, value == null, mvData);
         } else {
             throw new RuntimeException("Cannot handle operation: '"+operation+"'!");
         }
@@ -94,7 +120,7 @@ public class OperateVisitor implements VoidVisitor<Operate, BytecodeClass, MVDat
 
     }
 
-    static void operateVisit(CodeType codeType, Operator operation, MVData mvData) {
+    static void operateVisit(CodeType codeType, Operator operation, boolean valueIsNull, MVData mvData) {
         Type type = Type.getType(codeType.getJavaSpecName());
 
         int opcode = -1;
@@ -102,13 +128,25 @@ public class OperateVisitor implements VoidVisitor<Operate, BytecodeClass, MVDat
         if (operation == Operators.ADD) {
             opcode = type.getOpcode(IADD);
         } else if (operation == Operators.SUBTRACT) {
-            opcode = type.getOpcode(ISUB);
+            if(!valueIsNull) {
+                opcode = type.getOpcode(ISUB);
+            } else {
+                opcode = type.getOpcode(INEG);
+            }
         } else if (operation == Operators.MULTIPLY) {
             opcode = type.getOpcode(IMUL);
         } else if (operation == Operators.DIVISION) {
             opcode = type.getOpcode(IDIV);
         } else if (operation == Operators.REMAINDER) {
             opcode = type.getOpcode(IREM);
+        } else if (operation == Operators.BITWISE_AND) {
+            opcode = type.getOpcode(IAND);
+        } else if (operation == Operators.BITWISE_INCLUSIVE_OR) {
+            opcode = type.getOpcode(IOR);
+        } else if (operation == Operators.BITWISE_EXCLUSIVE_OR) {
+            opcode = type.getOpcode(IXOR);
+        } else if (operation == Operators.UNARY_BITWISE_COMPLEMENT) { // desugar
+            throw new IllegalArgumentException("Invalid operator: '"+operation+"'!!!");
         }
 
         if (opcode != -1)

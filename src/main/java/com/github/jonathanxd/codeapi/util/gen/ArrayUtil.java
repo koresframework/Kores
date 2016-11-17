@@ -27,12 +27,36 @@
  */
 package com.github.jonathanxd.codeapi.util.gen;
 
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public class ArrayUtil {
+public class ArrayUtil implements Opcodes {
+    public static CodeType getArrayType(int opcode) {
+        switch (opcode) {
+            case T_BYTE:
+                return PredefinedTypes.CHAR;
+            case T_BOOLEAN:
+                return PredefinedTypes.BOOLEAN;
+            case T_CHAR:
+                return PredefinedTypes.CHAR;
+            case T_DOUBLE:
+                return PredefinedTypes.DOUBLE;
+            case T_FLOAT:
+                return PredefinedTypes.FLOAT;
+            case T_INT:
+                return PredefinedTypes.INT;
+            case T_LONG:
+                return PredefinedTypes.LONG;
+            case T_SHORT:
+                return PredefinedTypes.SHORT;
+            default:
+                throw new IllegalArgumentException("Cannot get type of array type opcode '" + opcode + "'!");
+        }
+    }
+
     public static void visitArrayStore(CodeType arrayType, int dimensions, MethodVisitor mv) {
         switch (arrayType.getType()) {
             case "int": {

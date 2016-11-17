@@ -44,32 +44,148 @@ public final class OperateHelper {
         return new OperateHelper(part);
     }
 
+    /**
+     * Plus (+).
+     *
+     * @param value 2nd value to add.
+     * @return This.
+     */
     public OperateHelper plus(CodePart value) {
         Operator operation = Operators.ADD;
 
         return this.operate(operation, value);
     }
 
+    /**
+     * Subtract (-).
+     *
+     * @param value 2nd value to divide.
+     * @return This.
+     */
     public OperateHelper subtract(CodePart value) {
         Operator operation = Operators.SUBTRACT;
 
         return this.operate(operation, value);
     }
 
+    /**
+     * Multiply (*)
+     *
+     * @param value 2nd value to divide.
+     * @return This.
+     */
     public OperateHelper multiply(CodePart value) {
         Operator operation = Operators.MULTIPLY;
 
         return this.operate(operation, value);
     }
 
+    /**
+     * Multiply (/)
+     *
+     * @param value 2nd value to divide.
+     * @return This.
+     */
     public OperateHelper divide(CodePart value) {
         Operator operation = Operators.DIVISION;
 
         return this.operate(operation, value);
     }
 
+    /**
+     * Remainder (%)
+     *
+     * @param value 2nd value to remainder.
+     * @return This.
+     */
     public OperateHelper remainder(CodePart value) {
         Operator operation = Operators.REMAINDER;
+
+        return this.operate(operation, value);
+    }
+
+    /**
+     * Negate value.
+     *
+     * @return This.
+     */
+    public OperateHelper neg() {
+        Operator operation = Operators.SUBTRACT;
+
+        return this.operate(operation, null);
+    }
+
+    // &
+    /**
+     * Inclusive or (&amp;).
+     *
+     * @param value 2nd value to operate.
+     * @return This.
+     */
+    public OperateHelper or(CodePart value) {
+        Operator operation = Operators.BITWISE_INCLUSIVE_OR;
+
+        return this.operate(operation, value);
+    }
+
+    // ^
+    /**
+     * Exclusive or (&#94;).
+     *
+     * @param value 2nd value to operate.
+     * @return This.
+     */
+    public OperateHelper xor(CodePart value) {
+        Operator operation = Operators.BITWISE_EXCLUSIVE_OR;
+
+        return this.operate(operation, value);
+    }
+
+
+    /**
+     * Bitwise not (~).
+     *
+     * @param value 2nd value to operate.
+     * @return This.
+     */
+    public OperateHelper not(CodePart value) {
+        Operator operation = Operators.UNARY_BITWISE_COMPLEMENT;
+
+        return this.operate(operation, value);
+    }
+
+    // >>
+    /**
+     * Bitwise shift right (&gt;&gt;).
+     *
+     * @param value 2nd value to operate.
+     * @return This.
+     */
+    public OperateHelper shiftRight(CodePart value) {
+        Operator operation = Operators.SIGNED_RIGHT_SHIFT;
+        return this.operate(operation, value);
+    }
+
+    /**
+     * Bitwise logical shift right (&gt;&gt;&gt;).
+     *
+     * @param value 2nd value to operate.
+     * @return This.
+     */
+    public OperateHelper logicalShiftRight(CodePart value) {
+        Operator operation = Operators.UNSIGNED_RIGHT_SHIFT;
+
+        return this.operate(operation, value);
+    }
+
+    /**
+     * Bitwise left shift (&lt;&lt;).
+     *
+     * @param value 2nd value to operate.
+     * @return This.
+     */
+    public OperateHelper leftShift(CodePart value) {
+        Operator operation = Operators.SIGNED_LEFT_SHIFT;
 
         return this.operate(operation, value);
     }

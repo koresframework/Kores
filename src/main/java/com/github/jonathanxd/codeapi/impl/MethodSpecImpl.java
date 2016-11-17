@@ -80,37 +80,27 @@ public class MethodSpecImpl implements MethodSpecification {
     }
 
     public MethodSpecImpl(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
-        this(methodName, methodDescription, arguments, MethodType.METHOD);
-    }
-
-    public MethodSpecImpl(CodeType returnType, List<CodeArgument> arguments) {
-        this(null, arguments, returnType, MethodType.METHOD);
-    }
-
-    public MethodSpecImpl(CodeType returnType, List<CodeArgument> arguments, MethodType methodType) {
-        this(null, arguments, returnType, methodType);
-    }
-
-    public MethodSpecImpl(TypeSpec methodDescription, List<CodeArgument> arguments) {
-        this(null, methodDescription, arguments, MethodType.METHOD);
-    }
-
-    public MethodSpecImpl(TypeSpec methodDescription, List<CodeArgument> arguments, MethodType methodType) {
-        this(null, methodDescription, arguments, methodType);
+        this(methodName, methodDescription, arguments, methodName != null && methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD);
     }
 
     public MethodSpecImpl(String methodName, List<CodeArgument> arguments, CodeType returnType, MethodType methodType) {
+        if(methodName == null && methodType == null)
+            throw new IllegalArgumentException("Only one of these arguments can be null: methodName or methodType.");
+
         this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = TypeSpecUtil.specFromLegacy(returnType, arguments);
-        this.methodType = methodType;
+        this.methodType = methodType == null && this.methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD;
     }
 
     public MethodSpecImpl(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments, MethodType methodType) {
+        if(methodName == null && methodType == null)
+            throw new IllegalArgumentException("Only one of these arguments can be null: methodName or methodType.");
+
         this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = methodDescription;
-        this.methodType = methodType;
+        this.methodType = methodType == null && this.methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD;
     }
 
     @Override

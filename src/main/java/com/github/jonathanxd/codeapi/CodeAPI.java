@@ -3181,7 +3181,7 @@ public final class CodeAPI {
      * @param aClass Class to convert.
      * @return Converted type.
      */
-    private static CodeType toCodeType(Class<?> aClass) {
+    public static CodeType toCodeType(Class<?> aClass) {
         return Helper.getJavaType(aClass);
     }
 
@@ -3191,7 +3191,7 @@ public final class CodeAPI {
      * @param aClass Classes to convert.
      * @return Converted types.
      */
-    private static CodeType[] toCodeType(Class<?>[] aClass) {
+    public static CodeType[] toCodeType(Class<?>[] aClass) {
         return Arrays.stream(aClass).map(Helper::getJavaType).toArray(CodeType[]::new);
     }
 

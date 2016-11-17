@@ -42,20 +42,22 @@ import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.impl.ArrayConstructorImpl;
 import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
+import com.github.jonathanxd.codeapi.interfaces.ArrayConstructor;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
 import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
 import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.DescriptionHelper;
-import com.github.jonathanxd.codeapi.util.gen.ArgumentUtil;
+import com.github.jonathanxd.codeapi.util.gen.ArrayUtil;
 import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.codeapi.util.gen.MethodInvocationUtil;
 import com.github.jonathanxd.iutils.description.Description;
@@ -69,17 +71,20 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.TypePath;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.MethodNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class BytecodeMethodVisitor extends MethodVisitor {
+public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
+
+    private final Logger logger = Logger.getLogger("CodeAPI_Debug");
 
     private final EmulatedFrame frame = new EmulatedFrame();
     private final Environment environment;
@@ -101,10 +106,15 @@ public class BytecodeMethodVisitor extends MethodVisitor {
         this.init();
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static MutableCodeSource asMutable(Optional<CodeSource> source) {
+        return (MutableCodeSource) Require.require(source);
+    }
+
     private void init() {
         int pos = 0;
 
-        if(!this.method.getModifiers().contains(CodeModifier.STATIC)) {
+        if (!this.method.getModifiers().contains(CodeModifier.STATIC)) {
             this.frame.store(CodeAPI.accessThis(), pos);
             ++pos;
         }
@@ -114,11 +124,6 @@ public class BytecodeMethodVisitor extends MethodVisitor {
                 .collect(Collectors.toList());
 
         this.frame.storeValues(collect, pos);
-    }
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static MutableCodeSource asMutable(Optional<CodeSource> source) {
-        return (MutableCodeSource) Require.require(source);
     }
 
     @Override
@@ -170,7 +175,149 @@ public class BytecodeMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitInsn(int opcode) {
+
+        label:
+        {
+            // Break on opcodes that will be parsed by another method (like visitVarInsn)
+
+            switch (opcode) {
+                case NOP:
+                case POP: // Ignore POP
+                case POP2: // Ignore POP
+                case DUP: // Handling DUP* is very hard for CodeAPI
+                case DUP_X1:
+                case DUP_X2:
+                case DUP2:
+                case DUP2_X1:
+                case DUP2_X2:
+                case SWAP: // Need review
+                case LCMP: // TODO: If Expression translation
+                case FCMPL:
+                case FCMPG:
+                case DCMPL:
+                case DCMPG:
+                case MONITORENTER: // No equivalent
+                case MONITOREXIT: // No equivalent
+                    break label;
+            }
+
+            CodePart value = null;
+
+            if (opcode == ACONST_NULL)
+                value = Literals.NULL;
+
+            if (opcode == ICONST_M1)
+                value = Literals.INT(-1);
+
+            if (opcode == ICONST_0)
+                value = Literals.INT(0);
+
+            if (opcode == ICONST_1)
+                value = Literals.INT(1);
+
+            if (opcode == ICONST_2)
+                value = Literals.INT(2);
+
+            if (opcode == ICONST_3)
+                value = Literals.INT(3);
+
+            if (opcode == ICONST_4)
+                value = Literals.INT(4);
+
+            if (opcode == ICONST_5)
+                value = Literals.INT(5);
+
+            if (opcode == LCONST_0)
+                value = Literals.LONG(0L);
+
+            if (opcode == LCONST_1)
+                value = Literals.LONG(1L);
+
+            if (opcode == FCONST_0)
+                value = Literals.FLOAT(0F);
+
+            if (opcode == FCONST_1)
+                value = Literals.FLOAT(1F);
+
+            if (opcode == FCONST_2)
+                value = Literals.FLOAT(2F);
+
+            if (opcode == DCONST_0)
+                value = Literals.DOUBLE(0D);
+
+            if (opcode == DCONST_1)
+                value = Literals.DOUBLE(1D);
+
+            if (opcode >= I2L && opcode <= I2S) {
+                value = CodePartUtil.Conversion.handleConversion(opcode, this.frame.getOperandStack().pop());
+            }
+
+            if (opcode >= INEG && opcode <= DNEG) {
+                value = CodePartUtil.Conversion.handleNegation(opcode, this.frame.getOperandStack().pop());
+            }
+
+            if (opcode >= IADD && opcode <= LXOR) {
+                List<CodePart> pop = this.frame.getOperandStack().pop(2);
+
+                value = CodePartUtil.Conversion.handleMathAndBitwise(opcode, pop.get(0), pop.get(1));
+            }
+
+            if (opcode >= IRETURN && opcode <= RETURN) {
+                value = CodePartUtil.Conversion.handleReturn(opcode, opcode == RETURN ? null : this.frame.getOperandStack().pop());
+            }
+
+            if (opcode == ARRAYLENGTH) {
+                value = CodeAPI.getArrayLength(this.frame.getOperandStack().popAs(VariableAccess.class));
+            }
+
+            if (opcode == ATHROW) {
+                value = CodeAPI.throwException(this.frame.getOperandStack().pop());
+            }
+
+            if (opcode == IASTORE || opcode == LASTORE || opcode == FASTORE || opcode == DASTORE || opcode == AASTORE || opcode == BASTORE || opcode == CASTORE || opcode == SASTORE) {
+
+                List<CodePart> pop = this.frame.getOperandStack().pop(3);
+
+                CodePart array = pop.get(0); // Removed
+                CodePart position = pop.get(1);
+                CodePart valueToInsert = pop.get(2);
+
+                if (array instanceof ArrayConstructor) {
+                    ArrayConstructor newarray_ = (ArrayConstructor) array;
+
+                    List<CodeArgument> arguments = new ArrayList<>(newarray_.getArguments());
+
+                    arguments.add(new CodeArgument(valueToInsert, CodePartUtil.getTypeOrNull(valueToInsert)));
+
+                    newarray_ = newarray_.setArguments(arguments);
+
+                    value = newarray_; // Will be Added
+                } else {
+                    VariableAccess access = (VariableAccess) array;
+
+                    value = CodeAPI.setArrayValue(access.getVariableType(), access, position, valueToInsert);
+                }
+
+            }
+
+            if(opcode == IALOAD || opcode == LALOAD || opcode == FALOAD || opcode == DALOAD || opcode == BALOAD || opcode == CALOAD || opcode == SALOAD) {
+                // Load array values
+                List<CodePart> pop = this.frame.getOperandStack().pop(2);
+
+                VariableAccess array = (VariableAccess) pop.get(0);
+                CodePart position = pop.get(1);
+
+                value = CodeAPI.getArrayValue(array.getVariableType(), array, position);
+            }
+            if (value == null)
+                logger.log(Level.WARNING, "Cannot parse insn opcode: '" + opcode + "'");
+
+            if (value != null)
+                this.frame.getOperandStack().push(value);
+        }
+
         super.visitInsn(opcode);
+
 
         this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitInsn(opcode)));
     }
@@ -178,6 +325,16 @@ public class BytecodeMethodVisitor extends MethodVisitor {
     @Override
     public void visitIntInsn(int opcode, int operand) {
         super.visitIntInsn(opcode, operand);
+
+        if (opcode == BIPUSH) {
+            this.frame.getOperandStack().push(Literals.BYTE((byte) operand));
+        } else if (opcode == SIPUSH) {
+            this.frame.getOperandStack().push(Literals.SHORT((short) operand));
+        } else if (opcode == ANEWARRAY) {
+            CodeType arrayType = ArrayUtil.getArrayType(operand);
+
+            this.frame.getOperandStack().push(new UnsizedArray(arrayType, new CodePart[0], Collections.emptyList()));
+        }
 
         this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitIntInsn(opcode, operand)));
     }
@@ -195,15 +352,15 @@ public class BytecodeMethodVisitor extends MethodVisitor {
 
         CodeType codeType = this.environment.resolveUnknown(type);
 
-        if(opcode == Opcodes.NEW) {
+        if (opcode == Opcodes.NEW) {
             this.frame.getOperandStack().push(new NEW(codeType));
         } else {
-            if(opcode == Opcodes.CHECKCAST) {
+            if (opcode == Opcodes.CHECKCAST) {
                 CodePart codePart = this.frame.getOperandStack().pop();
 
                 this.frame.getOperandStack().push(CodeAPI.cast(CodePartUtil.getTypeOrNull(codePart), codeType, codePart));
             } else {
-                System.err.println("visitTypeInsn: ["+opcode+", "+type+"]");
+                System.err.println("visitTypeInsn: [" + opcode + ", " + type + "]");
                 this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitTypeInsn(opcode, type)));
             }
         }
@@ -271,15 +428,15 @@ public class BytecodeMethodVisitor extends MethodVisitor {
             // Method invocation part
             MethodInvocation methodInvocation;
 
-            if(target != null && target instanceof NEW) {
+            if (target != null && target instanceof NEW) {
                 // Create invocation of a constructor of a class
                 methodInvocation = CodeAPI.invokeConstructor(((NEW) target).getCodeType(), spec, argumentsArray);
             } else {
                 // If target is not a constructor (NEW)
                 // If invoke type is special, create a super/this constructor invocation
-                if(invokeType == InvokeType.INVOKE_SPECIAL) {
+                if (invokeType == InvokeType.INVOKE_SPECIAL) {
                     // If method type is same as method declaring type
-                    if(ownerType.is(this.declaringType)) {
+                    if (ownerType.is(this.declaringType)) {
                         // Create this constructor invocation
                         methodInvocation = CodeAPI.invokeThisConstructor(spec, argumentsArray);
                     } else {
@@ -292,7 +449,7 @@ public class BytecodeMethodVisitor extends MethodVisitor {
                 }
             }
 
-            if(!methodSpec.getMethodDescription().getReturnType().is(PredefinedTypes.VOID)
+            if (!methodSpec.getMethodDescription().getReturnType().is(PredefinedTypes.VOID)
                     || target instanceof NEW) {
                 this.frame.getOperandStack().push(methodInvocation);
             } else {
@@ -345,7 +502,7 @@ public class BytecodeMethodVisitor extends MethodVisitor {
             // Add invocation to the body
             //this.addToBody(dynamicMethodInvocation);
 
-            if(!methodSpec.getMethodDescription().getReturnType().is(PredefinedTypes.VOID)) {
+            if (!methodSpec.getMethodDescription().getReturnType().is(PredefinedTypes.VOID)) {
                 // BAD MANIPULATION MAY GENERATE A INFINITE LOOP.
                 this.frame.getOperandStack().push(dynamicMethodInvocation);
             }
@@ -378,7 +535,7 @@ public class BytecodeMethodVisitor extends MethodVisitor {
         super.visitLdcInsn(cst);
 
         //this.addToBody(this.createInstruction(methodVisitor -> methodVisitor.visitLdcInsn(cst)));
-        if(CodePartUtil.Conversion.isLiteral(cst)) {
+        if (CodePartUtil.Conversion.isLiteral(cst)) {
             Literal literal = CodePartUtil.Conversion.toLiteral(cst);
 
             this.frame.getOperandStack().push(literal);
@@ -462,19 +619,14 @@ public class BytecodeMethodVisitor extends MethodVisitor {
         super.visitEnd();
 
 
-        /*
-        MethodDeclaration methodDeclaration =
-                new CodeMethod(
-                        this.method.getName(),
-                        this.method.getModifiers(),
-                        this.thatOr(this.parameterList, this.method.getParameters()),
-                        this.method.getReturnType().orElse(PredefinedTypes.VOID),
-                        this.method.getGenericSignature(),
-                        this.method.getAnnotations(),
-                        this.method.getBody().orElse(new MutableCodeSource()));
-         */
+        List<CodePart> codeParts = this.frame.getOperandStack().popAll();
+
+        MutableCodeSource source = this.method.getBody().orElse(CodeSource.empty()).toMutable();
+
+        source.addAll(codeParts);
+
         asMutable(this.declaringType.getBody()).add(
-                this.method
+                this.method.setBody(source)
         );
 
     }
@@ -505,6 +657,25 @@ public class BytecodeMethodVisitor extends MethodVisitor {
 
         public CodeType getCodeType() {
             return codeType;
+        }
+    }
+
+    private class UnsizedArray extends ArrayConstructorImpl {
+
+        public UnsizedArray(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+            super(arrayType, dimensions, arguments);
+        }
+
+        @Override
+        public CodePart[] getDimensions() {
+            return new CodePart[]{Literals.INT(this.getArguments().size())};
+        }
+    }
+
+    private class SizedArray extends ArrayConstructorImpl {
+
+        public SizedArray(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+            super(arrayType, dimensions, arguments);
         }
     }
 }
