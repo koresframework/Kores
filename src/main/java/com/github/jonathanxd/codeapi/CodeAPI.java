@@ -1514,7 +1514,7 @@ public final class CodeAPI {
      * @return Invocation of special method.
      */
     public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target,
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, localization, target,
                 spec__factory(methodName, methodDescription, MethodType.METHOD, arguments));
     }
 
