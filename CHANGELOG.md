@@ -2,6 +2,28 @@
 
 `since 1.11`
 
+###### 2.0 - First Stable Release.
+| Name                         | Type          | Issue       | Commit                                   |
+| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
+| Bytecode Inner classes       | Feature       |  #20        | 2d4d2d5a79f2a8647d8f43c78446fa26b15e599d |
+| Javac-like boolean bytecode  | Improvement   |  #27        | 83283ecc21545897360dca9f3671f2481069d82f |
+| Setter methods.              | Feature       |  #21        | 2d4d2d5a79f2a8647d8f43c78446fa26b15e599d |
+| Switch.                      | Feature       |  #24        | 9f6fcd3fac31ef21768fae57269157cab0f96ceb |
+| Immutable `CodeSource`       | Feature       |  #22        | 126b0e20f52ce0289f21041bf0c298428de86d87 |
+| CodeClassLoader              | Feature       |  #17        | 2d4d2d5a79f2a8647d8f43c78446fa26b15e599d |
+| SugarSyntax register         | Feature       |  #23        | 5f5cbd6568b2e9c36e332a2a48577b258c1fe952 |
+| Annotation `TypeDeclaration` | Feature       |  #26        | 074fd571b82ddd2275f5e64e1cda33d56933144c |
+| Enum `TypeDeclaration`       | Feature       |  #25        | 918dd2ee13d601680881f554624aa3a2c8c0e6d6 |
+| Generate access for privat...| Fix           |  #28        | be02c60523b3f8ccd7fc5658461cf74cfdba8c51 |
+| Concat Helper                | Feature       |  #30        | cbf43ed00d846b08e82ff650089032bc5317539a |
+| Instruction visitor          | Feature       |  #32        | 98b1ac51a1f9d1e404efa9f40d5ec7d82360eb98 |
+
+###### 1.16.0
+| Name                   | Type          | Issue       | Commit                                   |
+| ---------------------- | ------------- | ----------- | ---------------------------------------- |
+| Updated to JwIUtils 3  | Improvement   |  None       | 39d6ce876a79fbd347a3f024165cbde48c27f2ff |
+| Fixed accessStaticField| Fix           |  None       | 39d6ce876a79fbd347a3f024165cbde48c27f2ff |
+
 ###### 1.15.0
 | Name                   | Type          | Issue       | Commit                                   |
 | ---------------------- | ------------- | ----------- | ---------------------------------------- |
