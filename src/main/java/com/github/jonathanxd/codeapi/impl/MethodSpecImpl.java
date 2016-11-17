@@ -51,14 +51,6 @@ public class MethodSpecImpl implements MethodSpecification {
     private final TypeSpec methodDescription;
     private final MethodType methodType;
 
-    public MethodSpecImpl(MethodType methodType) {
-        this(null, null, (CodeType) null, methodType);
-    }
-
-    public MethodSpecImpl(List<CodeArgument> arguments, MethodType methodType) {
-        this(null, arguments, (CodeType) null, methodType);
-    }
-
     public MethodSpecImpl(String methodName, List<CodeArgument> arguments) {
         this(methodName, arguments, (CodeType) null, MethodType.METHOD);
     }
@@ -90,7 +82,7 @@ public class MethodSpecImpl implements MethodSpecification {
         this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = TypeSpecUtil.specFromLegacy(returnType, arguments);
-        this.methodType = methodType == null && this.methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD;
+        this.methodType = methodType == null ? (this.methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD) : methodType;
     }
 
     public MethodSpecImpl(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments, MethodType methodType) {
@@ -100,7 +92,7 @@ public class MethodSpecImpl implements MethodSpecification {
         this.arguments = arguments == null ? Collections.emptyList() : Collections.unmodifiableList(arguments);
         this.methodName = methodName != null ? methodName : methodType == MethodType.CONSTRUCTOR ? "<init>" : null;
         this.methodDescription = methodDescription;
-        this.methodType = methodType == null && this.methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD;
+        this.methodType = methodType == null ? (this.methodName.equals("<init>") ? MethodType.CONSTRUCTOR : MethodType.METHOD) : methodType;
     }
 
     @Override

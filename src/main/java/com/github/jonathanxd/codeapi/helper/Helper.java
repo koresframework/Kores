@@ -120,6 +120,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
 import org.objectweb.asm.Type;
@@ -586,11 +587,11 @@ public final class Helper {
     }
 
     public static MethodInvocation invokeConstructor(CodeType type) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl(MethodType.CONSTRUCTOR));
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl("<init>", PredefinedTypes.VOID, Collections.emptyList(), MethodType.CONSTRUCTOR));
     }
 
     public static MethodInvocation invokeConstructor(CodeType type, CodeArgument[] arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl(Arrays.asList(arguments), MethodType.CONSTRUCTOR));
+        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, type, type, new MethodSpecImpl("<init>", TypeSpecUtil.specFromLegacy(PredefinedTypes.VOID, arguments), Arrays.asList(arguments), MethodType.CONSTRUCTOR));
     }
 
     public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
