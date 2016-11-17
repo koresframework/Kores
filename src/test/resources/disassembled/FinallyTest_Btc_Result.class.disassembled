@@ -1,0 +1,121 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/FinallyTest_Btc_Result.class
+  Last modified 17/11/2016; size 722 bytes
+  MD5 checksum e90caadf45ddcd8b7b1a83026bee96e7
+  Compiled from "Btc.cai"
+public class test.Btc
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               Btc.cai
+   #2 = Utf8               test/Btc
+   #3 = Class              #2             // test/Btc
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               ()V
+   #8 = NameAndType        #6:#7          // "<init>":()V
+   #9 = Methodref          #5.#8          // java/lang/Object."<init>":()V
+  #10 = Utf8               java/lang/Exception
+  #11 = Class              #10            // java/lang/Exception
+  #12 = Utf8               EXCEPTION
+  #13 = String             #12            // EXCEPTION
+  #14 = Utf8               java/lang/RuntimeException
+  #15 = Class              #14            // java/lang/RuntimeException
+  #16 = Utf8               (Ljava/lang/String;)V
+  #17 = NameAndType        #6:#16         // "<init>":(Ljava/lang/String;)V
+  #18 = Methodref          #15.#17        // java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+  #19 = Utf8               java/lang/System
+  #20 = Class              #19            // java/lang/System
+  #21 = Utf8               out
+  #22 = Utf8               Ljava/io/PrintStream;
+  #23 = NameAndType        #21:#22        // out:Ljava/io/PrintStream;
+  #24 = Fieldref           #20.#23        // java/lang/System.out:Ljava/io/PrintStream;
+  #25 = Utf8               Finally
+  #26 = String             #25            // Finally
+  #27 = Utf8               java/io/PrintStream
+  #28 = Class              #27            // java/io/PrintStream
+  #29 = Utf8               println
+  #30 = NameAndType        #29:#16        // println:(Ljava/lang/String;)V
+  #31 = Methodref          #28.#30        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #32 = Utf8               Rethrow
+  #33 = String             #32            // Rethrow
+  #34 = Utf8               (Ljava/lang/String;Ljava/lang/Throwable;)V
+  #35 = NameAndType        #6:#34         // "<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+  #36 = Methodref          #15.#35        // java/lang/RuntimeException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+  #37 = Utf8               java/lang/Throwable
+  #38 = Class              #37            // java/lang/Throwable
+  #39 = Utf8               this
+  #40 = Utf8               Ltest/Btc;
+  #41 = Utf8               ex
+  #42 = Utf8               Ljava/lang/Throwable;
+  #43 = Utf8               <clinit>
+  #44 = Utf8               Code
+  #45 = Utf8               LocalVariableTable
+  #46 = Utf8               StackMapTable
+  #47 = Utf8               SourceFile
+{
+  public test.Btc();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aload_0
+         1: invokespecial #9                  // Method java/lang/Object."<init>":()V
+         4: ldc           #13                 // String EXCEPTION
+         6: invokespecial #18                 // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+         9: athrow
+        10: nop
+        11: nop
+        12: nop
+        13: nop
+        14: nop
+        15: nop
+        16: nop
+        17: nop
+        18: nop
+        19: nop
+        20: athrow
+        21: astore_1
+        22: getstatic     #24                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        25: ldc           #26                 // String Finally
+        27: invokevirtual #31                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        30: ldc           #33                 // String Rethrow
+        32: aload_1
+        33: invokespecial #36                 // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+        36: athrow
+        37: nop
+        38: nop
+        39: athrow
+        40: athrow
+      Exception table:
+         from    to  target type
+             4    10    21   Class java/lang/Exception
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      41     0  this   Ltest/Btc;
+           21      19     1    ex   Ljava/lang/Throwable;
+      StackMapTable: number_of_entries = 4
+        frame_type = 255 /* full_frame */
+          offset_delta = 10
+          locals = []
+          stack = [ class java/lang/Throwable ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 10
+          locals = [ class test/Btc ]
+          stack = [ class java/lang/Exception ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 15
+          locals = []
+          stack = [ class java/lang/Throwable ]
+        frame_type = 66 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "Btc.cai"

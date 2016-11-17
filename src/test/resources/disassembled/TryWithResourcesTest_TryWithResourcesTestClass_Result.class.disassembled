@@ -1,0 +1,113 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TryWithResourcesTest_TryWithResourcesTestClass_Result.class
+  Last modified 17/11/2016; size 829 bytes
+  MD5 checksum 1345618f20fe21ce3baca4a3e7c631ff
+  Compiled from "TryWithResourcesTestClass.cai"
+public class test.TryWithResourcesTestClass
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               TryWithResourcesTestClass.cai
+   #2 = Utf8               test/TryWithResourcesTestClass
+   #3 = Class              #2             // test/TryWithResourcesTestClass
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               ()V
+   #8 = NameAndType        #6:#7          // "<init>":()V
+   #9 = Methodref          #5.#8          // java/lang/Object."<init>":()V
+  #10 = Utf8               com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm
+  #11 = Class              #10            // com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm
+  #12 = Methodref          #11.#8         // com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm."<init>":()V
+  #13 = Utf8               java/lang/Throwable
+  #14 = Class              #13            // java/lang/Throwable
+  #15 = Utf8               read
+  #16 = NameAndType        #15:#7         // read:()V
+  #17 = Methodref          #11.#16        // com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm.read:()V
+  #18 = Utf8               java/lang/AutoCloseable
+  #19 = Class              #18            // java/lang/AutoCloseable
+  #20 = Utf8               close
+  #21 = NameAndType        #20:#7         // close:()V
+  #22 = InterfaceMethodref #19.#21        // java/lang/AutoCloseable.close:()V
+  #23 = Utf8               addSuppressed
+  #24 = Utf8               (Ljava/lang/Throwable;)V
+  #25 = NameAndType        #23:#24        // addSuppressed:(Ljava/lang/Throwable;)V
+  #26 = Methodref          #14.#25        // java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+  #27 = Utf8               this
+  #28 = Utf8               Ltest/TryWithResourcesTestClass;
+  #29 = Utf8               trm
+  #30 = Utf8               Lcom/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm;
+  #31 = Utf8               <clinit>
+  #32 = Utf8               Code
+  #33 = Utf8               LocalVariableTable
+  #34 = Utf8               SourceFile
+{
+  public test.TryWithResourcesTestClass();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=0, locals=6, args_size=1
+         0: aload_0
+         1: invokespecial #9                  // Method java/lang/Object."<init>":()V
+         4: invokespecial #12                 // Method com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm."<init>":()V
+         7: astore_1
+         8: aconst_null
+         9: astore_2
+        10: aload_1
+        11: invokevirtual #17                 // Method com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm.read:()V
+        14: aload_1
+        15: ifnull        49
+        18: aload_2
+        19: ifnull        43
+        22: aload_1
+        23: invokeinterface #22,  1           // InterfaceMethod java/lang/AutoCloseable.close:()V
+        28: goto          40
+        31: astore_3
+        32: aload_2
+        33: aload_3
+        34: invokevirtual #26                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+        37: goto          40
+        40: goto          49
+        43: aload_1
+        44: invokeinterface #22,  1           // InterfaceMethod java/lang/AutoCloseable.close:()V
+        49: goto          100
+        52: astore        4
+        54: aload         4
+        56: astore_2
+        57: aload_1
+        58: ifnull        94
+        61: aload_2
+        62: ifnull        88
+        65: aload_1
+        66: invokeinterface #22,  1           // InterfaceMethod java/lang/AutoCloseable.close:()V
+        71: goto          85
+        74: astore        5
+        76: aload_2
+        77: aload         5
+        79: invokevirtual #26                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+        82: goto          85
+        85: goto          94
+        88: aload_1
+        89: invokeinterface #22,  1           // InterfaceMethod java/lang/AutoCloseable.close:()V
+        94: aload         4
+        96: athrow
+        97: goto          100
+       100: return
+      Exception table:
+         from    to  target type
+            10    14    52   Class java/lang/Throwable
+            22    28    31   Class java/lang/Throwable
+            65    71    74   Class java/lang/Throwable
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     101     0  this   Ltest/TryWithResourcesTestClass;
+            7      94     1   trm   Lcom/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "TryWithResourcesTestClass.cai"

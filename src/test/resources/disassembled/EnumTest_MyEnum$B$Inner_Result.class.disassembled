@@ -1,0 +1,94 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/EnumTest_MyEnum$B$Inner_Result.class
+  Last modified 17/11/2016; size 693 bytes
+  MD5 checksum 18fdfef60c1a7fe2d1e8046673d33d7d
+  Compiled from "MyEnum$B$Inner.cai"
+class com.MyEnum$B$Inner extends com.MyEnum
+  minor version: 0
+  major version: 52
+  flags: ACC_SUPER, ACC_ENUM
+Constant pool:
+   #1 = Utf8               MyEnum$B$Inner.cai
+   #2 = Utf8               com/MyEnum$B$Inner
+   #3 = Class              #2             // com/MyEnum$B$Inner
+   #4 = Utf8               com/MyEnum
+   #5 = Class              #4             // com/MyEnum
+   #6 = Utf8               com.MyEnum$B$Inner
+   #7 = Utf8               v
+   #8 = Utf8               ()V
+   #9 = Utf8               Ljava/lang/Override;
+  #10 = Utf8               java/lang/System
+  #11 = Class              #10            // java/lang/System
+  #12 = Utf8               out
+  #13 = Utf8               Ljava/io/PrintStream;
+  #14 = NameAndType        #12:#13        // out:Ljava/io/PrintStream;
+  #15 = Fieldref           #11.#14        // java/lang/System.out:Ljava/io/PrintStream;
+  #16 = Utf8               B
+  #17 = String             #16            // B
+  #18 = Utf8               java/io/PrintStream
+  #19 = Class              #18            // java/io/PrintStream
+  #20 = Utf8               println
+  #21 = Utf8               (Ljava/lang/String;)V
+  #22 = NameAndType        #20:#21        // println:(Ljava/lang/String;)V
+  #23 = Methodref          #19.#22        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #24 = Utf8               this
+  #25 = Utf8               Lcom/MyEnum$B$Inner;
+  #26 = Utf8               <init>
+  #27 = Utf8               (Ljava/lang/String;I)V
+  #28 = NameAndType        #26:#8         // "<init>":()V
+  #29 = Methodref          #5.#28         // com/MyEnum."<init>":()V
+  #30 = NameAndType        #26:#27        // "<init>":(Ljava/lang/String;I)V
+  #31 = Methodref          #3.#30         // com/MyEnum$B$Inner."<init>":(Ljava/lang/String;I)V
+  #32 = Utf8               $name
+  #33 = Utf8               Ljava/lang/String;
+  #34 = Utf8               $ordinal
+  #35 = Utf8               I
+  #36 = Utf8               <clinit>
+  #37 = Utf8               Code
+  #38 = Utf8               LocalVariableTable
+  #39 = Utf8               RuntimeInvisibleAnnotations
+  #40 = Utf8               SourceFile
+  #41 = Utf8               InnerClasses
+{
+  public void v();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #15                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: ldc           #17                 // String B
+         5: invokevirtual #23                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+         8: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Lcom/MyEnum$B$Inner;
+    RuntimeInvisibleAnnotations:
+      0: #9()
+
+  com.MyEnum$B$Inner(java.lang.String, int);
+    descriptor: (Ljava/lang/String;I)V
+    flags:
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: invokespecial #29                 // Method com/MyEnum."<init>":()V
+         4: aload_0
+         5: aload_1
+         6: iload_2
+         7: invokespecial #31                 // Method "<init>":(Ljava/lang/String;I)V
+        10: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Lcom/MyEnum$B$Inner;
+            0      11     1 $name   Ljava/lang/String;
+            0      11     2 $ordinal   I
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "MyEnum$B$Inner.cai"
+InnerClasses:
+     static #6= #3 of #5; //com.MyEnum$B$Inner=class com/MyEnum$B$Inner of class com/MyEnum

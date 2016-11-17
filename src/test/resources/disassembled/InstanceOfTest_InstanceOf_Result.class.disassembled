@@ -1,0 +1,126 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InstanceOfTest_InstanceOf_Result.class
+  Last modified 17/11/2016; size 842 bytes
+  MD5 checksum d74fd519e55c574c620f673578238620
+  Compiled from "InstanceOf.cai"
+public class test.InstanceOf
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               InstanceOf.cai
+   #2 = Utf8               test/InstanceOf
+   #3 = Class              #2             // test/InstanceOf
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               test
+   #7 = Utf8               (Ljava/lang/Object;)V
+   #8 = Utf8               java/lang/String
+   #9 = Class              #8             // java/lang/String
+  #10 = Utf8               java/lang/System
+  #11 = Class              #10            // java/lang/System
+  #12 = Utf8               out
+  #13 = Utf8               Ljava/io/PrintStream;
+  #14 = NameAndType        #12:#13        // out:Ljava/io/PrintStream;
+  #15 = Fieldref           #11.#14        // java/lang/System.out:Ljava/io/PrintStream;
+  #16 = Utf8               Object is String!
+  #17 = String             #16            // Object is String!
+  #18 = Utf8               java/io/PrintStream
+  #19 = Class              #18            // java/io/PrintStream
+  #20 = Utf8               println
+  #21 = Utf8               (Ljava/lang/String;)V
+  #22 = NameAndType        #20:#21        // println:(Ljava/lang/String;)V
+  #23 = Methodref          #19.#22        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #24 = Utf8               Object is not String!
+  #25 = String             #24            // Object is not String!
+  #26 = Utf8               java/lang/Integer
+  #27 = Class              #26            // java/lang/Integer
+  #28 = Utf8               <init>
+  #29 = Utf8               (I)V
+  #30 = NameAndType        #28:#29        // "<init>":(I)V
+  #31 = Methodref          #27.#30        // java/lang/Integer."<init>":(I)V
+  #32 = Utf8               intValue
+  #33 = Utf8               ()I
+  #34 = NameAndType        #32:#33        // intValue:()I
+  #35 = Methodref          #27.#34        // java/lang/Integer.intValue:()I
+  #36 = Utf8               param
+  #37 = Utf8               Ljava/lang/Object;
+  #38 = Utf8               b
+  #39 = Utf8               Z
+  #40 = Utf8               b2
+  #41 = Utf8               ab
+  #42 = Utf8               Ljava/lang/Integer;
+  #43 = Utf8               b9
+  #44 = Utf8               ()V
+  #45 = NameAndType        #28:#44        // "<init>":()V
+  #46 = Methodref          #5.#45         // java/lang/Object."<init>":()V
+  #47 = Utf8               this
+  #48 = Utf8               Ltest/InstanceOf;
+  #49 = Utf8               <clinit>
+  #50 = Utf8               Code
+  #51 = Utf8               LocalVariableTable
+  #52 = Utf8               SourceFile
+{
+  public static void test(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=0, locals=5, args_size=1
+         0: aload_0
+         1: instanceof    #9                  // class java/lang/String
+         4: ifeq          18
+         7: getstatic     #15                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        10: ldc           #17                 // String Object is String!
+        12: invokevirtual #23                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        15: goto          26
+        18: getstatic     #15                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        21: ldc           #25                 // String Object is not String!
+        23: invokevirtual #23                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        26: aload_0
+        27: instanceof    #9                  // class java/lang/String
+        30: istore_1
+        31: iload_1
+        32: ifne          39
+        35: iconst_1
+        36: goto          40
+        39: iconst_0
+        40: istore_2
+        41: bipush        9
+        43: invokespecial #31                 // Method java/lang/Integer."<init>":(I)V
+        46: astore_3
+        47: aload_3
+        48: invokevirtual #35                 // Method java/lang/Integer.intValue:()I
+        51: bipush        9
+        53: if_icmpne     60
+        56: iconst_1
+        57: goto          61
+        60: iconst_0
+        61: istore        4
+        63: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      64     0 param   Ljava/lang/Object;
+           30      34     1     b   Z
+           40      24     2    b2   Z
+           46      18     3    ab   Ljava/lang/Integer;
+           61       3     4    b9   Z
+
+  public test.InstanceOf();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #46                 // Method java/lang/Object."<init>":()V
+         4: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Ltest/InstanceOf;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "InstanceOf.cai"

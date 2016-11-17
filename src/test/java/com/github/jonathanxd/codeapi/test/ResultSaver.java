@@ -46,37 +46,75 @@ public final class ResultSaver {
 
         IS_GRADLE_ENVIRONMENT = prop != null && prop.equals("gradle");
 
-        if(IS_GRADLE_ENVIRONMENT) {
+        if (IS_GRADLE_ENVIRONMENT) {
             System.out.println("Gradle environment property defined!");
         }
     }
 
     public static void save(Class<?> ofClass, String tag, byte[] result) {
-        if(IS_GRADLE_ENVIRONMENT)
+        if (IS_GRADLE_ENVIRONMENT)
             return;
 
         try {
-            File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_"+tag+"_Result.class");
+            String path = "src/test/resources";
 
+            String simpleName = ofClass.getSimpleName() + (tag != null ? "_" + tag : "") + "_Result.class";
+
+            File file = new File(path + simpleName);
 
             Files.write(file.toPath(), result, StandardOpenOption.CREATE);
-        } catch (IOException e) {
+
+            String savedPath = path+"/disassembled/" + simpleName + ".disassembled";
+
+            File pathJavap = new File(savedPath);
+
+            if(pathJavap.getParentFile() != null && !pathJavap.getParentFile().exists()) {
+                pathJavap.getParentFile().mkdirs();
+            }
+
+            if(pathJavap.exists()) {
+                pathJavap.delete();
+                pathJavap.createNewFile();
+            } else {
+                pathJavap.createNewFile();
+            }
+
+            Process pb = new ProcessBuilder("javap", "-c", "-v", "-p", simpleName)
+                    .directory(new File(path))
+                    .redirectOutput(pathJavap)
+                    .redirectErrorStream(true)
+                    .redirectError(ProcessBuilder.Redirect.INHERIT)
+                    .start();
+
+            pb.waitFor();
+
+            int exit = pb.exitValue();
+            if (exit != 0) {
+                System.err.println("Ext: "+ exit);
+                try {
+                    pb.destroy();
+                } catch (Exception ignored) {
+
+                }
+                pathJavap.delete();
+            } else {
+                new ProcessBuilder("git", "add", savedPath)
+                        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                        .redirectError(ProcessBuilder.Redirect.INHERIT)
+                        .redirectErrorStream(true)
+                        .start();
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void save(Class<?> ofClass, byte[] result) {
-        if(IS_GRADLE_ENVIRONMENT)
+        if (IS_GRADLE_ENVIRONMENT)
             return;
 
-        try {
-            File file = new File("src/test/resources/"+ofClass.getSimpleName()+"_Result.class");
+        save(ofClass, null, result);
 
-
-            Files.write(file.toPath(), result, StandardOpenOption.CREATE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static void save(Class<?> ofClass, Byte[] result) {

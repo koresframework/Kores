@@ -1,0 +1,72 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TestHelloBytecode_Result.class
+  Last modified 17/11/2016; size 520 bytes
+  MD5 checksum 9ef114a425c4e7d87403dcbcedd029f7
+  Compiled from "TestHelloBytecode.cai"
+public class fullName.TestHelloBytecode
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               TestHelloBytecode.cai
+   #2 = Utf8               fullName/TestHelloBytecode
+   #3 = Class              #2             // fullName/TestHelloBytecode
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               DEFAULT_VALUE
+   #7 = Utf8               I
+   #8 = Utf8               <init>
+   #9 = Utf8               ()V
+  #10 = NameAndType        #8:#9          // "<init>":()V
+  #11 = Methodref          #5.#10         // java/lang/Object."<init>":()V
+  #12 = Utf8               java/lang/System
+  #13 = Class              #12            // java/lang/System
+  #14 = Utf8               out
+  #15 = Utf8               Ljava/io/PrintStream;
+  #16 = NameAndType        #14:#15        // out:Ljava/io/PrintStream;
+  #17 = Fieldref           #13.#16        // java/lang/System.out:Ljava/io/PrintStream;
+  #18 = Utf8               Hello World
+  #19 = String             #18            // Hello World
+  #20 = Utf8               java/io/PrintStream
+  #21 = Class              #20            // java/io/PrintStream
+  #22 = Utf8               println
+  #23 = Utf8               (Ljava/lang/String;)V
+  #24 = NameAndType        #22:#23        // println:(Ljava/lang/String;)V
+  #25 = Methodref          #21.#24        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #26 = Utf8               this
+  #27 = Utf8               LfullName/TestHelloBytecode;
+  #28 = Utf8               <clinit>
+  #29 = NameAndType        #6:#7          // DEFAULT_VALUE:I
+  #30 = Fieldref           #3.#29         // fullName/TestHelloBytecode.DEFAULT_VALUE:I
+  #31 = Utf8               Code
+  #32 = Utf8               LocalVariableTable
+  #33 = Utf8               SourceFile
+{
+  public static final int DEFAULT_VALUE;
+    descriptor: I
+    flags: ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+
+  public fullName.TestHelloBytecode();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #11                 // Method java/lang/Object."<init>":()V
+         4: getstatic     #17                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         7: ldc           #19                 // String Hello World
+         9: invokevirtual #25                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        12: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  this   LfullName/TestHelloBytecode;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: bipush        17
+         2: putstatic     #30                 // Field DEFAULT_VALUE:I
+         5: return
+}
+SourceFile: "TestHelloBytecode.cai"

@@ -1,0 +1,112 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/ConcatTest_ConcatTest_Result.class
+  Last modified 17/11/2016; size 792 bytes
+  MD5 checksum 9546806e24dada73ae4d2baec3093b25
+  Compiled from "ConcatTest.cai"
+public class com.ConcatTest
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               ConcatTest.cai
+   #2 = Utf8               com/ConcatTest
+   #3 = Class              #2             // com/ConcatTest
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               (Ljava/lang/String;)V
+   #8 = Utf8               ()V
+   #9 = NameAndType        #6:#8          // "<init>":()V
+  #10 = Methodref          #5.#9          // java/lang/Object."<init>":()V
+  #11 = Utf8               java/lang/System
+  #12 = Class              #11            // java/lang/System
+  #13 = Utf8               out
+  #14 = Utf8               Ljava/io/PrintStream;
+  #15 = NameAndType        #13:#14        // out:Ljava/io/PrintStream;
+  #16 = Fieldref           #12.#15        // java/lang/System.out:Ljava/io/PrintStream;
+  #17 = Utf8               Hello
+  #18 = String             #17            // Hello
+  #19 = Utf8               java/lang/StringBuilder
+  #20 = Class              #19            // java/lang/StringBuilder
+  #21 = NameAndType        #6:#7          // "<init>":(Ljava/lang/String;)V
+  #22 = Methodref          #20.#21        // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+  #23 = Utf8
+  #24 = String             #23            //
+  #25 = Utf8               append
+  #26 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #27 = NameAndType        #25:#26        // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #28 = Methodref          #20.#27        // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #29 = Utf8                :D
+  #30 = String             #29            //  :D
+  #31 = Utf8               toString
+  #32 = Utf8               ()Ljava/lang/String;
+  #33 = NameAndType        #31:#32        // toString:()Ljava/lang/String;
+  #34 = Methodref          #5.#33         // java/lang/Object.toString:()Ljava/lang/String;
+  #35 = Utf8               java/io/PrintStream
+  #36 = Class              #35            // java/io/PrintStream
+  #37 = Utf8               println
+  #38 = NameAndType        #37:#7         // println:(Ljava/lang/String;)V
+  #39 = Methodref          #36.#38        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #40 = Utf8
+  #41 = String             #40            //
+  #42 = Utf8               A
+  #43 = String             #42            // A
+  #44 = Utf8               B
+  #45 = String             #44            // B
+  #46 = Utf8               java/lang/String
+  #47 = Class              #46            // java/lang/String
+  #48 = Utf8               concat
+  #49 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+  #50 = NameAndType        #48:#49        // concat:(Ljava/lang/String;)Ljava/lang/String;
+  #51 = Methodref          #47.#50        // java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+  #52 = Utf8               this
+  #53 = Utf8               Lcom/ConcatTest;
+  #54 = Utf8               av
+  #55 = Utf8               Ljava/lang/String;
+  #56 = Utf8               <clinit>
+  #57 = Utf8               Code
+  #58 = Utf8               LocalVariableTable
+  #59 = Utf8               SourceFile
+{
+  public com.ConcatTest(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #10                 // Method java/lang/Object."<init>":()V
+         4: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         7: ldc           #18                 // String Hello
+         9: invokespecial #22                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+        12: ldc           #24                 // String
+        14: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        17: aload_1
+        18: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        21: ldc           #30                 // String  :D
+        23: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        26: invokevirtual #34                 // Method java/lang/Object.toString:()Ljava/lang/String;
+        29: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        32: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        35: ldc           #41                 // String
+        37: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        40: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        43: ldc           #43                 // String A
+        45: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        48: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        51: ldc           #43                 // String A
+        53: ldc           #45                 // String B
+        55: invokevirtual #51                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+        58: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        61: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      62     0  this   Lcom/ConcatTest;
+            0      62     1    av   Ljava/lang/String;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "ConcatTest.cai"

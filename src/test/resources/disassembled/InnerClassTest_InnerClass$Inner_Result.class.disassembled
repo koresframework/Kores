@@ -1,0 +1,136 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InnerClassTest_InnerClass$Inner_Result.class
+  Last modified 17/11/2016; size 897 bytes
+  MD5 checksum 24f356ea1fe4af5c1169a19107454f9d
+  Compiled from "InnerClass$Inner.cai"
+public class test.InnerClass$Inner
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               InnerClass$Inner.cai
+   #2 = Utf8               test/InnerClass$Inner
+   #3 = Class              #2             // test/InnerClass$Inner
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               innerClass$outer
+   #7 = Utf8               Ltest/InnerClass;
+   #8 = Utf8               test/InnerClass
+   #9 = Class              #8             // test/InnerClass
+  #10 = Utf8               test.InnerClass$Inner
+  #11 = Utf8               a
+  #12 = Utf8               call
+  #13 = Utf8               ()Ljava/lang/String;
+  #14 = Utf8               java/lang/System
+  #15 = Class              #14            // java/lang/System
+  #16 = Utf8               out
+  #17 = Utf8               Ljava/io/PrintStream;
+  #18 = NameAndType        #16:#17        // out:Ljava/io/PrintStream;
+  #19 = Fieldref           #15.#18        // java/lang/System.out:Ljava/io/PrintStream;
+  #20 = NameAndType        #6:#7          // innerClass$outer:Ltest/InnerClass;
+  #21 = Fieldref           #3.#20         // test/InnerClass$Inner.innerClass$outer:Ltest/InnerClass;
+  #22 = Utf8               invoke$000
+  #23 = NameAndType        #22:#13        // invoke$000:()Ljava/lang/String;
+  #24 = Methodref          #9.#23         // test/InnerClass.invoke$000:()Ljava/lang/String;
+  #25 = Utf8               java/io/PrintStream
+  #26 = Class              #25            // java/io/PrintStream
+  #27 = Utf8               println
+  #28 = Utf8               (Ljava/lang/String;)V
+  #29 = NameAndType        #27:#28        // println:(Ljava/lang/String;)V
+  #30 = Methodref          #26.#29        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #31 = Utf8               mm
+  #32 = Utf8               ()V
+  #33 = NameAndType        #31:#32        // mm:()V
+  #34 = Methodref          #9.#33         // test/InnerClass.mm:()V
+  #35 = Utf8               A
+  #36 = String             #35            // A
+  #37 = Utf8               this
+  #38 = Utf8               Ltest/InnerClass$Inner;
+  #39 = NameAndType        #12:#13        // call:()Ljava/lang/String;
+  #40 = Methodref          #3.#39         // test/InnerClass$Inner.call:()Ljava/lang/String;
+  #41 = Utf8               <init>
+  #42 = Utf8               (Ltest/InnerClass;)V
+  #43 = NameAndType        #41:#32        // "<init>":()V
+  #44 = Methodref          #5.#43         // java/lang/Object."<init>":()V
+  #45 = Utf8               Hello
+  #46 = String             #45            // Hello
+  #47 = Utf8               (Ljava/lang/String;Ltest/InnerClass$Inner;)V
+  #48 = NameAndType        #41:#47        // "<init>":(Ljava/lang/String;Ltest/InnerClass$Inner;)V
+  #49 = Methodref          #9.#48         // test/InnerClass."<init>":(Ljava/lang/String;Ltest/InnerClass$Inner;)V
+  #50 = NameAndType        #11:#7         // a:Ltest/InnerClass;
+  #51 = Fieldref           #3.#50         // test/InnerClass$Inner.a:Ltest/InnerClass;
+  #52 = Utf8               <clinit>
+  #53 = Utf8               Code
+  #54 = Utf8               LocalVariableTable
+  #55 = Utf8               SourceFile
+  #56 = Utf8               InnerClasses
+{
+  private final test.InnerClass innerClass$outer;
+    descriptor: Ltest/InnerClass;
+    flags: ACC_PRIVATE, ACC_FINAL
+
+  public test.InnerClass a;
+    descriptor: Ltest/InnerClass;
+    flags: ACC_PUBLIC
+
+  private java.lang.String call();
+    descriptor: ()Ljava/lang/String;
+    flags: ACC_PRIVATE
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: aload_0
+         4: getfield      #21                 // Field innerClass$outer:Ltest/InnerClass;
+         7: invokevirtual #24                 // Method test/InnerClass.invoke$000:()Ljava/lang/String;
+        10: invokevirtual #30                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        13: aload_0
+        14: getfield      #21                 // Field innerClass$outer:Ltest/InnerClass;
+        17: invokevirtual #34                 // Method test/InnerClass.mm:()V
+        20: ldc           #36                 // String A
+        22: areturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      23     0  this   Ltest/InnerClass$Inner;
+
+  java.lang.String invoke$000();
+    descriptor: ()Ljava/lang/String;
+    flags: ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #40                 // Method call:()Ljava/lang/String;
+         4: areturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Ltest/InnerClass$Inner;
+
+  public test.InnerClass$Inner(test.InnerClass);
+    descriptor: (Ltest/InnerClass;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #44                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #46                 // String Hello
+         7: aload_0
+         8: invokespecial #49                 // Method test/InnerClass."<init>":(Ljava/lang/String;Ltest/InnerClass$Inner;)V
+        11: putfield      #51                 // Field a:Ltest/InnerClass;
+        14: aload_0
+        15: aload_1
+        16: putfield      #21                 // Field innerClass$outer:Ltest/InnerClass;
+        19: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      20     0  this   Ltest/InnerClass$Inner;
+            0      20     1 innerClass$outer   Ltest/InnerClass;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "InnerClass$Inner.cai"
+InnerClasses:
+     public #10= #3 of #9; //test.InnerClass$Inner=class test/InnerClass$Inner of class test/InnerClass

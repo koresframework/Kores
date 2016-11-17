@@ -1,0 +1,58 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InvokeSuperTest_Result.class
+  Last modified 17/11/2016; size 397 bytes
+  MD5 checksum da44e3fb68988cbdce530b6a62e74eb7
+  Compiled from "Impl.cai"
+public class test.Impl extends com.github.jonathanxd.codeapi.test.bytecode.InvokeSuperTest$My
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               Impl.cai
+   #2 = Utf8               test/Impl
+   #3 = Class              #2             // test/Impl
+   #4 = Utf8               com/github/jonathanxd/codeapi/test/bytecode/InvokeSuperTest$My
+   #5 = Class              #4             // com/github/jonathanxd/codeapi/test/bytecode/InvokeSuperTest$My
+   #6 = Utf8               <init>
+   #7 = Utf8               ()V
+   #8 = NameAndType        #6:#7          // "<init>":()V
+   #9 = Methodref          #5.#8          // com/github/jonathanxd/codeapi/test/bytecode/InvokeSuperTest$My."<init>":()V
+  #10 = Utf8               099
+  #11 = String             #10            // 099
+  #12 = Utf8               (Ljava/lang/String;)V
+  #13 = NameAndType        #6:#12         // "<init>":(Ljava/lang/String;)V
+  #14 = Methodref          #5.#13         // com/github/jonathanxd/codeapi/test/bytecode/InvokeSuperTest$My."<init>":(Ljava/lang/String;)V
+  #15 = Utf8               this
+  #16 = Utf8               Ltest/Impl;
+  #17 = Utf8               blc
+  #18 = Utf8               Ljava/lang/String;
+  #19 = Utf8               <clinit>
+  #20 = Utf8               Code
+  #21 = Utf8               LocalVariableTable
+  #22 = Utf8               SourceFile
+{
+  public test.Impl();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aload_0
+         1: invokespecial #9                  // Method com/github/jonathanxd/codeapi/test/bytecode/InvokeSuperTest$My."<init>":()V
+         4: ldc           #11                 // String 099
+         6: astore_1
+         7: aload_0
+         8: aload_1
+         9: invokespecial #14                 // Method com/github/jonathanxd/codeapi/test/bytecode/InvokeSuperTest$My."<init>":(Ljava/lang/String;)V
+        12: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  this   Ltest/Impl;
+            6       7     1   blc   Ljava/lang/String;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "Impl.cai"

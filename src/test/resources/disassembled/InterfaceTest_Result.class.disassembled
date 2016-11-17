@@ -1,0 +1,63 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InterfaceTest_Result.class
+  Last modified 17/11/2016; size 409 bytes
+  MD5 checksum f8fb051ac7104e552631b1559d577388
+  Compiled from "Impl.cai"
+public interface test.Impl
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_INTERFACE, ACC_ABSTRACT
+Constant pool:
+   #1 = Utf8               Impl.cai
+   #2 = Utf8               test/Impl
+   #3 = Class              #2             // test/Impl
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               parse
+   #7 = Utf8               (Ljava/lang/String;)V
+   #8 = Utf8               this
+   #9 = Utf8               Ltest/Impl;
+  #10 = Utf8               string
+  #11 = Utf8               Ljava/lang/String;
+  #12 = Utf8               getI
+  #13 = Utf8               (I)I
+  #14 = Utf8               num
+  #15 = Utf8               I
+  #16 = Utf8               <clinit>
+  #17 = Utf8               ()V
+  #18 = Utf8               Code
+  #19 = Utf8               LocalVariableTable
+  #20 = Utf8               SourceFile
+{
+  public void parse(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=0, locals=2, args_size=2
+         0: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       1     0  this   Ltest/Impl;
+            0       1     1 string   Ljava/lang/String;
+
+  public int getI(int);
+    descriptor: (I)I
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: bipush        9
+         3: imul
+         4: ireturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Ltest/Impl;
+            0       5     1   num   I
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "Impl.cai"

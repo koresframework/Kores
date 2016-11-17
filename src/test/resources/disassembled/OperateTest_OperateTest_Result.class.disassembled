@@ -1,0 +1,90 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/OperateTest_OperateTest_Result.class
+  Last modified 17/11/2016; size 542 bytes
+  MD5 checksum c60f80cb2bcc7a802b5fb3d31d85d9c5
+  Compiled from "OperateTest.cai"
+public class com.OperateTest
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               OperateTest.cai
+   #2 = Utf8               com/OperateTest
+   #3 = Class              #2             // com/OperateTest
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               (I)V
+   #8 = Utf8               ()V
+   #9 = NameAndType        #6:#8          // "<init>":()V
+  #10 = Methodref          #5.#9          // java/lang/Object."<init>":()V
+  #11 = Utf8               java/lang/System
+  #12 = Class              #11            // java/lang/System
+  #13 = Utf8               out
+  #14 = Utf8               Ljava/io/PrintStream;
+  #15 = NameAndType        #13:#14        // out:Ljava/io/PrintStream;
+  #16 = Fieldref           #12.#15        // java/lang/System.out:Ljava/io/PrintStream;
+  #17 = Utf8               java/lang/String
+  #18 = Class              #17            // java/lang/String
+  #19 = Utf8               valueOf
+  #20 = Utf8               (I)Ljava/lang/String;
+  #21 = NameAndType        #19:#20        // valueOf:(I)Ljava/lang/String;
+  #22 = Methodref          #18.#21        // java/lang/String.valueOf:(I)Ljava/lang/String;
+  #23 = Utf8               java/io/PrintStream
+  #24 = Class              #23            // java/io/PrintStream
+  #25 = Utf8               println
+  #26 = Utf8               (Ljava/lang/String;)V
+  #27 = NameAndType        #25:#26        // println:(Ljava/lang/String;)V
+  #28 = Methodref          #24.#27        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #29 = Utf8               this
+  #30 = Utf8               Lcom/OperateTest;
+  #31 = Utf8               num
+  #32 = Utf8               I
+  #33 = Utf8               <clinit>
+  #34 = Utf8               Code
+  #35 = Utf8               LocalVariableTable
+  #36 = Utf8               SourceFile
+{
+  public com.OperateTest(int);
+    descriptor: (I)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #10                 // Method java/lang/Object."<init>":()V
+         4: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         7: bipush        9
+         9: iload_1
+        10: iadd
+        11: iload_1
+        12: iconst_2
+        13: imul
+        14: iadd
+        15: invokestatic  #22                 // Method java/lang/String.valueOf:(I)Ljava/lang/String;
+        18: invokevirtual #28                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        21: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        24: bipush        9
+        26: ineg
+        27: invokestatic  #22                 // Method java/lang/String.valueOf:(I)Ljava/lang/String;
+        30: invokevirtual #28                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        33: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        36: bipush        9
+        38: bipush        10
+        40: iconst_m1
+        41: ixor
+        42: isub
+        43: invokestatic  #22                 // Method java/lang/String.valueOf:(I)Ljava/lang/String;
+        46: invokevirtual #28                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        49: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      50     0  this   Lcom/OperateTest;
+            0      50     1   num   I
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "OperateTest.cai"

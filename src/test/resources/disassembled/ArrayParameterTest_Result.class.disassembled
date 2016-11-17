@@ -1,0 +1,61 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/ArrayParameterTest_Result.class
+  Last modified 17/11/2016; size 698 bytes
+  MD5 checksum 96d259b39d6d7c81424da56ab0f8bb36
+  Compiled from "ArrayParameterTest_Generated.cai"
+public class com.github.jonathanxd.codeapi.test.bytecode.ArrayParameterTest_Generated
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               ArrayParameterTest_Generated.cai
+   #2 = Utf8               com/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest_Generated
+   #3 = Class              #2             // com/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest_Generated
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               ([Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;)V
+   #8 = Utf8               ()V
+   #9 = NameAndType        #6:#8          // "<init>":()V
+  #10 = Methodref          #5.#9          // java/lang/Object."<init>":()V
+  #11 = Utf8               [Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;
+  #12 = Class              #11            // "[Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;"
+  #13 = Utf8               this
+  #14 = Utf8               Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest_Generated;
+  #15 = Utf8               par
+  #16 = Utf8               cf
+  #17 = Utf8               Ljava/lang/Object;
+  #18 = Utf8               lt
+  #19 = Utf8               <clinit>
+  #20 = Utf8               Code
+  #21 = Utf8               LocalVariableTable
+  #22 = Utf8               SourceFile
+{
+  public com.github.jonathanxd.codeapi.test.bytecode.ArrayParameterTest_Generated(com.github.jonathanxd.codeapi.test.bytecode.ArrayParameterTest$Text[]);
+    descriptor: ([Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=4, args_size=2
+         0: aload_0
+         1: invokespecial #10                 // Method java/lang/Object."<init>":()V
+         4: aload_1
+         5: checkcast     #5                  // class java/lang/Object
+         8: astore_2
+         9: aload_2
+        10: checkcast     #12                 // class "[Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;"
+        13: astore_3
+        14: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0  this   Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest_Generated;
+            0      15     1   par   [Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;
+            8       7     2    cf   Ljava/lang/Object;
+           13       2     3    lt   [Lcom/github/jonathanxd/codeapi/test/bytecode/ArrayParameterTest$Text;
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "ArrayParameterTest_Generated.cai"

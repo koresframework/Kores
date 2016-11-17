@@ -1,0 +1,108 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/SimpleTest2_Bytecode_Result.class
+  Last modified 17/11/2016; size 742 bytes
+  MD5 checksum d7bfca8f619557a14673e8bcc549dea2
+  Compiled from "SimpleTest2_bytecode.cai"
+public class me.jonathanscripter.codeapi.test.SimpleTest2_bytecode
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               SimpleTest2_bytecode.cai
+   #2 = Utf8               me/jonathanscripter/codeapi/test/SimpleTest2_bytecode
+   #3 = Class              #2             // me/jonathanscripter/codeapi/test/SimpleTest2_bytecode
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               myField
+   #7 = Utf8               Ljava/lang/String;
+   #8 = Utf8               <init>
+   #9 = Utf8               (Ljava/lang/String;)V
+  #10 = Utf8               ()V
+  #11 = NameAndType        #8:#10         // "<init>":()V
+  #12 = Methodref          #5.#11         // java/lang/Object."<init>":()V
+  #13 = NameAndType        #6:#7          // myField:Ljava/lang/String;
+  #14 = Fieldref           #3.#13         // me/jonathanscripter/codeapi/test/SimpleTest2_bytecode.myField:Ljava/lang/String;
+  #15 = Utf8               java/lang/System
+  #16 = Class              #15            // java/lang/System
+  #17 = Utf8               out
+  #18 = Utf8               Ljava/io/PrintStream;
+  #19 = NameAndType        #17:#18        // out:Ljava/io/PrintStream;
+  #20 = Fieldref           #16.#19        // java/lang/System.out:Ljava/io/PrintStream;
+  #21 = Utf8               java/io/PrintStream
+  #22 = Class              #21            // java/io/PrintStream
+  #23 = Utf8               println
+  #24 = NameAndType        #23:#9         // println:(Ljava/lang/String;)V
+  #25 = Methodref          #22.#24        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #26 = Utf8               NULL VALUE
+  #27 = String             #26            // NULL VALUE
+  #28 = Long               5894567987l
+  #30 = Long               89859845678798l
+  #32 = Utf8               First < Second
+  #33 = String             #32            // First < Second
+  #34 = Utf8               First >= Second
+  #35 = String             #34            // First >= Second
+  #36 = Utf8               java/lang/String
+  #37 = Class              #36            // java/lang/String
+  #38 = Utf8               this
+  #39 = Utf8               Lme/jonathanscripter/codeapi/test/SimpleTest2_bytecode;
+  #40 = Utf8               <clinit>
+  #41 = Utf8               Code
+  #42 = Utf8               LocalVariableTable
+  #43 = Utf8               StackMapTable
+  #44 = Utf8               SourceFile
+{
+  public final java.lang.String myField;
+    descriptor: Ljava/lang/String;
+    flags: ACC_PUBLIC, ACC_FINAL
+
+  public me.jonathanscripter.codeapi.test.SimpleTest2_bytecode(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #12                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: aload_1
+         6: putfield      #14                 // Field myField:Ljava/lang/String;
+         9: aload_1
+        10: ifnull        23
+        13: getstatic     #20                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        16: aload_1
+        17: invokevirtual #25                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        20: goto          31
+        23: getstatic     #20                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        26: ldc           #27                 // String NULL VALUE
+        28: invokevirtual #25                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        31: ldc2_w        #28                 // long 5894567987l
+        34: ldc2_w        #30                 // long 89859845678798l
+        37: lcmp
+        38: ifge          52
+        41: getstatic     #20                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        44: ldc           #33                 // String First < Second
+        46: invokevirtual #25                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        49: goto          60
+        52: getstatic     #20                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        55: ldc           #35                 // String First >= Second
+        57: invokevirtual #25                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        60: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      61     0  this   Lme/jonathanscripter/codeapi/test/SimpleTest2_bytecode;
+            0      61     1 myField   Ljava/lang/String;
+      StackMapTable: number_of_entries = 4
+        frame_type = 255 /* full_frame */
+          offset_delta = 23
+          locals = [ class me/jonathanscripter/codeapi/test/SimpleTest2_bytecode, class java/lang/String ]
+          stack = []
+        frame_type = 7 /* same */
+        frame_type = 20 /* same */
+        frame_type = 7 /* same */
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "SimpleTest2_bytecode.cai"

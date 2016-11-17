@@ -1,0 +1,104 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/ForEachArrayClassTest_ForEach_Result.class
+  Last modified 17/11/2016; size 670 bytes
+  MD5 checksum 70929c5bb39a6da4e35457ad7dcc71a6
+  Compiled from "ForEach.cai"
+public class com.ForEach
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               ForEach.cai
+   #2 = Utf8               com/ForEach
+   #3 = Class              #2             // com/ForEach
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               stra
+   #7 = Utf8               Ljava/lang/String;
+   #8 = Utf8               <init>
+   #9 = Utf8               ([Ljava/lang/String;)V
+  #10 = Utf8               ()V
+  #11 = NameAndType        #8:#10         // "<init>":()V
+  #12 = Methodref          #5.#11         // java/lang/Object."<init>":()V
+  #13 = NameAndType        #6:#7          // stra:Ljava/lang/String;
+  #14 = Fieldref           #3.#13         // com/ForEach.stra:Ljava/lang/String;
+  #15 = Utf8               java/lang/System
+  #16 = Class              #15            // java/lang/System
+  #17 = Utf8               out
+  #18 = Utf8               Ljava/io/PrintStream;
+  #19 = NameAndType        #17:#18        // out:Ljava/io/PrintStream;
+  #20 = Fieldref           #16.#19        // java/lang/System.out:Ljava/io/PrintStream;
+  #21 = Utf8               java/io/PrintStream
+  #22 = Class              #21            // java/io/PrintStream
+  #23 = Utf8               println
+  #24 = Utf8               (Ljava/lang/String;)V
+  #25 = NameAndType        #23:#24        // println:(Ljava/lang/String;)V
+  #26 = Methodref          #22.#25        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #27 = Utf8               [Ljava/lang/String;
+  #28 = Class              #27            // "[Ljava/lang/String;"
+  #29 = Utf8               java/lang/String
+  #30 = Class              #29            // java/lang/String
+  #31 = Utf8               this
+  #32 = Utf8               Lcom/ForEach;
+  #33 = Utf8               strArray
+  #34 = Utf8               v
+  #35 = Utf8               str
+  #36 = Utf8               <clinit>
+  #37 = Utf8               XA
+  #38 = String             #37            // XA
+  #39 = Utf8               Code
+  #40 = Utf8               LocalVariableTable
+  #41 = Utf8               StackMapTable
+  #42 = Utf8               SourceFile
+{
+  public static java.lang.String stra;
+    descriptor: Ljava/lang/String;
+    flags: ACC_PUBLIC, ACC_STATIC
+
+  public com.ForEach(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=5, args_size=2
+         0: aload_0
+         1: invokespecial #12                 // Method java/lang/Object."<init>":()V
+         4: getstatic     #14                 // Field stra:Ljava/lang/String;
+         7: astore_2
+         8: iconst_0
+         9: istore_3
+        10: iload_3
+        11: aload_1
+        12: arraylength
+        13: if_icmpge     35
+        16: aload_1
+        17: iload_3
+        18: aaload
+        19: astore        4
+        21: getstatic     #20                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        24: aload         4
+        26: invokevirtual #26                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        29: iinc          3, 1
+        32: goto          10
+        35: return
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      36     0  this   Lcom/ForEach;
+            0      36     1 strArray   [Ljava/lang/String;
+            7      29     2     v   Ljava/lang/String;
+           19      17     4   str   Ljava/lang/String;
+      StackMapTable: number_of_entries = 2
+        frame_type = 255 /* full_frame */
+          offset_delta = 10
+          locals = [ class com/ForEach, class "[Ljava/lang/String;", class java/lang/String, int ]
+          stack = []
+        frame_type = 24 /* same */
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #38                 // String XA
+         2: putstatic     #14                 // Field stra:Ljava/lang/String;
+         5: return
+}
+SourceFile: "ForEach.cai"
