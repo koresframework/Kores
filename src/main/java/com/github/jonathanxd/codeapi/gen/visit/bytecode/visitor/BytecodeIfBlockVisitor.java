@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ElseBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfBlock;
 import com.github.jonathanxd.codeapi.interfaces.IfExpr;
@@ -167,7 +168,32 @@ public class BytecodeIfBlockVisitor implements Opcodes {
                     } else if (CodePartUtil.isPrimitive(expr1) && CodePartUtil.isPrimitive(expr2)) {
                         visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 
-                        additional.visitJumpInsn(Operators.primitiveToAsm(operation, isInverse), lbl);
+                        CodeType firstType = CodePartUtil.getType(expr1);
+                        CodeType secondType = CodePartUtil.getType(expr2);
+
+                        if(!firstType.is(secondType))
+                            throw new IllegalArgumentException("'"+expr1+"' and '"+expr2+"' have different types, cast it to correct type.");
+
+                        boolean generateCMPCheck = false;
+
+                        if(expr1Type.is(PredefinedTypes.LONG)){
+                            additional.visitInsn(Opcodes.LCMP);
+                            generateCMPCheck = true;
+                        } else if(expr1Type.is(PredefinedTypes.DOUBLE)) {
+                            additional.visitInsn(Opcodes.DCMPG);
+                            generateCMPCheck = true;
+                        } else if(expr1Type.is(PredefinedTypes.FLOAT)) {
+                            additional.visitInsn(Opcodes.FCMPG);
+                            generateCMPCheck = true;
+                        }
+
+                        int check = Operators.primitiveToAsm(operation, isInverse);
+
+                        if(generateCMPCheck) {
+                            check = Operators.convertToSimpleIf(check);
+                        }
+
+                        additional.visitJumpInsn(check, lbl);
                     } else {
                         visitorGenerator.generateTo(expr2.getClass(), expr2, extraData, null, mvData);
 

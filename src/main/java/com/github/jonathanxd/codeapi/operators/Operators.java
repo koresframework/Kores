@@ -77,6 +77,24 @@ public class Operators {
     public static final Operator SIGNED_RIGHT_SHIFT = new SimpleOperator(">>");
     public static final Operator UNSIGNED_RIGHT_SHIFT = new SimpleOperator(">>>");
 
+    public static int convertToSimpleIf(int opcode) {
+        if (opcode == Opcodes.IF_ICMPEQ) {
+            return Opcodes.IFEQ;
+        } else if (opcode == Opcodes.IF_ICMPLT) {
+            return Opcodes.IFLT;
+        } else if (opcode == Opcodes.IF_ICMPLE) {
+            return Opcodes.IFLE;
+        } else if (opcode == Opcodes.IF_ICMPGT) {
+            return Opcodes.IFGT;
+        } else if (opcode == Opcodes.IF_ICMPGE) {
+            return Opcodes.IFGE;
+        } else if (opcode == Opcodes.IF_ICMPNE) {
+            return Opcodes.IFNE;
+        }
+
+        throw new IllegalArgumentException("Cannot convert opcode '"+opcode+"' to simple if.");
+    }
+
     public static int primitiveToAsm(Operator operator, boolean isInverse) {
         if (!isInverse) {
             return primitiveToAsm(operator);

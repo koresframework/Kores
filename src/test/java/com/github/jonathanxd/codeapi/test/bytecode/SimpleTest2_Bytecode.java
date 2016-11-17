@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.bytecode;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
@@ -34,11 +35,12 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
+import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.impl.CodeConstructor;
 import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.test.ResultSaver;
@@ -121,7 +123,12 @@ public class SimpleTest2_Bytecode {
                                                 Helper.cast(stringType, stringType, Literals.QUOTED_STRING("NULL VALUE")), stringType
                                         )))
                                 ))
-                        ))
+                        )),
+                        CodeAPI.ifBlock(
+                                CodeAPI.ifExprs(CodeAPI.check(Literals.LONG(5894567987L), Operators.LESS_THAN, Literals.LONG(89859845678798L))),
+                                CodeAPI.sourceOfParts(Predefined.invokePrintlnStr(Literals.STRING("First < Second"))),
+                                CodeAPI.elseBlock(CodeAPI.sourceOfParts(Predefined.invokePrintlnStr(Literals.STRING("First >= Second"))))
+                        )
                 ));
 
         // Adiciona o construtor ao codigo fonte da classe
@@ -144,7 +151,7 @@ public class SimpleTest2_Bytecode {
 
             MethodHandle getMyField = MethodHandles.publicLookup().findGetter(define, "myField", String.class).bindTo(o);
 
-            System.out.println("Field value = "+(String) getMyField.invoke());
+            System.out.println("Field value = " + (String) getMyField.invoke());
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
