@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TestBytecode_Invocations_Result.class
   Last modified 17/11/2016; size 2671 bytes
-  MD5 checksum d2d72f260b37a76579c2d7989b8c7a65
+  MD5 checksum d58221ef3e3f69faa6a148fb6d46724f
   Compiled from "TestBytecode_Invocations_Generated.cai"
 public class fullName.TestBytecode_Invocations_Generated
   minor version: 0
@@ -92,10 +92,10 @@ Constant pool:
    #83 = MethodHandle       #6:#82        // invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
    #84 = Utf8               ()Ljava/lang/Object;
    #85 = MethodType         #84           //  ()Ljava/lang/Object;
-   #86 = Utf8               TestBytecode_Invocations_Generated_fragment$476538740
-   #87 = NameAndType        #86:#70       // TestBytecode_Invocations_Generated_fragment$476538740:()Ljava/lang/String;
-   #88 = Methodref          #3.#87        // fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$476538740:()Ljava/lang/String;
-   #89 = MethodHandle       #6:#88        // invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$476538740:()Ljava/lang/String;
+   #86 = Utf8               TestBytecode_Invocations_Generated_fragment$_2083968260
+   #87 = NameAndType        #86:#70       // TestBytecode_Invocations_Generated_fragment$_2083968260:()Ljava/lang/String;
+   #88 = Methodref          #3.#87        // fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$_2083968260:()Ljava/lang/String;
+   #89 = MethodHandle       #6:#88        // invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$_2083968260:()Ljava/lang/String;
    #90 = MethodType         #70           //  ()Ljava/lang/String;
    #91 = Utf8               get
    #92 = Utf8               ()Ljava/util/function/Supplier;
@@ -211,81 +211,89 @@ Constant pool:
     descriptor: (I)Z
     flags: ACC_PUBLIC
     Code:
-      stack=0, locals=7, args_size=2
+      stack=2, locals=7, args_size=2
          0: ldc           #53                 // String xy
          2: ldc           #55                 // String yz
          4: invokestatic  #61                 // Method com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations.bmp:(Ljava/lang/String;Ljava/lang/String;)V
          7: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
         10: ldc           #63                 // String Invoke Interface ->
         12: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        15: invokespecial #66                 // Method com/github/jonathanxd/codeapi/test/WorldGreeter."<init>":()V
-        18: astore_2
-        19: aload_2
-        20: invokeinterface #72,  1           // InterfaceMethod com/github/jonathanxd/codeapi/test/Greeter.hello:()Ljava/lang/String;
-        25: astore_3
-        26: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        29: aload_3
-        30: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        33: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        36: ldc           #74                 // String Invoke Interface <-
-        38: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        41: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        44: ldc           #76                 // String Invoke Dynamic ->
-        46: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        49: invokedynamic #94,  0             // InvokeDynamic #0:get:()Ljava/util/function/Supplier;
-        54: astore        4
-        56: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        59: aload         4
-        61: invokeinterface #98,  1           // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
-        66: checkcast     #100                // class java/lang/String
-        69: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        72: aload_2
-        73: invokedynamic #104,  0            // InvokeDynamic #1:get:(Lcom/github/jonathanxd/codeapi/test/Greeter;)Ljava/util/function/Supplier;
-        78: astore        5
-        80: aload         5
-        82: invokeinterface #98,  1           // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
-        87: checkcast     #100                // class java/lang/String
-        90: astore        6
-        92: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        95: aload         6
-        97: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-       100: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-       103: ldc           #106                // String Invoke Dynamic <-
-       105: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-       108: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-       111: ldc           #108                // String Invoke Dynamic Bootstrap ->
-       113: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-       116: ldc           #110                // String World
-       118: invokedynamic #118,  0            // InvokeDynamic #2:helloWorld:(Ljava/lang/String;)V
-       123: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-       126: ldc           #120                // String Invoke Dynamic Bootstrap <-
-       128: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-       131: iload_1
-       132: bipush        9
-       134: if_icmpeq     143
-       137: iload_1
-       138: bipush        7
-       140: if_icmpne     145
-       143: iconst_0
-       144: ireturn
-       145: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
-       148: iload_1
-       149: invokevirtual #123                // Method java/io/PrintStream.println:(I)V
-       152: iconst_1
-       153: ireturn
+        15: new           #65                 // class com/github/jonathanxd/codeapi/test/WorldGreeter
+        18: dup
+        19: invokespecial #66                 // Method com/github/jonathanxd/codeapi/test/WorldGreeter."<init>":()V
+        22: astore_2
+        23: aload_2
+        24: invokeinterface #72,  1           // InterfaceMethod com/github/jonathanxd/codeapi/test/Greeter.hello:()Ljava/lang/String;
+        29: astore_3
+        30: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        33: aload_3
+        34: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        37: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        40: ldc           #74                 // String Invoke Interface <-
+        42: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        45: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        48: ldc           #76                 // String Invoke Dynamic ->
+        50: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        53: invokedynamic #94,  0             // InvokeDynamic #0:get:()Ljava/util/function/Supplier;
+        58: astore        4
+        60: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        63: aload         4
+        65: invokeinterface #98,  1           // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
+        70: checkcast     #100                // class java/lang/String
+        73: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        76: aload_2
+        77: invokedynamic #104,  0            // InvokeDynamic #1:get:(Lcom/github/jonathanxd/codeapi/test/Greeter;)Ljava/util/function/Supplier;
+        82: astore        5
+        84: aload         5
+        86: invokeinterface #98,  1           // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
+        91: checkcast     #100                // class java/lang/String
+        94: astore        6
+        96: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        99: aload         6
+       101: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       104: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       107: ldc           #106                // String Invoke Dynamic <-
+       109: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       112: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       115: ldc           #108                // String Invoke Dynamic Bootstrap ->
+       117: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       120: ldc           #110                // String World
+       122: invokedynamic #118,  0            // InvokeDynamic #2:helloWorld:(Ljava/lang/String;)V
+       127: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       130: ldc           #120                // String Invoke Dynamic Bootstrap <-
+       132: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       135: iload_1
+       136: bipush        9
+       138: if_icmpeq     147
+       141: iload_1
+       142: bipush        7
+       144: if_icmpne     149
+       147: iconst_0
+       148: ireturn
+       149: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       152: iload_1
+       153: invokevirtual #123                // Method java/io/PrintStream.println:(I)V
+       156: iconst_1
+       157: ireturn
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0     154     0  this   LfullName/TestBytecode_Invocations_Generated;
-            0     154     1     x   I
-           18     136     2 greeter   Lcom/github/jonathanxd/codeapi/test/Greeter;
-           25     129     3 greetingVar   Ljava/lang/String;
-           54     100     4 supplier2   Ljava/util/function/Supplier;
-           78      76     5 supplier   Ljava/util/function/Supplier;
-           90      64     6   str   Ljava/lang/String;
+            0     158     0  this   LfullName/TestBytecode_Invocations_Generated;
+            0     158     1     x   I
+           22     136     2 greeter   Lcom/github/jonathanxd/codeapi/test/Greeter;
+           29     129     3 greetingVar   Ljava/lang/String;
+           58     100     4 supplier2   Ljava/util/function/Supplier;
+           82      76     5 supplier   Ljava/util/function/Supplier;
+           94      64     6   str   Ljava/lang/String;
       LineNumberTable:
-        line 0: 116
+        line 0: 120
+      StackMapTable: number_of_entries = 2
+        frame_type = 255 /* full_frame */
+          offset_delta = 147
+          locals = [ class fullName/TestBytecode_Invocations_Generated, int, class com/github/jonathanxd/codeapi/test/WorldGreeter, class java/lang/String, class java/util/function/Supplier, class java/util/function/Supplier, class java/lang/String ]
+          stack = []
+        frame_type = 1 /* same */
 
-  private static java.lang.String TestBytecode_Invocations_Generated_fragment$476538740();
+  private static java.lang.String TestBytecode_Invocations_Generated_fragment$_2083968260();
     descriptor: ()Ljava/lang/String;
     flags: ACC_PRIVATE, ACC_STATIC
     Code:
@@ -304,7 +312,7 @@ BootstrapMethods:
   0: #83 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
     Method arguments:
       #85 ()Ljava/lang/Object;
-      #89 invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$476538740:()Ljava/lang/String;
+      #89 invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$_2083968260:()Ljava/lang/String;
       #90 ()Ljava/lang/String;
   1: #83 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
     Method arguments:

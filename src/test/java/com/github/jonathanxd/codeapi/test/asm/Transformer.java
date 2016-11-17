@@ -134,7 +134,6 @@ public class Transformer {
 
             return super.visitMethod(access, name, desc, signature, exceptions);
         }
-
     }
 
     private static class FragmentTransformer extends MethodVisitor {

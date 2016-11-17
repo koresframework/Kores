@@ -56,7 +56,7 @@ public final class ResultSaver {
             return;
 
         try {
-            String path = "src/test/resources";
+            String path = "src/test/resources/";
 
             String simpleName = ofClass.getSimpleName() + (tag != null ? "_" + tag : "") + "_Result.class";
 
