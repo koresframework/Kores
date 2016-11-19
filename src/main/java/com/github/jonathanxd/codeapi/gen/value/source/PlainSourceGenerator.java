@@ -341,6 +341,9 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         @Override
         public void add(String elem) {
 
+            if(elem.isEmpty())
+                return;
+
             boolean endsWithSemi = elem.endsWith(";");
             boolean endsWithOpenBr = elem.endsWith("{");
             boolean endsWithCloseBr = elem.endsWith("}");
