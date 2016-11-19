@@ -2,6 +2,13 @@
 
 `since 1.11`
 
+**Labels**
+
+*Improvement* - Code or documentation improvements, performance improvements, Code generation improvements or scripts improvement (like `build.gradle`).
+*Feature*     - New features introduced
+*Hotfix*      - A urgent fix (have no workarounds unless fixing in CodeAPI Project)
+*Fix*         - A minor fix (have workarounds)
+
 ###### Version 3.0 - Planned features.
 | Name                         | Type          | Issue       | Commit                                   |
 | ---------------------------- | ------------- | ----------- | ---------------------------------------- |
@@ -10,6 +17,12 @@
 | More Builders                | Feature       |  #33        | 2d4d2d5a79f2a8647d8f43c78446fa26b15e599d |
 | Bridge methods               | Feature       |  #19        | 847532e6a9b9b1cbf209879e93261ded2ef186a7 |
 | Convert from Kotlin to Java  | Improvement?  |  #29        | Some                                     |
+
+###### 2.1.5 - Source fixes.
+| Name                         | Type          | Issue       | Commit                                   |
+| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
+| Super invocation - Source Gen| Hotfix        |  None       | 9d6ac77f1ff9566f102a1e82a9e0111568a437a6 |
+| Fix append of empty string...| Fix           |  None       | dbd91031670c579b6a32145878b0e203b2148681 |
 
 ###### 2.0 - First Stable Release.
 | Name                         | Type          | Issue       | Commit                                   |
@@ -25,7 +38,7 @@
 | Enum `TypeDeclaration`       | Feature       |  #25        | 918dd2ee13d601680881f554624aa3a2c8c0e6d6 |
 | Generate access for privat...| Fix           |  #28        | be02c60523b3f8ccd7fc5658461cf74cfdba8c51 |
 | Concat Helper                | Feature       |  #30        | cbf43ed00d846b08e82ff650089032bc5317539a |
-| Instruction visitor          | Feature       |  #32        | 98b1ac51a1f9d1e404efa9f40d5ec7d82360eb98 |
+| Instruction visitor          | Feature (2.1) |  #32        | 98b1ac51a1f9d1e404efa9f40d5ec7d82360eb98 |
 
 ###### 1.16.0
 | Name                   | Type          | Issue       | Commit                                   |
