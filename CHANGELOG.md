@@ -2,6 +2,21 @@
 
 `since 1.11`
 
+**Labels**
+
+*Improvement* - Code or documentation improvements, performance improvements, Code generation improvements or scripts improvement (like `build.gradle`).
+*Feature*     - New features introduced
+*Hotfix*      - A urgent fix (have no workarounds unless fixing in CodeAPI Project)
+*Fix*         - A minor fix (have workarounds)
+
+
+###### 2.1.5 - Source fixes.
+| Name                         | Type          | Issue       | Commit                                   |
+| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
+| Super invocation - Source Gen| Hotfix        |  None       | 9d6ac77f1ff9566f102a1e82a9e0111568a437a6 |
+| Fix append of empty string...| Fix           |  None       | dbd91031670c579b6a32145878b0e203b2148681 |
+
+
 ###### 2.0 - First Stable Release.
 | Name                         | Type          | Issue       | Commit                                   |
 | ---------------------------- | ------------- | ----------- | ---------------------------------------- |
@@ -16,7 +31,7 @@
 | Enum `TypeDeclaration`       | Feature       |  #25        | 918dd2ee13d601680881f554624aa3a2c8c0e6d6 |
 | Generate access for privat...| Fix           |  #28        | be02c60523b3f8ccd7fc5658461cf74cfdba8c51 |
 | Concat Helper                | Feature       |  #30        | cbf43ed00d846b08e82ff650089032bc5317539a |
-| Instruction visitor          | Feature       |  #32        | 98b1ac51a1f9d1e404efa9f40d5ec7d82360eb98 |
+| Instruction visitor          | Feature (2.1) |  #32        | 98b1ac51a1f9d1e404efa9f40d5ec7d82360eb98 |
 
 ###### 1.16.0
 | Name                   | Type          | Issue       | Commit                                   |
@@ -64,9 +79,9 @@
 
 ###### 1.11.0
 
-| Name               | Type          | Issue       | Commit                                   |
-| ------------------ | ------------- | ----------- | ---------------------------------------- |
-| Try-with-resources | Feature       | #6          | 26b1c637a9527c0a7eaf5235e97bfdea05e7a13b |
-| Options            | Feature       | #5          | 9e3c368db474bb5ca49bef3133fe2ab17dff20f9 |
-| Non-inline try catch warning | Warning | None    | 1d943b9c1f19fdff66910102b2f51805d61bf097 |
-| CodeAPI simplify   | Feature       | #7          | 80235e1944f0b9b20b04af2d364c081a139558ad |
+| Name                         | Type          | Issue       | Commit                                   |
+| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
+| Try-with-resources           | Feature       | #6          | 26b1c637a9527c0a7eaf5235e97bfdea05e7a13b |
+| Options                      | Feature       | #5          | 9e3c368db474bb5ca49bef3133fe2ab17dff20f9 |
+| Non-inline try catch warning | Warning       | None        | 1d943b9c1f19fdff66910102b2f51805d61bf097 |
+| CodeAPI simplify             | Feature       | #7          | 80235e1944f0b9b20b04af2d364c081a139558ad |
