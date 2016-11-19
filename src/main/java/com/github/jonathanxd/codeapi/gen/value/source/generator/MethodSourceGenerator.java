@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Annotable;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.Generifiable;
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
@@ -80,11 +81,11 @@ public class MethodSourceGenerator implements ValueGenerator<MethodDeclaration, 
 
             String name = codeMethod.getName();
 
-            Optional<Parent<ValueGenerator<?, String, PlainSourceGenerator>>> generatorParent = parents.find(CodeClass.class);
+            Optional<Parent<ValueGenerator<?, String, PlainSourceGenerator>>> generatorParent = parents.find(ClassDeclaration.class);
 
             if (generatorParent.isPresent()) {
                 Parent<ValueGenerator<?, String, PlainSourceGenerator>> generatorParent1 = generatorParent.get();
-                CodeClass target = (CodeClass) generatorParent1.getTarget();
+                ClassDeclaration target = (ClassDeclaration) generatorParent1.getTarget();
 
                 name = target.getSimpleName();
             }

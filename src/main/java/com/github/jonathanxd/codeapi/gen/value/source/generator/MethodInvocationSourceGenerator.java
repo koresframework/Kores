@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.gen.value.source.generator;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
+import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.gen.value.CodeSourceData;
 import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.TargetValue;
@@ -41,7 +42,9 @@ import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.Parameterizable;
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -115,22 +118,39 @@ public class MethodInvocationSourceGenerator implements ValueGenerator<MethodInv
         // Is method reference
         boolean isRef = METHOD_SEPARATOR.equals("::");
         boolean isCtr = spec.getMethodName().equals("<init>");
-
+        boolean isSuper = spec.getMethodType() == MethodType.SUPER_CONSTRUCTOR;
 
         MethodInvocation mi = methodInvocationImpl;
 
-        if (isCtr && !isRef) {
+        if(isSuper) {
+            CodeType localization = mi.getLocalization().orElse(null);
+            mi = mi.setTarget(null);
+
+            CodeType type = (CodeType) parents.find(TypeDeclaration.class)
+                    .orElseThrow(() -> new IllegalArgumentException("Cannot determine current class."))
+                    .getTarget();
+
+            if(localization == null || localization.is(type)) {
+                values.add(PlainValue.create("this"));
+            } else {
+                values.add(PlainValue.create("super"));
+            }
+        }
+
+        if (isCtr && !isRef && !isSuper) {
             values.add(TargetValue.create(Keywords.NEW, parents));
             mi = mi.setTarget(null);
         }
 
-        values.addAll(AccessorSourceGenerator.gen(mi, !isRef && !isCtr, parents));
+        if(!isSuper) {
+            values.addAll(AccessorSourceGenerator.gen(mi, !isRef && !isCtr, parents));
+        }
 
         if (isRef) {
             values.add(PlainValue.create(METHOD_SEPARATOR));
         }
 
-        if (isCtr && isRef) {
+        if (isCtr && isRef && !isSuper) {
             values.add(TargetValue.create(Keywords.NEW, parents));
         }
 
@@ -143,6 +163,5 @@ public class MethodInvocationSourceGenerator implements ValueGenerator<MethodInv
 
         return values;
     }
-
 
 }
