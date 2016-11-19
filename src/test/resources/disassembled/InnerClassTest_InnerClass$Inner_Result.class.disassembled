@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InnerClassTest_InnerClass$Inner_Result.class
-  Last modified 17/11/2016; size 897 bytes
-  MD5 checksum 24f356ea1fe4af5c1169a19107454f9d
+  Last modified 18/11/2016; size 897 bytes
+  MD5 checksum 4a74176631f35d79d63ef32bd8072aed
   Compiled from "InnerClass$Inner.cai"
 public class test.InnerClass$Inner
   minor version: 0
@@ -107,22 +107,24 @@ Constant pool:
     descriptor: (Ltest/InnerClass;)V
     flags: ACC_PUBLIC
     Code:
-      stack=3, locals=2, args_size=2
+      stack=5, locals=2, args_size=2
          0: aload_0
          1: invokespecial #44                 // Method java/lang/Object."<init>":()V
          4: aload_0
-         5: ldc           #46                 // String Hello
-         7: aload_0
-         8: invokespecial #49                 // Method test/InnerClass."<init>":(Ljava/lang/String;Ltest/InnerClass$Inner;)V
-        11: putfield      #51                 // Field a:Ltest/InnerClass;
-        14: aload_0
-        15: aload_1
-        16: putfield      #21                 // Field innerClass$outer:Ltest/InnerClass;
-        19: return
+         5: new           #9                  // class test/InnerClass
+         8: dup
+         9: ldc           #46                 // String Hello
+        11: aload_0
+        12: invokespecial #49                 // Method test/InnerClass."<init>":(Ljava/lang/String;Ltest/InnerClass$Inner;)V
+        15: putfield      #51                 // Field a:Ltest/InnerClass;
+        18: aload_0
+        19: aload_1
+        20: putfield      #21                 // Field innerClass$outer:Ltest/InnerClass;
+        23: return
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      20     0  this   Ltest/InnerClass$Inner;
-            0      20     1 innerClass$outer   Ltest/InnerClass;
+            0      24     0  this   Ltest/InnerClass$Inner;
+            0      24     1 innerClass$outer   Ltest/InnerClass;
 
   static {};
     descriptor: ()V

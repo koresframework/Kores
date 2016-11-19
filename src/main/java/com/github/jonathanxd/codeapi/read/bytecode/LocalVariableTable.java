@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.read.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,7 @@ import java.util.NoSuchElementException;
 public class LocalVariableTable {
 
     private final Map<Integer, CodePart> table = new HashMap<>();
+    private final Map<Integer, VariableInfo> variableTable = new HashMap<>();
 
     public void store(CodePart part, int index) {
         this.table.put(index, part);
@@ -47,5 +49,42 @@ public class LocalVariableTable {
 
         return this.table.get(index);
     }
+
+    public void storeVariableInfo(int slot, CodeType variableType, String variableName) {
+        this.variableTable.put(slot, new VariableInfo(variableType, variableName));
+    }
+
+    public VariableInfo getInfo(int slot) {
+        return this.variableTable.get(slot);
+    }
+
+    public final class VariableInfo {
+        private final CodeType type;
+        private final String name;
+
+        private VariableInfo(CodeType codeType, String name) {
+            this.type = codeType;
+            this.name = name;
+        }
+
+        public CodeType getType() {
+            return this.type;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(obj == null || !(obj instanceof VariableInfo))
+                return super.equals(obj);
+
+            VariableInfo info = (VariableInfo) obj;
+
+            return this.getName().equals(info.getName()) && this.getType().is(info.getType());
+        }
+    }
+
 
 }

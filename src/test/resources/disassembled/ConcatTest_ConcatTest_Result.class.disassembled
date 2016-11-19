@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/ConcatTest_ConcatTest_Result.class
-  Last modified 17/11/2016; size 792 bytes
-  MD5 checksum 9546806e24dada73ae4d2baec3093b25
+  Last modified 18/11/2016; size 792 bytes
+  MD5 checksum e90ea951871d084644adff173c606673
   Compiled from "ConcatTest.cai"
 public class com.ConcatTest
   minor version: 0
@@ -23,18 +23,18 @@ Constant pool:
   #14 = Utf8               Ljava/io/PrintStream;
   #15 = NameAndType        #13:#14        // out:Ljava/io/PrintStream;
   #16 = Fieldref           #12.#15        // java/lang/System.out:Ljava/io/PrintStream;
-  #17 = Utf8               Hello
-  #18 = String             #17            // Hello
-  #19 = Utf8               java/lang/StringBuilder
-  #20 = Class              #19            // java/lang/StringBuilder
+  #17 = Utf8               java/lang/StringBuilder
+  #18 = Class              #17            // java/lang/StringBuilder
+  #19 = Utf8               Hello
+  #20 = String             #19            // Hello
   #21 = NameAndType        #6:#7          // "<init>":(Ljava/lang/String;)V
-  #22 = Methodref          #20.#21        // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+  #22 = Methodref          #18.#21        // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
   #23 = Utf8
   #24 = String             #23            //
   #25 = Utf8               append
   #26 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
   #27 = NameAndType        #25:#26        // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-  #28 = Methodref          #20.#27        // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #28 = Methodref          #18.#27        // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
   #29 = Utf8                :D
   #30 = String             #29            //  :D
   #31 = Utf8               toString
@@ -71,36 +71,38 @@ Constant pool:
     descriptor: (Ljava/lang/String;)V
     flags: ACC_PUBLIC
     Code:
-      stack=2, locals=2, args_size=2
+      stack=4, locals=2, args_size=2
          0: aload_0
          1: invokespecial #10                 // Method java/lang/Object."<init>":()V
          4: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
-         7: ldc           #18                 // String Hello
-         9: invokespecial #22                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
-        12: ldc           #24                 // String
-        14: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-        17: aload_1
+         7: new           #18                 // class java/lang/StringBuilder
+        10: dup
+        11: ldc           #20                 // String Hello
+        13: invokespecial #22                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+        16: ldc           #24                 // String
         18: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-        21: ldc           #30                 // String  :D
-        23: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-        26: invokevirtual #34                 // Method java/lang/Object.toString:()Ljava/lang/String;
-        29: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        32: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        35: ldc           #41                 // String
-        37: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        40: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        43: ldc           #43                 // String A
-        45: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        48: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        51: ldc           #43                 // String A
-        53: ldc           #45                 // String B
-        55: invokevirtual #51                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
-        58: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        61: return
+        21: aload_1
+        22: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        25: ldc           #30                 // String  :D
+        27: invokevirtual #28                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        30: invokevirtual #34                 // Method java/lang/Object.toString:()Ljava/lang/String;
+        33: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        36: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        39: ldc           #41                 // String
+        41: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        44: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        47: ldc           #43                 // String A
+        49: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        52: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        55: ldc           #43                 // String A
+        57: ldc           #45                 // String B
+        59: invokevirtual #51                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+        62: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        65: return
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      62     0  this   Lcom/ConcatTest;
-            0      62     1    av   Ljava/lang/String;
+            0      66     0  this   Lcom/ConcatTest;
+            0      66     1    av   Ljava/lang/String;
 
   static {};
     descriptor: ()V

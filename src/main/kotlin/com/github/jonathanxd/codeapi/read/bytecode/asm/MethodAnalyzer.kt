@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.read.bytecode.asm
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Environment
@@ -34,13 +35,16 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor
 import com.github.jonathanxd.codeapi.impl.CodeMethod
 import com.github.jonathanxd.codeapi.impl.StaticBlockImpl
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead
 import com.github.jonathanxd.codeapi.read.bytecode.Constants
 import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame
-import org.objectweb.asm.tree.InsnList
-import org.objectweb.asm.tree.InsnNode
-import org.objectweb.asm.tree.MethodNode
-import org.objectweb.asm.tree.ParameterNode
+import com.github.jonathanxd.codeapi.util.asm.VisitTranslator
+import com.github.jonathanxd.codeapi.util.gen.GenericUtil
+import org.objectweb.asm.Handle
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
+import org.objectweb.asm.tree.*
 
 object MethodAnalyzer {
     @Suppress("UNCHECKED_CAST")
@@ -72,23 +76,95 @@ object MethodAnalyzer {
 
         val instructions = methodNode.instructions
 
+        val analyze = Analyze(instructions, method, declaration, environment)
+
+        analyze.analyze()
+
         return method
     }
 
-    fun analyzeInstructions(instructions: InsnList, method: MethodDeclaration, environment: Environment) {
+    class Analyze(val instructions: InsnList, val method: MethodDeclaration, val declaringType: TypeDeclaration, val environment: Environment) {
 
         val frame = EmulatedFrame()
 
-        val array = instructions.toArray()
+        fun analyze(): MethodDeclaration {
 
-        array.forEach {
-            println("InsnList: $it")
+            val array = instructions.toArray()
+            val parameters = method.parameters.toMutableList()
 
-            /*when(it) {
+            VisitTranslator.readVariableTable(array, this.environment, this.frame::storeInfo)
+
+            VisitTranslator.readParameters(array, { i, name -> parameters[i] = parameters[i].setName(name) })
+
+            VisitTranslator.initMethod(this.method, parameters, this.frame)
+
+            array.forEach {
+
+                when(it) {
+                    is InsnNode -> this.visitInsn(it.opcode)
+                    is VarInsnNode -> this.visitVarInsn(it.opcode, it.`var`)
+                    is TypeInsnNode -> this.visitTypeInsn(it.opcode, it.desc)
+                    is FieldInsnNode -> this.visitFieldInsn(it.opcode, it.owner, it.name, it.desc)
+                    is MethodInsnNode -> this.visitMethodInsn(it.opcode, it.owner, it.name, it.desc, it.itf)
+                    is InvokeDynamicInsnNode -> this.visitInvokeDynamicInsn(it.name, it.desc, it.bsm, it.bsmArgs)
+                    is LdcInsnNode -> this.visitLdcInsn(it.cst)
+                    is IincInsnNode -> this.visitIincInsn(it.`var`, it.incr)
+                    is ParameterNode, is LocalVariableNode -> {
+                        // Ignore
+                    }
+                    else -> OperandAddVisitor(this.frame.operandStack)
+                }
+
+
+                println("InsnList: $it")
+
+                /*when(it) {
                 is InsnNode -> {
                     it.opcode
                 }
             }*/
+            }
+
+            return method.setParameters(parameters)
+        }
+
+        fun visitInsn(opcode: Int) {
+            VisitTranslator.visitInsn(opcode, this.frame).pushToOperand()
+        }
+
+        fun visitVarInsn(opcode: Int, slot: Int) {
+            VisitTranslator.visitVarInsn(opcode, slot, this.frame)?.pushToOperand()
+        }
+
+        fun visitTypeInsn(opcode: Int, type: String) {
+            VisitTranslator.visitTypeInsn(opcode, type, this.environment, this.frame).pushToOperand()
+        }
+
+        fun visitFieldInsn(opcode: Int, owner: String, name: String, desc: String) {
+            VisitTranslator.visitFieldInsn(opcode, owner, name, desc, this.environment, this.frame).pushToOperand()
+        }
+
+        fun visitLdcInsn(cst: Any) {
+            VisitTranslator.visitLdcInsn(cst).pushToOperand()
+        }
+
+        fun visitMethodInsn(opcode: Int, owner: String, name: String, desc: String, itf: Boolean) {
+            VisitTranslator.visitMethodInsn(opcode, owner, name, desc, itf, declaringType, this.environment, this.frame).pushToOperand()
+        }
+
+        fun visitInvokeDynamicInsn(name: String, desc: String, bsm: Handle, bsmArgs: Array<out Any>) {
+            VisitTranslator.visitDynamicMethodInsn(name, desc, bsm, bsmArgs, this.environment, this.frame).pushToOperand()
+
+        }
+
+        fun visitIincInsn(slot: Int, increment: Int) {
+            VisitTranslator.visitIincInsn(slot, increment, this.frame).pushToOperand()
+        }
+
+
+        private fun CodePart.pushToOperand() {
+            frame.operandStack.push(this)
         }
     }
+
 }

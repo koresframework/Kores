@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InstanceOfTest_InstanceOf_Result.class
-  Last modified 17/11/2016; size 842 bytes
-  MD5 checksum d74fd519e55c574c620f673578238620
+  Last modified 18/11/2016; size 842 bytes
+  MD5 checksum dbe064ccb1d07336f85d7ccf1d36db81
   Compiled from "InstanceOf.cai"
 public class test.InstanceOf
   minor version: 0
@@ -58,13 +58,14 @@ Constant pool:
   #49 = Utf8               <clinit>
   #50 = Utf8               Code
   #51 = Utf8               LocalVariableTable
-  #52 = Utf8               SourceFile
+  #52 = Utf8               StackMapTable
+  #53 = Utf8               SourceFile
 {
   public static void test(java.lang.Object);
     descriptor: (Ljava/lang/Object;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=0, locals=5, args_size=1
+      stack=3, locals=5, args_size=1
          0: aload_0
          1: instanceof    #9                  // class java/lang/String
          4: ifeq          18
@@ -84,25 +85,40 @@ Constant pool:
         36: goto          40
         39: iconst_0
         40: istore_2
-        41: bipush        9
-        43: invokespecial #31                 // Method java/lang/Integer."<init>":(I)V
-        46: astore_3
-        47: aload_3
-        48: invokevirtual #35                 // Method java/lang/Integer.intValue:()I
-        51: bipush        9
-        53: if_icmpne     60
-        56: iconst_1
-        57: goto          61
-        60: iconst_0
-        61: istore        4
-        63: return
+        41: new           #27                 // class java/lang/Integer
+        44: dup
+        45: bipush        9
+        47: invokespecial #31                 // Method java/lang/Integer."<init>":(I)V
+        50: astore_3
+        51: aload_3
+        52: invokevirtual #35                 // Method java/lang/Integer.intValue:()I
+        55: bipush        9
+        57: if_icmpne     64
+        60: iconst_1
+        61: goto          65
+        64: iconst_0
+        65: istore        4
+        67: return
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      64     0 param   Ljava/lang/Object;
-           30      34     1     b   Z
-           40      24     2    b2   Z
-           46      18     3    ab   Ljava/lang/Integer;
-           61       3     4    b9   Z
+            0      68     0 param   Ljava/lang/Object;
+           30      38     1     b   Z
+           40      28     2    b2   Z
+           50      18     3    ab   Ljava/lang/Integer;
+           65       3     4    b9   Z
+      StackMapTable: number_of_entries = 6
+        frame_type = 18 /* same */
+        frame_type = 7 /* same */
+        frame_type = 252 /* append */
+          offset_delta = 12
+          locals = [ int ]
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 253 /* append */
+          offset_delta = 23
+          locals = [ int, class java/lang/Integer ]
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
 
   public test.InstanceOf();
     descriptor: ()V

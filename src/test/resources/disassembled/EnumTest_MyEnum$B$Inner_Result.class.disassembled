@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/EnumTest_MyEnum$B$Inner_Result.class
-  Last modified 17/11/2016; size 693 bytes
-  MD5 checksum 18fdfef60c1a7fe2d1e8046673d33d7d
+  Last modified 18/11/2016; size 693 bytes
+  MD5 checksum d3bd79d8e803836d1e81569350e62ee7
   Compiled from "MyEnum$B$Inner.cai"
 class com.MyEnum$B$Inner extends com.MyEnum
   minor version: 0
@@ -34,20 +34,18 @@ Constant pool:
   #25 = Utf8               Lcom/MyEnum$B$Inner;
   #26 = Utf8               <init>
   #27 = Utf8               (Ljava/lang/String;I)V
-  #28 = NameAndType        #26:#8         // "<init>":()V
-  #29 = Methodref          #5.#28         // com/MyEnum."<init>":()V
-  #30 = NameAndType        #26:#27        // "<init>":(Ljava/lang/String;I)V
-  #31 = Methodref          #3.#30         // com/MyEnum$B$Inner."<init>":(Ljava/lang/String;I)V
-  #32 = Utf8               $name
-  #33 = Utf8               Ljava/lang/String;
-  #34 = Utf8               $ordinal
-  #35 = Utf8               I
-  #36 = Utf8               <clinit>
-  #37 = Utf8               Code
-  #38 = Utf8               LocalVariableTable
-  #39 = Utf8               RuntimeInvisibleAnnotations
-  #40 = Utf8               SourceFile
-  #41 = Utf8               InnerClasses
+  #28 = NameAndType        #26:#27        // "<init>":(Ljava/lang/String;I)V
+  #29 = Methodref          #5.#28         // com/MyEnum."<init>":(Ljava/lang/String;I)V
+  #30 = Utf8               $name
+  #31 = Utf8               Ljava/lang/String;
+  #32 = Utf8               $ordinal
+  #33 = Utf8               I
+  #34 = Utf8               <clinit>
+  #35 = Utf8               Code
+  #36 = Utf8               LocalVariableTable
+  #37 = Utf8               RuntimeInvisibleAnnotations
+  #38 = Utf8               SourceFile
+  #39 = Utf8               InnerClasses
 {
   public void v();
     descriptor: ()V
@@ -70,17 +68,15 @@ Constant pool:
     Code:
       stack=3, locals=3, args_size=3
          0: aload_0
-         1: invokespecial #29                 // Method com/MyEnum."<init>":()V
-         4: aload_0
-         5: aload_1
-         6: iload_2
-         7: invokespecial #31                 // Method "<init>":(Ljava/lang/String;I)V
-        10: return
+         1: aload_1
+         2: iload_2
+         3: invokespecial #29                 // Method com/MyEnum."<init>":(Ljava/lang/String;I)V
+         6: return
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      11     0  this   Lcom/MyEnum$B$Inner;
-            0      11     1 $name   Ljava/lang/String;
-            0      11     2 $ordinal   I
+            0       7     0  this   Lcom/MyEnum$B$Inner;
+            0       7     1 $name   Ljava/lang/String;
+            0       7     2 $ordinal   I
 
   static {};
     descriptor: ()V

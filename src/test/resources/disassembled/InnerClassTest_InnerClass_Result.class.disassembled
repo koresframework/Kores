@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InnerClassTest_InnerClass_Result.class
-  Last modified 17/11/2016; size 1061 bytes
-  MD5 checksum a86f0737b0de200364a3088fde4e4ce2
+  Last modified 18/11/2016; size 1061 bytes
+  MD5 checksum 13ae1bcb8c26d8d04ebf9d056bf7b95d
   Compiled from "InnerClass.cai"
 public class test.InnerClass
   minor version: 0
@@ -69,19 +69,21 @@ Constant pool:
     descriptor: ()V
     flags: ACC_PUBLIC
     Code:
-      stack=2, locals=1, args_size=1
+      stack=3, locals=1, args_size=1
          0: aload_0
          1: invokespecial #14                 // Method java/lang/Object."<init>":()V
          4: aload_0
          5: ldc           #16                 // String XSD
          7: putfield      #18                 // Field field:Ljava/lang/String;
-        10: aload_0
-        11: invokespecial #21                 // Method test/InnerClass$Inner."<init>":(Ltest/InnerClass;)V
-        14: invokevirtual #25                 // Method test/InnerClass$Inner.invoke$000:()Ljava/lang/String;
-        17: return
+        10: new           #7                  // class test/InnerClass$Inner
+        13: dup
+        14: aload_0
+        15: invokespecial #21                 // Method test/InnerClass$Inner."<init>":(Ltest/InnerClass;)V
+        18: invokevirtual #25                 // Method test/InnerClass$Inner.invoke$000:()Ljava/lang/String;
+        21: return
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      18     0  this   Ltest/InnerClass;
+            0      22     0  this   Ltest/InnerClass;
 
   private test.InnerClass(java.lang.String);
     descriptor: (Ljava/lang/String;)V
@@ -140,19 +142,14 @@ Constant pool:
     Code:
       stack=2, locals=3, args_size=3
          0: aload_0
-         1: invokespecial #14                 // Method java/lang/Object."<init>":()V
-         4: aload_0
-         5: ldc           #16                 // String XSD
-         7: putfield      #18                 // Field field:Ljava/lang/String;
-        10: aload_0
-        11: aload_1
-        12: invokespecial #47                 // Method "<init>":(Ljava/lang/String;)V
-        15: return
+         1: aload_1
+         2: invokespecial #47                 // Method "<init>":(Ljava/lang/String;)V
+         5: return
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      16     0  this   Ltest/InnerClass;
-            0      16     1   str   Ljava/lang/String;
-            0      16     2 $inner   Ltest/InnerClass$Inner;
+            0       6     0  this   Ltest/InnerClass;
+            0       6     1   str   Ljava/lang/String;
+            0       6     2 $inner   Ltest/InnerClass$Inner;
 }
 SourceFile: "InnerClass.cai"
 InnerClasses:

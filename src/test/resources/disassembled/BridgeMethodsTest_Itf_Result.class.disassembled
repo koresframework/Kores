@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/BridgeMethodsTest_Itf_Result.class
-  Last modified 17/11/2016; size 269 bytes
+  Last modified 18/11/2016; size 269 bytes
   MD5 checksum 2bd58fb76137c91c1d545c754d9be2df
   Compiled from "AB.cai"
 public interface com.AB<T extends java.lang.Iterable<*>>

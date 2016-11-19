@@ -28,6 +28,9 @@
 package com.github.jonathanxd.codeapi.read.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.interfaces.AccessThis;
+import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.List;
 
@@ -48,12 +51,12 @@ public class EmulatedFrame {
      *
      * Example of instructions that store value into Variable Table: istore, astore
      *
-     * @param values Part
+     * @param values     Part
      * @param startIndex Start Slot index
      */
-    public void storeValues(List<? extends CodePart> values, int startIndex) {
+    public void storeValues(List<? extends VariableAccess> values, int startIndex) {
         for (int i = 0; i < values.size(); i++) {
-            this.store(values.get(i), startIndex+i);
+            this.store(values.get(i), startIndex + i);
         }
 
     }
@@ -66,8 +69,20 @@ public class EmulatedFrame {
      * @param part  Part
      * @param index Slot index
      */
-    public void store(CodePart part, int index) {
-        this.localVariableTable.store(part, index);
+    public void storeAccess(AccessThis part, int index) {
+        this.getLocalVariableTable().store(part, index);
+    }
+
+    /**
+     * Push the value to {@link #localVariableTable}.
+     *
+     * Example of instructions that store value into Variable Table: istore, astore
+     *
+     * @param part  Part
+     * @param index Slot index
+     */
+    public void store(VariableAccess part, int index) {
+        this.getLocalVariableTable().store(part, index);
     }
 
     /**
@@ -76,7 +91,7 @@ public class EmulatedFrame {
      * @param index Slot index.
      */
     public void storeFromStack(int index) {
-        this.store(this.operandStack.pop(), index);
+        this.store((VariableAccess) this.getOperandStack().pop(), index);
     }
 
     /**
@@ -86,7 +101,7 @@ public class EmulatedFrame {
      * @return The Variable.
      */
     public CodePart load(int index) {
-        return this.localVariableTable.get(index);
+        return this.getLocalVariableTable().get(index);
     }
 
     /**
@@ -96,6 +111,18 @@ public class EmulatedFrame {
      */
     public void loadToStack(int index) {
         this.operandStack.push(this.load(index));
+    }
+
+    public void storeInfo(int slot, CodeType variableType, String variableName) {
+        this.getLocalVariableTable().storeVariableInfo(slot, variableType, variableName);
+    }
+
+    public LocalVariableTable.VariableInfo getInfo(int slot) {
+        return this.getLocalVariableTable().getInfo(slot);
+    }
+
+    public LocalVariableTable getLocalVariableTable() {
+        return this.localVariableTable;
     }
 
     public StackManager getOperandStack() {

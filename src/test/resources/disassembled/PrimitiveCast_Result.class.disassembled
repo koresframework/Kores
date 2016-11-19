@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/PrimitiveCast_Result.class
-  Last modified 17/11/2016; size 994 bytes
-  MD5 checksum 4705a3bc29050d06a40c8df899d91940
+  Last modified 18/11/2016; size 994 bytes
+  MD5 checksum a2284d551c5d73d6f2bf5c70352fd06b
   Compiled from "PrimitiveCast_Generated.cai"
 public class com.github.jonathanxd.codeapi.test.bytecode.PrimitiveCast_Generated
   minor version: 0
@@ -65,51 +65,57 @@ Constant pool:
     descriptor: (Ljava/lang/String;)I
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=0, locals=9, args_size=1
+      stack=3, locals=9, args_size=1
          0: getstatic     #13                 // Field java/lang/System.out:Ljava/io/PrintStream;
          3: aload_0
          4: invokevirtual #19                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-         7: bipush        9
-         9: invokespecial #25                 // Method java/lang/Integer."<init>":(I)V
-        12: checkcast     #5                  // class java/lang/Object
-        15: astore_1
-        16: bipush        9
-        18: invokespecial #25                 // Method java/lang/Integer."<init>":(I)V
-        21: checkcast     #5                  // class java/lang/Object
-        24: astore_2
-        25: aload_2
-        26: checkcast     #21                 // class java/lang/Integer
-        29: invokevirtual #29                 // Method java/lang/Integer.intValue:()I
-        32: istore_3
+         7: new           #21                 // class java/lang/Integer
+        10: dup
+        11: bipush        9
+        13: invokespecial #25                 // Method java/lang/Integer."<init>":(I)V
+        16: checkcast     #5                  // class java/lang/Object
+        19: astore_1
+        20: new           #21                 // class java/lang/Integer
+        23: dup
+        24: bipush        9
+        26: invokespecial #25                 // Method java/lang/Integer."<init>":(I)V
+        29: checkcast     #5                  // class java/lang/Object
+        32: astore_2
         33: aload_2
         34: checkcast     #21                 // class java/lang/Integer
         37: invokevirtual #29                 // Method java/lang/Integer.intValue:()I
-        40: istore        4
-        42: bipush        9
-        44: istore        5
-        46: iload         5
-        48: istore        6
-        50: ldc2_w        #30                 // long 59855246879798l
-        53: lstore        7
-        55: lload         7
-        57: l2i
-        58: i2b
-        59: istore        8
-        61: bipush        9
-        63: invokespecial #25                 // Method java/lang/Integer."<init>":(I)V
-        66: invokevirtual #29                 // Method java/lang/Integer.intValue:()I
-        69: ireturn
+        40: istore_3
+        41: aload_2
+        42: checkcast     #21                 // class java/lang/Integer
+        45: invokevirtual #29                 // Method java/lang/Integer.intValue:()I
+        48: istore        4
+        50: bipush        9
+        52: istore        5
+        54: iload         5
+        56: istore        6
+        58: ldc2_w        #30                 // long 59855246879798l
+        61: lstore        7
+        63: lload         7
+        65: l2i
+        66: i2b
+        67: istore        8
+        69: new           #21                 // class java/lang/Integer
+        72: dup
+        73: bipush        9
+        75: invokespecial #25                 // Method java/lang/Integer."<init>":(I)V
+        78: invokevirtual #29                 // Method java/lang/Integer.intValue:()I
+        81: ireturn
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      70     0 string   Ljava/lang/String;
-           15      55     1 objectF   Ljava/lang/Object;
-           24      46     2    iF   Ljava/lang/Object;
-           32      38     3 IntegerBoxed   I
-           40      30     4 IntegerBoxed2   I
-           44      26     5   int   I
-           48      22     6 IntToInt   I
-           53      17     7  Long   J
-           59      11     8 LongToByte   B
+            0      82     0 string   Ljava/lang/String;
+           19      63     1 objectF   Ljava/lang/Object;
+           32      50     2    iF   Ljava/lang/Object;
+           40      42     3 IntegerBoxed   I
+           48      34     4 IntegerBoxed2   I
+           52      30     5   int   I
+           56      26     6 IntToInt   I
+           61      21     7  Long   J
+           67      15     8 LongToByte   B
 
   public com.github.jonathanxd.codeapi.test.bytecode.PrimitiveCast_Generated();
     descriptor: ()V

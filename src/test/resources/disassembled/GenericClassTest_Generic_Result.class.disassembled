@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/GenericClassTest_Generic_Result.class
-  Last modified 17/11/2016; size 613 bytes
+  Last modified 18/11/2016; size 613 bytes
   MD5 checksum 2bd3992873e8537de634c42b9d4ef000
   Compiled from "Generic.cai"
 public class com.Generic<T extends java.util.List<T>> extends java.lang.Object implements java.util.List<T>
