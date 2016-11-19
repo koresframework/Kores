@@ -61,10 +61,10 @@ public class ReturnSourceGenerator implements ValueGenerator<Return, String, Pla
 
         Optional<CodePart> value = aReturn.getValue();
 
-        CodeType type = Require.require(aReturn.getType(), "Return value required!");
+        CodeType type = Require.require(aReturn.getType(), "Return tyoe required!");
 
         if (type.getType().equals("void") || type.getJavaSpecName().equals("V")) {
-            return Collections.singletonList(TargetValue.create(Require.require(value, "Value required!"), parents));
+            return Arrays.asList(PlainValue.create("return"), PlainValue.create(";"));
         }
 
         if (!value.isPresent())
