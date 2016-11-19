@@ -32,10 +32,12 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.common.Environment;
 import com.github.jonathanxd.codeapi.read.Reader;
 import com.github.jonathanxd.codeapi.read.bytecode.asm.BytecodeClassVisitor;
+import com.github.jonathanxd.codeapi.read.bytecode.asm.ClassAnalyzer;
 import com.github.jonathanxd.iutils.option.Options;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.ClassNode;
 
 public class BytecodeReader implements Reader<byte[]> {
 
@@ -49,14 +51,15 @@ public class BytecodeReader implements Reader<byte[]> {
         environment.getData().registerData(Constants.SOURCE, codeSource);
 
         ClassReader classReader = new ClassReader(bytes);
+        ClassNode classNode = new ClassNode(Opcodes.ASM5);
 
-        classReader.accept(new BytecodeClassVisitor(Opcodes.ASM5, environment), 0);
-
+        classReader.accept(classNode, 0);
 
         // Data finish
-
         environment.getData().unregisterData(Constants.SOURCE, codeSource);
-        return codeSource;
+
+        return ClassAnalyzer.INSTANCE.analyze(classNode);
+        
     }
 
 }

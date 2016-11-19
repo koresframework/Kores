@@ -26,7 +26,6 @@ import com.github.jonathanxd.iutils.description.DescriptionUtil
 import org.objectweb.asm.Handle
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
-import org.objectweb.asm.tree.AbstractInsnNode
 import org.objectweb.asm.tree.LocalVariableNode
 import org.objectweb.asm.tree.ParameterNode
 import java.util.*
@@ -110,7 +109,7 @@ object VisitTranslator {
         if (opcode >= Opcodes.IADD && opcode <= Opcodes.LXOR) {
             val pop = frame.operandStack.pop(2)
 
-            value = CodePartUtil.Conversion.handleMathAndBitwise(opcode, pop.get(0), pop.get(1))
+            value = CodePartUtil.Conversion.handleMathAndBitwise(opcode, pop[0], pop[1])
         }
 
         if (opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN) {
@@ -412,13 +411,13 @@ object VisitTranslator {
             return this.createInstruction { methodVisitor -> methodVisitor.visitIincInsn(slot, increment) }
         } else {
 
-            val literal = if(increment != 1 && increment != -1) Literals.INT(increment) else null
+            val literal = if (increment != 1 && increment != -1) Literals.INT(increment) else null
 
-            val operation = if(increment == 1) {
+            val operation = if (increment == 1) {
                 Operators.INCREMENT
-            } else if(increment == -1) {
+            } else if (increment == -1) {
                 Operators.DECREMENT
-            } else if(increment > 0) {
+            } else if (increment > 0) {
                 Operators.ADD
             } else {
                 Operators.SUBTRACT
@@ -445,28 +444,31 @@ object VisitTranslator {
         frame.storeValues(collect, pos)
     }
 
+    fun fixParametersNames(parameters: List<CodeParameter>, parametersNodes: List<ParameterNode>, frame: EmulatedFrame): List<CodeParameter> =
+        parameters.mapIndexed { i, parameter ->
 
-    inline fun readParameters(nodes: Array<out AbstractInsnNode>, nameFunc: (Int, String) -> Unit) {
-        var n = 0
+            val nodeName = if(parametersNodes.size > i) parametersNodes[i].name else null
 
-        nodes.forEach {
-            if (it is ParameterNode) {
-                val name = it.name
-                nameFunc(n, name)
-                ++n
-            }
+            val info = frame.getInfo(i)
+            val name: String = info?.name ?: nodeName ?: parameter.name
+            val type: CodeType = info?.type ?: parameter.requiredType
+
+            return@mapIndexed parameter.setName(name).setType(type)
+        }
+
+    inline fun readParameters(nodes: List<ParameterNode>, nameFunc: (Int, String) -> Unit) {
+        nodes.forEachIndexed { i, parameterNode ->
+            nameFunc(i, parameterNode.name)
         }
     }
 
-    inline fun readVariableTable(nodes: Array<out AbstractInsnNode>, typeResolver: TypeResolver, storeFunc: (Int, CodeType, String) -> Unit) {
+    inline fun readVariableTable(nodes: List<LocalVariableNode>, typeResolver: TypeResolver, storeFunc: (Int, CodeType, String) -> Unit) {
         nodes.forEach {
-            if (it is LocalVariableNode) {
-                val signatureType = it.signature?.let { GenericUtil.Read.parse(typeResolver, it)?.types?.get(0) }
-                val type = signatureType ?: typeResolver.resolveUnknown(it.desc)
-                val name = it.name
-                val index = it.index
-                storeFunc(index, type, name)
-            }
+            val signatureType = it.signature?.let { GenericUtil.Read.parse(typeResolver, it)?.types?.get(0) }
+            val type = signatureType ?: typeResolver.resolveUnknown(it.desc)
+            val name = it.name
+            val index = it.index
+            storeFunc(index, type, name)
         }
     }
 

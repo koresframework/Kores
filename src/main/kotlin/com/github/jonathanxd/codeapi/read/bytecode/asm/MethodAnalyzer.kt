@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.read.bytecode.asm
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Environment
@@ -35,23 +36,28 @@ import com.github.jonathanxd.codeapi.impl.CodeConstructor
 import com.github.jonathanxd.codeapi.impl.CodeMethod
 import com.github.jonathanxd.codeapi.impl.StaticBlockImpl
 import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration
+import com.github.jonathanxd.codeapi.interfaces.StaticBlock
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
 import com.github.jonathanxd.codeapi.read.bytecode.CommonRead
 import com.github.jonathanxd.codeapi.read.bytecode.Constants
 import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame
 import com.github.jonathanxd.codeapi.util.asm.VisitTranslator
 import com.github.jonathanxd.codeapi.util.gen.GenericUtil
+import org.objectweb.asm.Attribute
 import org.objectweb.asm.Handle
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.*
+import java.util.logging.Logger
 
 object MethodAnalyzer {
+    private val logger = Logger.getLogger("CodeAPI_MethodAnalyzer")
+
     @Suppress("UNCHECKED_CAST")
     fun analyze(methodNode: MethodNode, environment: Environment): MethodDeclaration {
         val methodName = methodNode.name
         val desc = methodNode.desc
-        val parameters = methodNode.parameters as List<ParameterNode>
+        val parameters = methodNode.parameters as? List<ParameterNode> ?: emptyList()
 
         val codeModifiers = CommonRead.modifiersFromAccess(methodNode.access)
 
@@ -76,25 +82,27 @@ object MethodAnalyzer {
 
         val instructions = methodNode.instructions
 
-        val analyze = Analyze(instructions, method, declaration, environment)
+        val analyze = Analyze(instructions, method, methodNode, declaration, environment)
 
-        analyze.analyze()
+        return analyze.analyze()
 
-        return method
     }
 
-    class Analyze(val instructions: InsnList, val method: MethodDeclaration, val declaringType: TypeDeclaration, val environment: Environment) {
+    class Analyze(val instructions: InsnList, val method: MethodDeclaration, val methodNode: MethodNode, val declaringType: TypeDeclaration, val environment: Environment) {
 
         val frame = EmulatedFrame()
 
+        @Suppress("UNCHECKED_CAST")
         fun analyze(): MethodDeclaration {
 
             val array = instructions.toArray()
-            val parameters = method.parameters.toMutableList()
 
-            VisitTranslator.readVariableTable(array, this.environment, this.frame::storeInfo)
+            val localVariables = methodNode.localVariables as? List<LocalVariableNode> ?: emptyList()
+            val localParameters = methodNode.parameters as? List<ParameterNode> ?: emptyList()
 
-            VisitTranslator.readParameters(array, { i, name -> parameters[i] = parameters[i].setName(name) })
+            VisitTranslator.readVariableTable(localVariables, this.environment, this.frame::storeInfo)
+
+            val parameters = VisitTranslator.fixParametersNames(method.parameters, localParameters, this.frame)
 
             VisitTranslator.initMethod(this.method, parameters, this.frame)
 
@@ -109,14 +117,17 @@ object MethodAnalyzer {
                     is InvokeDynamicInsnNode -> this.visitInvokeDynamicInsn(it.name, it.desc, it.bsm, it.bsmArgs)
                     is LdcInsnNode -> this.visitLdcInsn(it.cst)
                     is IincInsnNode -> this.visitIincInsn(it.`var`, it.incr)
-                    is ParameterNode, is LocalVariableNode -> {
+                    is ParameterNode, is LocalVariableNode, is LabelNode -> {
                         // Ignore
                     }
-                    else -> OperandAddVisitor(this.frame.operandStack)
+                    else -> {
+                        OperandAddVisitor(this.frame.operandStack)
+                        logger.warning("Insn '$it' isn't supported yet, this instruction will only appear in result of processors that support InstructionCodePart.")
+                    }
                 }
 
 
-                println("InsnList: $it")
+
 
                 /*when(it) {
                 is InsnNode -> {
@@ -125,10 +136,19 @@ object MethodAnalyzer {
             }*/
             }
 
-            return method.setParameters(parameters)
+            val codeParts = this.frame.operandStack.popAll()
+
+            val source = this.method.body.orElse(CodeSource.empty()).toMutable()
+
+            source.addAll(codeParts)
+
+            return method.setParameters(parameters).setBody(source)
         }
 
         fun visitInsn(opcode: Int) {
+            if(opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN && this.method is StaticBlock)
+                return
+
             VisitTranslator.visitInsn(opcode, this.frame).pushToOperand()
         }
 

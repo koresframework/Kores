@@ -27,12 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.read.bytecode.BytecodeReader;
 import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
+import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.iutils.option.Options;
 
 import org.junit.Test;
@@ -74,11 +76,12 @@ public class TestRead {
 
         CodePart read = bytecodeReader.read(bytes, new Options());
 
-        CodeSource source = (CodeSource) read;
+        CodeSource source = CodeAPI.sourceOfParts(read);
 
         for (CodePart part : source) {
             if (part instanceof TypeDeclaration) {
                 Object test = CommonBytecodeTest.test(this.getClass(), (ClassDeclaration) part, source);
+                CommonSourceTest.test(source).consume(System.out::println);
                 break;
             }
         }

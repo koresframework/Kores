@@ -59,8 +59,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-escription;
-
 public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
 
     private final Logger logger = Logger.getLogger("CodeAPI_Debug");
