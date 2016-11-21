@@ -46,6 +46,11 @@ public class ArrayStoreImpl extends ArrayLoadImpl implements ArrayStore {
         this.value = value;
     }
 
+    public ArrayStoreImpl(CodeType arrayType, CodePart index, CodePart target, CodeType valueType, CodePart value) {
+        super(arrayType, index, target, valueType);
+        this.value = value;
+    }
+
     @Override
     public CodePart getValueToStore() {
         return this.value;
@@ -53,7 +58,7 @@ public class ArrayStoreImpl extends ArrayLoadImpl implements ArrayStore {
 
     @Override
     public ArrayStoreImpl setValueToStore(CodePart valueToStore) {
-        return new ArrayStoreImpl(this.getIndex(), this.getTarget().orElse(null), this.getValueType(), valueToStore);
+        return new ArrayStoreImpl(this.getArrayType(), this.getIndex(), this.getTarget().orElse(null), this.getValueType(), valueToStore);
     }
 
     @Override
@@ -63,17 +68,17 @@ public class ArrayStoreImpl extends ArrayLoadImpl implements ArrayStore {
 
     @Override
     public ArrayStoreImpl setIndex(CodePart index) {
-        return new ArrayStoreImpl(index, this.getTarget().orElse(null), this.getValueType(), this.getValueToStore());
+        return new ArrayStoreImpl(this.getArrayType(), index, this.getTarget().orElse(null), this.getValueType(), this.getValueToStore());
     }
 
     @Override
     public ArrayStoreImpl setValueType(CodeType type) {
-        return new ArrayStoreImpl(this.getIndex(), this.getTarget().orElse(null), type, this.getValueToStore());
+        return new ArrayStoreImpl(this.getArrayType(), this.getIndex(), this.getTarget().orElse(null), type, this.getValueToStore());
     }
 
     @Override
     public ArrayStoreImpl setTarget(CodePart target) {
-        return new ArrayStoreImpl(this.getIndex(), target, this.getValueType(), this.getValueToStore());
+        return new ArrayStoreImpl(this.getArrayType(), this.getIndex(), target, this.getValueType(), this.getValueToStore());
     }
 
     @Override
@@ -82,8 +87,14 @@ public class ArrayStoreImpl extends ArrayLoadImpl implements ArrayStore {
     }
 
     @Override
+    public ArrayStoreImpl setArrayType(CodeType arrayType) {
+        return new ArrayStoreImpl(arrayType, this.getIndex(), this.getTarget().orElse(null), this.getValueType(), this.getValueToStore());
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
+                .add("arrayType", this.getArrayType())
                 .add("valueType", this.getValueType())
                 .addOptional("target", this.getTarget())
                 .add("index", this.getIndex())

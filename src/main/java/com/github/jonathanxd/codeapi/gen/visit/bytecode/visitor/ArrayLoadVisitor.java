@@ -27,18 +27,23 @@
  */
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
+import java.util.Optional;
 
 /**
  * Created by jonathan on 03/06/16.
@@ -59,8 +64,23 @@ public class ArrayLoadVisitor implements VoidVisitor<ArrayLoad, BytecodeClass, M
 
         visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
-        int opcode = CodeTypeUtil.getOpcodeForType(arrayLoad.getValueType(), IALOAD);
+        CodeType valueType = arrayLoad.getValueType();
+
+        // Compatibility purpose, in next major version arrayType will never be null.
+        CodeType arrayComponentType = arrayLoad.getArrayType() != null ? arrayLoad.getArrayType().getArrayComponent() : null;
+
+        if(arrayComponentType == null) { // Compatibility purpose, in next major version arrayType will never be null.
+            arrayComponentType = PredefinedTypes.OBJECT;
+        }
+
+        int opcode = CodeTypeUtil.getOpcodeForType(valueType, IALOAD);
 
         additional.visitInsn(opcode);
+
+        if(!arrayComponentType.is(valueType)) {
+            CodePart cast = CodeAPI.cast(valueType, arrayComponentType, null);
+            visitorGenerator.generateTo(cast.getClass(), cast, extraData, mvData);
+        }
+
     }
 }

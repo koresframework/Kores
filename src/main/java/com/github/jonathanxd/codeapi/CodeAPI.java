@@ -1161,15 +1161,15 @@ public final class CodeAPI {
     // Factory
 
     private static ArrayLength getArrayLength__factory(VariableAccess access) {
-        return new ArrayLengthImpl(access);
+        return new ArrayLengthImpl(access.getVariableType(), access);
     }
 
     private static ArrayLoad getArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType) {
-        return new ArrayLoadImpl(index, access, arrayType);
+        return new ArrayLoadImpl(access.getVariableType(), index, access, arrayType);
     }
 
     private static ArrayStore setArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType, CodePart value) {
-        return new ArrayStoreImpl(index, access, arrayType, value);
+        return new ArrayStoreImpl(access.getVariableType(), index, access, arrayType, value);
     }
 
 

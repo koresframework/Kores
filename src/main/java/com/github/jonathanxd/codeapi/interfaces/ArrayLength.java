@@ -58,4 +58,7 @@ public interface ArrayLength extends CodePart, ArrayAccess, Typed {
     default ArrayLength setType(CodeType codeType) {
         return this;
     }
+
+    @Override
+    ArrayLength setArrayType(CodeType type);
 }

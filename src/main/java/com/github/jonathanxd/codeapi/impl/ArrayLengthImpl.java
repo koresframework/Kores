@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLength;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 
 import java.util.Optional;
 
@@ -41,9 +42,15 @@ import java.util.Optional;
 @GenerateTo(ArrayLength.class)
 public class ArrayLengthImpl implements ArrayLength {
 
+    private final CodeType arrayType;
     private final CodePart target;
 
     public ArrayLengthImpl(CodePart target) {
+        this.arrayType = target == null ? null : CodePartUtil.getType(target);
+        this.target = target;
+    }
+    public ArrayLengthImpl(CodeType arrayType, CodePart target) {
+        this.arrayType = arrayType;
         this.target = target;
     }
 
@@ -54,7 +61,7 @@ public class ArrayLengthImpl implements ArrayLength {
 
     @Override
     public ArrayLengthImpl setTarget(CodePart target) {
-        return new ArrayLengthImpl(target);
+        return new ArrayLengthImpl(this.getArrayType(), target);
     }
 
     @Override
@@ -63,8 +70,19 @@ public class ArrayLengthImpl implements ArrayLength {
     }
 
     @Override
+    public CodeType getArrayType() {
+        return this.arrayType;
+    }
+
+    @Override
+    public ArrayLengthImpl setArrayType(CodeType arrayType) {
+        return new ArrayLengthImpl(arrayType, this.getTarget().orElse(null));
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
+                .add("arrayType", this.getArrayType())
                 .addOptional("target", this.getTarget())
                 .toString();
     }

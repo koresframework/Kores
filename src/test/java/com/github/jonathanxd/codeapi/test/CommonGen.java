@@ -65,6 +65,10 @@ public class CommonGen {
                 new CodeArgument(STRING("J"), PredefinedTypes.STRING)
         };
 
+        CodeArgument[] values3 = {
+                new CodeArgument(INT(1), PredefinedTypes.INT)
+        };
+
         CodeClass codeClass = aClass(PUBLIC, name, source(
                 constructor(PUBLIC, source(
                         new CodeField("array", PredefinedTypes.STRING.toArray(2),
@@ -73,6 +77,7 @@ public class CommonGen {
                                         argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1)),
                                 })),
                         new CodeField("array2", PredefinedTypes.STRING.toArray(1), Helper.invokeArrayConstructor(PredefinedTypes.STRING.toArray(1), new CodePart[]{INT(0)}, new CodeArgument[]{})),
+                        new CodeField("array3", PredefinedTypes.OBJECT.toArray(1), Helper.invokeArrayConstructor(PredefinedTypes.OBJECT, new CodePart[]{INT(1)}, values3)),
                         Predefined.invokePrintln(new CodeArgument(Helper.accessArrayValue(
                                 Helper.accessArrayValue(Helper.accessLocalVariable("array",
                                         PredefinedTypes.STRING.toArray(2)),

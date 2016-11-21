@@ -25,63 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
-
-import java.util.Optional;
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.literals.Literal;
 
 /**
- * Access an array.
+ * Use JVM Stack value (is supported by {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}
+ * and may be supported by external generators).
  */
-public interface ArrayAccess extends CodePart {
+@GenerateTo(Literal.class)
+public class Stack extends Literal {
 
-    /**
-     * Array to access.
-     *
-     * @return Array to access.
-     */
-    Optional<CodePart> getTarget();
+    public static final Stack INSTANCE = new Stack();
 
-    /**
-     * Sets the array to access.
-     *
-     * @param target Array to access.
-     * @return New instance.
-     */
-    ArrayAccess setTarget(CodePart target);
-
-    /**
-     * Gets the array type.
-     *
-     * Default body for compatibility, next major version the body of this method will be removed.
-     *
-     * TODO: Remove
-     *
-     * @return Array type.
-     */
-    default CodeType getArrayType() {
-        Optional<CodePart> target = this.getTarget();
-
-        if (target.isPresent()) {
-            return CodePartUtil.getType(target.get());
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Sets the array type.
-     *
-     * Default body for compatibility, next major version the body of this method will be removed.
-     *
-     * TODO: Remove
-     *
-     * @param type Array type.
-     */
-    default ArrayAccess setArrayType(CodeType type) {
-        return this;
+    private Stack() {
+        super("stack", PredefinedTypes.OBJECT);
     }
 }

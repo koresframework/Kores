@@ -27,13 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayStore;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -60,10 +63,22 @@ public class ArrayStoreVisitor implements VoidVisitor<ArrayStore, BytecodeClass,
         visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
         CodePart value = arrayStore.getValueToStore();
+        CodeType valueType = arrayStore.getValueType();
+
+        // Compatibility purpose, in next major version arrayType will never be null.
+        CodeType arrayComponentType = arrayStore.getArrayType() != null ? arrayStore.getArrayType().getArrayComponent() : null;
+
+        if(arrayComponentType == null) { // Compatibility purpose, in next major version arrayType will never be null.
+            arrayComponentType = PredefinedTypes.OBJECT;
+        }
+
+        if(!arrayComponentType.is(valueType)) { // Auto casting.
+            value = CodeAPI.cast(valueType, arrayComponentType, value);
+        }
 
         visitorGenerator.generateTo(value.getClass(), value, extraData, null, mvData);
 
-        int opcode = CodeTypeUtil.getOpcodeForType(arrayStore.getValueType(), IASTORE);
+        int opcode = CodeTypeUtil.getOpcodeForType(arrayComponentType, IASTORE);
 
         additional.visitInsn(opcode);
 
