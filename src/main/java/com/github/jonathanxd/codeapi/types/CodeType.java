@@ -134,6 +134,12 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
      * @return {@link CodeTypeArray} with specified dimension.
      */
     default CodeType toArray(int dimensions) {
+        if(this instanceof CodeTypeArray) {
+            CodeTypeArray array = (CodeTypeArray) this;
+
+            return new CodeTypeArray(array.getComponent(), array.getDimension() + dimensions);
+        }
+
         return new CodeTypeArray(this, dimensions);
     }
 
@@ -166,6 +172,28 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
     default CodeType getArrayBaseComponent() {
         if (this instanceof CodeTypeArray) {
             return ((CodeTypeArray) this).getComponent();
+        }
+
+        return this;
+    }
+
+    /**
+     * Gets the array base component.
+     *
+     * Example, if is a {@code String[]}, returns {@link String}, if is {@code Integer[][][]}
+     * returns {@code Integer[][]}.
+     *
+     * @return Array base component.
+     */
+    default CodeType getArrayComponent() {
+        if (this instanceof CodeTypeArray) {
+            CodeTypeArray array = (CodeTypeArray) this;
+
+            if(array.getDimension() - 1 == 0) {
+                return array.getComponent();
+            } else {
+                return array.getComponent().toArray(array.getDimension() - 1);
+            }
         }
 
         return this;

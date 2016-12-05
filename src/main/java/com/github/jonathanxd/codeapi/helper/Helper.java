@@ -627,8 +627,8 @@ public final class Helper {
         return new ReturnImpl(returnType, value);
     }
 
-    public static ArrayStore setArrayValue(CodePart target, CodePart index, CodeType valueType, CodePart value) {
-        return new ArrayStoreImpl(index, target, valueType, value);
+    public static ArrayStore setArrayValue(CodeType arrayType, CodePart target, CodePart index, CodeType valueType, CodePart value) {
+        return new ArrayStoreImpl(arrayType, index, target, valueType, value);
     }
 
     public static VariableDeclaration setVariable(CodeType localization, CodePart at, String variable, CodePart value) {

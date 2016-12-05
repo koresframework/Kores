@@ -70,4 +70,7 @@ public interface ArrayStore extends CodePart, Valuable, ArrayLoad {
 
     @Override
     ArrayStore setType(CodeType codeType);
+
+    @Override
+    ArrayStore setArrayType(CodeType type);
 }

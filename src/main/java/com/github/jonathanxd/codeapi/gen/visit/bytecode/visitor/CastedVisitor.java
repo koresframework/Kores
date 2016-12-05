@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.Casted;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.Stack;
 import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.condition.Conditions;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -63,7 +64,7 @@ public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>
         Optional<CodeType> from = casted.getOriginalType();
         CodeType to = Require.require(casted.getType(), "Required cast target type");
 
-        CodePart castedPart = Require.require(casted.getCastedPart(), "Required casted part");
+        CodePart castedPart = casted.getCastedPart().orElse(Stack.INSTANCE);
 
 
         CodePart autoboxing = from.isPresent() ? autoboxing(from.get(), to, castedPart) : null;
@@ -97,9 +98,12 @@ public class CastedVisitor implements VoidVisitor<Casted, BytecodeClass, MVData>
 
         CodePart translate = null;
 
+        if(casted == null)
+            casted = Stack.INSTANCE;
+
         if (from.isPrimitive() && !to.isPrimitive()) {
 
-            translate = CodeAPI.invokeConstructor(from.getWrapperType(), CodeAPI.argument(casted, from));
+            translate = CodeAPI.invokeConstructor(from.getWrapperType(), CodeAPI.constructorTypeSpec(from), CodeAPI.argument(casted));
 
         } else if (!from.isPrimitive() && to.isPrimitive()) {
 

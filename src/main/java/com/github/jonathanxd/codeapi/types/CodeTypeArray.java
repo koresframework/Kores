@@ -115,6 +115,10 @@ class CodeTypeArray implements CodeType {
         return name + sb.toString();
     }
 
+    public int getDimension() {
+        return this.dimension;
+    }
+
     @Override
     public boolean isArray() {
         return true;

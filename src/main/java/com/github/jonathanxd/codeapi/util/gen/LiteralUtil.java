@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.util.gen;
 
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.util.Stack;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -37,6 +38,9 @@ import org.objectweb.asm.Type;
 public class LiteralUtil {
     public static void visitLiteral(Literal num, MethodVisitor mv) {
         String name = num.getName();
+
+        if(num.equals(Stack.INSTANCE))
+            return;
 
         if (num == Literals.NULL) {
 

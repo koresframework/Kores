@@ -27,13 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.MVData;
 import com.github.jonathanxd.codeapi.gen.BytecodeClass;
 import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
 import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.ArrayAccess;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.iutils.data.MapData;
 
@@ -59,8 +62,18 @@ public class ArrayLoadVisitor implements VoidVisitor<ArrayLoad, BytecodeClass, M
 
         visitorGenerator.generateTo(index.getClass(), index, extraData, null, mvData);
 
-        int opcode = CodeTypeUtil.getOpcodeForType(arrayLoad.getValueType(), IALOAD);
+        CodeType valueType = arrayLoad.getValueType();
+
+        CodeType arrayComponentType = arrayLoad.getArrayType();
+
+        int opcode = CodeTypeUtil.getOpcodeForType(valueType, IALOAD);
 
         additional.visitInsn(opcode);
+
+        if(!arrayComponentType.is(valueType)) {
+            CodePart cast = CodeAPI.cast(valueType, arrayComponentType, null);
+            visitorGenerator.generateTo(cast.getClass(), cast, extraData, mvData);
+        }
+
     }
 }

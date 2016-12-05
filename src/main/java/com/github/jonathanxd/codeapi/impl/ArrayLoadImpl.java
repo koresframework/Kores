@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.ArrayLoad;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 
 import java.util.Optional;
 
@@ -41,16 +42,24 @@ import java.util.Optional;
 @GenerateTo(ArrayLoad.class)
 public class ArrayLoadImpl implements ArrayLoad {
 
+    private final CodeType arrayType;
     private final CodePart index;
     private final CodePart target;
     private final CodeType valueType;
 
     public ArrayLoadImpl(CodePart index, CodePart target, CodeType valueType) {
+        this.arrayType = target == null ? null : CodePartUtil.getType(target);
         this.index = index;
         this.target = target;
         this.valueType = valueType;
     }
 
+    public ArrayLoadImpl(CodeType arrayType, CodePart index, CodePart target, CodeType valueType) {
+        this.arrayType = arrayType;
+        this.index = index;
+        this.target = target;
+        this.valueType = valueType;
+    }
     @Override
     public CodePart getIndex() {
         return this.index;
@@ -58,7 +67,7 @@ public class ArrayLoadImpl implements ArrayLoad {
 
     @Override
     public ArrayLoadImpl setIndex(CodePart index) {
-        return new ArrayLoadImpl(index, this.getTarget().orElse(null), this.getValueType());
+        return new ArrayLoadImpl(this.getArrayType(), index, this.getTarget().orElse(null), this.getValueType());
     }
 
     @Override
@@ -68,7 +77,7 @@ public class ArrayLoadImpl implements ArrayLoad {
 
     @Override
     public ArrayLoadImpl setValueType(CodeType type) {
-        return new ArrayLoadImpl(this.getIndex(), this.getTarget().orElse(null), type);
+        return new ArrayLoadImpl(this.getArrayType(), this.getIndex(), this.getTarget().orElse(null), type);
     }
 
     @Override
@@ -83,7 +92,17 @@ public class ArrayLoadImpl implements ArrayLoad {
 
     @Override
     public ArrayLoadImpl setTarget(CodePart target) {
-        return new ArrayLoadImpl(this.getIndex(), target, this.getValueType());
+        return new ArrayLoadImpl(this.getArrayType(), this.getIndex(), target, this.getValueType());
+    }
+
+    @Override
+    public CodeType getArrayType() {
+        return this.arrayType;
+    }
+
+    @Override
+    public ArrayLoadImpl setArrayType(CodeType arrayType) {
+        return new ArrayLoadImpl(arrayType, this.getIndex(), this.getTarget().orElse(null), this.getValueType());
     }
 
     @Override
