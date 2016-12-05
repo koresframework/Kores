@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
 
-    ext.kotlin_version = "1.1-M02"
-    ext.dokka_version = '0.9.9'
+    ext.kotlin_version = "1.1-M03"
+    ext.dokka_version = '0.9.10'
 
     repositories {
         maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
@@ -120,7 +120,7 @@ allprojects {
     dependencies {
         compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
 
-        compile 'com.github.JonathanxD:JwIUtils:3.1.1'
+        compile 'com.github.JonathanxD:JwIUtils:3.1.1-R0'
 
         // Kotlin
         compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
