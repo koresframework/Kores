@@ -74,7 +74,11 @@ public class LiteralUtil {
 
             InsnUtil.visitDouble(Double.parseDouble(name), mv);
 
-        } else if (num instanceof Literals.CharLiteral || num instanceof Literals.ByteLiteral) {
+        } else if (num instanceof Literals.ByteLiteral) {
+
+            mv.visitIntInsn(Opcodes.BIPUSH, Byte.parseByte(name));
+
+        } else if (num instanceof Literals.CharLiteral) {
 
             mv.visitIntInsn(Opcodes.BIPUSH, name.charAt(0));
 
