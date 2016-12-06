@@ -64,7 +64,7 @@ public class ArrayLoadVisitor implements VoidVisitor<ArrayLoad, BytecodeClass, M
 
         CodeType valueType = arrayLoad.getValueType();
 
-        CodeType arrayComponentType = arrayLoad.getArrayType();
+        CodeType arrayComponentType = arrayLoad.getArrayType().getArrayComponent();
 
         int opcode = CodeTypeUtil.getOpcodeForType(valueType, IALOAD);
 

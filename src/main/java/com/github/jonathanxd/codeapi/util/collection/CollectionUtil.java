@@ -25,30 +25,58 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.read.bytecode;
+package com.github.jonathanxd.codeapi.util.collection;
 
-import com.github.jonathanxd.codeapi.common.Environment;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.description.DescriptionUtil;
+import com.github.jonathanxd.iutils.function.predicate.IntObjBiPredicate;
+import com.github.jonathanxd.iutils.object.IntNode;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Predicate;
 
-public class CommonRead {
+public class CollectionUtil {
 
-    public static boolean is(int byte1_, int byte2_) {
-        return (byte1_ & byte2_) != 0;
+    public static <T> List<IntNode<T>> filterWithIndex(List<T> list, Predicate<T> predicate) {
+        List<IntNode<T>> result = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            T t = list.get(i);
+
+            if(predicate.test(t))
+                result.add(new IntNode<>(i, t));
+        }
+
+        return result;
     }
 
-    public static TypeSpec typeSpecFromDesc(Environment environment, TypeDeclaration typeDeclaration, String methodName, String desc) {
-        desc = typeDeclaration.getJavaSpecName() + ":" + methodName + desc;
+    public static <T> List<IntNode<T>> filterWithIndex(List<T> list, IntObjBiPredicate<T> predicate) {
+        List<IntNode<T>> result = new ArrayList<>();
 
-        String[] parameterTypes = DescriptionUtil.getParameterTypes(desc);
-        String returnType = DescriptionUtil.getReturnType(desc);
+        for (int i = 0; i < list.size(); i++) {
+            T t = list.get(i);
 
-        return new TypeSpec(environment.resolveUnknown(returnType),
-                Arrays.stream(parameterTypes)
-                        .map(environment::resolveUnknown).toArray(CodeType[]::new));
+            if(predicate.test(i, t))
+                result.add(new IntNode<>(i, t));
+        }
+
+        return result;
+    }
+
+    public static <T> void remove(List<T> list, int[] indexes) {
+        Iterator<T> iterator = list.iterator();
+        int i = 0;
+
+        while(iterator.hasNext()) {
+            iterator.next();
+            for(int index : indexes) {
+                if(index == i) {
+                    iterator.remove();
+                    break;
+                }
+            }
+
+            ++i;
+        }
     }
 }

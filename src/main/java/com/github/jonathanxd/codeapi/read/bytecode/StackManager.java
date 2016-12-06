@@ -28,12 +28,19 @@
 package com.github.jonathanxd.codeapi.read.bytecode;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
+import com.github.jonathanxd.codeapi.util.collection.CollectionUtil;
+import com.github.jonathanxd.iutils.object.IntNode;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class StackManager {
+    private static final Predicate<CodePart> NOT_IP = part -> !(part instanceof InstructionCodePart);
 
     private final List<CodePart> stack = new ArrayList<>();
 
@@ -66,44 +73,75 @@ public class StackManager {
     public CodePart pop() {
         this.checkEmpty();
 
-        return this.stack.remove(this.stack.size()-1);
-    }
+        this.checkEmpty();
 
-    public List<CodePart> pop(int n) {
-        this.checkEmpty(n);
+        for (int i = this.stack.size() - 1; i >= 0; i--) {
+            CodePart codePart = this.stack.get(i);
 
-        int start = this.stack.size() - n;
-
-        List<CodePart> popped = new ArrayList<>();
-
-        for(int x = start; x < this.stack.size(); ++x) {
-            popped.add(this.stack.remove(x));
+            if(!(codePart instanceof InstructionCodePart)) {
+                return this.stack.remove(i);
+            }
         }
 
-        return popped;
+        throw new IllegalStateException("Cannot peek value from stack.");
     }
 
     public CodePart peek() {
         this.checkEmpty();
 
-        return this.stack.get(this.stack.size()-1);
+        for (int i = this.stack.size() - 1; i >= 0; i--) {
+            CodePart codePart = this.stack.get(i);
+
+            if(!(codePart instanceof InstructionCodePart))
+                return codePart;
+        }
+
+        throw new IllegalStateException("Cannot peek value from stack.");
     }
 
-    public List<CodePart> peek(int n) {
+    public List<CodePart> pop(int n) {
+        if(n == 0)
+            return new ArrayList<>();
+
         this.checkEmpty(n);
 
-        return this.stack.subList(n, this.stack.size());
+        List<IntNode<CodePart>> intNodes = CollectionUtil.filterWithIndex(this.stack, StackManager.NOT_IP);
+
+        int size = intNodes.size();
+        int start = size - n;
+
+        List<IntNode<CodePart>> sub = intNodes.subList(start, intNodes.size());
+
+        List<CodePart> result = sub.stream().map(IntNode::getValue).collect(Collectors.toList());
+
+        CollectionUtil.remove(this.stack, sub.stream().mapToInt(IntNode::getKey).toArray());
+
+        return result;
+    }
+
+    private List<CodePart> peek(int n) {
+        if(n == 0)
+            return new ArrayList<>();
+
+        this.checkEmpty(n);
+
+        List<CodePart> collect = this.stack.stream().filter(codePart -> !(codePart instanceof InstructionCodePart)).collect(Collectors.toList());
+
+        int size = collect.size();
+        int start = size - n;
+
+        return new ArrayList<>(collect.subList(start, size));
     }
 
     private void checkEmpty() {
-        if(this.stack.isEmpty())
+        if(this.stack.stream().noneMatch(StackManager.NOT_IP))
             throw new NoSuchElementException("Empty stack.");
     }
 
     private void checkEmpty(int n) {
         this.checkEmpty();
 
-        if(this.stack.size() - n < 0)
+        if(this.stack.stream().filter(StackManager.NOT_IP).count() - n < 0)
             throw new NoSuchElementException("Cannot get '"+n+"' elements from stack. Stack size: "+this.stack.size());
     }
 }

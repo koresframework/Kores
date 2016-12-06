@@ -221,10 +221,16 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
             if (generateTo != null) {
                 return Objects.requireNonNull(visitors.get(generateTo.value()), "Cannot get visitor for class: '" + generateTo.value().getCanonicalName() + "'");
             } else {
-                if (cl.isSynthetic()) {
-                    Class<?> i = cl.getInterfaces()[0];
-                    return Objects.requireNonNull(visitors.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "'");
+                if (cl.isSynthetic() || cl.isAnonymousClass() || cl.isLocalClass()) {
+                    Class<?> i;
+                    if(cl.getInterfaces().length == 0) {
+                        i = cl.getSuperclass();
+                    } else {
+                        i = cl.getInterfaces()[0];
+                    }
+                    return Objects.requireNonNull(visitors.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "' (Local/Synthetic/Anonymous class): '"+cl+"'");
                 }
+
                 throw new IllegalStateException("Cannot get visitor for class: '" + cl.getCanonicalName() + "'");
             }
         }

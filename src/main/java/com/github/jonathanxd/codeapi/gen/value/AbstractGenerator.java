@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
@@ -179,6 +180,19 @@ public abstract class AbstractGenerator<T, C extends AbstractGenerator<T, C>> im
         }
 
         ValueGenerator<?, T, C> get = filterEntry != null ? filterEntry.getValue() : null;
+
+        if(get == null) {
+            if (generatorTargetClass.isSynthetic() || generatorTargetClass.isAnonymousClass() || generatorTargetClass.isLocalClass()) {
+                Class<?> i;
+                if(generatorTargetClass.getInterfaces().length == 0) {
+                    i = generatorTargetClass.getSuperclass();
+                } else {
+                    i = generatorTargetClass.getInterfaces()[0];
+                }
+
+                get = Objects.requireNonNull(registry.get(i), "Cannot get processor of class: '" + i.getCanonicalName() + "' (Local/Synthetic/Anonymous class): '"+generatorTargetClass+"'");
+            }
+        }
 
         if (get != null) {
 

@@ -49,6 +49,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 import com.github.jonathanxd.codeapi.util.gen.GenericUtil;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -79,7 +80,7 @@ public class BytecodeClassVisitor extends ClassVisitor {
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
 
-        Collection<CodeModifier> codeModifiers = CommonRead.modifiersFromAccess(access);
+        Collection<CodeModifier> codeModifiers = ModifierUtil.fromAccess(ModifierUtil.CLASS, access);
 
         boolean isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
 
@@ -133,7 +134,7 @@ public class BytecodeClassVisitor extends ClassVisitor {
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
         super.visitField(access, name, desc, signature, value);
 
-        Collection<CodeModifier> codeModifiers = CommonRead.modifiersFromAccess(access);
+        Collection<CodeModifier> codeModifiers = ModifierUtil.fromAccess(ModifierUtil.FIELD, access);
 
         CodeType type = this.environment.resolveUnknown(desc);
 
@@ -159,7 +160,7 @@ public class BytecodeClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 
-        Collection<CodeModifier> codeModifiers = CommonRead.modifiersFromAccess(access);
+        Collection<CodeModifier> codeModifiers = ModifierUtil.fromAccess(ModifierUtil.METHOD, access);
 
         TypeDeclaration declaration = this.environment.getData().getRequired(Constants.TYPE_DECLARATION);
 

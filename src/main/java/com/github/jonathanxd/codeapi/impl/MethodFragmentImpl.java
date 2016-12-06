@@ -42,6 +42,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 
 import java.util.Arrays;
@@ -150,4 +151,13 @@ public class MethodFragmentImpl extends MethodInvocationImpl implements MethodFr
     public MethodFragmentImpl setSpec(MethodSpecification specification) {
         return new MethodFragmentImpl(this.getTargetDeclaration(), this.getInvokeDynamic().orElse(null), this.getInvokeType(), this.getType().orElse(null), this.getTarget().orElse(null), specification, this.getMethod());
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("methodDeclaration", this.getMethod())
+                .add("target", this.getTargetDeclaration())
+                .toString();
+    }
+
 }

@@ -1,6 +1,6 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TestBytecode_Invocations_Result.class
-  Last modified 18/11/2016; size 2671 bytes
-  MD5 checksum ff6350b3a3c99ccae15f3895d2926196
+  Last modified 06/12/2016; size 2671 bytes
+  MD5 checksum 04bb51f814287c5bb0d38799decefe0e
   Compiled from "TestBytecode_Invocations_Generated.cai"
 public class fullName.TestBytecode_Invocations_Generated
   minor version: 0
@@ -92,10 +92,10 @@ Constant pool:
    #83 = MethodHandle       #6:#82        // invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
    #84 = Utf8               ()Ljava/lang/Object;
    #85 = MethodType         #84           //  ()Ljava/lang/Object;
-   #86 = Utf8               TestBytecode_Invocations_Generated_fragment$1704229683
-   #87 = NameAndType        #86:#70       // TestBytecode_Invocations_Generated_fragment$1704229683:()Ljava/lang/String;
-   #88 = Methodref          #3.#87        // fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$1704229683:()Ljava/lang/String;
-   #89 = MethodHandle       #6:#88        // invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$1704229683:()Ljava/lang/String;
+   #86 = Utf8               TestBytecode_Invocations_Generated_fragment$580971918
+   #87 = NameAndType        #86:#70       // TestBytecode_Invocations_Generated_fragment$580971918:()Ljava/lang/String;
+   #88 = Methodref          #3.#87        // fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$580971918:()Ljava/lang/String;
+   #89 = MethodHandle       #6:#88        // invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$580971918:()Ljava/lang/String;
    #90 = MethodType         #70           //  ()Ljava/lang/String;
    #91 = Utf8               get
    #92 = Utf8               ()Ljava/util/function/Supplier;
@@ -293,7 +293,7 @@ Constant pool:
           stack = []
         frame_type = 1 /* same */
 
-  private static java.lang.String TestBytecode_Invocations_Generated_fragment$1704229683();
+  private static java.lang.String TestBytecode_Invocations_Generated_fragment$580971918();
     descriptor: ()Ljava/lang/String;
     flags: ACC_PRIVATE, ACC_STATIC
     Code:
@@ -312,7 +312,7 @@ BootstrapMethods:
   0: #83 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
     Method arguments:
       #85 ()Ljava/lang/Object;
-      #89 invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$1704229683:()Ljava/lang/String;
+      #89 invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$580971918:()Ljava/lang/String;
       #90 ()Ljava/lang/String;
   1: #83 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
     Method arguments:

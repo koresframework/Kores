@@ -152,12 +152,12 @@ public final class Helper {
         return new AccessLocalImpl();
     }
 
-    public static ArrayLoad accessArrayValue(CodePart target, CodePart index, CodeType valueType) {
-        return new ArrayLoadImpl(index, target, valueType);
+    public static ArrayLoad accessArrayValue(CodeType arrayType, CodePart target, CodePart index, CodeType valueType) {
+        return new ArrayLoadImpl(arrayType, index, target, valueType);
     }
 
-    public static ArrayLength arrayLength(CodePart target) {
-        return new ArrayLengthImpl(target);
+    public static ArrayLength arrayLength(CodeType arrayType, CodePart target) {
+        return new ArrayLengthImpl(arrayType, target);
     }
 
     public static VariableAccess accessLocalVariable(String name) {

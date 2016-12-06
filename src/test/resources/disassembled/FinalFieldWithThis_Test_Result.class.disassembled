@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/FinalFieldWithThis_Test_Result.class
-  Last modified 18/11/2016; size 488 bytes
+  Last modified 06/12/2016; size 488 bytes
   MD5 checksum 06869f3a3aed2c863de35e86bbba9f58
   Compiled from "Test.cai"
 public class finalfieldwiththis.Test extends com.github.jonathanxd.codeapi.test.bytecode.FinalFieldWithThis$TestBox

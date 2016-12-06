@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InterfaceTest_Result.class
-  Last modified 18/11/2016; size 409 bytes
+  Last modified 06/12/2016; size 409 bytes
   MD5 checksum f8fb051ac7104e552631b1559d577388
   Compiled from "Impl.cai"
 public interface test.Impl

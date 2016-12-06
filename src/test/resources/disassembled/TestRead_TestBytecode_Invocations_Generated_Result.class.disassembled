@@ -1,0 +1,334 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TestRead_TestBytecode_Invocations_Generated_Result.class
+  Last modified 06/12/2016; size 2672 bytes
+  MD5 checksum cbeee4528bd9650c7d61ada3157761b3
+  Compiled from "TestBytecode_Invocations_Generated.cai"
+public class fullName.TestBytecode_Invocations_Generated
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+    #1 = Utf8               TestBytecode_Invocations_Generated.cai
+    #2 = Utf8               fullName/TestBytecode_Invocations_Generated
+    #3 = Class              #2            // fullName/TestBytecode_Invocations_Generated
+    #4 = Utf8               java/lang/Object
+    #5 = Class              #4            // java/lang/Object
+    #6 = Utf8               <init>
+    #7 = Utf8               ()V
+    #8 = NameAndType        #6:#7         // "<init>":()V
+    #9 = Methodref          #5.#8         // java/lang/Object."<init>":()V
+   #10 = Utf8               AVD
+   #11 = String             #10           // AVD
+   #12 = Utf8               FIELD
+   #13 = Utf8               Ljava/lang/String;
+   #14 = NameAndType        #12:#13       // FIELD:Ljava/lang/String;
+   #15 = Fieldref           #3.#14        // fullName/TestBytecode_Invocations_Generated.FIELD:Ljava/lang/String;
+   #16 = Utf8               n
+   #17 = Utf8               I
+   #18 = NameAndType        #16:#17       // n:I
+   #19 = Fieldref           #3.#18        // fullName/TestBytecode_Invocations_Generated.n:I
+   #20 = Utf8               java/lang/System
+   #21 = Class              #20           // java/lang/System
+   #22 = Utf8               out
+   #23 = Utf8               Ljava/io/PrintStream;
+   #24 = NameAndType        #22:#23       // out:Ljava/io/PrintStream;
+   #25 = Fieldref           #21.#24       // java/lang/System.out:Ljava/io/PrintStream;
+   #26 = Utf8               Hello
+   #27 = String             #26           // Hello
+   #28 = Utf8               java/io/PrintStream
+   #29 = Class              #28           // java/io/PrintStream
+   #30 = Utf8               println
+   #31 = Utf8               (Ljava/lang/String;)V
+   #32 = NameAndType        #30:#31       // println:(Ljava/lang/String;)V
+   #33 = Methodref          #29.#32       // java/io/PrintStream.println:(Ljava/lang/String;)V
+   #34 = Utf8               Oi
+   #35 = String             #34           // Oi
+   #36 = Utf8               printIt
+   #37 = Utf8               (Ljava/lang/Object;)V
+   #38 = NameAndType        #36:#37       // printIt:(Ljava/lang/Object;)V
+   #39 = Methodref          #3.#38        // fullName/TestBytecode_Invocations_Generated.printIt:(Ljava/lang/Object;)V
+   #40 = Utf8               java/lang/Throwable
+   #41 = Class              #40           // java/lang/Throwable
+   #42 = Utf8               this
+   #43 = Utf8               LfullName/TestBytecode_Invocations_Generated;
+   #44 = Utf8               Hello :D
+   #45 = String             #44           // Hello :D
+   #46 = Utf8               DingDong
+   #47 = String             #46           // DingDong
+   #48 = NameAndType        #30:#37       // println:(Ljava/lang/Object;)V
+   #49 = Methodref          #29.#48       // java/io/PrintStream.println:(Ljava/lang/Object;)V
+   #50 = Utf8               Ljava/lang/Object;
+   #51 = Utf8               dingdong
+   #52 = Utf8               check
+   #53 = Utf8               (I)Z
+   #54 = Utf8               xy
+   #55 = String             #54           // xy
+   #56 = Utf8               yz
+   #57 = String             #56           // yz
+   #58 = Utf8               com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations
+   #59 = Class              #58           // com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations
+   #60 = Utf8               bmp
+   #61 = Utf8               (Ljava/lang/String;Ljava/lang/String;)V
+   #62 = NameAndType        #60:#61       // bmp:(Ljava/lang/String;Ljava/lang/String;)V
+   #63 = Methodref          #59.#62       // com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations.bmp:(Ljava/lang/String;Ljava/lang/String;)V
+   #64 = Utf8               Invoke Interface ->
+   #65 = String             #64           // Invoke Interface ->
+   #66 = Utf8               com/github/jonathanxd/codeapi/test/WorldGreeter
+   #67 = Class              #66           // com/github/jonathanxd/codeapi/test/WorldGreeter
+   #68 = Methodref          #67.#8        // com/github/jonathanxd/codeapi/test/WorldGreeter."<init>":()V
+   #69 = Utf8               com/github/jonathanxd/codeapi/test/Greeter
+   #70 = Class              #69           // com/github/jonathanxd/codeapi/test/Greeter
+   #71 = Utf8               hello
+   #72 = Utf8               ()Ljava/lang/String;
+   #73 = NameAndType        #71:#72       // hello:()Ljava/lang/String;
+   #74 = InterfaceMethodref #70.#73       // com/github/jonathanxd/codeapi/test/Greeter.hello:()Ljava/lang/String;
+   #75 = Utf8               Invoke Interface <-
+   #76 = String             #75           // Invoke Interface <-
+   #77 = Utf8               Invoke Dynamic ->
+   #78 = String             #77           // Invoke Dynamic ->
+   #79 = Utf8               java/lang/invoke/LambdaMetafactory
+   #80 = Class              #79           // java/lang/invoke/LambdaMetafactory
+   #81 = Utf8               metafactory
+   #82 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+   #83 = NameAndType        #81:#82       // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+   #84 = Methodref          #80.#83       // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+   #85 = MethodHandle       #6:#84        // invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+   #86 = Utf8               ()Ljava/lang/Object;
+   #87 = MethodType         #86           //  ()Ljava/lang/Object;
+   #88 = Utf8               TestBytecode_Invocations_Generated_fragment$90809011
+   #89 = NameAndType        #88:#72       // TestBytecode_Invocations_Generated_fragment$90809011:()Ljava/lang/String;
+   #90 = Methodref          #3.#89        // fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$90809011:()Ljava/lang/String;
+   #91 = MethodHandle       #6:#90        // invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$90809011:()Ljava/lang/String;
+   #92 = MethodType         #72           //  ()Ljava/lang/String;
+   #93 = Utf8               get
+   #94 = Utf8               ()Ljava/util/function/Supplier;
+   #95 = NameAndType        #93:#94       // get:()Ljava/util/function/Supplier;
+   #96 = InvokeDynamic      #0:#95        // #0:get:()Ljava/util/function/Supplier;
+   #97 = Utf8               java/util/function/Supplier
+   #98 = Class              #97           // java/util/function/Supplier
+   #99 = NameAndType        #93:#86       // get:()Ljava/lang/Object;
+  #100 = InterfaceMethodref #98.#99       // java/util/function/Supplier.get:()Ljava/lang/Object;
+  #101 = Utf8               java/lang/String
+  #102 = Class              #101          // java/lang/String
+  #103 = MethodHandle       #9:#74        // invokeinterface com/github/jonathanxd/codeapi/test/Greeter.hello:()Ljava/lang/String;
+  #104 = Utf8               (Lcom/github/jonathanxd/codeapi/test/Greeter;)Ljava/util/function/Supplier;
+  #105 = NameAndType        #93:#104      // get:(Lcom/github/jonathanxd/codeapi/test/Greeter;)Ljava/util/function/Supplier;
+  #106 = InvokeDynamic      #1:#105       // #1:get:(Lcom/github/jonathanxd/codeapi/test/Greeter;)Ljava/util/function/Supplier;
+  #107 = Utf8               Invoke Dynamic <-
+  #108 = String             #107          // Invoke Dynamic <-
+  #109 = Utf8               Invoke Dynamic Bootstrap ->
+  #110 = String             #109          // Invoke Dynamic Bootstrap ->
+  #111 = Utf8               World
+  #112 = String             #111          // World
+  #113 = Utf8               myBootstrap
+  #114 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #115 = NameAndType        #113:#114     // myBootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #116 = Methodref          #59.#115      // com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations.myBootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #117 = MethodHandle       #6:#116       // invokestatic com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations.myBootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #118 = Utf8               helloWorld
+  #119 = NameAndType        #118:#31      // helloWorld:(Ljava/lang/String;)V
+  #120 = InvokeDynamic      #2:#119       // #2:helloWorld:(Ljava/lang/String;)V
+  #121 = Utf8               Invoke Dynamic Bootstrap <-
+  #122 = String             #121          // Invoke Dynamic Bootstrap <-
+  #123 = Utf8               (I)V
+  #124 = NameAndType        #30:#123      // println:(I)V
+  #125 = Methodref          #29.#124      // java/io/PrintStream.println:(I)V
+  #126 = Utf8               x
+  #127 = Utf8               greeter
+  #128 = Utf8               Lcom/github/jonathanxd/codeapi/test/Greeter;
+  #129 = Utf8               greetingVar
+  #130 = Utf8               supplier2
+  #131 = Utf8               Ljava/util/function/Supplier;
+  #132 = Utf8               supplier
+  #133 = Utf8               str
+  #134 = Utf8               BRB
+  #135 = String             #134          // BRB
+  #136 = Utf8               <clinit>
+  #137 = Utf8               Code
+  #138 = Utf8               LocalVariableTable
+  #139 = Utf8               StackMapTable
+  #140 = Utf8               BootstrapMethods
+  #141 = Utf8               SourceFile
+{
+  public final java.lang.String FIELD;
+    descriptor: Ljava/lang/String;
+    flags: ACC_PUBLIC, ACC_FINAL
+
+  public final int n;
+    descriptor: I
+    flags: ACC_PUBLIC, ACC_FINAL
+
+  public fullName.TestBytecode_Invocations_Generated();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #9                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #11                 // String AVD
+         7: putfield      #15                 // Field FIELD:Ljava/lang/String;
+        10: aload_0
+        11: bipush        15
+        13: putfield      #19                 // Field n:I
+        16: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        19: ldc           #27                 // String Hello
+        21: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        24: aload_0
+        25: ldc           #35                 // String Oi
+        27: invokevirtual #39                 // Method printIt:(Ljava/lang/Object;)V
+        30: return
+        31: athrow
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      32     0  this   LfullName/TestBytecode_Invocations_Generated;
+      StackMapTable: number_of_entries = 1
+        frame_type = 255 /* full_frame */
+          offset_delta = 31
+          locals = []
+          stack = [ class java/lang/Throwable ]
+
+  public void printIt(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=3, args_size=2
+         0: aload_1
+         1: ifnull        12
+         4: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         7: ldc           #45                 // String Hello :D
+         9: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        12: ldc           #47                 // String DingDong
+        14: astore_2
+        15: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        18: aload_2
+        19: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        22: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        25: aload_1
+        26: invokevirtual #49                 // Method java/io/PrintStream.println:(Ljava/lang/Object;)V
+        29: return
+        30: athrow
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      31     0  this   LfullName/TestBytecode_Invocations_Generated;
+            0      31     1     n   Ljava/lang/Object;
+           14      17     2 dingdong   Ljava/lang/String;
+      StackMapTable: number_of_entries = 2
+        frame_type = 12 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 17
+          locals = []
+          stack = [ class java/lang/Throwable ]
+
+  public boolean check(int);
+    descriptor: (I)Z
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=7, args_size=2
+         0: ldc           #55                 // String xy
+         2: ldc           #57                 // String yz
+         4: invokestatic  #63                 // Method com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations.bmp:(Ljava/lang/String;Ljava/lang/String;)V
+         7: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        10: ldc           #65                 // String Invoke Interface ->
+        12: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        15: new           #67                 // class com/github/jonathanxd/codeapi/test/WorldGreeter
+        18: dup
+        19: invokespecial #68                 // Method com/github/jonathanxd/codeapi/test/WorldGreeter."<init>":()V
+        22: astore_2
+        23: aload_2
+        24: invokeinterface #74,  1           // InterfaceMethod com/github/jonathanxd/codeapi/test/Greeter.hello:()Ljava/lang/String;
+        29: astore_3
+        30: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        33: aload_3
+        34: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        37: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        40: ldc           #76                 // String Invoke Interface <-
+        42: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        45: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        48: ldc           #78                 // String Invoke Dynamic ->
+        50: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        53: invokedynamic #96,  0             // InvokeDynamic #0:get:()Ljava/util/function/Supplier;
+        58: astore        4
+        60: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        63: aload         4
+        65: invokeinterface #100,  1          // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
+        70: checkcast     #102                // class java/lang/String
+        73: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        76: aload_2
+        77: invokedynamic #106,  0            // InvokeDynamic #1:get:(Lcom/github/jonathanxd/codeapi/test/Greeter;)Ljava/util/function/Supplier;
+        82: astore        5
+        84: aload         5
+        86: invokeinterface #100,  1          // InterfaceMethod java/util/function/Supplier.get:()Ljava/lang/Object;
+        91: checkcast     #102                // class java/lang/String
+        94: astore        6
+        96: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        99: aload         6
+       101: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       104: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       107: ldc           #108                // String Invoke Dynamic <-
+       109: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       112: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       115: ldc           #110                // String Invoke Dynamic Bootstrap ->
+       117: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       120: ldc           #112                // String World
+       122: invokedynamic #120,  0            // InvokeDynamic #2:helloWorld:(Ljava/lang/String;)V
+       127: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       130: ldc           #122                // String Invoke Dynamic Bootstrap <-
+       132: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       135: iload_1
+       136: bipush        9
+       138: if_icmpeq     147
+       141: iload_1
+       142: bipush        7
+       144: if_icmpne     149
+       147: iconst_0
+       148: ireturn
+       149: getstatic     #25                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       152: iload_1
+       153: invokevirtual #125                // Method java/io/PrintStream.println:(I)V
+       156: iconst_1
+       157: ireturn
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     158     0  this   LfullName/TestBytecode_Invocations_Generated;
+            0     158     1     x   I
+           22     136     2 greeter   Lcom/github/jonathanxd/codeapi/test/Greeter;
+           29     129     3 greetingVar   Ljava/lang/String;
+           58     100     4 supplier2   Ljava/util/function/Supplier;
+           82      76     5 supplier   Ljava/util/function/Supplier;
+           94      64     6   str   Ljava/lang/String;
+      StackMapTable: number_of_entries = 2
+        frame_type = 255 /* full_frame */
+          offset_delta = 147
+          locals = [ class fullName/TestBytecode_Invocations_Generated, int, class com/github/jonathanxd/codeapi/test/WorldGreeter, class java/lang/String, class java/util/function/Supplier, class java/util/function/Supplier, class java/lang/String ]
+          stack = []
+        frame_type = 1 /* same */
+
+  private static java.lang.String TestBytecode_Invocations_Generated_fragment$90809011();
+    descriptor: ()Ljava/lang/String;
+    flags: ACC_PRIVATE, ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #135                // String BRB
+         2: areturn
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+BootstrapMethods:
+  0: #85 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #87 ()Ljava/lang/Object;
+      #91 invokestatic fullName/TestBytecode_Invocations_Generated.TestBytecode_Invocations_Generated_fragment$90809011:()Ljava/lang/String;
+      #92 ()Ljava/lang/String;
+  1: #85 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #87 ()Ljava/lang/Object;
+      #103 invokeinterface com/github/jonathanxd/codeapi/test/Greeter.hello:()Ljava/lang/String;
+      #92 ()Ljava/lang/String;
+  2: #117 invokestatic com/github/jonathanxd/codeapi/test/bytecode/TestBytecode_Invocations.myBootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+SourceFile: "TestBytecode_Invocations_Generated.cai"

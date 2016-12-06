@@ -62,6 +62,10 @@ public class LiteralSourceGenerator implements ValueGenerator<Literal, String, P
             values.add(PlainValue.create(literal.getName()));
         }
 
+        if (Util.isBody(parents)) {
+            values.add(PlainValue.create(";"));
+        }
+
         return values;
 
     }

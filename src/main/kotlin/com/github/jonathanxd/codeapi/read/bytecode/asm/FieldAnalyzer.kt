@@ -34,12 +34,13 @@ import com.github.jonathanxd.codeapi.read.bytecode.CommonRead
 import com.github.jonathanxd.codeapi.read.bytecode.Constants
 import com.github.jonathanxd.codeapi.util.gen.CodePartUtil
 import com.github.jonathanxd.codeapi.util.gen.GenericUtil
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil
 import org.objectweb.asm.tree.FieldNode
 
 object FieldAnalyzer {
     @Suppress("UNCHECKED_CAST")
     fun analyze(fieldNode: FieldNode, environment: Environment): FieldDeclaration {
-        val codeModifiers = CommonRead.modifiersFromAccess(fieldNode.access)
+        val codeModifiers = ModifierUtil.fromAccess(ModifierUtil.FIELD, fieldNode.access)
 
         var type = environment.resolveUnknown(fieldNode.desc)
 

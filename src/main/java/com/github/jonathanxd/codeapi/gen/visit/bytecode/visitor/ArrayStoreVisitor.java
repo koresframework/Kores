@@ -65,7 +65,7 @@ public class ArrayStoreVisitor implements VoidVisitor<ArrayStore, BytecodeClass,
         CodePart value = arrayStore.getValueToStore();
         CodeType valueType = arrayStore.getValueType();
 
-        CodeType arrayComponentType = arrayStore.getArrayType();
+        CodeType arrayComponentType = arrayStore.getArrayType().getArrayComponent();
 
         if(!arrayComponentType.is(valueType)) { // Auto casting.
             value = CodeAPI.cast(valueType, arrayComponentType, value);

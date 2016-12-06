@@ -50,14 +50,14 @@ object ClassAnalyzer {
     fun analyze(classNode: ClassNode): TypeDeclaration {
         val environment = Environment()
 
-        val modifiers = ModifierUtil.fromAccess(classNode.access)
+        val modifiers = ModifierUtil.fromAccess(ModifierUtil.CLASS, classNode.access)
 
         val isInterface = classNode.access and Opcodes.ACC_INTERFACE != 0
 
         val type = environment.typeResolver.resolve(classNode.name, isInterface)
 
         var superClass = environment.resolveUnknown(classNode.superName)
-        var interfaces = (classNode.interfaces as List<String>).map { environment.resolveUnknown(it) }
+        var interfaces = (classNode.interfaces as? List<String>)?.map { environment.resolveUnknown(it) } ?: emptyList()
 
         val signature = GenericUtil.Read.parseFull(environment.typeResolver, classNode.signature)
 
@@ -82,18 +82,18 @@ object ClassAnalyzer {
 
         environment.data.registerData(Constants.TYPE_DECLARATION, declaration)
 
-        classNode.methods.forEachAs { it: MethodNode ->
+        classNode.methods?.forEachAs { it: MethodNode ->
             body.add(MethodAnalyzer.analyze(it, environment))
         }
 
-        classNode.fields.forEachAs { it: FieldNode ->
+        classNode.fields?.forEachAs { it: FieldNode ->
             body.add(FieldAnalyzer.analyze(it, environment))
         }
 
         return declaration
     }
 
-    private fun checkSignature(signature: String, declaration: TypeDeclaration, superClass: CodeType, interfaces: List<CodeType>) {
+    private fun checkSignature(signature: String?, declaration: TypeDeclaration, superClass: CodeType, interfaces: List<CodeType>) {
         val superClassIsGeneric = superClass is GenericType
         val anyInterfaceIsGeneric = interfaces.any { it is GenericType }
 

@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/InvokeSuperTest_Result.class
-  Last modified 18/11/2016; size 397 bytes
+  Last modified 06/12/2016; size 397 bytes
   MD5 checksum b0c716117ad2302d4b56e638d9aa176d
   Compiled from "Impl.cai"
 public class test.Impl extends com.github.jonathanxd.codeapi.test.bytecode.InvokeSuperTest$My

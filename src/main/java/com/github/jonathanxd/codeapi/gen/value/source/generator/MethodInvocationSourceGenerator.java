@@ -46,9 +46,11 @@ import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.keywords.Keywords;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.Parent;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 import com.github.jonathanxd.iutils.data.MapData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,7 +111,7 @@ public class MethodInvocationSourceGenerator implements ValueGenerator<MethodInv
                     METHOD_SEPARATOR = ".";
                 }
             } else {
-                throw new UnsupportedOperationException("Cannot generate source for dynamic method invocation, SourceGenerator only supports Lambda InvokeDynamic");
+                return Collections.singletonList(PlainValue.create("// Dynamic::["+methodInvocationImpl.toString()+"];"));
             }
         } else {
             METHOD_SEPARATOR = ".";

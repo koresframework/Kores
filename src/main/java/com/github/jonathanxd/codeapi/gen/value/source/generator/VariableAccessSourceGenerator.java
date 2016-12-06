@@ -71,6 +71,10 @@ public class VariableAccessSourceGenerator implements ValueGenerator<VariableAcc
 
         values.add(PlainValue.create(variableAccess.getName()));
 
+        if (Util.isBody(parents)) {
+            values.add(PlainValue.create(";"));
+        }
+
         return values;
     }
 }

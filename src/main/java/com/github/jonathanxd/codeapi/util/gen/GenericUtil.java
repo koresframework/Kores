@@ -232,7 +232,7 @@ public class GenericUtil {
 
         public static Signature parseFull(TypeResolver typeResolver, String signature) {
             if (signature == null || signature.isEmpty()) {
-                return new Signature(GenericSignature.empty(), null, null);
+                return new Signature(GenericSignature.empty(), null, new GenericType[0]);
             }
 
             GenericSignature<GenericType> genericSignature = Read.parse(typeResolver, signature);

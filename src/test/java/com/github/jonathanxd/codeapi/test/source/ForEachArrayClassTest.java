@@ -53,20 +53,20 @@ public class ForEachArrayClassTest {
 
         test.consume(System.out::println)
                 .expect("package com ; \n" +
-                "public class ForEach { \n" +
-                "    public static java.lang.String stra = \"XA\" ; \n" +
-                "    public ForEach ( java.lang.String[] strArray ) { \n" +
-                "         java.lang.String v = com.ForEach . stra ; \n" +
-                "        for (  java.lang.String str : strArray ) { \n" +
-                "            java.lang.System . out . println ( str ) ; \n" +
-                "             \n" +
-                "        } \n" +
-                "        \n" +
-                "         \n" +
-                "    } \n" +
-                "    \n" +
-                "     \n" +
-                "} \n" +
-                "\n");
+                        "public class ForEach { \n" +
+                        "    public static java.lang.String stra = \"XA\" ; \n" +
+                        "    public ForEach ( java.lang.String[] strArray ) { \n" +
+                        "        java.lang.String v = com.ForEach . stra ; \n" +
+                        "        for ( java.lang.String str : strArray ) { \n" +
+                        "            java.lang.System . out . println ( str ) ; \n" +
+                        "             \n" +
+                        "        } \n" +
+                        "        \n" +
+                        "         \n" +
+                        "    } \n" +
+                        "    \n" +
+                        "     \n" +
+                        "} \n" +
+                        "\n");
     }
 }

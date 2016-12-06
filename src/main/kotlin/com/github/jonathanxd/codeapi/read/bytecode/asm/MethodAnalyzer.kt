@@ -43,6 +43,7 @@ import com.github.jonathanxd.codeapi.read.bytecode.Constants
 import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame
 import com.github.jonathanxd.codeapi.util.asm.VisitTranslator
 import com.github.jonathanxd.codeapi.util.gen.GenericUtil
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil
 import org.objectweb.asm.Attribute
 import org.objectweb.asm.Handle
 import org.objectweb.asm.MethodVisitor
@@ -59,7 +60,7 @@ object MethodAnalyzer {
         val desc = methodNode.desc
         val parameters = methodNode.parameters as? List<ParameterNode> ?: emptyList()
 
-        val codeModifiers = CommonRead.modifiersFromAccess(methodNode.access)
+        val codeModifiers = ModifierUtil.fromAccess(ModifierUtil.METHOD, methodNode.access)
 
         val declaration = environment.data.getRequired(Constants.TYPE_DECLARATION)
 
@@ -111,17 +112,16 @@ object MethodAnalyzer {
                 when(it) {
                     is InsnNode -> this.visitInsn(it.opcode)
                     is VarInsnNode -> this.visitVarInsn(it.opcode, it.`var`)
+                    is IntInsnNode -> this.visitIntInsn(it.opcode, it.operand)
                     is TypeInsnNode -> this.visitTypeInsn(it.opcode, it.desc)
                     is FieldInsnNode -> this.visitFieldInsn(it.opcode, it.owner, it.name, it.desc)
                     is MethodInsnNode -> this.visitMethodInsn(it.opcode, it.owner, it.name, it.desc, it.itf)
                     is InvokeDynamicInsnNode -> this.visitInvokeDynamicInsn(it.name, it.desc, it.bsm, it.bsmArgs)
                     is LdcInsnNode -> this.visitLdcInsn(it.cst)
                     is IincInsnNode -> this.visitIincInsn(it.`var`, it.incr)
-                    is ParameterNode, is LocalVariableNode, is LabelNode -> {
-                        // Ignore
-                    }
+                    is LabelNode -> it.accept(OperandAddVisitor(this.frame.operandStack))
                     else -> {
-                        OperandAddVisitor(this.frame.operandStack)
+                        it.accept(OperandAddVisitor(this.frame.operandStack))
                         logger.warning("Insn '$it' isn't supported yet, this instruction will only appear in result of processors that support InstructionCodePart.")
                     }
                 }
@@ -149,11 +149,15 @@ object MethodAnalyzer {
             if(opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN && this.method is StaticBlock)
                 return
 
-            VisitTranslator.visitInsn(opcode, this.frame).pushToOperand()
+            VisitTranslator.visitInsn(opcode, this.frame)?.pushToOperand()
         }
 
         fun visitVarInsn(opcode: Int, slot: Int) {
             VisitTranslator.visitVarInsn(opcode, slot, this.frame)?.pushToOperand()
+        }
+
+        fun visitIntInsn(opcode: Int, operand: Int) {
+            VisitTranslator.visitIntInsn(opcode, operand).pushToOperand()
         }
 
         fun visitTypeInsn(opcode: Int, type: String) {

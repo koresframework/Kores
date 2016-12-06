@@ -45,6 +45,7 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
+import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
 
 import java.util.Iterator;
 
@@ -93,7 +94,7 @@ public final class IterationTypes {
 
             @Override
             public BiMultiVal<CodePart, IfExpr, Operator> createCondition() {
-                return Helper.createIfVal().add1(Helper.check(Helper.accessLocalVariable(indexFieldDecl), Operators.LESS_THAN, Helper.arrayLength(iterableElement))).make();
+                return Helper.createIfVal().add1(Helper.check(Helper.accessLocalVariable(indexFieldDecl), Operators.LESS_THAN, Helper.arrayLength(CodePartUtil.getType(iterableElement), iterableElement))).make();
             }
 
             @Override
@@ -108,7 +109,7 @@ public final class IterationTypes {
                 MutableCodeSource body = new MutableCodeSource();
 
                 body.add(new CodeField(field.getName(), field.getVariableType(),
-                        Helper.accessArrayValue(iterableElement, Helper.accessLocalVariable(indexFieldDecl), field.getVariableType())));
+                        Helper.accessArrayValue(CodePartUtil.getType(iterableElement), iterableElement, Helper.accessLocalVariable(indexFieldDecl), field.getVariableType())));
 
                 forEachBlock.getBody().ifPresent(body::addAll);
 

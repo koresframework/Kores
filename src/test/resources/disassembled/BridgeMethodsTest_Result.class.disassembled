@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/BridgeMethodsTest_Result.class
-  Last modified 18/11/2016; size 1235 bytes
+  Last modified 06/12/2016; size 1235 bytes
   MD5 checksum 51fa450dbe30193f0bdd670ec2f2d0f8
   Compiled from "bridgeTest.cai"
 public class com.bridgeTest extends java.lang.Object implements com.AB<java.util.List>

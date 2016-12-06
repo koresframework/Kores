@@ -45,10 +45,6 @@ public class ArrayLengthImpl implements ArrayLength {
     private final CodeType arrayType;
     private final CodePart target;
 
-    public ArrayLengthImpl(CodePart target) {
-        this.arrayType = target == null ? null : CodePartUtil.getType(target);
-        this.target = target;
-    }
     public ArrayLengthImpl(CodeType arrayType, CodePart target) {
         this.arrayType = arrayType;
         this.target = target;

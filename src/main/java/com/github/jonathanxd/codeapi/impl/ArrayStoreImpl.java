@@ -41,11 +41,6 @@ public class ArrayStoreImpl extends ArrayLoadImpl implements ArrayStore {
 
     private final CodePart value;
 
-    public ArrayStoreImpl(CodePart index, CodePart target, CodeType valueType, CodePart value) {
-        super(index, target, valueType);
-        this.value = value;
-    }
-
     public ArrayStoreImpl(CodeType arrayType, CodePart index, CodePart target, CodeType valueType, CodePart value) {
         super(arrayType, index, target, valueType);
         this.value = value;

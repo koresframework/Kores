@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/GenericInterfaceTest_Result.class
-  Last modified 18/11/2016; size 350 bytes
+  Last modified 06/12/2016; size 350 bytes
   MD5 checksum fc67d659dbc79a971321c15f784fe390
   Compiled from "clv.cai"
 public class clv extends java.lang.Object implements java.util.ArrayList<java.lang.String>

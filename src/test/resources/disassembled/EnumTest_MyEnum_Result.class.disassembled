@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/EnumTest_MyEnum_Result.class
-  Last modified 18/11/2016; size 1012 bytes
+  Last modified 06/12/2016; size 1012 bytes
   MD5 checksum 692b61f6a47809626d8bde95feda682e
   Compiled from "MyEnum.cai"
 public abstract class com.MyEnum extends java.lang.Enum<com.MyEnum>

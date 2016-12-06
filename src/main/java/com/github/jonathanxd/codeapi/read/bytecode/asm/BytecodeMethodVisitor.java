@@ -43,6 +43,7 @@ import com.github.jonathanxd.codeapi.read.bytecode.CommonRead;
 import com.github.jonathanxd.codeapi.read.bytecode.EmulatedFrame;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.asm.VisitTranslator;
+import com.github.jonathanxd.codeapi.util.gen.ModifierUtil;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -99,7 +100,7 @@ public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
 
         ++this.paramPos;
 
-        System.out.println("Visit parameter name = " + name + ", modifiers: " + CommonRead.modifiersFromAccess(access));
+        System.out.println("Visit parameter name = " + name + ", modifiers: " + ModifierUtil.fromAccess(ModifierUtil.PARAMETER, access));
 
         super.visitParameter(name, access);
     }
@@ -142,8 +143,11 @@ public class BytecodeMethodVisitor extends MethodVisitor implements Opcodes {
     @Override
     public void visitInsn(int opcode) {
         super.visitInsn(opcode);
+        CodePart part = VisitTranslator.INSTANCE.visitInsn(opcode, this.frame);
 
-        this.frame.getOperandStack().push(VisitTranslator.INSTANCE.visitInsn(opcode, this.frame));
+        if(part != null) {
+            this.frame.getOperandStack().push(part);
+        }
     }
 
     @Override

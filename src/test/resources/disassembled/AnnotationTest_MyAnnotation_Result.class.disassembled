@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/AnnotationTest_MyAnnotation_Result.class
-  Last modified 18/11/2016; size 391 bytes
+  Last modified 06/12/2016; size 391 bytes
   MD5 checksum 14e65db0ad3b0b3404b2dd290f65b1e6
   Compiled from "MyAnnotation.cai"
 public interface com.MyAnnotation extends java.lang.annotation.Annotation

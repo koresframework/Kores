@@ -76,6 +76,7 @@ internal class OperandAddVisitor(val stackManager: StackManager,
 
     override fun visitLabel(label: Label?) {
         super.visitLabel(label)
+        this.push { visitLabel(label) }
     }
 
     override fun visitTryCatchAnnotation(typeRef: Int, typePath: TypePath?, desc: String?, visible: Boolean): AnnotationVisitor {

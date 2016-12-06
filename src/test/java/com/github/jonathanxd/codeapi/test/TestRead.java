@@ -62,7 +62,7 @@ public class TestRead {
             return;
         }
 
-        InputStream resourceAsStream = TestRead.class.getResourceAsStream("/GenericClassTest_Result.class");
+        InputStream resourceAsStream = TestRead.class.getResourceAsStream("/TestBytecode_Invocations_Result.class");
 
         byte[] bytes;
 

@@ -1,5 +1,5 @@
 Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/PrimitiveCast_Result.class
-  Last modified 18/11/2016; size 994 bytes
+  Last modified 06/12/2016; size 994 bytes
   MD5 checksum a2284d551c5d73d6f2bf5c70352fd06b
   Compiled from "PrimitiveCast_Generated.cai"
 public class com.github.jonathanxd.codeapi.test.bytecode.PrimitiveCast_Generated

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
 import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 
@@ -116,6 +117,13 @@ public class InvokeDynamic {
         return this.methodSpec;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("methodSpec", this.getMethodSpec())
+                .toString();
+    }
+
     public static class LambdaMethodReference extends InvokeDynamic {
 
         private final TypeSpec expectedTypes;
@@ -129,6 +137,13 @@ public class InvokeDynamic {
             return expectedTypes;
         }
 
+        @Override
+        public String toString() {
+            return ToStringBuilder.builder(this.getClass())
+                    .add("methodSpec", this.getMethodSpec())
+                    .add("expectedTypes", this.getExpectedTypes())
+                    .toString();
+        }
     }
 
     public static final class LambdaFragment extends LambdaMethodReference {
@@ -142,6 +157,15 @@ public class InvokeDynamic {
 
         public MethodFragment getMethodFragment() {
             return this.methodFragment;
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.builder(this.getClass())
+                    .add("methodSpec", this.getMethodSpec())
+                    .add("expectedTypes", this.getExpectedTypes())
+                    .add("methodFragment", this.getMethodFragment())
+                    .toString();
         }
     }
 
@@ -190,6 +214,12 @@ public class InvokeDynamic {
                             invokeSpec.getMethodName(),
                             TypeSpecUtil.typeSpecToAsm(invokeSpec),
                             invokeSpec.getInvokeType() == InvokeType.INVOKE_INTERFACE);
+                } else if (arg instanceof TypeSpec) {
+                    TypeSpec spec = (TypeSpec) arg;
+
+                    String toAsm = TypeSpecUtil.typeSpecToAsm(spec);
+
+                    converted = Type.getMethodType(toAsm);
                 } else {
                     throw new IllegalArgumentException("Illegal argument at index '" + i + "' of arguments array [" + Arrays.toString(this.arguments) + "], element type unsupported! Read the documentation.");
                 }
@@ -206,6 +236,15 @@ public class InvokeDynamic {
 
         public Object[] getArguments() {
             return this.arguments;
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.builder(this.getClass())
+                    .add("methodSpec", this.getMethodSpec())
+                    .add("invokeType", this.getInvokeType())
+                    .add("arguments", this.getArguments())
+                    .toString();
         }
     }
 }

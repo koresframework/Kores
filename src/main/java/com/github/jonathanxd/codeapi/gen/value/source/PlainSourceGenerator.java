@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.gen.Appender;
 import com.github.jonathanxd.codeapi.gen.value.AbstractGenerator;
+import com.github.jonathanxd.codeapi.gen.value.PlainValue;
 import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.AccessSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.AccessorSourceGenerator;
@@ -99,6 +100,7 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.VariableAccessSo
 import com.github.jonathanxd.codeapi.gen.value.source.generator.VariableOperateSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.VariableStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.WhileBlockSourceGenerator;
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.impl.VariableAccessImpl;
@@ -170,6 +172,8 @@ import com.github.jonathanxd.codeapi.util.Ident;
 import com.github.jonathanxd.codeapi.util.MultiString;
 import com.github.jonathanxd.iutils.option.Options;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -281,6 +285,11 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
 
         // Concat
         register(Concat.class, ConcatSourceGenerator.INSTANCE);
+
+        // Instruction
+        register(InstructionCodePart.class, (instructionCodePart, plainSourceGenerator, parents, codeSourceData, data) ->
+                Collections.singletonList(PlainValue.create("// InstructionCodePart[" + instructionCodePart + "];"))
+        );
     }
 
     @SuppressWarnings("deprecation")

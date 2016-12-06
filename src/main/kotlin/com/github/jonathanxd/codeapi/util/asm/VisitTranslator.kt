@@ -36,13 +36,13 @@ object VisitTranslator {
 
     private val logger = Logger.getLogger("CodeAPI_Translator")
 
-    fun visitInsn(opcode: Int, frame: EmulatedFrame): CodePart {
+    fun visitInsn(opcode: Int, frame: EmulatedFrame): CodePart? {
         when (opcode) {
+            Opcodes.DUP, // Handling DUP* is very hard for CodeAPI
+            Opcodes.DUP_X1, Opcodes.DUP_X2, Opcodes.DUP2, Opcodes.DUP2_X1, Opcodes.DUP2_X2 -> return null
             Opcodes.NOP,
             Opcodes.POP, // Ignore POP
             Opcodes.POP2, // Ignore POP
-            Opcodes.DUP, // Handling DUP* is very hard for CodeAPI
-            Opcodes.DUP_X1, Opcodes.DUP_X2, Opcodes.DUP2, Opcodes.DUP2_X1, Opcodes.DUP2_X2,
             Opcodes.SWAP, // Need review
             Opcodes.LCMP, // TODO: If Expression translation
             Opcodes.FCMPL, Opcodes.FCMPG, Opcodes.DCMPL, Opcodes.DCMPG, Opcodes.MONITORENTER, // No equivalent
@@ -187,16 +187,20 @@ object VisitTranslator {
 
             val pop = frame.operandStack.pop()
 
+            val get: CodePart? = frame.localVariableTable.getOrNull(slot)
+
             val info = frame.getInfo(slot)
 
             val type = info?.type ?: CodePartUtil.getType(pop)
             val name = info?.name ?: "var$slot"
 
-            val field = CodeAPI.field(type, name, pop)
-
-            frame.store(field, slot)
-
-            return field
+            return if(get == null) {
+                val field = CodeAPI.field(type, name, pop)
+                frame.store(CodeAPI.accessDeclaration(field), slot)
+                field
+            } else {
+                CodeAPI.setLocalVariable(type, name, pop)
+            }
         } else {
             if (opcode == Opcodes.RET)
                 this.logger.warning("Cannot handle RET opcode")
@@ -283,7 +287,9 @@ object VisitTranslator {
             val pop = frame.operandStack.pop(arguments)
 
             // Create argument array
-            val argumentsArray = pop.map(::CodeArgument).toTypedArray()
+            val argumentsArray = pop.map {
+                CodeArgument(it, CodePartUtil.getType(it))
+            }.toTypedArray()
 
             // Gets the invocation type from asm opcode
             val invokeType = InvokeType.fromAsm(opcode)
@@ -303,8 +309,7 @@ object VisitTranslator {
             // Create the method specification
             val methodSpec = MethodSpecImpl(
                     name,
-                    // Resolve return type
-                    typeResolver.resolveUnknown(description.returnType),
+                    spec,
                     // Specify arguments
                     Arrays.asList<CodeArgument>(*argumentsArray)
             )
@@ -360,7 +365,9 @@ object VisitTranslator {
             val pop = frame.operandStack.pop(arguments)
 
             // Create a list of arguments
-            val argumentList = pop.map(::CodeArgument).toList()
+            val argumentList = pop.map {
+                CodeArgument(it, CodePartUtil.getType(it))
+            }
 
             // Specify InvokeType as Dynamic
             val invokeType = InvokeType.INVOKE_DYNAMIC
@@ -379,9 +386,6 @@ object VisitTranslator {
 
             // Create Dynamic invocation version of 'methodInvocation'
             val dynamicMethodInvocation = Helper.invokeDynamic(invokeDynamic, methodInvocation)
-
-            // Add invocation to the body
-            //this.addToBody(dynamicMethodInvocation);
 
             return dynamicMethodInvocation
 
@@ -438,23 +442,23 @@ object VisitTranslator {
         }
 
         val collect = parameters
-                .map({ codeParameter -> CodeAPI.accessLocalVariable(codeParameter.requiredType, codeParameter.name) })
-                .toList()
+                .map { codeParameter -> CodeAPI.accessLocalVariable(codeParameter.requiredType, codeParameter.name) }
 
         frame.storeValues(collect, pos)
     }
 
     fun fixParametersNames(parameters: List<CodeParameter>, parametersNodes: List<ParameterNode>, frame: EmulatedFrame): List<CodeParameter> =
-        parameters.mapIndexed { i, parameter ->
+            parameters.mapIndexed { i, parameter ->
+                //@Shadow
+                val i = i + 1
+                val nodeName = if (parametersNodes.size > i) parametersNodes[i].name else null
 
-            val nodeName = if(parametersNodes.size > i) parametersNodes[i].name else null
+                val info = frame.getInfo(i)
+                val name: String = info?.name ?: nodeName ?: parameter.name
+                val type: CodeType = info?.type ?: parameter.requiredType
 
-            val info = frame.getInfo(i)
-            val name: String = info?.name ?: nodeName ?: parameter.name
-            val type: CodeType = info?.type ?: parameter.requiredType
-
-            return@mapIndexed parameter.setName(name).setType(type)
-        }
+                return@mapIndexed parameter.setName(name).setType(type)
+            }
 
     inline fun readParameters(nodes: List<ParameterNode>, nameFunc: (Int, String) -> Unit) {
         nodes.forEachIndexed { i, parameterNode ->

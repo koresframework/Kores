@@ -133,11 +133,11 @@ public class MethodInvocationImpl implements CodePart, MethodInvocation {
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
-                .addOptional("invokeDynamic", this.getInvokeDynamic())
                 .add("invokeType", this.getInvokeType())
                 .add("localization", this.getLocalization())
                 .add("target", this.getTarget())
                 .add("spec", this.getSpec())
+                .addOptional("invokeDynamic", this.getInvokeDynamic())
                 .toString();
     }
 }

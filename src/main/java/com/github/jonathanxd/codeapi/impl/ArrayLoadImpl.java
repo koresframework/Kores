@@ -47,13 +47,6 @@ public class ArrayLoadImpl implements ArrayLoad {
     private final CodePart target;
     private final CodeType valueType;
 
-    public ArrayLoadImpl(CodePart index, CodePart target, CodeType valueType) {
-        this.arrayType = target == null ? null : CodePartUtil.getType(target);
-        this.index = index;
-        this.target = target;
-        this.valueType = valueType;
-    }
-
     public ArrayLoadImpl(CodeType arrayType, CodePart index, CodePart target, CodeType valueType) {
         this.arrayType = arrayType;
         this.index = index;

@@ -198,7 +198,7 @@ public class CodeMethodVisitor implements VoidVisitor<MethodDeclaration, Bytecod
             try {
                 mv.visitMaxs(0, 0);
             } catch (Exception e) {
-                e.printStackTrace();
+                new RuntimeException("An exception occurred during the call of 'MethodVisitor.visitMaxs(0, 0)' (stack count and frame generation) of method '"+codeMethod+"'!", e).printStackTrace();
             }
 
             Label end = new Label();

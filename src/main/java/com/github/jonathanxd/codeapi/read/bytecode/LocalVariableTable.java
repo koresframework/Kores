@@ -43,6 +43,10 @@ public class LocalVariableTable {
         this.table.put(index, part);
     }
 
+    public CodePart getOrNull(int index) {
+        return this.table.get(index);
+    }
+
     public CodePart get(int index) {
         if (!this.table.containsKey(index))
             throw new NoSuchElementException("The slot '" + index + "' is empty.");

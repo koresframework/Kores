@@ -149,6 +149,7 @@ public class MethodInvocationUtil {
                     // Class
                     codeAPIArgsList.add(typeResolver.resolveUnknown(className));
                 } else {
+                    // Method
                     codeAPIArgsList.add(DescriptionHelper.toTypeSpec(type.getDescriptor(), typeResolver));
                 }
 
