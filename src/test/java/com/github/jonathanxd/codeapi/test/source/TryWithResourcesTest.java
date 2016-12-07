@@ -48,7 +48,7 @@ public class TryWithResourcesTest {
         test.expect("package test ; \n" +
                 "public class TryWithResourcesTestClass { \n" +
                 "    public TryWithResourcesTestClass ( ) { \n" +
-                "        try (  com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm trm = new com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm ( ) ) { \n" +
+                "        try ( com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm trm = new com.github.jonathanxd.codeapi.test.TryWithResourcesTest_.Trm ( ) ) { \n" +
                 "            trm . read ( ) ; \n" +
                 "             \n" +
                 "        } \n" +
@@ -57,6 +57,7 @@ public class TryWithResourcesTest {
                 "    } \n" +
                 "    \n" +
                 "     \n" +
-                "} \n\n");
+                "} \n" +
+                "\n");
     }
 }

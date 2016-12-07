@@ -47,13 +47,14 @@ public class TestGenericClass {
         CommonSourceTest.test($._2()).consume(System.out::println).expect("package com ; \n" +
                 "public class Generic < T extends java.util.List<T> > implements java.util.List<T> { \n" +
                 "    public static < T extends java.util.List<T> > void test ( T val ) { \n" +
-                "         T fieldi = null ; \n" +
+                "        T fieldi = null ; \n" +
                 "         \n" +
                 "    } \n" +
                 "    \n" +
                 "    public T test ; \n" +
                 "     \n" +
-                "} \n\n");
+                "} \n" +
+                "\n");
     }
 
 }

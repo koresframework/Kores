@@ -47,7 +47,7 @@ public class TestForeachClass {
         CommonSourceTest.test($._2()).consume(System.out::println).expect("package com ; \n" +
                 "public class ForEach { \n" +
                 "    public ForEach ( java.util.List<java.lang.String> strList ) { \n" +
-                "        for (  java.lang.String str : strList ) { \n" +
+                "        for ( java.lang.String str : strList ) { \n" +
                 "            java.lang.System . out . println ( str ) ; \n" +
                 "             \n" +
                 "        } \n" +
@@ -56,7 +56,8 @@ public class TestForeachClass {
                 "    } \n" +
                 "    \n" +
                 "     \n" +
-                "} \n\n");
+                "} \n" +
+                "\n");
     }
 
 }
