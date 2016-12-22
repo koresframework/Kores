@@ -1,0 +1,147 @@
+allprojects {
+    apply plugin: 'idea'
+
+    // Programming Language
+    apply plugin: 'kotlin'
+    apply plugin: 'java'
+
+    // Documentation
+    apply plugin: 'org.jetbrains.dokka'
+
+    apply plugin: 'license'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    license {
+        header rootProject.file("LICENSE_HEADER")
+    }
+
+}
+
+defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
+
+sourceCompatibility = 1.8
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+    }
+}
+
+// Setup
+
+ext {
+    description = "Framework to generate Java code and Bytecode code."
+}
+
+subprojects {
+
+    shadowJar {
+        dependencies {
+            include(project(rootProject.getPath()))
+        }
+    }
+}
+
+allprojects {
+    shadowJar {
+        dependencies {
+            include(dependency("com.github.JonathanxD:JwIUtils"))
+            include(dependency("org.ow2.asm:asm-all"))
+        }
+    }
+}
+
+// Tasks
+allprojects {
+    jar {
+        from "$rootProject.rootDir/LICENSE"
+
+        manifest {
+            attributes 'Implementation-Title': baseName,
+                    'Implementation-Version': version
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+}
+
+subprojects {
+
+    dependencies {
+        compile rootProject
+        testCompile rootProject.sourceSets.test.output
+    }
+}
+
+allprojects {
+    dependencies {
+        compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
+
+        compile 'com.github.JonathanxD:JwIUtils:3.2.0'
+
+        // Kotlin
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+    }
+
+    test {
+        useJUnit()
+        systemProperty "env", "gradle"
+    }
+}
+
+allprojects {
+    license {
+        String name = project.getName()
+        String description = project.ext.description
+
+        ext.name = "$name"
+        ext.organization = 'TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/)'
+        ext.description = "$description"
+        ext.url = "https://github.com/JonathanxD/$name"
+        ext.year = Calendar.getInstance().get(Calendar.YEAR)
+        ext.email = 'jonathan.scripter@programmer.net'
+
+        exclude "**/*.info"
+        exclude "**/*.md"
+        exclude "res/**"
+        exclude "src/main/resources/**"
+        exclude "src/test/resources/**"
+
+        header rootProject.file('LICENSE_HEADER')
+
+        sourceSets = project.sourceSets
+
+        ignoreFailures false
+        strictCheck true
+
+        mapping {
+            java = 'SLASHSTAR_STYLE'
+        }
+    }
+}
