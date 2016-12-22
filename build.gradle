@@ -1,26 +1,18 @@
 buildscript {
+    apply from: 'gradle/versions.gradle'
+
     repositories {
         mavenCentral()
-    }
-
-    ext.kotlin_version = "1.1-M03"
-    ext.dokka_version = '0.9.10'
-
-    repositories {
         maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:$license_version"
+        classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
     }
 
-}
-
-plugins {
-    id 'com.github.hierynomus.license' version '0.11.0'
-    id 'com.github.johnrengelman.shadow' version '1.2.3'
-    id "me.champeau.gradle.jmh" version "0.3.0"
 }
 
 group 'com.github.jonathanxd'
@@ -106,6 +98,15 @@ allprojects {
         archives sourcesJar
         archives javadocJar
     }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
 }
 
 subprojects {
@@ -126,8 +127,6 @@ allprojects {
         compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
         testCompile group: 'junit', name: 'junit', version: '4.11'
-        testCompile group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.12'
-        testCompile group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.12'
     }
 
     test {
@@ -144,7 +143,7 @@ allprojects {
         ext.name = "$name"
         ext.organization = 'TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/)'
         ext.description = "$description"
-        ext.url = 'https://github.com/JonathanxD/CodeAPI'
+        ext.url = "https://github.com/JonathanxD/$name"
         ext.year = Calendar.getInstance().get(Calendar.YEAR)
         ext.email = 'jonathan.scripter@programmer.net'
 
