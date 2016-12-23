@@ -45,7 +45,7 @@ import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
-import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
+import com.github.jonathanxd.codeapi.util.CodePartUtil;
 
 import java.util.Iterator;
 

@@ -25,29 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.jmh;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.interfaces.ClassDeclaration;
-import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
-import com.github.jonathanxd.iutils.object.Pair;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.iutils.optional.Require;
 
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Measurement;
-import org.openjdk.jmh.annotations.Warmup;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-/**
- * Created by jonathan on 18/05/16.
- */
-public class SourceTest {
+public class TypeSpecUtil {
 
-    @Benchmark
-    @Warmup(iterations = 10)
-    @Measurement(iterations = 10)
-    @Fork(value = 5)
-    public void bench() {
-        Pair<ClassDeclaration, CodeSource> gen = CommonGen.gen();
-        CommonSourceTest.test(gen._2());
+    public static TypeSpec specFromLegacy(CodeType returnType, Collection<CodeArgument> arguments) {
+        return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
+                arguments.stream().map(t -> Require.require(t.getType())).collect(Collectors.toList())
+                : Collections.emptyList());
     }
+
+    public static TypeSpec specFromLegacy(CodeType returnType, CodeArgument[] arguments) {
+        return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
+                Arrays.stream(arguments).map(t -> Require.require(t.getType())).collect(Collectors.toList())
+                : Collections.emptyList());
+    }
+
 }

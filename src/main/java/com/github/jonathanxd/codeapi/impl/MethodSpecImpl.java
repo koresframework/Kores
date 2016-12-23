@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
+import com.github.jonathanxd.codeapi.util.TypeSpecUtil;
 
 import java.util.Collections;
 import java.util.List;

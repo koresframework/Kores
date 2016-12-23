@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
 import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.interfaces.Valuable;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
+import com.github.jonathanxd.codeapi.util.CodePartUtil;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.Objects;

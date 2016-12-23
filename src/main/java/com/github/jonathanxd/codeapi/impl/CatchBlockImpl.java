@@ -51,7 +51,7 @@ public class CatchBlockImpl implements CatchBlock {
 
     public CatchBlockImpl(FieldDeclaration field, List<CodeType> exceptionTypes, CodeSource body) {
         this.field = field;
-        this.exceptionTypes = exceptionTypes == null ? Collections.emptyList() : Collections.unmodifiableList(exceptionTypes);
+        this.exceptionTypes = exceptionTypes == null ? Collections.emptyList() : exceptionTypes;
         this.body = body;
         Bodied.checkBody(this);
     }

@@ -27,9 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.types;
 
+import com.github.jonathanxd.codeapi.annotation.GenerateTo;
+
 /**
  * Null code type.
  */
+@GenerateTo(CodeType.class)
 public class NullType implements CodeType {
 
     private static final NullType TYPE = new NullType();

@@ -130,7 +130,7 @@ public class CodeField extends AbstractValuableModifierable implements FieldDecl
     }
 
     @Override
-    public VariableAccess setVariableType(CodeType type) {
+    public CodeField setVariableType(CodeType type) {
         return null;
     }
 

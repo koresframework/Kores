@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
 import com.github.jonathanxd.codeapi.gen.ArrayAppender;
 import com.github.jonathanxd.codeapi.gen.CodeGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.SugarSyntaxVisitor;
 import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.iutils.data.MapData;
@@ -223,12 +222,12 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
             } else {
                 if (cl.isSynthetic() || cl.isAnonymousClass() || cl.isLocalClass()) {
                     Class<?> i;
-                    if(cl.getInterfaces().length == 0) {
+                    if (cl.getInterfaces().length == 0) {
                         i = cl.getSuperclass();
                     } else {
                         i = cl.getInterfaces()[0];
                     }
-                    return Objects.requireNonNull(visitors.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "' (Local/Synthetic/Anonymous class): '"+cl+"'");
+                    return Objects.requireNonNull(visitors.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "' (Local/Synthetic/Anonymous class): '" + cl + "'");
                 }
 
                 throw new IllegalStateException("Cannot get visitor for class: '" + cl.getCanonicalName() + "'");

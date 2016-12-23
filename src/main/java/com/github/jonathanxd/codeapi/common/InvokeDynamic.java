@@ -30,13 +30,7 @@ package com.github.jonathanxd.codeapi.common;
 import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
-import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
 
-import org.objectweb.asm.Handle;
-import org.objectweb.asm.Type;
-
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 /**
@@ -193,41 +187,6 @@ public class InvokeDynamic {
             super(bootstrapMethodSpec);
             this.invokeType = invokeType;
             this.arguments = arguments.clone();
-        }
-
-        public Object[] toAsmArguments() {
-            Object[] asmArgs = new Object[this.arguments.length];
-
-            for (int i = 0; i < this.arguments.length; i++) {
-                Object arg = this.arguments[i];
-                final Object converted;
-
-                if (arg instanceof String || arg instanceof Integer || arg instanceof Long || arg instanceof Float || arg instanceof Double) {
-                    converted = arg;
-                } else if (arg instanceof CodeType) {
-                    converted = Type.getType(((CodeType) arg).getJavaSpecName());
-                } else if (arg instanceof FullInvokeSpec) {
-                    FullInvokeSpec invokeSpec = (FullInvokeSpec) arg;
-
-                    converted = new Handle(InvokeType.toAsm_H(invokeSpec.getInvokeType()),
-                            CodeTypeUtil.codeTypeToSimpleAsm(invokeSpec.getLocalization()),
-                            invokeSpec.getMethodName(),
-                            TypeSpecUtil.typeSpecToAsm(invokeSpec),
-                            invokeSpec.getInvokeType() == InvokeType.INVOKE_INTERFACE);
-                } else if (arg instanceof TypeSpec) {
-                    TypeSpec spec = (TypeSpec) arg;
-
-                    String toAsm = TypeSpecUtil.typeSpecToAsm(spec);
-
-                    converted = Type.getMethodType(toAsm);
-                } else {
-                    throw new IllegalArgumentException("Illegal argument at index '" + i + "' of arguments array [" + Arrays.toString(this.arguments) + "], element type unsupported! Read the documentation.");
-                }
-
-                asmArgs[i] = converted;
-            }
-
-            return asmArgs;
         }
 
         public InvokeType getInvokeType() {

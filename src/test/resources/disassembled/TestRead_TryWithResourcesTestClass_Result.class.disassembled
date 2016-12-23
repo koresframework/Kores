@@ -1,0 +1,188 @@
+Classfile /home/jonathan/workspace/CodeAPI/src/test/resources/TestRead_TryWithResourcesTestClass_Result.class
+  Last modified 22/12/2016; size 853 bytes
+  MD5 checksum 5a25946c714ceef830c9725ea5fdd0c7
+  Compiled from "TryWithResourcesTestClass.cai"
+public class test.TryWithResourcesTestClass
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Utf8               TryWithResourcesTestClass.cai
+   #2 = Utf8               test/TryWithResourcesTestClass
+   #3 = Class              #2             // test/TryWithResourcesTestClass
+   #4 = Utf8               java/lang/Object
+   #5 = Class              #4             // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               ()V
+   #8 = NameAndType        #6:#7          // "<init>":()V
+   #9 = Methodref          #5.#8          // java/lang/Object."<init>":()V
+  #10 = Utf8               com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm
+  #11 = Class              #10            // com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm
+  #12 = Methodref          #11.#8         // com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm."<init>":()V
+  #13 = Utf8               read
+  #14 = NameAndType        #13:#7         // read:()V
+  #15 = Methodref          #11.#14        // com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm.read:()V
+  #16 = Utf8               java/lang/AutoCloseable
+  #17 = Class              #16            // java/lang/AutoCloseable
+  #18 = Utf8               close
+  #19 = NameAndType        #18:#7         // close:()V
+  #20 = InterfaceMethodref #17.#19        // java/lang/AutoCloseable.close:()V
+  #21 = Utf8               java/lang/Throwable
+  #22 = Class              #21            // java/lang/Throwable
+  #23 = Utf8               addSuppressed
+  #24 = Utf8               (Ljava/lang/Throwable;)V
+  #25 = NameAndType        #23:#24        // addSuppressed:(Ljava/lang/Throwable;)V
+  #26 = Methodref          #22.#25        // java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+  #27 = Utf8               this
+  #28 = Utf8               Ltest/TryWithResourcesTestClass;
+  #29 = Utf8               trm
+  #30 = Utf8               Lcom/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm;
+  #31 = Utf8               var2
+  #32 = Utf8               Ljava/lang/Object;
+  #33 = Utf8               <clinit>
+  #34 = Utf8               Code
+  #35 = Utf8               LocalVariableTable
+  #36 = Utf8               StackMapTable
+  #37 = Utf8               SourceFile
+{
+  public test.TryWithResourcesTestClass();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=6, args_size=1
+         0: aload_0
+         1: invokespecial #9                  // Method java/lang/Object."<init>":()V
+         4: new           #11                 // class com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm
+         7: dup
+         8: invokespecial #12                 // Method com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm."<init>":()V
+        11: astore_1
+        12: aconst_null
+        13: astore_2
+        14: aload_1
+        15: invokevirtual #15                 // Method com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm.read:()V
+        18: aload_1
+        19: ifnull        47
+        22: aload_2
+        23: ifnull        47
+        26: goto          44
+        29: nop
+        30: nop
+        31: nop
+        32: nop
+        33: nop
+        34: nop
+        35: nop
+        36: nop
+        37: nop
+        38: nop
+        39: nop
+        40: nop
+        41: nop
+        42: nop
+        43: athrow
+        44: goto          47
+        47: goto          104
+        50: nop
+        51: nop
+        52: nop
+        53: nop
+        54: nop
+        55: nop
+        56: nop
+        57: nop
+        58: nop
+        59: nop
+        60: nop
+        61: nop
+        62: nop
+        63: nop
+        64: athrow
+        65: nop
+        66: nop
+        67: nop
+        68: athrow
+        69: nop
+        70: nop
+        71: athrow
+        72: nop
+        73: nop
+        74: nop
+        75: nop
+        76: nop
+        77: nop
+        78: nop
+        79: nop
+        80: nop
+        81: nop
+        82: nop
+        83: nop
+        84: nop
+        85: nop
+        86: nop
+        87: nop
+        88: athrow
+        89: nop
+        90: nop
+        91: athrow
+        92: nop
+        93: athrow
+        94: nop
+        95: nop
+        96: nop
+        97: nop
+        98: nop
+        99: nop
+       100: nop
+       101: nop
+       102: athrow
+       103: athrow
+       104: return
+       105: athrow
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     106     0  this   Ltest/TryWithResourcesTestClass;
+           11      95     1   trm   Lcom/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm;
+           13      93     2  var2   Ljava/lang/Object;
+      StackMapTable: number_of_entries = 13
+        frame_type = 255 /* full_frame */
+          offset_delta = 29
+          locals = []
+          stack = [ class java/lang/Throwable ]
+        frame_type = 254 /* append */
+          offset_delta = 14
+          locals = [ class test/TryWithResourcesTestClass, class com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm, null ]
+        frame_type = 2 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 2
+          locals = []
+          stack = [ class java/lang/Throwable ]
+        frame_type = 78 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 67 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 66 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 80 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 66 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 65 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 72 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 254 /* append */
+          offset_delta = 0
+          locals = [ class test/TryWithResourcesTestClass, class com/github/jonathanxd/codeapi/test/TryWithResourcesTest_$Trm, null ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 0
+          locals = []
+          stack = [ class java/lang/Throwable ]
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=0, locals=0, args_size=0
+         0: return
+}
+SourceFile: "TryWithResourcesTestClass.cai"

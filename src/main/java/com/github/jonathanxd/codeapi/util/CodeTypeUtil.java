@@ -25,36 +25,52 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util.gen;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.TypeResolver;
-import com.github.jonathanxd.iutils.description.Description;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.invoke.MethodHandles;
 
-public class ArgumentUtil {
-    public static List<CodeArgument> createArguments(Description description, List<CodePart> arguments, TypeResolver typeResolver) {
-        String[] parameterTypes = description.getParameterTypes();
+public class CodeTypeUtil {
+    private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-        if (parameterTypes.length != arguments.size())
-            throw new IllegalArgumentException("Parameter types size doesn't matches arguments size.");
+    public static String resolveRealQualified(String qualifiedName, CodeType outer) {
 
-        List<CodeArgument> codeArgumentList = new ArrayList<>();
+        if (outer != null) {
+            String packageName = outer.getPackageName();
 
-        for (int i = 0; i < parameterTypes.length; i++) {
-            String parameterTypeStr = parameterTypes[i];
-            CodeType parameterType = typeResolver.resolveUnknown(parameterTypeStr);
-
-            CodePart codePart = arguments.get(i);
-
-            codeArgumentList.add(new CodeArgument(codePart, parameterType));
-
+            if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
+                // Prevent duplication of the name
+                return CodeTypeUtil.getRealNameStr(qualifiedName, outer);
+            }
         }
 
-        return codeArgumentList;
+        return qualifiedName;
     }
+
+    public static String getRealNameStr(String qualified, CodeType outer) {
+        return outer.getCanonicalName() + "$" + qualified;
+    }
+
+    public static String codeTypeToFullAsm(CodeType type) {
+        return type.isPrimitive()
+                ? CodeTypeUtil.primitiveCodeTypeToAsm(type)
+                : type.getJavaSpecName();//"L" + type.getType().replace('.', '/') + ";";
+    }
+
+    public static String primitiveCodeTypeToAsm(CodeType type) {
+        return type.getJavaSpecName();
+    }
+
+    public static String codeTypeToArray(CodeType codeType, int dimensions) {
+        String name = CodeTypeUtil.codeTypeToFullAsm(codeType);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int x = 0; x < dimensions; ++x)
+            sb.append("[");
+
+        return sb.toString() + name;
+    }
+
 }

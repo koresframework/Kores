@@ -27,33 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
-
-import org.junit.Test;
-
-import java.io.PrintStream;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
-import static com.github.jonathanxd.codeapi.CodeAPI.argument;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.emptyMutableSource;
-import static com.github.jonathanxd.codeapi.CodeAPI.invokeVirtual;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.*;
-import static java.lang.reflect.Modifier.PUBLIC;
-
 /**
  * Created by jonathan on 18/06/16.
  */
 
 public class Readme {
+
+    /*
 
     @Test
     public void readme() {
@@ -96,6 +76,6 @@ public class Readme {
         public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
             return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
         }
-    }
+    }*/
 
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
@@ -43,7 +44,6 @@ public interface VariableDeclaration extends VariableAccess, CodePart {
      */
     Optional<CodePart> getValue();
 
-
     /**
      * Sets the value.
      *
@@ -52,5 +52,9 @@ public interface VariableDeclaration extends VariableAccess, CodePart {
      */
     VariableDeclaration setValue(CodePart value);
 
+    @Override
+    VariableDeclaration setVariableType(CodeType type);
 
+    @Override
+    VariableDeclaration setType(CodeType codeType);
 }

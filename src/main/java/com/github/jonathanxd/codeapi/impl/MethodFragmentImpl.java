@@ -43,7 +43,7 @@ import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
-import com.github.jonathanxd.codeapi.util.gen.TypeSpecUtil;
+import com.github.jonathanxd.codeapi.util.TypeSpecUtil;
 
 import java.util.Arrays;
 import java.util.Random;

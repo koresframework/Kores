@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Optional;
 
@@ -50,6 +51,11 @@ public interface TryWithResources extends TryBlock {
      * @return new instance.
      */
     TryWithResources setVariable(VariableDeclaration variable);
+
+    @Override
+    default TryWithResources setType(CodeType codeType) {
+        return this.setVariable(this.getVariable().setVariableType(codeType));
+    }
 
     @Override
     default Optional<CodePart> getExpression() {

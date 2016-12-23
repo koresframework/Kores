@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.interfaces;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.Optional;
 /**
  * Created by jonathan on 11/05/16.
  */
-public interface TryBlock extends Bodied, MultiBodied, CodePart {
+public interface TryBlock extends Bodied, MultiBodied, CodePart, Typed {
 
     List<CatchBlock> getCatchBlocks();
 
@@ -89,4 +91,20 @@ public interface TryBlock extends Bodied, MultiBodied, CodePart {
 
     @Override
     TryBlock setBodies(List<CodeSource> sourceList);
+
+    @Override
+    default Optional<CodeType> getType() {
+        List<CatchBlock> catchBlocks = this.getCatchBlocks();
+
+        if(catchBlocks.isEmpty() || catchBlocks.size() > 1)
+            return Optional.of(PredefinedTypes.THROWABLE);
+
+        return catchBlocks.get(0).getField().getType();
+    }
+
+    @Override
+    default TryBlock setType(CodeType codeType) {
+        return this;
+    }
+
 }

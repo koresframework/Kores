@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.types;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.CodeTypeUtil;
 
 /**
  * An array {@link CodeType}.

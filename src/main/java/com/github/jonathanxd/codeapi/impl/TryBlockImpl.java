@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryBlock;
+import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.ArrayList;
@@ -130,5 +131,10 @@ public class TryBlockImpl implements TryBlock {
     @Override
     public TryBlockImpl setBodies(List<CodeSource> sourceList) {
         return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
+    }
+
+    @Override
+    public TryBlockImpl setType(CodeType codeType) {
+        return this;
     }
 }

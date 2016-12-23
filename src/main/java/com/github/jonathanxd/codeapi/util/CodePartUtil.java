@@ -25,32 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.classloader;
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.NullType;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+public class CodePartUtil {
+    public static CodeType getTypeOrNull(CodePart codePart) {
 
-/**
- * Cache all defined classes.
- */
-public class CachedCodeClassLoader extends CodeClassLoader {
+        CodeType type;
 
-    private final Map<TypeDeclaration, Class<?>> cache = new HashMap<>();
-    private final Map<TypeDeclaration, Class<?>> immutableCache = Collections.unmodifiableMap(cache);
+        if (codePart instanceof Literal) {
+            type = ((Literal) codePart).getType().orElseThrow(NullPointerException::new);
+        } else if (codePart instanceof Typed) {
+            Typed typed = (Typed) codePart;
 
-    @Override
-    public Class<?> define(TypeDeclaration typeDeclaration, byte[] bytes) {
-        Class<?> define = super.define(typeDeclaration, bytes);
+            type = typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'"));
+        } else {
+            return null;
+        }
 
-        this.cache.put(typeDeclaration, define);
+        if (type.is(NullType.getNullType())) {
+            return PredefinedTypes.OBJECT;
+        }
 
-        return define;
+        return type;
     }
 
-    public Map<TypeDeclaration, Class<?>> getCache() {
-        return this.immutableCache;
+    public static CodeType getType(CodePart codePart) {
+        CodeType type = CodePartUtil.getTypeOrNull(codePart);
+
+        if (type == null)
+            throw new RuntimeException("Cannot determine type of part '" + codePart + "'!");
+
+        return type;
     }
+
 }

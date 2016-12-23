@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.util.gen.CodePartUtil;
+import com.github.jonathanxd.codeapi.util.CodePartUtil;
 import com.github.jonathanxd.iutils.optional.Require;
 
 import java.util.ArrayList;

@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
 import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
+import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.List;
 import java.util.Optional;
@@ -98,6 +99,11 @@ public class TryWithResourcesImpl extends TryBlockImpl implements TryWithResourc
     @Override
     public TryWithResourcesImpl setBodies(List<CodeSource> sourceList) {
         return this.setBody(CodeSource.fromCodeSourceIterable(sourceList));
+    }
+
+    @Override
+    public TryWithResourcesImpl setType(CodeType codeType) {
+        return this.setVariable(this.getVariable().setVariableType(codeType));
     }
 
     @Override

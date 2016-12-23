@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.interfaces.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.util.gen.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.CodeTypeUtil;
 
 import java.util.Collection;
 import java.util.Collections;
