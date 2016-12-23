@@ -122,5 +122,6 @@ license {
 
     mapping {
         java = 'SLASHSTAR_STYLE'
+        kt = 'SLASHSTAR_STYLE'
     }
 }
