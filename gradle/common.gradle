@@ -57,9 +57,19 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task testJar(type: Jar, dependsOn: testClasses) {
+    baseName = "test-${project.archivesBaseName}"
+    from sourceSets.test.output
+}
+
+configurations {
+    tests
+}
+
 artifacts {
     archives sourcesJar
     archives javadocJar
+    tests testJar
 }
 
 compileKotlin {

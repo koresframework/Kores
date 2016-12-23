@@ -30,16 +30,12 @@ package com.github.jonathanxd.codeapi.test.source;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.test.ForEachArray_;
-import com.github.jonathanxd.codeapi.test.tests.CommonBytecodeTest;
 import com.github.jonathanxd.codeapi.test.tests.CommonSourceTest;
 import com.github.jonathanxd.codeapi.test.tests.SourceTest;
 import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.exception.RethrowException;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by jonathan on 05/07/16.
