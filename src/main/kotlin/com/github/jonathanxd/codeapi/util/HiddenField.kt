@@ -25,36 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.util.MemberInfosUtil;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.annotation.GenerateTo
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.impl.CodeField
+import com.github.jonathanxd.codeapi.interfaces.Annotation
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration
+import com.github.jonathanxd.codeapi.types.CodeType
 
-public final class InnerType {
+@GenerateTo(FieldDeclaration::class)
+class HiddenField(name: String, type: CodeType, value: CodePart?, modifiers: Collection<CodeModifier>, annotations: List<Annotation>) :
+        CodeField(name, type, value, modifiers, annotations) {
 
-    private final TypeDeclaration originalDeclaration;
-    private TypeDeclaration adaptedDeclaration;
-    private MemberInfos memberInfos;
 
-    public InnerType(TypeDeclaration originalDeclaration, TypeDeclaration adaptedDeclaration) {
-        this.originalDeclaration = originalDeclaration;
-        this.adaptedDeclaration = adaptedDeclaration;
-        this.memberInfos = MemberInfosUtil.createMemberInfos(this.adaptedDeclaration);
-    }
+    constructor(name: String, type: CodeType, modifiers: Collection<CodeModifier>, annotations: List<Annotation>)
+            : this(name, type, null, modifiers, annotations)
 
-    public TypeDeclaration getOriginalDeclaration() {
-        return this.originalDeclaration;
-    }
+    constructor(name: String, type: CodeType, modifiers: Collection<CodeModifier>)
+            : this(name, type, null, modifiers, emptyList())
 
-    public TypeDeclaration getAdaptedDeclaration() {
-        return this.adaptedDeclaration;
-    }
+    constructor(name: String, type: CodeType)
+            : this(name, type, null, emptyList(), emptyList())
 
-    public void setAdaptedDeclaration(TypeDeclaration adaptedDeclaration) {
-        this.adaptedDeclaration = adaptedDeclaration;
-    }
+    constructor(name: String, type: CodeType, value: CodePart, modifiers: Collection<CodeModifier>)
+            : this(name, type, value, modifiers, emptyList())
 
-    public MemberInfos getMemberInfos() {
-        return this.memberInfos;
-    }
+    constructor(name: String, type: CodeType, value: CodePart)
+            : this(name, type, value, emptyList(), emptyList())
 }

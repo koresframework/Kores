@@ -100,7 +100,6 @@ import com.github.jonathanxd.codeapi.gen.value.source.generator.VariableAccessSo
 import com.github.jonathanxd.codeapi.gen.value.source.generator.VariableOperateSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.VariableStoreSourceGenerator;
 import com.github.jonathanxd.codeapi.gen.value.source.generator.WhileBlockSourceGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.visitor.InstructionCodePart;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.impl.VariableAccessImpl;
@@ -286,10 +285,12 @@ public class PlainSourceGenerator extends AbstractGenerator<String, PlainSourceG
         // Concat
         register(Concat.class, ConcatSourceGenerator.INSTANCE);
 
+/*
         // Instruction
         register(InstructionCodePart.class, (instructionCodePart, plainSourceGenerator, parents, codeSourceData, data) ->
                 Collections.singletonList(PlainValue.create("// InstructionCodePart[" + instructionCodePart + "];"))
         );
+*/
     }
 
     @SuppressWarnings("deprecation")

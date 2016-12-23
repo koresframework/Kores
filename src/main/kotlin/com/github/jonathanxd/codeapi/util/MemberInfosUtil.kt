@@ -25,36 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.util.MemberInfosUtil;
+import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.common.MemberInfo
+import com.github.jonathanxd.codeapi.common.MemberInfos
+import com.github.jonathanxd.codeapi.inspect.SourceInspect
+import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration
+import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration
+import com.github.jonathanxd.codeapi.interfaces.Modifierable
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
 
-public final class InnerType {
+object MemberInfosUtil {
+    @JvmStatic
+    fun createMemberInfos(typeDeclaration: TypeDeclaration): MemberInfos {
+        val body = typeDeclaration.body.orElse(CodeSource.empty())
 
-    private final TypeDeclaration originalDeclaration;
-    private TypeDeclaration adaptedDeclaration;
-    private MemberInfos memberInfos;
+        val elements = SourceInspect.find { codePart -> codePart is MethodDeclaration || codePart is FieldDeclaration }
+                .include { bodied -> bodied is CodeSource }
+                .mapTo { codePart -> codePart as CodeElement }
+                .inspect(body)
 
-    public InnerType(TypeDeclaration originalDeclaration, TypeDeclaration adaptedDeclaration) {
-        this.originalDeclaration = originalDeclaration;
-        this.adaptedDeclaration = adaptedDeclaration;
-        this.memberInfos = MemberInfosUtil.createMemberInfos(this.adaptedDeclaration);
-    }
+        val memberInfos = MemberInfos(typeDeclaration)
 
-    public TypeDeclaration getOriginalDeclaration() {
-        return this.originalDeclaration;
-    }
+        for (element in elements) {
+            if (element is Modifierable) {
+                memberInfos.put(MemberInfo.of(element, !element.modifiers.contains(CodeModifier.PRIVATE)))
+            }
+        }
 
-    public TypeDeclaration getAdaptedDeclaration() {
-        return this.adaptedDeclaration;
-    }
-
-    public void setAdaptedDeclaration(TypeDeclaration adaptedDeclaration) {
-        this.adaptedDeclaration = adaptedDeclaration;
-    }
-
-    public MemberInfos getMemberInfos() {
-        return this.memberInfos;
+        return memberInfos
     }
 }
