@@ -32,8 +32,7 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.literals.Literal;
 
 /**
- * Use JVM Stack value (is supported by {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}
- * and may be supported by external generators).
+ * Use JVM Stack value (is supported by {@code BytecodeGenerators}).
  */
 @GenerateTo(Literal.class)
 public class Stack extends Literal {

@@ -71,6 +71,7 @@ public interface Casted extends CodePart, Typed {
     /**
      * Sets the part to cast.
      *
+     * @param part New Casted Part
      * @return new instance..
      */
     Casted setCastedPart(CodePart part);

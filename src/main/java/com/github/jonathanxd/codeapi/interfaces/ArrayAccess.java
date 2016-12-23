@@ -80,6 +80,7 @@ public interface ArrayAccess extends CodePart {
      * TODO: Remove
      *
      * @param type Array type.
+     * @return New instance.
      */
     default ArrayAccess setArrayType(CodeType type) {
         return this;

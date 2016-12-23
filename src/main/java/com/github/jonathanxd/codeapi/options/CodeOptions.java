@@ -43,8 +43,7 @@ public class CodeOptions {
      *
      * Source Code: Inline finally blocks inside try and catches. (default: false)
      *
-     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator},
-     * {@link com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator}.
+     * Known supported generators: {@code BytecodeGenerator}, {@code PlainSourceGenerator}.
      */
     public static final Option<Boolean> INLINE_FINALLY = new Option<>();
 
@@ -54,7 +53,7 @@ public class CodeOptions {
      *
      * Default: true
      *
-     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}.
+     * Known supported generators: {@code BytecodeGenerator}.
      */
     public static final Option<Boolean> VALIDATE_THIS = new Option<>(true);
 
@@ -63,7 +62,7 @@ public class CodeOptions {
      *
      * Default: true
      *
-     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}.
+     * Known supported generators: {@code BytecodeGenerator}.
      */
     public static final Option<Boolean> VALIDATE_SUPER = new Option<>(true);
 
@@ -84,7 +83,7 @@ public class CodeOptions {
      * You can add bridge methods manually with {@link com.github.jonathanxd.codeapi.helper.Helper#bridgeMethod(CodeMethod,
      * FullMethodSpec)}.
      *
-     * Known supported generators: {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}.
+     * Known supported generators: {@code BytecodeGenerator}.
      *
      */
     public static final Option<Boolean> GENERATE_BRIDGE_METHODS = new Option<>(false);

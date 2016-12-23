@@ -47,6 +47,7 @@ public interface ArrayLoad extends CodePart, Typed, ArrayAccess {
     /**
      * Sets the index of the value in array.
      *
+     * @param index New Index
      * @return new instance.
      */
     ArrayLoad setIndex(CodePart index);
@@ -61,6 +62,7 @@ public interface ArrayLoad extends CodePart, Typed, ArrayAccess {
     /**
      * Sets the type of value.
      *
+     * @param type New Value Type
      * @return new instance.
      */
     ArrayLoad setValueType(CodeType type);

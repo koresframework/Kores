@@ -64,7 +64,9 @@ public interface CodeGenerator<OUT> {
     /**
      * Generate object of type {@link OUT} from {@link CodePart}.
      *
-     * @param part Part to generate.
+     * @param part       Part to generate.
+     * @param data       MapData instance to be used to store information.
+     * @param additional Additional object
      * @return Generated object.
      */
     default OUT gen(CodePart part, MapData data, Object additional) {
@@ -75,6 +77,8 @@ public interface CodeGenerator<OUT> {
      * Generate object of type {@link OUT} from {@link CodeSource}.
      *
      * @param source Source of parts.
+     * @param data       MapData instance to be used to store information.
+     * @param additional Additional object
      * @return Generated object.
      */
     OUT gen(CodeSource source, MapData data, Object additional);

@@ -179,6 +179,7 @@ public class CodeSourceUtil {
      *
      * @param codeSource Code Source to visit
      * @param consumer   Consumer
+     * @return Result source.
      */
     public static MutableCodeSource visit(CodeSource codeSource, TriConsumer<CodePart, Location, MutableCodeSource> consumer) {
 

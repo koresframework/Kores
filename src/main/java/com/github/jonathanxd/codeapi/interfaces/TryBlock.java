@@ -66,6 +66,7 @@ public interface TryBlock extends Bodied, MultiBodied, CodePart, Typed {
      * Sets the expression of try-with-resources statement.
      *
      * @param expression Expression.
+     * @return New instance.
      */
     TryBlock setExpression(CodePart expression);
 

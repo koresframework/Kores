@@ -47,6 +47,7 @@ public interface ArrayStore extends CodePart, Valuable, ArrayLoad {
     /**
      * Sets the value to store.
      *
+     * @param valueToStore New Value to store
      * @return new instance.
      */
     ArrayStore setValueToStore(CodePart valueToStore);

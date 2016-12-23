@@ -166,6 +166,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
      * @param codePart   Part.
      * @param extraData  Data.
      * @param additional Additional object.
+     * @return Result objects.
      */
     public T[] generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Object additional) {
         return this.generateTo(partClass, codePart, extraData, null, additional);
@@ -179,6 +180,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
      * @param extraData  Data.
      * @param consumer   Consumer
      * @param additional Additional object.
+     * @return Result objects.
      */
     public T[] generateTo(Class<? extends CodePart> partClass, CodePart codePart, MapData extraData, Consumer<T[]> consumer, Object additional) {
         try {
