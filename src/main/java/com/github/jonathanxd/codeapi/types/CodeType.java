@@ -228,6 +228,9 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
      * @return Hash code.
      */
     static int hash(CodeType codeType) {
+        if(codeType == null || codeType.getJavaSpecName() == null)
+            return System.identityHashCode(codeType);
+
         return codeType.getJavaSpecName().hashCode();
     }
 
@@ -239,6 +242,10 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
      * @return True if this {@link CodeType} is equals to another {@link CodeType}.
      */
     static boolean eq(CodeType codeType, Object obj) {
+
+        if(codeType == null || codeType.getJavaSpecName() == null)
+            return codeType == obj;
+
         return obj instanceof CodeType && codeType.is((CodeType) obj);
     }
 }
