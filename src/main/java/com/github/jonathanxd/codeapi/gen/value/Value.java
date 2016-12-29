@@ -38,10 +38,6 @@ import com.github.jonathanxd.iutils.data.MapData;
  * Values can have different behaviors, a value process the provided information and generate the
  * {@link TARGET} object directly or indirectly.
  *
- * Example of {@link Value} that generated {@link TARGET} directly: {@link PlainValue},
- *
- * Example of {@link Value} that generated {@link TARGET} indirectly: {@link TargetValue},
- *
  * @param <T>      Type of value.
  * @param <TARGET> Target object type.
  * @param <C>      Generator type.
