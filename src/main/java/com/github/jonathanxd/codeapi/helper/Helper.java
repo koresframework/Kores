@@ -763,7 +763,7 @@ public final class Helper {
                 return this.getJavaSpecName().equals(((CodeType) obj).getJavaSpecName());
             }
 
-            return super.equals(obj);
+            return CodeType.eq(this, obj);
         }
 
         @Override
@@ -783,7 +783,7 @@ public final class Helper {
 
         @Override
         public int hashCode() {
-            return type.hashCode();
+            return CodeType.hash(this);
         }
 
         @Override

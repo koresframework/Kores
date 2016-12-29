@@ -54,6 +54,16 @@ class LoadedArrayCodeType<T> extends CodeTypeArray implements LoadedCodeType<T> 
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return CodeType.eq(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return CodeType.hash(this);
+    }
+
+    @Override
     public Class<T> getLoadedType() {
         return this.loadedType;
     }

@@ -79,4 +79,19 @@ public class PlainCodeType implements CodeType {
     public boolean isInterface() {
         return this.isInterface;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return CodeType.eq(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return CodeType.hash(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Plain["+this.getCanonicalName()+"]";
+    }
 }

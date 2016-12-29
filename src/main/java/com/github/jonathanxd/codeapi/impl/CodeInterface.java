@@ -172,6 +172,16 @@ public class CodeInterface extends AbstractBodied implements InterfaceDeclaratio
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return CodeType.eq(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return CodeType.hash(this);
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
                 .add("modifiers", this.getModifiers())

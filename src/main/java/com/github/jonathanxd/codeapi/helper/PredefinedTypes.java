@@ -160,7 +160,12 @@ public final class PredefinedTypes {
                 return this.getJavaSpecName().equals(((CodeType) obj).getJavaSpecName());
             }
 
-            return super.equals(obj);
+            return CodeType.eq(this, obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return CodeType.hash(this);
         }
 
         @Override

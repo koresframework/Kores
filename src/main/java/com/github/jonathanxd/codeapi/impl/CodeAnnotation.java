@@ -31,12 +31,15 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.CodeTypeUtil;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -157,4 +160,24 @@ public class CodeAnnotation implements AnnotationDeclaration {
         return new CodeAnnotation(outerClass, this.getBody().orElse(null), this.getAnnotations(), this.getModifiers(), this.getGenericSignature(), this.getProperties(), this.getName());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return CodeType.eq(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return CodeType.hash(this);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.builder(this.getClass())
+                .add("modifiers", this.getModifiers())
+                .add("qualifiedName", this.getQualifiedName())
+                .addMapped("genericSignature", this.getGenericSignature(), GenericSignature::isNotEmpty, GenericTypeUtil::toSourceString)
+                .add("properties", this.getProperties())
+                .toString();
+
+    }
 }

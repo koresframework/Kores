@@ -352,7 +352,7 @@ public class Generic implements GenericType {
 
     @Override
     public Bound<CodeType>[] bounds() {
-        return bounds.clone();
+        return this.bounds.clone();
     }
 
     @Override
@@ -362,57 +362,57 @@ public class Generic implements GenericType {
 
     @Override
     public String getType() {
-        return codeType != null ? codeType.getType() : name();
+        return this.codeType != null ? this.codeType.getType() : this.name();
     }
 
     @Override
     public String getCanonicalName() {
-        return codeType != null ? codeType.getCanonicalName() : name();
+        return this.codeType != null ? this.codeType.getCanonicalName() : this.name();
     }
 
     @Override
     public String getPackageName() {
-        return codeType != null ? codeType.getPackageName() : "";
+        return this.codeType != null ? this.codeType.getPackageName() : "";
     }
 
     @Override
     public String getSimpleName() {
-        return codeType != null ? codeType.getSimpleName() : name();
+        return this.codeType != null ? this.codeType.getSimpleName() : this.name();
     }
 
     @Override
     public String getJavaSpecName() {
-        return codeType != null ? codeType.getJavaSpecName() : name();
+        return this.codeType != null ? this.codeType.getJavaSpecName() : name();
     }
 
     @Override
     public boolean isPrimitive() {
-        return codeType != null && codeType.isPrimitive();
+        return this.codeType != null && this.codeType.isPrimitive();
     }
 
     @Override
     public boolean isInterface() {
-        return codeType != null && codeType.isInterface();
+        return this.codeType != null && this.codeType.isInterface();
     }
 
     @Override
     public boolean isVirtual() {
-        return codeType == null || codeType.isVirtual();
+        return this.codeType == null || this.codeType.isVirtual();
     }
 
     @Override
     public int compareTo(CodeType other) {
-        return codeType != null ? codeType.compareTo(other) : -1;
+        return this.codeType != null ? this.codeType.compareTo(other) : -1;
     }
 
     @Override
     public boolean isArray() {
-        return codeType != null && codeType.isArray();
+        return this.codeType != null && this.codeType.isArray();
     }
 
     @Override
     public GenericType toArray(int dimensions) {
-        return new Generic(name, codeType.toArray(dimensions), bounds);
+        return new Generic(this.name(), this.getCodeType().toArray(dimensions), this.bounds());
     }
 
     /**
@@ -488,6 +488,9 @@ public class Generic implements GenericType {
 
     @Override
     public int hashCode() {
+
+        if(this.isType() && this.bounds().length == 0)
+            return CodeType.hash(this);
 
         int result = Objects.hash(this.name(), this.isType(), this.isWildcard());
 

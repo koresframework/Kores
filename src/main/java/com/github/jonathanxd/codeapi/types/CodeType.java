@@ -134,7 +134,7 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
      * @return {@link CodeTypeArray} with specified dimension.
      */
     default CodeType toArray(int dimensions) {
-        if(this instanceof CodeTypeArray) {
+        if (this instanceof CodeTypeArray) {
             CodeTypeArray array = (CodeTypeArray) this;
 
             return new CodeTypeArray(array.getComponent(), array.getDimension() + dimensions);
@@ -189,7 +189,7 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         if (this instanceof CodeTypeArray) {
             CodeTypeArray array = (CodeTypeArray) this;
 
-            if(array.getDimension() - 1 == 0) {
+            if (array.getDimension() - 1 == 0) {
                 return array.getComponent();
             } else {
                 return array.getComponent().toArray(array.getDimension() - 1);
@@ -214,4 +214,31 @@ public interface CodeType extends CodePart, Comparable<CodeType> {
         return this.getJavaSpecName().compareTo(other.getJavaSpecName());
     }
 
+    @Override
+    int hashCode();
+
+    @Override
+    boolean equals(Object obj);
+
+
+    /**
+     * Default hash algorithm.
+     *
+     * @param codeType Receiver.
+     * @return Hash code.
+     */
+    static int hash(CodeType codeType) {
+        return codeType.getJavaSpecName().hashCode();
+    }
+
+    /**
+     * Default equals method.
+     *
+     * @param codeType Receiver.
+     * @param obj Object to test.
+     * @return True if this {@link CodeType} is equals to another {@link CodeType}.
+     */
+    static boolean eq(CodeType codeType, Object obj) {
+        return obj instanceof CodeType && codeType.is((CodeType) obj);
+    }
 }
