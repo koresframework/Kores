@@ -54,23 +54,23 @@ public interface CatchBlock extends Bodied, Typed {
     CatchBlock setExceptionTypes(List<CodeType> typeList);
 
     /**
-     * Gets the field to store exception.
+     * Gets the variable to store exception.
      *
-     * @return Field to store exception.
+     * @return Variable to store exception.
      */
-    FieldDeclaration getField();
+    VariableDeclaration getVariable();
 
     /**
-     * Gets the field to store exception.
+     * Gets the variable to store exception.
      *
-     * @param codeField Field.
+     * @param variable Variable to store exception.
      * @return new instance.
      */
-    CatchBlock setField(FieldDeclaration codeField);
+    CatchBlock setVariable(VariableDeclaration variable);
 
     @Override
     default Optional<CodeType> getType() {
-        return this.getField().getType();
+        return this.getVariable().getType();
     }
 
     @Override

@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.interfaces.Bodied;
 import com.github.jonathanxd.codeapi.interfaces.CatchBlock;
 import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
+import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
@@ -47,10 +48,10 @@ public class CatchBlockImpl implements CatchBlock {
 
     private final CodeSource body;
     private final List<CodeType> exceptionTypes;
-    private final FieldDeclaration field;
+    private final VariableDeclaration variable;
 
-    public CatchBlockImpl(FieldDeclaration field, List<CodeType> exceptionTypes, CodeSource body) {
-        this.field = field;
+    public CatchBlockImpl(VariableDeclaration variable, List<CodeType> exceptionTypes, CodeSource body) {
+        this.variable = variable;
         this.exceptionTypes = exceptionTypes == null ? Collections.emptyList() : exceptionTypes;
         this.body = body;
         Bodied.checkBody(this);
@@ -63,7 +64,7 @@ public class CatchBlockImpl implements CatchBlock {
 
     @Override
     public CatchBlockImpl setBody(CodeSource body) {
-        return new CatchBlockImpl(this.getField(), this.getExceptionTypes(), body);
+        return new CatchBlockImpl(this.getVariable(), this.getExceptionTypes(), body);
     }
 
     @Override
@@ -77,25 +78,25 @@ public class CatchBlockImpl implements CatchBlock {
     }
 
     @Override
-    public FieldDeclaration getField() {
-        return this.field;
+    public VariableDeclaration getVariable() {
+        return this.variable;
     }
 
     @Override
-    public CatchBlockImpl setField(FieldDeclaration codeField) {
-        return new CatchBlockImpl(codeField, this.getExceptionTypes(), this.getBody().orElse(null));
+    public CatchBlockImpl setVariable(VariableDeclaration variable) {
+        return new CatchBlockImpl(variable, this.getExceptionTypes(), this.getBody().orElse(null));
     }
 
     @Override
     public CatchBlockImpl setType(CodeType codeType) {
-        return new CatchBlockImpl(this.getField().setType(codeType), this.getExceptionTypes(), this.getBody().orElse(null));
+        return new CatchBlockImpl(this.getVariable().setType(codeType), this.getExceptionTypes(), this.getBody().orElse(null));
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.builder(this.getClass())
                 .add("exceptionTypes", this.getExceptionTypes())
-                .add("field", this.getField())
+                .add("variable", this.getVariable())
                 .toString();
     }
 }

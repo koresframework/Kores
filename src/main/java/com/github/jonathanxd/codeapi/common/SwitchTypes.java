@@ -54,6 +54,7 @@ public final class SwitchTypes {
     /**
      * Try to resolve CodePart at runtime.
      */
+    @SuppressWarnings("unchecked")
     private static int resolve(CodePart p, Switch aSwitch) {
 
         CodeType type = aSwitch.getType().orElseThrow(NullPointerException::new);

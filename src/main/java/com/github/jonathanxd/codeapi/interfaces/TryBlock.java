@@ -100,7 +100,7 @@ public interface TryBlock extends Bodied, MultiBodied, CodePart, Typed {
         if(catchBlocks.isEmpty() || catchBlocks.size() > 1)
             return Optional.of(PredefinedTypes.THROWABLE);
 
-        return catchBlocks.get(0).getField().getType();
+        return catchBlocks.get(0).getVariable().getType();
     }
 
     @Override

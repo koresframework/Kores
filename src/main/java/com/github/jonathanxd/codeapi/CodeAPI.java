@@ -50,7 +50,6 @@ import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
@@ -1480,10 +1479,10 @@ public final class CodeAPI {
      * Invoke a special method of current type declaration.
      *
      * <table summary="">
-     *     <tr><th>Special Invocation cases</th></tr>
-     *     <tr><td>Constructor Methods</td></tr>
-     *     <tr><td>Super class methods</td></tr>
-     *     <tr><td>Private methods</td></tr>
+     * <tr><th>Special Invocation cases</th></tr>
+     * <tr><td>Constructor Methods</td></tr>
+     * <tr><td>Super class methods</td></tr>
+     * <tr><td>Private methods</td></tr>
      * </table>
      *
      * @param methodName        Name of the method.
@@ -1500,10 +1499,10 @@ public final class CodeAPI {
      * Invoke a special method (aka super.method invocations).
      *
      * <table summary="">
-     *     <tr><th>Special Invocation cases</th></tr>
-     *     <tr><td>Constructor Methods</td></tr>
-     *     <tr><td>Super class methods</td></tr>
-     *     <tr><td>Private methods</td></tr>
+     * <tr><th>Special Invocation cases</th></tr>
+     * <tr><td>Constructor Methods</td></tr>
+     * <tr><td>Super class methods</td></tr>
+     * <tr><td>Private methods</td></tr>
      * </table>
      *
      * @param localization      Localization of the method.
@@ -2582,6 +2581,39 @@ public final class CodeAPI {
     }
 
     // =========================================================
+    //          Catch block
+    // =========================================================
+
+    /**
+     * Create a catch block for try-catch statement.
+     *
+     * @param exception  Exception type to handle.
+     * @param variable   Variable to store exception.
+     * @param body       Body of the catch block.
+     * @return Catch block.
+     */
+    public static CatchBlock catchBlock(CodeType exception, VariableDeclaration variable, CodeSource body) {
+        return catchBlock__Factory(Collections.singletonList(exception), variable, body);
+    }
+
+    /**
+     * Create a catch block for try-catch statement.
+     *
+     * @param exceptions Exception types.
+     * @param variable   Variable to store exception.
+     * @param body       Body of the catch block.
+     * @return Catch block.
+     */
+    public static CatchBlock catchBlock(List<CodeType> exceptions, VariableDeclaration variable, CodeSource body) {
+        return catchBlock__Factory(exceptions, variable, body);
+    }
+
+    // Factory
+    private static CatchBlock catchBlock__Factory(List<CodeType> exceptionTypes, VariableDeclaration exceptionVariable, CodeSource body) {
+        return Helper.catchBlock(exceptionTypes, exceptionVariable, body);
+    }
+
+    // =========================================================
     //          Try With resources block
     // =========================================================
 
@@ -3343,7 +3375,7 @@ public final class CodeAPI {
     /**
      * Generator Specific features
      *
-     * Not supported by Java Source Code generation. ({@link PlainSourceGenerator}).
+     * Not supported by Java Source Code generation. ({@code PlainSourceGenerator}).
      */
     public static class Specific {
         // =========================================================

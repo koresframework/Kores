@@ -387,7 +387,7 @@ public final class Helper {
         return new CatchBlockImpl(new CodeField(variable, PredefinedTypes.THROWABLE), catchExceptions, body);
     }
 
-    public static CatchBlock catchBlock(List<CodeType> catchExceptions, CodeField variable, CodeSource body) {
+    public static CatchBlock catchBlock(List<CodeType> catchExceptions, VariableDeclaration variable, CodeSource body) {
 
         return new CatchBlockImpl(variable, catchExceptions, body);
     }
