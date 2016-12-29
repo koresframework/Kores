@@ -49,7 +49,7 @@ public interface Bodied extends CodePart {
         Optional<CodeSource> bodyOpt = bodied.getBody();
 
         if (bodyOpt.isPresent()) {
-            if (bodyOpt.get().contains(bodied)) {
+            if (bodyOpt.get().stream().anyMatch(codePart -> codePart == bodied)) {
                 throw new IllegalStateException("You have putted " + bodied + " instance inside your own body, it may cause StackOverFlow Exception.");
             }
         }
