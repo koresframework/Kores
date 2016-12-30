@@ -25,17 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.CodeSource;
+/**
+ * Builder pattern.
+ *
+ * @param T Type of element to build.
+ */
+abstract class Builder<out T, S: Builder<T, S>> {
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
     /**
-     * Set body of {@link R}.
+     * Build the object of type [T].
      *
-     * @param body Body.
-     * @return This.
+     * @return Instance of object of type [T].
      */
-    R withBody(CodeSource body);
+    abstract fun build(): T
 
+    /**
+     * Build the object of type [T].
+     *
+     * @param func Consumer of builder instance.
+     * @return Instance of object of type [T].
+     */
+    @Suppress("UNCHECKED_CAST")
+    inline fun build(func: S.() -> Unit): T {
+        func(this as S)
+        return build()
+    }
 }

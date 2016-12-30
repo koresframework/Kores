@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.builder;
 
-public interface NameBuilder<T, R extends NameBuilder<T, R>> extends Builder<T> {
+public interface NameBuilder<T, R extends NameBuilder<T, R>> {
     /**
      * Set name.
      *

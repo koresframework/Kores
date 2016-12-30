@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public final class MethodBuilder implements Builder<CodeMethod>,
+public final class MethodBuilder extends Builder<CodeMethod, MethodBuilder> implements
         ModifiersBuilder<CodeMethod, MethodBuilder>,
         BodyBuilder<CodeMethod, MethodBuilder>,
         AnnotationsBuilder<CodeMethod, MethodBuilder>,

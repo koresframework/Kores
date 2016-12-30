@@ -25,17 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.types.CodeType
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * Part casting
+ */
+interface Cast : CodePart, Typed {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Original type
      */
-    R withBody(CodeSource body);
+    val originalType: CodeType?
 
+    /**
+     * Target type
+     */
+    val targetType: CodeType
+
+    /**
+     * Part to cast
+     */
+    val castedPart: CodePart
+
+    override val type: CodeType?
+        get() = this.targetType
 }

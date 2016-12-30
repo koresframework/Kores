@@ -44,7 +44,7 @@ import java.util.List;
 /**
  * {@link CodeInterface} builder.
  */
-public final class InterfaceBuilder implements Builder<CodeInterface> {
+public final class InterfaceBuilder extends Builder<CodeInterface, InterfaceBuilder> {
 
     private CodeType outerClass = null;
     private Collection<CodeModifier> modifiers = new ArrayList<>();

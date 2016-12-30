@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.util.Collection;
 
-public interface ModifiersBuilder<T, R extends ModifiersBuilder<T, R>> extends Builder<T> {
+public interface ModifiersBuilder<T, R extends ModifiersBuilder<T, R>> {
     /**
      * Set modifiers.
      *

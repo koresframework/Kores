@@ -25,17 +25,54 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.keywords.Keyword
+import com.github.jonathanxd.codeapi.keywords.Keywords
+import com.github.jonathanxd.codeapi.types.CodeType
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * Access to a Scope.
+ */
+interface Access {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Type of access
      */
-    R withBody(CodeSource body);
+    val type: Type
 
+    /**
+     * Keyword of the access.
+     */
+    val keyword: Keyword?
+        get() = this.type.keyword
+
+    /**
+     * Localization of the scope.
+     */
+    val localization: CodeType?
+
+    enum class Type(val keyword: Keyword?) {
+
+        /**
+         * Access to local scope
+         */
+        LOCAL(null),
+
+        /**
+         * Access to this scope
+         */
+        THIS(Keywords.THIS),
+
+        /**
+         * Access to outer class scope
+         */
+        OUTER(Keywords.THIS),
+
+        /**
+         * Access to super class scope
+         */
+        SUPER(Keywords.SUPER)
+
+    }
 }

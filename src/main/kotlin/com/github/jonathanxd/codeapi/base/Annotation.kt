@@ -25,17 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * An annotation.
+ */
+interface Annotation : Typed, CodePart {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * True if is visible at runtime (Only affects bytecode generation).
      */
-    R withBody(CodeSource body);
+    val visible: Boolean
 
+    /**
+     * Annotation values.
+     *
+     * The Annotation value must be: {@link Byte}, {@link Boolean}, {@link Character}, {@link
+     * Short}, {@link Integer}, {@link Long}, {@link Float}, {@link Double}, {@link String}, {@link
+     * CodeType}, OBJECT, ARRAY, {@link EnumValue} or other {@link Annotation}.
+     *
+     * Key = Name of annotation key. Value = Value of annotation key
+     *
+     * @return Annotation value.
+     */
+    val values: Map<String, Any>
 }

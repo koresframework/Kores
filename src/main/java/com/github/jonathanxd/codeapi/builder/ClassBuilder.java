@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * {@link CodeClass} builder.
  */
-public final class ClassBuilder implements Builder<CodeClass> {
+public final class ClassBuilder extends Builder<CodeClass, ClassBuilder> {
 
     private CodeType outerClass = null;
     private Collection<CodeModifier> modifiers = new ArrayList<>();

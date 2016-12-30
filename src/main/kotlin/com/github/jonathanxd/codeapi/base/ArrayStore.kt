@@ -25,17 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * Store a value in array.
+ */
+interface ArrayStore : CodePart, Valuable, ArrayLoad {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Index in array to store the value
      */
-    R withBody(CodeSource body);
+    override val index: CodePart
 
+    /**
+     * Value to store in array
+     */
+    val valueToStore: CodePart
 }

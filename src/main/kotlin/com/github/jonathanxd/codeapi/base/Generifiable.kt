@@ -25,17 +25,20 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.types.GenericType
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * An element that supports {@link GenericSignature}.
+ */
+interface Generifiable : CodePart {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Generic signature.
      */
-    R withBody(CodeSource body);
+    val genericSignature: GenericSignature<GenericType>
 
 }

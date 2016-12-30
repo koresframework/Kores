@@ -25,17 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+/**
+ * Annotation declaration
+ */
+interface AnnotationDeclaration : TypeDeclaration {
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Annotation properties
      */
-    R withBody(CodeSource body);
+    val properties: List<AnnotationProperty>
 
 }

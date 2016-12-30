@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public final class FieldBuilder implements Builder<CodeField>,
+public final class FieldBuilder extends Builder<CodeField, FieldBuilder> implements
         ModifiersBuilder<CodeField, FieldBuilder>,
         AnnotationsBuilder<CodeField, FieldBuilder>,
         NameBuilder<CodeField, FieldBuilder> {

@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class EnumBuilder implements Builder<CodeEnum>,
+public class EnumBuilder extends Builder<CodeEnum, EnumBuilder> implements
         BodyBuilder<CodeEnum, EnumBuilder>,
         ModifiersBuilder<CodeEnum, EnumBuilder>,
         GenericSignatureBuilder<CodeEnum, EnumBuilder>,

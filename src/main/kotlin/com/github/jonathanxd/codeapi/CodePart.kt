@@ -25,17 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.CodeSource;
+/**
+ * A CodePart is an element that can exists in the source code.
+ */
+interface CodePart {
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
     /**
-     * Set body of {@link R}.
+     * Returns true if this is a expression part, false otherwise.
      *
-     * @param body Body.
-     * @return This.
+     * @return Returns true if this is a expression part, false otherwise.
      */
-    R withBody(CodeSource body);
+    val isExpression: Boolean
+            get() = false
 
 }

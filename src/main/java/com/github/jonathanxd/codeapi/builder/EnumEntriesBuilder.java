@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.util.List;
 
-public interface EnumEntriesBuilder<T, R extends EnumEntriesBuilder<T, R>> extends Builder<T> {
+public interface EnumEntriesBuilder<T, R extends EnumEntriesBuilder<T, R>> {
     /**
      * Set enum entries.
      *

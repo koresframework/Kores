@@ -25,17 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * A element that have a name.
+ */
+interface Named : CodePart {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Name
      */
-    R withBody(CodeSource body);
+    val name: String
 
 }

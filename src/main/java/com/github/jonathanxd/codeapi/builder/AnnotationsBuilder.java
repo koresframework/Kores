@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.util.List;
 
-public interface AnnotationsBuilder<T, R extends AnnotationsBuilder<T, R>> extends Builder<T> {
+public interface AnnotationsBuilder<T, R extends AnnotationsBuilder<T, R>> {
     /**
      * Set annotations.
      *

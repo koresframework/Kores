@@ -25,19 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.builder
 
-/**
- * A CodePart is an element that can exists in the source code.
- */
-public interface CodePart {
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.Accessor
+import com.github.jonathanxd.codeapi.types.CodeType
 
-    /**
-     * Returns true if this is a expression part, false otherwise.
-     *
-     * @return Returns true if this is a expression part, false otherwise.
-     */
-    default boolean isExpression() {
-        return false;
+class AccessorBuilder(accessor: Accessor? = null): Builder<Accessor, AccessorBuilder>() {
+    var localization: CodeType? = accessor?.localization
+    var target: CodePart? = accessor?.target
+
+    override fun build(): Accessor {
+        TODO("not implemented yet")
     }
 }

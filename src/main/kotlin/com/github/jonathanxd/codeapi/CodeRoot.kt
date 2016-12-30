@@ -25,17 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.Bodied
+import com.github.jonathanxd.codeapi.inspect.SourceInspect
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
+ */
+interface CodeRoot : CodeElement, Bodied {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * All elements inside this CodeRoot
      */
-    R withBody(CodeSource body);
+    val elements: List<CodeElement>
+        get() = this.body?.let {
+            SourceInspect
+                    .find { it is CodeElement }
+                    .include { it is CodeSource }
+                    .includeSource(true)
+                    .mapTo { it as CodeElement }
+                    .inspect(it)
+        }.orEmpty()
 
 }

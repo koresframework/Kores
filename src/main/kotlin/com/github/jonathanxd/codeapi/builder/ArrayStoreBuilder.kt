@@ -25,17 +25,23 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.ArrayStore
+import com.github.jonathanxd.codeapi.types.CodeType
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
-    /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
-     */
-    R withBody(CodeSource body);
+class ArrayStoreBuilder @JvmOverloads constructor(defaults: ArrayStore? = null) : Builder<ArrayStore, ArrayStoreBuilder>() {
+
+    var arrayType: CodeType? = defaults?.arrayType
+    var target: CodePart? = defaults?.target
+    var index: CodePart? = defaults?.index
+    var valueType: CodePart? = defaults?.valueType
+    var value: CodePart? = defaults?.value
+
+    override fun build(): ArrayStore {
+        TODO("not implemented")
+    }
+
 
 }

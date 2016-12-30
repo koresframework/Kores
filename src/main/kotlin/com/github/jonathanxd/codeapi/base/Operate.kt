@@ -25,17 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.operators.Operator
+import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.util.CodePartUtil
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
+/**
+ * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
+ */
+interface Operate : CodePart, Typed, Valuable {
+
     /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
+     * Target part to operate.
      */
-    R withBody(CodeSource body);
+    val target: CodePart
+
+    /**
+     * Operation to apply.
+     */
+    val operation: Operator
+
+    /**
+     * Value to apply operation (some operations doesn't require any value).
+     */
+    override val value: CodePart?
+
+    override val type: CodeType?
+        get() = CodePartUtil.getTypeOrNull(this.target)
 
 }

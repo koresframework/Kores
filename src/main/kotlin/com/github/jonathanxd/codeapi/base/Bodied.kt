@@ -25,17 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.CodeSource
 
-public interface BodyBuilder<T, R extends BodyBuilder<T, R>> {
-    /**
-     * Set body of {@link R}.
-     *
-     * @param body Body.
-     * @return This.
-     */
-    R withBody(CodeSource body);
+/**
+ * Base class of all elements that support bodies.
+ */
+interface Bodied {
 
+
+    val body: CodeSource?
+
+    val requiredBody: CodeSource
+        get() = this.body ?: CodeSource.empty()
+
+    val hasBody: Boolean
+        get() = this.body != null
+
+    companion object {
+        fun checkBody(`$this`: Bodied) {
+            val body = `$this`.body
+
+            if (body != null && body.any { it == `$this` }) {
+                throw IllegalStateException("You have putted $`$this` instance inside your own body, it may cause StackOverFlow Exception.")
+            }
+        }
+    }
 }

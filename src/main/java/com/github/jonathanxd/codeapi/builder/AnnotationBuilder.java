@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class AnnotationBuilder implements Builder<CodeAnnotation>,
+public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder> implements
         BodyBuilder<CodeAnnotation, AnnotationBuilder>,
         ModifiersBuilder<CodeAnnotation, AnnotationBuilder>,
         GenericSignatureBuilder<CodeAnnotation, AnnotationBuilder>,

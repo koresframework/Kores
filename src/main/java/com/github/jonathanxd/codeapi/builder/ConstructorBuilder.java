@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public final class ConstructorBuilder implements Builder<CodeConstructor>,
+public final class ConstructorBuilder extends Builder<CodeConstructor, ConstructorBuilder> implements
         ModifiersBuilder<CodeConstructor, ConstructorBuilder>,
         BodyBuilder<CodeConstructor, ConstructorBuilder>,
         AnnotationsBuilder<CodeConstructor, ConstructorBuilder>,

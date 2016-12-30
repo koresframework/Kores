@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.builder;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.types.GenericType;
 
-public interface GenericSignatureBuilder<T, R extends GenericSignatureBuilder<T, R>> extends Builder<T> {
+public interface GenericSignatureBuilder<T, R extends GenericSignatureBuilder<T, R>> {
     /**
      * Set generic signature.
      *

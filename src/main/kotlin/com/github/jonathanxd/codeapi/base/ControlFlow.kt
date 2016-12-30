@@ -25,19 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base
+
+import com.github.jonathanxd.codeapi.CodePart
 
 /**
- * Builder pattern.
- *
- * @param <T> Type of element to build.
+ * Control the flow of a statement.
  */
-public interface Builder<T> {
+interface ControlFlow : CodePart {
+
+    //val at: Label
 
     /**
-     * Build the object of type {@link T}.
-     *
-     * @return Instance of object of type {@link T}.
+     * Type of the flow control
      */
-    T build();
+    val type: Type
+
+    enum class Type {
+        /**
+         * Breaks to end of the flow
+         */
+        BREAK,
+
+        /**
+         * Continue at start of the flow
+         */
+        CONTINUE
+    }
 }

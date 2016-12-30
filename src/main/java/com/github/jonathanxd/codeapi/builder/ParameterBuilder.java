@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.util.ArrayToList;
 import java.util.Collections;
 import java.util.List;
 
-public interface ParameterBuilder<T, R extends ParameterBuilder<T, R>> extends Builder<T> {
+public interface ParameterBuilder<T, R extends ParameterBuilder<T, R>> {
     /**
      * Set the parameters.
      *

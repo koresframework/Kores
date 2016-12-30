@@ -25,10 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi.base
 
-/**
- * Code elements like Field, Methods and static block.
- */
-public interface CodeElement extends CodePart {
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.util.CodePartUtil
+
+interface Case : CodePart, Valuable, Typed, Bodied {
+
+    override val type: CodeType?
+        get() = this.value?.let { CodePartUtil.getTypeOrNull(it) }
+
+    /**
+     * Is case default
+     */
+    val isDefault get() = this.value == null
+
+    /**
+     * Is not case default
+     */
+    val isNotDefault get() = !this.isDefault
 }
