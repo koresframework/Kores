@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.types.ClassType
 
-interface ClassDeclaration : TypeDeclaration {
+interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
 
     override val classType: ClassType
         get() = ClassType.CLASS

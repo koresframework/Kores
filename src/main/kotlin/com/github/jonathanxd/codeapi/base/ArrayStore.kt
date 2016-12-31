@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart
 /**
  * Store a value in array.
  */
-interface ArrayStore : CodePart, Valuable, ArrayLoad {
+interface ArrayStore : ArrayLoad, ValueHolder {
 
     /**
      * Index in array to store the value

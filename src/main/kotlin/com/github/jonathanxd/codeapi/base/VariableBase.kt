@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * Base variable manipulation
  */
-interface VariableBase : CodePart, Typed, Named {
+interface VariableBase : Named, Typed {
 
     /**
      * Variable name

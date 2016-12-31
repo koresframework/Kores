@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.util.CodePartUtil
 /**
  * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
  */
-interface Operate : CodePart, Typed, Valuable {
+interface Operate : ValueHolder, Typed {
 
     /**
      * Target part to operate.

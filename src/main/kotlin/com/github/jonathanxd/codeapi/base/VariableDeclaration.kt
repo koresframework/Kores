@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart
 /**
  * Declaration of a variable
  */
-interface VariableDeclaration : CodePart, VariableBase, Valuable {
+interface VariableDeclaration : VariableBase, ValueHolder {
 
     /**
      * Variable value

@@ -27,18 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.types.GenericType
+import com.github.jonathanxd.codeapi.common.CodeArgument
+import com.github.jonathanxd.codeapi.common.TypeSpec
 
 /**
- * An element that supports {@link GenericSignature}.
+ * Enumeration entry
  */
-interface Generifiable : CodePart {
+interface EnumEntry : ArgumentHolder, Named, BodyHolder {
 
     /**
-     * Generic signature.
+     * Enum constructor specification
      */
-    val genericSignature: GenericSignature<GenericType>
+    val constructorSpec: TypeSpec
 
+    /**
+     * Enum constructor arguments
+     */
+    override val arguments: List<CodeArgument>
 }

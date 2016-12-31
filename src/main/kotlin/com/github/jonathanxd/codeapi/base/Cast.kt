@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * Part casting
  */
-interface Cast : CodePart, Typed {
+interface Cast : Typed {
 
     /**
      * Original type

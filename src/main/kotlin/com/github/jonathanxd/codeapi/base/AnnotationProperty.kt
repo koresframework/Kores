@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * An annotation property
  */
-interface AnnotationProperty : Named, RequiredTyped, Typed, Annotable, Returner {
+interface AnnotationProperty : Named, RequiredTyped, Typed, Annotable, ReturnTypeHolder {
 
     /**
      * Annotation value

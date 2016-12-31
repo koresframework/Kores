@@ -28,18 +28,15 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.CodeArgument
 
-interface Argumenterizable : CodePart {
-
-    /**
-     * Argument list
-     */
-    val arguments: List<CodeArgument>
+/**
+ * Throw an exception
+ */
+interface ThrowException : CodePart {
 
     /**
-     * Array arguments
+     * Part to throw
      */
-    val array: Boolean
+    val partToThrow: CodePart
 
 }

@@ -27,17 +27,23 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.types.CodeType
 
 /**
- * A element that have modifiers.
+ * Catch block
  */
-interface Modifierable : CodePart {
+interface CatchStatement : BodyHolder, Typed {
+    /**
+     * Exception types to handle
+     */
+    val exceptionTypes: List<CodeType>
 
     /**
-     * Modifiers
+     * Variable to store exception
      */
-    val modifiers: List<CodeModifier>
+    val variable: VariableDeclaration
+
+    override val type: CodeType?
+        get() = this.variable.type
 
 }

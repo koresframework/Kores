@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * Access Array length.
  */
-interface ArrayLength : CodePart, ArrayAccess, Typed {
+interface ArrayLength : ArrayAccess, Typed {
 
     /**
      * Array to access length

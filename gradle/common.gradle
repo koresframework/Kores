@@ -33,7 +33,6 @@ ext {
 shadowJar {
     dependencies {
         include(dependency("com.github.JonathanxD:JwIUtils"))
-        include(dependency("org.ow2.asm:asm-all"))
     }
 }
 
@@ -81,8 +80,6 @@ compileTestKotlin {
 }
 
 dependencies {
-    compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
-
     compile 'com.github.JonathanxD:JwIUtils:3.2.0'
 
     // Kotlin

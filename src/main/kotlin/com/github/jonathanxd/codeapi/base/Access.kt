@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.keywords.Keyword
 import com.github.jonathanxd.codeapi.keywords.Keywords
 import com.github.jonathanxd.codeapi.types.CodeType
@@ -34,7 +35,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * Access to a Scope.
  */
-interface Access {
+interface Access : CodePart {
 
     /**
      * Type of access

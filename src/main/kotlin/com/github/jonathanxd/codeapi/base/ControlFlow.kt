@@ -34,12 +34,17 @@ import com.github.jonathanxd.codeapi.CodePart
  */
 interface ControlFlow : CodePart {
 
-    //val at: Label
-
     /**
      * Type of the flow control
      */
     val type: Type
+
+    /**
+     * Label to control flow (Note: [Type.CONTINUE] goes to Start of label and [Type.BREAK] goes to end of label).
+     *
+     * **Note**: [Type.CONTINUE] to a label may be unstable.
+     */
+    val at: Label?
 
     enum class Type {
         /**

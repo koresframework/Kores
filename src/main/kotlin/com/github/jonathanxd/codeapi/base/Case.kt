@@ -27,11 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
-interface Case : CodePart, Valuable, Typed, Bodied {
+interface Case : ValueHolder, Typed, BodyHolder {
 
     override val type: CodeType?
         get() = this.value?.let { CodePartUtil.getTypeOrNull(it) }

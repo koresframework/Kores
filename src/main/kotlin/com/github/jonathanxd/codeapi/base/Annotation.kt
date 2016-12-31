@@ -27,12 +27,17 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.types.CodeType
 
 /**
  * An annotation.
  */
-interface Annotation : Typed, CodePart {
+interface Annotation : Typed {
+
+    /**
+     * Annotation type
+     */
+    override val type: CodeType
 
     /**
      * True if is visible at runtime (Only affects bytecode generation).

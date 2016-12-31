@@ -27,13 +27,13 @@
  */
 package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.base.Bodied
+import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
 
 /**
  * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
  */
-interface CodeRoot : CodeElement, Bodied {
+interface CodeRoot : CodeElement, BodyHolder {
 
     /**
      * All elements inside this CodeRoot

@@ -27,29 +27,29 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.IterationType
 
 /**
- * Base class of all elements that support bodies.
+ * For each statement.
+ *
+ * @see IterationType
  */
-interface Bodied {
+interface ForEachStatement : BodyHolder {
 
+    /**
+     * Variable to store each element
+     */
+    val variable: VariableDeclaration
 
-    val body: CodeSource?
+    /**
+     * Type of the iteration
+     */
+    val iterationType: IterationType
 
-    val requiredBody: CodeSource
-        get() = this.body ?: CodeSource.empty()
+    /**
+     * Element to iterate
+     */
+    val iterableElement: CodePart
 
-    val hasBody: Boolean
-        get() = this.body != null
-
-    companion object {
-        fun checkBody(`$this`: Bodied) {
-            val body = `$this`.body
-
-            if (body != null && body.any { it == `$this` }) {
-                throw IllegalStateException("You have putted $`$this` instance inside your own body, it may cause StackOverFlow Exception.")
-            }
-        }
-    }
 }

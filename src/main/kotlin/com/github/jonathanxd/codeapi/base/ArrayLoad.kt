@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.types.CodeType
 
-interface ArrayLoad : CodePart, Typed, ArrayAccess {
+interface ArrayLoad : ArrayAccess, Typed {
 
     /**
      * Index of the value in array

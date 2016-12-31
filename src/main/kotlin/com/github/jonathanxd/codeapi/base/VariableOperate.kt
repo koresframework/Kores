@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
  */
-interface VariableOperate : CodePart, VariableAccess, Operate, Valuable {
+interface VariableOperate : VariableAccess, Operate, ValueHolder {
 
     /**
      * Value to apply operation (some operations doesn't require any value).

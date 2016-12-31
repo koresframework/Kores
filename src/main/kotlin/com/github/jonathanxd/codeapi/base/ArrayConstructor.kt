@@ -38,7 +38,7 @@ import com.github.jonathanxd.iutils.optional.Require
 /**
  * Constructor of array type.
  */
-interface ArrayConstructor : CodePart, Typed, Argumenterizable {
+interface ArrayConstructor : ArgumentHolder, Typed {
 
     /**
      * Type of the array.

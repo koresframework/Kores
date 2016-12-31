@@ -25,26 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.MethodSpecification
+import com.github.jonathanxd.codeapi.common.CodeArgument
+import com.github.jonathanxd.codeapi.common.InvokeDynamic
+import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.types.CodeType
 
-/**
- * Catch block
- */
-interface CatchBlock : CodePart, Bodied, Typed {
-    /**
-     * Exception types to handle
-     */
-    val exceptionTypes: List<CodeType>
-
-    /**
-     * Variable to store exception
-     */
-    val variable: VariableDeclaration
-
-    override val type: CodeType?
-        get() = this.variable.type
-
-}
+class MethodInvocationImpl(override val localization: CodeType?, override val arguments: List<CodeArgument>, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?, override val target: CodePart?, override val array: Boolean) : MethodInvocation

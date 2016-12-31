@@ -25,18 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.BodyHolder
+import com.github.jonathanxd.codeapi.base.StaticBlock
 
-/**
- * A part that can hold a value.
- */
-interface Valuable : CodePart {
-
-    /**
-     * Value
-     */
-    val value: CodePart?
-
+class StaticBlockImpl(override val body: CodeSource?) : StaticBlock {
+    init {
+        BodyHolder.checkBody(this)
+    }
 }

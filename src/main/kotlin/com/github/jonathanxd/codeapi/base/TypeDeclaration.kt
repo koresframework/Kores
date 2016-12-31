@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.types.CodeType
 /**
  * Base class of all [TypeDeclaration]s like classes, interfaces and enums.
  */
-interface TypeDeclaration : Modifierable, CodeRoot, CodeType, QualifiedNamed, Generifiable, Bodied, Annotable {
+interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, BodyHolder, Annotable {
 
     /**
      * Class type.
@@ -46,4 +46,7 @@ interface TypeDeclaration : Modifierable, CodeRoot, CodeType, QualifiedNamed, Ge
      * Outer class (null if this type is not a inner class).
      */
     val outerClass: CodeType?
+
+    override fun getType(): String = this.qualifiedName
+    override fun getCanonicalName(): String = this.qualifiedName
 }

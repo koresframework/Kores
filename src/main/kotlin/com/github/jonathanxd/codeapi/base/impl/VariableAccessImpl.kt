@@ -25,19 +25,10 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.VariableAccess
 import com.github.jonathanxd.codeapi.types.CodeType
 
-/**
- * A element that can return a value.
- */
-interface Returner : CodePart {
-
-    /**
-     * Type of return
-     */
-    val returnType: CodeType?
-
-}
+class VariableAccessImpl(override val target: CodePart?, override val name: String, override val localization: CodeType?, override val variableType: CodeType) : VariableAccess
