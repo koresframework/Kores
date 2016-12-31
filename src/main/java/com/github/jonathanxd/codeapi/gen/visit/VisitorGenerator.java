@@ -133,16 +133,7 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
 
         data.registerData(VISITOR_REPRESENTATION, this);
 
-
-        for (int i = 0; i < source.size(); i++) {
-            CodePart codePart = source.get(i);
-
-            Class<? extends CodePart> aClass = codePart.getClass();
-
-
-            generateTo(aClass, codePart, data, appender::add, additional);
-
-        }
+        this.generateTo(CodeSource.class, source, data, appender::add, additional);
 
         data.unregisterData(APPENDER_REPRESENTATION, appender);
 
