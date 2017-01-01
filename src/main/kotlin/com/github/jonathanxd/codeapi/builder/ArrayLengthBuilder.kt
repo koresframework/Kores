@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,47 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Case;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.ArrayLength
+import com.github.jonathanxd.codeapi.base.impl.ArrayLengthImpl
+import com.github.jonathanxd.codeapi.types.CodeType
 
-import java.util.Optional;
+class ArrayLengthBuilder() : Builder<ArrayLength, ArrayLengthBuilder>() {
+    lateinit var target: CodePart
+    lateinit var arrayType: CodeType
 
-/**
- * @see Case
- */
-@GenerateTo(Case.class)
-public class CaseImpl implements Case {
-
-    private final Typed value;
-    private final CodeSource body;
-
-    public CaseImpl(Typed value, CodeSource body) {
-        this.value = value;
-        this.body = body;
+    constructor(defaults: ArrayLength) : this() {
+        target = defaults.target
+        arrayType = defaults.arrayType
     }
 
-    @Override
-    public Optional<CodePart> getValue() {
-        return Optional.ofNullable(this.value);
-    }
-
-    @Override
-    public Case setValue(CodePart value) {
-        return new CaseImpl((Typed) value, this.getBody().orElse(null));
-    }
-
-    @Override
-    public Optional<CodeSource> getBody() {
-        return Optional.ofNullable(body);
-    }
-
-    @Override
-    public Case setBody(CodeSource body) {
-        return new CaseImpl((Typed) this.getValue().orElse(null), body);
-    }
+    override fun build(): ArrayLength = ArrayLengthImpl(
+            target = this.target,
+            arrayType = this.arrayType
+    )
 }

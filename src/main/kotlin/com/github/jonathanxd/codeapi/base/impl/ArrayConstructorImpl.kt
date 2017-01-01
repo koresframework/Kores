@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -32,4 +32,4 @@ import com.github.jonathanxd.codeapi.base.ArrayConstructor
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.types.CodeType
 
-class ArrayConstructorImpl(override val arguments: List<CodeArgument>, override val arrayType: CodeType, override val dimensions: Array<CodePart>) : ArrayConstructor
+class ArrayConstructorImpl(override val arguments: List<CodeArgument>, override val arrayType: CodeType, override val dimensions: List<CodePart>) : ArrayConstructor

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,15 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.Accessor
+import com.github.jonathanxd.codeapi.base.Annotation
+import com.github.jonathanxd.codeapi.base.impl.AnnotationImpl
 import com.github.jonathanxd.codeapi.types.CodeType
 
-class AccessorBuilder(accessor: Accessor? = null): Builder<Accessor, AccessorBuilder>() {
-    var localization: CodeType? = accessor?.localization
-    var target: CodePart? = accessor?.target
+class AnnotationBuilder() : Builder<Annotation, AnnotationBuilder>() {
+    var visible: Boolean = true
+    lateinit var type: CodeType
+    lateinit var values: Map<String, Any>
 
-    override fun build(): Accessor {
-        TODO("not implemented yet")
+    constructor(annotation: Annotation) : this() {
+        visible = annotation.visible
+        type = annotation.type
+        values = annotation.values
     }
+
+    override fun build(): Annotation = AnnotationImpl(
+            visible = this.visible,
+            type = this.type,
+            values = this.values
+    )
 }

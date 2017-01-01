@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.types.GenericType
 
-class InterfaceDeclarationImpl(override val implementations: List<CodeType>, override val qualifiedName: String, override val name: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: List<CodeModifier>, override val genericSignature: GenericSignature<GenericType>, override val outerClass: CodeType?) : InterfaceDeclaration {
+class InterfaceDeclarationImpl(override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: List<CodeModifier>, override val genericSignature: GenericSignature<GenericType>, override val outerClass: CodeType?) : InterfaceDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

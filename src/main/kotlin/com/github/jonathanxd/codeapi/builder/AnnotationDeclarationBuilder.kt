@@ -25,20 +25,43 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base.impl
+package com.github.jonathanxd.codeapi.builder
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.base.BodyHolder
-import com.github.jonathanxd.codeapi.base.EnumDeclaration
-import com.github.jonathanxd.codeapi.base.EnumEntry
+import com.github.jonathanxd.codeapi.base.AnnotationDeclaration
+import com.github.jonathanxd.codeapi.base.AnnotationProperty
+import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.types.CodeType
-import com.github.jonathanxd.codeapi.types.GenericType
 
-class EnumDeclarationImpl(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: List<CodeModifier>, override val genericSignature: GenericSignature<GenericType>, override val outerClass: CodeType?) : EnumDeclaration {
-    init {
-        BodyHolder.checkBody(this)
+class AnnotationDeclarationBuilder() : Builder<AnnotationDeclaration, AnnotationDeclarationBuilder>() {
+    lateinit var qualifiedName: String
+    var outerClass: CodeType? = null
+    var modifiers: List<CodeModifier> = emptyList()
+    var properties: List<AnnotationProperty> = emptyList()
+    var genericSignature: GenericSignature = GenericSignature.empty()
+    var annotations: List<Annotation> = emptyList()
+    var body: CodeSource? = null
+
+    constructor(defaults: AnnotationDeclaration) : this() {
+        qualifiedName = defaults.qualifiedName
+        outerClass = defaults.outerClass
+        modifiers = defaults.modifiers
+        properties = defaults.properties
+        genericSignature = defaults.genericSignature
+        annotations = defaults.annotations
+        body = defaults.body
     }
+
+    override fun build(): AnnotationDeclaration = AnnotationDeclarationImpl(
+            outerClass = this.outerClass,
+            modifiers = this.modifiers.orEmpty(),
+            qualifiedName = this.qualifiedName,
+            properties = this.properties.orEmpty(),
+            annotations = this.annotations.orEmpty(),
+            genericSignature = this.genericSignature,
+            body = this.body
+    )
 }

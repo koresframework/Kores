@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -38,6 +38,9 @@ interface ArrayStore : ArrayLoad, ValueHolder {
      * Index in array to store the value
      */
     override val index: CodePart
+
+    override val value: CodePart?
+        get() = this.valueToStore
 
     /**
      * Value to store in array

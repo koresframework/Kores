@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.helper.Helper
 import com.github.jonathanxd.codeapi.literals.Literals
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
+import com.github.jonathanxd.codeapi.util.Stack
 import com.github.jonathanxd.iutils.optional.Require
 
 /**
@@ -48,7 +49,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
     /**
      * Array dimensions
      */
-    val dimensions: Array<CodePart>
+    val dimensions: List<CodePart>
 
     /**
      * Array values
@@ -66,7 +67,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
                 arrayStores.add(
                         ArrayStoreBuilder().build {
                             arrayType = this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
-                            target = null
+                            target = Stack.INSTANCE
                             index = Literals.INT(i)
                             valueType = argument.type.orElse(CodePartUtil.getType(argumentValue))
                             value = argumentValue

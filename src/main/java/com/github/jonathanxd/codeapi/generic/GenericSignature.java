@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,27 +33,25 @@ import java.util.Arrays;
 
 /**
  * Hold information about generic signatures.
- *
- * @param <T> Type of {@link GenericType}.
  */
-public class GenericSignature<T extends GenericType> {
+public class GenericSignature {
 
     /**
      * Empty generic signature.
      */
-    private static final GenericSignature<?> EMPTY = new GenericSignature<>(new GenericType[0]);
+    private static final GenericSignature EMPTY = new GenericSignature(new GenericType[0]);
 
     /**
      * Generic types.
      */
-    private final T[] types;
+    private final GenericType[] types;
 
     /**
      * Create new generic signature.
      *
      * @param types Generic Types.
      */
-    public GenericSignature(T[] types) {
+    public GenericSignature(GenericType[] types) {
         this.types = types;
     }
 
@@ -61,23 +59,20 @@ public class GenericSignature<T extends GenericType> {
      * Create generic signature.
      *
      * @param types Generic Types.
-     * @param <T>   Type of {@link GenericType}
-     * @return New {@link GenericSignature} holding {@link GenericType}s of type {@link T}
+     * @return New {@link GenericSignature} holding {@link GenericType GenericTypes}
      */
-    @SafeVarargs
-    public static <T extends GenericType> GenericSignature<T> create(T... types) {
-        return new GenericSignature<>(types);
+    public static GenericSignature create(GenericType... types) {
+        return new GenericSignature(types);
     }
 
     /**
      * Empty generic signature.
      *
-     * @param <T> Type of {@link GenericType}.
      * @return Empty {@link GenericSignature}.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends GenericType> GenericSignature<T> empty() {
-        return (GenericSignature<T>) EMPTY;
+    public static GenericSignature empty() {
+        return EMPTY;
     }
 
     /**
@@ -85,7 +80,7 @@ public class GenericSignature<T extends GenericType> {
      *
      * @return Generic types.
      */
-    public T[] getTypes() {
+    public GenericType[] getTypes() {
         return this.types.clone();
     }
 

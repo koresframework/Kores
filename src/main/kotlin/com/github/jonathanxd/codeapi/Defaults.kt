@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,13 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.Access
+import com.github.jonathanxd.codeapi.base.impl.AccessImpl
 
 /**
- * Break a loop.
+ * Common default constant base values
  */
-public interface Break extends CodePart {
-    // TODO: Break labels
+object Defaults {
+
+    @JvmField
+    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
+
+    @JvmField
+    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
+
+
 }

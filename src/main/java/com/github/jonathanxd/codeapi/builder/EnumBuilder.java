@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,7 +35,6 @@ import com.github.jonathanxd.codeapi.impl.CodeEnum;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.EnumEntry;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class EnumBuilder extends Builder<CodeEnum, EnumBuilder> implements
     private Collection<CodeModifier> modifiers = new ArrayList<>();
     private List<Annotation> annotations = new ArrayList<>();
     private String qualifiedName;
-    private GenericSignature<GenericType> genericSignature;
+    private GenericSignature genericSignature;
     private List<CodeType> implementations = new ArrayList<>();
     private List<EnumEntry> entries = new ArrayList<>();
     private CodeSource body = CodeSource.empty();
@@ -124,7 +123,7 @@ public class EnumBuilder extends Builder<CodeEnum, EnumBuilder> implements
     }
 
     @Override
-    public EnumBuilder withGenericSignature(GenericSignature<GenericType> genericSignature) {
+    public EnumBuilder withGenericSignature(GenericSignature genericSignature) {
         this.genericSignature = genericSignature;
         return this;
     }

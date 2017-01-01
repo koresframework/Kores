@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,19 +29,31 @@ package com.github.jonathanxd.codeapi.builder
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayStore
+import com.github.jonathanxd.codeapi.base.impl.ArrayStoreImpl
 import com.github.jonathanxd.codeapi.types.CodeType
 
-class ArrayStoreBuilder @JvmOverloads constructor(defaults: ArrayStore? = null) : Builder<ArrayStore, ArrayStoreBuilder>() {
+class ArrayStoreBuilder() : Builder<ArrayStore, ArrayStoreBuilder>() {
 
-    var arrayType: CodeType? = defaults?.arrayType
-    var target: CodePart? = defaults?.target
-    var index: CodePart? = defaults?.index
-    var valueType: CodePart? = defaults?.valueType
-    var value: CodePart? = defaults?.value
+    lateinit var arrayType: CodeType
+    lateinit var target: CodePart
+    lateinit var index: CodePart
+    lateinit var valueType: CodeType
+    lateinit var value: CodePart
 
-    override fun build(): ArrayStore {
-        TODO("not implemented")
+    constructor(defaults: ArrayStore) : this() {
+        arrayType = defaults.arrayType
+        target = defaults.target
+        index = defaults.index
+        valueType = defaults.valueType
+        value = defaults.valueToStore
     }
 
+    override fun build(): ArrayStore = ArrayStoreImpl(
+            arrayType = arrayType,
+            index = index,
+            target = target,
+            valueToStore = value,
+            valueType = valueType
+    )
 
 }

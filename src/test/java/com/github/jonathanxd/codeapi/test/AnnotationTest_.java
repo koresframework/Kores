@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,12 +29,11 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
+import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
 import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -43,7 +42,7 @@ import java.lang.reflect.Modifier;
 public class AnnotationTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeAnnotation build = AnnotationBuilder.builder()
+        CodeAnnotation build = AnnotationDeclarationBuilder.builder()
                 .withModifiers(Modifier.PUBLIC)
                 .withQualifiedName("com.MyAnnotation")
                 .withProperties(new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "value", null),

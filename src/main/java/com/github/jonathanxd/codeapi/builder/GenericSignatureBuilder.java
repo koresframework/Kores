@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.types.GenericType;
 
 public interface GenericSignatureBuilder<T, R extends GenericSignatureBuilder<T, R>> {
     /**
@@ -37,5 +36,5 @@ public interface GenericSignatureBuilder<T, R extends GenericSignatureBuilder<T,
      * @param genericSignature Generic signature.
      * @return This.
      */
-    R withGenericSignature(GenericSignature<GenericType> genericSignature);
+    R withGenericSignature(GenericSignature genericSignature);
 }

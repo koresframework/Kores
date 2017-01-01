@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,7 +35,6 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
-import com.github.jonathanxd.iutils.type.*;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -200,7 +199,7 @@ public class TypeVarUtil {
         return null;
     }
 
-    public static CodeType findType(GenericSignature<? extends GenericType> signature, String name) {
+    public static CodeType findType(GenericSignature signature, String name) {
         if(signature == null)
             return null;
 
@@ -215,7 +214,7 @@ public class TypeVarUtil {
         return null;
     }
 
-    public static TypeVariable<?>[] toTypeVars(GenericSignature<? extends GenericType> signature) {
+    public static TypeVariable<?>[] toTypeVars(GenericSignature signature) {
         return signature == null ? new TypeVariable[0] : Arrays.stream(signature.getTypes()).map(TypeVarUtil::toTypeVar).toArray(TypeVariable[]::new);
     }
 

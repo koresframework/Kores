@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -41,7 +41,6 @@ import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
 import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 import com.github.jonathanxd.codeapi.util.element.ElementUtil;
@@ -168,7 +167,7 @@ public class BridgeUtil {
     }
 
     private static FullMethodSpec findIn(TypeDeclaration theClass, Generic generic, FullMethodSpec methodSpec) {
-        GenericSignature<GenericType> genericSignature = theClass.getGenericSignature();
+        GenericSignature genericSignature = theClass.getGenericSignature();
 
         TypeVariable<?>[] typeParameters = TypeVarUtil.toTypeVars(genericSignature);
 
@@ -190,7 +189,7 @@ public class BridgeUtil {
                 return spec; // No problem here, CodeAPI will not duplicate methods, it will only avoid the type inference (slow part of the bridge method inference)
             }
 
-            GenericSignature<GenericType> methodSignature = method.getGenericSignature();
+            GenericSignature methodSignature = method.getGenericSignature();
 
             TypeVariable<?>[] methodParameters = TypeVarUtil.toTypeVars(methodSignature);
 
@@ -212,7 +211,7 @@ public class BridgeUtil {
         return null;
     }
 
-    private static FullMethodSpec fixGenerics(FullMethodSpec spec, GenericSignature<? extends GenericType> genericSignature, TypeVariable<?>[] typeVariables, Object method) {
+    private static FullMethodSpec fixGenerics(FullMethodSpec spec, GenericSignature genericSignature, TypeVariable<?>[] typeVariables, Object method) {
         CodeType returnType = spec.getReturnType();
 
         if (returnType instanceof Generic) {

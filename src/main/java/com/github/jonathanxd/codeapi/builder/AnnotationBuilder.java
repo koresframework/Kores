@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -34,24 +34,23 @@ import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.interfaces.AnnotationProperty;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.GenericType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder> implements
-        BodyBuilder<CodeAnnotation, AnnotationBuilder>,
-        ModifiersBuilder<CodeAnnotation, AnnotationBuilder>,
-        GenericSignatureBuilder<CodeAnnotation, AnnotationBuilder>,
-        AnnotationsBuilder<CodeAnnotation, AnnotationBuilder> {
+public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationDeclarationBuilder> implements
+        BodyBuilder<CodeAnnotation, AnnotationDeclarationBuilder>,
+        ModifiersBuilder<CodeAnnotation, AnnotationDeclarationBuilder>,
+        GenericSignatureBuilder<CodeAnnotation, AnnotationDeclarationBuilder>,
+        AnnotationsBuilder<CodeAnnotation, AnnotationDeclarationBuilder> {
 
     private CodeType outerClass;
     private Collection<CodeModifier> modifiers = new ArrayList<>();
     private List<Annotation> annotations = new ArrayList<>();
     private String qualifiedName;
-    private GenericSignature<GenericType> genericSignature;
+    private GenericSignature genericSignature;
     private List<AnnotationProperty> properties = new ArrayList<>();
     private CodeSource body = CodeSource.empty();
 
@@ -64,8 +63,8 @@ public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder
      *
      * @return New enum builder
      */
-    public static AnnotationBuilder builder() {
-        return new AnnotationBuilder();
+    public static AnnotationDeclarationBuilder builder() {
+        return new AnnotationDeclarationBuilder();
     }
 
     /**
@@ -74,7 +73,7 @@ public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder
      * @param outerClass Outer class.
      * @return This.
      */
-    public AnnotationBuilder withOuterClass(CodeType outerClass) {
+    public AnnotationDeclarationBuilder withOuterClass(CodeType outerClass) {
         this.outerClass = outerClass;
         return this;
     }
@@ -85,7 +84,7 @@ public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder
      * @param properties Properties.
      * @return This.
      */
-    public AnnotationBuilder withProperties(List<AnnotationProperty> properties) {
+    public AnnotationDeclarationBuilder withProperties(List<AnnotationProperty> properties) {
         this.properties = properties;
         return this;
     }
@@ -96,7 +95,7 @@ public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder
      * @param properties Properties.
      * @return This.
      */
-    public AnnotationBuilder withProperties(AnnotationProperty... properties) {
+    public AnnotationDeclarationBuilder withProperties(AnnotationProperty... properties) {
         return this.withProperties(Arrays.asList(properties));
     }
 
@@ -106,31 +105,31 @@ public class AnnotationBuilder extends Builder<CodeAnnotation, AnnotationBuilder
      * @param qualifiedName Qualified name.
      * @return This.
      */
-    public AnnotationBuilder withQualifiedName(String qualifiedName) {
+    public AnnotationDeclarationBuilder withQualifiedName(String qualifiedName) {
         this.qualifiedName = qualifiedName;
         return this;
     }
 
     @Override
-    public AnnotationBuilder withAnnotations(List<Annotation> annotations) {
+    public AnnotationDeclarationBuilder withAnnotations(List<Annotation> annotations) {
         this.annotations = annotations;
         return this;
     }
 
     @Override
-    public AnnotationBuilder withGenericSignature(GenericSignature<GenericType> genericSignature) {
+    public AnnotationDeclarationBuilder withGenericSignature(GenericSignature genericSignature) {
         this.genericSignature = genericSignature;
         return this;
     }
 
     @Override
-    public AnnotationBuilder withModifiers(Collection<CodeModifier> modifiers) {
+    public AnnotationDeclarationBuilder withModifiers(Collection<CodeModifier> modifiers) {
         this.modifiers = modifiers;
         return this;
     }
 
     @Override
-    public AnnotationBuilder withBody(CodeSource body) {
+    public AnnotationDeclarationBuilder withBody(CodeSource body) {
         this.body = body;
         return this;
     }

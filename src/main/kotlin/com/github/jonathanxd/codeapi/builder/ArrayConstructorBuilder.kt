@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,28 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.impl;
+package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Access;
-import com.github.jonathanxd.codeapi.interfaces.AccessSuper;
-import com.github.jonathanxd.codeapi.util.ToStringBuilder;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.ArrayConstructor
+import com.github.jonathanxd.codeapi.base.impl.ArrayConstructorImpl
+import com.github.jonathanxd.codeapi.common.CodeArgument
+import com.github.jonathanxd.codeapi.types.CodeType
 
-/**
- * Created by jonathan on 11/05/16.
- */
-@GenerateTo(Access.class)
-public class AccessSuperImpl extends AccessImpl implements AccessSuper {
+class ArrayConstructorBuilder() : Builder<ArrayConstructor, ArrayConstructorBuilder>() {
+    lateinit var arrayType: CodeType
+    lateinit var arguments: List<CodeArgument>
+    lateinit var dimensions: List<CodePart>
 
-
-    public AccessSuperImpl() {
-        super();
+    constructor(defaults: ArrayConstructor) : this() {
+        arrayType = defaults.arrayType
+        arguments = defaults.arguments
+        dimensions = defaults.dimensions
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.builder(this.getClass())
-                .add("localization", this.getLocalization().map(codeType -> codeType.toString().concat(".super")).orElse("super"))
-                .toString();
-    }
+    override fun build(): ArrayConstructor = ArrayConstructorImpl(
+            arrayType = this.arrayType,
+            arguments = this.arguments,
+            dimensions = this.dimensions
+    )
 }

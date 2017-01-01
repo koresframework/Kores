@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,36 +25,20 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.Access
+import com.github.jonathanxd.codeapi.base.impl.AccessImpl
+import com.github.jonathanxd.codeapi.types.CodeType
 
 /**
- * TagLine, a tag line is a debug info commonly used in Bytecode generated classes, a tag line is a
- * line that the current {@link T value} is present.
- *
- * You can determine the expression that generated the exception.
- *
- * TODO: Documentation.
- *
- * @param <ID> Identifier of the tag line.
- * @param <T>  Type of part.
+ * Common constructors
  */
-public interface TagLine<ID, T extends CodePart> extends CodePart {
+object Common {
 
     /**
-     * Gets the identifier.
-     *
-     * @return Identifier.
+     * Create a access to outer class [localization].
      */
-    ID getIdentifier();
-
-    /**
-     * Gets the value.
-     *
-     * @return Value.
-     */
-    T getValue();
-
+    fun accessOuter(localization: CodeType) = AccessImpl(type = Access.Type.OUTER, localization = localization)
 
 }

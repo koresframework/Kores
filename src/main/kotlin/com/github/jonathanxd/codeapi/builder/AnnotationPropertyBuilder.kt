@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,26 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.interfaces;
+package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.Annotation
+import com.github.jonathanxd.codeapi.base.AnnotationProperty
+import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl
+import com.github.jonathanxd.codeapi.types.CodeType
 
-import java.util.List;
+class AnnotationPropertyBuilder() : Builder<AnnotationProperty, AnnotationPropertyBuilder>() {
+    lateinit var type: CodeType
+    lateinit var name: String
+    var annotations: List<Annotation> = emptyList()
+    var value: Any? = null
 
-/**
- * Do-while statement.
- */
-public interface DoWhileBlock extends SimpleWhileBlock, Bodied {
-    @Override
-    DoWhileBlock setElseBlock(ElseBlock elseBlock);
+    constructor(defaults: AnnotationProperty) : this() {
+        type = defaults.type
+        name = defaults.name
+        annotations = defaults.annotations
+        value = defaults.value
+    }
 
-    @Override
-    DoWhileBlock setBody(CodeSource body);
-
-    @Override
-    DoWhileBlock setBodies(List<CodeSource> sourceList);
-
-    @Override
-    DoWhileBlock setIfExprsAndOps(List<CodePart> ifExprsAndOps);
+    override fun build(): AnnotationProperty = AnnotationPropertyImpl(
+            type = this.type,
+            name = this.name,
+            annotations = this.annotations,
+            value = this.value
+    )
 }

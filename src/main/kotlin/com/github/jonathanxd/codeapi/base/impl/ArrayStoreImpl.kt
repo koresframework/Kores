@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayStore
 import com.github.jonathanxd.codeapi.types.CodeType
 
-class ArrayStoreImpl(override val value: CodePart?, override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val valueToStore: CodePart, override val arrayType: CodeType) : ArrayStore
+class ArrayStoreImpl(override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val valueToStore: CodePart, override val arrayType: CodeType) : ArrayStore

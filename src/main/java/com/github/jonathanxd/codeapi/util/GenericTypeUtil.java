@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -42,7 +42,7 @@ public class GenericTypeUtil {
      * @param genericSignature Generic signature.
      * @return Generic signature string.
      */
-    public static String toSourceString(GenericSignature<?> genericSignature) {
+    public static String toSourceString(GenericSignature genericSignature) {
         StringBuilder sb = new StringBuilder();
 
         GenericType[] types = genericSignature.getTypes();

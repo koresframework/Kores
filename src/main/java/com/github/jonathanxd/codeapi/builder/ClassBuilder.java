@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,7 +35,6 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.impl.CodeClass;
 import com.github.jonathanxd.codeapi.interfaces.Annotation;
 import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.GenericType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public final class ClassBuilder extends Builder<CodeClass, ClassBuilder> {
     private Collection<CodeModifier> modifiers = new ArrayList<>();
     private List<Annotation> annotations = new ArrayList<>();
     private String qualifiedName;
-    private GenericSignature<GenericType> genericSignature;
+    private GenericSignature genericSignature;
     private CodeType superClass = PredefinedTypes.OBJECT;
     private List<CodeType> implementations = new ArrayList<>();
     private CodeSource body = CodeSource.empty();
@@ -155,7 +154,7 @@ public final class ClassBuilder extends Builder<CodeClass, ClassBuilder> {
      * @param genericSignature Generic signature.
      * @return This.
      */
-    public ClassBuilder withGenericSignature(GenericSignature<GenericType> genericSignature) {
+    public ClassBuilder withGenericSignature(GenericSignature genericSignature) {
         this.genericSignature = genericSignature;
         return this;
     }
