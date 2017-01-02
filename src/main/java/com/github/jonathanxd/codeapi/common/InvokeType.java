@@ -39,9 +39,6 @@ import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 
-/**
- * Created by jonathan on 03/06/16.
- */
 @SuppressWarnings("Duplicates")
 /**
  * Type of the invocation.

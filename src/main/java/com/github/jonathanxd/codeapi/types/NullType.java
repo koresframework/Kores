@@ -68,4 +68,9 @@ public class NullType implements CodeType {
     public String toString() {
         return "Null";
     }
+
+    @Override
+    public boolean isExpression() {
+        return false;
+    }
 }

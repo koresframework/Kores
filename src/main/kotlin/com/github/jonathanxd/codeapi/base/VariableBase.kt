@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.types.CodeType
 
 /**

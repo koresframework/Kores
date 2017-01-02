@@ -27,20 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.EnumBuilder;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeEnum;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import java.lang.reflect.Modifier;
-
 public class EnumTest_ {
+/*
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
         CodeEnum codeEnum = EnumBuilder.builder()
@@ -82,4 +70,5 @@ public class EnumTest_ {
     public interface MyItf {
         void v();
     }
+*/
 }

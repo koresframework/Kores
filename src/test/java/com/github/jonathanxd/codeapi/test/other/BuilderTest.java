@@ -27,17 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.builder.InvocationBuilder;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.literals.Literals;
-
 import org.junit.Test;
-
-import java.io.PrintStream;
-
-import kotlin.Unit;
 
 public class BuilderTest {
 
@@ -45,6 +35,7 @@ public class BuilderTest {
     public void test() {
 
 
+/*
         MethodInvocation invocation = InvocationBuilder.invocation(it -> {
             it.setInvokeType(InvokeType.INVOKE_VIRTUAL);
             it.setLocalization(PrintStream.class);
@@ -57,6 +48,7 @@ public class BuilderTest {
         });
 
         System.out.println(invocation);
+*/
     }
 
 }

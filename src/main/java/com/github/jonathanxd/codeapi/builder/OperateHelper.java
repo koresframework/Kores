@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.impl.OperateImpl;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 
@@ -191,7 +192,7 @@ public final class OperateHelper {
     }
 
     private OperateHelper operate(Operator operation, CodePart value) {
-        this.part = CodeAPI.operate(this.part, operation, value);
+        this.part = new OperateImpl(this.part, operation, value);
 
         return this;
     }

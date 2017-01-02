@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.interfaces.MethodFragment;
+import com.github.jonathanxd.codeapi.base.MethodFragment;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 

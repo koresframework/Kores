@@ -27,11 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.annotation;
 
-import com.github.jonathanxd.codeapi.gen.value.ValueGenerator;
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
-import com.github.jonathanxd.codeapi.gen.visit.VisitorGenerator;
-import com.github.jonathanxd.codeapi.impl.MethodInvocationImpl;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,18 +35,6 @@ import java.lang.annotation.Target;
 
 /**
  * Point to the base element.
- *
- * The class provided to {@link #value()} property will be used by {@link
- * com.github.jonathanxd.codeapi.gen.CodeGenerator} and {@link VisitorGenerator}
- * to determine the {@link ValueGenerator} and {@link
- * Visitor} respectively.
- *
- * Example:
- *
- * {@link MethodInvocationImpl} points to {@link
- * com.github.jonathanxd.codeapi.interfaces.MethodInvocation} because the first 'implements' entry
- * is {@link com.github.jonathanxd.codeapi.CodePart} and the {@code generators} and {@code visitors}
- * cannot ensure the correct {@link com.github.jonathanxd.codeapi.gen.PartProcessor} to use.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

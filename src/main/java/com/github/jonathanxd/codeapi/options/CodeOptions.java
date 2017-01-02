@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.options;
 
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.iutils.option.Option;
 
 /**
@@ -75,16 +74,16 @@ public class CodeOptions {
      * The generation of bridge methods is very limited, the {@link com.github.jonathanxd.codeapi.util.source.BridgeUtil}
      * will inspect super-classes (and super-interfaces) and find the overridden method. The {@link
      * com.github.jonathanxd.codeapi.util.source.BridgeUtil} will only inspect {@link Class Java
-     * class} and {@link com.github.jonathanxd.codeapi.interfaces.TypeDeclaration CodeAPI Type
+     * class} and {@link com.github.jonathanxd.codeapi.base.TypeDeclaration CodeAPI Type
      * Declaration}, if the super-class and/or super-interfaces is of another type, {@link
      * com.github.jonathanxd.codeapi.util.source.BridgeUtil} will ignore and bridge method will not
      * be generated.
      *
-     * You can add bridge methods manually with {@link com.github.jonathanxd.codeapi.helper.Helper#bridgeMethod(CodeMethod,
-     * FullMethodSpec)}.
+     * You can add bridge methods manually with {@code TODO}.
      *
      * Known supported generators: {@code BytecodeGenerator}.
      *
      */
+    //link com.github.jonathanxd.codeapi.helper.Helper#bridgeMethod(CodeMethod, FullMethodSpec)
     public static final Option<Boolean> GENERATE_BRIDGE_METHODS = new Option<>(false);
 }

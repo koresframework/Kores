@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.inspect;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.base.BodyHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,17 +55,17 @@ public class SourceInspect<R> {
     private final boolean inspectCodeSource;
 
     /**
-     * Predicate to test {@link Bodied} element. If predicate test returns true, inspect the {@link
-     * Bodied} source.
+     * Predicate to test {@link BodyHolder} element. If predicate test returns true, inspect the {@link
+     * BodyHolder} source.
      */
-    private final Predicate<Bodied> subPredicate;
+    private final Predicate<BodyHolder> subPredicate;
 
     /**
      * Mapper to convert {@link CodePart}s to {@link R}.
      */
     private final Function<CodePart, R> mapper;
 
-    SourceInspect(Predicate<CodePart> predicate, boolean inspectCodeSource, Predicate<Bodied> subPredicate, Function<CodePart, R> mapper) {
+    SourceInspect(Predicate<CodePart> predicate, boolean inspectCodeSource, Predicate<BodyHolder> subPredicate, Function<CodePart, R> mapper) {
         this.predicate = predicate;
         this.inspectCodeSource = inspectCodeSource;
         this.subPredicate = subPredicate;
@@ -109,12 +109,12 @@ public class SourceInspect<R> {
 
         for (CodePart codePart : source) {
             // Deep inspection
-            if (codePart instanceof Bodied) {
-                if (this.subPredicate != null && this.subPredicate.test((Bodied) codePart)) {
-                    Optional<CodeSource> body = ((Bodied) codePart).getBody();
+            if (codePart instanceof BodyHolder) {
+                if (this.subPredicate != null && this.subPredicate.test((BodyHolder) codePart)) {
+                    CodeSource body = ((BodyHolder) codePart).getBody();
 
-                    if (body.isPresent())
-                        this.inspect(body.get(), true, list);
+                    if (body != null)
+                        this.inspect(body, true, list);
                 }
             }
             if (inspect) {

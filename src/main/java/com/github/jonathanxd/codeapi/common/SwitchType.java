@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.base.Case;
+import com.github.jonathanxd.codeapi.base.SwitchStatement;
+import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.interfaces.Case;
-import com.github.jonathanxd.codeapi.interfaces.Switch;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.sugar.Generator;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 /**
  * Transformation applier, this Switch object must be transformed into an INT.
  */
-public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
+public interface SwitchType extends PartProcessor, SugarSyntax<SwitchStatement, SwitchStatement> {
 
     default boolean isUnique() {
         return false;
@@ -54,7 +54,7 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
     /**
      * This generator will not be called if the {@link SwitchType} is {@link SwitchTypes#NUMERIC}.
      */
-    abstract class SwitchGenerator implements Generator<Switch, Switch> {
+    abstract class SwitchGenerator implements Generator<SwitchStatement, SwitchStatement> {
 
         /**
          * Translate switch to integer.
@@ -62,7 +62,7 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
          * @param aSwitch Switch
          * @return Translated switch.
          */
-        public Switch translateSwitch(Switch aSwitch) {
+        public SwitchStatement translateSwitch(SwitchStatement aSwitch) {
             return aSwitch;
         }
 
@@ -72,21 +72,21 @@ public interface SwitchType extends PartProcessor, SugarSyntax<Switch, Switch> {
          * @param aCase Case.
          * @return Translated case.
          */
-        public Case translateCase(Case aCase, Switch aSwitch) {
+        public Case translateCase(Case aCase, SwitchStatement aSwitch) {
             return aCase;
         }
 
         @Override
-        public Switch generate(Switch aSwitch) {
+        public SwitchStatement generate(SwitchStatement aSwitch) {
             List<Case> caseList = aSwitch.getCases().stream().map(
                     aCase -> aCase.isDefault() ? aCase : this.checkType(this.translateCase(aCase, aSwitch))
             ).collect(Collectors.toList());
 
-            return this.checkType(this.translateSwitch(aSwitch).setSwitchType(SwitchTypes.NUMERIC).setCases(caseList));
+            return null;//this.checkType(this.translateSwitch(aSwitch).setSwitchType(SwitchTypes.NUMERIC).setCases(caseList));
         }
 
         private <R extends Typed> R checkType(R typed) {
-            if (!Objects.requireNonNull(typed.getType().orElse(null), "Type cannot be null").is(PredefinedTypes.INT)) {
+            if (!Objects.requireNonNull(typed.getType(), "Type cannot be null").is(PredefinedTypes.INT)) {
                 throw new IllegalArgumentException("Translated switch is not a numeric switch!");
             }
 

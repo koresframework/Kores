@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.types.NullType;
 
 /**
  * {@link Literal Literals} constants.
@@ -38,7 +39,7 @@ import com.github.jonathanxd.codeapi.types.CodeType;
 public final class Literals {
 
     // NullLiteral
-    public static final Literal NULL = new SimpleLiteral("null", Helper.nullType());
+    public static final Literal NULL = new SimpleLiteral("null", NullType.getNullType());
     // BooleanLiteral
     public static final Literal TRUE = new BoolLiteral(true);
     public static final Literal FALSE = new BoolLiteral(false);

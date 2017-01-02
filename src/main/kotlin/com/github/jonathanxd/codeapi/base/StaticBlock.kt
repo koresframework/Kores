@@ -44,10 +44,10 @@ interface StaticBlock : ConstructorDeclaration {
     override val parameters: List<CodeParameter>
         get() = emptyList()
 
-    override val returnType: CodeType?
+    override val returnType: CodeType
         get() = Constants.RETURN_TYPE
 
-    override val genericSignature: GenericSignature<GenericType>
+    override val genericSignature: GenericSignature
         get() = GenericSignature.empty()
 
     override val modifiers: List<CodeModifier>

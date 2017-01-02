@@ -28,8 +28,12 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.types.CodeType
 
 /**
  * Field declaration
  */
-interface FieldDeclaration : CodeElement, VariableDeclaration, Named, Typed, ValueHolder, ModifiersHolder, Annotable
+interface FieldDeclaration : CodeElement, VariableDeclaration, Named, Typed, ValueHolder, ModifiersHolder, Annotable {
+    override val type: CodeType
+        get() = this.variableType
+}

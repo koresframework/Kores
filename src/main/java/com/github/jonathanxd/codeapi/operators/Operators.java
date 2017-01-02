@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.operators;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.base.Named;
 
 import org.objectweb.asm.Opcodes;
 

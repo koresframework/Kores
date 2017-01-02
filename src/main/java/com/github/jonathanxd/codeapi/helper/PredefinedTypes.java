@@ -172,5 +172,10 @@ public final class PredefinedTypes {
         public String toString() {
             return this.getJavaSpecName();
         }
+
+        @Override
+        public boolean isExpression() {
+            return false;
+        }
     }
 }

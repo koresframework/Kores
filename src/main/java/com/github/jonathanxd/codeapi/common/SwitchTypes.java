@@ -27,15 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.Case;
+import com.github.jonathanxd.codeapi.base.EnumValue;
+import com.github.jonathanxd.codeapi.base.SwitchStatement;
+import com.github.jonathanxd.codeapi.base.Typed;
+import com.github.jonathanxd.codeapi.base.ValueHolder;
+import com.github.jonathanxd.codeapi.base.impl.CastImpl;
 import com.github.jonathanxd.codeapi.common.SwitchType.SwitchGenerator;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.interfaces.Case;
-import com.github.jonathanxd.codeapi.interfaces.EnumValue;
-import com.github.jonathanxd.codeapi.interfaces.Switch;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.interfaces.Valuable;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.types.CodeType;
@@ -55,9 +55,9 @@ public final class SwitchTypes {
      * Try to resolve CodePart at runtime.
      */
     @SuppressWarnings("unchecked")
-    private static int resolve(CodePart p, Switch aSwitch) {
+    private static int resolve(CodePart p, SwitchStatement aSwitch) {
 
-        CodeType type = aSwitch.getType().orElseThrow(NullPointerException::new);
+        CodeType type = aSwitch.getType();
 
         if (p instanceof Literal) {
             Literal l = (Literal) p;
@@ -112,21 +112,21 @@ public final class SwitchTypes {
     private static class EnumSwitchGenerator extends SwitchGenerator {
 
         @Override
-        public Switch translateSwitch(Switch aSwitch) {
+        public SwitchStatement translateSwitch(SwitchStatement aSwitch) {
             return this.translate(aSwitch);
         }
 
         @Override
-        public Case translateCase(Case aCase, Switch aSwitch) {
+        public Case translateCase(Case aCase, SwitchStatement aSwitch) {
             if (aCase.isDefault())
                 return aCase;
 
-            return aCase.setValue(Literals.INT(resolve(aCase.getValue().orElseThrow(NullPointerException::new), aSwitch)));
+            return null;//aCase.setValue(Literals.INT(resolve(aCase.getValue().orElseThrow(NullPointerException::new), aSwitch)));
         }
 
         @SuppressWarnings("unchecked")
-        private <T extends Valuable> T translate(T t) {
-            return (T) t.setValue(CodeAPI.invokeVirtual(Enum.class, t.getValue().orElse(null), "ordinal", CodeAPI.typeSpec(PredefinedTypes.INT)));
+        private <T extends ValueHolder> T translate(T t) {
+            return null;//(T) t.setValue(CodeAPI.invokeVirtual(Enum.class, t.getValue().orElse(null), "ordinal", CodeAPI.typeSpec(PredefinedTypes.INT)));
         }
 
     }
@@ -148,7 +148,7 @@ public final class SwitchTypes {
 
         private static CodePart autoUnboxing(CodePart part, CodeType type) {
             if (!type.isPrimitive()) {
-                return CodeAPI.cast(type, PredefinedTypes.INT, part);
+                return new CastImpl(type, PredefinedTypes.INT, part);
             }
 
             return part;
@@ -164,12 +164,12 @@ public final class SwitchTypes {
         }
 
         @Override
-        public Switch generate(Switch aSwitch) {
-            Typed part = (Typed) aSwitch.getValue().orElseThrow(NullPointerException::new);
-            CodeType type = part.getType().orElseThrow(NullPointerException::new);
+        public SwitchStatement generate(SwitchStatement aSwitch) {
+            Typed part = (Typed) aSwitch.getValue();
+            CodeType type = part.getType();
 
             if (isAcceptable(type)) {
-                return aSwitch.setValue(autoUnboxing(part, type));
+                return null;//aSwitch.setValue(autoUnboxing(part, type));
             }
 
 
@@ -180,28 +180,28 @@ public final class SwitchTypes {
     private static class ObjectSwitchGenerator extends SwitchGenerator {
 
         @Override
-        public Switch translateSwitch(Switch aSwitch) {
+        public SwitchStatement translateSwitch(SwitchStatement aSwitch) {
             return this.translate(aSwitch);
         }
 
         @Override
-        public Case translateCase(Case aCase, Switch aSwitch) {
+        public Case translateCase(Case aCase, SwitchStatement aSwitch) {
 
             if (aCase.isDefault())
                 return aCase;
 
-            if (aCase.getType().orElseThrow(NullPointerException::new).is(PredefinedTypes.INT))
+            if (aCase.getType().is(PredefinedTypes.INT))
                 return aCase;
 
-            return aCase.setValue(Literals.INT(resolve(aCase.getValue().orElseThrow(NullPointerException::new), aSwitch)));
+            return null;//aCase.setValue(Literals.INT(resolve(aCase.getValue(), aSwitch)));
         }
 
 
         @SuppressWarnings("unchecked")
-        private <T extends Valuable> T translate(T t) {
-            return (T) t.setValue(CodeAPI.invokeVirtual(Object.class,
+        private <T extends ValueHolder> T translate(T t) {
+            return (T) null;/*t.setValue(CodeAPI.invokeVirtual(Object.class,
                     t.getValue().orElse(null),
-                    "hashCode", CodeAPI.typeSpec(PredefinedTypes.INT)));
+                    "hashCode", CodeAPI.typeSpec(PredefinedTypes.INT)));*/
         }
     }
 }

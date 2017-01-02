@@ -36,8 +36,9 @@ import com.github.jonathanxd.codeapi.types.CodeType
  */
 interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed {
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.returnType
 
+    override val returnType: CodeType
 
 }

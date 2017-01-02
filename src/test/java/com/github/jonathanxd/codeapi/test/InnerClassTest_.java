@@ -27,35 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import java.util.Arrays;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.accessField;
-import static com.github.jonathanxd.codeapi.CodeAPI.argument;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.method;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static java.lang.reflect.Modifier.PRIVATE;
-import static java.lang.reflect.Modifier.PUBLIC;
-
 /**
  * Created by jonathan on 03/09/16.
  */
 public class InnerClassTest_ {
     //
+/*
 
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
@@ -97,4 +74,5 @@ public class InnerClassTest_ {
 
         return Pair.of(codeClass, sourceOfParts(codeClass));
     }
+*/
 }

@@ -25,42 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.builder;
+package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.util.ArrayToList;
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.BodyHolder
+import com.github.jonathanxd.codeapi.base.Label
 
-import java.util.Collection;
-
-public interface ModifiersBuilder<T, R extends ModifiersBuilder<T, R>> {
-    /**
-     * Set modifiers.
-     *
-     * @param modifiers Code Modifiers
-     * @return This.
-     */
-    R withModifiers(Collection<CodeModifier> modifiers);
-
-    /**
-     * Set modifiers.
-     *
-     * @param modifiers Modifiers.
-     * @return This.
-     */
-    default R withModifiers(CodeModifier... modifiers) {
-        return this.withModifiers(ArrayToList.toList(modifiers));
-    }
-
-    /**
-     * Set modifiers
-     *
-     * @param modifiers Java Modifiers flag: {@link java.lang.reflect.Modifier} ({@link
-     *                  java.lang.reflect.Modifier#PUBLIC}, {@link java.lang.reflect.Modifier#PRIVATE},
-     *                  {@link java.lang.reflect.Modifier#PROTECTED}, 0 to package-private, etc...
-     *                  visibility).
-     * @return This.
-     */
-    default R withModifiers(int modifiers) {
-        return this.withModifiers(CodeModifier.extractModifiers(modifiers));
+class LabelImpl(override val name: String, override val body: CodeSource?) : Label {
+    init {
+        BodyHolder.checkBody(this)
     }
 }

@@ -58,7 +58,7 @@ public interface CodeGenerator<OUT> {
      * @return Generated object.
      */
     default OUT gen(CodePart part) {
-        return this.gen(CodeAPI.sourceOfParts(part), new MapData(), null);
+        return this.gen(CodeSource.fromVarArgs(part), new MapData(), null);
     }
 
     /**
@@ -70,7 +70,7 @@ public interface CodeGenerator<OUT> {
      * @return Generated object.
      */
     default OUT gen(CodePart part, MapData data, Object additional) {
-        return this.gen(CodeAPI.sourceOfParts(part), data, additional);
+        return this.gen(CodeSource.fromVarArgs(part), data, additional);
     }
 
     /**

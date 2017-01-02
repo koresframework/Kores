@@ -29,19 +29,19 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.FieldDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.ModifiersHolder
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.MemberInfo
 import com.github.jonathanxd.codeapi.common.MemberInfos
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration
-import com.github.jonathanxd.codeapi.interfaces.Modifierable
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
 
 object MemberInfosUtil {
     @JvmStatic
     fun createMemberInfos(typeDeclaration: TypeDeclaration): MemberInfos {
-        val body = typeDeclaration.body.orElse(CodeSource.empty())
+        val body = typeDeclaration.body ?: CodeSource.empty()
 
         val elements = SourceInspect.find { codePart -> codePart is MethodDeclaration || codePart is FieldDeclaration }
                 .include { bodied -> bodied is CodeSource }
@@ -51,7 +51,7 @@ object MemberInfosUtil {
         val memberInfos = MemberInfos(typeDeclaration)
 
         for (element in elements) {
-            if (element is Modifierable) {
+            if (element is ModifiersHolder) {
                 memberInfos.put(MemberInfo.of(element, !element.modifiers.contains(CodeModifier.PRIVATE)))
             }
         }

@@ -27,30 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.field;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static java.lang.reflect.Modifier.PUBLIC;
-import static java.lang.reflect.Modifier.STATIC;
-
 /**
  * Created by jonathan on 07/07/16.
  */
 public class ForEachArray_ {
+/*
 
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
@@ -70,4 +51,5 @@ public class ForEachArray_ {
         return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 
+*/
 }

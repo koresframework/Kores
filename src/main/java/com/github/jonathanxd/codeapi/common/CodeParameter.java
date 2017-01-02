@@ -28,17 +28,16 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Annotable;
-import com.github.jonathanxd.codeapi.interfaces.Annotation;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.base.Annotable;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.Named;
+import com.github.jonathanxd.codeapi.base.RequiredTyped;
+import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Representation of element parameters (to be more specific, method parameters).
@@ -88,18 +87,8 @@ public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Ann
     }
 
     @Override
-    public CodeParameter setName(String name) {
-        return new CodeParameter(name, this.getType().orElse(null), this.getAnnotations());
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
-        return Optional.of(this.type);
-    }
-
-    @Override
-    public CodeParameter setType(CodeType codeType) {
-        return new CodeParameter(this.getName(), codeType, this.getAnnotations());
+    public CodeType getType() {
+        return this.type;
     }
 
     @Override
@@ -108,12 +97,12 @@ public class CodeParameter implements Named, Typed, RequiredTyped, CodePart, Ann
     }
 
     @Override
-    public CodeParameter setAnnotations(List<Annotation> annotations) {
-        return new CodeParameter(this.getName(), this.getType().orElse(null), annotations);
+    public String toString() {
+        return "CodeParameter[name=" + this.getName() + ", type=" + this.getType() + ", annotations=" + this.getAnnotations() + "]";
     }
 
     @Override
-    public String toString() {
-        return "CodeParameter[name="+this.getName()+", type="+this.getType()+", annotations="+this.getAnnotations()+"]";
+    public boolean isExpression() {
+        return CodePart.DefaultImpls.isExpression(this);
     }
 }

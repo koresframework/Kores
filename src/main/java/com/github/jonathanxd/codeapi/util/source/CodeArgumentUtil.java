@@ -56,9 +56,9 @@ public class CodeArgumentUtil {
         CodeArgument[] newArguments = new CodeArgument[passed.length];
 
         for (int i = 0; i < newArguments.length; i++) {
-            CodeType type = expected[i].getType().orElse(null);
+            CodeType type = expected[i].getType();
 
-            newArguments[i] = new CodeArgument(Require.require(passed[i].getValue()), type != null, type);
+            newArguments[i] = new CodeArgument(passed[i].getValue(), type != null, type);
         }
 
         return newArguments;
@@ -118,7 +118,7 @@ public class CodeArgumentUtil {
      * @return Converted argument.
      */
     public static CodeArgument fromParameters(CodeParameter parameter) {
-        return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
+        return null;//new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
     }
 
 
@@ -143,7 +143,7 @@ public class CodeArgumentUtil {
      * @return Converted argument.
      */
     public static CodeArgument fromJavaParameter(Parameter parameter) {
-        return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), Helper.getJavaType(parameter.getType())), true, Helper.getJavaType(parameter.getType()));
+        return null;//new CodeArgument(Helper.accessLocalVariable(parameter.getName(), Helper.getJavaType(parameter.getType())), true, Helper.getJavaType(parameter.getType()));
     }
 
 }

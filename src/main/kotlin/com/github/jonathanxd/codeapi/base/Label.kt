@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.interfaces.Bodied
-
 /**
  * Label.
  */
-interface Label: Named, Bodied
+interface Label: Named, BodyHolder

@@ -27,10 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.codeapi.types.GenericType;
@@ -180,15 +180,15 @@ public class TypeVarUtil {
     }
 
     public static CodeType findType(TypeVariable<?>[] typeVariables, String name) {
-        if(typeVariables == null)
+        if (typeVariables == null)
             return null;
 
         for (TypeVariable<?> typeVariable : typeVariables) {
-            if(typeVariable.getName().equals(name) && typeVariable.getBounds().length > 0) {
+            if (typeVariable.getName().equals(name) && typeVariable.getBounds().length > 0) {
 
                 Class<?> from = com.github.jonathanxd.iutils.type.TypeUtil.from(typeVariable.getBounds()[0]);
 
-                if(from != null) {
+                if (from != null) {
                     return Helper.getJavaType(from);
                 }
             }
@@ -200,14 +200,14 @@ public class TypeVarUtil {
     }
 
     public static CodeType findType(GenericSignature signature, String name) {
-        if(signature == null)
+        if (signature == null)
             return null;
 
         GenericType[] types = signature.getTypes();
 
         for (GenericType type : types) {
-            if(!type.isType())
-                if(type.name().equals(name))
+            if (!type.isType())
+                if (type.name().equals(name))
                     return type.getCodeType();
         }
 

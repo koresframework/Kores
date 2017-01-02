@@ -27,31 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
-import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import java.util.Collections;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static java.lang.reflect.Modifier.PUBLIC;
-
 /**
  * Created by jonathan on 03/09/16.
  */
 public class TryWithResourcesTest_ {
     //
+/*
 
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
@@ -90,4 +71,5 @@ public class TryWithResourcesTest_ {
             throw new IllegalStateException("Failed to close");
         }
     }
+*/
 }

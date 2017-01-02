@@ -28,21 +28,21 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.RequiredTyped;
+import com.github.jonathanxd.codeapi.base.Typed;
+import com.github.jonathanxd.codeapi.base.ValueHolder;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.interfaces.Valuable;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.util.CodePartUtil;
-import com.github.jonathanxd.iutils.optional.Require;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
- * Represents an Argument to be passed to a {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}.
+ * Represents an Argument to be passed to a {@link com.github.jonathanxd.codeapi.base.ArgumentHolder}.
  */
-public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
+public class CodeArgument implements Typed, ValueHolder, RequiredTyped, CodePart {
     /**
      * Value of Argument
      */
@@ -60,13 +60,13 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
 
     /**
      * Create a {@link CodeArgument} that receives only the value to pass to an {@link
-     * com.github.jonathanxd.codeapi.interfaces.Argumenterizable} part.
+     * com.github.jonathanxd.codeapi.base.ArgumentHolder} part.
      *
-     * If you are not passing the {@link TypeSpec} to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable},
+     * If you are not passing the {@link TypeSpec} to {@link com.github.jonathanxd.codeapi.base.ArgumentHolder},
      * you must to use {@link #CodeArgument(CodePart, CodeType)}. If you don't use that a exception
      * will be thrown.
      *
-     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.base.ArgumentHolder}
      *              part.
      */
     public CodeArgument(CodePart value) {
@@ -76,7 +76,7 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     /**
      * Create a {@link CodeArgument} that receives the value and type.
      *
-     * @param value  Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     * @param value  Value to pass to {@link com.github.jonathanxd.codeapi.base.ArgumentHolder}
      *               part.
      * @param casted If true, the generator will cast the value to specified {@code type}.
      * @param type   Expected argument type.
@@ -90,7 +90,7 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     /**
      * Create a {@link CodeArgument} that receives the value and type.
      *
-     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.base.ArgumentHolder}
      *              part.
      * @param type  Expected argument type.
      */
@@ -101,7 +101,7 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     /**
      * Create a {@link CodeArgument} that receives the value and type.
      *
-     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     * @param value Value to pass to {@link com.github.jonathanxd.codeapi.base.ArgumentHolder}
      *              part.
      * @param type  Expected argument type.
      */
@@ -112,7 +112,7 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     /**
      * Create a {@link CodeArgument} that receives the value and type.
      *
-     * @param value  Value to pass to {@link com.github.jonathanxd.codeapi.interfaces.Argumenterizable}
+     * @param value  Value to pass to {@link com.github.jonathanxd.codeapi.base.ArgumentHolder}
      *               part.
      * @param casted If true, the generator will cast the value to specified {@code type}.
      * @param type   Expected argument type.
@@ -131,35 +131,31 @@ public class CodeArgument implements Typed, Valuable, RequiredTyped, CodePart {
     }
 
     @Override
-    public Optional<CodePart> getValue() {
-        return Optional.of(this.value);
+    @NotNull
+    public CodePart getValue() {
+        return this.value;
     }
 
     @Override
-    public CodeArgument setValue(CodePart value) {
-        return new CodeArgument(value, this.isCasted(), this.getType().orElse(null));
-    }
-
-    @Override
-    public Optional<CodeType> getType() {
+    public CodeType getType() {
         if (this.type == null) {
             try {
-                CodePartUtil.getType(Require.require(this.getValue(), "Value is required"));
+                CodePartUtil.getType(Objects.requireNonNull(this.getValue(), "Value is required"));
             } catch (Exception e) {
-                return Optional.empty();
+                return null;
             }
         }
 
-        return Optional.ofNullable(this.type);
-    }
-
-    @Override
-    public CodeArgument setType(CodeType codeType) {
-        return new CodeArgument(this.getValue().orElse(null), this.isCasted(), codeType);
+        return this.type;
     }
 
     @Override
     public String toString() {
-        return "CodeArgument[value="+this.getValue().orElse(null)+", type="+this.getType().orElse(null)+", isCast: "+this.isCasted()+"]";
+        return "CodeArgument[value=" + this.getValue() + ", type=" + this.getType() + ", isCast: " + this.isCasted() + "]";
+    }
+
+    @Override
+    public boolean isExpression() {
+        return CodePart.DefaultImpls.isExpression(this);
     }
 }

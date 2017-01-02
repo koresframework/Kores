@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
@@ -133,10 +134,10 @@ public class FullMethodSpec extends TypeSpec implements Comparable<FullMethodSpe
         return new FullMethodSpec(this.getLocalization(), returnType, this.getMethodName(), this.getParameterTypes());
     }
 
-    @Override
+    /*@Override
     public FullMethodSpec setType(CodeType codeType) {
         return this.setReturnType(codeType);
-    }
+    }*/
 
     public FullMethodSpec setLocation(CodeType location) {
         return new FullMethodSpec(location, this.getReturnType(), this.getMethodName(), this.getParameterTypes());
@@ -170,5 +171,10 @@ public class FullMethodSpec extends TypeSpec implements Comparable<FullMethodSpe
         return this.getMethodName().equals(o.getMethodName())
                 && this.getParameterTypes().equals(o.getParameterTypes())
                 && this.getReturnType().is(o.getReturnType()) ? 0 : 1;
+    }
+
+    @Override
+    public boolean isExpression() {
+        return CodePart.DefaultImpls.isExpression(this);
     }
 }

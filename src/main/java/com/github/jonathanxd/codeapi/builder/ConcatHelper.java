@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.builder;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.impl.ConcatImpl;
-import com.github.jonathanxd.codeapi.interfaces.Concat;
+import com.github.jonathanxd.codeapi.base.Concat;
+import com.github.jonathanxd.codeapi.base.impl.ConcatImpl;
 import com.github.jonathanxd.codeapi.literals.Literals;
 
 import java.util.ArrayList;

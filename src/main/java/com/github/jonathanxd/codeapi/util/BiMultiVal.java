@@ -126,7 +126,7 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
          *
          * @param baseType Base type.
          */
-        protected Adder(Class<T> baseType) {
+        public Adder(Class<T> baseType) {
             this.baseType = baseType;
         }
 

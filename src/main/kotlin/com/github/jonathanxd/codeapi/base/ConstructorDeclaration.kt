@@ -35,7 +35,10 @@ import com.github.jonathanxd.codeapi.types.CodeType
  */
 interface ConstructorDeclaration : MethodDeclaration {
 
-    override val returnType: CodeType?
+    override val name: String
+        get() = "<init>"
+
+    override val returnType: CodeType
         get() = PredefinedTypes.VOID
 
 }

@@ -28,17 +28,15 @@
 package com.github.jonathanxd.codeapi.util.source;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.ImplementationHolder;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.SuperClassHolder;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
-import com.github.jonathanxd.codeapi.interfaces.Extender;
-import com.github.jonathanxd.codeapi.interfaces.Implementer;
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.Generic;
 import com.github.jonathanxd.codeapi.types.LoadedCodeType;
@@ -56,10 +54,10 @@ import java.util.stream.Collectors;
 
 public class BridgeUtil {
 
-    public static Optional<CodeMethod> genBridgeMethod(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
+    public static Optional<MethodDeclaration> genBridgeMethod(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
         FullMethodSpec bridgeMethod = BridgeUtil.findMethodToBridge(typeDeclaration, methodDeclaration);
 
-        return bridgeMethod == null ? Optional.empty() : Optional.of(Helper.bridgeMethod(methodDeclaration, bridgeMethod));
+        return Optional.empty();//bridgeMethod == null ? Optional.empty() : Optional.of(Helper.bridgeMethod(methodDeclaration, bridgeMethod));
     }
 
     public static FullMethodSpec findMethodToBridge(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
@@ -74,24 +72,24 @@ public class BridgeUtil {
     }
 
     private static FullMethodSpec find(TypeDeclaration typeDeclaration, FullMethodSpec methodSpec) {
-        if (!(typeDeclaration instanceof Extender) && !(typeDeclaration instanceof Implementer))
+        if (!(typeDeclaration instanceof SuperClassHolder) && !(typeDeclaration instanceof ImplementationHolder))
             return null;
 
         List<Generic> types = new ArrayList<>();
 
-        if (typeDeclaration instanceof Extender) {
-            Extender extender = (Extender) typeDeclaration;
+        if (typeDeclaration instanceof SuperClassHolder) {
+            SuperClassHolder extender = (SuperClassHolder) typeDeclaration;
 
-            Optional<CodeType> superTypeOpt = extender.getSuperType();
+            CodeType superTypeOpt = extender.getSuperClass();
 
-            if (superTypeOpt.isPresent()) {
-                if (superTypeOpt.get() instanceof Generic)
-                    types.add((Generic) superTypeOpt.get());
+            if (superTypeOpt != null) {
+                if (superTypeOpt instanceof Generic)
+                    types.add((Generic) superTypeOpt);
             }
         }
 
-        if (typeDeclaration instanceof Implementer) {
-            Implementer implementer = (Implementer) typeDeclaration;
+        if (typeDeclaration instanceof ImplementationHolder) {
+            ImplementationHolder implementer = (ImplementationHolder) typeDeclaration;
 
             implementer.getImplementations().stream()
                     .filter(codeType -> codeType instanceof Generic)
@@ -174,16 +172,16 @@ public class BridgeUtil {
         List<MethodDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof MethodDeclaration)
                 .include(bodied -> bodied instanceof CodeSource)
                 .mapTo(codePart -> (MethodDeclaration) codePart)
-                .inspect(theClass.getBody().orElse(CodeSource.empty()));
+                .inspect(theClass.getBody());
 
         for (MethodDeclaration method : inspect) {
 
             if (!methodSpec.getMethodName().equals(method.getName()))
                 continue;
 
-            CodeType[] parameterTypes = method.getParameters().stream().map(CodeParameter::getRequiredType).toArray(CodeType[]::new);
+            CodeType[] parameterTypes = method.getParameters().stream().map(CodeParameter::getType).toArray(CodeType[]::new);
 
-            FullMethodSpec spec = new FullMethodSpec(theClass, method.getReturnType().orElse(PredefinedTypes.VOID), method.getName(), parameterTypes);
+            FullMethodSpec spec = new FullMethodSpec(theClass, method.getReturnType(), method.getName(), parameterTypes);
 
             if (methodSpec.compareTo(spec) == 0) {
                 return spec; // No problem here, CodeAPI will not duplicate methods, it will only avoid the type inference (slow part of the bridge method inference)
@@ -193,7 +191,7 @@ public class BridgeUtil {
 
             TypeVariable<?>[] methodParameters = TypeVarUtil.toTypeVars(methodSignature);
 
-            CodeType inferredReturnType = TypeVarUtil.toCodeType(method.getReturnType().orElse(PredefinedTypes.VOID), typeParameters, methodParameters, generic);
+            CodeType inferredReturnType = TypeVarUtil.toCodeType(method.getReturnType(), typeParameters, methodParameters, generic);
 
             List<CodeType> inferredParametersTypes = new ArrayList<>();
 

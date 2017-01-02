@@ -27,20 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import java.lang.reflect.Modifier;
-
 public class AnnotationTest_ {
-
+/*
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
         CodeAnnotation build = AnnotationDeclarationBuilder.builder()
                 .withModifiers(Modifier.PUBLIC)
@@ -52,5 +40,5 @@ public class AnnotationTest_ {
                 .build();
 
         return Pair.of(build, CodeAPI.sourceOfParts(build));
-    }
+    }*/
 }

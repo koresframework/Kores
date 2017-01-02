@@ -27,12 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.common;
 
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
+import com.github.jonathanxd.codeapi.base.ModifiersHolder;
 
 /**
  * Scope of a element.
  *
- * Commonly this scope is used by {@link com.github.jonathanxd.codeapi.interfaces.MethodFragment}.
+ * Commonly this scope is used by {@link com.github.jonathanxd.codeapi.base.MethodFragment}.
  */
 public enum Scope {
     /**
@@ -46,12 +46,12 @@ public enum Scope {
     STATIC;
 
     /**
-     * Scope from a {@link Modifierable} instance.
+     * Scope from a {@link ModifiersHolder} instance.
      *
-     * @param modifierable {@link Modifierable} instance.
+     * @param modifierable {@link ModifiersHolder} instance.
      * @return Scope
      */
-    public static Scope fromModifierable(Modifierable modifierable) {
+    public static Scope fromModifiersHolder(ModifiersHolder modifierable) {
         return modifierable.getModifiers().contains(CodeModifier.STATIC) ? Scope.STATIC : Scope.INSTANCE;
     }
 }

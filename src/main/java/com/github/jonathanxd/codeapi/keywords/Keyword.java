@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.keywords;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.base.Named;
 
 /**
  * Language keyword.
@@ -54,11 +54,6 @@ public class Keyword implements CodePart, Named {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public Named setName(String name) {
-        return new Keyword(name);
     }
 
     @Override

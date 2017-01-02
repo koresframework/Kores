@@ -31,14 +31,13 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.ForEachStatement;
 import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
-import com.github.jonathanxd.codeapi.interfaces.IfExpr;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.interfaces.VariableDeclaration;
+import com.github.jonathanxd.codeapi.base.IfExpr;
+import com.github.jonathanxd.codeapi.base.MethodInvocation;
+import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.literals.Literals;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
@@ -82,48 +81,48 @@ public final class IterationTypes {
 
         public class Gen implements IterationType.Generator {
 
-            private ForEachBlock forEachBlock;
+            private ForEachStatement forEachStatement;
             private CodePart iterableElement;
             private String fieldName;
             private FieldDeclaration indexFieldDecl;
 
             @Override
             public CodeSource createInitialization() {
-                return Helper.sourceOf(this.indexFieldDecl);
+                return null;//Helper.sourceOf(this.indexFieldDecl);
             }
 
             @Override
             public BiMultiVal<CodePart, IfExpr, Operator> createCondition() {
-                return Helper.createIfVal().add1(Helper.check(Helper.accessLocalVariable(indexFieldDecl), Operators.LESS_THAN, Helper.arrayLength(CodePartUtil.getType(iterableElement), iterableElement))).make();
+                return null;//Helper.createIfVal().add1(Helper.check(Helper.accessLocalVariable(indexFieldDecl), Operators.LESS_THAN, Helper.arrayLength(CodePartUtil.getType(iterableElement), iterableElement))).make();
             }
 
             @Override
             public CodeSource createUpdate() {
-                return Helper.sourceOf(Helper.operateLocalVariable(indexFieldDecl, Operators.INCREMENT));
+                return null;//Helper.sourceOf(Helper.operateLocalVariable(indexFieldDecl, Operators.INCREMENT));
             }
 
             @Override
             public CodeSource declareBody() {
-                FieldDeclaration field = forEachBlock.getField();
+                VariableDeclaration field = forEachStatement.getVariable();
 
                 MutableCodeSource body = new MutableCodeSource();
 
-                body.add(new CodeField(field.getName(), field.getVariableType(),
+                /*body.add(new CodeField(field.getName(), field.getVariableType(),
                         Helper.accessArrayValue(CodePartUtil.getType(iterableElement), iterableElement, Helper.accessLocalVariable(indexFieldDecl), field.getVariableType())));
 
-                forEachBlock.getBody().ifPresent(body::addAll);
+                ForEachStatement.getBody().ifPresent(body::addAll);*/
 
                 return body;
             }
 
             @Override
-            public CodeSource generate(ForEachBlock forEachBlock) {
-                this.forEachBlock = forEachBlock;
-                this.iterableElement = forEachBlock.getIterableElement();
+            public CodeSource generate(ForEachStatement forEachStatement) {
+                this.forEachStatement = forEachStatement;
+                this.iterableElement = forEachStatement.getIterableElement();
                 this.fieldName = "$index#" + (++indexFields);
                 this.indexFieldDecl = new HiddenField(fieldName, PredefinedTypes.INT, Literals.INT(0));
 
-                return Generator.super.generate(forEachBlock);
+                return Generator.super.generate(forEachStatement);
             }
         }
     }
@@ -142,23 +141,24 @@ public final class IterationTypes {
         public class Gen implements IterationType.Generator {
             private CodeType iterType = Helper.getJavaType(Iterator.class);
             private FieldDeclaration iterableField;
-            private ForEachBlock forEachBlock;
+            private ForEachStatement ForEachStatement;
             private String fieldName;
             private VariableDeclaration field;
 
 
             @Override
             public CodeSource createInitialization() {
-                return Helper.sourceOf(iterableField);
+                return null;//Helper.sourceOf(iterableField);
             }
 
             @Override
             public BiMultiVal<CodePart, IfExpr, Operator> createCondition() {
                 // Iterator.hasNext()Z
-                MethodInvocation hasNext = CodeAPI.invokeInterface(Iterator.class,
+                /*MethodInvocation hasNext = CodeAPI.invokeInterface(Iterator.class,
                         CodeAPI.accessLocalVariable(iterType, fieldName), "hasNext", new TypeSpec(PredefinedTypes.BOOLEAN));
 
-                return CodeAPI.ifExprs(CodeAPI.check(hasNext, Operators.EQUAL_TO, Literals.BOOLEAN(true)));
+                return CodeAPI.ifExprs(CodeAPI.check(hasNext, Operators.EQUAL_TO, Literals.BOOLEAN(true)));*/
+                return null;
             }
 
             @Override
@@ -169,36 +169,38 @@ public final class IterationTypes {
             @Override
             public CodeSource declareBody() {
                 // Iterator.next()Ljava/lang/Object;
-                MethodInvocation next = CodeAPI.invokeInterface(Iterator.class,
-                        CodeAPI.accessLocalVariable(iterType, fieldName), "next", new TypeSpec(PredefinedTypes.OBJECT));
+                /*MethodInvocation next = CodeAPI.invokeInterface(Iterator.class,
+                        CodeAPI.accessLocalVariable(iterType, fieldName), "next", new TypeSpec(PredefinedTypes.OBJECT));*/
 
 
                 // #Type Field_Name = (#Type) Iterator.next()Ljava/lang/Object;
-                FieldDeclaration forEachField = new CodeField(field.getName(), field.getVariableType(),
+                /*FieldDeclaration forEachField = new CodeField(field.getName(), field.getVariableType(),
                         Helper.cast(PredefinedTypes.OBJECT, field.getVariableType(), next));
 
 
                 MutableCodeSource codeSource = new MutableCodeSource();
 
-                codeSource.add(forEachField);
+                codeSource.add(forEachField);*/
 
-                forEachBlock.getBody().ifPresent(codeSource::addAll);
+                //forEachStatement.getBody().ifPresent(codeSource::addAll);
 
-                return codeSource;
+                //return codeSource;
+                return null;
             }
 
             @Override
-            public CodeSource generate(ForEachBlock forEachBlock) {
-                this.forEachBlock = forEachBlock;
-                this.field = forEachBlock.getField();
+            public CodeSource generate(ForEachStatement forEachStatement) {
+                /*this.ForEachStatement = forEachStatement;
+                this.field = forEachStatement.getField();
 
-                CodePart iterableElement = forEachBlock.getIterableElement();
+                CodePart iterableElement = forEachStatement.getIterableElement();
 
                 this.fieldName = "$iter#" + (++iterFields);
                 this.iterableField = new HiddenField(fieldName, iterType,
                         CodeAPI.invokeInterface(Iterable.class, iterableElement, "iterator",
                                 new TypeSpec(Helper.getJavaType(Iterator.class))));
-                return Generator.super.generate(forEachBlock);
+                return Generator.super.generate(forEachStatement);*/
+                return null;
             }
         }
     }

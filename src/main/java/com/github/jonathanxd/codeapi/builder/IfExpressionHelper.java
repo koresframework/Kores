@@ -27,17 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.builder;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.interfaces.IfExpr;
+import com.github.jonathanxd.codeapi.base.IfExpr;
+import com.github.jonathanxd.codeapi.base.impl.IfExprImpl;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
 public class IfExpressionHelper {
 
-    private BiMultiVal.Adder<CodePart, IfExpr, Operator> adder = CodeAPI.ifExprs();
+    private BiMultiVal.Adder<CodePart, IfExpr, Operator> adder = new BiMultiVal.Adder<>(CodePart.class);
 
     private IfExpressionHelper() {
     }
@@ -47,40 +46,41 @@ public class IfExpressionHelper {
     }
 
     public IfExpressionHelper check(CodePart part1, Operator operation, CodePart part2) {
-        this.adder = this.adder.add1(CodeAPI.check(part1, operation, part2));
+        this.adder = this.adder.add1(new IfExprImpl(part1, operation, part2));
         return this;
     }
 
     public IfExpressionHelper checkRefEqual(CodePart part1, CodePart part2) {
-        this.adder = this.adder.add1(CodeAPI.check(part1, Operators.EQUAL_TO, part2));
+        this.adder = this.adder.add1(new IfExprImpl(part1, Operators.EQUAL_TO, part2));
         return this;
     }
 
     public IfExpressionHelper checkObjectEqual(CodePart part1, CodePart part2) {
-        return this.checkTrue(
+        return this;/*this.checkTrue(
+
                 CodeAPI.invokeVirtual(Object.class, part1, "equals",
                         CodeAPI.typeSpec(PredefinedTypes.BOOLEAN, PredefinedTypes.OBJECT),
                         CodeAPI.argument(part2))
-        );
+        );*/
     }
 
     public IfExpressionHelper checkNotNull(CodePart part1) {
-        this.adder = this.adder.add1(CodeAPI.checkNotNull(part1));
+        //this.adder = this.adder.add1(CodeAPI.checkNotNull(part1));
         return this;
     }
 
     public IfExpressionHelper checkNull(CodePart part1) {
-        this.adder = this.adder.add1(CodeAPI.checkNull(part1));
+        //this.adder = this.adder.add1(CodeAPI.checkNull(part1));
         return this;
     }
 
     public IfExpressionHelper checkTrue(CodePart part1) {
-        this.adder = this.adder.add1(CodeAPI.checkTrue(part1));
+        //this.adder = this.adder.add1(CodeAPI.checkTrue(part1));
         return this;
     }
 
     public IfExpressionHelper checkFalse(CodePart part1) {
-        this.adder = this.adder.add1(CodeAPI.checkFalse(part1));
+        //this.adder = this.adder.add1(CodeAPI.checkFalse(part1));
         return this;
     }
 

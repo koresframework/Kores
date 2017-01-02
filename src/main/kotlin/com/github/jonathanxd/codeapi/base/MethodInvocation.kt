@@ -37,6 +37,9 @@ import com.github.jonathanxd.codeapi.types.CodeType
  */
 interface MethodInvocation : Accessor, ArgumentHolder, Typed {
 
+    override val array: Boolean
+        get() = false
+
     /**
      * Method localization
      */
@@ -67,4 +70,5 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
      * Dynamic invocation
      */
     val invokeDynamic: InvokeDynamic?
+
 }

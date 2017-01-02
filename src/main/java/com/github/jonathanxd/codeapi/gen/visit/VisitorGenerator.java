@@ -33,10 +33,8 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.exceptions.ProcessingException;
 import com.github.jonathanxd.codeapi.gen.ArrayAppender;
 import com.github.jonathanxd.codeapi.gen.CodeGenerator;
-import com.github.jonathanxd.codeapi.interfaces.TagLine;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.iutils.data.MapData;
-import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 
 import java.util.HashMap;
@@ -53,9 +51,6 @@ public abstract class VisitorGenerator<T> implements CodeGenerator<T[]> {
             TypeInfo.of(ArrayAppender.class).setUnique(true).build();
     public static final TypeInfo<VisitorGenerator> VISITOR_REPRESENTATION =
             TypeInfo.a(VisitorGenerator.class).setUnique(true).build();
-    public static final TypeInfo<TagLine<?, ?>> LINES_REPRESENTATION =
-            new AbstractTypeInfo<TagLine<?, ?>>(true) {
-            };
 
     private final Map<Class<?>, Visitor<?, T, ?>> visitors = new HashMap<>();
 

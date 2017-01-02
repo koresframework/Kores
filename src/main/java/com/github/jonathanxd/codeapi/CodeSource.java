@@ -275,6 +275,11 @@ public class CodeSource implements Iterable<CodePart>, CodePart {
         return new MutableCodeSource(this);
     }
 
+    @Override
+    public boolean isExpression() {
+        return false;
+    }
+
     private final class Iterat implements Iterator<CodePart> {
 
         private int index = 0;

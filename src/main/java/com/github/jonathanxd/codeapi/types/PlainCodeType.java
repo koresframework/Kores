@@ -94,4 +94,9 @@ public class PlainCodeType implements CodeType {
     public String toString() {
         return "Plain["+this.getCanonicalName()+"]";
     }
+
+    @Override
+    public boolean isExpression() {
+        return false;
+    }
 }

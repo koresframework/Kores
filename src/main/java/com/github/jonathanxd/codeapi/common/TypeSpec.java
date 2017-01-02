@@ -28,22 +28,20 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.RequiredTyped;
+import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.RequiredTyped;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Specification of return type and parameter types.
  *
- * Commonly this specification is used by {@link MethodSpecImpl} to
- * specify a method to be invoked.
+ * Commonly this specification is used by {@link com.github.jonathanxd.codeapi.base.MethodSpecification}
+ * to specify a method to be invoked.
  */
 public class TypeSpec implements Typed, RequiredTyped, CodePart {
 
@@ -108,13 +106,8 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
     }
 
     @Override
-    public Optional<CodeType> getType() {
-        return Optional.of(this.getReturnType());
-    }
-
-    @Override
-    public TypeSpec setType(CodeType codeType) {
-        return this.setReturnType(codeType);
+    public CodeType getType() {
+        return this.getReturnType();
     }
 
     /**
@@ -146,5 +139,10 @@ public class TypeSpec implements Typed, RequiredTyped, CodePart {
     @Override
     public String toString() {
         return "TypeSpec[returnType=" + this.getReturnType() + ", parameterSpec=" + getParameterTypes() + "]";
+    }
+
+    @Override
+    public boolean isExpression() {
+        return CodePart.DefaultImpls.isExpression(this);
     }
 }

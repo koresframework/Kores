@@ -43,13 +43,13 @@ public class TypeSpecUtil {
 
     public static TypeSpec specFromLegacy(CodeType returnType, Collection<CodeArgument> arguments) {
         return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
-                arguments.stream().map(t -> Require.require(t.getType())).collect(Collectors.toList())
+                arguments.stream().map(CodeArgument::getType).collect(Collectors.toList())
                 : Collections.emptyList());
     }
 
     public static TypeSpec specFromLegacy(CodeType returnType, CodeArgument[] arguments) {
         return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
-                Arrays.stream(arguments).map(t -> Require.require(t.getType())).collect(Collectors.toList())
+                Arrays.stream(arguments).map(CodeArgument::getType).collect(Collectors.toList())
                 : Collections.emptyList());
     }
 

@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.operators;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.interfaces.Named;
+import com.github.jonathanxd.codeapi.base.Named;
 import com.github.jonathanxd.codeapi.util.ToStringBuilder;
 
 /**
@@ -57,11 +57,6 @@ public class Operator implements CodePart, Named {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public Operator setName(String name) {
-        return new Operator(name);
     }
 
     @Override

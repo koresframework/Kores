@@ -28,11 +28,9 @@
 package com.github.jonathanxd.codeapi.literals;
 
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
+import com.github.jonathanxd.codeapi.base.Named;
+import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.types.CodeType;
-
-import java.util.Optional;
 
 /**
  * A JVM Literal.
@@ -68,24 +66,14 @@ public abstract class Literal implements CodePart, Named, Typed {
     }
 
     @Override
-    public Literal setName(String name) {
-        return new Literal(name, this.getType().orElse(null)) {
-        };
-    }
-
-    @Override
     public boolean isExpression() {
         return true;
     }
 
     @Override
-    public Optional<CodeType> getType() {
-        return Optional.ofNullable(this.dataType);
+    public CodeType getType() {
+        return this.dataType;
     }
 
-    @Override
-    public Literal setType(CodeType codeType) {
-        return new Literal(this.getName(), codeType) {
-        };
-    }
+
 }

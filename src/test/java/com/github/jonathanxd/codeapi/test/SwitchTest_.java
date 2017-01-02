@@ -27,19 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import java.lang.reflect.Modifier;
-
 public class SwitchTest_ {
+/*
 
 
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
@@ -110,4 +99,5 @@ public class SwitchTest_ {
         A,
         B
     }
+*/
 }

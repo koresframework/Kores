@@ -503,4 +503,9 @@ public class Generic implements GenericType {
     public String toString() {
         return GenericTypeUtil.toSourceString(this);
     }
+
+    @Override
+    public boolean isExpression() {
+        return false;
+    }
 }

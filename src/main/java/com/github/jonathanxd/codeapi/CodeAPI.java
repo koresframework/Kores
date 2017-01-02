@@ -27,47 +27,20 @@
  */
 package com.github.jonathanxd.codeapi;
 
-import com.github.jonathanxd.codeapi.base.MethodInvocation;
-import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ClassBuilder;
 import com.github.jonathanxd.codeapi.builder.ConcatHelper;
-import com.github.jonathanxd.codeapi.builder.ConstructorBuilder;
-import com.github.jonathanxd.codeapi.builder.EnumBuilder;
-import com.github.jonathanxd.codeapi.builder.IfExpressionHelper;
-import com.github.jonathanxd.codeapi.builder.InterfaceBuilder;
-import com.github.jonathanxd.codeapi.builder.MethodBuilder;
 import com.github.jonathanxd.codeapi.builder.OperateHelper;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.FullInvokeSpec;
 import com.github.jonathanxd.codeapi.common.FullMethodSpec;
-import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.IterationType;
-import com.github.jonathanxd.codeapi.common.IterationTypes;
-import com.github.jonathanxd.codeapi.common.MethodType;
-import com.github.jonathanxd.codeapi.common.Scope;
-import com.github.jonathanxd.codeapi.common.SwitchType;
-import com.github.jonathanxd.codeapi.common.SwitchTypes;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.operators.Operators;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.PlainCodeType;
-import com.github.jonathanxd.codeapi.util.ArrayToList;
-import com.github.jonathanxd.codeapi.util.BiMultiVal;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Factory class.
@@ -371,5 +344,5 @@ public final class CodeAPI {
         return map;
     }
 
-    
+
 }

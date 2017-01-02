@@ -35,6 +35,9 @@ import com.github.jonathanxd.codeapi.common.TypeSpec
  */
 interface EnumEntry : ArgumentHolder, Named, BodyHolder {
 
+    override val array: Boolean
+        get() = false
+
     /**
      * Enum constructor specification
      */

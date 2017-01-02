@@ -27,32 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.PlainCodeType;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.*;
-import static java.lang.reflect.Modifier.*;
-
 /**
  * Created by jonathan on 03/09/16.
  */
 public class AnnotatedTest_ {
     //
 
+/*
     public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
@@ -94,4 +75,5 @@ public class AnnotatedTest_ {
         MyEnum[] value() default {};
         MyEnum myEnum() default MyEnum.A;
     }
+*/
 }

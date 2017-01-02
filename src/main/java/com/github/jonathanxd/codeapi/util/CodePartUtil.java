@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.interfaces.Typed;
 import com.github.jonathanxd.codeapi.literals.Literal;
 import com.github.jonathanxd.codeapi.types.CodeType;
 import com.github.jonathanxd.codeapi.types.NullType;
@@ -40,11 +40,11 @@ public class CodePartUtil {
         CodeType type;
 
         if (codePart instanceof Literal) {
-            type = ((Literal) codePart).getType().orElseThrow(NullPointerException::new);
+            type = ((Literal) codePart).getType();
         } else if (codePart instanceof Typed) {
             Typed typed = (Typed) codePart;
 
-            type = typed.getType().orElseThrow(() -> new RuntimeException("Cannot determine type of '" + codePart + "'"));
+            type = typed.getType();
         } else {
             return null;
         }

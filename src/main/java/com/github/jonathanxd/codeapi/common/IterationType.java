@@ -29,10 +29,9 @@ package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.ForEachStatement;
+import com.github.jonathanxd.codeapi.base.IfExpr;
 import com.github.jonathanxd.codeapi.gen.PartProcessor;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.interfaces.ForEachBlock;
-import com.github.jonathanxd.codeapi.interfaces.IfExpr;
 import com.github.jonathanxd.codeapi.operators.Operator;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
@@ -42,16 +41,16 @@ import com.github.jonathanxd.codeapi.util.BiMultiVal;
  *
  * {@link IterationType} is a {@link SugarSyntax}.
  *
- * This sugar syntax generates a {@link com.github.jonathanxd.codeapi.interfaces.ForBlock}.
+ * This sugar syntax generates a {@link com.github.jonathanxd.codeapi.base.ForStatement}.
  */
-public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock, CodeSource> {
+public interface IterationType extends PartProcessor, SugarSyntax<ForEachStatement, CodeSource> {
 
     @Override
     Generator getGenerator();
 
     /**
      * This generator creates the elements required to construct a {@link
-     * com.github.jonathanxd.codeapi.interfaces.ForBlock}.
+     * com.github.jonathanxd.codeapi.base.ForStatement}.
      *
      * (<pre>
      *     {@code
@@ -59,7 +58,7 @@ public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock, 
      *     }
      * </pre>).
      */
-    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator<ForEachBlock, CodeSource> {
+    interface Generator extends com.github.jonathanxd.codeapi.sugar.Generator<ForEachStatement, CodeSource> {
         /**
          * Create for initialization ({@code for(initialization; condition; update) body}).
          *
@@ -89,13 +88,13 @@ public interface IterationType extends PartProcessor, SugarSyntax<ForEachBlock, 
         CodeSource declareBody();
 
         @Override
-        default CodeSource generate(ForEachBlock forEachBlock) {
-            return Helper.sourceOf(Helper.createFor(
+        default CodeSource generate(ForEachStatement forEachBlock) {
+            return null;/*Helper.sourceOf(Helper.createFor(
                     this.createInitialization(),
                     this.createCondition(),
                     this.createUpdate(),
                     this.declareBody()
-            ));
+            ));*/
         }
     }
 }

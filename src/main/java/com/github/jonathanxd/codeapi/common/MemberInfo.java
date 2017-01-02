@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.common;
 
 import com.github.jonathanxd.codeapi.CodeElement;
-import com.github.jonathanxd.codeapi.interfaces.Modifierable;
+import com.github.jonathanxd.codeapi.base.ModifiersHolder;
 
 public class MemberInfo {
     private final CodeElement memberInstance;
@@ -52,7 +52,7 @@ public class MemberInfo {
         return new MemberInfo(element, isAccessible);
     }
 
-    public static <T extends CodeElement & Modifierable> MemberInfo of(T element) {
+    public static <T extends CodeElement & ModifiersHolder> MemberInfo of(T element) {
         return MemberInfo.of(element, !element.getModifiers().contains(CodeModifier.PRIVATE));
     }
 
