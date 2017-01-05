@@ -25,38 +25,12 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.common
 
-public enum ModifierType {
-    /**
-     * - No Visibility Modifiers
-     *
-     * - Public, Protected Private
-     */
-    VISIBILITY,
+import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.types.CodeType
 
-    /**
-     * - Synchronized
-     *
-     * - Volatile
-     */
-    CONCURRENCY,
-
-    /**
-     * - Transient
-     */
-    SERIALIZATION,
-
-    /**
-     * - Default
-     *
-     * - Abstract
-     */
-    ABSTRACTION,
-
-    /**
-     * - Other Modifiers like: Static, Final
-     */
-    OTHER
-
+data class MethodTypeSpec(val name: String, val typeSpec: TypeSpec): Typed {
+    override val type: CodeType?
+        get() = this.typeSpec.type
 }

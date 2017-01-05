@@ -25,24 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.Access
-import com.github.jonathanxd.codeapi.base.impl.AccessImpl
+import com.github.jonathanxd.codeapi.base.ModifiersHolder
 
 /**
- * Common default constant base values
+ * Scope of a element.
+ *
+ * Commonly this scope is used by [com.github.jonathanxd.codeapi.base.MethodFragment].
  */
-object Defaults {
+enum class Scope {
+    /**
+     * Instance scope.
+     */
+    INSTANCE,
 
-    @JvmField
-    val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
-
-    @JvmField
-    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
-
-    @JvmField
-    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
+    /**
+     * Static scope.
+     */
+    STATIC;
 
 
+    companion object {
+
+        /**
+         * Scope from a [ModifiersHolder] instance.
+         *
+         * @param modifierHolder [ModifiersHolder] instance.
+         * @return Scope
+         */
+        fun fromModifiersHolder(modifierHolder: ModifiersHolder): Scope {
+            return if (modifierHolder.modifiers.contains(CodeModifier.STATIC)) Scope.STATIC else Scope.INSTANCE
+        }
+    }
 }

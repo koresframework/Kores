@@ -25,32 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.ModifierType.*
 
-public class Signature {
+enum class CodeModifier(val modifierType: ModifierType, expr_: String? = null) : CodePart {
 
-    private final GenericSignature signature;
-    private final GenericType superType;
-    private final GenericType[] interfaces;
+    PUBLIC(VISIBILITY), PROTECTED(VISIBILITY), PRIVATE(VISIBILITY), PACKAGE_PRIVATE(VISIBILITY, ""),
+    ABSTRACT(ABSTRACTION), DEFAULT(ABSTRACTION),
+    STATIC(OTHER), FINAL(OTHER),
+    TRANSIENT(SERIALIZATION),
+    VOLATILE(CONCURRENCY), SYNCHRONIZED(CONCURRENCY),
+    NATIVE(OTHER), STRICTFP(OTHER),
+    BRIDGE(OTHER), VARARGS(OTHER),
+    SYNTHETIC(OTHER), ANNOTATION(OTHER),
+    ENUM(OTHER), MANDATED(OTHER);
 
-    public Signature(GenericSignature signature, GenericType superType, GenericType[] interfaces) {
-        this.signature = signature;
-        this.superType = superType;
-        this.interfaces = interfaces;
-    }
+    val expr: String = expr_ ?: this.name.toLowerCase()
 
-    public GenericSignature getSignature() {
-        return this.signature;
-    }
 
-    public GenericType getSuperType() {
-        return this.superType;
-    }
-
-    public GenericType[] getInterfaces() {
-        return this.interfaces.clone();
-    }
 }

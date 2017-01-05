@@ -38,9 +38,10 @@ public interface Generator<T extends CodePart, R extends CodePart> extends PartP
     /**
      * Generate the sugar syntax.
      *
-     * @param t Sugar syntax instance.
+     * @param t         Sugar syntax instance.
+     * @param processor Source part processor
      * @return Generated sugar syntax.
      */
-    R generate(T t);
+    R generate(T t, PartProcessor processor);
 
 }

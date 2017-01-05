@@ -25,24 +25,36 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.Access
-import com.github.jonathanxd.codeapi.base.impl.AccessImpl
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.ForEachStatement
+import com.github.jonathanxd.codeapi.base.ForStatement
+import com.github.jonathanxd.codeapi.gen.PartProcessor
+import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 
 /**
- * Common default constant base values
+ * Iteration type used to generate bytecode and source code iterations.
+ *
+ * [IterationType] is a [SugarSyntax].
+ *
+ * This sugar syntax generates a [ForStatement].
  */
-object Defaults {
+interface IterationType : PartProcessor, SugarSyntax<ForEachStatement, CodeSource> {
 
-    @JvmField
-    val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
-
-    @JvmField
-    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
-
-    @JvmField
-    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
+    override fun createGenerator(): Generator
 
 
+    /**
+     * This generator creates the elements required to construct a [ForStatement].
+     *
+     * ```
+     * for(createInitialization; createCondition; createUpdate) declareBody
+     * ```
+     */
+
+    interface Generator : com.github.jonathanxd.codeapi.sugar.Generator<ForEachStatement, CodeSource> {
+
+        override fun generate(forEachBlock: ForEachStatement, processor: PartProcessor): CodeSource?
+    }
 }

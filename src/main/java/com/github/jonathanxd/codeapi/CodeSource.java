@@ -67,6 +67,10 @@ public class CodeSource implements Iterable<CodePart>, CodePart {
         return new CodeSource(parts);
     }
 
+    public static CodeSource fromPart(CodePart part) {
+        return new CodeSource(new CodePart[]{part});
+    }
+
     public static CodeSource fromVarArgs(CodePart... parts) {
         return new CodeSource(parts);
     }

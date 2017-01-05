@@ -25,24 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.Access
-import com.github.jonathanxd.codeapi.base.impl.AccessImpl
+import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.types.CodeType
 
-/**
- * Common default constant base values
- */
-object Defaults {
+data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed {
 
-    @JvmField
-    val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
-
-    @JvmField
-    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
-
-    @JvmField
-    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
-
+    override val type: CodeType?
+        get() = this.methodTypeSpec.type
 
 }

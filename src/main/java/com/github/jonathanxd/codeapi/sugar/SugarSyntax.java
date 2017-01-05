@@ -45,5 +45,5 @@ public interface SugarSyntax<T extends CodePart, E extends CodePart> {
      *
      * @return new {@link Generator}
      */
-    Generator<T, E> getGenerator();
+    Generator<T, E> createGenerator();
 }

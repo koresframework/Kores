@@ -25,24 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.Access
-import com.github.jonathanxd.codeapi.base.impl.AccessImpl
+import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.base.ModifiersHolder
 
-/**
- * Common default constant base values
- */
-object Defaults {
+class MemberInfo internal constructor(val memberInstance: CodeElement, val isAccessible: Boolean) {
+    var accessibleMember: CodeElement? = null
+        set(accessibleMember) {
 
-    @JvmField
-    val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
+            if (this.accessibleMember != null)
+                throw IllegalStateException("Accessible member already defined.")
 
-    @JvmField
-    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
+            field = accessibleMember
+        }
 
-    @JvmField
-    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
+    fun hasAccessibleMember(): Boolean {
+        return this.accessibleMember != null
+    }
 
+    companion object {
 
+        fun ofAccessible(element: CodeElement): MemberInfo {
+            return MemberInfo(element, true)
+        }
+
+        fun ofInaccessible(element: CodeElement): MemberInfo {
+            return MemberInfo(element, false)
+        }
+
+        fun of(element: CodeElement, isAccessible: Boolean): MemberInfo {
+            return MemberInfo(element, isAccessible)
+        }
+
+        fun <T> of(element: T): MemberInfo where T : CodeElement, T : ModifiersHolder {
+            return MemberInfo.of(element, !element.modifiers.contains(CodeModifier.PRIVATE))
+        }
+    }
 }

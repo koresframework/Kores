@@ -25,36 +25,11 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.util.MemberInfosUtil;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.util.MemberInfosUtil
 
-public final class InnerType {
-
-    private final TypeDeclaration originalDeclaration;
-    private TypeDeclaration adaptedDeclaration;
-    private MemberInfos memberInfos;
-
-    public InnerType(TypeDeclaration originalDeclaration, TypeDeclaration adaptedDeclaration) {
-        this.originalDeclaration = originalDeclaration;
-        this.adaptedDeclaration = adaptedDeclaration;
-        this.memberInfos = MemberInfosUtil.createMemberInfos(this.adaptedDeclaration);
-    }
-
-    public TypeDeclaration getOriginalDeclaration() {
-        return this.originalDeclaration;
-    }
-
-    public TypeDeclaration getAdaptedDeclaration() {
-        return this.adaptedDeclaration;
-    }
-
-    public void setAdaptedDeclaration(TypeDeclaration adaptedDeclaration) {
-        this.adaptedDeclaration = adaptedDeclaration;
-    }
-
-    public MemberInfos getMemberInfos() {
-        return this.memberInfos;
-    }
+data class InnerType(val originalDeclaration: TypeDeclaration, var adaptedDeclaration: TypeDeclaration) {
+    val memberInfos: MemberInfos = MemberInfosUtil.createMemberInfos(this.adaptedDeclaration)
 }

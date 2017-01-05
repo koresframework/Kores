@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.gen;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax;
@@ -85,7 +84,7 @@ public interface CodeGenerator<OUT> {
 
     /**
      * Register a sugar syntax. The generation of {@link T} will be delegated into {@link
-     * SugarSyntax#getGenerator() sugar.Generator}.
+     * SugarSyntax#createGenerator() sugar.Generator}.
      *
      * @param type        Type
      * @param sugarSyntax Sugar syntax.

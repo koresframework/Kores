@@ -25,24 +25,36 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.Access
-import com.github.jonathanxd.codeapi.base.impl.AccessImpl
+import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.util.element.ElementUtil
+import java.util.*
 
 /**
- * Common default constant base values
+ * Cached member info for fast access.
  */
-object Defaults {
+class MemberInfos(val declaration: TypeDeclaration) {
+    private val memberInfoList = ArrayList<MemberInfo>()
+    private val memberInfoList_ = Collections.unmodifiableList(this.memberInfoList)
 
-    @JvmField
-    val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
+    fun put(codeElement: MemberInfo): Boolean {
+        return this.memberInfoList.add(codeElement)
+    }
 
-    @JvmField
-    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
+    fun find(memberInfoPredicate: (MemberInfo) -> Boolean): MemberInfo {
+        return this.getMemberInfoList().stream().filter(memberInfoPredicate).findFirst().orElse(null)
+    }
 
-    @JvmField
-    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
+    fun find(methodSpecification: MethodSpecification): MemberInfo {
+        return this.find { memberInfo -> memberInfo.memberInstance is MethodDeclaration && ElementUtil.equal(memberInfo.memberInstance, methodSpecification) }
+    }
 
+    fun find(access: VariableAccess): MemberInfo {
+        return this.find { memberInfo -> memberInfo.memberInstance is FieldDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
+    }
 
+    fun getMemberInfoList(): List<MemberInfo> {
+        return this.memberInfoList_
+    }
 }

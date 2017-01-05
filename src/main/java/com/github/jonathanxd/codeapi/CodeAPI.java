@@ -62,7 +62,7 @@ public final class CodeAPI {
      * @return {@link CodeParameter} instance.
      */
     public static CodeParameter parameter(CodeType type, String name) {
-        return new CodeParameter(name, type);
+        return new CodeParameter(type, name);
     }
 
     /**
@@ -73,7 +73,7 @@ public final class CodeAPI {
      * @return {@link CodeParameter} instance.
      */
     public static CodeParameter parameter(Class<?> type, String name) {
-        return new CodeParameter(name, Helper.getJavaType(type));
+        return new CodeParameter(Helper.getJavaType(type), name);
     }
 
     // =========================================================

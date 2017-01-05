@@ -25,33 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.ModifiersHolder;
+import com.github.jonathanxd.codeapi.base.MethodFragment
+import java.util.*
 
-/**
- * Scope of a element.
- *
- * Commonly this scope is used by {@link com.github.jonathanxd.codeapi.base.MethodFragment}.
- */
-public enum Scope {
-    /**
-     * Instance scope.
-     */
-    INSTANCE,
+sealed class InvokeDynamic(val methodTypeSpec: MethodTypeSpec) {
 
-    /**
-     * Static scope.
-     */
-    STATIC;
-
-    /**
-     * Scope from a {@link ModifiersHolder} instance.
-     *
-     * @param modifierable {@link ModifiersHolder} instance.
-     * @return Scope
-     */
-    public static Scope fromModifiersHolder(ModifiersHolder modifierable) {
-        return modifierable.getModifiers().contains(CodeModifier.STATIC) ? Scope.STATIC : Scope.INSTANCE;
+    open class LambdaMethodReference(methodTypeSpec: MethodTypeSpec, val expectedTypes: TypeSpec) : InvokeDynamic(methodTypeSpec) {
+        override fun toString(): String = "LambdaMethodReference[methodTypeSpec = $methodTypeSpec, expectedTypes = $expectedTypes]"
     }
+
+    class LambdaFragment(methodTypeSpec: MethodTypeSpec, expectedTypes: TypeSpec, val methodFragment: MethodFragment) : LambdaMethodReference(methodTypeSpec, expectedTypes) {
+        override fun toString(): String = "LambdaFragment[methodTypeSpec = $methodTypeSpec, expectedTypes = $expectedTypes, methodFrament = $methodFragment]"
+    }
+
+    /**
+     * Invoke Bootstrap methods with bootstrap method parameters
+     *
+     * @param methodTypeSpec      Bootstrap method specification
+     * @param invokeType          Type
+     * @param arguments           Bootstrap method Arguments, must be an [String], [Int],
+     *                            [Long], [Float], [Double], [CodeType],
+     *                            or [MethodInvokeSpec].
+     */
+    class Bootstrap(methodTypeSpec: MethodTypeSpec, val invokeType: InvokeType, val arguments: Array<Any>): InvokeDynamic(methodTypeSpec) {
+        override fun toString(): String = "Bootstrap[methodTypeSpec = $methodTypeSpec, invokeType = $invokeType, arguments = ${Arrays.toString(this.arguments)}]"
+    }
+
 }

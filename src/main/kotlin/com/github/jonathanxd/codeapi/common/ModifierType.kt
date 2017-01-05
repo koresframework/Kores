@@ -25,77 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common;
+package com.github.jonathanxd.codeapi.common
 
-/**
- * Type of the method.
- *
- * Factory methods automatically determine the method type.
- *
- * Method types:
- *
- * - Dynamic method: A dynamic invocation of a JVM Method.
- *
- * - Dynamic constructor: A dynamic invocation of a Instance constructor.
- *
- * - Method: A normal invocation of a method.
- *
- * - Constructor: A normal invocation of a constructor, but is not related to super class
- * initialization.
- *
- * - Super Constructor: A invocation of a Super class constructor, this method type couldn't be used
- * to create a new instance of a class, the ASM and JVM will throw errors if you try to create a
- * instance using this.
- */
-public enum MethodType {
+enum class ModifierType {
     /**
-     * Dynamic method
-     */
-    DYNAMIC_METHOD,
-
-    /**
-     * Dynamic constructor
-     */
-    DYNAMIC_CONSTRUCTOR,
-
-    /**
-     * Method
-     */
-    METHOD(DYNAMIC_METHOD),
-
-    /**
-     * Constructor
-     */
-    CONSTRUCTOR(DYNAMIC_CONSTRUCTOR),
-
-    /**
-     * Super constructor
-     */
-    SUPER_CONSTRUCTOR;
-
-    /**
-     * Dynamic type corresponding to current {@link MethodType}
-     */
-    private final MethodType dynamic;
-
-    MethodType() {
-        this.dynamic = null;
-    }
-
-    MethodType(MethodType dynamic) {
-        this.dynamic = dynamic;
-    }
-
-    /**
-     * Gets the corresponding dynamic type.
+     * - No Visibility Modifiers
      *
-     * @return Corresponding dynamic type.
+     * - Public, Protected Private
      */
-    public MethodType toDynamic() {
-        return this.dynamic != null ? this.dynamic : this;
-    }
+    VISIBILITY,
 
-    public boolean isConstructor() {
-        return this == CONSTRUCTOR || this == SUPER_CONSTRUCTOR;
-    }
+    /**
+     * - Synchronized
+     *
+     * - Volatile
+     */
+    CONCURRENCY,
+
+    /**
+     * - Transient
+     */
+    SERIALIZATION,
+
+    /**
+     * - Default
+     *
+     * - Abstract
+     */
+    ABSTRACTION,
+
+    /**
+     * - Other Modifiers like: Static, Final
+     */
+    OTHER
+
 }
