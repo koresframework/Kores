@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.types.GenericType
 
-class AnnotationDeclarationImpl(override val qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: List<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnnotationDeclaration {
+class AnnotationDeclarationImpl(override val qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnnotationDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

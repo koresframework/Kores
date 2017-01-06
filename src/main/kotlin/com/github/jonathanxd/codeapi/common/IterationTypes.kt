@@ -47,11 +47,13 @@ object IterationTypes {
     /**
      * Iterate a array
      */
+    @JvmField
     val ARRAY: IterationType = ArrayIterationType
 
     /**
      * Iterate a Iterable element.
      */
+    @JvmField
     val ITERABLE_ELEMENT: IterationType = IterableIterationType
 
     object ArrayIterationType : IterationType {

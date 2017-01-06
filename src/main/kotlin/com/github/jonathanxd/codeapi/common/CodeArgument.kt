@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.base.ValueHolder
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
-data class CodeArgument(override val name: String, override val value: CodePart) : Named, ValueHolder, Typed {
+data class CodeArgument(override val value: CodePart) : ValueHolder, Typed {
     override val type: CodeType?
         get() = CodePartUtil.getTypeOrNull(this.value)
 }

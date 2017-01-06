@@ -50,13 +50,13 @@ interface StaticBlock : ConstructorDeclaration {
     override val genericSignature: GenericSignature
         get() = GenericSignature.empty()
 
-    override val modifiers: List<CodeModifier>
+    override val modifiers: Set<CodeModifier>
         get() = Constants.MODIFIERS
 
 
     companion object Constants {
         val NAME = "<clinit>"
-        val MODIFIERS = listOf(CodeModifier.STATIC)
+        val MODIFIERS = setOf(CodeModifier.STATIC)
         val RETURN_TYPE = PredefinedTypes.VOID
 
     }

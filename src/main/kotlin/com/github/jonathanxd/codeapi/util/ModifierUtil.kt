@@ -61,7 +61,7 @@ fun extractModifiers(member: Member): Collection<CodeModifier> {
  * *
  * @return Sorted Collection of modifiers.
  */
-fun extractModifiers(modifiers: Int): MutableCollection<CodeModifier> {
+fun extractModifiers(modifiers: Int): MutableSet<CodeModifier> {
     val collection = java.util.TreeSet<CodeModifier>()
 
     if (Modifier.isPublic(modifiers)) {

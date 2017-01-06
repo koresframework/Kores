@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.common.Scope
 
 /**
  * A fragment of a method declaration. This method may be inlined or declared as method of current
@@ -39,6 +40,11 @@ interface MethodFragment : MethodInvocation, CodeElement {
      * Fragment method declaration
      */
     val declaration: MethodDeclaration
+
+    /**
+     * Fragment scope
+     */
+    val scope: Scope
 
     /**
      * Declaring type of the fragment.

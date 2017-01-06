@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 /**
  * While statement
  */
-interface WhileStatement : IfStatement {
+interface WhileStatement : IfExpressionHolder, BodyHolder {
     /**
      * Type of the while block
      */

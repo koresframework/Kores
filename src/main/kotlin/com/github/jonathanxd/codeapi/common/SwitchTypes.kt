@@ -43,18 +43,22 @@ import com.github.jonathanxd.codeapi.util.EnumTypeUtil
 
 object SwitchTypes {
 
+    @JvmField
     val NUMERIC = object : SwitchType {
         override val isUnique: Boolean = true
 
         override fun createGenerator(): SwitchType.SwitchGenerator = NumericSwitchGenerator
     }
 
+    @JvmField
     val OBJECT = object : SwitchType {
         override fun createGenerator(): SwitchType.SwitchGenerator = ObjectSwitchGenerator
     }
 
+    @JvmField
     val STRING = OBJECT
 
+    @JvmField
     val ENUM = object : SwitchType {
         override fun createGenerator(): SwitchType.SwitchGenerator = EnumSwitchGenerator
 

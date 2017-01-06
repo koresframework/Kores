@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.types.GenericType
 
-class EnumDeclarationImpl(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: List<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : EnumDeclaration {
+class EnumDeclarationImpl(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : EnumDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

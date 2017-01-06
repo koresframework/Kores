@@ -28,13 +28,44 @@
 package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.MethodFragment
 import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
-import com.github.jonathanxd.codeapi.common.CodeArgument
-import com.github.jonathanxd.codeapi.common.InvokeDynamic
-import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.common.*
+import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.types.CodeType
+import java.util.concurrent.ThreadLocalRandom
 
-class MethodFragmentImpl(override val declaration: MethodDeclaration, override val declaringType: TypeDeclaration, override val localization: CodeType?, override val arguments: List<CodeArgument>, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?, override val target: CodePart?, override val array: Boolean) : MethodFragment
+class MethodFragmentImpl(override val declaringType: TypeDeclaration, override val scope: Scope, override val arguments: List<CodeArgument>, val description: TypeSpec, val parameters: List<CodeParameter>, val body: CodeSource) : MethodFragment {
+
+    override val spec: MethodSpecification = MethodSpecificationImpl(
+            description = description,
+            methodName = randomName(),
+            methodType = MethodType.METHOD
+    )
+
+    override val declaration: MethodDeclaration = MethodDeclarationImpl(
+            modifiers = setOf(CodeModifier.PRIVATE, if(scope == Scope.STATIC) CodeModifier.STATIC else CodeModifier.FINAL),
+            parameters = parameters,
+            annotations = emptyList(),
+            genericSignature = GenericSignature.empty(),
+            name = spec.methodName,
+            returnType = spec.description.returnType,
+            body = body
+    )
+
+    override val invokeType: InvokeType = InvokeType.INVOKE_VIRTUAL
+    override val localization: CodeType? = declaringType
+    override val target: CodePart? = if(scope == Scope.STATIC) null else Defaults.ACCESS_THIS
+    override val invokeDynamic: InvokeDynamic? = null
+
+    private companion object {
+
+        val RANDOM = ThreadLocalRandom.current();
+
+        fun randomName() = "fragment\$\$${RANDOM.nextInt().toString().replace("-", "_")}"
+    }
+}

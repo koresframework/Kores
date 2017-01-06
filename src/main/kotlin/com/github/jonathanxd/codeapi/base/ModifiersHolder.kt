@@ -38,6 +38,6 @@ interface ModifiersHolder : CodePart {
     /**
      * Modifiers
      */
-    val modifiers: List<CodeModifier>
+    val modifiers: Set<CodeModifier>
 
 }

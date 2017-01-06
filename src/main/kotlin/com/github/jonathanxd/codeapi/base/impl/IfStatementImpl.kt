@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.IfStatement
 
-class IfStatementImpl(override val elseBlock: CodeSource, override val expressions: List<CodePart>, override val body: CodeSource?) : IfStatement {
+class IfStatementImpl(override val expressions: List<CodePart>, override val body: CodeSource?, override val elseBlock: CodeSource) : IfStatement {
     init {
         BodyHolder.checkBody(this)
     }

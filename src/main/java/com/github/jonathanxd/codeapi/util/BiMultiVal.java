@@ -91,6 +91,15 @@ public class BiMultiVal<T, U extends T, V extends T> implements Iterable<T> {
      * @return Collection.
      */
     public Collection<T> toCollection() {
+        return this.toList();
+    }
+
+    /**
+     * Convert to collection.
+     *
+     * @return Collection.
+     */
+    public List<T> toList() {
         List<T> list = new ArrayList<>();
 
         Iterator<T> iterator = iterator();

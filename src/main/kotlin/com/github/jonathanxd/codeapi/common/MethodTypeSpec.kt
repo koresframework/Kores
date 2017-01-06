@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.common
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.types.CodeType
 
-data class MethodTypeSpec(val name: String, val typeSpec: TypeSpec): Typed {
+data class MethodTypeSpec(val localization: CodeType, val name: String, val typeSpec: TypeSpec): Typed {
     override val type: CodeType?
         get() = this.typeSpec.type
 }

@@ -39,6 +39,7 @@ object Common {
     /**
      * Create a access to outer class [localization].
      */
+    @JvmStatic
     fun accessOuter(localization: CodeType) = AccessImpl(type = Access.Type.OUTER, localization = localization)
 
 }

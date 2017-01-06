@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Return
 import com.github.jonathanxd.codeapi.types.CodeType
 
-class ReturnImpl(override val value: CodePart?, override val type: CodeType?) : Return
+class ReturnImpl(override val type: CodeType, override val value: CodePart) : Return

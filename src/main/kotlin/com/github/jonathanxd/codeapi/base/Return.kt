@@ -27,7 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.types.CodeType
+
 /**
  * Return value
  */
-interface Return : ValueHolder, Typed
+interface Return : ValueHolder, Typed {
+    override val type: CodeType
+    override val value: CodePart
+}
