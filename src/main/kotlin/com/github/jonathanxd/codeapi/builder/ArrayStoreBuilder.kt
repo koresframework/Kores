@@ -34,9 +34,9 @@ import com.github.jonathanxd.codeapi.base.ArrayStore
 class ArrayStoreBuilder(): Builder<ArrayStore, ArrayStoreBuilder>() {
     lateinit var index: com.github.jonathanxd.codeapi.CodePart
     lateinit var target: com.github.jonathanxd.codeapi.CodePart
-    lateinit var valueType: com.github.jonathanxd.codeapi.types.CodeType
+    lateinit var valueType: com.github.jonathanxd.codeapi.type.CodeType
     lateinit var valueToStore: com.github.jonathanxd.codeapi.CodePart
-    lateinit var arrayType: com.github.jonathanxd.codeapi.types.CodeType
+    lateinit var arrayType: com.github.jonathanxd.codeapi.type.CodeType
 
     constructor(defaults: ArrayStore) : this() {
         this.index = defaults.index
@@ -56,7 +56,7 @@ class ArrayStoreBuilder(): Builder<ArrayStore, ArrayStoreBuilder>() {
         return this
     }
 
-    fun withValueType(value: com.github.jonathanxd.codeapi.types.CodeType): ArrayStoreBuilder {
+    fun withValueType(value: com.github.jonathanxd.codeapi.type.CodeType): ArrayStoreBuilder {
         this.valueType = value
         return this
     }
@@ -66,16 +66,16 @@ class ArrayStoreBuilder(): Builder<ArrayStore, ArrayStoreBuilder>() {
         return this
     }
 
-    fun withArrayType(value: com.github.jonathanxd.codeapi.types.CodeType): ArrayStoreBuilder {
+    fun withArrayType(value: com.github.jonathanxd.codeapi.type.CodeType): ArrayStoreBuilder {
         this.arrayType = value
         return this
     }
 
     override fun build(): ArrayStore = ArrayStoreImpl(
-        index = this.index,
-        target = this.target,
-        valueType = this.valueType,
-        valueToStore = this.valueToStore,
-        arrayType = this.arrayType
+            index = this.index,
+            target = this.target,
+            valueType = this.valueType,
+            valueToStore = this.valueToStore,
+            arrayType = this.arrayType
     )
 }

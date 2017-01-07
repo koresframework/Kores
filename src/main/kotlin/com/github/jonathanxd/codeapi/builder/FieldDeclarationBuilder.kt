@@ -34,9 +34,9 @@ import com.github.jonathanxd.codeapi.base.FieldDeclaration
 class FieldDeclarationBuilder(): Builder<FieldDeclaration, FieldDeclarationBuilder>() {
     var annotations: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation> = emptyList()
     var value: com.github.jonathanxd.codeapi.CodePart? = null
-    var modifiers: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier> = emptyList()
+    var modifiers: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier> = emptySet()
     lateinit var name: kotlin.String
-    lateinit var variableType: com.github.jonathanxd.codeapi.types.CodeType
+    lateinit var variableType: com.github.jonathanxd.codeapi.type.CodeType
 
     constructor(defaults: FieldDeclaration) : this() {
         this.annotations = defaults.annotations
@@ -56,7 +56,7 @@ class FieldDeclarationBuilder(): Builder<FieldDeclaration, FieldDeclarationBuild
         return this
     }
 
-    fun withModifiers(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier>): FieldDeclarationBuilder {
+    fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): FieldDeclarationBuilder {
         this.modifiers = value
         return this
     }
@@ -66,16 +66,16 @@ class FieldDeclarationBuilder(): Builder<FieldDeclaration, FieldDeclarationBuild
         return this
     }
 
-    fun withVariableType(value: com.github.jonathanxd.codeapi.types.CodeType): FieldDeclarationBuilder {
+    fun withVariableType(value: com.github.jonathanxd.codeapi.type.CodeType): FieldDeclarationBuilder {
         this.variableType = value
         return this
     }
 
     override fun build(): FieldDeclaration = FieldDeclarationImpl(
-        annotations = this.annotations,
-        value = this.value,
-        modifiers = this.modifiers,
-        name = this.name,
-        variableType = this.variableType
+            annotations = this.annotations,
+            value = this.value,
+            modifiers = this.modifiers,
+            name = this.name,
+            variableType = this.variableType
     )
 }

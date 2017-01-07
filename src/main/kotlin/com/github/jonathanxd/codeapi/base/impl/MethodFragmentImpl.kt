@@ -36,10 +36,10 @@ import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 import java.util.concurrent.ThreadLocalRandom
 
-class MethodFragmentImpl(override val declaringType: TypeDeclaration, override val scope: Scope, override val arguments: List<CodeArgument>, val description: TypeSpec, val parameters: List<CodeParameter>, val body: CodeSource) : MethodFragment {
+class MethodFragmentImpl(override val declaringType: TypeDeclaration, override val scope: Scope, override val arguments: List<CodeArgument>, override val description: TypeSpec, override val parameters: List<CodeParameter>, override val body: CodeSource) : MethodFragment {
 
     override val spec: MethodSpecification = MethodSpecificationImpl(
             description = description,
@@ -58,13 +58,13 @@ class MethodFragmentImpl(override val declaringType: TypeDeclaration, override v
     )
 
     override val invokeType: InvokeType = InvokeType.INVOKE_VIRTUAL
-    override val localization: CodeType? = declaringType
+    override val localization: CodeType = declaringType
     override val target: CodePart? = if(scope == Scope.STATIC) null else Defaults.ACCESS_THIS
     override val invokeDynamic: InvokeDynamic? = null
 
     private companion object {
 
-        val RANDOM = ThreadLocalRandom.current();
+        val RANDOM = ThreadLocalRandom.current()
 
         fun randomName() = "fragment\$\$${RANDOM.nextInt().toString().replace("-", "_")}"
     }

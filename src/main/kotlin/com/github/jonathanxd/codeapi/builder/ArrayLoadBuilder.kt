@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.base.ArrayLoad
 class ArrayLoadBuilder(): Builder<ArrayLoad, ArrayLoadBuilder>() {
     lateinit var index: com.github.jonathanxd.codeapi.CodePart
     lateinit var target: com.github.jonathanxd.codeapi.CodePart
-    lateinit var valueType: com.github.jonathanxd.codeapi.types.CodeType
-    lateinit var arrayType: com.github.jonathanxd.codeapi.types.CodeType
+    lateinit var valueType: com.github.jonathanxd.codeapi.type.CodeType
+    lateinit var arrayType: com.github.jonathanxd.codeapi.type.CodeType
 
     constructor(defaults: ArrayLoad) : this() {
         this.index = defaults.index
@@ -54,20 +54,20 @@ class ArrayLoadBuilder(): Builder<ArrayLoad, ArrayLoadBuilder>() {
         return this
     }
 
-    fun withValueType(value: com.github.jonathanxd.codeapi.types.CodeType): ArrayLoadBuilder {
+    fun withValueType(value: com.github.jonathanxd.codeapi.type.CodeType): ArrayLoadBuilder {
         this.valueType = value
         return this
     }
 
-    fun withArrayType(value: com.github.jonathanxd.codeapi.types.CodeType): ArrayLoadBuilder {
+    fun withArrayType(value: com.github.jonathanxd.codeapi.type.CodeType): ArrayLoadBuilder {
         this.arrayType = value
         return this
     }
 
     override fun build(): ArrayLoad = ArrayLoadImpl(
-        index = this.index,
-        target = this.target,
-        valueType = this.valueType,
-        arrayType = this.arrayType
+            index = this.index,
+            target = this.target,
+            valueType = this.valueType,
+            arrayType = this.arrayType
     )
 }

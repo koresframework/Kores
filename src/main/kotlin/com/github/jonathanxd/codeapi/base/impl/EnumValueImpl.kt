@@ -28,6 +28,6 @@
 package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.base.EnumValue
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 class EnumValueImpl(override val enumType: CodeType, override val enumEntry: String, override val ordinal: Int) : EnumValue

@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.types.ClassType
+import com.github.jonathanxd.codeapi.type.ClassType
 
 /**
  * Interface declaration

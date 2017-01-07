@@ -33,11 +33,14 @@ import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.InterfaceDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.types.CodeType
-import com.github.jonathanxd.codeapi.types.GenericType
+import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.GenericType
 
 class InterfaceDeclarationImpl(override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : InterfaceDeclaration {
     init {
         BodyHolder.checkBody(this)
     }
+
+    override fun hashCode(): Int = CodeType.hash(this)
+    override fun equals(other: Any?): Boolean = CodeType.eq(this, other)
 }

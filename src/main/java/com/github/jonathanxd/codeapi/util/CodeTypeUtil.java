@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.lang.invoke.MethodHandles;
 
@@ -68,7 +68,7 @@ public class CodeTypeUtil {
         StringBuilder sb = new StringBuilder();
 
         for (int x = 0; x < dimensions; ++x)
-            sb.append("[");
+            sb.append('[');
 
         return sb.toString() + name;
     }

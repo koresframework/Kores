@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.literal.Literal;
 
 /**
  * Use JVM Stack value (is supported by {@code BytecodeGenerators}).

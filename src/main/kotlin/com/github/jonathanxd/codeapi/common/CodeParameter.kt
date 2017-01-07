@@ -31,6 +31,6 @@ import com.github.jonathanxd.codeapi.base.Annotable
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 data class CodeParameter @JvmOverloads constructor(override val type: CodeType, override val name: String, override val annotations: List<Annotation> = emptyList()) : Typed, Named, Annotable

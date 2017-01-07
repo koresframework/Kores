@@ -34,10 +34,10 @@ import com.github.jonathanxd.codeapi.base.VariableOperate
 class VariableOperateBuilder(): Builder<VariableOperate, VariableOperateBuilder>() {
     lateinit var target: com.github.jonathanxd.codeapi.CodePart
     lateinit var name: kotlin.String
-    var localization: com.github.jonathanxd.codeapi.types.CodeType? = null
-    lateinit var variableType: com.github.jonathanxd.codeapi.types.CodeType
+    var localization: com.github.jonathanxd.codeapi.type.CodeType? = null
+    lateinit var variableType: com.github.jonathanxd.codeapi.type.CodeType
     var value: com.github.jonathanxd.codeapi.CodePart? = null
-    lateinit var operation: com.github.jonathanxd.codeapi.operators.Operator
+    lateinit var operation: com.github.jonathanxd.codeapi.operator.Operator
 
     constructor(defaults: VariableOperate) : this() {
         this.target = defaults.target
@@ -58,12 +58,12 @@ class VariableOperateBuilder(): Builder<VariableOperate, VariableOperateBuilder>
         return this
     }
 
-    fun withLocalization(value: com.github.jonathanxd.codeapi.types.CodeType?): VariableOperateBuilder {
+    fun withLocalization(value: com.github.jonathanxd.codeapi.type.CodeType?): VariableOperateBuilder {
         this.localization = value
         return this
     }
 
-    fun withVariableType(value: com.github.jonathanxd.codeapi.types.CodeType): VariableOperateBuilder {
+    fun withVariableType(value: com.github.jonathanxd.codeapi.type.CodeType): VariableOperateBuilder {
         this.variableType = value
         return this
     }
@@ -73,17 +73,17 @@ class VariableOperateBuilder(): Builder<VariableOperate, VariableOperateBuilder>
         return this
     }
 
-    fun withOperation(value: com.github.jonathanxd.codeapi.operators.Operator): VariableOperateBuilder {
+    fun withOperation(value: com.github.jonathanxd.codeapi.operator.Operator): VariableOperateBuilder {
         this.operation = value
         return this
     }
 
     override fun build(): VariableOperate = VariableOperateImpl(
-        target = this.target,
-        name = this.name,
-        localization = this.localization,
-        variableType = this.variableType,
-        value = this.value,
-        operation = this.operation
+            target = this.target,
+            name = this.name,
+            localization = this.localization,
+            variableType = this.variableType,
+            value = this.value,
+            operation = this.operation
     )
 }

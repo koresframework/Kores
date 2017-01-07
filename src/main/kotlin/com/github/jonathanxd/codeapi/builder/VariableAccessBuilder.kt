@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.base.VariableAccess
 class VariableAccessBuilder(): Builder<VariableAccess, VariableAccessBuilder>() {
     var target: com.github.jonathanxd.codeapi.CodePart? = null
     lateinit var name: kotlin.String
-    var localization: com.github.jonathanxd.codeapi.types.CodeType? = null
-    lateinit var variableType: com.github.jonathanxd.codeapi.types.CodeType
+    var localization: com.github.jonathanxd.codeapi.type.CodeType? = null
+    lateinit var variableType: com.github.jonathanxd.codeapi.type.CodeType
 
     constructor(defaults: VariableAccess) : this() {
         this.target = defaults.target
@@ -54,20 +54,20 @@ class VariableAccessBuilder(): Builder<VariableAccess, VariableAccessBuilder>() 
         return this
     }
 
-    fun withLocalization(value: com.github.jonathanxd.codeapi.types.CodeType?): VariableAccessBuilder {
+    fun withLocalization(value: com.github.jonathanxd.codeapi.type.CodeType?): VariableAccessBuilder {
         this.localization = value
         return this
     }
 
-    fun withVariableType(value: com.github.jonathanxd.codeapi.types.CodeType): VariableAccessBuilder {
+    fun withVariableType(value: com.github.jonathanxd.codeapi.type.CodeType): VariableAccessBuilder {
         this.variableType = value
         return this
     }
 
     override fun build(): VariableAccess = VariableAccessImpl(
-        target = this.target,
-        name = this.name,
-        localization = this.localization,
-        variableType = this.variableType
+            target = this.target,
+            name = this.name,
+            localization = this.localization,
+            variableType = this.variableType
     )
 }

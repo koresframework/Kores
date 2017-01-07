@@ -51,7 +51,7 @@ class LabelBuilder(): Builder<Label, LabelBuilder>() {
     }
 
     override fun build(): Label = LabelImpl(
-        name = this.name,
-        body = this.body
+            name = this.name,
+            body = this.body
     )
 }

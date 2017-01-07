@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.VariableAccess
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 class VariableAccessImpl(override val target: CodePart?, override val name: String, override val localization: CodeType?, override val variableType: CodeType) : VariableAccess

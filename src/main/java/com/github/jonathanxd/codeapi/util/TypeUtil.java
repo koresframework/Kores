@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.base.Typed;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.util.List;
 import java.util.stream.Collectors;

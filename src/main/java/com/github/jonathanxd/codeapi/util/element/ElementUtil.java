@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util.element;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
@@ -39,15 +40,16 @@ import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.util.TypeUtil;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ElementUtil {
 
@@ -105,16 +107,16 @@ public class ElementUtil {
         return new MethodInvocationImpl(type, arguments, methodSpecification, invokeType, null, isConstructor ? type : target);
     }
 
-    public static FullMethodSpec getMethodSpec(Method method) {
-        return new FullMethodSpec(method.getDeclaringClass(), method.getReturnType(), method.getName(), method.getParameterTypes());
+    public static MethodTypeSpec getMethodSpec(Method method) {
+        return new MethodTypeSpec(CodeAPI.getJavaType(method.getDeclaringClass()), method.getName(),
+                new TypeSpec(CodeAPI.getJavaType(method.getReturnType()), CodeAPI.getJavaTypeList(method.getParameterTypes())));
     }
 
-    public static FullMethodSpec getMethodSpec(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
-        return new FullMethodSpec(
+    public static MethodTypeSpec getMethodSpec(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
+        return new MethodTypeSpec(
                 typeDeclaration,
-                methodDeclaration.getReturnType(),
                 methodDeclaration.getName(),
-                methodDeclaration.getParameters().stream().map(CodeParameter::getType).toArray(CodeType[]::new)
+                new TypeSpec(methodDeclaration.getReturnType(), methodDeclaration.getParameters().stream().map(CodeParameter::getType).collect(Collectors.toList()))
         );
     }
 }

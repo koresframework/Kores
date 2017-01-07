@@ -34,6 +34,17 @@ import java.util.Objects;
 
 public class GenToUtil {
 
+    /**
+     * Tries to determine the {@link Class} linked to {@link V} reading {@link GenerateTo}
+     * annotations.
+     *
+     * @param cl  Current Class
+     * @param map Map
+     * @param <V> value type.
+     * @return Found value linked to determined class.
+     * @throws IllegalStateException if a value cannot be found.
+     * @throws NullPointerException  if a value cannot be found.
+     */
     @SuppressWarnings("unchecked")
     public static <V> V get(Class<?> cl, Map<Class<?>, V> map) {
         if (map.containsKey(cl)) {
@@ -45,15 +56,16 @@ public class GenToUtil {
                 generateTo = cl.getAnnotation(GenerateTo.class);
 
             if (generateTo != null) {
-                return Objects.requireNonNull(map.get(generateTo.value()), "Cannot get visitor for class: '" + generateTo.value().getCanonicalName() + "'");
+                return Objects.requireNonNull(map.get(generateTo.value()), "Cannot get value for class: '" + generateTo.value().getCanonicalName() + "'");
             } else {
                 if (cl.isSynthetic()) {
                     Class<?>[] interfaces = cl.getInterfaces();
                     Class<?> i = interfaces.length > 0 ? interfaces[0] : cl.getSuperclass();
 
-                    return Objects.requireNonNull(map.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "'");
+                    return Objects.requireNonNull(map.get(i), "Cannot get value for class: '" + i.getCanonicalName() + "'");
                 }
-                throw new IllegalStateException("Cannot get visitor for class: '" + cl.getCanonicalName() + "'");
+
+                throw new IllegalStateException("Cannot get value for class: '" + cl.getCanonicalName() + "'");
             }
         }
     }

@@ -55,6 +55,6 @@ interface IterationType : PartProcessor, SugarSyntax<ForEachStatement, CodeSourc
 
     interface Generator : com.github.jonathanxd.codeapi.sugar.Generator<ForEachStatement, CodeSource> {
 
-        override fun generate(forEachBlock: ForEachStatement, processor: PartProcessor): CodeSource?
+        override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource
     }
 }

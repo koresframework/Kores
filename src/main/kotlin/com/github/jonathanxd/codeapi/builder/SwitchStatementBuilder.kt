@@ -35,13 +35,11 @@ class SwitchStatementBuilder(): Builder<SwitchStatement, SwitchStatementBuilder>
     lateinit var value: com.github.jonathanxd.codeapi.base.Typed
     lateinit var switchType: com.github.jonathanxd.codeapi.common.SwitchType
     var cases: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Case> = emptyList()
-    var type: com.github.jonathanxd.codeapi.types.CodeType? = null
 
     constructor(defaults: SwitchStatement) : this() {
         this.value = defaults.value
         this.switchType = defaults.switchType
         this.cases = defaults.cases
-        this.type = defaults.type
     }
 
     fun withValue(value: com.github.jonathanxd.codeapi.base.Typed): SwitchStatementBuilder {
@@ -59,15 +57,9 @@ class SwitchStatementBuilder(): Builder<SwitchStatement, SwitchStatementBuilder>
         return this
     }
 
-    fun withType(value: com.github.jonathanxd.codeapi.types.CodeType?): SwitchStatementBuilder {
-        this.type = value
-        return this
-    }
-
     override fun build(): SwitchStatement = SwitchStatementImpl(
-        value = this.value,
-        switchType = this.switchType,
-        cases = this.cases,
-        type = this.type
+            value = this.value,
+            switchType = this.switchType,
+            cases = this.cases
     )
 }

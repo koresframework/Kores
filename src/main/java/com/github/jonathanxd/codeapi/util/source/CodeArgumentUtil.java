@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.util.source;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.optional.Require;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
@@ -58,7 +58,12 @@ public class CodeArgumentUtil {
         for (int i = 0; i < newArguments.length; i++) {
             CodeType type = expected[i].getType();
 
-            newArguments[i] = new CodeArgument(passed[i].getValue(), type != null, type);
+            CodePart part = passed[i].getValue();
+
+            if(type != null)
+                part = CodeAPI.cast(passed[i].getType(), type, part);
+
+            newArguments[i] = new CodeArgument(part);
         }
 
         return newArguments;
@@ -82,7 +87,7 @@ public class CodeArgumentUtil {
      * @return Converted parameter.
      */
     public static CodeParameter fromJavaArgument(Parameter parameter) {
-        return new CodeParameter(parameter.getName(), Helper.getJavaType(parameter.getType()));
+        return new CodeParameter(CodeAPI.getJavaType(parameter.getType()), parameter.getName());
     }
 
     /**

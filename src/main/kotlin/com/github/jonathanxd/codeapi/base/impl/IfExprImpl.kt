@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.IfExpr
-import com.github.jonathanxd.codeapi.operators.Operator
+import com.github.jonathanxd.codeapi.operator.Operator
 
 class IfExprImpl(override val expr1: CodePart, override val operation: Operator, override val expr2: CodePart) : IfExpr

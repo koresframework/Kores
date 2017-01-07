@@ -31,10 +31,10 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import com.github.jonathanxd.iutils.data.MapData
 
-open class SugarSyntaxVisitor<T : CodePart, R : CodePart, V>(val sugarSyntax: SugarSyntax<T, R>) : VoidVisitor<T, V, Any?> {
+open class SugarSyntaxVisitor<in T : CodePart, out R : CodePart, V>(val sugarSyntax: SugarSyntax<T, R>) : VoidVisitor<T, V, Any?> {
 
     override fun voidVisit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<V>, additional: Any?) {
-        val generated = this.sugarSyntax.generator.generate(t)
+        val generated = this.sugarSyntax.createGenerator().generate(t, visitorGenerator)
 
         visitorGenerator.generateTo(generated.javaClass, generated, extraData, null)
     }

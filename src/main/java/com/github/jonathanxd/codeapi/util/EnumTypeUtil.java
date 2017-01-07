@@ -30,10 +30,10 @@ package com.github.jonathanxd.codeapi.util;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.EnumValue;
 import com.github.jonathanxd.codeapi.base.SwitchStatement;
-import com.github.jonathanxd.codeapi.literals.Literal;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.LoadedCodeType;
+import com.github.jonathanxd.codeapi.literal.Literal;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 
 public class EnumTypeUtil {
     /**

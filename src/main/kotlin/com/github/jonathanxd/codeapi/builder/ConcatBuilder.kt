@@ -44,6 +44,6 @@ class ConcatBuilder(): Builder<Concat, ConcatBuilder>() {
     }
 
     override fun build(): Concat = ConcatImpl(
-        concatenations = this.concatenations
+            concatenations = this.concatenations
     )
 }

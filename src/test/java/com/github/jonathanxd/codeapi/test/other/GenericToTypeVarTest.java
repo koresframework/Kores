@@ -27,10 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
-import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.util.ClassUtil;
+import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 
 import org.junit.Test;
@@ -43,9 +42,9 @@ public class GenericToTypeVarTest {
 
     @Test
     public void genericToTypeVar() {
-        Generic generic = Generic.type(Helper.getJavaType(MyClass.class))
+        Generic generic = Generic.Companion.type(CodeAPI.getJavaType(MyClass.class))
                 .of(PredefinedTypes.INTEGER_TYPE)
-                .of(Generic.type("T"))
+                .of(Generic.Companion.type("T"))
                 .of(PredefinedTypes.STRING);
 
         TypeVariable<?>[] typeVariables = TypeVarUtil.fillTypeVars(MyClass.class, generic);

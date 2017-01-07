@@ -81,7 +81,6 @@ interface SwitchType : PartProcessor, SugarSyntax<SwitchStatement, SwitchStateme
             val switchStmt = SwitchStatementImpl(
                     value = translatedSwitch.value,
                     cases = caseList,
-                    type = translatedSwitch.type,
                     switchType = SwitchTypes.NUMERIC
             )
 

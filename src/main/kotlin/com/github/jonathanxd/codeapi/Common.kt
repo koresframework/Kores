@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi
 
 import com.github.jonathanxd.codeapi.base.Access
 import com.github.jonathanxd.codeapi.base.impl.AccessImpl
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
  * Common constructors

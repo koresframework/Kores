@@ -27,12 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.options;
 
-import com.github.jonathanxd.codeapi.common.FullMethodSpec;
 import com.github.jonathanxd.iutils.option.Option;
 
 /**
  * CodeAPI generation Options constant.
  */
+@Deprecated
 public class CodeOptions {
     /**
      * Inline finally blocks.
@@ -82,7 +82,6 @@ public class CodeOptions {
      * You can add bridge methods manually with {@code TODO}.
      *
      * Known supported generators: {@code BytecodeGenerator}.
-     *
      */
     //link com.github.jonathanxd.codeapi.helper.Helper#bridgeMethod(CodeMethod, FullMethodSpec)
     public static final Option<Boolean> GENERATE_BRIDGE_METHODS = new Option<>(false);

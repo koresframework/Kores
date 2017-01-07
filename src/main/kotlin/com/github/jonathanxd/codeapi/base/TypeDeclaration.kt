@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeRoot
-import com.github.jonathanxd.codeapi.types.ClassType
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.ClassType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
  * Base class of all [TypeDeclaration]s like classes, interfaces and enums.
@@ -47,6 +47,9 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
      */
     val outerClass: CodeType?
 
-    override fun getType(): String = this.qualifiedName
-    override fun getCanonicalName(): String = this.qualifiedName
+    override val type: String
+        get() = this.qualifiedName
+
+    override val canonicalName: String
+        get() = this.qualifiedName
 }

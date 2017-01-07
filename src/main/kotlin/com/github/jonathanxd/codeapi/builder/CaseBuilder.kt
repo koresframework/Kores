@@ -51,7 +51,7 @@ class CaseBuilder(): Builder<Case, CaseBuilder>() {
     }
 
     override fun build(): Case = CaseImpl(
-        value = this.value,
-        body = this.body
+            value = this.value,
+            body = this.body
     )
 }

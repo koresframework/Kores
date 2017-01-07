@@ -65,9 +65,9 @@ class EnumEntryBuilder(): Builder<EnumEntry, EnumEntryBuilder>() {
     }
 
     override fun build(): EnumEntry = EnumEntryImpl(
-        constructorSpec = this.constructorSpec,
-        arguments = this.arguments,
-        name = this.name,
-        body = this.body
+            constructorSpec = this.constructorSpec,
+            arguments = this.arguments,
+            name = this.name,
+            body = this.body
     )
 }

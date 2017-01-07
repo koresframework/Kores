@@ -27,39 +27,44 @@
  */
 package com.github.jonathanxd.codeapi.helper;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 
-/**
- * Created by jonathan on 06/06/16.
- */
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collections;
+
 public final class Predefined {
 
     Predefined() {
     }
 
     public static MethodInvocation toString(CodePart part) {
-        return null;//CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING));
+        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING), Collections.emptyList());
     }
 
     public static MethodInvocation intToString(CodePart part) {
-        return null;/*CodeAPI.invokeStatic(String.class, "valueOf", new TypeSpec(PredefinedTypes.STRING, PredefinedTypes.INT),
-                CodeAPI.argument(part));*/
+        return CodeAPI.invokeStatic(String.class, "valueOf",
+                new TypeSpec(PredefinedTypes.STRING, Collections.singletonList(PredefinedTypes.INT)),
+                Collections.singletonList(CodeAPI.argument(part)));
     }
 
     public static MethodInvocation invokePrintln(CodeArgument... arguments) {
-        return null;/*Helper.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                Helper.accessStaticVariable(System.class, "out", PrintStream.class),
-                new MethodSpecImpl("println", PredefinedTypes.VOID, Arrays.asList(arguments)));*/
+        return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
+                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
+                "println", new TypeSpec(PredefinedTypes.VOID), Arrays.asList(arguments));
     }
 
     public static MethodInvocation invokePrintlnStr(CodePart part) {
-        return null;/*CodeAPI.invokeVirtual(
+        return CodeAPI.invokeVirtual(
                 PrintStream.class,
                 CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
                 "println",
                 CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
-                CodeAPI.argument(part));*/
+                Collections.singletonList(CodeAPI.argument(part)));
     }
 }

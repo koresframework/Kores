@@ -28,11 +28,15 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
-data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed {
+data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed, Comparable<MethodInvokeSpec> {
 
     override val type: CodeType?
         get() = this.methodTypeSpec.type
 
+
+    override fun compareTo(other: MethodInvokeSpec): Int {
+        return this.methodTypeSpec.compareTo(other.methodTypeSpec)
+    }
 }

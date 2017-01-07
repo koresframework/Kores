@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.types.ClassType
+import com.github.jonathanxd.codeapi.type.ClassType
 
 interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
 

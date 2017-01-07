@@ -27,8 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;

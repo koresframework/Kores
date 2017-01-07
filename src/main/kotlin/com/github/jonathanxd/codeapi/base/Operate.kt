@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.operators.Operator
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.operator.Operator
+import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
 /**

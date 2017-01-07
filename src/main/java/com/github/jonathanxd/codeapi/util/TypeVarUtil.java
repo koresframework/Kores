@@ -27,14 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.types.GenericType;
-import com.github.jonathanxd.codeapi.types.LoadedCodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.type.GenericType;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -48,12 +48,12 @@ public class TypeVarUtil {
     }
 
     public static CodeType getType(TypeVariable<?>[] typeVariables, String variable, Generic generic) {
-        for (int i = 0; i < generic.bounds().length; i++) {
+        for (int i = 0; i < generic.getBounds().length; i++) {
             if (i >= typeVariables.length)
                 break;
 
             if (variable.equals(typeVariables[i].getName()))
-                return generic.bounds()[i].getType();
+                return generic.getBounds()[i].getType();
         }
 
         return null;
@@ -84,7 +84,7 @@ public class TypeVarUtil {
             } else {
                 Class<?> inferredType = com.github.jonathanxd.iutils.type.TypeUtil.from(variable);
 
-                return inferredType == null ? PredefinedTypes.OBJECT : Helper.getJavaType(inferredType);
+                return inferredType == null ? PredefinedTypes.OBJECT : CodeAPI.getJavaType(inferredType);
             }
 
         }
@@ -92,7 +92,7 @@ public class TypeVarUtil {
 
     public static CodeType toCodeType(Type type, TypeVariable<?>[] variables, TypeVariable<?>[] classVariables, Generic generic) {
         if (type instanceof Class<?>) {
-            return Helper.getJavaType((Class<?>) type);
+            return CodeAPI.getJavaType((Class<?>) type);
         } else {
             TypeVariable<?> variable = (TypeVariable<?>) type;
 
@@ -101,7 +101,7 @@ public class TypeVarUtil {
             } else {
                 Class<?> inferredType = com.github.jonathanxd.iutils.type.TypeUtil.from(variable);
 
-                return inferredType == null ? PredefinedTypes.OBJECT : Helper.getJavaType(inferredType);
+                return inferredType == null ? PredefinedTypes.OBJECT : CodeAPI.getJavaType(inferredType);
             }
 
         }
@@ -122,9 +122,9 @@ public class TypeVarUtil {
     }
 
     public static TypeVariable<?> find(TypeVariable<?>[] typeVariables, GenericType genericType) {
-        GenericType.Bound<CodeType>[] bounds = genericType.bounds();
+        GenericType.Bound<CodeType>[] bounds = genericType.getBounds();
 
-        for (int i = 0; i < bounds.length; i++) {
+        for (int i = 0; i < bounds.length; ++i) {
             if (i >= typeVariables.length)
                 break;
 
@@ -151,7 +151,7 @@ public class TypeVarUtil {
     }
 
     public static TypeVariable<?>[] fillTypeVars(Class<?> theClass, GenericType generic) {
-        if (generic.isType() && generic.getCodeType().is(Helper.getJavaType(theClass))) {
+        if (generic.isType() && generic.getCodeType().is(CodeAPI.getJavaType(theClass))) {
             return fillTypeVars(theClass.getTypeParameters(), generic);
         }
 
@@ -161,7 +161,7 @@ public class TypeVarUtil {
     public static TypeVariable<?>[] fillTypeVars(TypeVariable<?>[] typeParameters, GenericType generic) {
         List<TypeVariable<?>> filledTypeVars = new ArrayList<>();
 
-        GenericType.Bound<CodeType>[] bounds = generic.bounds();
+        GenericType.Bound<CodeType>[] bounds = generic.getBounds();
 
         for (int i = 0; i < bounds.length; i++) {
             if (i >= typeParameters.length)
@@ -189,7 +189,7 @@ public class TypeVarUtil {
                 Class<?> from = com.github.jonathanxd.iutils.type.TypeUtil.from(typeVariable.getBounds()[0]);
 
                 if (from != null) {
-                    return Helper.getJavaType(from);
+                    return CodeAPI.getJavaType(from);
                 }
             }
 
@@ -207,7 +207,7 @@ public class TypeVarUtil {
 
         for (GenericType type : types) {
             if (!type.isType())
-                if (type.name().equals(name))
+                if (type.getName().equals(name))
                     return type.getCodeType();
         }
 
@@ -219,14 +219,14 @@ public class TypeVarUtil {
     }
 
     public static TypeVariable<?> toTypeVar(GenericType generic) {
-        if (generic.isType() || generic.bounds().length == 0)
-            return new GenericTypeVariable(generic.getCodeType(), null, generic.name(), new Type[]{
-                    generic.isType() ? new GenericJavaType(generic.getCodeType()) : new GenericTypeVariable(generic.getCodeType(), null, generic.name(), new Type[0])
+        if (generic.isType() || generic.getBounds().length == 0)
+            return new GenericTypeVariable(generic.getCodeType(), null, generic.getName(), new Type[]{
+                    generic.isType() ? new GenericJavaType(generic.getCodeType()) : new GenericTypeVariable(generic.getCodeType(), null, generic.getName(), new Type[0])
             });
 
         List<Type> typeList = new ArrayList<>();
 
-        GenericType.Bound<CodeType>[] bounds = generic.bounds();
+        GenericType.Bound<CodeType>[] bounds = generic.getBounds();
 
         for (GenericType.Bound<CodeType> typeBound : bounds) {
             CodeType type = typeBound.getType();
@@ -240,7 +240,7 @@ public class TypeVarUtil {
 
         }
 
-        return new GenericTypeVariable(generic.getCodeType(), null, generic.name(), typeList.stream().toArray(Type[]::new));
+        return new GenericTypeVariable(generic.getCodeType(), null, generic.getName(), typeList.stream().toArray(Type[]::new));
     }
 
     private static TypeVariable<?> toTypeVar(GenericType.Bound<CodeType> bound, TypeVariable<?> variable) {
@@ -248,15 +248,15 @@ public class TypeVarUtil {
         if (bound.getType() instanceof Generic) {
             Generic generic = (Generic) bound.getType();
 
-            if (generic.isType() || generic.bounds().length == 0)
+            if (generic.isType() || generic.getBounds().length == 0)
                 return new GenericTypeVariable(generic.getCodeType(), variable, new Type[]{
-                        generic.isType() ? new GenericJavaType(generic.getCodeType()) : new GenericTypeVariable(generic.getCodeType(), null, generic.name(), new Type[0])
+                        generic.isType() ? new GenericJavaType(generic.getCodeType()) : new GenericTypeVariable(generic.getCodeType(), null, generic.getName(), new Type[0])
                 });
 
             List<Type> typeList = new ArrayList<>();
 
             Type[] typeVarBounds = variable.getBounds();
-            GenericType.Bound<CodeType>[] bounds = generic.bounds();
+            GenericType.Bound<CodeType>[] bounds = generic.getBounds();
 
             for (int i = 0; i < bounds.length; i++) {
                 if (i >= typeVarBounds.length)
@@ -288,7 +288,7 @@ public class TypeVarUtil {
 
         public static GenericJavaType fromBound(GenericType.Bound<CodeType> bound) {
             CodeType type;
-            if (bound.sign().equals("*")) {
+            if (bound.getSign().equals("*")) {
                 type = PredefinedTypes.OBJECT;
             } else {
                 type = bound.getType();

@@ -36,9 +36,9 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
     var properties: kotlin.collections.List<com.github.jonathanxd.codeapi.base.AnnotationProperty> = emptyList()
     var annotations: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation> = emptyList()
     var body: com.github.jonathanxd.codeapi.CodeSource? = null
-    var modifiers: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier> = emptyList()
+    var modifiers: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier> = emptySet()
     lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
-    var outerClass: com.github.jonathanxd.codeapi.types.CodeType? = null
+    var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
 
     constructor(defaults: AnnotationDeclaration) : this() {
         this.qualifiedName = defaults.qualifiedName
@@ -70,7 +70,7 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
         return this
     }
 
-    fun withModifiers(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier>): AnnotationDeclarationBuilder {
+    fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): AnnotationDeclarationBuilder {
         this.modifiers = value
         return this
     }
@@ -80,18 +80,18 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
         return this
     }
 
-    fun withOuterClass(value: com.github.jonathanxd.codeapi.types.CodeType?): AnnotationDeclarationBuilder {
+    fun withOuterClass(value: com.github.jonathanxd.codeapi.type.CodeType?): AnnotationDeclarationBuilder {
         this.outerClass = value
         return this
     }
 
     override fun build(): AnnotationDeclaration = AnnotationDeclarationImpl(
-        qualifiedName = this.qualifiedName,
-        properties = this.properties,
-        annotations = this.annotations,
-        body = this.body,
-        modifiers = this.modifiers,
-        genericSignature = this.genericSignature,
-        outerClass = this.outerClass
+            qualifiedName = this.qualifiedName,
+            properties = this.properties,
+            annotations = this.annotations,
+            body = this.body,
+            modifiers = this.modifiers,
+            genericSignature = this.genericSignature,
+            outerClass = this.outerClass
     )
 }

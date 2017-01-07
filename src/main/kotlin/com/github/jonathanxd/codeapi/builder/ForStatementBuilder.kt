@@ -65,9 +65,9 @@ class ForStatementBuilder(): Builder<ForStatement, ForStatementBuilder>() {
     }
 
     override fun build(): ForStatement = ForStatementImpl(
-        forInit = this.forInit,
-        forExpression = this.forExpression,
-        forUpdate = this.forUpdate,
-        body = this.body
+            forInit = this.forInit,
+            forExpression = this.forExpression,
+            forUpdate = this.forUpdate,
+            body = this.body
     )
 }

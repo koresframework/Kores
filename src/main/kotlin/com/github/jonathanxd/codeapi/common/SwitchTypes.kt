@@ -37,8 +37,8 @@ import com.github.jonathanxd.codeapi.builder.CaseBuilder
 import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes
-import com.github.jonathanxd.codeapi.literals.Literals
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.literal.Literals
+import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.EnumTypeUtil
 
 object SwitchTypes {

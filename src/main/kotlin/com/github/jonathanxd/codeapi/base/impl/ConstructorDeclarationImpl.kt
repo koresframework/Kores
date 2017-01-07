@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.types.GenericType
+import com.github.jonathanxd.codeapi.type.GenericType
 
 class ConstructorDeclarationImpl(override val parameters: List<CodeParameter>, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature) : ConstructorDeclaration {
     init {

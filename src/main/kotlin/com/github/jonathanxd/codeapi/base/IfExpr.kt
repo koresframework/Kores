@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.operators.Operator
+import com.github.jonathanxd.codeapi.operator.Operator
 
 /**
  * If expression.

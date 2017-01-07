@@ -28,7 +28,10 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
+import com.github.jonathanxd.codeapi.literal.Literals
+import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.Stack
 
 /**
  * Constructor of array type.
@@ -58,15 +61,15 @@ interface ArrayConstructor : ArgumentHolder, Typed {
 
                 val argumentValue = argument.value
 
-                /*arrayStores.add(
+                arrayStores.add(
                         ArrayStoreBuilder().build {
                             arrayType = this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                             target = Stack.INSTANCE
                             index = Literals.INT(i)
-                            valueType = argument.type
+                            valueType = argument.type!!
                             valueToStore = argumentValue
                         }
-                )*/
+                )
             }
 
             return arrayStores

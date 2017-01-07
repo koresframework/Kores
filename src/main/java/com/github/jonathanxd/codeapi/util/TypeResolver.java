@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 @FunctionalInterface
 public interface TypeResolver {

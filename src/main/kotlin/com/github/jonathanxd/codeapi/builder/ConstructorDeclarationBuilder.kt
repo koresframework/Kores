@@ -35,7 +35,7 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
     var parameters: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeParameter> = emptyList()
     var annotations: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation> = emptyList()
     var body: com.github.jonathanxd.codeapi.CodeSource? = null
-    var modifiers: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier> = emptyList()
+    var modifiers: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier> = emptySet()
     lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
 
     constructor(defaults: ConstructorDeclaration) : this() {
@@ -61,7 +61,7 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
         return this
     }
 
-    fun withModifiers(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier>): ConstructorDeclarationBuilder {
+    fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): ConstructorDeclarationBuilder {
         this.modifiers = value
         return this
     }
@@ -72,10 +72,10 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
     }
 
     override fun build(): ConstructorDeclaration = ConstructorDeclarationImpl(
-        parameters = this.parameters,
-        annotations = this.annotations,
-        body = this.body,
-        modifiers = this.modifiers,
-        genericSignature = this.genericSignature
+            parameters = this.parameters,
+            annotations = this.annotations,
+            body = this.body,
+            modifiers = this.modifiers,
+            genericSignature = this.genericSignature
     )
 }

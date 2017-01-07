@@ -30,13 +30,11 @@ package com.github.jonathanxd.codeapi.util;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.optional.Require;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TypeSpecUtil {

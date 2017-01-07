@@ -33,25 +33,25 @@ import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 @GenerateTo(FieldDeclaration::class)
-class HiddenField(name: String, type: CodeType, value: CodePart?, modifiers: List<CodeModifier>, annotations: List<Annotation>) :
+class HiddenField(name: String, type: CodeType, value: CodePart?, modifiers: Set<CodeModifier>, annotations: List<Annotation>) :
         FieldDeclarationImpl(name = name, variableType = type, value = value, modifiers = modifiers, annotations = annotations) {
 
 
-    constructor(name: String, type: CodeType, modifiers: List<CodeModifier>, annotations: List<Annotation>)
+    constructor(name: String, type: CodeType, modifiers: Set<CodeModifier>, annotations: List<Annotation>)
             : this(name, type, null, modifiers, annotations)
 
-    constructor(name: String, type: CodeType, modifiers: List<CodeModifier>)
+    constructor(name: String, type: CodeType, modifiers: Set<CodeModifier>)
             : this(name, type, null, modifiers, emptyList())
 
     constructor(name: String, type: CodeType)
-            : this(name, type, null, emptyList(), emptyList())
+            : this(name, type, null, emptySet(), emptyList())
 
-    constructor(name: String, type: CodeType, value: CodePart, modifiers: List<CodeModifier>)
+    constructor(name: String, type: CodeType, value: CodePart, modifiers: Set<CodeModifier>)
             : this(name, type, value, modifiers, emptyList())
 
     constructor(name: String, type: CodeType, value: CodePart)
-            : this(name, type, value, emptyList(), emptyList())
+            : this(name, type, value, emptySet(), emptyList())
 }

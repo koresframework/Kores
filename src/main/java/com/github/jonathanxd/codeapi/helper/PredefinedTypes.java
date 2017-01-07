@@ -28,10 +28,9 @@
 package com.github.jonathanxd.codeapi.helper;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.LoadedCodeType;
-
-import org.objectweb.asm.Type;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.JavaType;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
@@ -40,9 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by jonathan on 06/06/16.
- */
 public final class PredefinedTypes {
 
     // Java.Lang
@@ -96,89 +92,11 @@ public final class PredefinedTypes {
 
 
     @GenerateTo(CodeType.class)
-    private static class PredefinedType<T> implements LoadedCodeType<T> {
-
-        private final Class<T> tClass;
+    private static class PredefinedType<T> extends JavaType<T> {
 
         PredefinedType(Class<T> tClass) {
-            this.tClass = tClass;
+            super(tClass);
         }
 
-
-        @Override
-        public String getType() {
-            return Type.getType(this.tClass).getClassName();
-        }
-
-        @Override
-        public String getCanonicalName() {
-            return this.tClass.getCanonicalName();
-        }
-
-        @Override
-        public String getSimpleName() {
-            return this.tClass.getSimpleName();
-        }
-
-        @Override
-        public String getJavaSpecName() {
-            return Type.getDescriptor(this.tClass);
-        }
-
-        @Override
-        public boolean isPrimitive() {
-            return this.tClass.isPrimitive();
-        }
-
-        @Override
-        public boolean isInterface() {
-            return this.tClass.isInterface();
-        }
-
-        @Override
-        public Class<T> getLoadedType() {
-            return this.tClass;
-        }
-
-        @Override
-        public boolean isVirtual() {
-            return false;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-
-            if (obj == null)
-                return false;
-
-            if (obj instanceof Class) {
-                return this.tClass.equals(obj);
-            }
-
-            if (obj instanceof LoadedCodeType) {
-                return this.tClass.equals(((LoadedCodeType) obj).getLoadedType());
-            }
-
-            if (obj instanceof CodeType) {
-                return this.getJavaSpecName().equals(((CodeType) obj).getJavaSpecName());
-            }
-
-            return CodeType.eq(this, obj);
-        }
-
-        @Override
-        public int hashCode() {
-            return CodeType.hash(this);
-        }
-
-        @Override
-        public String toString() {
-            return this.getJavaSpecName();
-        }
-
-        @Override
-        public boolean isExpression() {
-            return false;
-        }
     }
 }

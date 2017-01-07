@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.types.GenericType
+import com.github.jonathanxd.codeapi.type.GenericType
 
 class Signature(val signature: GenericSignature, val superType: GenericType, private val interfaces: Array<GenericType>) {
 

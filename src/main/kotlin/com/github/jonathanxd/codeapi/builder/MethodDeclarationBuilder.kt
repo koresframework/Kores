@@ -36,8 +36,8 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
     lateinit var name: kotlin.String
     var annotations: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation> = emptyList()
     var body: com.github.jonathanxd.codeapi.CodeSource? = null
-    lateinit var returnType: com.github.jonathanxd.codeapi.types.CodeType
-    var modifiers: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier> = emptyList()
+    lateinit var returnType: com.github.jonathanxd.codeapi.type.CodeType
+    var modifiers: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier> = emptySet()
     lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
 
     constructor(defaults: MethodDeclaration) : this() {
@@ -70,12 +70,12 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
         return this
     }
 
-    fun withReturnType(value: com.github.jonathanxd.codeapi.types.CodeType): MethodDeclarationBuilder {
+    fun withReturnType(value: com.github.jonathanxd.codeapi.type.CodeType): MethodDeclarationBuilder {
         this.returnType = value
         return this
     }
 
-    fun withModifiers(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeModifier>): MethodDeclarationBuilder {
+    fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): MethodDeclarationBuilder {
         this.modifiers = value
         return this
     }
@@ -86,12 +86,12 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
     }
 
     override fun build(): MethodDeclaration = MethodDeclarationImpl(
-        parameters = this.parameters,
-        name = this.name,
-        annotations = this.annotations,
-        body = this.body,
-        returnType = this.returnType,
-        modifiers = this.modifiers,
-        genericSignature = this.genericSignature
+            parameters = this.parameters,
+            name = this.name,
+            annotations = this.annotations,
+            body = this.body,
+            returnType = this.returnType,
+            modifiers = this.modifiers,
+            genericSignature = this.genericSignature
     )
 }

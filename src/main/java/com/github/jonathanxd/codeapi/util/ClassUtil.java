@@ -33,10 +33,30 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import kotlin.Pair;
+
 /**
  * Internal undocumented.
  */
 public class ClassUtil {
+
+    public static Pair<Class<?>, Integer> getArrayBaseType(Class<?> arrayType) {
+
+        if (arrayType.isArray()) {
+            Class<?> component = arrayType;
+
+            int dimensions = 0;
+
+            do {
+                ++dimensions;
+            } while ((component = component.getComponentType()).isArray());
+
+
+            return new Pair<>(component, dimensions);
+        } else {
+            return new Pair<>(arrayType, 0);
+        }
+    }
 
 
     private static List<Class<?>> getAllInterfaces(Class<?> base) {

@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 public class SimpleResolver implements TypeResolver {
 
@@ -76,7 +76,7 @@ public class SimpleResolver implements TypeResolver {
                 Class<?> aClass = Class.forName(name);
 
                 if (aClass != null)
-                    return Helper.getJavaType(aClass);
+                    return CodeAPI.getJavaType(aClass);
             } catch (Throwable t) {
             }
         }

@@ -65,9 +65,9 @@ class TryWithResourcesBuilder(): Builder<TryWithResources, TryWithResourcesBuild
     }
 
     override fun build(): TryWithResources = TryWithResourcesImpl(
-        variable = this.variable,
-        catchStatements = this.catchStatements,
-        finallyStatement = this.finallyStatement,
-        body = this.body
+            variable = this.variable,
+            catchStatements = this.catchStatements,
+            finallyStatement = this.finallyStatement,
+            body = this.body
     )
 }

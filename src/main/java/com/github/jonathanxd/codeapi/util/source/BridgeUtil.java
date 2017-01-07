@@ -27,19 +27,20 @@
  */
 package com.github.jonathanxd.codeapi.util.source;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.base.ImplementationHolder;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.SuperClassHolder;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.FullMethodSpec;
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.Generic;
-import com.github.jonathanxd.codeapi.types.LoadedCodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 import com.github.jonathanxd.codeapi.util.element.ElementUtil;
 
@@ -55,15 +56,15 @@ import java.util.stream.Collectors;
 public class BridgeUtil {
 
     public static Optional<MethodDeclaration> genBridgeMethod(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
-        FullMethodSpec bridgeMethod = BridgeUtil.findMethodToBridge(typeDeclaration, methodDeclaration);
+        MethodTypeSpec bridgeMethod = BridgeUtil.findMethodToBridge(typeDeclaration, methodDeclaration);
 
-        return Optional.empty();//bridgeMethod == null ? Optional.empty() : Optional.of(Helper.bridgeMethod(methodDeclaration, bridgeMethod));
+        return bridgeMethod == null ? Optional.empty() : Optional.of(CodeAPI.bridgeMethod(methodDeclaration, bridgeMethod));
     }
 
-    public static FullMethodSpec findMethodToBridge(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
-        FullMethodSpec methodSpec = ElementUtil.getMethodSpec(typeDeclaration, methodDeclaration);
+    public static MethodTypeSpec findMethodToBridge(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
+        MethodTypeSpec methodSpec = ElementUtil.getMethodSpec(typeDeclaration, methodDeclaration);
 
-        FullMethodSpec found = BridgeUtil.find(typeDeclaration, methodSpec);
+        MethodTypeSpec found = BridgeUtil.find(typeDeclaration, methodSpec);
 
         if (found != null && found.compareTo(methodSpec) == 0)
             return null;
@@ -71,7 +72,7 @@ public class BridgeUtil {
         return found;
     }
 
-    private static FullMethodSpec find(TypeDeclaration typeDeclaration, FullMethodSpec methodSpec) {
+    private static MethodTypeSpec find(TypeDeclaration typeDeclaration, MethodTypeSpec methodSpec) {
         if (!(typeDeclaration instanceof SuperClassHolder) && !(typeDeclaration instanceof ImplementationHolder))
             return null;
 
@@ -98,7 +99,7 @@ public class BridgeUtil {
         }
 
         for (Generic type : types) {
-            FullMethodSpec in = BridgeUtil.findIn(type, methodSpec);
+            MethodTypeSpec in = BridgeUtil.findIn(type, methodSpec);
 
             if (in != null)
                 return in;
@@ -107,7 +108,7 @@ public class BridgeUtil {
         return null;
     }
 
-    private static FullMethodSpec findIn(Generic generic, FullMethodSpec methodSpec) {
+    private static MethodTypeSpec findIn(Generic generic, MethodTypeSpec methodSpec) {
 
         if (generic.isType()) {
             CodeType codeType = generic.getCodeType();
@@ -128,7 +129,7 @@ public class BridgeUtil {
         return null;
     }
 
-    private static FullMethodSpec findIn(Class<?> theClass, Generic generic, FullMethodSpec methodSpec) {
+    private static MethodTypeSpec findIn(Class<?> theClass, Generic generic, MethodTypeSpec methodSpec) {
         TypeVariable<?>[] typeParameters = theClass.getTypeParameters();
 
         for (Method method : theClass.getDeclaredMethods()) {
@@ -136,7 +137,10 @@ public class BridgeUtil {
             if (!methodSpec.getMethodName().equals(method.getName()))
                 continue;
 
-            FullMethodSpec spec = new FullMethodSpec(method.getDeclaringClass(), method.getReturnType(), method.getName(), method.getParameterTypes());
+            MethodTypeSpec spec = new MethodTypeSpec(
+                    CodeAPI.getJavaType(method.getDeclaringClass()),
+                    method.getName(),
+                    new TypeSpec(CodeAPI.getJavaType(method.getReturnType()), CodeAPI.getJavaTypeList(method.getParameterTypes())));
 
             if (methodSpec.compareTo(spec) == 0) {
                 return spec; // No problem here, CodeAPI will not duplicate methods, it will only avoid the type inference (slow part of the bridge method inference)
@@ -154,9 +158,12 @@ public class BridgeUtil {
                 inferredParametersTypes.add(TypeVarUtil.toCodeType(genericParameterType, methodParameters, typeParameters, generic));
             }
 
-            FullMethodSpec fullMethodSpec = new FullMethodSpec(Helper.getJavaType(method.getDeclaringClass()), inferredReturnType, method.getName(), inferredParametersTypes);
+            MethodTypeSpec methodTypeSpec = new MethodTypeSpec(
+                    CodeAPI.getJavaType(method.getDeclaringClass()),
+                    method.getName(),
+                    new TypeSpec(inferredReturnType, inferredParametersTypes));
 
-            if (fullMethodSpec.compareTo(methodSpec) == 0) {
+            if (methodTypeSpec.compareTo(methodSpec) == 0) {
                 return fixGenerics(spec, null, typeParameters, null);
             }
         }
@@ -164,7 +171,7 @@ public class BridgeUtil {
         return null;
     }
 
-    private static FullMethodSpec findIn(TypeDeclaration theClass, Generic generic, FullMethodSpec methodSpec) {
+    private static MethodTypeSpec findIn(TypeDeclaration theClass, Generic generic, MethodTypeSpec methodSpec) {
         GenericSignature genericSignature = theClass.getGenericSignature();
 
         TypeVariable<?>[] typeParameters = TypeVarUtil.toTypeVars(genericSignature);
@@ -179,9 +186,10 @@ public class BridgeUtil {
             if (!methodSpec.getMethodName().equals(method.getName()))
                 continue;
 
-            CodeType[] parameterTypes = method.getParameters().stream().map(CodeParameter::getType).toArray(CodeType[]::new);
+            List<CodeType> parameterTypes = method.getParameters().stream().map(CodeParameter::getType).collect(Collectors.toList());
 
-            FullMethodSpec spec = new FullMethodSpec(theClass, method.getReturnType(), method.getName(), parameterTypes);
+            MethodTypeSpec spec = new MethodTypeSpec(theClass, method.getName(),
+                    new TypeSpec(method.getReturnType(), parameterTypes));
 
             if (methodSpec.compareTo(spec) == 0) {
                 return spec; // No problem here, CodeAPI will not duplicate methods, it will only avoid the type inference (slow part of the bridge method inference)
@@ -199,9 +207,9 @@ public class BridgeUtil {
                 inferredParametersTypes.add(TypeVarUtil.toCodeType(genericParameterType, methodParameters, typeParameters, generic));
             }
 
-            FullMethodSpec fullMethodSpec = new FullMethodSpec(theClass, inferredReturnType, method.getName(), inferredParametersTypes);
+            MethodTypeSpec methodTypeSpec = new MethodTypeSpec(theClass, method.getName(), new TypeSpec(inferredReturnType, inferredParametersTypes));
 
-            if (fullMethodSpec.compareTo(methodSpec) == 0) {
+            if (methodTypeSpec.compareTo(methodSpec) == 0) {
                 return fixGenerics(spec, genericSignature, null, method);
             }
         }
@@ -209,40 +217,44 @@ public class BridgeUtil {
         return null;
     }
 
-    private static FullMethodSpec fixGenerics(FullMethodSpec spec, GenericSignature genericSignature, TypeVariable<?>[] typeVariables, Object method) {
-        CodeType returnType = spec.getReturnType();
+    private static MethodTypeSpec fixGenerics(MethodTypeSpec spec, GenericSignature genericSignature, TypeVariable<?>[] typeVariables, Object method) {
+        CodeType returnType = spec.getTypeSpec().getReturnType();
+
+        CodeType newReturnType = returnType;
 
         if (returnType instanceof Generic) {
             Generic generic0 = (Generic) returnType;
-            if (generic0.isType())
-                spec = spec.setReturnType(generic0.getCodeType());
-            else
-                spec = spec.setReturnType(Objects.requireNonNull(
-                        genericSignature != null
-                                ? TypeVarUtil.findType(genericSignature, generic0.name())
-                                : TypeVarUtil.findType(typeVariables, generic0.name()),
-                        "Cannot infer correct return type of method '" + method + "'!")
 
-                );
+
+            if (generic0.isType())
+                newReturnType = generic0.getCodeType();
+            else
+                newReturnType = Objects.requireNonNull(
+                        genericSignature != null
+                                ? TypeVarUtil.findType(genericSignature, generic0.getName())
+                                : TypeVarUtil.findType(typeVariables, generic0.getName()),
+                        "Cannot infer correct return type of method '" + method + "'!");
 
 
         }
 
-        spec = spec.setParameterTypes(spec.getParameterTypes().stream().map(codeType -> {
+        List<CodeType> newParameterTypes = spec.getTypeSpec().getParameterTypes();
+
+        newParameterTypes = newParameterTypes.stream().map(codeType -> {
             if (codeType instanceof Generic) {
                 Generic generic0 = (Generic) codeType;
                 if (generic0.isType())
                     return generic0.getCodeType();
                 else
                     return Objects.requireNonNull(genericSignature != null
-                            ? TypeVarUtil.findType(genericSignature, generic0.name())
-                            : TypeVarUtil.findType(typeVariables, generic0.name()), "Cannot infer correct parameter type of ParameterType '" + codeType + "' of method '" + method + "'!");
+                            ? TypeVarUtil.findType(genericSignature, generic0.getName())
+                            : TypeVarUtil.findType(typeVariables, generic0.getName()), "Cannot infer correct parameter type of ParameterType '" + codeType + "' of method '" + method + "'!");
             }
 
             return codeType;
-        }).collect(Collectors.toList()));
+        }).collect(Collectors.toList());
 
-        return spec;
+        return new MethodTypeSpec(spec.getLocalization(), spec.getMethodName(), new TypeSpec(newReturnType, newParameterTypes));
     }
 
     private static TypeVariable<?> find(String name, TypeVariable<?>[] typeVariables) {

@@ -51,7 +51,7 @@ class ControlFlowBuilder(): Builder<ControlFlow, ControlFlowBuilder>() {
     }
 
     override fun build(): ControlFlow = ControlFlowImpl(
-        type = this.type,
-        at = this.at
+            type = this.type,
+            at = this.at
     )
 }

@@ -28,7 +28,10 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Scope
+import com.github.jonathanxd.codeapi.common.TypeSpec
 
 /**
  * A fragment of a method declaration. This method may be inlined or declared as method of current
@@ -50,4 +53,22 @@ interface MethodFragment : MethodInvocation, CodeElement {
      * Declaring type of the fragment.
      */
     val declaringType: TypeDeclaration
+
+    /**
+     * Parameters
+     */
+    val parameters: List<CodeParameter>
+        get() = this.declaration.parameters
+
+    /**
+     * Method description
+     */
+    val description: TypeSpec
+        get() = this.spec.description
+
+    /**
+     * Method body
+     */
+    val body: CodeSource
+        get() = this.declaration.body!!
 }

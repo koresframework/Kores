@@ -28,9 +28,16 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
-data class MethodTypeSpec(val localization: CodeType, val name: String, val typeSpec: TypeSpec): Typed {
+data class MethodTypeSpec(val localization: CodeType, val methodName: String, val typeSpec: TypeSpec) : Typed, Comparable<MethodTypeSpec> {
     override val type: CodeType?
         get() = this.typeSpec.type
+
+    /**
+     * This method will not compare the method localization.
+     */
+    override operator fun compareTo(other: MethodTypeSpec): Int {
+        return if (this.methodName == other.methodName && this.typeSpec == other.typeSpec) 0 else 1
+    }
 }

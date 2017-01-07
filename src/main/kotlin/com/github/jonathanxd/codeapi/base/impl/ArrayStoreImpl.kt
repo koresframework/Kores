@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayStore
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 class ArrayStoreImpl(override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val valueToStore: CodePart, override val arrayType: CodeType) : ArrayStore

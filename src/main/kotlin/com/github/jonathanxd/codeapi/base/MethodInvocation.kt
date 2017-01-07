@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
  * Invocation of a method
@@ -43,7 +43,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
     /**
      * Method localization
      */
-    override val localization: CodeType?
+    override val localization: CodeType
 
     /**
      * Method arguments

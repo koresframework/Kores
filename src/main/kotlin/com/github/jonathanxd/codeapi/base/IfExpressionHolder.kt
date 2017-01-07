@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.operators.Operators
+import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
  * A element that holds [IfExpressions][IfExpr] and [Operations][Operators].

@@ -58,8 +58,8 @@ class MethodSpecificationBuilder(): Builder<MethodSpecification, MethodSpecifica
     }
 
     override fun build(): MethodSpecification = MethodSpecificationImpl(
-        methodType = this.methodType,
-        methodName = this.methodName,
-        description = this.description
+            methodType = this.methodType,
+            methodName = this.methodName,
+            description = this.description
     )
 }

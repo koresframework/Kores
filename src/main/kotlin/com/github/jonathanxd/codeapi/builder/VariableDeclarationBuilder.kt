@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.base.VariableDeclaration
 class VariableDeclarationBuilder(): Builder<VariableDeclaration, VariableDeclarationBuilder>() {
     var value: com.github.jonathanxd.codeapi.CodePart? = null
     lateinit var name: kotlin.String
-    lateinit var variableType: com.github.jonathanxd.codeapi.types.CodeType
+    lateinit var variableType: com.github.jonathanxd.codeapi.type.CodeType
 
     constructor(defaults: VariableDeclaration) : this() {
         this.value = defaults.value
@@ -52,14 +52,14 @@ class VariableDeclarationBuilder(): Builder<VariableDeclaration, VariableDeclara
         return this
     }
 
-    fun withVariableType(value: com.github.jonathanxd.codeapi.types.CodeType): VariableDeclarationBuilder {
+    fun withVariableType(value: com.github.jonathanxd.codeapi.type.CodeType): VariableDeclarationBuilder {
         this.variableType = value
         return this
     }
 
     override fun build(): VariableDeclaration = VariableDeclarationImpl(
-        value = this.value,
-        name = this.name,
-        variableType = this.variableType
+            value = this.value,
+            name = this.name,
+            variableType = this.variableType
     )
 }

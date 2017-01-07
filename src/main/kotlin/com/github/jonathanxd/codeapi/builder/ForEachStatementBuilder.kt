@@ -65,9 +65,9 @@ class ForEachStatementBuilder(): Builder<ForEachStatement, ForEachStatementBuild
     }
 
     override fun build(): ForEachStatement = ForEachStatementImpl(
-        variable = this.variable,
-        iterationType = this.iterationType,
-        iterableElement = this.iterableElement,
-        body = this.body
+            variable = this.variable,
+            iterationType = this.iterationType,
+            iterableElement = this.iterableElement,
+            body = this.body
     )
 }

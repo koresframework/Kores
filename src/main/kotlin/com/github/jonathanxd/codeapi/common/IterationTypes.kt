@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes
-import com.github.jonathanxd.codeapi.literals.Literals
-import com.github.jonathanxd.codeapi.operators.Operators
+import com.github.jonathanxd.codeapi.literal.Literals
+import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 import com.github.jonathanxd.codeapi.util.HiddenField
 
@@ -62,7 +62,7 @@ object IterationTypes {
         class Generator : IterationType.Generator {
             private var indexFields = 0
 
-            override fun generate(forEachBlock: ForEachStatement, processor: PartProcessor): CodeSource? {
+            override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = "\$index#" + (++indexFields)
                 val indexFieldDecl = HiddenField(fieldName, PredefinedTypes.INT, Literals.INT(0))
                 val accessIndex = VariableAccessImpl(
@@ -75,7 +75,7 @@ object IterationTypes {
                 val condition = IfExprImpl(
                         expr1 = accessIndex,
                         operation = Operators.LESS_THAN,
-                        expr2 = ArrayLengthImpl(arrayType = CodePartUtil.getType(forEachBlock.iterableElement), target = forEachBlock.iterableElement)
+                        expr2 = ArrayLengthImpl(arrayType = CodePartUtil.getType(t.iterableElement), target = t.iterableElement)
                 )
 
                 val update = VariableOperateImpl(
@@ -89,22 +89,22 @@ object IterationTypes {
 
                 val body = MutableCodeSource()
 
-                val field = forEachBlock.variable
+                val field = t.variable
 
                 body.add(FieldDeclarationImpl(
                         name = field.name,
                         variableType = field.variableType,
                         value = ArrayLoadImpl(
-                                arrayType = CodePartUtil.getType(forEachBlock.iterableElement),
-                                target = forEachBlock.iterableElement,
+                                arrayType = CodePartUtil.getType(t.iterableElement),
+                                target = t.iterableElement,
                                 index = accessIndex,
                                 valueType = field.variableType
                         ),
                         annotations = emptyList(),
-                        modifiers = emptyList()
+                        modifiers = emptySet()
                 ))
 
-                forEachBlock.body?.let {
+                t.body?.let {
                     body.addAll(it)
                 }
 
@@ -127,7 +127,7 @@ object IterationTypes {
         class Generator : IterationType.Generator {
             private var iterFields = 0
 
-            override fun generate(forEachBlock: ForEachStatement, processor: PartProcessor): CodeSource? {
+            override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = "\$iter#" + (++iterFields)
                 val iterFieldDecl = HiddenField(fieldName, PredefinedTypes.ITERATOR, Literals.INT(0))
                 val accessIter = VariableAccessImpl(
@@ -159,7 +159,7 @@ object IterationTypes {
 
                 val body = MutableCodeSource()
 
-                val field = forEachBlock.variable
+                val field = t.variable
 
                 // Iterator.next()Ljava/lang/Object;
                 val next = MethodInvocationImpl(
@@ -177,7 +177,7 @@ object IterationTypes {
 
                 // #Type Field_Name = (#Type) Iterator.next()Ljava/lang/Object;
                 val eachField = FieldDeclarationImpl(
-                        modifiers = emptyList(),
+                        modifiers = emptySet(),
                         annotations = emptyList(),
                         name = field.name,
                         variableType = field.variableType,
@@ -191,7 +191,7 @@ object IterationTypes {
 
                 body.add(eachField)
 
-                forEachBlock.body?.let {
+                t.body?.let {
                     body.addAll(it)
                 }
 

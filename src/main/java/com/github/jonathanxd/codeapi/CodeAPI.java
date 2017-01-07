@@ -47,6 +47,7 @@ import com.github.jonathanxd.codeapi.base.IfExpr;
 import com.github.jonathanxd.codeapi.base.IfStatement;
 import com.github.jonathanxd.codeapi.base.InstanceOfCheck;
 import com.github.jonathanxd.codeapi.base.Label;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodFragment;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.MethodSpecification;
@@ -81,6 +82,7 @@ import com.github.jonathanxd.codeapi.base.impl.IfExprImpl;
 import com.github.jonathanxd.codeapi.base.impl.IfStatementImpl;
 import com.github.jonathanxd.codeapi.base.impl.InstanceOfCheckImpl;
 import com.github.jonathanxd.codeapi.base.impl.LabelImpl;
+import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
@@ -95,13 +97,15 @@ import com.github.jonathanxd.codeapi.base.impl.VariableOperateImpl;
 import com.github.jonathanxd.codeapi.base.impl.WhileStatementImpl;
 import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ConcatHelper;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.IfExpressionHelper;
+import com.github.jonathanxd.codeapi.helper.IfExpressionHelper;
 import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.OperateHelper;
+import com.github.jonathanxd.codeapi.helper.OperateHelper;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
@@ -115,24 +119,32 @@ import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.Helper;
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.operators.Operator;
-import com.github.jonathanxd.codeapi.operators.Operators;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.PlainCodeType;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.operator.Operator;
+import com.github.jonathanxd.codeapi.operator.Operators;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.JavaType;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
+import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 import com.github.jonathanxd.codeapi.util.BiMultiVal;
 import com.github.jonathanxd.codeapi.util.ModifierUtil;
+import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Factory class.
@@ -141,6 +153,9 @@ import java.util.stream.Collectors;
  * this class isn't complete.
  */
 public final class CodeAPI {
+
+    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
+
 
     private static final Annotation[] EMPTY_ANNOTATIONS = {};
 
@@ -418,19 +433,19 @@ public final class CodeAPI {
 
     /// Class
     public static FieldDeclaration field(int modifiers, Class<?> type, String name, CodePart value) {
-        return field__factory(modifiers, Helper.getJavaType(type), name, value);
+        return field__factory(modifiers, CodeAPI.getJavaType(type), name, value);
     }
 
     public static FieldDeclaration field(int modifiers, Class<?> type, String name) {
-        return field__factory(modifiers, Helper.getJavaType(type), name, null);
+        return field__factory(modifiers, CodeAPI.getJavaType(type), name, null);
     }
 
     public static FieldDeclaration field(Class<?> type, String name, CodePart value) {
-        return field__factory(0, Helper.getJavaType(type), name, value);
+        return field__factory(0, CodeAPI.getJavaType(type), name, value);
     }
 
     public static FieldDeclaration field(Class<?> type, String name) {
-        return field__factory(0, Helper.getJavaType(type), name, null);
+        return field__factory(0, CodeAPI.getJavaType(type), name, null);
     }
 
     // Factory
@@ -443,28 +458,28 @@ public final class CodeAPI {
     //          Array Constructors
     // =========================================================
 
-    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
+    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
         return arrayConstruct__factory(arrayType, dimensions, arguments);
     }
 
     public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions) {
-        return arrayConstruct__factory(arrayType, dimensions);
+        return arrayConstruct__factory(arrayType, dimensions, Collections.emptyList());
     }
 
     // Class
 
     public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions) {
-        return arrayConstruct__factory(Helper.getJavaType(arrayType), dimensions);
+        return arrayConstruct__factory(CodeAPI.getJavaType(arrayType), dimensions, Collections.emptyList());
     }
 
-    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions, CodeArgument... arguments) {
-        return arrayConstruct__factory(Helper.getJavaType(arrayType), dimensions, arguments);
+    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+        return arrayConstruct__factory(CodeAPI.getJavaType(arrayType), dimensions, arguments);
     }
 
     // Factory
 
-    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, CodeArgument... arguments) {
-        return new ArrayConstructorImpl(ArrayToList.toList(arguments), arrayType, ArrayToList.toList(dimensions));
+    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+        return new ArrayConstructorImpl(arguments, arrayType, ArrayToList.toList(dimensions));
     }
 
     // =========================================================
@@ -486,11 +501,11 @@ public final class CodeAPI {
     // Class
 
     public static ArrayLoad getArrayValue(Class<?> arrayType, VariableAccess access, CodePart index) {
-        return getArrayValue__factory(index, access, Helper.getJavaType(arrayType));
+        return getArrayValue__factory(index, access, CodeAPI.getJavaType(arrayType));
     }
 
     public static ArrayStore setArrayValue(Class<?> arrayType, VariableAccess access, CodePart index, CodePart value) {
-        return setArrayValue__factory(index, access, Helper.getJavaType(arrayType), value);
+        return setArrayValue__factory(index, access, CodeAPI.getJavaType(arrayType), value);
     }
 
     // Factory
@@ -541,7 +556,7 @@ public final class CodeAPI {
     }
 
     public static Return returnValue(Class<?> valueType, CodePart value) {
-        return new ReturnImpl(Helper.getJavaType(valueType), value);
+        return new ReturnImpl(CodeAPI.getJavaType(valueType), value);
     }
 
     public static Return returnLocalVariable(CodeType fieldType, String fieldName) {
@@ -549,7 +564,7 @@ public final class CodeAPI {
     }
 
     public static Return returnLocalVariable(Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(Helper.getJavaType(fieldType), CodeAPI.accessLocalVariable(Helper.getJavaType(fieldType), fieldName));
+        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessLocalVariable(CodeAPI.getJavaType(fieldType), fieldName));
     }
 
     public static Return returnThisField(CodeType fieldType, String fieldName) {
@@ -557,15 +572,15 @@ public final class CodeAPI {
     }
 
     public static Return returnThisField(Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(Helper.getJavaType(fieldType), CodeAPI.accessThisField(Helper.getJavaType(fieldType), fieldName));
+        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessThisField(CodeAPI.getJavaType(fieldType), fieldName));
     }
 
     public static Return returnStaticField(CodeType localization, Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(Helper.getJavaType(fieldType), CodeAPI.accessStaticField(localization, Helper.getJavaType(fieldType), fieldName));
+        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessStaticField(localization, CodeAPI.getJavaType(fieldType), fieldName));
     }
 
     public static Return returnStaticField(Class<?> localization, Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(Helper.getJavaType(fieldType), CodeAPI.accessStaticField(Helper.getJavaType(localization), Helper.getJavaType(fieldType), fieldName));
+        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessStaticField(CodeAPI.getJavaType(localization), CodeAPI.getJavaType(fieldType), fieldName));
     }
 
 
@@ -592,7 +607,7 @@ public final class CodeAPI {
      * @return {@link CodeParameter} instance.
      */
     public static CodeParameter parameter(Class<?> type, String name) {
-        return new CodeParameter(Helper.getJavaType(type), name);
+        return new CodeParameter(CodeAPI.getJavaType(type), name);
     }
 
     // =========================================================
@@ -620,7 +635,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current class.
      */
-    public static MethodInvocation invokeThisConstructor(TypeSpec constructorSpec, CodeArgument... arguments) {
+    public static MethodInvocation invokeThisConstructor(TypeSpec constructorSpec, List<CodeArgument> arguments) {
         return invokeThisConstructor__factory(constructorSpec, arguments);
     }
 
@@ -631,7 +646,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current class.
      */
-    public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, CodeArgument... arguments) {
+    public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, List<CodeArgument> arguments) {
         return invokeSuperConstructor__factory(null, constructorSpec, arguments);
     }
 
@@ -644,7 +659,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
      */
-    public static MethodInvocation invokeSuperConstructor(CodeType superClass, TypeSpec constructorSpec, CodeArgument... arguments) {
+    public static MethodInvocation invokeSuperConstructor(CodeType superClass, TypeSpec constructorSpec, List<CodeArgument> arguments) {
         return invokeSuperConstructor__factory(superClass, constructorSpec, arguments);
     }
 
@@ -657,8 +672,8 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
      */
-    public static MethodInvocation invokeSuperConstructor(Class<?> superClass, TypeSpec constructorSpec, CodeArgument... arguments) {
-        return invokeSuperConstructor__factory(Helper.getJavaType(superClass), constructorSpec, arguments);
+    public static MethodInvocation invokeSuperConstructor(Class<?> superClass, TypeSpec constructorSpec, List<CodeArgument> arguments) {
+        return invokeSuperConstructor__factory(CodeAPI.getJavaType(superClass), constructorSpec, arguments);
     }
 
     /**
@@ -669,18 +684,6 @@ public final class CodeAPI {
      */
     public static MethodInvocation invokeConstructor(CodeType type) {
         return invokeConstructor__factory(type, constructorTypeSpec(new CodeType[0]), Collections.emptyList());
-    }
-
-    /**
-     * Invoke constructor of a {@link CodeType}.
-     *
-     * @param type      Type to invoke constructor.
-     * @param spec      Method specification.
-     * @param arguments Arguments to pass to constructor.
-     * @return Invocation of constructor of {@code type} with provided arguments.
-     */
-    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, CodeArgument... arguments) {
-        return invokeConstructor__factory(type, spec, Arrays.asList(arguments));
     }
 
     /**
@@ -704,8 +707,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(CodeType localization, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, localization, localization, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeStatic(CodeType localization, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, localization, localization, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -717,8 +720,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, null, null, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, null, null, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -732,8 +735,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, localization, target, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeVirtual(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -745,8 +748,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, null, CodeAPI.accessThis(), ArrayToList.toList(arguments),
+    public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, null, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -758,8 +761,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, null, CodeAPI.accessThis(), ArrayToList.toList(arguments),
+    public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, null, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -773,8 +776,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeInterface(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -793,8 +796,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis(), ArrayToList.toList(arguments),
+    public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -815,8 +818,25 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_SPECIAL, localization, target, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, localization, target, arguments,
+                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    }
+
+
+    /**
+     * Invoke a method.
+     *
+     * @param invokeType        Method invocation type.
+     * @param localization      Localization of the method.
+     * @param target            Instance.
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of a method.
+     */
+    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(invokeType, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -851,7 +871,7 @@ public final class CodeAPI {
      * @return Invocation of constructor of {@code type}.
      */
     public static MethodInvocation invokeConstructor(Class<?> type) {
-        return invokeConstructor__factory(Helper.getJavaType(type), new TypeSpec(PredefinedTypes.VOID), Collections.emptyList());
+        return invokeConstructor__factory(CodeAPI.getJavaType(type), new TypeSpec(PredefinedTypes.VOID), Collections.emptyList());
     }
 
     /**
@@ -863,8 +883,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(Class<?> localization, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, Helper.getJavaType(localization), Helper.getJavaType(localization), ArrayToList.toList(arguments),
+    public static MethodInvocation invokeStatic(Class<?> localization, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, CodeAPI.getJavaType(localization), CodeAPI.getJavaType(localization), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -878,8 +898,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, Helper.getJavaType(localization), target, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(localization), target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -893,8 +913,24 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, CodeArgument... arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, Helper.getJavaType(localization), target, ArrayToList.toList(arguments),
+    public static MethodInvocation invokeInterface(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, CodeAPI.getJavaType(localization), target, arguments,
+                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    }
+
+    /**
+     * Invoke a method.
+     *
+     * @param invokeType        Method invocation type.
+     * @param localization      Localization of the method.
+     * @param target            Instance.
+     * @param methodName        Name of the method.
+     * @param methodDescription Method type description.
+     * @param arguments         Method arguments.
+     * @return Invocation of a method.
+     */
+    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+        return invoke__factory(invokeType, CodeAPI.getJavaType(localization), target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -936,25 +972,12 @@ public final class CodeAPI {
         return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.CONSTRUCTOR, "<init>", spec), InvokeType.INVOKE_SPECIAL, null, type);
     }
 
-    /*
-        public static MethodInvocation invokeSuperInit(CodeType localization, CodeArgument... arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
-                new MethodSpecImpl("<init>", PredefinedTypes.VOID, Arrays.asList(arguments), MethodType.SUPER_CONSTRUCTOR));
+    private static MethodInvocation invokeSuperConstructor__factory(CodeType type, TypeSpec constructorSpec, List<CodeArgument> arguments) {
+        return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessSuper());
     }
 
-    public static MethodInvocation invokeSuperInit(CodeType localization, TypeSpec spec, CodeArgument... arguments) {
-        return new MethodInvocationImpl(InvokeType.INVOKE_SPECIAL, localization, accessSuper(),
-                new MethodSpecImpl("<init>", spec, Arrays.asList(arguments), MethodType.SUPER_CONSTRUCTOR));
-    }
-
-     */
-
-    private static MethodInvocation invokeSuperConstructor__factory(CodeType type, TypeSpec constructorSpec, CodeArgument... arguments) {
-        return new MethodInvocationImpl(type, ArrayToList.toList(arguments), new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessSuper());
-    }
-
-    private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, CodeArgument... arguments) {
-        return new MethodInvocationImpl(null, ArrayToList.toList(arguments), new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis());
+    private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, List<CodeArgument> arguments) {
+        return new MethodInvocationImpl(null, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis());
     }
 
     // =========================================================
@@ -1039,7 +1062,7 @@ public final class CodeAPI {
      * @return Access to a static field.
      */
     public static VariableAccess accessStaticField(Class<?> fieldType, String name) {
-        return accessField__Factory(null, null, Helper.getJavaType(fieldType), name);
+        return accessField__Factory(null, null, CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1051,7 +1074,7 @@ public final class CodeAPI {
      * @return Access to a static field.
      */
     public static VariableAccess accessStaticField(Class<?> localization, Class<?> fieldType, String name) {
-        return accessField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name);
+        return accessField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1064,7 +1087,7 @@ public final class CodeAPI {
      * @return Access to a field or variable.
      */
     public static VariableAccess accessField(Class<?> localization, CodePart at, Class<?> fieldType, String name) {
-        return accessField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name);
+        return accessField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1075,7 +1098,7 @@ public final class CodeAPI {
      * @return Access to a static field of current class.
      */
     public static VariableAccess accessThisField(Class<?> fieldType, String name) {
-        return accessField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name);
+        return accessField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1086,7 +1109,7 @@ public final class CodeAPI {
      * @return Access to variable.
      */
     public static VariableAccess accessLocalVariable(Class<?> variableType, String name) {
-        return accessField__Factory(null, CodeAPI.accessLocal(), Helper.getJavaType(variableType), name);
+        return accessField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name);
     }
 
     // Factory
@@ -1126,23 +1149,23 @@ public final class CodeAPI {
     // Class
 
     public static FieldDeclaration setStaticThisField(Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name, value);
+        return setField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static FieldDeclaration setStaticField(Class<?> localization, Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name, value);
+        return setField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static FieldDeclaration setField(Class<?> localization, CodePart at, Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name, value);
+        return setField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static FieldDeclaration setThisField(Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name, value);
+        return setField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static VariableDeclaration setLocalVariable(Class<?> variableType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessLocal(), Helper.getJavaType(variableType), name, value);
+        return setField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name, value);
     }
 
     // Factory
@@ -1209,43 +1232,43 @@ public final class CodeAPI {
     // Class
 
     public static VariableOperate operateStaticThisField(Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name, operation, value);
+        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, value);
     }
 
     public static VariableOperate operateStaticThisField(Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name, operation, null);
+        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, null);
     }
 
     public static VariableOperate operateStaticField(Class<?> localization, Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name, operation, value);
+        return operateField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, operation, value);
     }
 
     public static VariableOperate operateStaticField(Class<?> localization, Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(Helper.getJavaType(localization), null, Helper.getJavaType(fieldType), name, operation, null);
+        return operateField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, operation, null);
     }
 
     public static VariableOperate operateField(Class<?> localization, CodePart at, Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name, operation, value);
+        return operateField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, operation, value);
     }
 
     public static VariableOperate operateField(Class<?> localization, CodePart at, Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(Helper.getJavaType(localization), at, Helper.getJavaType(fieldType), name, operation, null);
+        return operateField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, operation, null);
     }
 
     public static VariableOperate operateThisField(Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name, operation, value);
+        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, value);
     }
 
     public static VariableOperate operateThisField(Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessThis(), Helper.getJavaType(fieldType), name, operation, null);
+        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, null);
     }
 
     public static VariableOperate operateLocalVariable(Class<?> variableType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessLocal(), Helper.getJavaType(variableType), name, operation, value);
+        return operateField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name, operation, value);
     }
 
     public static VariableOperate operateLocalVariable(Class<?> variableType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessLocal(), Helper.getJavaType(variableType), name, operation, null);
+        return operateField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name, operation, null);
     }
 
     // Factory
@@ -2369,6 +2392,64 @@ public final class CodeAPI {
 
 
     // =========================================================
+    //          Bridge Method
+    // =========================================================
+
+    public static MethodDeclaration bridgeMethod(MethodDeclaration current, MethodTypeSpec methodSpec) {
+        List<CodeType> parameterTypes = methodSpec.getTypeSpec().getParameterTypes();
+        List<CodeParameter> currentParameters = current.getParameters();
+
+        if (parameterTypes.size() > currentParameters.size())
+            throw new IllegalArgumentException("Specified target method has more parameters than current method!");
+
+        CodeType currentReturnType = current.getReturnType();
+
+        boolean return_ = !currentReturnType.is(PredefinedTypes.VOID);
+
+        List<CodeParameter> codeParameters = new ArrayList<>();
+        List<CodeArgument> codeArguments = new ArrayList<>();
+
+        for (int i = 0; i < currentParameters.size(); i++) {
+            CodeParameter currentParameter = currentParameters.get(i);
+            CodeType currentType = currentParameter.getType();
+            CodeType targetType = parameterTypes.get(i);
+
+            codeParameters.add(new CodeParameter(targetType, currentParameter.getName()));
+
+            codeArguments.add(new CodeArgument(CodeAPI.cast(targetType, currentType, CodeAPI.accessLocalVariable(targetType, currentParameter.getName()))));
+        }
+
+
+        InvokeType invokeType;
+
+        if(methodSpec.getLocalization().isInterface()) {
+            invokeType = InvokeType.INVOKE_INTERFACE;
+        } else {
+            invokeType = InvokeType.INVOKE_VIRTUAL;
+        }
+
+        CodePart toAdd = CodeAPI.invoke(invokeType, methodSpec.getLocalization(), CodeAPI.accessThis(),
+                methodSpec.getMethodName(), methodSpec.getTypeSpec(), codeArguments);
+
+        if (return_) {
+            CodeType returnType = methodSpec.getTypeSpec().getReturnType();
+
+            toAdd = CodeAPI.returnValue(returnType, CodeAPI.cast(currentReturnType, returnType, toAdd));
+        }
+
+        Set<CodeModifier> codeModifiers = new HashSet<>(current.getModifiers());
+
+        codeModifiers.add(CodeModifier.BRIDGE);
+
+        return new MethodDeclarationImpl(codeParameters, methodSpec.getMethodName(),
+                Collections.emptyList(),
+                CodeAPI.sourceOfParts(toAdd),
+                currentReturnType,
+                codeModifiers,
+                GenericSignature.empty());
+    }
+
+    // =========================================================
     //          Utils
     // =========================================================
 
@@ -2455,7 +2536,7 @@ public final class CodeAPI {
      * @return Converted type.
      */
     public static CodeType toCodeType(Class<?> aClass) {
-        return Helper.getJavaType(aClass);
+        return CodeAPI.getJavaType(aClass);
     }
 
     /**
@@ -2465,7 +2546,7 @@ public final class CodeAPI {
      * @return Converted types.
      */
     public static CodeType[] toCodeType(Class<?>[] aClass) {
-        return Arrays.stream(aClass).map(Helper::getJavaType).toArray(CodeType[]::new);
+        return Arrays.stream(aClass).map(CodeAPI::getJavaType).toArray(CodeType[]::new);
     }
 
     /**
@@ -2610,6 +2691,72 @@ public final class CodeAPI {
         }
 
         return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> LoadedCodeType<T> getJavaType(Class<T> aClass) {
+
+        if (aClass.isArray())
+            return getJavaType0(aClass);
+
+        if (CODE_TYPES_CACHE.containsKey(aClass)) {
+            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
+
+            if (codeType != null && codeType instanceof LoadedCodeType)
+                return (LoadedCodeType<T>) codeType;
+        }
+
+        JavaType<T> javaType = new JavaType<>(aClass);
+
+        CODE_TYPES_CACHE.put(aClass, javaType);
+
+        return javaType;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> LoadedCodeType<T> getJavaType0(Class<T> aClass) {
+
+        if (CODE_TYPES_CACHE.containsKey(aClass)) {
+            CodeType codeType = CODE_TYPES_CACHE.get(aClass);
+
+            if (codeType != null && codeType instanceof LoadedCodeType)
+                return (LoadedCodeType<T>) codeType;
+        }
+
+        LoadedCodeType<T> type = new JavaType<>(aClass);
+
+        if (aClass.isArray()) {
+            Class<?> component = aClass;
+
+            int dimensions = 0;
+
+            do {
+                ++dimensions;
+            } while ((component = component.getComponentType()).isArray());
+
+            type = new JavaType<>((Class<T>) component).toLoadedArray(aClass, dimensions);
+        }
+
+        CODE_TYPES_CACHE.put(aClass, type);
+
+        return type;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public static LoadedCodeType<?>[] getJavaTypes(Class<?>[] aClass) {
+        return Arrays.stream(aClass).map(CodeAPI::getJavaType).toArray(LoadedCodeType[]::new);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<LoadedCodeType<?>> getJavaTypeList(Class<?>[] aClass) {
+        return Arrays.stream(aClass).map(CodeAPI::getJavaType).collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<LoadedCodeType<?>> getJavaTypeList(Iterable<Class<?>> classes) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(classes.iterator(), Spliterator.ORDERED), false).map(CodeAPI::getJavaType).collect(Collectors.toList());
     }
 
 

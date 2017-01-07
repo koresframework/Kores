@@ -28,9 +28,27 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
+import java.util.*
 
-data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val parameterTypes: List<CodeType> = emptyList()) : Typed {
+data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val parameterTypes: List<CodeType> = emptyList()) : Typed, Comparable<TypeSpec> {
     override val type: CodeType?
         get() = this.returnType
+
+    override fun hashCode(): Int {
+        return Objects.hash(returnType, parameterTypes)
+    }
+
+    override fun equals(other: Any?): Boolean {
+
+        if (other !is TypeSpec)
+            return false
+
+        return this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes;
+    }
+
+    override fun compareTo(other: TypeSpec): Int {
+        return if (this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes) 0 else 1
+    }
+
 }
