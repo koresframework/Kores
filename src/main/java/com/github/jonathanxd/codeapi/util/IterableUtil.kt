@@ -25,30 +25,15 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.type.CodeType;
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
+object IterableUtil {
 
-public class TypeSpecUtil {
-
-    public static TypeSpec specFromLegacy(CodeType returnType, Collection<CodeArgument> arguments) {
-        return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
-                arguments.stream().map(CodeArgument::getType).collect(Collectors.toList())
-                : Collections.emptyList());
-    }
-
-    public static TypeSpec specFromLegacy(CodeType returnType, CodeArgument[] arguments) {
-        return new TypeSpec(returnType != null ? returnType : PredefinedTypes.VOID, arguments != null ?
-                Arrays.stream(arguments).map(CodeArgument::getType).collect(Collectors.toList())
-                : Collections.emptyList());
+    fun <T> stream(iterable: Iterable<T>): Stream<T> {
+        return StreamSupport.stream(iterable.spliterator(), false)
     }
 
 }

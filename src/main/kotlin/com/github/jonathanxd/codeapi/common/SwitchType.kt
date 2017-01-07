@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.base.SwitchStatement
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.base.impl.SwitchStatementImpl
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
+import com.github.jonathanxd.codeapi.PredefinedTypes
 import com.github.jonathanxd.codeapi.sugar.Generator
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import java.util.Objects
@@ -73,10 +73,10 @@ interface SwitchType : PartProcessor, SugarSyntax<SwitchStatement, SwitchStateme
             return aCase
         }
 
-        override fun generate(aSwitch: SwitchStatement, processor: PartProcessor): SwitchStatement {
-            val caseList = aSwitch.cases.map { aCase -> if (aCase.isDefault) aCase else this.checkType(this.translateCase(aCase, aSwitch)) }
+        override fun generate(t: SwitchStatement, processor: PartProcessor): SwitchStatement {
+            val caseList = t.cases.map { aCase -> if (aCase.isDefault) aCase else this.checkType(this.translateCase(aCase, t)) }
 
-            val translatedSwitch = this.checkType(this.translateSwitch(aSwitch))
+            val translatedSwitch = this.checkType(this.translateSwitch(t))
 
             val switchStmt = SwitchStatementImpl(
                     value = translatedSwitch.value,

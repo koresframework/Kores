@@ -25,46 +25,45 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.helper;
+package com.github.jonathanxd.codeapi.helper
 
-import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.base.MethodInvocation;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.common.CodeArgument
+import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.common.TypeSpec
+import java.io.PrintStream
+import java.util.*
 
-import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Collections;
-
-public final class Predefined {
-
-    Predefined() {
+object Predefined {
+    @JvmStatic
+    fun toString(part: CodePart): MethodInvocation {
+        return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(PredefinedTypes.STRING), emptyList<CodeArgument>())
     }
 
-    public static MethodInvocation toString(CodePart part) {
-        return CodeAPI.invokeVirtual(Object.class, part, "toString", new TypeSpec(PredefinedTypes.STRING), Collections.emptyList());
+    @JvmStatic
+    fun intToString(part: CodePart): MethodInvocation {
+        return CodeAPI.invokeStatic(String::class.java, "valueOf",
+                TypeSpec(PredefinedTypes.STRING, listOf(PredefinedTypes.INT)),
+                listOf(CodeAPI.argument(part)))
     }
 
-    public static MethodInvocation intToString(CodePart part) {
-        return CodeAPI.invokeStatic(String.class, "valueOf",
-                new TypeSpec(PredefinedTypes.STRING, Collections.singletonList(PredefinedTypes.INT)),
-                Collections.singletonList(CodeAPI.argument(part)));
+    @JvmStatic
+    fun invokePrintln(vararg arguments: CodeArgument): MethodInvocation {
+        return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
+                CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
+                "println", TypeSpec(PredefinedTypes.VOID), Arrays.asList(*arguments))
     }
 
-    public static MethodInvocation invokePrintln(CodeArgument... arguments) {
-        return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
-                "println", new TypeSpec(PredefinedTypes.VOID), Arrays.asList(arguments));
-    }
-
-    public static MethodInvocation invokePrintlnStr(CodePart part) {
+    @JvmStatic
+    fun invokePrintlnStr(part: CodePart): MethodInvocation {
         return CodeAPI.invokeVirtual(
-                PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
+                PrintStream::class.java,
+                CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
                 "println",
                 CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
-                Collections.singletonList(CodeAPI.argument(part)));
+                listOf(CodeAPI.argument(part)))
     }
 }

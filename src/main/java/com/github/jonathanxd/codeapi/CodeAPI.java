@@ -105,7 +105,6 @@ import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder;
 import com.github.jonathanxd.codeapi.helper.IfExpressionHelper;
 import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
-import com.github.jonathanxd.codeapi.helper.OperateHelper;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
@@ -119,7 +118,6 @@ import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operator;
 import com.github.jonathanxd.codeapi.operator.Operators;
@@ -128,7 +126,6 @@ import com.github.jonathanxd.codeapi.type.JavaType;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
-import com.github.jonathanxd.codeapi.util.BiMultiVal;
 import com.github.jonathanxd.codeapi.util.ModifierUtil;
 import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
@@ -528,7 +525,7 @@ public final class CodeAPI {
     // =========================================================
 
     public static CodeSource emptySource() {
-        return new CodeSource();
+        return CodeSource.empty();
     }
 
     public static MutableCodeSource emptyMutableSource() {
@@ -536,15 +533,7 @@ public final class CodeAPI {
     }
 
     public static CodeSource sourceOfParts(CodePart... codeParts) {
-        return new CodeSource(codeParts);
-    }
-
-    public static <T> Function<T, CodeSource> source(CodePart... codeParts) {
-        return (t) -> new CodeSource(codeParts);
-    }
-
-    public static <T> Function<T, CodeSource> source(Function<T, CodeSource> sourceFunction) {
-        return sourceFunction;
+        return CodeSource.fromArray(codeParts);
     }
 
     // =========================================================
@@ -1670,32 +1659,8 @@ public final class CodeAPI {
      * @return If statement.
      */
     public static IfStatement ifStatement(List<CodePart> expressions, CodeSource body) {
-        return ifStatement__Factory(expressions, body, null);
+        return ifStatement__Factory(expressions, body, CodeSource.empty());
     }
-
-    /**
-     * Create a if statement.
-     *
-     * @param groups    Expressions.
-     * @param body      Body of the if.
-     * @param elseStatement Else statement of the if.
-     * @return If statement.
-     */
-    public static IfStatement ifStatement(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, CodeSource elseStatement) {
-        return ifStatement__Factory(groups, body, elseStatement);
-    }
-
-    /**
-     * Create a if statement.
-     *
-     * @param groups Expressions.
-     * @param body   Body of the if.
-     * @return If statement.
-     */
-    public static IfStatement ifStatement(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body) {
-        return ifStatement__Factory(groups, body, null);
-    }
-
 
     /**
      * Create a if statement.
@@ -1722,10 +1687,6 @@ public final class CodeAPI {
 
 
     // Factory
-    private static IfStatement ifStatement__Factory(BiMultiVal<CodePart, IfExpr, Operator> groups, CodeSource body, CodeSource elseStatement) {
-        return new IfStatementImpl(groups.toList(), body, elseStatement);
-    }
-
     private static IfStatement ifStatement__Factory(List<CodePart> check, CodeSource body, CodeSource elseStatement) {
         return new IfStatementImpl(check, body, elseStatement);
     }
@@ -2064,13 +2025,13 @@ public final class CodeAPI {
     //          WhileStatement
     // =========================================================
 
-    public static WhileStatement whileStatement(BiMultiVal<CodePart, IfExpr, Operator> parts, CodeSource source) {
-        return whileStatement__Factory(parts, source);
+    public static WhileStatement whileStatement(List<CodePart> check, CodeSource source) {
+        return whileStatement__Factory(check, source);
     }
 
     // Factory
-    private static WhileStatement whileStatement__Factory(BiMultiVal<CodePart, IfExpr, Operator> parts, CodeSource source) {
-        return new WhileStatementImpl(WhileStatement.Type.WHILE, parts.toList(), source);
+    private static WhileStatement whileStatement__Factory(List<CodePart> check, CodeSource source) {
+        return new WhileStatementImpl(WhileStatement.Type.WHILE, check, source);
     }
 
     // =========================================================
@@ -2080,17 +2041,17 @@ public final class CodeAPI {
     /**
      * Create a do-while statement.
      *
-     * @param parts  Expression.
+     * @param check Expression.
      * @param source Source.
      * @return Do-while statement.
      */
-    public static WhileStatement doWhileStatement(BiMultiVal<CodePart, IfExpr, Operator> parts, CodeSource source) {
-        return doWhileStatement__Factory(source, parts);
+    public static WhileStatement doWhileStatement(List<CodePart> check, CodeSource source) {
+        return doWhileStatement__Factory(source, check);
     }
 
     // Factory
-    private static WhileStatement doWhileStatement__Factory(CodeSource source, BiMultiVal<CodePart, IfExpr, Operator> parts) {
-        return new WhileStatementImpl(WhileStatement.Type.DO_WHILE, parts.toList(), source);
+    private static WhileStatement doWhileStatement__Factory(CodeSource source, List<CodePart> check) {
+        return new WhileStatementImpl(WhileStatement.Type.DO_WHILE, check, source);
     }
 
     // =========================================================
@@ -2106,13 +2067,13 @@ public final class CodeAPI {
      * @param body           For body.
      * @return For statement.
      */
-    public static ForStatement forStatement(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> condition, CodePart update, CodeSource body) {
+    public static ForStatement forStatement(CodePart initialization, List<CodePart> condition, CodePart update, CodeSource body) {
         return forStatement__Factory(initialization, condition, update, body);
     }
 
     // Factory
-    private static ForStatement forStatement__Factory(CodePart initialization, BiMultiVal<CodePart, IfExpr, Operator> condition, CodePart update, CodeSource body) {
-        return new ForStatementImpl(initialization, condition.toList(), update, body);
+    private static ForStatement forStatement__Factory(CodePart initialization, List<CodePart> condition, CodePart update, CodeSource body) {
+        return new ForStatementImpl(initialization, condition, update, body);
     }
 
     // =========================================================
@@ -2555,61 +2516,18 @@ public final class CodeAPI {
      * @param objects {@link IfExpr}s and {@link Operator}s.
      * @return If multi values.
      */
-    public static BiMultiVal<CodePart, IfExpr, Operator> ifExprs(Object... objects) {
-        BiMultiVal.Adder<CodePart, IfExpr, Operator> adder = CodeAPI.ifExprs();
+    public static List<CodePart> ifExprs(Object... objects) {
+        List<CodePart> list = new ArrayList<>();
 
         for (Object object : objects) {
-            if (object instanceof IfExpr) {
-                adder.add1((IfExpr) object);
-            } else if (object instanceof Operator) {
-                adder.add2((Operator) object);
+            if (object instanceof IfExpr || object instanceof Operator) {
+                list.add((CodePart) object);
             } else {
                 throw new IllegalArgumentException("Illegal input object: '" + object + "'.");
             }
         }
 
-        return adder.make();
-    }
-
-    /**
-     * Helper method to create if expressions.
-     *
-     * @return If multi values adder.
-     */
-    public static BiMultiVal.Adder<CodePart, IfExpr, Operator> ifExprs() {
-        return BiMultiVal.create(CodePart.class, IfExpr.class, Operator.class);
-    }
-
-    public static Annotation[] annotations(Annotation... annotations) {
-        return annotations;
-    }
-
-    public static CodeArgument[] arguments(CodeArgument... arguments) {
-        return arguments;
-    }
-
-    public static CodeParameter[] parameters(CodeParameter... parameters) {
-        return parameters;
-    }
-
-    public static CodeType[] types(CodeType... types) {
-        return types;
-    }
-
-    public static Class<?>[] types(Class<?>... types) {
-        return types;
-    }
-
-    public static ConcatHelper concatHelper() {
-        return ConcatHelper.builder();
-    }
-
-    public static ConcatHelper concatHelper(CodePart part) {
-        return ConcatHelper.builder(part);
-    }
-
-    public static ConcatHelper concatHelper(String str) {
-        return ConcatHelper.builder(str);
+        return list;
     }
 
     public static ConcatHelper concatHelper(CodePart... part) {
@@ -2667,10 +2585,6 @@ public final class CodeAPI {
         }
 
         return helper;
-    }
-
-    public static OperateHelper operateHelper(CodePart part) {
-        return OperateHelper.builder(part);
     }
 
     /**

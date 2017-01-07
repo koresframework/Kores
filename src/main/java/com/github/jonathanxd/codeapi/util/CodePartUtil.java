@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.Typed;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
 import com.github.jonathanxd.codeapi.literal.Literal;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.NullType;

@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
 import com.github.jonathanxd.codeapi.type.CodeType;
 
 public class SimpleResolver implements TypeResolver {

@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
 import com.github.jonathanxd.codeapi.builder.CaseBuilder
 import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
+import com.github.jonathanxd.codeapi.PredefinedTypes
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.EnumTypeUtil
@@ -82,16 +82,16 @@ object SwitchTypes {
                     || !type.isPrimitive && isAcceptable(type.primitiveType))
         }
 
-        override fun generate(aSwitch: SwitchStatement, processor: PartProcessor): SwitchStatement {
-            val part = aSwitch.value
-            val type = aSwitch.value.type!!
+        override fun generate(t: SwitchStatement, processor: PartProcessor): SwitchStatement {
+            val part = t.value
+            val type = t.value.type!!
 
             if (isAcceptable(type)) {
-                return SwitchStatementBuilder(aSwitch).withValue(autoUnboxing(part, type)).build()
+                return SwitchStatementBuilder(t).withValue(autoUnboxing(part, type)).build()
             }
 
 
-            throw IllegalArgumentException("Cannot switch part '${aSwitch.value}' of type: '$type'. The part is not numeric.")
+            throw IllegalArgumentException("Cannot switch part '${t.value}' of type: '$type'. The part is not numeric.")
         }
     }
 

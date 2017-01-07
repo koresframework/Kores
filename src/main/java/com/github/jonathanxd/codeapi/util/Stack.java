@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
 import com.github.jonathanxd.codeapi.literal.Literal;
 
 /**

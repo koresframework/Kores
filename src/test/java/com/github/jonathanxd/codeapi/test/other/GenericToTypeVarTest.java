@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 

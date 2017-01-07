@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
+import com.github.jonathanxd.codeapi.PredefinedTypes
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 

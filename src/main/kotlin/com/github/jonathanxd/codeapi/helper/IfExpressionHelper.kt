@@ -29,23 +29,23 @@ package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.PredefinedTypes
 import com.github.jonathanxd.codeapi.base.IfExpr
 import com.github.jonathanxd.codeapi.base.impl.IfExprImpl
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
-import com.github.jonathanxd.codeapi.util.BiMultiVal
 
 class IfExpressionHelper private constructor() {
 
-    private var adder = BiMultiVal.Adder<CodePart, IfExpr, Operator>(CodePart::class.java)
+    private val list = mutableListOf<CodePart>()
 
     fun check(part1: CodePart, operation: Operator, part2: CodePart): IfExpressionHelper {
-        this.adder = this.adder.add1(IfExprImpl(part1, operation, part2))
+        this.list.add(IfExprImpl(part1, operation, part2))
         return this
     }
 
     fun checkRefEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
-        this.adder = this.adder.add1(IfExprImpl(part1, Operators.EQUAL_TO, part2))
+        this.list.add(IfExprImpl(part1, Operators.EQUAL_TO, part2))
         return this
     }
 
@@ -58,71 +58,71 @@ class IfExpressionHelper private constructor() {
     }
 
     fun checkNotNull(part1: CodePart): IfExpressionHelper {
-        this.adder = this.adder.add1(CodeAPI.checkNotNull(part1))
+        this.list.add(CodeAPI.checkNotNull(part1))
         return this
     }
 
     fun checkNull(part1: CodePart): IfExpressionHelper {
-        this.adder = this.adder.add1(CodeAPI.checkNull(part1))
+        this.list.add(CodeAPI.checkNull(part1))
         return this
     }
 
     fun checkTrue(part1: CodePart): IfExpressionHelper {
-        this.adder = this.adder.add1(CodeAPI.checkTrue(part1))
+        this.list.add(CodeAPI.checkTrue(part1))
         return this
     }
 
     fun checkFalse(part1: CodePart): IfExpressionHelper {
-        this.adder = this.adder.add1(CodeAPI.checkFalse(part1))
+        this.list.add(CodeAPI.checkFalse(part1))
         return this
     }
 
     // And
     fun and(part1: CodePart, operation: Operator, part2: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.check(part1, operation, part2)
     }
 
     fun andRefEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.checkRefEqual(part1, part2)
     }
 
     fun andObjectEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.checkObjectEqual(part1, part2)
     }
 
     fun andNotNull(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.checkNotNull(part1)
     }
 
     fun andNull(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.checkNull(part1)
     }
 
     fun andTrue(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.checkTrue(part1)
     }
 
     fun andFalse(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.AND)
+        this.list.add(Operators.AND)
 
         return this.checkFalse(part1)
     }
@@ -130,56 +130,56 @@ class IfExpressionHelper private constructor() {
     // Or
     fun or(part1: CodePart, operation: Operator, part2: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.check(part1, operation, part2)
     }
 
     fun orRefEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.checkRefEqual(part1, part2)
     }
 
     fun orObjectEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.checkObjectEqual(part1, part2)
     }
 
     fun orNotNull(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.checkNotNull(part1)
     }
 
     fun orNull(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.checkNull(part1)
     }
 
     fun orTrue(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.checkTrue(part1)
     }
 
     fun orFalse(part1: CodePart): IfExpressionHelper {
 
-        this.adder = this.adder.add2(Operators.OR)
+        this.list.add(Operators.OR)
 
         return this.checkFalse(part1)
     }
 
     // Build
-    fun build(): BiMultiVal<CodePart, IfExpr, Operator> {
-        return this.adder.make()
+    fun build(): List<CodePart> {
+        return this.list
     }
 
     companion object {

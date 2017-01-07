@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
+import com.github.jonathanxd.codeapi.PredefinedTypes
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.util.CodePartUtil

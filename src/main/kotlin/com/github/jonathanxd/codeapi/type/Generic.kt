@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
+import com.github.jonathanxd.codeapi.PredefinedTypes
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.GenericType.Bound
@@ -394,9 +394,8 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
 
         /**
          * Create a generic type from a type.
-
+         *
          * @param type Type.
-         * *
          * @return Generic of type.
          */
         @JvmStatic
@@ -406,9 +405,10 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
 
         /**
          * Create a generic wildcard (? in Java Language, * in JVM).
-
+         *
          * @return Generic wildcard.
          */
+        @JvmStatic
         fun wildcard(): Generic {
             return Generic("*", null, emptyArray())
         }

@@ -62,8 +62,8 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
         val codeSourceData = CodeSourceData(source, index)
 
 
-        for (i in 0..source.size() - 1) {
-            val part = source.get(i)
+        for (i in 0..source.size - 1) {
+            val part = source[i]
 
             index.set(i)
 
