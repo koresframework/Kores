@@ -27,52 +27,85 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-/**
- * Created by jonathan on 03/09/16.
- */
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.MethodFactory;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.object.Pair;
+
+import java.util.Collections;
+
+import kotlin.collections.CollectionsKt;
+
+import static java.lang.reflect.Modifier.PRIVATE;
+import static java.lang.reflect.Modifier.PUBLIC;
+
 public class InnerClassTest_ {
     //
-/*
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+        MutableCodeSource source = new MutableCodeSource();
 
-        CodeClass codeClass = aClass(PUBLIC, "test.InnerClass");
+        TypeDeclaration codeClass = ClassFactory.aClass(PUBLIC, "test.InnerClass", source);
 
-        TypeDeclaration inner = aClass(PUBLIC, "Inner", CodeAPI.source(
-                CodeAPI.field(PUBLIC, codeClass, "a",
-                        CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CodeAPI.argument(Literals.STRING("Hello")))),
-                method(PRIVATE, "call", PredefinedTypes.STRING, CodeAPI.source(
-                        Predefined.invokePrintln(argument(
-                                accessField(codeClass, Helper.accessOuter(codeClass), PredefinedTypes.STRING, "field"),
-                                PredefinedTypes.STRING
+        TypeDeclaration inner = ClassFactory.aClass(codeClass, new Annotation[0],
+                PUBLIC,
+                "Inner",
+                GenericSignature.empty(),
+                PredefinedTypes.OBJECT,
+                new CodeType[0],
+                CodeAPI.source(
+                FieldFactory.field(PUBLIC, codeClass, "a",
+                        CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(new CodeArgument(Literals.STRING("Hello"))))),
+                MethodFactory.method(PRIVATE, "call", PredefinedTypes.STRING, CodeAPI.source(
+                        Predefined.invokePrintln(new CodeArgument(
+                                CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), PredefinedTypes.STRING, "field")
                         )),
-                        CodeAPI.invokeVirtual(codeClass, Helper.accessOuter(codeClass), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID)),
+                        CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID), Collections.emptyList()),
                         CodeAPI.returnValue(String.class, Literals.STRING("A"))
                 ))
-        )).setOuterClass(codeClass);
+        ));
 
-        codeClass = codeClass.setBody(CodeAPI.sourceOfParts(
-                new CodeField("field",
-                        Helper.getJavaType(String.class),
-                        Literals.STRING("XSD"),
-                        Arrays.asList(CodeModifier.PRIVATE)),
+        source.addAll(CodeAPI.sourceOfParts(
+                FieldFactory.field(PRIVATE,
+                        CodeAPI.getJavaType(String.class),
+                        "field",
+                        Literals.STRING("XSD")),
 
-                CodeAPI.constructor(PUBLIC, constructor -> CodeAPI.sourceOfParts(
-                        CodeAPI.invokeVirtual(inner,
+                ConstructorFactory.constructor(PUBLIC, CodeAPI.sourceOfParts(
+                        CodeAPI.invokeVirtual(
+                                inner,
                                 CodeAPI.invokeConstructor(inner),
-                                "call", CodeAPI.typeSpec(String.class))
+                                "call",
+                                CodeAPI.typeSpec(String.class),
+                                Collections.emptyList()
+                        )
                 )),
-                constructor(PRIVATE, CodeAPI.parameters(CodeAPI.parameter(String.class, "str")), CodeAPI.source(
-                        Predefined.invokePrintln(CodeAPI.argument(CodeAPI.accessLocalVariable(String.class, "str"), String.class))
-                )),
-                CodeAPI.method(PUBLIC, "mm", PredefinedTypes.VOID, codeMethod -> CodeAPI.sourceOfParts(
-                        Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class))
+                ConstructorFactory.constructor(PRIVATE, new CodeParameter[]{CodeAPI.parameter(String.class, "str")},
+                        CodeAPI.source(
+                                Predefined.invokePrintln(CodeAPI.argument(CodeAPI.accessLocalVariable(String.class, "str")))
+                        )),
+                MethodFactory.method(PUBLIC, "mm", PredefinedTypes.VOID, CodeAPI.sourceOfParts(
+                        Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A")))
                 )),
                 inner
         ));
 
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
-*/
+
 }

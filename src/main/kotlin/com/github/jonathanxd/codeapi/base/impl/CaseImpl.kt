@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.Case
 
-class CaseImpl(override val value: CodePart?, override val body: CodeSource?) : Case {
+data class CaseImpl(override val value: CodePart?, override val body: CodeSource?) : Case {
     init {
         BodyHolder.checkBody(this)
     }

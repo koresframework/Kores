@@ -63,7 +63,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
 
                 arrayStores.add(
                         ArrayStoreBuilder().build {
-                            arrayType = this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
+                            arrayType = arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                             target = Stack.INSTANCE
                             index = Literals.INT(i)
                             valueType = argument.type!!

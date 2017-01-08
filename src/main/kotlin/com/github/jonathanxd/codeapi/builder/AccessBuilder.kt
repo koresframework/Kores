@@ -70,4 +70,10 @@ class AccessBuilder(): Builder<Access, AccessBuilder>() {
             type = this.type,
             localization = this.localization
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = AccessBuilder()
+    }
 }

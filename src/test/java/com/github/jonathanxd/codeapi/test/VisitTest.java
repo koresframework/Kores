@@ -27,26 +27,35 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.modify.visit.VisitManager;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 public class VisitTest {
-/*
 
     @Test
     public void visitTest() {
-        VisitManager<CodeClass> codeClassVisitManager = new VisitManager<>();
+        VisitManager<ClassDeclaration> codeClassVisitManager = new VisitManager<>();
 
-        codeClassVisitManager.register(CodeClass.class, (codePart, data, visitManager) -> codePart.setQualifiedName("com.XYZ"));
+        codeClassVisitManager.register(ClassDeclaration.class, (codePart, data, visitManager) -> new ClassDeclarationBuilder(codePart).withQualifiedName("com.XYZ").build());
 
 
-        CodeClass myClass = CodeAPI.aClassBuilder()
-                .withModifiers(Modifier.PUBLIC)
+        ClassDeclaration myClass = CodeAPI.aClassBuilder()
+                .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.ABC")
                 .withBody(new MutableCodeSource())
                 .build();
 
-        CodeClass visit = codeClassVisitManager.visit(myClass);
+        TypeDeclaration visit = codeClassVisitManager.visit(myClass);
 
         Assert.assertEquals("com.XYZ", visit.getCanonicalName());
     }
 
-*/
 }

@@ -80,6 +80,15 @@ class EnumEntryBuilder(): Builder<EnumEntry, EnumEntryBuilder>() {
 
 
     /**
+     * See [EnumEntry.arguments]
+     */
+    fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): EnumEntryBuilder {
+        this.arguments = values.toList()
+        return this
+    }
+
+
+    /**
      * See [EnumEntry.name]
      */
     fun withName(value: kotlin.String): EnumEntryBuilder {
@@ -102,4 +111,10 @@ class EnumEntryBuilder(): Builder<EnumEntry, EnumEntryBuilder>() {
             name = this.name,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = EnumEntryBuilder()
+    }
 }

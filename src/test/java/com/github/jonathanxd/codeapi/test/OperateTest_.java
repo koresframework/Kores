@@ -27,19 +27,34 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.helper.OperateHelper;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.object.Pair;
+
+import java.lang.reflect.Modifier;
+
+import static com.github.jonathanxd.codeapi.literal.Literals.INT;
+
 public class OperateTest_ {
-/*
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = CodeAPI.aClass(Modifier.PUBLIC, "com.OperateTest", CodeAPI.source(
-                CodeAPI.constructor(Modifier.PUBLIC, CodeAPI.parameters(CodeAPI.parameter(int.class, "num")), CodeAPI.source(
+        ClassDeclaration codeClass = ClassFactory.aClass(Modifier.PUBLIC, "com.OperateTest", CodeAPI.source(
+                ConstructorFactory.constructor(Modifier.PUBLIC, new CodeParameter[]{CodeAPI.parameter(int.class, "num")}, CodeAPI.source(
                         Predefined.invokePrintlnStr(
                                 Predefined.intToString(
-                                        CodeAPI.operateHelper(INT(9))
+                                        OperateHelper.builder(INT(9))
                                                 .plus(CodeAPI.accessLocalVariable(int.class, "num"))
                                                 .plus(
-                                                        CodeAPI.operateHelper(CodeAPI.accessLocalVariable(int.class, "num"))
+                                                        OperateHelper.builder(CodeAPI.accessLocalVariable(int.class, "num"))
                                                                 .multiply(INT(2))
                                                                 .build()
                                                 )
@@ -47,12 +62,12 @@ public class OperateTest_ {
                                 )
                         ),
                         Predefined.invokePrintlnStr(Predefined.intToString(
-                                CodeAPI.operateHelper(INT(9))
+                                OperateHelper.builder(INT(9))
                                         .neg()
                                         .build()
                         )),
                         Predefined.invokePrintlnStr(Predefined.intToString(
-                                CodeAPI.operateHelper(INT(9))
+                                OperateHelper.builder(INT(9))
                                         .not(INT(10))
                                         .build()
                         ))
@@ -62,5 +77,5 @@ public class OperateTest_ {
 
         return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
-*/
+
 }

@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayLength
 import com.github.jonathanxd.codeapi.type.CodeType
 
-class ArrayLengthImpl(override val arrayType: CodeType, override val target: CodePart) : ArrayLength
+data class ArrayLengthImpl(override val arrayType: CodeType, override val target: CodePart) : ArrayLength

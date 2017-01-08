@@ -134,4 +134,10 @@ class VariableOperateBuilder(): Builder<VariableOperate, VariableOperateBuilder>
             value = this.value,
             operation = this.operation
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = VariableOperateBuilder()
+    }
 }

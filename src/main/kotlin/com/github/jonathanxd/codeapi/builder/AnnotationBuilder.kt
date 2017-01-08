@@ -86,4 +86,10 @@ class AnnotationBuilder(): Builder<Annotation, AnnotationBuilder>() {
             type = this.type,
             values = this.values
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = AnnotationBuilder()
+    }
 }

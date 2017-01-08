@@ -70,4 +70,10 @@ class ArrayLengthBuilder(): Builder<ArrayLength, ArrayLengthBuilder>() {
             arrayType = this.arrayType,
             target = this.target
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ArrayLengthBuilder()
+    }
 }

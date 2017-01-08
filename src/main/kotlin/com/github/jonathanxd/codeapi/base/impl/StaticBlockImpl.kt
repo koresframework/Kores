@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.StaticBlock
 
-class StaticBlockImpl(override val body: CodeSource?) : StaticBlock {
+data class StaticBlockImpl(override val body: CodeSource?) : StaticBlock {
     init {
         BodyHolder.checkBody(this)
     }

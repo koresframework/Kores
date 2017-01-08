@@ -46,7 +46,7 @@ class IfStatementBuilder(): Builder<IfStatement, IfStatementBuilder>() {
     /**
      * See [IfStatement.elseBlock]
      */
-    lateinit var elseBlock: com.github.jonathanxd.codeapi.CodeSource
+    var elseBlock: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: IfStatement) : this() {
         this.expressions = defaults.expressions
@@ -60,6 +60,15 @@ class IfStatementBuilder(): Builder<IfStatement, IfStatementBuilder>() {
      */
     fun withExpressions(value: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart>): IfStatementBuilder {
         this.expressions = value
+        return this
+    }
+
+
+    /**
+     * See [IfStatement.expressions]
+     */
+    fun withExpressions(vararg values: com.github.jonathanxd.codeapi.CodePart): IfStatementBuilder {
+        this.expressions = values.toList()
         return this
     }
 
@@ -86,4 +95,10 @@ class IfStatementBuilder(): Builder<IfStatement, IfStatementBuilder>() {
             body = this.body,
             elseBlock = this.elseBlock
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = IfStatementBuilder()
+    }
 }

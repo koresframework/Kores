@@ -86,4 +86,10 @@ class EnumValueBuilder(): Builder<EnumValue, EnumValueBuilder>() {
             enumEntry = this.enumEntry,
             ordinal = this.ordinal
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = EnumValueBuilder()
+    }
 }

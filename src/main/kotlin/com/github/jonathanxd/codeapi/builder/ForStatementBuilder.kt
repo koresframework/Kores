@@ -80,6 +80,15 @@ class ForStatementBuilder(): Builder<ForStatement, ForStatementBuilder>() {
 
 
     /**
+     * See [ForStatement.forExpression]
+     */
+    fun withForExpression(vararg values: com.github.jonathanxd.codeapi.CodePart): ForStatementBuilder {
+        this.forExpression = values.toList()
+        return this
+    }
+
+
+    /**
      * See [ForStatement.forUpdate]
      */
     fun withForUpdate(value: com.github.jonathanxd.codeapi.CodePart?): ForStatementBuilder {
@@ -102,4 +111,10 @@ class ForStatementBuilder(): Builder<ForStatement, ForStatementBuilder>() {
             forUpdate = this.forUpdate,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ForStatementBuilder()
+    }
 }

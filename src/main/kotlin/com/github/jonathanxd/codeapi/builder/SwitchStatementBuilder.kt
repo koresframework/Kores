@@ -81,9 +81,24 @@ class SwitchStatementBuilder(): Builder<SwitchStatement, SwitchStatementBuilder>
         return this
     }
 
+
+    /**
+     * See [SwitchStatement.cases]
+     */
+    fun withCases(vararg values: com.github.jonathanxd.codeapi.base.Case): SwitchStatementBuilder {
+        this.cases = values.toList()
+        return this
+    }
+
     override fun build(): SwitchStatement = SwitchStatementImpl(
             value = this.value,
             switchType = this.switchType,
             cases = this.cases
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = SwitchStatementBuilder()
+    }
 }

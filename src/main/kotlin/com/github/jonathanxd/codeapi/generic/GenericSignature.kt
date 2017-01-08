@@ -71,6 +71,7 @@ class GenericSignature(private val types_: Array<out GenericType>) {
          * @param types Generic Types.
          * @return New [GenericSignature] holding [GenericTypes][GenericType]
          */
+        @JvmStatic
         fun create(vararg types: GenericType): GenericSignature {
             return GenericSignature(types)
         }

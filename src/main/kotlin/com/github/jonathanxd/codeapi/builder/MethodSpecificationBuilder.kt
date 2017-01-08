@@ -86,4 +86,10 @@ class MethodSpecificationBuilder(): Builder<MethodSpecification, MethodSpecifica
             methodName = this.methodName,
             description = this.description
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = MethodSpecificationBuilder()
+    }
 }

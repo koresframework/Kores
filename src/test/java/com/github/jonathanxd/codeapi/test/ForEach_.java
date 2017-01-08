@@ -27,30 +27,63 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-/**
- * Created by jonathan on 07/07/16.
- */
-public class ForEach_ {
-/*
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+import org.junit.Assert;
+
+import java.lang.reflect.Modifier;
+
+public class ForEach_ {
+
+
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
         Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode(), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode());
         Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING));
 
-        CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
-                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("strList", Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))},
-                        codeConstructor -> sourceOfParts(
-                                Helper.createForEach(new CodeField("str", PredefinedTypes.STRING),
-                                        Helper.accessLocalVariable("strList",
-                                                Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING)), Helper.sourceOf(
-                                                Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class), String.class))
-                                        ))
-                        ))
-        ));
+        ClassDeclaration classDeclaration = ClassFactory.aClass(
+                null,
+                new Annotation[0],
+                Modifier.PUBLIC,
+                "com.ForEach",
+                GenericSignature.empty(),
+                PredefinedTypes.OBJECT,
+                new CodeType[0],
+                CodeAPI.source(
+                        ConstructorFactory.constructor(
+                                new Annotation[0],
+                                GenericSignature.empty(),
+                                Modifier.PUBLIC,
+                                new CodeParameter[]{new CodeParameter(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), "strList")},
+                                CodeAPI.source(
+                                        CodeAPI.forEachIterable(FieldFactory.field(PredefinedTypes.STRING, "str"),
+                                                CodeAPI.accessLocalVariable(
+                                                        Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING),
+                                                        "strList"),
+                                                CodeAPI.source(
+                                                        Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))
+                                                ))
+                                ))
+                ));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
     }
 
-*/
+
 }

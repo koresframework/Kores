@@ -30,4 +30,4 @@ package com.github.jonathanxd.codeapi.base.impl
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Concat
 
-class ConcatImpl(override val concatenations: List<CodePart>) : Concat
+data class ConcatImpl(override val concatenations: List<CodePart>) : Concat

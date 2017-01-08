@@ -61,7 +61,7 @@ class MethodFragmentBuilder(): Builder<MethodFragment, MethodFragmentBuilder>() 
     /**
      * See [MethodFragment.body]
      */
-    lateinit var body: com.github.jonathanxd.codeapi.CodeSource
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: MethodFragment) : this() {
         this.declaringType = defaults.declaringType
@@ -101,6 +101,15 @@ class MethodFragmentBuilder(): Builder<MethodFragment, MethodFragmentBuilder>() 
 
 
     /**
+     * See [MethodFragment.arguments]
+     */
+    fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): MethodFragmentBuilder {
+        this.arguments = values.toList()
+        return this
+    }
+
+
+    /**
      * See [MethodFragment.description]
      */
     fun withDescription(value: com.github.jonathanxd.codeapi.common.TypeSpec): MethodFragmentBuilder {
@@ -114,6 +123,15 @@ class MethodFragmentBuilder(): Builder<MethodFragment, MethodFragmentBuilder>() 
      */
     fun withParameters(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeParameter>): MethodFragmentBuilder {
         this.parameters = value
+        return this
+    }
+
+
+    /**
+     * See [MethodFragment.parameters]
+     */
+    fun withParameters(vararg values: com.github.jonathanxd.codeapi.common.CodeParameter): MethodFragmentBuilder {
+        this.parameters = values.toList()
         return this
     }
 
@@ -134,4 +152,10 @@ class MethodFragmentBuilder(): Builder<MethodFragment, MethodFragmentBuilder>() 
             parameters = this.parameters,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = MethodFragmentBuilder()
+    }
 }

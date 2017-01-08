@@ -34,6 +34,18 @@ import java.util.Objects;
 
 public class GenToUtil {
 
+    private static <V> V getExactAndPut(Class<?> cl, Class<?> base, Map<Class<?>, V> map) {
+        String message = "Cannot get value for class: '" + cl.getCanonicalName() + "'";
+
+        V v = Objects.requireNonNull(map.get(Objects.requireNonNull(cl, message)), message);
+
+        if(!map.containsKey(cl)) {
+            map.put(cl, v);
+        }
+
+        return v;
+    }
+
     /**
      * Tries to determine the {@link Class} linked to {@link V} reading {@link GenerateTo}
      * annotations.
@@ -56,16 +68,18 @@ public class GenToUtil {
                 generateTo = cl.getAnnotation(GenerateTo.class);
 
             if (generateTo != null) {
-                return Objects.requireNonNull(map.get(generateTo.value()), "Cannot get value for class: '" + generateTo.value().getCanonicalName() + "'");
+                return getExactAndPut(generateTo.value(), cl, map);
             } else {
                 if (cl.isSynthetic()) {
                     Class<?>[] interfaces = cl.getInterfaces();
                     Class<?> i = interfaces.length > 0 ? interfaces[0] : cl.getSuperclass();
 
-                    return Objects.requireNonNull(map.get(i), "Cannot get value for class: '" + i.getCanonicalName() + "'");
-                }
+                    return getExactAndPut(i, cl, map);
+                } else {
+                    Class<?>[] interfaces = cl.getInterfaces();
 
-                throw new IllegalStateException("Cannot get value for class: '" + cl.getCanonicalName() + "'");
+                    return getExactAndPut(interfaces.length == 0 ? null : interfaces[0], cl, map);
+                }
             }
         }
     }

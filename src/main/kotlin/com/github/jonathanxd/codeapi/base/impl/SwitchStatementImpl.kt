@@ -33,4 +33,4 @@ import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.common.SwitchType
 import com.github.jonathanxd.codeapi.type.CodeType
 
-class SwitchStatementImpl(override val value: Typed, override val switchType: SwitchType, override val cases: List<Case>) : SwitchStatement
+data class SwitchStatementImpl(override val value: Typed, override val switchType: SwitchType, override val cases: List<Case>) : SwitchStatement

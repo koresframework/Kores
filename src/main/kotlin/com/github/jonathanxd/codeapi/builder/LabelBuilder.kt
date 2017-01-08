@@ -70,4 +70,10 @@ class LabelBuilder(): Builder<Label, LabelBuilder>() {
             name = this.name,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = LabelBuilder()
+    }
 }

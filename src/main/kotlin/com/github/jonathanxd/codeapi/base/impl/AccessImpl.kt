@@ -30,4 +30,4 @@ package com.github.jonathanxd.codeapi.base.impl
 import com.github.jonathanxd.codeapi.base.Access
 import com.github.jonathanxd.codeapi.type.CodeType
 
-class AccessImpl(override val type: Access.Type, override val localization: CodeType?) : Access
+data class AccessImpl(override val type: Access.Type, override val localization: CodeType?) : Access

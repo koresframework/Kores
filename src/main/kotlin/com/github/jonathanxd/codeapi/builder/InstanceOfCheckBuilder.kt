@@ -70,4 +70,10 @@ class InstanceOfCheckBuilder(): Builder<InstanceOfCheck, InstanceOfCheckBuilder>
             part = this.part,
             checkType = this.checkType
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = InstanceOfCheckBuilder()
+    }
 }

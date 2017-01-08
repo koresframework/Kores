@@ -102,4 +102,10 @@ class VariableAccessBuilder(): Builder<VariableAccess, VariableAccessBuilder>() 
             localization = this.localization,
             variableType = this.variableType
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = VariableAccessBuilder()
+    }
 }

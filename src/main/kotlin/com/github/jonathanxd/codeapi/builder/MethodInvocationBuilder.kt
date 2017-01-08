@@ -92,6 +92,15 @@ class MethodInvocationBuilder(): Builder<MethodInvocation, MethodInvocationBuild
 
 
     /**
+     * See [MethodInvocation.arguments]
+     */
+    fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): MethodInvocationBuilder {
+        this.arguments = values.toList()
+        return this
+    }
+
+
+    /**
      * See [MethodInvocation.spec]
      */
     fun withSpec(value: com.github.jonathanxd.codeapi.base.MethodSpecification): MethodInvocationBuilder {
@@ -134,4 +143,10 @@ class MethodInvocationBuilder(): Builder<MethodInvocation, MethodInvocationBuild
             invokeDynamic = this.invokeDynamic,
             target = this.target
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = MethodInvocationBuilder()
+    }
 }

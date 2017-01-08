@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.Label
 
-class LabelImpl(override val name: String, override val body: CodeSource?) : Label {
+data class LabelImpl(override val name: String, override val body: CodeSource?) : Label {
     init {
         BodyHolder.checkBody(this)
     }

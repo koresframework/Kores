@@ -51,7 +51,22 @@ class ConcatBuilder(): Builder<Concat, ConcatBuilder>() {
         return this
     }
 
+
+    /**
+     * See [Concat.concatenations]
+     */
+    fun withConcatenations(vararg values: com.github.jonathanxd.codeapi.CodePart): ConcatBuilder {
+        this.concatenations = values.toList()
+        return this
+    }
+
     override fun build(): Concat = ConcatImpl(
             concatenations = this.concatenations
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ConcatBuilder()
+    }
 }

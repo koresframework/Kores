@@ -25,12 +25,56 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base.impl
+@file:JvmName("FieldFactory")
+
+package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
-import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.ArrayToList
+import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 
-data class FieldDeclarationImpl(override val annotations: List<Annotation>, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val name: String, override val variableType: CodeType) : FieldDeclaration
+// Short methods
+
+fun field(modifiers: Int = 0,
+          type: CodeType,
+          name: String): FieldDeclaration {
+    // Provide annotations argument to let Kotlin Compiler to select correct method
+    return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name)
+}
+
+fun field(modifiers: Int = 0,
+          type: CodeType,
+          name: String,
+          value: CodePart? = null): FieldDeclaration {
+    // Provide annotations argument to let Kotlin Compiler to select correct method
+    return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name, value = value)
+}
+
+fun field(type: CodeType,
+          name: String,
+          value: CodePart? = null): FieldDeclaration {
+    // Provide annotations argument to let Kotlin Compiler to select correct method
+    return field(annotations = emptyArray(), type = type, name = name, value = value)
+}
+
+// /Short methods
+
+@JvmOverloads
+fun field(annotations: Array<Annotation> = emptyArray(),
+          modifiers: Int = 0,
+          type: CodeType,
+          name: String,
+          value: CodePart? = null): FieldDeclaration {
+    return FieldDeclarationImpl(
+            ArrayToList.toList(annotations),
+            value,
+            fromJavaModifiers(modifiers),
+            name,
+            type
+    )
+}
+

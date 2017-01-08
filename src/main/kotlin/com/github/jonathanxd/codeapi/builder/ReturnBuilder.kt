@@ -70,4 +70,10 @@ class ReturnBuilder(): Builder<Return, ReturnBuilder>() {
             type = this.type,
             value = this.value
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ReturnBuilder()
+    }
 }

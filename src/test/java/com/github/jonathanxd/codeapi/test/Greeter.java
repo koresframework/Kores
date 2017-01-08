@@ -27,9 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-/**
- * Created by jonathan on 13/06/16.
- */
 public interface Greeter {
     String hello();
 }

@@ -77,6 +77,15 @@ class FieldDeclarationBuilder(): Builder<FieldDeclaration, FieldDeclarationBuild
 
 
     /**
+     * See [FieldDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): FieldDeclarationBuilder {
+        this.annotations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [FieldDeclaration.value]
      */
     fun withValue(value: com.github.jonathanxd.codeapi.CodePart?): FieldDeclarationBuilder {
@@ -90,6 +99,15 @@ class FieldDeclarationBuilder(): Builder<FieldDeclaration, FieldDeclarationBuild
      */
     fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): FieldDeclarationBuilder {
         this.modifiers = value
+        return this
+    }
+
+
+    /**
+     * See [FieldDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): FieldDeclarationBuilder {
+        this.modifiers = values.toSet()
         return this
     }
 
@@ -118,4 +136,10 @@ class FieldDeclarationBuilder(): Builder<FieldDeclaration, FieldDeclarationBuild
             name = this.name,
             variableType = this.variableType
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = FieldDeclarationBuilder()
+    }
 }

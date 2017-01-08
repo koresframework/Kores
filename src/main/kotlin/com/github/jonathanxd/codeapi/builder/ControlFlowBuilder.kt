@@ -70,4 +70,10 @@ class ControlFlowBuilder(): Builder<ControlFlow, ControlFlowBuilder>() {
             type = this.type,
             at = this.at
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ControlFlowBuilder()
+    }
 }

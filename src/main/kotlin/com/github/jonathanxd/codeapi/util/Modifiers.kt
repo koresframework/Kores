@@ -25,7 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-@file:JvmName("ModifierUtil")
+@file:JvmName("Modifiers")
 
 package com.github.jonathanxd.codeapi.util
 
@@ -35,16 +35,15 @@ import java.lang.reflect.Modifier
 
 /**
  * Extract modifiers from a [Member]
-
+ *
  * @param member Member
- * *
  * @return Sorted Collection of modifiers
  */
-fun extractModifiers(member: Member): Collection<CodeModifier> {
+fun fromMember(member: Member): Collection<CodeModifier> {
 
     val modifiers = member.modifiers
 
-    val collection = extractModifiers(modifiers)
+    val collection = fromJavaModifiers(modifiers)
 
     if (member.declaringClass.isInterface && Modifier.isPublic(modifiers) && !Modifier.isAbstract(modifiers) && !Modifier.isStatic(modifiers)) {
         collection.add(CodeModifier.DEFAULT)
@@ -56,12 +55,11 @@ fun extractModifiers(member: Member): Collection<CodeModifier> {
 
 /**
  * Extract modifiers from Java modifiers flags ([Modifier]).
-
+ *
  * @param modifiers Modifiers flags.
- * *
  * @return Sorted Collection of modifiers.
  */
-fun extractModifiers(modifiers: Int): MutableSet<CodeModifier> {
+fun fromJavaModifiers(modifiers: Int): MutableSet<CodeModifier> {
     val collection = java.util.TreeSet<CodeModifier>()
 
     if (Modifier.isPublic(modifiers)) {

@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Operate
 import com.github.jonathanxd.codeapi.operator.Operator
 
-class OperateImpl(override val target: CodePart, override val operation: Operator, override val value: CodePart?) : Operate
+data class OperateImpl(override val target: CodePart, override val operation: Operator, override val value: CodePart?) : Operate

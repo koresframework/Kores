@@ -66,7 +66,7 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
     /**
      * See [MethodDeclaration.genericSignature]
      */
-    lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
+    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
     constructor(defaults: MethodDeclaration) : this() {
         this.parameters = defaults.parameters
@@ -89,6 +89,15 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
 
 
     /**
+     * See [MethodDeclaration.parameters]
+     */
+    fun withParameters(vararg values: com.github.jonathanxd.codeapi.common.CodeParameter): MethodDeclarationBuilder {
+        this.parameters = values.toList()
+        return this
+    }
+
+
+    /**
      * See [MethodDeclaration.name]
      */
     fun withName(value: kotlin.String): MethodDeclarationBuilder {
@@ -102,6 +111,15 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
      */
     fun withAnnotations(value: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation>): MethodDeclarationBuilder {
         this.annotations = value
+        return this
+    }
+
+
+    /**
+     * See [MethodDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): MethodDeclarationBuilder {
+        this.annotations = values.toList()
         return this
     }
 
@@ -134,6 +152,15 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
 
 
     /**
+     * See [MethodDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): MethodDeclarationBuilder {
+        this.modifiers = values.toSet()
+        return this
+    }
+
+
+    /**
      * See [MethodDeclaration.genericSignature]
      */
     fun withGenericSignature(value: com.github.jonathanxd.codeapi.generic.GenericSignature): MethodDeclarationBuilder {
@@ -150,4 +177,10 @@ class MethodDeclarationBuilder(): Builder<MethodDeclaration, MethodDeclarationBu
             modifiers = this.modifiers,
             genericSignature = this.genericSignature
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = MethodDeclarationBuilder()
+    }
 }

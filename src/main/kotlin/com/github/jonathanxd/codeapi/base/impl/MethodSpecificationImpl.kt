@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.common.MethodType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 
-class MethodSpecificationImpl(override val methodType: MethodType, override val methodName: String, override val description: TypeSpec) : MethodSpecification
+data class MethodSpecificationImpl(override val methodType: MethodType, override val methodName: String, override val description: TypeSpec) : MethodSpecification

@@ -80,6 +80,15 @@ class TryWithResourcesBuilder(): Builder<TryWithResources, TryWithResourcesBuild
 
 
     /**
+     * See [TryWithResources.catchStatements]
+     */
+    fun withCatchStatements(vararg values: com.github.jonathanxd.codeapi.base.CatchStatement): TryWithResourcesBuilder {
+        this.catchStatements = values.toList()
+        return this
+    }
+
+
+    /**
      * See [TryWithResources.finallyStatement]
      */
     fun withFinallyStatement(value: com.github.jonathanxd.codeapi.CodeSource?): TryWithResourcesBuilder {
@@ -102,4 +111,10 @@ class TryWithResourcesBuilder(): Builder<TryWithResources, TryWithResourcesBuild
             finallyStatement = this.finallyStatement,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = TryWithResourcesBuilder()
+    }
 }

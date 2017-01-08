@@ -65,6 +65,15 @@ class CatchStatementBuilder(): Builder<CatchStatement, CatchStatementBuilder>() 
 
 
     /**
+     * See [CatchStatement.exceptionTypes]
+     */
+    fun withExceptionTypes(vararg values: com.github.jonathanxd.codeapi.type.CodeType): CatchStatementBuilder {
+        this.exceptionTypes = values.toList()
+        return this
+    }
+
+
+    /**
      * See [CatchStatement.body]
      */
     fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): CatchStatementBuilder {
@@ -86,4 +95,10 @@ class CatchStatementBuilder(): Builder<CatchStatement, CatchStatementBuilder>() 
             body = this.body,
             variable = this.variable
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = CatchStatementBuilder()
+    }
 }

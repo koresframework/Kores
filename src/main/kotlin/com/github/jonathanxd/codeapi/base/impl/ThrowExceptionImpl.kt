@@ -30,4 +30,4 @@ package com.github.jonathanxd.codeapi.base.impl
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ThrowException
 
-class ThrowExceptionImpl(override val partToThrow: CodePart) : ThrowException
+data class ThrowExceptionImpl(override val partToThrow: CodePart) : ThrowException

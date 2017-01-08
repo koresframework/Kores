@@ -56,7 +56,7 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
     /**
      * See [ConstructorDeclaration.genericSignature]
      */
-    lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
+    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
     constructor(defaults: ConstructorDeclaration) : this() {
         this.parameters = defaults.parameters
@@ -77,10 +77,28 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
 
 
     /**
+     * See [ConstructorDeclaration.parameters]
+     */
+    fun withParameters(vararg values: com.github.jonathanxd.codeapi.common.CodeParameter): ConstructorDeclarationBuilder {
+        this.parameters = values.toList()
+        return this
+    }
+
+
+    /**
      * See [ConstructorDeclaration.annotations]
      */
     fun withAnnotations(value: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation>): ConstructorDeclarationBuilder {
         this.annotations = value
+        return this
+    }
+
+
+    /**
+     * See [ConstructorDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): ConstructorDeclarationBuilder {
+        this.annotations = values.toList()
         return this
     }
 
@@ -104,6 +122,15 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
 
 
     /**
+     * See [ConstructorDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): ConstructorDeclarationBuilder {
+        this.modifiers = values.toSet()
+        return this
+    }
+
+
+    /**
      * See [ConstructorDeclaration.genericSignature]
      */
     fun withGenericSignature(value: com.github.jonathanxd.codeapi.generic.GenericSignature): ConstructorDeclarationBuilder {
@@ -118,4 +145,10 @@ class ConstructorDeclarationBuilder(): Builder<ConstructorDeclaration, Construct
             modifiers = this.modifiers,
             genericSignature = this.genericSignature
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ConstructorDeclarationBuilder()
+    }
 }

@@ -30,4 +30,4 @@ package com.github.jonathanxd.codeapi.base.impl
 import com.github.jonathanxd.codeapi.base.ControlFlow
 import com.github.jonathanxd.codeapi.base.Label
 
-class ControlFlowImpl(override val type: ControlFlow.Type, override val at: Label?) : ControlFlow
+data class ControlFlowImpl(override val type: ControlFlow.Type, override val at: Label?) : ControlFlow

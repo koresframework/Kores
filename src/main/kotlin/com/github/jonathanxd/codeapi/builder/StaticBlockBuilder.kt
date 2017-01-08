@@ -54,4 +54,10 @@ class StaticBlockBuilder(): Builder<StaticBlock, StaticBlockBuilder>() {
     override fun build(): StaticBlock = StaticBlockImpl(
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = StaticBlockBuilder()
+    }
 }

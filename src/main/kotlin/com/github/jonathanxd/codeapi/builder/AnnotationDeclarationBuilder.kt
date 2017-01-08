@@ -61,7 +61,7 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
     /**
      * See [AnnotationDeclaration.genericSignature]
      */
-    lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
+    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
     /**
      * See [AnnotationDeclaration.outerClass]
@@ -98,10 +98,28 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
 
 
     /**
+     * See [AnnotationDeclaration.properties]
+     */
+    fun withProperties(vararg values: com.github.jonathanxd.codeapi.base.AnnotationProperty): AnnotationDeclarationBuilder {
+        this.properties = values.toList()
+        return this
+    }
+
+
+    /**
      * See [AnnotationDeclaration.annotations]
      */
     fun withAnnotations(value: kotlin.collections.List<com.github.jonathanxd.codeapi.base.Annotation>): AnnotationDeclarationBuilder {
         this.annotations = value
+        return this
+    }
+
+
+    /**
+     * See [AnnotationDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): AnnotationDeclarationBuilder {
+        this.annotations = values.toList()
         return this
     }
 
@@ -120,6 +138,15 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
      */
     fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): AnnotationDeclarationBuilder {
         this.modifiers = value
+        return this
+    }
+
+
+    /**
+     * See [AnnotationDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): AnnotationDeclarationBuilder {
+        this.modifiers = values.toSet()
         return this
     }
 
@@ -150,4 +177,10 @@ class AnnotationDeclarationBuilder(): Builder<AnnotationDeclaration, AnnotationD
             genericSignature = this.genericSignature,
             outerClass = this.outerClass
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = AnnotationDeclarationBuilder()
+    }
 }

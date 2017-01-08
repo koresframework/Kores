@@ -61,7 +61,7 @@ class InterfaceDeclarationBuilder(): Builder<InterfaceDeclaration, InterfaceDecl
     /**
      * See [InterfaceDeclaration.genericSignature]
      */
-    lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
+    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
     /**
      * See [InterfaceDeclaration.outerClass]
@@ -89,6 +89,15 @@ class InterfaceDeclarationBuilder(): Builder<InterfaceDeclaration, InterfaceDecl
 
 
     /**
+     * See [InterfaceDeclaration.implementations]
+     */
+    fun withImplementations(vararg values: com.github.jonathanxd.codeapi.type.CodeType): InterfaceDeclarationBuilder {
+        this.implementations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [InterfaceDeclaration.qualifiedName]
      */
     fun withQualifiedName(value: kotlin.String): InterfaceDeclarationBuilder {
@@ -107,6 +116,15 @@ class InterfaceDeclarationBuilder(): Builder<InterfaceDeclaration, InterfaceDecl
 
 
     /**
+     * See [InterfaceDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): InterfaceDeclarationBuilder {
+        this.annotations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [InterfaceDeclaration.body]
      */
     fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): InterfaceDeclarationBuilder {
@@ -120,6 +138,15 @@ class InterfaceDeclarationBuilder(): Builder<InterfaceDeclaration, InterfaceDecl
      */
     fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): InterfaceDeclarationBuilder {
         this.modifiers = value
+        return this
+    }
+
+
+    /**
+     * See [InterfaceDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): InterfaceDeclarationBuilder {
+        this.modifiers = values.toSet()
         return this
     }
 
@@ -150,4 +177,10 @@ class InterfaceDeclarationBuilder(): Builder<InterfaceDeclaration, InterfaceDecl
             genericSignature = this.genericSignature,
             outerClass = this.outerClass
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = InterfaceDeclarationBuilder()
+    }
 }

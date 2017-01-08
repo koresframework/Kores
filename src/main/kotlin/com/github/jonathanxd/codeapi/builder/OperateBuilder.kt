@@ -86,4 +86,10 @@ class OperateBuilder(): Builder<Operate, OperateBuilder>() {
             operation = this.operation,
             value = this.value
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = OperateBuilder()
+    }
 }

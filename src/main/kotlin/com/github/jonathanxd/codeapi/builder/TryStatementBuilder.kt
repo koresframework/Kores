@@ -74,6 +74,15 @@ class TryStatementBuilder(): Builder<TryStatement, TryStatementBuilder>() {
 
 
     /**
+     * See [TryStatement.catchStatements]
+     */
+    fun withCatchStatements(vararg values: com.github.jonathanxd.codeapi.base.CatchStatement): TryStatementBuilder {
+        this.catchStatements = values.toList()
+        return this
+    }
+
+
+    /**
      * See [TryStatement.finallyStatement]
      */
     fun withFinallyStatement(value: com.github.jonathanxd.codeapi.CodeSource?): TryStatementBuilder {
@@ -86,4 +95,10 @@ class TryStatementBuilder(): Builder<TryStatement, TryStatementBuilder>() {
             catchStatements = this.catchStatements,
             finallyStatement = this.finallyStatement
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = TryStatementBuilder()
+    }
 }

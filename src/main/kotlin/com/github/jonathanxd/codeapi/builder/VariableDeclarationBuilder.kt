@@ -86,4 +86,10 @@ class VariableDeclarationBuilder(): Builder<VariableDeclaration, VariableDeclara
             name = this.name,
             variableType = this.variableType
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = VariableDeclarationBuilder()
+    }
 }

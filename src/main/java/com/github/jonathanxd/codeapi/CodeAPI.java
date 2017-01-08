@@ -126,7 +126,7 @@ import com.github.jonathanxd.codeapi.type.JavaType;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
-import com.github.jonathanxd.codeapi.util.ModifierUtil;
+import com.github.jonathanxd.codeapi.util.Modifiers;
 import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
 import java.util.ArrayList;
@@ -139,7 +139,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -154,7 +153,7 @@ public final class CodeAPI {
     private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
 
-    private static final Annotation[] EMPTY_ANNOTATIONS = {};
+    public static final Annotation[] EMPTY_ANNOTATIONS = {};
 
     // =========================================================
     //          Annotations
@@ -407,49 +406,6 @@ public final class CodeAPI {
         return new ConstructorDeclarationBuilder();
     }
 
-    // =========================================================
-    //          Fields
-    // =========================================================
-
-    // ** Source **
-    public static FieldDeclaration field(int modifiers, CodeType type, String name, CodePart value) {
-        return field__factory(modifiers, type, name, value);
-    }
-
-    public static FieldDeclaration field(int modifiers, CodeType type, String name) {
-        return field__factory(modifiers, type, name, null);
-    }
-
-    public static FieldDeclaration field(CodeType type, String name, CodePart value) {
-        return field__factory(0, type, name, value);
-    }
-
-    public static FieldDeclaration field(CodeType type, String name) {
-        return field__factory(0, type, name, null);
-    }
-
-    /// Class
-    public static FieldDeclaration field(int modifiers, Class<?> type, String name, CodePart value) {
-        return field__factory(modifiers, CodeAPI.getJavaType(type), name, value);
-    }
-
-    public static FieldDeclaration field(int modifiers, Class<?> type, String name) {
-        return field__factory(modifiers, CodeAPI.getJavaType(type), name, null);
-    }
-
-    public static FieldDeclaration field(Class<?> type, String name, CodePart value) {
-        return field__factory(0, CodeAPI.getJavaType(type), name, value);
-    }
-
-    public static FieldDeclaration field(Class<?> type, String name) {
-        return field__factory(0, CodeAPI.getJavaType(type), name, null);
-    }
-
-    // Factory
-    private static FieldDeclaration field__factory(int modifiers, CodeType type, String name, CodePart value) {
-        return new FieldDeclarationImpl(Collections.emptyList(), value, ModifierUtil.extractModifiers(modifiers), name, type);
-    }
-
 
     // =========================================================
     //          Array Constructors
@@ -483,40 +439,40 @@ public final class CodeAPI {
     //          Array Manipulate
     // =========================================================
 
-    public static ArrayLength getArrayLength(VariableAccess access) {
+    public static ArrayLength getArrayLength(Typed access) {
         return getArrayLength__factory(access);
     }
 
-    public static ArrayLoad getArrayValue(CodeType arrayType, VariableAccess access, CodePart index) {
+    public static ArrayLoad getArrayValue(CodeType arrayType, Typed access, CodePart index) {
         return getArrayValue__factory(index, access, arrayType);
     }
 
-    public static ArrayStore setArrayValue(CodeType arrayType, VariableAccess access, CodePart index, CodePart value) {
+    public static ArrayStore setArrayValue(CodeType arrayType, Typed access, CodePart index, CodePart value) {
         return setArrayValue__factory(index, access, arrayType, value);
     }
 
     // Class
 
-    public static ArrayLoad getArrayValue(Class<?> arrayType, VariableAccess access, CodePart index) {
+    public static ArrayLoad getArrayValue(Class<?> arrayType, Typed access, CodePart index) {
         return getArrayValue__factory(index, access, CodeAPI.getJavaType(arrayType));
     }
 
-    public static ArrayStore setArrayValue(Class<?> arrayType, VariableAccess access, CodePart index, CodePart value) {
+    public static ArrayStore setArrayValue(Class<?> arrayType, Typed access, CodePart index, CodePart value) {
         return setArrayValue__factory(index, access, CodeAPI.getJavaType(arrayType), value);
     }
 
     // Factory
 
-    private static ArrayLength getArrayLength__factory(VariableAccess access) {
-        return new ArrayLengthImpl(access.getVariableType(), access);
+    private static ArrayLength getArrayLength__factory(Typed access) {
+        return new ArrayLengthImpl(access.getType(), access);
     }
 
-    private static ArrayLoad getArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType) {
-        return new ArrayLoadImpl(index, access, access.getVariableType(), arrayType);
+    private static ArrayLoad getArrayValue__factory(CodePart index, Typed access, CodeType arrayType) {
+        return new ArrayLoadImpl(index, access, access.getType(), arrayType);
     }
 
-    private static ArrayStore setArrayValue__factory(CodePart index, VariableAccess access, CodeType arrayType, CodePart value) {
-        return new ArrayStoreImpl(index, access, access.getVariableType(), value, arrayType);
+    private static ArrayStore setArrayValue__factory(CodePart index, Typed access, CodeType arrayType, CodePart value) {
+        return new ArrayStoreImpl(index, access, access.getType(), value, arrayType);
     }
 
 
@@ -530,6 +486,10 @@ public final class CodeAPI {
 
     public static MutableCodeSource emptyMutableSource() {
         return new MutableCodeSource();
+    }
+
+    public static CodeSource source(CodePart... codeParts) {
+        return CodeSource.fromArray(codeParts);
     }
 
     public static CodeSource sourceOfParts(CodePart... codeParts) {
@@ -2528,6 +2488,10 @@ public final class CodeAPI {
         }
 
         return list;
+    }
+
+    public static ConcatHelper concatHelper() {
+        return ConcatHelper.builder();
     }
 
     public static ConcatHelper concatHelper(CodePart... part) {

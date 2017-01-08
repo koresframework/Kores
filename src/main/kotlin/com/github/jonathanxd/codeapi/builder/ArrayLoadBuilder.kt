@@ -102,4 +102,10 @@ class ArrayLoadBuilder(): Builder<ArrayLoad, ArrayLoadBuilder>() {
             valueType = this.valueType,
             arrayType = this.arrayType
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ArrayLoadBuilder()
+    }
 }

@@ -65,6 +65,15 @@ class ArrayConstructorBuilder(): Builder<ArrayConstructor, ArrayConstructorBuild
 
 
     /**
+     * See [ArrayConstructor.arguments]
+     */
+    fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): ArrayConstructorBuilder {
+        this.arguments = values.toList()
+        return this
+    }
+
+
+    /**
      * See [ArrayConstructor.arrayType]
      */
     fun withArrayType(value: com.github.jonathanxd.codeapi.type.CodeType): ArrayConstructorBuilder {
@@ -81,9 +90,24 @@ class ArrayConstructorBuilder(): Builder<ArrayConstructor, ArrayConstructorBuild
         return this
     }
 
+
+    /**
+     * See [ArrayConstructor.dimensions]
+     */
+    fun withDimensions(vararg values: com.github.jonathanxd.codeapi.CodePart): ArrayConstructorBuilder {
+        this.dimensions = values.toList()
+        return this
+    }
+
     override fun build(): ArrayConstructor = ArrayConstructorImpl(
             arguments = this.arguments,
             arrayType = this.arrayType,
             dimensions = this.dimensions
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ArrayConstructorBuilder()
+    }
 }

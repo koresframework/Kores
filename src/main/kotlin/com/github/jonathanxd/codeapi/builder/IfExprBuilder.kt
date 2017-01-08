@@ -86,4 +86,10 @@ class IfExprBuilder(): Builder<IfExpr, IfExprBuilder>() {
             operation = this.operation,
             expr2 = this.expr2
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = IfExprBuilder()
+    }
 }

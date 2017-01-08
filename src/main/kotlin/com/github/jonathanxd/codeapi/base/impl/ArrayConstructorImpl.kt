@@ -32,4 +32,4 @@ import com.github.jonathanxd.codeapi.base.ArrayConstructor
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.type.CodeType
 
-class ArrayConstructorImpl(override val arguments: List<CodeArgument>, override val arrayType: CodeType, override val dimensions: List<CodePart>) : ArrayConstructor
+data class ArrayConstructorImpl(override val arguments: List<CodeArgument>, override val arrayType: CodeType, override val dimensions: List<CodePart>) : ArrayConstructor

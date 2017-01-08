@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayLoad
 import com.github.jonathanxd.codeapi.type.CodeType
 
-class ArrayLoadImpl(override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val arrayType: CodeType) : ArrayLoad
+data class ArrayLoadImpl(override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val arrayType: CodeType) : ArrayLoad

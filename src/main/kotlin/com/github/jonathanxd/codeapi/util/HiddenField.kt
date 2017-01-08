@@ -35,9 +35,15 @@ import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.type.CodeType
 
+/**
+ * This class denotes a hidden field.
+ *
+ * In source code, this field will be obfuscated
+ *
+ * In bytecode, the LocalVariableTable will not contain this field.
+ */
 @GenerateTo(FieldDeclaration::class)
-class HiddenField(name: String, type: CodeType, value: CodePart?, modifiers: Set<CodeModifier>, annotations: List<Annotation>) :
-        FieldDeclarationImpl(name = name, variableType = type, value = value, modifiers = modifiers, annotations = annotations) {
+data class HiddenField(override val name: String, override val variableType: CodeType, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val annotations: List<Annotation>) : FieldDeclaration {
 
 
     constructor(name: String, type: CodeType, modifiers: Set<CodeModifier>, annotations: List<Annotation>)

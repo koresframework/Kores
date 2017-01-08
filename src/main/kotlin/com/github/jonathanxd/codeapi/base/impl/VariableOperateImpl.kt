@@ -32,4 +32,4 @@ import com.github.jonathanxd.codeapi.base.VariableOperate
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.type.CodeType
 
-class VariableOperateImpl(override val target: CodePart, override val name: String, override val localization: CodeType?, override val variableType: CodeType, override val value: CodePart?, override val operation: Operator) : VariableOperate
+data class VariableOperateImpl(override val target: CodePart, override val name: String, override val localization: CodeType?, override val variableType: CodeType, override val value: CodePart?, override val operation: Operator) : VariableOperate

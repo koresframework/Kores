@@ -31,4 +31,4 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.IfExpr
 import com.github.jonathanxd.codeapi.operator.Operator
 
-class IfExprImpl(override val expr1: CodePart, override val operation: Operator, override val expr2: CodePart) : IfExpr
+data class IfExprImpl(override val expr1: CodePart, override val operation: Operator, override val expr2: CodePart) : IfExpr

@@ -118,4 +118,10 @@ class ArrayStoreBuilder(): Builder<ArrayStore, ArrayStoreBuilder>() {
             valueToStore = this.valueToStore,
             arrayType = this.arrayType
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ArrayStoreBuilder()
+    }
 }

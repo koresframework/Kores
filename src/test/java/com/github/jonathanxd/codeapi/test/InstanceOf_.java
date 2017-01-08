@@ -27,29 +27,60 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-/**
- * Created by jonathan on 21/08/16.
- */
-public class InstanceOf_ {
-/*
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.MethodFactory;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.operator.Operators;
+import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.object.Pair;
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+import kotlin.collections.CollectionsKt;
+
+import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
+import static com.github.jonathanxd.codeapi.CodeAPI.argument;
+import static com.github.jonathanxd.codeapi.CodeAPI.check;
+import static com.github.jonathanxd.codeapi.CodeAPI.checkFalse;
+import static com.github.jonathanxd.codeapi.CodeAPI.checkTrue;
+import static com.github.jonathanxd.codeapi.CodeAPI.ifExprs;
+import static com.github.jonathanxd.codeapi.CodeAPI.ifStatement;
+import static com.github.jonathanxd.codeapi.CodeAPI.invokeConstructor;
+import static com.github.jonathanxd.codeapi.CodeAPI.isInstanceOf;
+import static com.github.jonathanxd.codeapi.CodeAPI.parameter;
+import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
+import static com.github.jonathanxd.codeapi.factory.FieldFactory.field;
+import static com.github.jonathanxd.codeapi.literal.Literals.STRING;
+import static java.lang.reflect.Modifier.PUBLIC;
+import static java.lang.reflect.Modifier.STATIC;
+import static kotlin.collections.CollectionsKt.*;
+
+public class InstanceOf_ {
+
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
         VariableAccess paramAccess = accessLocalVariable(Object.class, "param");
 
-        CodeClass codeClass = aClass(PUBLIC, "test.InstanceOf", codeClass1 -> sourceOfParts(
-                method(STATIC | PUBLIC, "test", void.class, parameters(parameter(Object.class, "param")),
-                        method -> sourceOfParts(
-                                ifBlock(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
+        ClassDeclaration codeClass = ClassFactory.aClass(PUBLIC, "test.InstanceOf", sourceOfParts(
+                MethodFactory.method(STATIC | PUBLIC, "test", PredefinedTypes.VOID, new CodeParameter[]{parameter(Object.class, "param")},
+                        sourceOfParts(
+                                ifStatement(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
                                         sourceOfParts(
-                                                Predefined.invokePrintln(argument(STRING("Object is String!"), String.class))
+                                                Predefined.invokePrintln(argument(STRING("Object is String!")))
                                         ),
-                                        elseBlock(
-                                                Predefined.invokePrintln(argument(STRING("Object is not String!"), String.class))
+                                        sourceOfParts(
+                                                Predefined.invokePrintln(argument(STRING("Object is not String!")))
                                         )),
                                 field(PredefinedTypes.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
                                 field(PredefinedTypes.BOOLEAN, "b2", checkFalse(accessLocalVariable(PredefinedTypes.BOOLEAN, "b"))),
-                                field(PredefinedTypes.INTEGER_TYPE, "ab", invokeConstructor(Integer.class, argument(Literals.INT(9), PredefinedTypes.INT))),
+                                field(PredefinedTypes.INTEGER_TYPE, "ab", invokeConstructor(PredefinedTypes.INTEGER_TYPE, new TypeSpec(PredefinedTypes.VOID, listOf(PredefinedTypes.INTEGER_TYPE)), listOf(argument(Literals.INT(9))))),
                                 field(PredefinedTypes.BOOLEAN, "b9", check(accessLocalVariable(PredefinedTypes.INTEGER_TYPE, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
@@ -57,5 +88,4 @@ public class InstanceOf_ {
         return Pair.of(codeClass, sourceOfParts(codeClass));
     }
 
-*/
 }

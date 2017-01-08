@@ -54,4 +54,10 @@ class ThrowExceptionBuilder(): Builder<ThrowException, ThrowExceptionBuilder>() 
     override fun build(): ThrowException = ThrowExceptionImpl(
             partToThrow = this.partToThrow
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ThrowExceptionBuilder()
+    }
 }

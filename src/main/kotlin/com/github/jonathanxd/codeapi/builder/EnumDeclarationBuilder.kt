@@ -66,7 +66,7 @@ class EnumDeclarationBuilder(): Builder<EnumDeclaration, EnumDeclarationBuilder>
     /**
      * See [EnumDeclaration.genericSignature]
      */
-    lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
+    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
     /**
      * See [EnumDeclaration.outerClass]
@@ -95,10 +95,28 @@ class EnumDeclarationBuilder(): Builder<EnumDeclaration, EnumDeclarationBuilder>
 
 
     /**
+     * See [EnumDeclaration.entries]
+     */
+    fun withEntries(vararg values: com.github.jonathanxd.codeapi.base.EnumEntry): EnumDeclarationBuilder {
+        this.entries = values.toList()
+        return this
+    }
+
+
+    /**
      * See [EnumDeclaration.implementations]
      */
     fun withImplementations(value: kotlin.collections.List<com.github.jonathanxd.codeapi.type.CodeType>): EnumDeclarationBuilder {
         this.implementations = value
+        return this
+    }
+
+
+    /**
+     * See [EnumDeclaration.implementations]
+     */
+    fun withImplementations(vararg values: com.github.jonathanxd.codeapi.type.CodeType): EnumDeclarationBuilder {
+        this.implementations = values.toList()
         return this
     }
 
@@ -122,6 +140,15 @@ class EnumDeclarationBuilder(): Builder<EnumDeclaration, EnumDeclarationBuilder>
 
 
     /**
+     * See [EnumDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): EnumDeclarationBuilder {
+        this.annotations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [EnumDeclaration.body]
      */
     fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): EnumDeclarationBuilder {
@@ -135,6 +162,15 @@ class EnumDeclarationBuilder(): Builder<EnumDeclaration, EnumDeclarationBuilder>
      */
     fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): EnumDeclarationBuilder {
         this.modifiers = value
+        return this
+    }
+
+
+    /**
+     * See [EnumDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): EnumDeclarationBuilder {
+        this.modifiers = values.toSet()
         return this
     }
 
@@ -166,4 +202,10 @@ class EnumDeclarationBuilder(): Builder<EnumDeclaration, EnumDeclarationBuilder>
             genericSignature = this.genericSignature,
             outerClass = this.outerClass
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = EnumDeclarationBuilder()
+    }
 }

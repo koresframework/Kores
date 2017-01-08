@@ -102,4 +102,10 @@ class ForEachStatementBuilder(): Builder<ForEachStatement, ForEachStatementBuild
             iterableElement = this.iterableElement,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ForEachStatementBuilder()
+    }
 }

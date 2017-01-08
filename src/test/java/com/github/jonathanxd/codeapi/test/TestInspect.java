@@ -27,12 +27,22 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.StaticBlock;
+import com.github.jonathanxd.codeapi.inspect.SourceInspect;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.List;
+
 /**
  * Created by jonathan on 21/08/16.
  */
 public class TestInspect {
 
-/*
     @Test
     public void inspect() {
         CodeSource source = GenericClass_.$()._2();
@@ -45,7 +55,9 @@ public class TestInspect {
                 .inspect(source);
 
         System.out.println(inspect);
+
+        Assert.assertTrue(inspect.size() == 1);
+        Assert.assertEquals("test", inspect.get(0));
     }
 
-*/
 }

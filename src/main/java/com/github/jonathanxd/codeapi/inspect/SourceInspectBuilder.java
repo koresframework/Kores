@@ -35,9 +35,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-/**
- * Created by jonathan on 21/08/16.
- */
 public class SourceInspectBuilder<R> {
 
     /**

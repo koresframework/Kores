@@ -86,4 +86,10 @@ class CastBuilder(): Builder<Cast, CastBuilder>() {
             targetType = this.targetType,
             castedPart = this.castedPart
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = CastBuilder()
+    }
 }

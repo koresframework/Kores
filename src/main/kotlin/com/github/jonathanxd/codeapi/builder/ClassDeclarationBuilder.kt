@@ -66,7 +66,7 @@ class ClassDeclarationBuilder(): Builder<ClassDeclaration, ClassDeclarationBuild
     /**
      * See [ClassDeclaration.genericSignature]
      */
-    lateinit var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature
+    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
     /**
      * See [ClassDeclaration.outerClass]
@@ -104,6 +104,15 @@ class ClassDeclarationBuilder(): Builder<ClassDeclaration, ClassDeclarationBuild
 
 
     /**
+     * See [ClassDeclaration.implementations]
+     */
+    fun withImplementations(vararg values: com.github.jonathanxd.codeapi.type.CodeType): ClassDeclarationBuilder {
+        this.implementations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [ClassDeclaration.qualifiedName]
      */
     fun withQualifiedName(value: kotlin.String): ClassDeclarationBuilder {
@@ -122,6 +131,15 @@ class ClassDeclarationBuilder(): Builder<ClassDeclaration, ClassDeclarationBuild
 
 
     /**
+     * See [ClassDeclaration.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): ClassDeclarationBuilder {
+        this.annotations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [ClassDeclaration.body]
      */
     fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): ClassDeclarationBuilder {
@@ -135,6 +153,15 @@ class ClassDeclarationBuilder(): Builder<ClassDeclaration, ClassDeclarationBuild
      */
     fun withModifiers(value: kotlin.collections.Set<com.github.jonathanxd.codeapi.common.CodeModifier>): ClassDeclarationBuilder {
         this.modifiers = value
+        return this
+    }
+
+
+    /**
+     * See [ClassDeclaration.modifiers]
+     */
+    fun withModifiers(vararg values: com.github.jonathanxd.codeapi.common.CodeModifier): ClassDeclarationBuilder {
+        this.modifiers = values.toSet()
         return this
     }
 
@@ -166,4 +193,10 @@ class ClassDeclarationBuilder(): Builder<ClassDeclaration, ClassDeclarationBuild
             genericSignature = this.genericSignature,
             outerClass = this.outerClass
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = ClassDeclarationBuilder()
+    }
 }

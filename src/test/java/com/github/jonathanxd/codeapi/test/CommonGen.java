@@ -27,60 +27,106 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-/**
- * Created by jonathan on 18/05/16.
- */
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
+import com.github.jonathanxd.codeapi.util.ArrayToList;
+
+import java.lang.reflect.Modifier;
+import java.util.Collections;
+
+import kotlin.collections.CollectionsKt;
+
+import static com.github.jonathanxd.codeapi.literal.Literals.INT;
+import static com.github.jonathanxd.codeapi.literal.Literals.STRING;
+
 public class CommonGen {
-/*
+
     public static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
     public static CodeSource gen() {
         CodeArgument[] values = {
-                new CodeArgument(STRING("A"), PredefinedTypes.STRING), new CodeArgument(STRING("B"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("C"), PredefinedTypes.STRING), new CodeArgument(STRING("D"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("E"), PredefinedTypes.STRING)
+                new CodeArgument(STRING("A")), new CodeArgument(STRING("B")),
+                new CodeArgument(STRING("C")), new CodeArgument(STRING("D")),
+                new CodeArgument(STRING("E"))
         };
 
         CodeArgument[] values2 = {
-                new CodeArgument(STRING("F"), PredefinedTypes.STRING), new CodeArgument(STRING("G"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("H"), PredefinedTypes.STRING), new CodeArgument(STRING("I"), PredefinedTypes.STRING),
-                new CodeArgument(STRING("J"), PredefinedTypes.STRING)
+                new CodeArgument(STRING("F")), new CodeArgument(STRING("G")),
+                new CodeArgument(STRING("H")), new CodeArgument(STRING("I")),
+                new CodeArgument(STRING("J"))
         };
 
         CodeArgument[] values3 = {
-                new CodeArgument(INT(1), PredefinedTypes.INT)
+                new CodeArgument(INT(1))
         };
 
-        CodeClass codeClass = aClass(PUBLIC, name, source(
-                constructor(PUBLIC, source(
-                        new CodeField("array", PredefinedTypes.STRING.toArray(2),
-                                Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(2), INT(5)}, new CodeArgument[]{
-                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values), PredefinedTypes.STRING.toArray(1)),
-                                        argument(Helper.invokeArrayConstructor(PredefinedTypes.STRING, new CodePart[]{INT(5)}, values2), PredefinedTypes.STRING.toArray(1)),
-                                })),
-                        new CodeField("array2", PredefinedTypes.STRING.toArray(1), Helper.invokeArrayConstructor(PredefinedTypes.STRING.toArray(1), new CodePart[]{INT(0)}, new CodeArgument[]{})),
-                        new CodeField("array3", PredefinedTypes.OBJECT.toArray(1), Helper.invokeArrayConstructor(PredefinedTypes.OBJECT, new CodePart[]{INT(1)}, values3)),
+        LoadedCodeType<String[][]> stringArrayType = CodeAPI.getJavaType(String[][].class);
 
-                        Predefined.invokePrintln(new CodeArgument(
-                                Helper.accessArrayValue(PredefinedTypes.STRING.toArray(1),
-                                Helper.accessArrayValue(PredefinedTypes.STRING.toArray(2),
-                                        Helper.accessLocalVariable(
+        TypeDeclaration typeDeclaration = ClassFactory.aClass(null,
+                new Annotation[0],
+                Modifier.PUBLIC,
+                name,
+                GenericSignature.empty(),
+                PredefinedTypes.OBJECT,
+                new CodeType[0],
+                CodeAPI.sourceOfParts(
+                        ConstructorFactory.constructor(new Annotation[0], GenericSignature.empty(), Modifier.PUBLIC, new CodeParameter[0],
+                                CodeAPI.sourceOfParts(
+                                        FieldFactory.field(
+                                                new Annotation[0],
+                                                Modifier.PRIVATE,
+                                                stringArrayType,
                                                 "array",
-                                                PredefinedTypes.STRING.toArray(2)
+                                                CodeAPI.arrayConstruct(stringArrayType, new CodePart[]{INT(2), INT(5)},
+                                                        CollectionsKt.listOf(
+                                                                new CodeArgument(CodeAPI.arrayConstruct(PredefinedTypes.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values))),
+                                                                new CodeArgument(CodeAPI.arrayConstruct(PredefinedTypes.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values2)))
+                                                        )
+                                                )),
+
+                                        FieldFactory.field(new Annotation[0],
+                                                0,
+                                                PredefinedTypes.STRING.toArray(1),
+                                                "array2",
+                                                CodeAPI.arrayConstruct(PredefinedTypes.STRING.toArray(1), new CodePart[]{INT(0)}, Collections.emptyList())
                                         ),
-                                        INT(0),
-                                        PredefinedTypes.STRING.toArray(1)
-                                ),
-                                INT(0),
-                                PredefinedTypes.STRING),
-                                PredefinedTypes.STRING))
+
+                                        FieldFactory.field(new Annotation[0],
+                                                0,
+                                                PredefinedTypes.OBJECT.toArray(1),
+                                                "array3",
+                                                CodeAPI.arrayConstruct(PredefinedTypes.OBJECT, new CodePart[]{INT(1)}, ArrayToList.toList(values3))
+                                        ),
+
+                                        Predefined.invokePrintln(new CodeArgument(
+                                                CodeAPI.getArrayValue(PredefinedTypes.STRING.toArray(1),
+                                                        CodeAPI.getArrayValue(PredefinedTypes.STRING.toArray(2),
+                                                                CodeAPI.accessLocalVariable(
+                                                                        PredefinedTypes.STRING.toArray(2),
+                                                                        "array"
+                                                                ),
+                                                                INT(0)
+                                                        ),
+                                                        INT(0))))
 
 
-                ))
-        ));
+                                ))
+                ));
 
 
-        return sourceOfParts(codeClass);
+        return CodeAPI.sourceOfParts(typeDeclaration);
     }
-*/
 }

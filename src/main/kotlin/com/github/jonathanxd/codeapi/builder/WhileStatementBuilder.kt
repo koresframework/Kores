@@ -74,6 +74,15 @@ class WhileStatementBuilder(): Builder<WhileStatement, WhileStatementBuilder>() 
 
 
     /**
+     * See [WhileStatement.expressions]
+     */
+    fun withExpressions(vararg values: com.github.jonathanxd.codeapi.CodePart): WhileStatementBuilder {
+        this.expressions = values.toList()
+        return this
+    }
+
+
+    /**
      * See [WhileStatement.body]
      */
     fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): WhileStatementBuilder {
@@ -86,4 +95,10 @@ class WhileStatementBuilder(): Builder<WhileStatement, WhileStatementBuilder>() 
             expressions = this.expressions,
             body = this.body
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = WhileStatementBuilder()
+    }
 }

@@ -89,6 +89,15 @@ class AnnotationPropertyBuilder(): Builder<AnnotationProperty, AnnotationPropert
 
 
     /**
+     * See [AnnotationProperty.annotations]
+     */
+    fun withAnnotations(vararg values: com.github.jonathanxd.codeapi.base.Annotation): AnnotationPropertyBuilder {
+        this.annotations = values.toList()
+        return this
+    }
+
+
+    /**
      * See [AnnotationProperty.value]
      */
     fun withValue(value: kotlin.Any?): AnnotationPropertyBuilder {
@@ -102,4 +111,10 @@ class AnnotationPropertyBuilder(): Builder<AnnotationProperty, AnnotationPropert
             annotations = this.annotations,
             value = this.value
     )
+
+
+    companion object {
+        @JvmStatic
+        fun builder() = AnnotationPropertyBuilder()
+    }
 }
