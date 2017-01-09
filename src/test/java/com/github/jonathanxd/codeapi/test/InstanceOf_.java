@@ -27,9 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
@@ -42,8 +41,6 @@ import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
-
-import kotlin.collections.CollectionsKt;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
@@ -69,7 +66,7 @@ public class InstanceOf_ {
         VariableAccess paramAccess = accessLocalVariable(Object.class, "param");
 
         ClassDeclaration codeClass = ClassFactory.aClass(PUBLIC, "test.InstanceOf", sourceOfParts(
-                MethodFactory.method(STATIC | PUBLIC, "test", PredefinedTypes.VOID, new CodeParameter[]{parameter(Object.class, "param")},
+                MethodFactory.method(STATIC | PUBLIC, "test", Types.VOID, new CodeParameter[]{parameter(Object.class, "param")},
                         sourceOfParts(
                                 ifStatement(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
                                         sourceOfParts(
@@ -78,10 +75,10 @@ public class InstanceOf_ {
                                         sourceOfParts(
                                                 Predefined.invokePrintln(argument(STRING("Object is not String!")))
                                         )),
-                                field(PredefinedTypes.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
-                                field(PredefinedTypes.BOOLEAN, "b2", checkFalse(accessLocalVariable(PredefinedTypes.BOOLEAN, "b"))),
-                                field(PredefinedTypes.INTEGER_TYPE, "ab", invokeConstructor(PredefinedTypes.INTEGER_TYPE, new TypeSpec(PredefinedTypes.VOID, listOf(PredefinedTypes.INTEGER_TYPE)), listOf(argument(Literals.INT(9))))),
-                                field(PredefinedTypes.BOOLEAN, "b9", check(accessLocalVariable(PredefinedTypes.INTEGER_TYPE, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
+                                field(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
+                                field(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
+                                field(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INTEGER_WRAPPER)), listOf(argument(Literals.INT(9))))),
+                                field(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
 

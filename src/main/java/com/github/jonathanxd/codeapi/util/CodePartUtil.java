@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.Typed;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.literal.Literal;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.NullType;
@@ -50,7 +50,7 @@ public class CodePartUtil {
         }
 
         if (type.is(NullType.INSTANCE)) {
-            return PredefinedTypes.OBJECT;
+            return Types.OBJECT;
         }
 
         return type;

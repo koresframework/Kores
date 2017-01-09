@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.EnumDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder;
@@ -56,7 +56,7 @@ public class EnumTest_ {
                                 CodeAPI.methodBuilder()
                                         .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                                         .withAnnotations(CodeAPI.overrideAnnotation())
-                                        .withReturnType(PredefinedTypes.VOID)
+                                        .withReturnType(Types.VOID)
                                         .withName("v")
                                         .withBody(CodeAPI.sourceOfParts(
                                                 Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A")))
@@ -69,7 +69,7 @@ public class EnumTest_ {
                                         CodeAPI.methodBuilder()
                                                 .withModifiers(CodeModifier.PUBLIC)
                                                 .withAnnotations(CodeAPI.overrideAnnotation())
-                                                .withReturnType(PredefinedTypes.VOID)
+                                                .withReturnType(Types.VOID)
                                                 .withName("v")
                                                 .withBody(CodeAPI.sourceOfParts(
                                                         Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("B")))

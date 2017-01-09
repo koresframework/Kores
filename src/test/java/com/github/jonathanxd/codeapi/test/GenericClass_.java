@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
@@ -54,13 +54,13 @@ public class GenericClass_ {
 
         TypeDeclaration typeDeclaration = ClassFactory.aClass(PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
                 Generic.type(CodeAPI.getJavaType(List.class)).of("T")
-        )), PredefinedTypes.OBJECT, new CodeType[]{Generic.type(CodeAPI.getJavaType(List.class)).of("T")}, CodeAPI.sourceOfParts(
+        )), Types.OBJECT, new CodeType[]{Generic.type(CodeAPI.getJavaType(List.class)).of("T")}, CodeAPI.sourceOfParts(
                 MethodFactory.method(
                         GenericSignature.create(Generic.type("T").extends$(
-                                Generic.type(PredefinedTypes.LIST).of("T")
+                                Generic.type(Types.LIST).of("T")
                         )),
                         STATIC | PUBLIC,
-                        "test", PredefinedTypes.VOID, new CodeParameter[]{new CodeParameter(Generic.type("T"), "val")},
+                        "test", Types.VOID, new CodeParameter[]{new CodeParameter(Generic.type("T"), "val")},
                         CodeAPI.sourceOfParts(
                                 FieldFactory.field(Generic.type("T"), "fieldi", Literals.NULL)
                         )),

@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.IfExpr
 import com.github.jonathanxd.codeapi.base.impl.IfExprImpl
 import com.github.jonathanxd.codeapi.operator.Operator
@@ -52,7 +52,7 @@ class IfExpressionHelper private constructor() {
     fun checkObjectEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
         return this.checkTrue(
                 CodeAPI.invokeVirtual(Any::class.java, part1, "equals",
-                        CodeAPI.typeSpec(PredefinedTypes.BOOLEAN, PredefinedTypes.OBJECT),
+                        CodeAPI.typeSpec(Types.BOOLEAN, Types.OBJECT),
                         listOf(CodeAPI.argument(part2)))
         )
     }

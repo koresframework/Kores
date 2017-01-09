@@ -30,7 +30,7 @@
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
@@ -58,7 +58,7 @@ fun aClass(modifiers: Int = 0,
 
 fun aClass(modifiers: Int = 0,
            qualifiedName: String,
-           superType: CodeType = PredefinedTypes.OBJECT,
+           superType: CodeType = Types.OBJECT,
            implementations: Array<CodeType> = emptyArray(),
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
     // Select correct method
@@ -76,7 +76,7 @@ fun aClass(annotations: Array<Annotation> = emptyArray(),
            modifiers: Int = 0,
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
-           superType: CodeType = PredefinedTypes.OBJECT,
+           superType: CodeType = Types.OBJECT,
            implementations: Array<CodeType> = emptyArray(),
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
     return aClass(
@@ -94,7 +94,7 @@ fun aClass(annotations: Array<Annotation> = emptyArray(),
 fun aClass(modifiers: Int = 0,
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
-           superType: CodeType = PredefinedTypes.OBJECT,
+           superType: CodeType = Types.OBJECT,
            implementations: Array<CodeType> = emptyArray(),
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
     // Select correct method
@@ -117,7 +117,7 @@ fun aClass(outerClass: CodeType? = null,
            modifiers: Int = 0,
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
-           superType: CodeType = PredefinedTypes.OBJECT,
+           superType: CodeType = Types.OBJECT,
            implementations: Array<CodeType> = emptyArray(),
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
     return ClassDeclarationImpl(

@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 
@@ -57,7 +57,7 @@ interface StaticBlock : ConstructorDeclaration {
     companion object Constants {
         val NAME = "<clinit>"
         val MODIFIERS = setOf(CodeModifier.STATIC)
-        val RETURN_TYPE = PredefinedTypes.VOID
+        val RETURN_TYPE = Types.VOID
 
     }
 }

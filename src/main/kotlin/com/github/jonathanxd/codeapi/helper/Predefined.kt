@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.InvokeType
@@ -40,13 +40,13 @@ import java.util.*
 object Predefined {
     @JvmStatic
     fun toString(part: CodePart): MethodInvocation {
-        return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(PredefinedTypes.STRING), emptyList<CodeArgument>())
+        return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList<CodeArgument>())
     }
 
     @JvmStatic
     fun intToString(part: CodePart): MethodInvocation {
         return CodeAPI.invokeStatic(String::class.java, "valueOf",
-                TypeSpec(PredefinedTypes.STRING, listOf(PredefinedTypes.INT)),
+                TypeSpec(Types.STRING, listOf(Types.INT)),
                 listOf(CodeAPI.argument(part)))
     }
 
@@ -54,7 +54,7 @@ object Predefined {
     fun invokePrintln(vararg arguments: CodeArgument): MethodInvocation {
         return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
                 CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
-                "println", TypeSpec(PredefinedTypes.VOID), Arrays.asList(*arguments))
+                "println", TypeSpec(Types.VOID), Arrays.asList(*arguments))
     }
 
     @JvmStatic
@@ -63,7 +63,7 @@ object Predefined {
                 PrintStream::class.java,
                 CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
                 "println",
-                CodeAPI.typeSpec(PredefinedTypes.VOID, PredefinedTypes.STRING),
+                CodeAPI.typeSpec(Types.VOID, Types.STRING),
                 listOf(CodeAPI.argument(part)))
     }
 }

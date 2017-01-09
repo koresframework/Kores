@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
@@ -65,16 +65,16 @@ public class InnerClassTest_ {
                 PUBLIC,
                 "Inner",
                 GenericSignature.empty(),
-                PredefinedTypes.OBJECT,
+                Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.source(
                 FieldFactory.field(PUBLIC, codeClass, "a",
                         CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(new CodeArgument(Literals.STRING("Hello"))))),
-                MethodFactory.method(PRIVATE, "call", PredefinedTypes.STRING, CodeAPI.source(
+                MethodFactory.method(PRIVATE, "call", Types.STRING, CodeAPI.source(
                         Predefined.invokePrintln(new CodeArgument(
-                                CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), PredefinedTypes.STRING, "field")
+                                CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), Types.STRING, "field")
                         )),
-                        CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(PredefinedTypes.VOID), Collections.emptyList()),
+                        CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(Types.VOID), Collections.emptyList()),
                         CodeAPI.returnValue(String.class, Literals.STRING("A"))
                 ))
         ));
@@ -98,7 +98,7 @@ public class InnerClassTest_ {
                         CodeAPI.source(
                                 Predefined.invokePrintln(CodeAPI.argument(CodeAPI.accessLocalVariable(String.class, "str")))
                         )),
-                MethodFactory.method(PUBLIC, "mm", PredefinedTypes.VOID, CodeAPI.sourceOfParts(
+                MethodFactory.method(PUBLIC, "mm", Types.VOID, CodeAPI.sourceOfParts(
                         Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A")))
                 )),
                 inner

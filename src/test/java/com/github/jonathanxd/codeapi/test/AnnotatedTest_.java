@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder;
@@ -79,9 +79,9 @@ public class AnnotatedTest_ {
                                 .withAnnotations(listOf(visibleAnnotation(plainCodeType)))
                                 .withGenericSignature(GenericSignature.empty())
                                 .withName("polymorphic")
-                                .withReturnType(PredefinedTypes.OBJECT)
-                                .withParameters(listOf(new CodeParameter(PredefinedTypes.OBJECT, "first", listOf(visibleAnnotation(getJavaType(Deprecated.class))))))
-                                .withBody(sourceOfParts(CodeAPI.returnValue(PredefinedTypes.OBJECT, Literals.NULL)))
+                                .withReturnType(Types.OBJECT)
+                                .withParameters(listOf(new CodeParameter(Types.OBJECT, "first", listOf(visibleAnnotation(getJavaType(Deprecated.class))))))
+                                .withBody(sourceOfParts(CodeAPI.returnValue(Types.OBJECT, Literals.NULL)))
                                 .build(),
                         new FieldDeclarationBuilder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
@@ -89,7 +89,7 @@ public class AnnotatedTest_ {
                                         values("value", new Object[]{
                                                 enumValue(MyEnum.class, "A")
                                         }))))
-                                .withVariableType(PredefinedTypes.STRING)
+                                .withVariableType(Types.STRING)
                                 .withName("field")
                                 .withValue(Literals.NULL)
                                 .build()

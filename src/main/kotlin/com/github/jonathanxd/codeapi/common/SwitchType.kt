@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.base.SwitchStatement
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.base.impl.SwitchStatementImpl
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.sugar.Generator
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import java.util.Objects
@@ -88,7 +88,7 @@ interface SwitchType : PartProcessor, SugarSyntax<SwitchStatement, SwitchStateme
         }
 
         private fun <R : Typed> checkType(typed: R): R {
-            if (!typed.type!!.`is`(PredefinedTypes.INT)) {
+            if (!typed.type!!.`is`(Types.INT)) {
                 throw IllegalArgumentException("Translated switch is not a numeric switch!")
             }
 

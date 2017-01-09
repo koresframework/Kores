@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
@@ -56,7 +56,7 @@ public class TryWithResourcesTest_ {
         TryWithResources tryWithResources = CodeAPI.tryWithResources(
                 FieldFactory.field(TRM_TYPE, "trm", CodeAPI.invokeConstructor(TRM_TYPE)),
                 CodeAPI.source(
-                        CodeAPI.invokeVirtual(TRM_TYPE, CodeAPI.accessLocalVariable(TRM_TYPE, "trm"), "read", new TypeSpec(PredefinedTypes.VOID), Collections.emptyList())
+                        CodeAPI.invokeVirtual(TRM_TYPE, CodeAPI.accessLocalVariable(TRM_TYPE, "trm"), "read", new TypeSpec(Types.VOID), Collections.emptyList())
                 )
         );
 

@@ -126,7 +126,6 @@ import com.github.jonathanxd.codeapi.type.JavaType;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
-import com.github.jonathanxd.codeapi.util.Modifiers;
 import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
 import java.util.ArrayList;
@@ -820,7 +819,7 @@ public final class CodeAPI {
      * @return Invocation of constructor of {@code type}.
      */
     public static MethodInvocation invokeConstructor(Class<?> type) {
-        return invokeConstructor__factory(CodeAPI.getJavaType(type), new TypeSpec(PredefinedTypes.VOID), Collections.emptyList());
+        return invokeConstructor__factory(CodeAPI.getJavaType(type), new TypeSpec(Types.VOID), Collections.emptyList());
     }
 
     /**
@@ -1248,7 +1247,7 @@ public final class CodeAPI {
     // =========================================================
 
     public static Annotation overrideAnnotation() {
-        return CodeAPI.annotation(PredefinedTypes.OVERRIDE);
+        return CodeAPI.annotation(Types.OVERRIDE);
     }
 
     // CodeType
@@ -1518,7 +1517,7 @@ public final class CodeAPI {
      * @return Specification of a signature.
      */
     public static TypeSpec constructorTypeSpec(CodeType... parameterTypes) {
-        return typeSpec__factory(PredefinedTypes.VOID, parameterTypes);
+        return typeSpec__factory(Types.VOID, parameterTypes);
     }
 
     // Class
@@ -1551,7 +1550,7 @@ public final class CodeAPI {
      * @return Specification of a signature.
      */
     public static TypeSpec constructorTypeSpec(Class<?>... parameterTypes) {
-        return typeSpec__factory(PredefinedTypes.VOID, toCodeType(parameterTypes));
+        return typeSpec__factory(Types.VOID, toCodeType(parameterTypes));
     }
 
     // Factory
@@ -2325,7 +2324,7 @@ public final class CodeAPI {
 
         CodeType currentReturnType = current.getReturnType();
 
-        boolean return_ = !currentReturnType.is(PredefinedTypes.VOID);
+        boolean return_ = !currentReturnType.is(Types.VOID);
 
         List<CodeParameter> codeParameters = new ArrayList<>();
         List<CodeArgument> codeArguments = new ArrayList<>();

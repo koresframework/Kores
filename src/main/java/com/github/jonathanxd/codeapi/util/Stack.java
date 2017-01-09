@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.literal.Literal;
 
 /**
@@ -40,6 +40,6 @@ public class Stack extends Literal {
     public static final Stack INSTANCE = new Stack();
 
     private Stack() {
-        super("stack", PredefinedTypes.OBJECT);
+        super("stack", Types.OBJECT);
     }
 }

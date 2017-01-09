@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
@@ -54,8 +54,8 @@ public class ForEach_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode(), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode());
-        Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING));
+        Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING).hashCode(), Generic.type(Types.LIST).of(Types.STRING).hashCode());
+        Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING), Generic.type(Types.LIST).of(Types.STRING));
 
         ClassDeclaration classDeclaration = ClassFactory.aClass(
                 null,
@@ -63,18 +63,18 @@ public class ForEach_ {
                 Modifier.PUBLIC,
                 "com.ForEach",
                 GenericSignature.empty(),
-                PredefinedTypes.OBJECT,
+                Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.source(
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
                                 Modifier.PUBLIC,
-                                new CodeParameter[]{new CodeParameter(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), "strList")},
+                                new CodeParameter[]{new CodeParameter(Generic.type(Types.LIST).of(Types.STRING), "strList")},
                                 CodeAPI.source(
-                                        CodeAPI.forEachIterable(FieldFactory.field(PredefinedTypes.STRING, "str"),
+                                        CodeAPI.forEachIterable(FieldFactory.field(Types.STRING, "str"),
                                                 CodeAPI.accessLocalVariable(
-                                                        Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING),
+                                                        Generic.type(Types.LIST).of(Types.STRING),
                                                         "strList"),
                                                 CodeAPI.source(
                                                         Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))

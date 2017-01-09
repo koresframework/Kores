@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
@@ -49,10 +49,10 @@ public class AnnotationTest_ {
         AnnotationDeclaration build = new AnnotationDeclarationBuilder()
                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyAnnotation")
-                .withProperties(CollectionsKt.listOf(new AnnotationPropertyImpl(PredefinedTypes.STRING, "value", Collections.emptyList(), null),
-                        new AnnotationPropertyImpl(PredefinedTypes.STRING, "id", Collections.emptyList(), "A"),
-                        new AnnotationPropertyImpl(PredefinedTypes.STRING.toArray(1), "names", Collections.emptyList(), new String[]{"A", "B"}),
-                        new AnnotationPropertyImpl(PredefinedTypes.INT.toArray(1), "ns", Collections.emptyList(), new int[]{1, 2})))
+                .withProperties(CollectionsKt.listOf(new AnnotationPropertyImpl(Types.STRING, "value", Collections.emptyList(), null),
+                        new AnnotationPropertyImpl(Types.STRING, "id", Collections.emptyList(), "A"),
+                        new AnnotationPropertyImpl(Types.STRING.toArray(1), "names", Collections.emptyList(), new String[]{"A", "B"}),
+                        new AnnotationPropertyImpl(Types.INT.toArray(1), "ns", Collections.emptyList(), new int[]{1, 2})))
                 .build();
 
         return Pair.of(build, CodeAPI.sourceOfParts(build));

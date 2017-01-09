@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
@@ -80,7 +80,7 @@ public class CommonGen {
                 Modifier.PUBLIC,
                 name,
                 GenericSignature.empty(),
-                PredefinedTypes.OBJECT,
+                Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.sourceOfParts(
                         ConstructorFactory.constructor(new Annotation[0], GenericSignature.empty(), Modifier.PUBLIC, new CodeParameter[0],
@@ -92,30 +92,30 @@ public class CommonGen {
                                                 "array",
                                                 CodeAPI.arrayConstruct(stringArrayType, new CodePart[]{INT(2), INT(5)},
                                                         CollectionsKt.listOf(
-                                                                new CodeArgument(CodeAPI.arrayConstruct(PredefinedTypes.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values))),
-                                                                new CodeArgument(CodeAPI.arrayConstruct(PredefinedTypes.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values2)))
+                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values))),
+                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values2)))
                                                         )
                                                 )),
 
                                         FieldFactory.field(new Annotation[0],
                                                 0,
-                                                PredefinedTypes.STRING.toArray(1),
+                                                Types.STRING.toArray(1),
                                                 "array2",
-                                                CodeAPI.arrayConstruct(PredefinedTypes.STRING.toArray(1), new CodePart[]{INT(0)}, Collections.emptyList())
+                                                CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(0)}, Collections.emptyList())
                                         ),
 
                                         FieldFactory.field(new Annotation[0],
                                                 0,
-                                                PredefinedTypes.OBJECT.toArray(1),
+                                                Types.OBJECT.toArray(1),
                                                 "array3",
-                                                CodeAPI.arrayConstruct(PredefinedTypes.OBJECT, new CodePart[]{INT(1)}, ArrayToList.toList(values3))
+                                                CodeAPI.arrayConstruct(Types.OBJECT, new CodePart[]{INT(1)}, ArrayToList.toList(values3))
                                         ),
 
                                         Predefined.invokePrintln(new CodeArgument(
-                                                CodeAPI.getArrayValue(PredefinedTypes.STRING.toArray(1),
-                                                        CodeAPI.getArrayValue(PredefinedTypes.STRING.toArray(2),
+                                                CodeAPI.getArrayValue(Types.STRING.toArray(1),
+                                                        CodeAPI.getArrayValue(Types.STRING.toArray(2),
                                                                 CodeAPI.accessLocalVariable(
-                                                                        PredefinedTypes.STRING.toArray(2),
+                                                                        Types.STRING.toArray(2),
                                                                         "array"
                                                                 ),
                                                                 INT(0)

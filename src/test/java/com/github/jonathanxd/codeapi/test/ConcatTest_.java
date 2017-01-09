@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -53,7 +53,7 @@ public class ConcatTest_ {
                 Modifier.PUBLIC,
                 "com.ConcatTest",
                 GenericSignature.empty(),
-                PredefinedTypes.OBJECT,
+                Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.source(
                         ConstructorFactory.constructor(

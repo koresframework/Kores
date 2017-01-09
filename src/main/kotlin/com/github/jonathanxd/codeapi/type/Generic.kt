@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.GenericType.Bound
@@ -122,7 +122,7 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
         } else {
             if (bounds.isEmpty()) {
                 this.definedCodeType = null
-                this.codeType = PredefinedTypes.OBJECT
+                this.codeType = Types.OBJECT
             } else {
                 this.codeType = bounds[0].type
                 this.definedCodeType = this.codeType

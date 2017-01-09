@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder;
@@ -57,7 +57,7 @@ public class MethodFragment_ {
         MutableCodeSource source = new MutableCodeSource();
 
         ClassDeclaration classDeclaration = ClassFactory.aClass(PUBLIC, "com.MethodFragment", sourceOfParts(
-                MethodFactory.method(STATIC | PUBLIC, "test", PredefinedTypes.VOID,
+                MethodFactory.method(STATIC | PUBLIC, "test", Types.VOID,
                         source),
                 FieldFactory.field(PUBLIC, Generic.type("T"), "test")
         ));
@@ -67,11 +67,11 @@ public class MethodFragment_ {
                         MethodFragmentBuilder.builder()
                                 .withDeclaringType(classDeclaration)
                                 .withScope(Scope.STATIC)
-                                .withDescription(new TypeSpec(PredefinedTypes.STRING, listOf(PredefinedTypes.STRING)))
+                                .withDescription(new TypeSpec(Types.STRING, listOf(Types.STRING)))
                                 .withParameters(CodeAPI.parameter(String.class, "input"))
                                 .withArguments(CodeAPI.argument(Literals.STRING("BOB")))
                                 .withBody(CodeAPI.sourceOfParts(
-                                        CodeAPI.returnValue(PredefinedTypes.STRING, CodeAPI.accessLocalVariable(String.class, "input"))
+                                        CodeAPI.returnValue(Types.STRING, CodeAPI.accessLocalVariable(String.class, "input"))
                                 ))
                                 .build()
                 ))

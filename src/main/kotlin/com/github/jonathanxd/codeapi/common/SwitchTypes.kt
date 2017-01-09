@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
 import com.github.jonathanxd.codeapi.builder.CaseBuilder
 import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.EnumTypeUtil
@@ -68,17 +68,17 @@ object SwitchTypes {
 
         private fun autoUnboxing(part: Typed, type: CodeType): Typed {
             if (!type.isPrimitive) {
-                return CastImpl(type, PredefinedTypes.INT, part)
+                return CastImpl(type, Types.INT, part)
             }
 
             return part
         }
 
         private fun isAcceptable(type: CodeType?): Boolean {
-            return type != null && (type.`is`(PredefinedTypes.CHAR)
-                    || type.`is`(PredefinedTypes.BYTE)
-                    || type.`is`(PredefinedTypes.SHORT)
-                    || type.`is`(PredefinedTypes.INT)
+            return type != null && (type.`is`(Types.CHAR)
+                    || type.`is`(Types.BYTE)
+                    || type.`is`(Types.SHORT)
+                    || type.`is`(Types.INT)
                     || !type.isPrimitive && isAcceptable(type.primitiveType))
         }
 
@@ -106,7 +106,7 @@ object SwitchTypes {
             if (aCase.isDefault)
                 return aCase
 
-            if (aCase.type!!.`is`(PredefinedTypes.INT))
+            if (aCase.type!!.`is`(Types.INT))
                 return aCase
 
             return CaseBuilder(aCase).withValue(Literals.INT(EnumTypeUtil.resolve(aCase.value, aSwitch))).build()
@@ -116,14 +116,14 @@ object SwitchTypes {
         private fun translate(aSwitch: SwitchStatement): SwitchStatement {
             return SwitchStatementBuilder(aSwitch).withValue(
                     MethodInvocationImpl(
-                            localization = PredefinedTypes.OBJECT,
+                            localization = Types.OBJECT,
                             invokeType = InvokeType.INVOKE_VIRTUAL,
                             target = aSwitch.value,
                             invokeDynamic = null,
                             arguments = emptyList(),
                             spec = MethodSpecificationImpl(
                                     methodName = "hashCode",
-                                    description = TypeSpec(PredefinedTypes.INT),
+                                    description = TypeSpec(Types.INT),
                                     methodType = MethodType.METHOD
                             )
 
@@ -149,14 +149,14 @@ object SwitchTypes {
             return SwitchStatementBuilder(aSwitch)
                     .withValue(
                             MethodInvocationImpl(
-                                    localization = PredefinedTypes.ENUM,
+                                    localization = Types.ENUM,
                                     invokeType = InvokeType.INVOKE_VIRTUAL,
                                     target = aSwitch.value,
                                     invokeDynamic = null,
                                     arguments = emptyList(),
                                     spec = MethodSpecificationImpl(
                                             methodName = "ordinal",
-                                            description = TypeSpec(PredefinedTypes.INT),
+                                            description = TypeSpec(Types.INT),
                                             methodType = MethodType.METHOD
                                     )
 

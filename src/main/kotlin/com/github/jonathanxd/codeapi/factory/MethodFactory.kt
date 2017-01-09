@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
@@ -45,7 +45,7 @@ import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 fun method(genericSignature: GenericSignature = GenericSignature.empty(),
            modifiers: Int = 0,
            name: String,
-           returnType: CodeType = PredefinedTypes.VOID,
+           returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource? = null): MethodDeclaration {
 
@@ -63,7 +63,7 @@ fun method(genericSignature: GenericSignature = GenericSignature.empty(),
 
 fun method(modifiers: Int = 0,
            name: String,
-           returnType: CodeType = PredefinedTypes.VOID,
+           returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource? = null): MethodDeclaration {
 
@@ -80,7 +80,7 @@ fun method(modifiers: Int = 0,
 
 fun method(modifiers: Int = 0,
            name: String,
-           returnType: CodeType = PredefinedTypes.VOID,
+           returnType: CodeType = Types.VOID,
            source: CodeSource? = null): MethodDeclaration {
 
     // Select correct method
@@ -100,7 +100,7 @@ fun method(annotations: Array<Annotation> = emptyArray(),
            genericSignature: GenericSignature = GenericSignature.empty(),
            modifiers: Int = 0,
            name: String,
-           returnType: CodeType = PredefinedTypes.VOID,
+           returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource? = null): MethodDeclaration {
     return MethodDeclarationImpl(

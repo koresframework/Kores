@@ -44,8 +44,8 @@ import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.emptyMutableSource;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.PredefinedTypes.STRING;
-import static com.github.jonathanxd.codeapi.PredefinedTypes.VOID;
+import static com.github.jonathanxd.codeapi.Types.STRING;
+import static com.github.jonathanxd.codeapi.Types.VOID;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static kotlin.collections.CollectionsKt.listOf;
 

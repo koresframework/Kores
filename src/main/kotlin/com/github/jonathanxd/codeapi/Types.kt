@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.type.JavaType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
 import java.util.*
 
-object PredefinedTypes {
+object Types {
 
 
     // Java.Lang
@@ -64,15 +64,15 @@ object PredefinedTypes {
     @JvmField val CHAR: LoadedCodeType<Char> = PredefinedType(Character.TYPE)
     @JvmField val BOOLEAN: LoadedCodeType<Boolean> = PredefinedType(java.lang.Boolean.TYPE)
 
-    // Primitive Type
-    @JvmField val BYTE_TYPE: LoadedCodeType<Byte> = PredefinedType(Byte::class.java)
-    @JvmField val SHORT_TYPE: LoadedCodeType<Short> = PredefinedType(Short::class.java)
-    @JvmField val INTEGER_TYPE: LoadedCodeType<Int> = PredefinedType(Int::class.java)
-    @JvmField val FLOAT_TYPE: LoadedCodeType<Float> = PredefinedType(Float::class.java)
-    @JvmField val DOUBLE_TYPE: LoadedCodeType<Double> = PredefinedType(Double::class.java)
-    @JvmField val LONG_TYPE: LoadedCodeType<Long> = PredefinedType(Long::class.java)
-    @JvmField val CHARACTER_TYPE: LoadedCodeType<Char> = PredefinedType(Char::class.java)
-    @JvmField val BOOLEAN_TYPE: LoadedCodeType<Boolean> = PredefinedType(Boolean::class.java)
+    // Primitive Wrapper Types
+    @JvmField val BYTE_WRAPPER: LoadedCodeType<Byte> = PredefinedType(Byte::class.javaObjectType)
+    @JvmField val SHORT_WRAPPER: LoadedCodeType<Short> = PredefinedType(Short::class.javaObjectType)
+    @JvmField val INTEGER_WRAPPER: LoadedCodeType<Int> = PredefinedType(Int::class.javaObjectType)
+    @JvmField val FLOAT_WRAPPER: LoadedCodeType<Float> = PredefinedType(Float::class.javaObjectType)
+    @JvmField val DOUBLE_WRAPPER: LoadedCodeType<Double> = PredefinedType(Double::class.javaObjectType)
+    @JvmField val LONG_WRAPPER: LoadedCodeType<Long> = PredefinedType(Long::class.javaObjectType)
+    @JvmField val CHARACTER_WRAPPER: LoadedCodeType<Char> = PredefinedType(Char::class.javaObjectType)
+    @JvmField val BOOLEAN_WRAPPER: LoadedCodeType<Boolean> = PredefinedType(Boolean::class.javaObjectType)
 
     // Java.Util
     @JvmField val ITERABLE: LoadedCodeType<Iterable<*>> = PredefinedType(Iterable::class.java)

@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.util.CodePartUtil
@@ -64,7 +64,7 @@ object IterationTypes {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = "\$index#" + (++indexFields)
-                val indexFieldDecl = HiddenField(fieldName, PredefinedTypes.INT, Literals.INT(0))
+                val indexFieldDecl = HiddenField(fieldName, Types.INT, Literals.INT(0))
                 val accessIndex = VariableAccessImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,
@@ -129,7 +129,7 @@ object IterationTypes {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = "\$iter#" + (++iterFields)
-                val iterFieldDecl = HiddenField(fieldName, PredefinedTypes.ITERATOR, Literals.INT(0))
+                val iterFieldDecl = HiddenField(fieldName, Types.ITERATOR, Literals.INT(0))
                 val accessIter = VariableAccessImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,
@@ -139,14 +139,14 @@ object IterationTypes {
 
                 // Iterator.hasNext()Z
                 val hasNext = MethodInvocationImpl(
-                        localization = PredefinedTypes.ITERATOR,
+                        localization = Types.ITERATOR,
                         invokeType = InvokeType.INVOKE_INTERFACE,
                         target = accessIter,
                         invokeDynamic = null,
                         arguments = emptyList(),
                         spec = MethodSpecificationImpl(
                                 methodName = "hasNext",
-                                description = TypeSpec(PredefinedTypes.BOOLEAN),
+                                description = TypeSpec(Types.BOOLEAN),
                                 methodType = MethodType.METHOD
                         )
                 )
@@ -163,14 +163,14 @@ object IterationTypes {
 
                 // Iterator.next()Ljava/lang/Object;
                 val next = MethodInvocationImpl(
-                        localization = PredefinedTypes.ITERATOR,
+                        localization = Types.ITERATOR,
                         invokeType = InvokeType.INVOKE_INTERFACE,
                         target = accessIter,
                         arguments = emptyList(),
                         invokeDynamic = null,
                         spec = MethodSpecificationImpl(
                                 methodName = "next",
-                                description = TypeSpec(PredefinedTypes.OBJECT),
+                                description = TypeSpec(Types.OBJECT),
                                 methodType = MethodType.METHOD
                         )
                 )
@@ -182,7 +182,7 @@ object IterationTypes {
                         name = field.name,
                         variableType = field.variableType,
                         value = CastImpl(
-                                originalType = PredefinedTypes.OBJECT,
+                                originalType = Types.OBJECT,
                                 castedPart = next,
                                 targetType = field.variableType
                         )

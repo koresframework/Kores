@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -39,6 +39,6 @@ interface ConstructorDeclaration : MethodDeclaration {
         get() = "<init>"
 
     override val returnType: CodeType
-        get() = PredefinedTypes.VOID
+        get() = Types.VOID
 
 }

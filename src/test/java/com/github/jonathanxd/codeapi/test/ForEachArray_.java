@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
@@ -57,19 +57,19 @@ public class ForEachArray_ {
                 PUBLIC,
                 "com.ForEach",
                 GenericSignature.empty(),
-                PredefinedTypes.OBJECT,
+                Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.sourceOfParts(
-                        FieldFactory.field(new Annotation[0], PUBLIC | STATIC, PredefinedTypes.STRING, "stra", Literals.STRING("XA")),
+                        FieldFactory.field(new Annotation[0], PUBLIC | STATIC, Types.STRING, "stra", Literals.STRING("XA")),
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
                                 PUBLIC,
-                                new CodeParameter[]{new CodeParameter(PredefinedTypes.STRING.toArray(1), "strArray")},
+                                new CodeParameter[]{new CodeParameter(Types.STRING.toArray(1), "strArray")},
                                 CodeAPI.sourceOfParts(
-                                        FieldFactory.field(PredefinedTypes.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
-                                        CodeAPI.forEachArray(FieldFactory.field(PredefinedTypes.STRING, "str"),
-                                                CodeAPI.accessLocalVariable(PredefinedTypes.STRING.toArray(1), "strArray"),
+                                        FieldFactory.field(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
+                                        CodeAPI.forEachArray(FieldFactory.field(Types.STRING, "str"),
+                                                CodeAPI.accessLocalVariable(Types.STRING.toArray(1), "strArray"),
                                                 CodeAPI.source(
                                                         Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))
                                                 ))

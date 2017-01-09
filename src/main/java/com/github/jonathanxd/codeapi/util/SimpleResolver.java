@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.type.CodeType;
 
 public class SimpleResolver implements TypeResolver {
@@ -43,26 +43,26 @@ public class SimpleResolver implements TypeResolver {
 
     @Override
     public CodeType resolve(String name, boolean isInterface) {
-        if (name.equals(PredefinedTypes.BYTE.getJavaSpecName())) {
-            return PredefinedTypes.BYTE;
-        } else if (name.equals(PredefinedTypes.SHORT.getJavaSpecName())) {
-            return PredefinedTypes.SHORT;
-        } else if (name.equals(PredefinedTypes.INT.getJavaSpecName())) {
-            return PredefinedTypes.INT;
-        } else if (name.equals(PredefinedTypes.FLOAT.getJavaSpecName())) {
-            return PredefinedTypes.FLOAT;
-        } else if (name.equals(PredefinedTypes.DOUBLE.getJavaSpecName())) {
-            return PredefinedTypes.DOUBLE;
-        } else if (name.equals(PredefinedTypes.LONG.getJavaSpecName())) {
-            return PredefinedTypes.LONG;
-        } else if (name.equals(PredefinedTypes.CHAR.getJavaSpecName())) {
-            return PredefinedTypes.CHAR;
-        } else if (name.equals(PredefinedTypes.STRING.getJavaSpecName())) {
-            return PredefinedTypes.STRING;
-        } else if (name.equals(PredefinedTypes.BOOLEAN.getJavaSpecName())) {
-            return PredefinedTypes.BOOLEAN;
-        } else if (name.equals(PredefinedTypes.VOID.getJavaSpecName())) {
-            return PredefinedTypes.VOID;
+        if (name.equals(Types.BYTE.getJavaSpecName())) {
+            return Types.BYTE;
+        } else if (name.equals(Types.SHORT.getJavaSpecName())) {
+            return Types.SHORT;
+        } else if (name.equals(Types.INT.getJavaSpecName())) {
+            return Types.INT;
+        } else if (name.equals(Types.FLOAT.getJavaSpecName())) {
+            return Types.FLOAT;
+        } else if (name.equals(Types.DOUBLE.getJavaSpecName())) {
+            return Types.DOUBLE;
+        } else if (name.equals(Types.LONG.getJavaSpecName())) {
+            return Types.LONG;
+        } else if (name.equals(Types.CHAR.getJavaSpecName())) {
+            return Types.CHAR;
+        } else if (name.equals(Types.STRING.getJavaSpecName())) {
+            return Types.STRING;
+        } else if (name.equals(Types.BOOLEAN.getJavaSpecName())) {
+            return Types.BOOLEAN;
+        } else if (name.equals(Types.VOID.getJavaSpecName())) {
+            return Types.VOID;
         }
 
         name = name.replace('/', '.');

@@ -46,10 +46,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Created by jonathan on 25/07/16.
- */
-
-/**
  * Utility for mutable CodeSources
  */
 public class CodeSourceUtil {

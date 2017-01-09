@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -39,7 +39,7 @@ interface TryStatement : BodyHolder, Typed {
     override val type: CodeType?
         get() {
             if (catchStatements.isEmpty() || catchStatements.size > 1)
-                return PredefinedTypes.THROWABLE
+                return Types.THROWABLE
             else
                 return catchStatements.first().variable.type
         }

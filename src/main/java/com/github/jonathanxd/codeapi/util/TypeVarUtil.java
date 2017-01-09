@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.util;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.PredefinedTypes;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
@@ -84,7 +84,7 @@ public class TypeVarUtil {
             } else {
                 Class<?> inferredType = com.github.jonathanxd.iutils.type.TypeUtil.from(variable);
 
-                return inferredType == null ? PredefinedTypes.OBJECT : CodeAPI.getJavaType(inferredType);
+                return inferredType == null ? Types.OBJECT : CodeAPI.getJavaType(inferredType);
             }
 
         }
@@ -101,7 +101,7 @@ public class TypeVarUtil {
             } else {
                 Class<?> inferredType = com.github.jonathanxd.iutils.type.TypeUtil.from(variable);
 
-                return inferredType == null ? PredefinedTypes.OBJECT : CodeAPI.getJavaType(inferredType);
+                return inferredType == null ? Types.OBJECT : CodeAPI.getJavaType(inferredType);
             }
 
         }
@@ -289,7 +289,7 @@ public class TypeVarUtil {
         public static GenericJavaType fromBound(GenericType.Bound<CodeType> bound) {
             CodeType type;
             if (bound.getSign().equals("*")) {
-                type = PredefinedTypes.OBJECT;
+                type = Types.OBJECT;
             } else {
                 type = bound.getType();
             }

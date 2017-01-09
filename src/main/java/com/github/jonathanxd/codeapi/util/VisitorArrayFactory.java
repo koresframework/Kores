@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.gen.visit.Visitor;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
 import com.github.jonathanxd.iutils.type.TypeInfo;
 import com.github.jonathanxd.iutils.type.TypeUtil;
 
@@ -39,9 +39,9 @@ public final class VisitorArrayFactory {
 
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] factory(Visitor<?, T, ?> instance) {
-        Class<? extends Visitor> aClass = instance.getClass();
-        TypeInfo<?> resolve = TypeUtil.resolve(aClass, Visitor.class);
+    public static <T> T[] factory(VoidVisitor<?, T, ?> instance) {
+        Class<? extends VoidVisitor> aClass = instance.getClass();
+        TypeInfo<?> resolve = TypeUtil.resolve(aClass, VoidVisitor.class);
 
         //                                  T
         Class tClass = resolve.getRelated()[1].getAClass();

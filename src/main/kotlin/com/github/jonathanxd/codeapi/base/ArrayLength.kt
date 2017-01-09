@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.PredefinedTypes
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -42,5 +42,5 @@ interface ArrayLength : ArrayAccess, Typed {
     override val target: CodePart
 
     override val type: CodeType?
-        get() = PredefinedTypes.INT
+        get() = Types.INT
 }
