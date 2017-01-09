@@ -1,138 +1,22 @@
-plugins {
-    id 'com.github.hierynomus.license' version '0.11.0'
-    id 'com.github.johnrengelman.shadow' version '1.2.3'
-    id "me.champeau.gradle.jmh" version "0.3.0"
+buildscript {
+    apply from: 'gradle/versions.gradle'
+
+    repositories {
+        mavenCentral()
+        maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:$license_version"
+        classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
+    }
+
 }
 
 group 'com.github.jonathanxd'
-version '2.1.7'
+version '3.0'
 
-allprojects {
-    apply plugin: 'idea'
-    apply plugin: 'java'
-    apply plugin: 'license'
-    apply plugin: 'com.github.johnrengelman.shadow'
-
-    license {
-        header rootProject.file("LICENSE_HEADER")
-    }
-
-}
-
-defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
-
-sourceCompatibility = 1.8
-
-allprojects {
-    repositories {
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-    }
-}
-
-// Setup
-
-ext {
-    description = "Framework to generate Java code and Bytecode code."
-}
-
-subprojects {
-
-    shadowJar {
-        dependencies {
-            include(project(rootProject.getPath()))
-        }
-    }
-}
-
-allprojects {
-    shadowJar {
-        dependencies {
-            include(dependency("com.github.JonathanxD:JwIUtils"))
-            include(dependency("org.ow2.asm:asm-all"))
-        }
-    }
-}
-
-// Tasks
-allprojects {
-    jar {
-        from "$rootProject.rootDir/LICENSE"
-
-        manifest {
-            attributes 'Implementation-Title': baseName,
-                    'Implementation-Version': version
-        }
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
-    }
-}
-
-subprojects {
-
-    dependencies {
-        compile rootProject
-        testCompile rootProject.sourceSets.test.output
-    }
-}
-
-allprojects {
-    dependencies {
-        compile group: 'org.ow2.asm', name: 'asm-all', version: '5.1'
-
-        compile 'com.github.JonathanxD:JwIUtils:3.1.1-R0'
-
-        testCompile group: 'junit', name: 'junit', version: '4.11'
-        testCompile group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.12'
-        testCompile group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.12'
-    }
-
-    test {
-        useJUnit()
-        systemProperty "env", "gradle"
-    }
-}
-
-allprojects {
-    license {
-        String name = project.getName()
-        String description = project.ext.description
-
-        ext.name = "$name"
-        ext.organization = 'TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/)'
-        ext.description = "$description"
-        ext.url = 'https://github.com/JonathanxD/CodeAPI'
-        ext.year = Calendar.getInstance().get(Calendar.YEAR)
-        ext.email = 'jonathan.scripter@programmer.net'
-
-        exclude "**/*.info"
-        exclude "**/*.md"
-        exclude "res/**"
-        exclude "src/main/resources/**"
-        exclude "src/test/resources/**"
-
-        header rootProject.file('LICENSE_HEADER')
-
-        sourceSets = project.sourceSets
-
-        ignoreFailures false
-        strictCheck true
-
-        mapping {
-            java = 'SLASHSTAR_STYLE'
-        }
-    }
-}
+apply from: 'gradle/common.gradle'

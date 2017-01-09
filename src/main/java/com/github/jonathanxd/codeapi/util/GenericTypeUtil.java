@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.GenericType;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.GenericType;
 
 /**
  * Utility of generic types.
@@ -42,7 +42,7 @@ public class GenericTypeUtil {
      * @param genericSignature Generic signature.
      * @return Generic signature string.
      */
-    public static String toSourceString(GenericSignature<?> genericSignature) {
+    public static String toSourceString(GenericSignature genericSignature) {
         StringBuilder sb = new StringBuilder();
 
         GenericType[] types = genericSignature.getTypes();
@@ -75,14 +75,14 @@ public class GenericTypeUtil {
             sb.append(genericType.getCanonicalName());
         } else {
             if (!genericType.isWildcard()) {
-                sb.append(genericType.name());
+                sb.append(genericType.getName());
             } else {
                 sb.append("?");
             }
         }
 
 
-        GenericType.Bound<CodeType>[] bounds = genericType.bounds();
+        GenericType.Bound<CodeType>[] bounds = genericType.getBounds();
 
         if (bounds.length != 0) {
 
@@ -92,11 +92,11 @@ public class GenericTypeUtil {
 
                 GenericType.Bound<CodeType> bound = bounds[i];
 
-                boolean extendsOrSuper = bound.sign().equals("+") || bound.sign().equals("-");
+                boolean extendsOrSuper = bound.getSign().equals("+") || bound.getSign().equals("-");
 
-                if (bound.sign().equals("+")) {
+                if (bound.getSign().equals("+")) {
                     sb.append(" extends ");
-                } else if (bound.sign().equals("-")) {
+                } else if (bound.getSign().equals("-")) {
                     sb.append(" super ");
                 } else {
                     if (i == 0) {

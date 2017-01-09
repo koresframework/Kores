@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,53 +29,46 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TryWithResources;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeConstructor;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.TryWithResourcesImpl;
-import com.github.jonathanxd.codeapi.interfaces.TryWithResources;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Collections;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
 
-/**
- * Created by jonathan on 03/09/16.
- */
 public class TryWithResourcesTest_ {
     //
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        TryWithResources tryWithResources = new TryWithResourcesImpl(
-                new CodeField("trm", Helper.getJavaType(Trm.class),
-                        CodeAPI.invokeConstructor(
-                                Trm.class
-                        )),
-                Helper.sourceOf(
-                        CodeAPI.invokeVirtual(Trm.class, Helper.accessLocalVariable("trm", Trm.class), "read", new TypeSpec(PredefinedTypes.VOID))
+        LoadedCodeType<Trm> TRM_TYPE = CodeAPI.getJavaType(Trm.class);
+
+        TryWithResources tryWithResources = CodeAPI.tryWithResources(
+                FieldFactory.field(TRM_TYPE, "trm", CodeAPI.invokeConstructor(TRM_TYPE)),
+                CodeAPI.source(
+                        CodeAPI.invokeVirtual(TRM_TYPE, CodeAPI.accessLocalVariable(TRM_TYPE, "trm"), "read", new TypeSpec(Types.VOID), Collections.emptyList())
                 )
         );
 
-        CodeClass codeClass = aClass(PUBLIC,
-                "test.TryWithResourcesTestClass", codeClass1 -> sourceOfParts(
-                        new CodeConstructor(codeClass1,
-                                Collections.singletonList(CodeModifier.PUBLIC),
-                                Collections.emptyList(),
-                                Helper.sourceOf(
-                                        tryWithResources
-                                ))
+
+        ClassDeclaration classDeclaration = ClassFactory.aClass(PUBLIC,
+                "test.TryWithResourcesTestClass", sourceOfParts(
+                        ConstructorFactory.constructor(PUBLIC, CodeAPI.source(
+                                tryWithResources
+                        ))
                 ));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(classDeclaration, sourceOfParts(classDeclaration));
     }
 
 

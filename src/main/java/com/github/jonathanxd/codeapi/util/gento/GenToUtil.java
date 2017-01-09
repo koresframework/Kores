@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -34,6 +34,29 @@ import java.util.Objects;
 
 public class GenToUtil {
 
+    private static <V> V getExactAndPut(Class<?> cl, Class<?> base, Map<Class<?>, V> map) {
+        String message = "Cannot get value for class: '" + cl.getCanonicalName() + "'";
+
+        V v = Objects.requireNonNull(map.get(Objects.requireNonNull(cl, message)), message);
+
+        if(!map.containsKey(cl)) {
+            map.put(cl, v);
+        }
+
+        return v;
+    }
+
+    /**
+     * Tries to determine the {@link Class} linked to {@link V} reading {@link GenerateTo}
+     * annotations.
+     *
+     * @param cl  Current Class
+     * @param map Map
+     * @param <V> value type.
+     * @return Found value linked to determined class.
+     * @throws IllegalStateException if a value cannot be found.
+     * @throws NullPointerException  if a value cannot be found.
+     */
     @SuppressWarnings("unchecked")
     public static <V> V get(Class<?> cl, Map<Class<?>, V> map) {
         if (map.containsKey(cl)) {
@@ -45,15 +68,18 @@ public class GenToUtil {
                 generateTo = cl.getAnnotation(GenerateTo.class);
 
             if (generateTo != null) {
-                return Objects.requireNonNull(map.get(generateTo.value()), "Cannot get visitor for class: '" + generateTo.value().getCanonicalName() + "'");
+                return getExactAndPut(generateTo.value(), cl, map);
             } else {
                 if (cl.isSynthetic()) {
                     Class<?>[] interfaces = cl.getInterfaces();
                     Class<?> i = interfaces.length > 0 ? interfaces[0] : cl.getSuperclass();
 
-                    return Objects.requireNonNull(map.get(i), "Cannot get visitor for class: '" + i.getCanonicalName() + "'");
+                    return getExactAndPut(i, cl, map);
+                } else {
+                    Class<?>[] interfaces = cl.getInterfaces();
+
+                    return getExactAndPut(interfaces.length == 0 ? null : interfaces[0], cl, map);
                 }
-                throw new IllegalStateException("Cannot get visitor for class: '" + cl.getCanonicalName() + "'");
             }
         }
     }

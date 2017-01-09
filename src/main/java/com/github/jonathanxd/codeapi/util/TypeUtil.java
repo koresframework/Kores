@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,15 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.interfaces.Typed;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.base.Typed;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TypeUtil {
     public static List<CodeType> toTypes(List<? extends Typed> list) {
-        return list.stream().map(o -> o.getType().orElseThrow(NullPointerException::new)).collect(Collectors.toList());
+        return list.stream().map(Typed::getType).collect(Collectors.toList());
     }
 
     public static boolean equals(List<CodeType> types, List<CodeType> types2) {

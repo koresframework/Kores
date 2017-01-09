@@ -62,7 +62,7 @@ A geração de código-fonte da CodeAPI é feita pela tradução *plana* das ins
 ##### Importações estaticas
 ```Java
 import static com.github.jonathanxd.codeapi.CodeAPI.*;
-import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.*;
+import static com.github.jonathanxd.codeapi.PredefinedTypes.*;
 import static java.lang.reflect.Modifier.*;
 ```
 

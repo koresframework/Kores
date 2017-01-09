@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,47 +27,56 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.field;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
 
-/**
- * Created by jonathan on 07/07/16.
- */
 public class ForEachArray_ {
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
-                field(PUBLIC | STATIC, String.class, "stra", Literals.STRING("XA")),
-                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("strArray", PredefinedTypes.STRING.toArray(1))},
-                        codeConstructor -> sourceOfParts(
-                                field(String.class, "v", accessStaticField(String.class, "stra")),
-                                Helper.createForEachArray(new CodeField("str", PredefinedTypes.STRING),
-                                        Helper.accessLocalVariable("strArray",
-                                                PredefinedTypes.STRING.toArray(1)), Helper.sourceOf(
-                                                Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class), String.class))
-                                        ))
-                        ))
-        ));
+        TypeDeclaration typeDeclaration = ClassFactory.aClass(
+                null,
+                new Annotation[0],
+                PUBLIC,
+                "com.ForEach",
+                GenericSignature.empty(),
+                Types.OBJECT,
+                new CodeType[0],
+                CodeAPI.sourceOfParts(
+                        FieldFactory.field(new Annotation[0], PUBLIC | STATIC, Types.STRING, "stra", Literals.STRING("XA")),
+                        ConstructorFactory.constructor(
+                                new Annotation[0],
+                                GenericSignature.empty(),
+                                PUBLIC,
+                                new CodeParameter[]{new CodeParameter(Types.STRING.toArray(1), "strArray")},
+                                CodeAPI.sourceOfParts(
+                                        FieldFactory.field(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
+                                        CodeAPI.forEachArray(FieldFactory.field(Types.STRING, "str"),
+                                                CodeAPI.accessLocalVariable(Types.STRING.toArray(1), "strArray"),
+                                                CodeAPI.source(
+                                                        Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))
+                                                ))
+                                ))
+                ));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
     }
 
 }

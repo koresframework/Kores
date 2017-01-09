@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,61 +27,76 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
+import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder;
+import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.PlainCodeType;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.type.PlainCodeType;
+import com.github.jonathanxd.codeapi.util.Modifiers;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.lang.reflect.Modifier;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.*;
-import static java.lang.reflect.Modifier.*;
+import kotlin.collections.SetsKt;
 
-/**
- * Created by jonathan on 03/09/16.
- */
+import static com.github.jonathanxd.codeapi.CodeAPI.enumValue;
+import static com.github.jonathanxd.codeapi.CodeAPI.getJavaType;
+import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
+import static com.github.jonathanxd.codeapi.CodeAPI.values;
+import static com.github.jonathanxd.codeapi.CodeAPI.visibleAnnotation;
+import static kotlin.collections.CollectionsKt.listOf;
+
 public class AnnotatedTest_ {
     //
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
 
-        CodeClass codeClass = aClass(PUBLIC,
-                annotations(visibleAnnotation(Simple.class,
-                        values("value", new Object[]{
-                            enumValue(MyEnum.class, "A"), enumValue(MyEnum.class, "B"), enumValue(MyEnum.class, "C")
-                        })
-                )),
-                "test.AnnotatedTestClass", codeClass1 -> sourceOfParts(
-                        new CodeMethod("polymorphic",
-                                Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC),
-                                Collections.singletonList(new CodeParameter("first", Helper.getJavaType(Object.class), Collections.singletonList(visibleAnnotation(Helper.getJavaType(Deprecated.class))))),
-                                PredefinedTypes.OBJECT,
-                                GenericSignature.empty(),
-                                Collections.singletonList(visibleAnnotation(plainCodeType)),
-                                sourceOfParts(Helper.returnValue(PredefinedTypes.OBJECT, Literals.NULL))),
-                        new CodeField("field",
-                                Helper.getJavaType(String.class),
-                                Literals.NULL,
-                                Arrays.asList(CodeModifier.PUBLIC, CodeModifier.STATIC),
-                                Collections.singletonList(visibleAnnotation(Simple.class,
+        TypeDeclaration typeDeclaration = new ClassDeclarationBuilder()
+                .withModifiers(Modifiers.fromJavaModifiers(Modifier.PUBLIC))
+                .withGenericSignature(GenericSignature.empty())
+                .withAnnotations(listOf(
+                        visibleAnnotation(Simple.class,
+                                values("value", new Object[]{
+                                        enumValue(MyEnum.class, "A"), enumValue(MyEnum.class, "B"), enumValue(MyEnum.class, "C")
+                                })
+                        ))
+                )
+                .withQualifiedName("test.AnnotatedTestClass")
+                .withBody(sourceOfParts(
+                        new MethodDeclarationBuilder()
+                                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
+                                .withAnnotations(listOf(visibleAnnotation(plainCodeType)))
+                                .withGenericSignature(GenericSignature.empty())
+                                .withName("polymorphic")
+                                .withReturnType(Types.OBJECT)
+                                .withParameters(listOf(new CodeParameter(Types.OBJECT, "first", listOf(visibleAnnotation(getJavaType(Deprecated.class))))))
+                                .withBody(sourceOfParts(CodeAPI.returnValue(Types.OBJECT, Literals.NULL)))
+                                .build(),
+                        new FieldDeclarationBuilder()
+                                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
+                                .withAnnotations(listOf(visibleAnnotation(Simple.class,
                                         values("value", new Object[]{
                                                 enumValue(MyEnum.class, "A")
                                         }))))
-                ));
+                                .withVariableType(Types.STRING)
+                                .withName("field")
+                                .withValue(Literals.NULL)
+                                .build()
+                ))
+                .build();
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(typeDeclaration, sourceOfParts(typeDeclaration));
     }
 
     public enum MyEnum {
@@ -92,6 +107,8 @@ public class AnnotatedTest_ {
 
     public @interface Simple {
         MyEnum[] value() default {};
+
         MyEnum myEnum() default MyEnum.A;
     }
+
 }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,49 +29,55 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.common.Scope;
-import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.MethodFragmentImpl;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.field;
-import static com.github.jonathanxd.codeapi.CodeAPI.method;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
+import static kotlin.collections.CollectionsKt.listOf;
 
-/**
- * Created by jonathan on 21/08/16.
- */
 public class MethodFragment_ {
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = aClass(PUBLIC, "com.MethodFragment", codeClass1 -> sourceOfParts(
-                method(STATIC | PUBLIC, "test", void.class,
-                        method -> sourceOfParts(
-                                Predefined.invokePrintln(CodeAPI.argument(
-                                        new MethodFragmentImpl(codeClass1, Scope.STATIC, PredefinedTypes.STRING, new CodeParameter[]{
-                                                CodeAPI.parameter(String.class, "input")
-                                        }, new CodeArgument[]{
-                                            CodeAPI.argument(Literals.STRING("BOB"), String.class)
-                                        }, Helper.sourceOf(Helper.returnValue(PredefinedTypes.STRING, CodeAPI.accessLocalVariable(String.class, "input")))),
-                                        String.class))
+        MutableCodeSource source = new MutableCodeSource();
 
-                        )),
-                field(PUBLIC, Generic.type("T"), "test")
+        ClassDeclaration classDeclaration = ClassFactory.aClass(PUBLIC, "com.MethodFragment", sourceOfParts(
+                MethodFactory.method(STATIC | PUBLIC, "test", Types.VOID,
+                        source),
+                FieldFactory.field(PUBLIC, Generic.type("T"), "test")
         ));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        source.add(
+                Predefined.invokePrintln(CodeAPI.argument(
+                        MethodFragmentBuilder.builder()
+                                .withDeclaringType(classDeclaration)
+                                .withScope(Scope.STATIC)
+                                .withDescription(new TypeSpec(Types.STRING, listOf(Types.STRING)))
+                                .withParameters(CodeAPI.parameter(String.class, "input"))
+                                .withArguments(CodeAPI.argument(Literals.STRING("BOB")))
+                                .withBody(CodeAPI.sourceOfParts(
+                                        CodeAPI.returnValue(Types.STRING, CodeAPI.accessLocalVariable(String.class, "input"))
+                                ))
+                                .build()
+                ))
+        );
+
+        return Pair.of(classDeclaration, sourceOfParts(classDeclaration));
     }
 
 }

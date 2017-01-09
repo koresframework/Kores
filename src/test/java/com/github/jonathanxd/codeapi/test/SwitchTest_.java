@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,34 +30,33 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
-
-import java.lang.reflect.Modifier;
 
 public class SwitchTest_ {
 
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = CodeAPI.aClassBuilder()
+        ClassDeclaration classDeclaration = CodeAPI.aClassBuilder()
                 .withQualifiedName("com.SwitchTestClass")
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withBody(CodeAPI.sourceOfParts(
 
                         CodeAPI.constructorBuilder()
-                                .withModifiers(Modifier.PUBLIC)
-                                .withParameters(CodeAPI.parameters(
+                                .withModifiers(CodeModifier.PUBLIC)
+                                .withParameters(
                                         CodeAPI.parameter(int.class, "number"),
                                         CodeAPI.parameter(int.class, "number2"),
                                         CodeAPI.parameter(TestEnum.class, "testEnum"),
                                         CodeAPI.parameter(String.class, "str"),
                                         CodeAPI.parameter(Object.class, "o")
-                                        ))
+                                )
                                 .withBody(
                                         CodeAPI.sourceOfParts(
                                                 CodeAPI.switchInt(CodeAPI.accessLocalVariable(int.class, "number"),
@@ -99,11 +98,11 @@ public class SwitchTest_ {
                 .build();
 
 
-        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
+        return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
     }
 
     private static CodePart print(String str) {
-        return Predefined.invokePrintln(CodeAPI.argument(Literals.STRING(str), PredefinedTypes.STRING));
+        return Predefined.invokePrintln(CodeAPI.argument(Literals.STRING(str)));
     }
 
     public enum TestEnum {

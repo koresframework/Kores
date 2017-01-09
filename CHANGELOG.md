@@ -9,13 +9,20 @@
 *Hotfix*      - A urgent fix (have no workarounds unless fixing in CodeAPI Project)
 *Fix*         - A minor fix (have workarounds)
 
+###### Version 3.0 - Planned features.
+| Name                         | Type          | Issue       | Commit                                   |
+| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
+| Save tests and disassemble...| Feature       |  #36        | 45b0a0740b1d2faafb52fbd1591e22bba05d4897 |
+| Bitwise and neg... operation | Feature       |  #34        | f4e54c92144d1771438b889286e84ea7ac4ac529 |
+| More Builders                | Feature       |  #33        | 2d4d2d5a79f2a8647d8f43c78446fa26b15e599d |
+| Bridge methods               | Feature       |  #19        | 847532e6a9b9b1cbf209879e93261ded2ef186a7 |
+| Convert from Kotlin to Java  | Improvement?  |  #29        | Some                                     |
 
 ###### 2.1.5 - Source fixes.
 | Name                         | Type          | Issue       | Commit                                   |
 | ---------------------------- | ------------- | ----------- | ---------------------------------------- |
 | Super invocation - Source Gen| Hotfix        |  None       | 9d6ac77f1ff9566f102a1e82a9e0111568a437a6 |
 | Fix append of empty string...| Fix           |  None       | dbd91031670c579b6a32145878b0e203b2148681 |
-
 
 ###### 2.0 - First Stable Release.
 | Name                         | Type          | Issue       | Commit                                   |
@@ -79,9 +86,9 @@
 
 ###### 1.11.0
 
-| Name                         | Type          | Issue       | Commit                                   |
-| ---------------------------- | ------------- | ----------- | ---------------------------------------- |
-| Try-with-resources           | Feature       | #6          | 26b1c637a9527c0a7eaf5235e97bfdea05e7a13b |
-| Options                      | Feature       | #5          | 9e3c368db474bb5ca49bef3133fe2ab17dff20f9 |
-| Non-inline try catch warning | Warning       | None        | 1d943b9c1f19fdff66910102b2f51805d61bf097 |
-| CodeAPI simplify             | Feature       | #7          | 80235e1944f0b9b20b04af2d364c081a139558ad |
+| Name               | Type          | Issue       | Commit                                   |
+| ------------------ | ------------- | ----------- | ---------------------------------------- |
+| Try-with-resources | Feature       | #6          | 26b1c637a9527c0a7eaf5235e97bfdea05e7a13b |
+| Options            | Feature       | #5          | 9e3c368db474bb5ca49bef3133fe2ab17dff20f9 |
+| Non-inline try catch warning | Warning | None    | 1d943b9c1f19fdff66910102b2f51805d61bf097 |
+| CodeAPI simplify   | Feature       | #7          | 80235e1944f0b9b20b04af2d364c081a139558ad |

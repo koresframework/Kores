@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,12 +28,11 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.literals.Literal;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.literal.Literal;
 
 /**
- * Use JVM Stack value (is supported by {@link com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator}
- * and may be supported by external generators).
+ * Use JVM Stack value (is supported by {@code BytecodeGenerators}).
  */
 @GenerateTo(Literal.class)
 public class Stack extends Literal {
@@ -41,6 +40,6 @@ public class Stack extends Literal {
     public static final Stack INSTANCE = new Stack();
 
     private Stack() {
-        super("stack", PredefinedTypes.OBJECT);
+        super("stack", Types.OBJECT);
     }
 }

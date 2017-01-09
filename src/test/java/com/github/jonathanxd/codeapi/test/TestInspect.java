@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,32 +28,33 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.StaticBlock;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
-import com.github.jonathanxd.codeapi.interfaces.StaticBlock;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Created by jonathan on 21/08/16.
- */
 public class TestInspect {
 
     @Test
     public void inspect() {
         CodeSource source = GenericClass_.$()._2();
 
-        List<CodeField> inspect = SourceInspect
-                .find(codePart -> codePart instanceof CodeField)
-                .include(bodied -> bodied instanceof StaticBlock || bodied instanceof CodeClass)
+        List<FieldDeclaration> inspect = SourceInspect
+                .find(codePart -> codePart instanceof FieldDeclaration)
+                .include(bodied -> bodied instanceof StaticBlock || bodied instanceof ClassDeclaration)
                 .includeSource(true)
-                .mapTo(codePart -> (CodeField) codePart)
+                .mapTo(codePart -> (FieldDeclaration) codePart)
                 .inspect(source);
 
         System.out.println(inspect);
+
+        Assert.assertTrue(inspect.size() == 1);
+        Assert.assertEquals("test", inspect.get(0).getName());
     }
 
 }

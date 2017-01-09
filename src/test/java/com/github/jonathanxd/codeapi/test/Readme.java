@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,27 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeInterface;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.literal.Literals;
 
 import org.junit.Test;
 
 import java.io.PrintStream;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.emptyMutableSource;
-import static com.github.jonathanxd.codeapi.CodeAPI.invokeVirtual;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.helper.PredefinedTypes.*;
+import static com.github.jonathanxd.codeapi.Types.STRING;
+import static com.github.jonathanxd.codeapi.Types.VOID;
 import static java.lang.reflect.Modifier.PUBLIC;
+import static kotlin.collections.CollectionsKt.listOf;
 
 /**
  * Created by jonathan on 18/06/16.
@@ -59,20 +59,21 @@ public class Readme {
     public void readme() {
         MutableCodeSource source = emptyMutableSource();
 
-        CodeClass myClass = aClass(PUBLIC, "mypackage.MyClass", codeClass -> sourceOfParts(
-                constructor(PUBLIC, codeConstructor -> sourceOfParts(
-                        invokeVirtual(PrintStream.class,
+        ClassDeclaration myClass = ClassFactory.aClass(PUBLIC, "mypackage.MyClass", sourceOfParts(
+                ConstructorFactory.constructor(PUBLIC, sourceOfParts(
+                        CodeAPI.invokeVirtual(PrintStream.class,
                                 accessStaticField(System.class, PrintStream.class, "out"),
                                 "println",
-                                new TypeSpec(VOID, STRING),
-                                argument(Literals.STRING("Hello, world!")))
+                                new TypeSpec(VOID, listOf(STRING)),
+                                listOf(argument(Literals.STRING("Hello, world!"))))
                 ))
         ));
 
         source.add(myClass);
 
 
-        PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
+        // Only works if Source and bytecode module is present
+        /*PlainSourceGenerator plainSourceGenerator = new PlainSourceGenerator();
         BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
 
         String plainSource = plainSourceGenerator.gen(source);
@@ -87,14 +88,14 @@ public class Readme {
 
         try {
             cl.newInstance();
-        } catch (Throwable t) { throw new RuntimeException(t); }
+        } catch (Throwable t) { throw new RuntimeException(t); }*/
 
     }
 
     private static final class BCLoader extends ClassLoader {
 
-        public Class<?> define(CodeInterface codeInterface, byte[] bytes) {
-            return super.defineClass(codeInterface.getQualifiedName(), bytes, 0, bytes.length);
+        public Class<?> define(TypeDeclaration typeDeclaration, byte[] bytes) {
+            return super.defineClass(typeDeclaration.getQualifiedName(), bytes, 0, bytes.length);
         }
     }
 

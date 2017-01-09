@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,16 +29,12 @@ package com.github.jonathanxd.codeapi.inspect;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.CodeInterfaceBuilder;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
+import com.github.jonathanxd.codeapi.base.BodyHolder;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-/**
- * Created by jonathan on 21/08/16.
- */
 public class SourceInspectBuilder<R> {
 
     /**
@@ -47,10 +43,10 @@ public class SourceInspectBuilder<R> {
     private Predicate<CodePart> partPredicate;
 
     /**
-     * Predicate to test {@link Bodied} elements. If test returns true, inspect elements inside the
-     * {@link Bodied}.
+     * Predicate to test {@link BodyHolder} elements. If test returns true, inspect elements inside the
+     * {@link BodyHolder}.
      */
-    private Predicate<Bodied> subFindPredicate;
+    private Predicate<BodyHolder> subFindPredicate;
 
     /**
      * True to inspect {@link CodeSource}, and not only sub elements.
@@ -67,10 +63,10 @@ public class SourceInspectBuilder<R> {
     }
 
     /**
-     * Create the {@link CodeInterfaceBuilder}.
+     * Create the {@link SourceInspectBuilder}.
      *
      * @param <R> Type of resulting elements.
-     * @return {@link CodeInterfaceBuilder}.
+     * @return {@link SourceInspectBuilder}.
      */
     static <R> SourceInspectBuilder<R> builder() {
         return new SourceInspectBuilder<>();
@@ -89,24 +85,24 @@ public class SourceInspectBuilder<R> {
     }
 
     /**
-     * Inspect elements inside specific {@link Bodied} elements.
+     * Inspect elements inside specific {@link BodyHolder} elements.
      *
-     * @param predicate Predicate to test {@link Bodied}s to be analyzed.
+     * @param predicate Predicate to test {@link BodyHolder}s to be analyzed.
      * @return {@code this}
      */
-    public SourceInspectBuilder<R> inside(Predicate<Bodied> predicate) {
+    public SourceInspectBuilder<R> inside(Predicate<BodyHolder> predicate) {
         this.subFindPredicate = predicate;
         this.inspectCodeSource = false;
         return this;
     }
 
     /**
-     * Include elements inside {@link Bodied}.
+     * Include elements inside {@link BodyHolder}.
      *
-     * @param predicate Predicate to test {@link Bodied}s to include in inspection.
+     * @param predicate Predicate to test {@link BodyHolder}s to include in inspection.
      * @return {@code this}
      */
-    public SourceInspectBuilder<R> include(Predicate<Bodied> predicate) {
+    public SourceInspectBuilder<R> include(Predicate<BodyHolder> predicate) {
         this.subFindPredicate = predicate;
 
         return this;

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,26 +27,29 @@
  */
 package com.github.jonathanxd.codeapi.util.element;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodInvocation;
+import com.github.jonathanxd.codeapi.base.MethodSpecification;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
+import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodType;
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl;
-import com.github.jonathanxd.codeapi.interfaces.FieldDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.MethodDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation;
-import com.github.jonathanxd.codeapi.interfaces.MethodSpecification;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.types.CodeType;
+import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.util.TypeUtil;
 
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ElementUtil {
 
@@ -61,14 +64,14 @@ public class ElementUtil {
      */
     public static boolean equal(MethodDeclaration methodDeclaration, MethodSpecification specification) {
         if (methodDeclaration.getName().equals(specification.getMethodName())) {
-            TypeSpec methodDescription = specification.getMethodDescription();
+            TypeSpec methodDescription = specification.getDescription();
 
             List<CodeParameter> parameters = methodDeclaration.getParameters();
 
             List<CodeType> codeTypes = TypeUtil.toTypes(parameters);
 
             if (TypeUtil.equals(codeTypes, methodDescription.getParameterTypes())) {
-                return methodDeclaration.getReturnType().orElseThrow(NullPointerException::new).is(methodDescription.getReturnType());
+                return methodDeclaration.getReturnType().is(methodDescription.getReturnType());
             }
 
         }
@@ -79,7 +82,7 @@ public class ElementUtil {
     public static boolean equal(FieldDeclaration fieldDeclaration, VariableAccess access) {
         return access.getName().equals(fieldDeclaration.getName())
                 && access.getVariableType().is(fieldDeclaration.getVariableType())
-                && access.getLocalization().orElse(null) != null;
+                && access.getLocalization() != null;
     }
 
     public static MethodInvocation invoke(MethodDeclaration methodDeclaration, CodePart target, List<CodeArgument> arguments, TypeDeclaration type) {
@@ -94,13 +97,26 @@ public class ElementUtil {
                         : InvokeType.INVOKE_VIRTUAL));
 
 
-        TypeSpec typeSpec = new TypeSpec(methodDeclaration.getReturnType().orElse(PredefinedTypes.VOID), TypeUtil.toTypes(methodDeclaration.getParameters()));
+        TypeSpec typeSpec = new TypeSpec(methodDeclaration.getReturnType(), TypeUtil.toTypes(methodDeclaration.getParameters()));
 
-        return Helper.invoke(invokeType, type, isConstructor ? type : target,
-                new MethodSpecImpl(
-                        methodDeclaration.getName(),
-                        typeSpec,
-                        arguments,
-                        isConstructor ? MethodType.CONSTRUCTOR : MethodType.METHOD));
+        MethodSpecificationImpl methodSpecification = new MethodSpecificationImpl(
+                isConstructor ? MethodType.CONSTRUCTOR : MethodType.METHOD,
+                methodDeclaration.getName(),
+                typeSpec);
+
+        return new MethodInvocationImpl(type, arguments, methodSpecification, invokeType, null, isConstructor ? type : target);
+    }
+
+    public static MethodTypeSpec getMethodSpec(Method method) {
+        return new MethodTypeSpec(CodeAPI.getJavaType(method.getDeclaringClass()), method.getName(),
+                new TypeSpec(CodeAPI.getJavaType(method.getReturnType()), CodeAPI.getJavaTypeList(method.getParameterTypes())));
+    }
+
+    public static MethodTypeSpec getMethodSpec(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
+        return new MethodTypeSpec(
+                typeDeclaration,
+                methodDeclaration.getName(),
+                new TypeSpec(methodDeclaration.getReturnType(), methodDeclaration.getParameters().stream().map(CodeParameter::getType).collect(Collectors.toList()))
+        );
     }
 }

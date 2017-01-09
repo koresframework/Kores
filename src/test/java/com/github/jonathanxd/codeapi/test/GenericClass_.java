@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,48 +27,48 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.List;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.field;
-import static com.github.jonathanxd.codeapi.CodeAPI.method;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
 
-/**
- * Created by jonathan on 07/07/16.
- */
 public class GenericClass_ {
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = aClass(PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
-                Generic.type(Helper.getJavaType(List.class)).of("T")
-        )), null, new CodeType[]{Generic.type(Helper.getJavaType(List.class)).of("T")}, codeClass1 -> sourceOfParts(
-                method(STATIC | PUBLIC, GenericSignature.create(Generic.type("T").extends$(
-                        Generic.type(PredefinedTypes.LIST).of("T")
-                )), "test", void.class, new CodeParameter[]{new CodeParameter("val", Generic.type("T"))},
-                        method -> sourceOfParts(
-                                new CodeField("fieldi", Generic.type("T"), Literals.NULL)
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+
+        TypeDeclaration typeDeclaration = ClassFactory.aClass(PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
+                Generic.type(CodeAPI.getJavaType(List.class)).of("T")
+        )), Types.OBJECT, new CodeType[]{Generic.type(CodeAPI.getJavaType(List.class)).of("T")}, CodeAPI.sourceOfParts(
+                MethodFactory.method(
+                        GenericSignature.create(Generic.type("T").extends$(
+                                Generic.type(Types.LIST).of("T")
                         )),
-                field(PUBLIC, Generic.type("T"), "test")
+                        STATIC | PUBLIC,
+                        "test", Types.VOID, new CodeParameter[]{new CodeParameter(Generic.type("T"), "val")},
+                        CodeAPI.sourceOfParts(
+                                FieldFactory.field(Generic.type("T"), "fieldi", Literals.NULL)
+                        )),
+                FieldFactory.field(PUBLIC, Generic.type("T"), "test", null)
         ));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
     }
+
 
 }

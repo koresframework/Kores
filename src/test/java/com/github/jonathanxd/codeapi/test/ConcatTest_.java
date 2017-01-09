@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,9 +29,15 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
+import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -39,20 +45,34 @@ import java.lang.reflect.Modifier;
 
 public class ConcatTest_ {
 
+
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = CodeAPI.aClass(Modifier.PUBLIC, "com.ConcatTest", CodeAPI.source(
-                CodeAPI.constructor(Modifier.PUBLIC, CodeAPI.parameters(CodeAPI.parameter(String.class, "av")), CodeAPI.source(
-                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("Hello")
-                                .concat(" ")
-                                .concat(CodeAPI.accessLocalVariable(String.class, "av"))
-                        .concat(" :D").build()),
-                        Predefined.invokePrintlnStr(CodeAPI.concatHelper().build()),
-                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("A").build()),
-                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("A").concat("B").build())
-                ))
-        ));
+        TypeDeclaration typeDeclaration = ClassFactory.aClass(null,
+                new Annotation[0],
+                Modifier.PUBLIC,
+                "com.ConcatTest",
+                GenericSignature.empty(),
+                Types.OBJECT,
+                new CodeType[0],
+                CodeAPI.source(
+                        ConstructorFactory.constructor(
+                                new Annotation[0],
+                                GenericSignature.empty(),
+                                Modifier.PUBLIC,
+                                new CodeParameter[]{CodeAPI.parameter(String.class, "av")},
+                                CodeAPI.source(
+                                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("Hello")
+                                                .concat(" ")
+                                                .concat(CodeAPI.accessLocalVariable(String.class, "av"))
+                                                .concat(" :D").build()),
+                                        Predefined.invokePrintlnStr(CodeAPI.concatHelper().build()),
+                                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("A").build()),
+                                        Predefined.invokePrintlnStr(CodeAPI.concatHelper("A").concat("B").build())
+                                ))
+                ));
 
-        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
+        return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
     }
+
 }

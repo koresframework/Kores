@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.util.source;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.helper.Helper;
-import com.github.jonathanxd.codeapi.types.CodeType;
-import com.github.jonathanxd.iutils.optional.Require;
+import com.github.jonathanxd.codeapi.type.CodeType;
 
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
@@ -56,9 +56,14 @@ public class CodeArgumentUtil {
         CodeArgument[] newArguments = new CodeArgument[passed.length];
 
         for (int i = 0; i < newArguments.length; i++) {
-            CodeType type = expected[i].getType().orElse(null);
+            CodeType type = expected[i].getType();
 
-            newArguments[i] = new CodeArgument(Require.require(passed[i].getValue()), type != null, type);
+            CodePart part = passed[i].getValue();
+
+            if(type != null)
+                part = CodeAPI.cast(passed[i].getType(), type, part);
+
+            newArguments[i] = new CodeArgument(part);
         }
 
         return newArguments;
@@ -82,7 +87,7 @@ public class CodeArgumentUtil {
      * @return Converted parameter.
      */
     public static CodeParameter fromJavaArgument(Parameter parameter) {
-        return new CodeParameter(parameter.getName(), Helper.getJavaType(parameter.getType()));
+        return new CodeParameter(CodeAPI.getJavaType(parameter.getType()), parameter.getName());
     }
 
     /**
@@ -118,7 +123,7 @@ public class CodeArgumentUtil {
      * @return Converted argument.
      */
     public static CodeArgument fromParameters(CodeParameter parameter) {
-        return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
+        return null;//new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
     }
 
 
@@ -143,7 +148,7 @@ public class CodeArgumentUtil {
      * @return Converted argument.
      */
     public static CodeArgument fromJavaParameter(Parameter parameter) {
-        return new CodeArgument(Helper.accessLocalVariable(parameter.getName(), Helper.getJavaType(parameter.getType())), true, Helper.getJavaType(parameter.getType()));
+        return null;//new CodeArgument(Helper.accessLocalVariable(parameter.getName(), Helper.getJavaType(parameter.getType())), true, Helper.getJavaType(parameter.getType()));
     }
 
 }

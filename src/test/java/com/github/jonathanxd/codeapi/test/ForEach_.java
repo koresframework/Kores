@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,47 +27,63 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.helper.Helper;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.types.Generic;
+import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Assert;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
-import static com.github.jonathanxd.codeapi.CodeAPI.constructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static java.lang.reflect.Modifier.PUBLIC;
+import java.lang.reflect.Modifier;
 
-/**
- * Created by jonathan on 07/07/16.
- */
 public class ForEach_ {
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
 
-        Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode(), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING).hashCode());
-        Assert.assertEquals(Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING), Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING));
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        CodeClass codeClass = aClass(PUBLIC, "com.ForEach", codeClass1 -> sourceOfParts(
-                constructor(PUBLIC, new CodeParameter[]{new CodeParameter("strList", Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING))},
-                        codeConstructor -> sourceOfParts(
-                                Helper.createForEach(new CodeField("str", PredefinedTypes.STRING),
-                                        Helper.accessLocalVariable("strList",
-                                                Generic.type(PredefinedTypes.LIST).of(PredefinedTypes.STRING)), Helper.sourceOf(
-                                                Predefined.invokePrintln(new CodeArgument(Helper.accessLocalVariable("str", String.class), String.class))
-                                        ))
-                        ))
-        ));
+        Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING).hashCode(), Generic.type(Types.LIST).of(Types.STRING).hashCode());
+        Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING), Generic.type(Types.LIST).of(Types.STRING));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        ClassDeclaration classDeclaration = ClassFactory.aClass(
+                null,
+                new Annotation[0],
+                Modifier.PUBLIC,
+                "com.ForEach",
+                GenericSignature.empty(),
+                Types.OBJECT,
+                new CodeType[0],
+                CodeAPI.source(
+                        ConstructorFactory.constructor(
+                                new Annotation[0],
+                                GenericSignature.empty(),
+                                Modifier.PUBLIC,
+                                new CodeParameter[]{new CodeParameter(Generic.type(Types.LIST).of(Types.STRING), "strList")},
+                                CodeAPI.source(
+                                        CodeAPI.forEachIterable(FieldFactory.field(Types.STRING, "str"),
+                                                CodeAPI.accessLocalVariable(
+                                                        Generic.type(Types.LIST).of(Types.STRING),
+                                                        "strList"),
+                                                CodeAPI.source(
+                                                        Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))
+                                                ))
+                                ))
+                ));
+
+        return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
     }
+
 
 }

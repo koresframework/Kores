@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,27 +29,30 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.builder.AnnotationBuilder;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.impl.CodeAnnotation;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
-import com.github.jonathanxd.codeapi.literals.Literals;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
+import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import java.lang.reflect.Modifier;
+import java.util.Collections;
+
+import kotlin.collections.CollectionsKt;
+import kotlin.collections.SetsKt;
 
 public class AnnotationTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        CodeAnnotation build = AnnotationBuilder.builder()
-                .withModifiers(Modifier.PUBLIC)
+        AnnotationDeclaration build = new AnnotationDeclarationBuilder()
+                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyAnnotation")
-                .withProperties(new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "value", null),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING, "id", "A"),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.STRING.toArray(1), "names", new String[]{"A", "B"}),
-                        new AnnotationPropertyImpl(null, PredefinedTypes.INT.toArray(1), "ns", new int[]{1, 2}))
+                .withProperties(CollectionsKt.listOf(new AnnotationPropertyImpl(Types.STRING, "value", Collections.emptyList(), null),
+                        new AnnotationPropertyImpl(Types.STRING, "id", Collections.emptyList(), "A"),
+                        new AnnotationPropertyImpl(Types.STRING.toArray(1), "names", Collections.emptyList(), new String[]{"A", "B"}),
+                        new AnnotationPropertyImpl(Types.INT.toArray(1), "ns", Collections.emptyList(), new int[]{1, 2})))
                 .build();
 
         return Pair.of(build, CodeAPI.sourceOfParts(build));

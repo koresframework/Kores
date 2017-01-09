@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,58 +28,57 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes;
-import com.github.jonathanxd.codeapi.impl.CodeClass;
-import com.github.jonathanxd.codeapi.interfaces.VariableAccess;
-import com.github.jonathanxd.codeapi.literals.Literals;
-import com.github.jonathanxd.codeapi.operators.Operators;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.aClass;
 import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.check;
 import static com.github.jonathanxd.codeapi.CodeAPI.checkFalse;
 import static com.github.jonathanxd.codeapi.CodeAPI.checkTrue;
-import static com.github.jonathanxd.codeapi.CodeAPI.elseBlock;
-import static com.github.jonathanxd.codeapi.CodeAPI.field;
-import static com.github.jonathanxd.codeapi.CodeAPI.ifBlock;
 import static com.github.jonathanxd.codeapi.CodeAPI.ifExprs;
+import static com.github.jonathanxd.codeapi.CodeAPI.ifStatement;
 import static com.github.jonathanxd.codeapi.CodeAPI.invokeConstructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.isInstanceOf;
-import static com.github.jonathanxd.codeapi.CodeAPI.method;
 import static com.github.jonathanxd.codeapi.CodeAPI.parameter;
-import static com.github.jonathanxd.codeapi.CodeAPI.parameters;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.literals.Literals.STRING;
+import static com.github.jonathanxd.codeapi.factory.FieldFactory.field;
+import static com.github.jonathanxd.codeapi.literal.Literals.STRING;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
+import static kotlin.collections.CollectionsKt.*;
 
-/**
- * Created by jonathan on 21/08/16.
- */
 public class InstanceOf_ {
 
-    public static Pair<@Named("Main class") CodeClass, @Named("Source") CodeSource> $() {
+    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
         VariableAccess paramAccess = accessLocalVariable(Object.class, "param");
 
-        CodeClass codeClass = aClass(PUBLIC, "test.InstanceOf", codeClass1 -> sourceOfParts(
-                method(STATIC | PUBLIC, "test", void.class, parameters(parameter(Object.class, "param")),
-                        method -> sourceOfParts(
-                                ifBlock(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
+        ClassDeclaration codeClass = ClassFactory.aClass(PUBLIC, "test.InstanceOf", sourceOfParts(
+                MethodFactory.method(STATIC | PUBLIC, "test", Types.VOID, new CodeParameter[]{parameter(Object.class, "param")},
+                        sourceOfParts(
+                                ifStatement(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
                                         sourceOfParts(
-                                                Predefined.invokePrintln(argument(STRING("Object is String!"), String.class))
+                                                Predefined.invokePrintln(argument(STRING("Object is String!")))
                                         ),
-                                        elseBlock(
-                                                Predefined.invokePrintln(argument(STRING("Object is not String!"), String.class))
+                                        sourceOfParts(
+                                                Predefined.invokePrintln(argument(STRING("Object is not String!")))
                                         )),
-                                field(PredefinedTypes.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
-                                field(PredefinedTypes.BOOLEAN, "b2", checkFalse(accessLocalVariable(PredefinedTypes.BOOLEAN, "b"))),
-                                field(PredefinedTypes.INTEGER_TYPE, "ab", invokeConstructor(Integer.class, argument(Literals.INT(9), PredefinedTypes.INT))),
-                                field(PredefinedTypes.BOOLEAN, "b9", check(accessLocalVariable(PredefinedTypes.INTEGER_TYPE, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
+                                field(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
+                                field(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
+                                field(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INTEGER_WRAPPER)), listOf(argument(Literals.INT(9))))),
+                                field(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
 

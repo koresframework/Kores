@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,13 +30,12 @@ package com.github.jonathanxd.codeapi.util.source;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.impl.CodeField;
-import com.github.jonathanxd.codeapi.impl.CodeMethod;
+import com.github.jonathanxd.codeapi.base.BodyHolder;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.Named;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
-import com.github.jonathanxd.codeapi.interfaces.Bodied;
-import com.github.jonathanxd.codeapi.interfaces.MultiBodied;
-import com.github.jonathanxd.codeapi.interfaces.Named;
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration;
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer;
 import com.github.jonathanxd.iutils.function.consumer.TriConsumer;
 
@@ -45,10 +44,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-/**
- * Created by jonathan on 25/07/16.
- */
 
 /**
  * Utility for mutable CodeSources
@@ -179,6 +174,7 @@ public class CodeSourceUtil {
      *
      * @param codeSource Code Source to visit
      * @param consumer   Consumer
+     * @return Result source.
      */
     public static MutableCodeSource visit(CodeSource codeSource, TriConsumer<CodePart, Location, MutableCodeSource> consumer) {
 
@@ -196,18 +192,10 @@ public class CodeSourceUtil {
 
 
     private static void consumeIfExists(CodePart part, Consumer<CodePart> sourceConsumer) {
-        if (part instanceof MultiBodied) {
-            ((MultiBodied) part).getBodies().forEach(codeParts -> {
-                for (CodePart codePart : codeParts) {
-                    CodeSourceUtil.consumeIfExists(codePart, sourceConsumer);
-                }
-            });
-        } else if (part instanceof Bodied) {
-            ((Bodied) part).getBody().ifPresent(codeParts -> {
-                for (CodePart codePart : codeParts) {
-                    CodeSourceUtil.consumeIfExists(codePart, sourceConsumer);
-                }
-            });
+        if (part instanceof BodyHolder) {
+            for (CodePart codePart : ((BodyHolder) part).getBody()) {
+                CodeSourceUtil.consumeIfExists(codePart, sourceConsumer);
+            }
         } else {
             sourceConsumer.accept(part);
         }
@@ -252,7 +240,7 @@ public class CodeSourceUtil {
                 .includeSource(true)
                 .include(bodied -> bodied instanceof CodeSource)
                 .mapTo(codePart -> (TypeDeclaration) codePart)
-                .inspect(typeDeclaration.getBody().orElse(CodeSource.empty()));
+                .inspect(typeDeclaration.getBody());
 
         while (CodeSourceUtil.contains(name, inspect))
             name += "$1";
@@ -282,10 +270,10 @@ public class CodeSourceUtil {
      * @return A new unique name.
      */
     public static String getNewFieldName(String name, CodeSource source) {
-        List<CodeField> inspect = SourceInspect.find(codePart -> codePart instanceof CodeField)
+        List<FieldDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof FieldDeclaration)
                 .includeSource(true)
                 .include(bodied -> bodied instanceof CodeSource)
-                .mapTo(codePart -> (CodeField) codePart)
+                .mapTo(codePart -> (FieldDeclaration) codePart)
                 .inspect(source);
 
         while (CodeSourceUtil.contains(name, inspect))
@@ -302,10 +290,10 @@ public class CodeSourceUtil {
      * @return A new unique name.
      */
     public static String getNewMethodName(String name, CodeSource source) {
-        List<CodeMethod> inspect = SourceInspect.find(codePart -> codePart instanceof CodeMethod)
+        List<MethodDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof MethodDeclaration)
                 .includeSource(true)
                 .include(bodied -> bodied instanceof CodeSource)
-                .mapTo(codePart -> (CodeMethod) codePart)
+                .mapTo(codePart -> (MethodDeclaration) codePart)
                 .inspect(source);
 
         while (CodeSourceUtil.contains(name, inspect))
