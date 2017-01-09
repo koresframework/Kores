@@ -38,9 +38,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Created by jonathan on 21/08/16.
- */
 public class TestInspect {
 
     @Test
@@ -57,7 +54,7 @@ public class TestInspect {
         System.out.println(inspect);
 
         Assert.assertTrue(inspect.size() == 1);
-        Assert.assertEquals("test", inspect.get(0));
+        Assert.assertEquals("test", inspect.get(0).getName());
     }
 
 }
