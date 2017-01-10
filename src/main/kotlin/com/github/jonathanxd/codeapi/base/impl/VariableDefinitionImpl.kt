@@ -25,16 +25,11 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.FieldDefinition
+import com.github.jonathanxd.codeapi.base.VariableDefinition
 import com.github.jonathanxd.codeapi.type.CodeType
 
-/**
- * Defines the value of a field or variable.
- */
-interface FieldDefinition : Accessor, Named, Typed, ValueHolder {
-    override val target: CodePart
-    override val type: CodeType
-    override val value: CodePart
-}
+data class VariableDefinitionImpl(override val type: CodeType, override val name: String, override val value: CodePart) : VariableDefinition

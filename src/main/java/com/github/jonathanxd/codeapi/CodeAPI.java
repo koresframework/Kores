@@ -96,6 +96,7 @@ import com.github.jonathanxd.codeapi.base.impl.ThrowExceptionImpl;
 import com.github.jonathanxd.codeapi.base.impl.TryStatementImpl;
 import com.github.jonathanxd.codeapi.base.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.base.impl.VariableAccessImpl;
+import com.github.jonathanxd.codeapi.base.impl.VariableDefinitionImpl;
 import com.github.jonathanxd.codeapi.base.impl.VariableOperateImpl;
 import com.github.jonathanxd.codeapi.base.impl.WhileStatementImpl;
 import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
@@ -1074,7 +1075,7 @@ public final class CodeAPI {
 
 
     public static VariableDefinition setDeclarationValue(VariableDeclaration declaration, CodePart value) {
-        return setField__Factory(null, null, declaration.getVariableType(), declaration.getName(), value);
+        return setVariable__Factory(declaration.getVariableType(), declaration.getName(), value);
     }
 
     public static FieldDefinition setStaticThisField(CodeType fieldType, String name, CodePart value) {
@@ -1093,35 +1094,39 @@ public final class CodeAPI {
         return setField__Factory(null, CodeAPI.accessThis(), fieldType, name, value);
     }
 
-    public static VariableDeclaration setLocalVariable(CodeType variableType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessLocal(), variableType, name, value);
+    public static VariableDefinition setLocalVariable(CodeType variableType, String name, CodePart value) {
+        return setVariable__Factory(variableType, name, value);
     }
 
     // Class
 
-    public static VariableDefinition setStaticThisField(Class<?> fieldType, String name, CodePart value) {
+    public static FieldDefinition setStaticThisField(Class<?> fieldType, String name, CodePart value) {
         return setField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
-    public static VariableDefinition setStaticField(Class<?> localization, Class<?> fieldType, String name, CodePart value) {
+    public static FieldDefinition setStaticField(Class<?> localization, Class<?> fieldType, String name, CodePart value) {
         return setField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, value);
     }
 
-    public static VariableDefinition setField(Class<?> localization, CodePart at, Class<?> fieldType, String name, CodePart value) {
+    public static FieldDefinition setField(Class<?> localization, CodePart at, Class<?> fieldType, String name, CodePart value) {
         return setField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, value);
     }
 
-    public static VariableDefinition setThisField(Class<?> fieldType, String name, CodePart value) {
+    public static FieldDefinition setThisField(Class<?> fieldType, String name, CodePart value) {
         return setField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static VariableDefinition setLocalVariable(Class<?> variableType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name, value);
+        return setVariable__Factory(CodeAPI.getJavaType(variableType), name, value);
     }
 
     // Factory
     private static FieldDefinition setField__Factory(CodeType localization, CodePart at, CodeType type, String name, CodePart value) {
         return new FieldDefinitionImpl(localization, type, value, name, at);
+    }
+
+    private static VariableDefinition setVariable__Factory(CodeType type, String name, CodePart value) {
+        return new VariableDefinitionImpl(type, name, value);
     }
 
     // =========================================================
