@@ -29,20 +29,20 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
+import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
- * This class denotes a hidden field.
+ * This class denotes a unique field.
  *
- * In source code, this field will be obfuscated
+ * The generator SHOULD create a new unique name for this variable if another variable with same name exists.
  *
- * In bytecode, the LocalVariableTable will not contain this field.
  */
 @GenerateTo(FieldDeclaration::class)
-data class HiddenField @JvmOverloads constructor(
+data class UniqueField @JvmOverloads constructor(
         override val name: String,
         override val variableType: CodeType,
         override val value: CodePart? = null,

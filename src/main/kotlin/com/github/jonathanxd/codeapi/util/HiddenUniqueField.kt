@@ -35,14 +35,13 @@ import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
- * This class denotes a hidden field.
+ * This class denotes a unique and hidden field.
  *
- * In source code, this field will be obfuscated
+ * The behavior of generators should be same as [HiddenField] and [UniqueField] (hide the field and generate a unique name).
  *
- * In bytecode, the LocalVariableTable will not contain this field.
  */
 @GenerateTo(FieldDeclaration::class)
-data class HiddenField @JvmOverloads constructor(
+data class HiddenUniqueField @JvmOverloads constructor(
         override val name: String,
         override val variableType: CodeType,
         override val value: CodePart? = null,

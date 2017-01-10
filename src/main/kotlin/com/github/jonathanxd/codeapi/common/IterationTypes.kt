@@ -30,14 +30,14 @@ package com.github.jonathanxd.codeapi.common
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.MutableCodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.util.CodePartUtil
-import com.github.jonathanxd.codeapi.util.HiddenField
+import com.github.jonathanxd.codeapi.util.HiddenUniqueField
 
 /**
  * Common [IterationTypes][IterationType]
@@ -57,14 +57,13 @@ object IterationTypes {
     val ITERABLE_ELEMENT: IterationType = IterableIterationType
 
     object ArrayIterationType : IterationType {
-        override fun createGenerator(): IterationType.Generator = Generator()
+        override fun createGenerator(): IterationType.Generator = Generator
 
-        class Generator : IterationType.Generator {
-            private var indexFields = 0
+        object Generator : IterationType.Generator {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
-                val fieldName = "\$index#" + (++indexFields)
-                val indexFieldDecl = HiddenField(fieldName, Types.INT, Literals.INT(0))
+                val fieldName = "\$array_index"
+                val indexFieldDecl = HiddenUniqueField(fieldName, Types.INT, Literals.INT(0))
                 val accessIndex = VariableAccessImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,
@@ -122,14 +121,13 @@ object IterationTypes {
 
     object IterableIterationType : IterationType {
 
-        override fun createGenerator(): IterationType.Generator = Generator()
+        override fun createGenerator(): IterationType.Generator = Generator
 
-        class Generator : IterationType.Generator {
-            private var iterFields = 0
+        object Generator : IterationType.Generator {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
-                val fieldName = "\$iter#" + (++iterFields)
-                val iterFieldDecl = HiddenField(fieldName, Types.ITERATOR, Literals.INT(0))
+                val fieldName = "\$iterable_iterator"
+                val iterFieldDecl = HiddenUniqueField(fieldName, Types.ITERATOR, Literals.NULL)
                 val accessIter = VariableAccessImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,
