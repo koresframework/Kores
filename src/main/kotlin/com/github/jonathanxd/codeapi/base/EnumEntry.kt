@@ -39,9 +39,9 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
         get() = false
 
     /**
-     * Enum constructor specification
+     * Enum constructor specification. Null for default enum constructor.
      */
-    val constructorSpec: TypeSpec
+    val constructorSpec: TypeSpec?
 
     /**
      * Enum constructor arguments

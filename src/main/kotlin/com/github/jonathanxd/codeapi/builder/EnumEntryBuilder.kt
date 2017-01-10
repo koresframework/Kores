@@ -36,7 +36,7 @@ class EnumEntryBuilder(): Builder<EnumEntry, EnumEntryBuilder>() {
     /**
      * See [EnumEntry.constructorSpec]
      */
-    lateinit var constructorSpec: com.github.jonathanxd.codeapi.common.TypeSpec
+    var constructorSpec: com.github.jonathanxd.codeapi.common.TypeSpec? = null
 
     /**
      * See [EnumEntry.arguments]
@@ -64,7 +64,7 @@ class EnumEntryBuilder(): Builder<EnumEntry, EnumEntryBuilder>() {
     /**
      * See [EnumEntry.constructorSpec]
      */
-    fun withConstructorSpec(value: com.github.jonathanxd.codeapi.common.TypeSpec): EnumEntryBuilder {
+    fun withConstructorSpec(value: com.github.jonathanxd.codeapi.common.TypeSpec?): EnumEntryBuilder {
         this.constructorSpec = value
         return this
     }

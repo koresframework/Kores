@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.base.EnumEntry
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.TypeSpec
 
-data class EnumEntryImpl(override val constructorSpec: TypeSpec, override val arguments: List<CodeArgument>, override val name: String, override val body: CodeSource?) : EnumEntry {
+data class EnumEntryImpl(override val constructorSpec: TypeSpec?, override val arguments: List<CodeArgument>, override val name: String, override val body: CodeSource?) : EnumEntry {
     init {
         BodyHolder.checkBody(this)
     }
