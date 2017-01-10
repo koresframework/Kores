@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
  * Defines the value of a field or variable.
  */
 interface FieldDefinition : Accessor, Named, Typed, ValueHolder {
-    override val target: CodePart
+    override val target: CodePart?
     override val type: CodeType
     override val value: CodePart
 }
