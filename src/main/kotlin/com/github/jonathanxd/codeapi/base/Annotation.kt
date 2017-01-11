@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.AnnotationBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -56,4 +57,9 @@ interface Annotation : Typed {
      * @return Annotation value.
      */
     val values: Map<String, Any>
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun annotationBbuilder() = AnnotationBuilder(this)
 }

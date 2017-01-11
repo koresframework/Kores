@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.builder.StaticBlockBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 
@@ -53,11 +54,14 @@ interface StaticBlock : ConstructorDeclaration {
     override val modifiers: Set<CodeModifier>
         get() = Constants.MODIFIERS
 
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun staticBlockBuilder() = StaticBlockBuilder(this)
 
     companion object Constants {
         val NAME = "<clinit>"
         val MODIFIERS = setOf(CodeModifier.STATIC)
         val RETURN_TYPE = Types.VOID
-
     }
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.IfExprBuilder
 import com.github.jonathanxd.codeapi.operator.Operator
 
 /**
@@ -51,4 +52,11 @@ interface IfExpr : CodePart {
      * Second expression
      */
     val expr2: CodePart
+
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun ifExprBuilder() = IfExprBuilder(this)
+
 }

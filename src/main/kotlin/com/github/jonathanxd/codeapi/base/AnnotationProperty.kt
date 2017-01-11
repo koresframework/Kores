@@ -27,12 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.AnnotationPropertyBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
  * An annotation property
  */
-interface AnnotationProperty : Named, RequiredTyped, Typed, Annotable, ReturnTypeHolder {
+interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
 
     /**
      * Annotation value
@@ -41,4 +42,12 @@ interface AnnotationProperty : Named, RequiredTyped, Typed, Annotable, ReturnTyp
 
     override val returnType: CodeType?
         get() = this.type
+
+    override val type: CodeType
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun annotationPropertyBuilder() = AnnotationPropertyBuilder(this)
+
 }

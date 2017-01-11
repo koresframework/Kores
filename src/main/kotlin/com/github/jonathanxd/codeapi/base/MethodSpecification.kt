@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.MethodSpecificationBuilder
 import com.github.jonathanxd.codeapi.common.MethodType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 
@@ -55,4 +56,10 @@ interface MethodSpecification : Named {
      * Method parameter types and return type description
      */
     val description: TypeSpec
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun methodSpecificationBuilder() = MethodSpecificationBuilder(this)
+
 }

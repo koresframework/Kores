@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ThrowExceptionBuilder
 
 /**
  * Throw an exception
@@ -38,5 +39,10 @@ interface ThrowException : CodePart {
      * Part to throw
      */
     val partToThrow: CodePart
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun throwExceptionBuilder() = ThrowExceptionBuilder(this)
 
 }

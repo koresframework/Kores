@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.VariableOperateBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -42,5 +43,10 @@ interface VariableOperate : VariableAccess, Operate, ValueHolder {
 
     override val type: CodeType?
         get() = super<VariableAccess>.type
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun variableOperateBuilder() = VariableOperateBuilder(this)
 
 }

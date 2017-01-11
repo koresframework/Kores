@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ForEachStatementBuilder
 import com.github.jonathanxd.codeapi.common.IterationType
 
 /**
@@ -51,5 +52,10 @@ interface ForEachStatement : BodyHolder {
      * Element to iterate
      */
     val iterableElement: CodePart
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun forEachStatementBuilder() = ForEachStatementBuilder(this)
 
 }

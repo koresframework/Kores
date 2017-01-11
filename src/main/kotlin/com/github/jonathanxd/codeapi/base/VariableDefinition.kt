@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.VariableDefinitionBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -36,4 +37,10 @@ import com.github.jonathanxd.codeapi.type.CodeType
 interface VariableDefinition : Named, Typed, ValueHolder {
     override val type: CodeType
     override val value: CodePart
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun variableDefinitionBuilder() = VariableDefinitionBuilder(this)
+
 }

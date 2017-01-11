@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ForStatementBuilder
 
 /**
  * For block statement
@@ -53,4 +54,10 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
      * For update
      */
     val forUpdate: CodePart?
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun forStatementBuilder() = ForStatementBuilder(this)
+
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.builder.IfStatementBuilder
 
 /**
  * A if statement.
@@ -40,5 +41,11 @@ interface IfStatement : IfExpressionHolder, BodyHolder {
     /**
      * Else block source
      */
-    val elseBlock: CodeSource
+    val elseStatement: CodeSource
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun ifStatementBuilder() = IfStatementBuilder(this)
+
 }

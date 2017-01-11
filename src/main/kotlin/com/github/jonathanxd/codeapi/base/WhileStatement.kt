@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.WhileStatementBuilder
+
 /**
  * While statement
  */
@@ -35,6 +37,8 @@ interface WhileStatement : IfExpressionHolder, BodyHolder {
      * Type of the while block
      */
     val type: Type
+
+    fun whileStatementBuilder() = WhileStatementBuilder(this)
 
     enum class Type {
         /**

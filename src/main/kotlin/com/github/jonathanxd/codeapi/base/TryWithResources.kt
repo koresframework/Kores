@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.TryWithResourcesBuilder
+
 /**
  * Try-with-resources
  */
@@ -36,5 +38,10 @@ interface TryWithResources : TryStatement {
      * Variable of Try-with-resources (value must be [AutoCloseable])
      */
     val variable: VariableDeclaration
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun tryWithResourcesBuilder() = TryWithResourcesBuilder(this)
 
 }

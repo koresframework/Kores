@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.CaseBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
@@ -44,4 +45,10 @@ interface Case : ValueHolder, Typed, BodyHolder {
      * Is not case default
      */
     val isNotDefault get() = !this.isDefault
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun caseBuilder() = CaseBuilder(this)
+
 }

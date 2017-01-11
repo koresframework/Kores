@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeRoot
+import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -40,5 +41,10 @@ interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnType
         get() = this.returnType
 
     override val returnType: CodeType
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun methodDeclarationBuilder() = MethodDeclarationBuilder(this)
 
 }

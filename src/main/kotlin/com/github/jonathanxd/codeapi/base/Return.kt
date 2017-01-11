@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ReturnBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -36,4 +37,10 @@ import com.github.jonathanxd.codeapi.type.CodeType
 interface Return : ValueHolder, Typed {
     override val type: CodeType
     override val value: CodePart
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun returnBuilder() = ReturnBuilder(this)
+
 }

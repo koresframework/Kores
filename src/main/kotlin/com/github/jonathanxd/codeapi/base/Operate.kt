@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.OperateBuilder
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
@@ -54,5 +55,10 @@ interface Operate : ValueHolder, Typed {
 
     override val type: CodeType?
         get() = CodePartUtil.getTypeOrNull(this.target)
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun operateBuilder() = OperateBuilder(this)
 
 }

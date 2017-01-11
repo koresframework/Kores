@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.EnumValueBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -54,4 +55,10 @@ interface EnumValue : Named, Typed {
      * Enum ordinal value.
      */
     val ordinal: Int
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun enumValueBuilder() = EnumValueBuilder(this)
+
 }

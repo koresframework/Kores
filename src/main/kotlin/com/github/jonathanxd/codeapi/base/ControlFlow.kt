@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ControlFlowBuilder
 
 /**
  * Control the flow of a statement.
@@ -45,6 +46,12 @@ interface ControlFlow : CodePart {
      * **Note**: [Type.CONTINUE] to a label may be unstable.
      */
     val at: Label?
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun controlFlowBuilder() = ControlFlowBuilder(this)
+
 
     enum class Type {
         /**

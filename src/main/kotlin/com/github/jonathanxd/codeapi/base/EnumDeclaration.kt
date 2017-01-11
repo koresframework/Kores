@@ -27,8 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder
+
 /**
  * Enum declaration
  */
 interface EnumDeclaration : TypeDeclaration, ImplementationHolder, EntryHolder {
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun enumDeclarationBuilder() = EnumDeclarationBuilder(this)
+
 }

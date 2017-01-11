@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -36,4 +37,10 @@ import com.github.jonathanxd.codeapi.type.CodeType
 interface FieldDeclaration : CodeElement, VariableDeclaration, Named, Typed, ValueHolder, ModifiersHolder, Annotable {
     override val type: CodeType
         get() = this.variableType
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun fieldDeclarationBuilder() = FieldDeclarationBuilder(this)
+
 }

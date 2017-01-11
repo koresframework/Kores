@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.builder.TryStatementBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -53,4 +54,10 @@ interface TryStatement : BodyHolder, Typed {
      * Finally block statement
      */
     val finallyStatement: CodeSource?
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun tryStatementBuilder() = TryStatementBuilder(this)
+
 }

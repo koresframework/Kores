@@ -27,7 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.VariableAccessBuilder
+
 /**
  * Access to a variable
  */
-interface VariableAccess : VariableBase, Accessor
+interface VariableAccess : VariableBase, Accessor {
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun variableAccessBuilder() = VariableAccessBuilder(this)
+
+}

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.AccessBuilder
 import com.github.jonathanxd.codeapi.keyword.Keyword
 import com.github.jonathanxd.codeapi.keyword.Keywords
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -53,6 +54,11 @@ interface Access : CodePart {
      */
     val localization: CodeType?
 
+    /**
+     * See [CodePart]
+     */
+    fun accessBuilder() = AccessBuilder(this)
+
     enum class Type(val keyword: Keyword?) {
 
         /**
@@ -74,6 +80,7 @@ interface Access : CodePart {
          * Access to super class scope
          */
         SUPER(Keywords.SUPER)
-
     }
+
+
 }

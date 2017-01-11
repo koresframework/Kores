@@ -27,11 +27,18 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder
 import com.github.jonathanxd.codeapi.type.ClassType
 
 interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
 
     override val classType: ClassType
         get() = ClassType.CLASS
+
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun classDeclarationBuilder() = ClassDeclarationBuilder(this)
 
 }

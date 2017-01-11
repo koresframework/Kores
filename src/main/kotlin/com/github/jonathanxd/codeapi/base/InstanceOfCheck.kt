@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.builder.InstanceOfCheckBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -48,5 +49,10 @@ interface InstanceOfCheck : Typed {
      * Type to check
      */
     val checkType: CodeType
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun instanceOfCheckBuilder() = InstanceOfCheckBuilder(this)
 
 }

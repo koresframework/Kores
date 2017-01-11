@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ArrayConstructorBuilder
 import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -63,11 +64,11 @@ interface ArrayConstructor : ArgumentHolder, Typed {
 
                 arrayStores.add(
                         ArrayStoreBuilder().build {
-                            arrayType = arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
-                            target = Stack.INSTANCE
-                            index = Literals.INT(i)
-                            valueType = argument.type!!
-                            valueToStore = argumentValue
+                            this.arrayType = arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
+                            this.target = Stack.INSTANCE
+                            this.index = Literals.INT(i)
+                            this.valueType = argument.type!!
+                            this.valueToStore = argumentValue
                         }
                 )
             }
@@ -80,4 +81,10 @@ interface ArrayConstructor : ArgumentHolder, Typed {
 
     override val array: Boolean
         get() = true
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun arrayConstructorBuilder() = ArrayConstructorBuilder(this)
+
 }

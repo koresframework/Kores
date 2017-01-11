@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.FieldDefinitionBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -37,4 +38,10 @@ interface FieldDefinition : Accessor, Named, Typed, ValueHolder {
     override val target: CodePart?
     override val type: CodeType
     override val value: CodePart
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun fieldDefinitionBuilder() = FieldDefinitionBuilder(this)
+
 }

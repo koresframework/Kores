@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder
 import com.github.jonathanxd.codeapi.type.ClassType
 
 /**
@@ -36,4 +37,11 @@ interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
 
     override val classType: ClassType
         get() = ClassType.INTERFACE
+
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun interfaceDeclarationBuilder() = InterfaceDeclarationBuilder(this)
+
 }

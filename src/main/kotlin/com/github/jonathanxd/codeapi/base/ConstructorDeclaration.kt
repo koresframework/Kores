@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -40,5 +41,10 @@ interface ConstructorDeclaration : MethodDeclaration {
 
     override val returnType: CodeType
         get() = Types.VOID
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun constructorDeclarationBuilder() = ConstructorDeclarationBuilder(this)
 
 }

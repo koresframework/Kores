@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder
+import com.github.jonathanxd.codeapi.builder.Builder
+
 /**
  * Annotation declaration
  */
@@ -36,5 +39,10 @@ interface AnnotationDeclaration : TypeDeclaration {
      * Annotation properties
      */
     val properties: List<AnnotationProperty>
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun annotationDeclarationBuilder() = AnnotationDeclarationBuilder(this)
 
 }

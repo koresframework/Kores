@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ConcatBuilder
 
 interface Concat : CodePart {
 
@@ -35,5 +36,10 @@ interface Concat : CodePart {
      * Elements to concatenate.
      */
     val concatenations: List<CodePart>
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun concatBuilder() = ConcatBuilder(this)
 
 }

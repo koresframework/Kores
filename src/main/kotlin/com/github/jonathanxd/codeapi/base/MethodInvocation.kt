@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.MethodInvocationBuilder
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
@@ -70,5 +71,11 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
      * Dynamic invocation
      */
     val invokeDynamic: InvokeDynamic?
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun methodInvocationBuilder() = MethodInvocationBuilder(this)
+
 
 }

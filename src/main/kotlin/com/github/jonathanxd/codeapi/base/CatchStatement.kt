@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.CatchStatementBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -45,5 +46,11 @@ interface CatchStatement : BodyHolder, Typed {
 
     override val type: CodeType?
         get() = this.variable.type
+
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun catchStatementBuilder() = CatchStatementBuilder(this)
 
 }

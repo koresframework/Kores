@@ -28,22 +28,35 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
+import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
  * Store a value in array.
  */
-interface ArrayStore : ArrayLoad, ValueHolder {
+interface ArrayStore : ArrayAccess, ValueHolder {
 
     /**
      * Index in array to store the value
      */
-    override val index: CodePart
+    val index: CodePart
 
     override val value: CodePart?
         get() = this.valueToStore
 
     /**
+     * Type of the value
+     */
+    val valueType: CodeType
+
+    /**
      * Value to store in array
      */
     val valueToStore: CodePart
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun arrayStoreBuilder() = ArrayStoreBuilder(this)
+
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.ArrayLoadBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 interface ArrayLoad : ArrayAccess, Typed {
@@ -44,4 +45,10 @@ interface ArrayLoad : ArrayAccess, Typed {
 
     override val type: CodeType?
         get() = this.valueType
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun arrayLoadBuilder() = ArrayLoadBuilder(this)
+
 }

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.common.SwitchType
 import com.github.jonathanxd.codeapi.type.CodeType
 
@@ -80,4 +81,10 @@ interface SwitchStatement : ValueHolder, Typed {
 
     override val type: CodeType?
         get() = this.value.type
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun switchStatementBuilder() = SwitchStatementBuilder(this)
+
 }

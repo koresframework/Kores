@@ -27,7 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.builder.LabelBuilder
+
 /**
  * Label.
  */
-interface Label: Named, BodyHolder
+interface Label: Named, BodyHolder {
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun labelBuilder() = LabelBuilder(this)
+
+}

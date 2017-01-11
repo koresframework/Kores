@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.CastBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -52,4 +53,10 @@ interface Cast : Typed {
 
     override val type: CodeType?
         get() = this.targetType
+
+    /**
+     * Read [com.github.jonathanxd.codeapi.CodePart]
+     */
+    fun castBuilder() = CastBuilder(this)
+
 }
