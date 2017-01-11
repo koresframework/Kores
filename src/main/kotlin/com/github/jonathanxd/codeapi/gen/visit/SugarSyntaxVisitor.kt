@@ -35,8 +35,6 @@ import com.github.jonathanxd.iutils.type.TypeInfo
 
 open class SugarSyntaxVisitor<in T : CodePart, out R : CodePart, V>(val sugarSyntax: SugarSyntax<T, R>) : VoidVisitor<T, V, Any?> {
 
-    val ENVIRONMENT: TypeInfo<SugarEnvironment> = TypeInfo.aUnique(SugarEnvironment::class.java)
-
     override fun voidVisit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<V>, additional: Any?) {
         val generated = this.sugarSyntax.createGenerator(
                 extraData.getRequired(ENVIRONMENT)
@@ -45,4 +43,8 @@ open class SugarSyntaxVisitor<in T : CodePart, out R : CodePart, V>(val sugarSyn
         visitorGenerator.generateTo(generated.javaClass, generated, extraData, null)
     }
 
+    companion object {
+        @JvmField
+        val ENVIRONMENT: TypeInfo<SugarEnvironment> = TypeInfo.aUnique(SugarEnvironment::class.java)
+    }
 }
