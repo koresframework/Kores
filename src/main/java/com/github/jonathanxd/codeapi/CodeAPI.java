@@ -1637,7 +1637,7 @@ public final class CodeAPI {
      * @param elseStatement Else statement of the if.
      * @return If statement.
      */
-    public static IfStatement ifStatement(IfStatement ifExpr, CodeSource body, CodeSource elseStatement) {
+    public static IfStatement ifStatement(IfExpr ifExpr, CodeSource body, CodeSource elseStatement) {
         return ifStatement__Factory(CodeAPI.ifExprs(ifExpr), body, elseStatement);
     }
 
@@ -1648,7 +1648,7 @@ public final class CodeAPI {
      * @param body   Body of the if.
      * @return If statement.
      */
-    public static IfStatement ifStatement(IfStatement ifExpr, CodeSource body) {
+    public static IfStatement ifStatement(IfExpr ifExpr, CodeSource body) {
         return ifStatement__Factory(CodeAPI.ifExprs(ifExpr), body, CodeSource.empty());
     }
 
