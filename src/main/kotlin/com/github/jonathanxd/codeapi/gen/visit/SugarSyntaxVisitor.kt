@@ -28,13 +28,19 @@
 package com.github.jonathanxd.codeapi.gen.visit
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import com.github.jonathanxd.iutils.data.MapData
+import com.github.jonathanxd.iutils.type.TypeInfo
 
 open class SugarSyntaxVisitor<in T : CodePart, out R : CodePart, V>(val sugarSyntax: SugarSyntax<T, R>) : VoidVisitor<T, V, Any?> {
 
+    val ENVIRONMENT: TypeInfo<SugarEnvironment> = TypeInfo.aUnique(SugarEnvironment::class.java)
+
     override fun voidVisit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<V>, additional: Any?) {
-        val generated = this.sugarSyntax.createGenerator().generate(t, visitorGenerator)
+        val generated = this.sugarSyntax.createGenerator(
+                extraData.getRequired(ENVIRONMENT)
+        ).generate(t, visitorGenerator)
 
         visitorGenerator.generateTo(generated.javaClass, generated, extraData, null)
     }
