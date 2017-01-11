@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.base.impl.SwitchStatementImpl
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.sugar.Generator
+import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import java.util.Objects
 import java.util.stream.Collectors
@@ -46,7 +47,11 @@ interface SwitchType : PartProcessor, SugarSyntax<SwitchStatement, SwitchStateme
     val isUnique: Boolean
         get() = false
 
-    override fun createGenerator(): SwitchGenerator
+    override fun createGenerator(sugarEnvironment: SugarEnvironment): Generator<SwitchStatement, SwitchStatement> {
+        return this.createGenerator()
+    }
+
+    fun createGenerator(): SwitchGenerator
 
     /**
      * This generator will not be called if the [SwitchType] is [SwitchTypes.NUMERIC].

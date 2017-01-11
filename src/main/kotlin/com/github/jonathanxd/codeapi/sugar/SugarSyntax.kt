@@ -44,5 +44,5 @@ interface SugarSyntax<in T : CodePart, out E : CodePart> {
      *
      * @return new [Generator].
      */
-    fun createGenerator(): Generator<T, E>
+    fun createGenerator(sugarEnvironment: SugarEnvironment): Generator<T, E>
 }

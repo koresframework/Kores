@@ -33,9 +33,11 @@ import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
+import com.github.jonathanxd.codeapi.factory.field
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators
+import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 import com.github.jonathanxd.codeapi.util.HiddenUniqueField
 
@@ -57,13 +59,13 @@ object IterationTypes {
     val ITERABLE_ELEMENT: IterationType = IterableIterationType
 
     object ArrayIterationType : IterationType {
-        override fun createGenerator(): IterationType.Generator = Generator
+        override fun createGenerator(sugarEnvironment: SugarEnvironment): IterationType.Generator = Generator(sugarEnvironment)
 
-        object Generator : IterationType.Generator {
+        class Generator(val sugarEnvironment: SugarEnvironment) : IterationType.Generator {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
-                val fieldName = "\$array_index"
-                val indexFieldDecl = HiddenUniqueField(fieldName, Types.INT, Literals.INT(0))
+                val fieldName = sugarEnvironment.getVariableName("\$array_index")
+                val indexFieldDecl = field(Types.INT, fieldName, Literals.INT(0))
                 val accessIndex = VariableAccessImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,
@@ -121,13 +123,13 @@ object IterationTypes {
 
     object IterableIterationType : IterationType {
 
-        override fun createGenerator(): IterationType.Generator = Generator
+        override fun createGenerator(sugarEnvironment: SugarEnvironment): IterationType.Generator = Generator(sugarEnvironment)
 
-        object Generator : IterationType.Generator {
+        class Generator(val sugarEnvironment: SugarEnvironment) : IterationType.Generator {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
-                val fieldName = "\$iterable_iterator"
-                val iterFieldDecl = HiddenUniqueField(fieldName, Types.ITERATOR, Literals.NULL)
+                val fieldName = sugarEnvironment.getVariableName("\$iterable_iterator")
+                val iterFieldDecl = field(Types.ITERATOR, fieldName, Literals.NULL)
                 val accessIter = VariableAccessImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,

@@ -25,26 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util
-
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.base.FieldDeclaration
-import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.type.CodeType
+package com.github.jonathanxd.codeapi.sugar
 
 /**
- * This class denotes a unique field.
- *
- * The generator SHOULD create a new unique name for this variable if another variable with same name exists.
- *
+ * Sugar environment.
  */
-@GenerateTo(FieldDeclaration::class)
-data class UniqueField @JvmOverloads constructor(
-        override val name: String,
-        override val variableType: CodeType,
-        override val value: CodePart? = null,
-        override val modifiers: Set<CodeModifier> = emptySet(),
-        override val annotations: List<Annotation> = emptyList()) : FieldDeclaration
+interface SugarEnvironment {
+
+    /**
+     * Create a new variable name from a base name.
+     */
+    fun getVariableName(base: String): String
+
+}

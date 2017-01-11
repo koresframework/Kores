@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.ForStatement
 import com.github.jonathanxd.codeapi.gen.PartProcessor
+import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 
 /**
@@ -42,7 +43,7 @@ import com.github.jonathanxd.codeapi.sugar.SugarSyntax
  */
 interface IterationType : PartProcessor, SugarSyntax<ForEachStatement, CodeSource> {
 
-    override fun createGenerator(): Generator
+    override fun createGenerator(sugarEnvironment: SugarEnvironment): Generator
 
 
     /**
