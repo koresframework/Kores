@@ -39,7 +39,6 @@ import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.util.CodePartUtil
-import com.github.jonathanxd.codeapi.util.HiddenUniqueField
 
 /**
  * Common [IterationTypes][IterationType]
