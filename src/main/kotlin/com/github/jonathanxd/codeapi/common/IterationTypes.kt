@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.Defaults
-import com.github.jonathanxd.codeapi.MutableCodeSource
-import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.factory.field
@@ -66,8 +63,6 @@ object IterationTypes {
                 val fieldName = sugarEnvironment.getVariableName("\$array_index")
                 val indexFieldDecl = field(Types.INT, fieldName, Literals.INT(0))
                 val accessIndex = VariableAccessImpl(
-                        target = Defaults.ACCESS_LOCAL,
-                        localization = null,
                         name = indexFieldDecl.name,
                         variableType = indexFieldDecl.type
                 )
@@ -78,6 +73,14 @@ object IterationTypes {
                         expr2 = ArrayLengthImpl(arrayType = CodePartUtil.getType(t.iterableElement), target = t.iterableElement)
                 )
 
+                val update = CodeAPI.operateAndAssign(
+                        indexFieldDecl,
+                        Operators.ADD,
+                        Literals.INT(1)
+                )
+
+                /*
+                Old way
                 val update = VariableOperateImpl(
                         target = Defaults.ACCESS_LOCAL,
                         localization = null,
@@ -85,7 +88,7 @@ object IterationTypes {
                         variableType = indexFieldDecl.type,
                         operation = Operators.INCREMENT,
                         value = null
-                )
+                )*/
 
                 val body = MutableCodeSource()
 
@@ -93,7 +96,7 @@ object IterationTypes {
 
                 body.add(FieldDeclarationImpl(
                         name = field.name,
-                        variableType = field.variableType,
+                        type = field.variableType,
                         value = ArrayLoadImpl(
                                 arrayType = CodePartUtil.getType(t.iterableElement),
                                 target = t.iterableElement,
@@ -130,8 +133,6 @@ object IterationTypes {
                 val fieldName = sugarEnvironment.getVariableName("\$iterable_iterator")
                 val iterFieldDecl = field(Types.ITERATOR, fieldName, Literals.NULL)
                 val accessIter = VariableAccessImpl(
-                        target = Defaults.ACCESS_LOCAL,
-                        localization = null,
                         name = iterFieldDecl.name,
                         variableType = iterFieldDecl.type
                 )
@@ -179,7 +180,7 @@ object IterationTypes {
                         modifiers = emptySet(),
                         annotations = emptyList(),
                         name = field.name,
-                        variableType = field.variableType,
+                        type = field.variableType,
                         value = CastImpl(
                                 originalType = Types.OBJECT,
                                 castedPart = next,

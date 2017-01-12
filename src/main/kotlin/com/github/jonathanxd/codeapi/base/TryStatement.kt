@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.builder.TryStatementBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.self
 
 /**
  * Try-catch-finally statement
@@ -55,9 +56,29 @@ interface TryStatement : BodyHolder, Typed {
      */
     val finallyStatement: CodeSource?
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun tryStatementBuilder() = TryStatementBuilder(this)
+    override fun builder(): Builder<TryStatement, *> = TryStatementBuilder(this)
+
+    interface Builder<out T: TryStatement, S: Builder<T, S>> :
+            BodyHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withType(value: CodeType?): S = self()
+
+        /**
+         * See [T.catchStatements]
+         */
+        fun withCatchStatements(value: List<CatchStatement>): S
+
+        /**
+         * See [T.catchStatements]
+         */
+        fun withCatchStatements(vararg values: CatchStatement): S
+
+        /**
+         * See [T.finallyStatement]
+         */
+        fun withFinallyStatement(value: CodeSource?): S
+
+    }
 
 }

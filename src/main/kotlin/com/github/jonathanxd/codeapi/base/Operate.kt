@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
 /**
- * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
+ * Mathematical operation.
  */
 interface Operate : ValueHolder, Typed {
 
@@ -46,7 +46,7 @@ interface Operate : ValueHolder, Typed {
     /**
      * Operation to apply.
      */
-    val operation: Operator
+    val operation: Operator.Math
 
     /**
      * Value to apply operation (some operations doesn't require any value).
@@ -56,9 +56,25 @@ interface Operate : ValueHolder, Typed {
     override val type: CodeType?
         get() = CodePartUtil.getTypeOrNull(this.target)
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun operateBuilder() = OperateBuilder(this)
+    override fun builder(): Builder<Operate, *> = OperateBuilder(this)
+
+    interface Builder<out T : Operate, S : Builder<T, S>> :
+            ValueHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withType(value: CodeType?): S = this as S
+
+        /**
+         * See [T.target]
+         */
+        fun withTarget(value: CodePart?): S
+
+        /**
+         * See [T.operation]
+         */
+        fun withOperation(value: Operator.Math): S
+
+    }
 
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.builder.ControlFlowBuilder
 
 /**
@@ -47,11 +48,7 @@ interface ControlFlow : CodePart {
      */
     val at: Label?
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun controlFlowBuilder() = ControlFlowBuilder(this)
-
+    override fun builder(): Builder<ControlFlow, *> = ControlFlowBuilder(this)
 
     enum class Type {
         /**
@@ -63,5 +60,17 @@ interface ControlFlow : CodePart {
          * Continue at start of the flow
          */
         CONTINUE
+    }
+
+    interface Builder<out T: ControlFlow, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.type]
+         */
+        fun withType(value: Type): S
+
+        /**
+         * See [T.at]
+         */
+        fun withAt(value: Label?): S
     }
 }

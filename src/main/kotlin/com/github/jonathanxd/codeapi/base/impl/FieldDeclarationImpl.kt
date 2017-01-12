@@ -33,4 +33,4 @@ import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 
-data class FieldDeclarationImpl(override val annotations: List<Annotation>, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val name: String, override val variableType: CodeType) : FieldDeclaration
+data class FieldDeclarationImpl(override val annotations: List<Annotation>, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val name: String, override val type: CodeType) : FieldDeclaration

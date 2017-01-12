@@ -39,4 +39,18 @@ interface ImplementationHolder : CodePart {
      * Implementations
      */
     val implementations: List<CodeType>
+
+    override fun builder(): Builder<ImplementationHolder, *>
+
+    interface Builder<out T : ImplementationHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.implementations]
+         */
+        fun withImplementations(value: List<CodeType>): S
+
+        /**
+         * See [T.implementations]
+         */
+        fun withImplementations(vararg values: CodeType): S
+    }
 }

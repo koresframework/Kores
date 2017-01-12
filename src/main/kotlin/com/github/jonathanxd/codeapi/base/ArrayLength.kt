@@ -45,9 +45,14 @@ interface ArrayLength : ArrayAccess, Typed {
     override val type: CodeType?
         get() = Types.INT
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun arrayLengthBuilder() = ArrayLengthBuilder(this)
+    override fun builder(): Builder<ArrayLength, *> = ArrayLengthBuilder(this)
 
+    interface Builder<out T: ArrayLength, S: Builder<T, S>> :
+            ArrayAccess.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withType(value: CodeType?): S = this as S
+
+    }
 }

@@ -58,8 +58,18 @@ interface Annotation : Typed {
      */
     val values: Map<String, Any>
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun annotationBbuilder() = AnnotationBuilder(this)
+    override fun builder(): Builder<Annotation, *> = AnnotationBuilder(this)
+
+    interface Builder<out T : Annotation, S : Builder<T, S>> : Typed.Builder<T, S> {
+
+        /**
+         * See [T.visible]
+         */
+        fun withVisible(value: Boolean): S
+
+        /**
+         * See [T.values]
+         */
+        fun withValues(value: Map<String, Any>): S
+    }
 }

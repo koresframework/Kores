@@ -39,9 +39,12 @@ interface TryWithResources : TryStatement {
      */
     val variable: VariableDeclaration
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun tryWithResourcesBuilder() = TryWithResourcesBuilder(this)
+    override fun builder(): Builder<TryWithResources, *> = TryWithResourcesBuilder(this)
 
+    interface Builder<out T: TryWithResources, S: Builder<T, S>> : TryStatement.Builder<T, S> {
+        /**
+         * See [T.variable]
+         */
+        fun withVariable(value: VariableDeclaration): S
+    }
 }

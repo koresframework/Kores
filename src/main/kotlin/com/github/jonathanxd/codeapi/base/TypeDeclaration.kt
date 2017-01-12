@@ -52,4 +52,15 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
 
     override val canonicalName: String
         get() = this.qualifiedName
+
+    override fun builder(): Builder<TypeDeclaration, *>
+
+    interface Builder<out T : TypeDeclaration, S : Builder<T, S>> :
+            ModifiersHolder.Builder<T, S>,
+            QualifiedNamed.Builder<T, S>,
+            GenericSignatureHolder.Builder<T, S>,
+            BodyHolder.Builder<T, S>,
+            Annotable.Builder<T, S> {
+        fun withOuterClass(value: CodeType?): S
+    }
 }

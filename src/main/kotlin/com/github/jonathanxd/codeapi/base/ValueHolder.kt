@@ -39,4 +39,14 @@ interface ValueHolder : CodePart {
      */
     val value: CodePart?
 
+    override fun builder(): Builder<ValueHolder, *>
+
+    interface Builder<out T : ValueHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.value]
+         */
+        fun withValue(value: CodePart?): S
+
+    }
 }

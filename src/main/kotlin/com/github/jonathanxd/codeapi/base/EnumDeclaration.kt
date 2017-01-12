@@ -34,9 +34,10 @@ import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder
  */
 interface EnumDeclaration : TypeDeclaration, ImplementationHolder, EntryHolder {
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun enumDeclarationBuilder() = EnumDeclarationBuilder(this)
+    override fun builder(): Builder<EnumDeclaration, *> = EnumDeclarationBuilder(this)
 
+    interface Builder<out T: EnumDeclaration, S: Builder<T, S>> :
+            TypeDeclaration.Builder<T, S>,
+            ImplementationHolder.Builder<T, S>,
+            EntryHolder.Builder<T, S>
 }

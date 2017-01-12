@@ -32,11 +32,10 @@ import com.github.jonathanxd.codeapi.builder.VariableAccessBuilder
 /**
  * Access to a variable
  */
-interface VariableAccess : VariableBase, Accessor {
+interface VariableAccess : VariableBase {
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun variableAccessBuilder() = VariableAccessBuilder(this)
+    override fun builder(): Builder<VariableAccess, *> = VariableAccessBuilder(this)
 
+    interface Builder<out T : VariableAccess, S : Builder<T, S>> :
+            VariableBase.Builder<T, S>
 }

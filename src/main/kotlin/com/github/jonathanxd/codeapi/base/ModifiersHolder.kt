@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.common.CodeModifier
 
 /**
@@ -40,4 +41,10 @@ interface ModifiersHolder : CodePart {
      */
     val modifiers: Set<CodeModifier>
 
+    override fun builder(): Builder<ModifiersHolder, *>
+
+    interface Builder<out T: ModifiersHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        fun withModifiers(value: Set<CodeModifier>): S
+        fun withModifiers(vararg values: CodeModifier): S
+    }
 }

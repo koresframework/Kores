@@ -27,8 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.operator
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.base.Named
+import java.util.*
 
 /**
  * [Operators][Operator] constants.
@@ -37,79 +36,85 @@ import com.github.jonathanxd.codeapi.base.Named
  */
 object Operators {
 
-    @JvmField
-    val ASSIGNMENT: Operator = SimpleOperator("=")
+    private val knownOperators_ = mutableMapOf<String, Operator>()
 
     @JvmField
-    val ADD: Operator = SimpleOperator("+")
+    val knownOperators: Map<String, Operator> = Collections.unmodifiableMap(this.knownOperators_)!!
 
     @JvmField
-    val SUBTRACT: Operator = SimpleOperator("-")
+    val ADD = createMath("+")
 
     @JvmField
-    val MULTIPLY: Operator = SimpleOperator("*")
+    val SUBTRACT = createMath("-")
 
     @JvmField
-    val DIVISION: Operator = SimpleOperator("/")
+    val MULTIPLY = createMath("*")
 
     @JvmField
-    val REMAINDER: Operator = SimpleOperator("%")
+    val DIVISION = createMath("/")
 
     @JvmField
-    val INCREMENT: Operator = SimpleOperator("++")
+    val REMAINDER = createMath("%")
 
     @JvmField
-    val DECREMENT: Operator = SimpleOperator("--")
+    val UNARY_BITWISE_COMPLEMENT = createMath("~")
 
     @JvmField
-    val NOT: Operator = SimpleOperator("!")
+    val BITWISE_AND = createMath("&")
 
     @JvmField
-    val EQUAL_TO: Operator = SimpleOperator("==")
+    val BITWISE_EXCLUSIVE_OR = createMath("^")
 
     @JvmField
-    val NOT_EQUAL_TO: Operator = SimpleOperator("!=")
+    val BITWISE_INCLUSIVE_OR = createMath("|")
 
     @JvmField
-    val GREATER_THAN: Operator = SimpleOperator(">")
+    val SIGNED_LEFT_SHIFT = createMath("<<")
 
     @JvmField
-    val GREATER_THAN_OR_EQUAL_TO: Operator = SimpleOperator(">=")
+    val SIGNED_RIGHT_SHIFT = createMath(">>")
 
     @JvmField
-    val LESS_THAN: Operator = SimpleOperator("<")
+    val UNSIGNED_RIGHT_SHIFT = createMath(">>>")
 
     @JvmField
-    val LESS_THAN_OR_EQUAL_TO: Operator = SimpleOperator("<=")
+    val NOT = createConditional("!")
 
     @JvmField
-    val AND: Operator = SimpleOperator("&&")
+    val EQUAL_TO = createConditional("==")
 
     @JvmField
-    val OR: Operator = SimpleOperator("||")
+    val NOT_EQUAL_TO = createConditional("!=")
 
     @JvmField
-    val UNARY_BITWISE_COMPLEMENT: Operator = SimpleOperator("~")
+    val GREATER_THAN = createConditional(">")
 
     @JvmField
-    val BITWISE_AND: Operator = SimpleOperator("&")
+    val GREATER_THAN_OR_EQUAL_TO = createConditional(">=")
 
     @JvmField
-    val BITWISE_EXCLUSIVE_OR: Operator = SimpleOperator("^")
+    val LESS_THAN = createConditional("<")
 
     @JvmField
-    val BITWISE_INCLUSIVE_OR: Operator = SimpleOperator("|")
+    val LESS_THAN_OR_EQUAL_TO = createConditional("<=")
 
     @JvmField
-    val SIGNED_LEFT_SHIFT: Operator = SimpleOperator("<<")
+    val AND = createConditional("&&")
 
     @JvmField
-    val SIGNED_RIGHT_SHIFT: Operator = SimpleOperator(">>")
+    val OR = createConditional("||")
 
-    @JvmField
-    val UNSIGNED_RIGHT_SHIFT: Operator = SimpleOperator(">>>")
+    fun createMath(name: String) = Operator.Math(name).let {
+        it.registerOperator()
+        it
+    }
 
-    @GenerateTo(Named::class)
-    private class SimpleOperator(name: String) : Operator(name)
+    fun createConditional(name: String) = Operator.Conditional(name).let {
+        it.registerOperator()
+        it
+    }
 
+    private fun Operator.registerOperator() {
+        knownOperators_[name] = this
+    }
 }

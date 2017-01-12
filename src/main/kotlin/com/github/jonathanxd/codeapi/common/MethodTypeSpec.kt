@@ -34,10 +34,49 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
     override val type: CodeType?
         get() = this.typeSpec.type
 
+    override fun builder(): Builder = Builder(this)
+
     /**
      * This method will not compare the method localization.
      */
     override operator fun compareTo(other: MethodTypeSpec): Int {
         return if (this.methodName == other.methodName && this.typeSpec == other.typeSpec) 0 else 1
+    }
+
+
+    class Builder() : Typed.Builder<MethodTypeSpec, Builder> {
+        lateinit var localization: CodeType
+        lateinit var methodName: String
+        lateinit var typeSpec: TypeSpec
+
+        constructor(defaults: MethodTypeSpec) : this() {
+            this.localization = defaults.localization
+            this.methodName = defaults.methodName
+            this.typeSpec = defaults.typeSpec
+        }
+
+        override fun withType(value: CodeType?): Builder {
+            this.typeSpec = this.typeSpec.copy(returnType = value!!)
+            return this
+        }
+
+        fun withLocalization(value: CodeType): Builder {
+            this.localization = value
+            return this
+        }
+
+        fun withMethodName(value: String): Builder {
+            this.methodName = value
+            return this
+        }
+
+        fun withTypeSpec(value: TypeSpec): Builder {
+            this.typeSpec = value
+            return this
+        }
+
+        override fun build(): MethodTypeSpec = MethodTypeSpec(localization, methodName, typeSpec)
+
+
     }
 }

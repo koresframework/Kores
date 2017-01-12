@@ -27,9 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.common.SwitchType
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.self
 
 /**
  * Switch statement, this switch can switch numeric values and object values (like Enum, String or other
@@ -82,9 +84,34 @@ interface SwitchStatement : ValueHolder, Typed {
     override val type: CodeType?
         get() = this.value.type
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun switchStatementBuilder() = SwitchStatementBuilder(this)
+    override fun builder(): Builder<SwitchStatement, *> = SwitchStatementBuilder(this)
+
+    interface Builder<out T: SwitchStatement, S: Builder<T, S>> :
+            ValueHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+        override fun withType(value: CodeType?): S = self()
+
+        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
+
+        /**
+         * See [T.value]
+         */
+        fun withValue(value: Typed): S
+
+        /**
+         * See [T.switchType]
+         */
+        fun withSwitchType(value: SwitchType): S
+
+        /**
+         * See [T.cases]
+         */
+        fun withCases(value: List<Case>): S
+
+        /**
+         * See [T.cases]
+         */
+        fun withCases(vararg values: Case): S
+    }
 
 }

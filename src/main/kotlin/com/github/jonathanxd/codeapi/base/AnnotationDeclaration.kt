@@ -40,9 +40,17 @@ interface AnnotationDeclaration : TypeDeclaration {
      */
     val properties: List<AnnotationProperty>
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun annotationDeclarationBuilder() = AnnotationDeclarationBuilder(this)
+    override fun builder(): Builder<AnnotationDeclaration, *> = AnnotationDeclarationBuilder(this)
 
+    interface Builder<out T: AnnotationDeclaration, S: Builder<T, S>> : TypeDeclaration.Builder<T, S> {
+        /**
+         * See [T.properties]
+         */
+        fun withProperties(value: List<AnnotationProperty>): S
+
+        /**
+         * See [T.properties]
+         */
+        fun withProperties(vararg values: AnnotationProperty): S
+    }
 }

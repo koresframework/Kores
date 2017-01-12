@@ -57,9 +57,27 @@ interface MethodSpecification : Named {
      */
     val description: TypeSpec
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun methodSpecificationBuilder() = MethodSpecificationBuilder(this)
+    override fun builder(): Builder<MethodSpecification, *> = MethodSpecificationBuilder(this)
+
+    interface Builder<out T: MethodSpecification, S: Builder<T, S>> : Named.Builder<T, S> {
+
+        override fun withName(value: String): S = this.withMethodName(value)
+
+        /**
+         * See [T.methodType]
+         */
+        fun withMethodType(value: MethodType): S
+
+        /**
+         * See [T.methodName]
+         */
+        fun withMethodName(value: String): S
+
+        /**
+         * See [T.description]
+         */
+        fun withDescription(value: TypeSpec): S
+
+    }
 
 }

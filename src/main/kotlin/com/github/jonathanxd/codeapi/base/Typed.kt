@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -40,4 +41,13 @@ interface Typed : CodePart {
      */
     val type: CodeType?
 
+    override fun builder(): Builder<Typed, *>
+
+    interface Builder<out T: Typed, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.type]
+         */
+        fun withType(value: CodeType?): S
+    }
 }

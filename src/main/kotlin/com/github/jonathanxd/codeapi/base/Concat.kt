@@ -37,9 +37,17 @@ interface Concat : CodePart {
      */
     val concatenations: List<CodePart>
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun concatBuilder() = ConcatBuilder(this)
+    override fun builder(): Builder<Concat, *> = ConcatBuilder(this)
 
+    interface Builder<out T : Concat, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.concatenations]
+         */
+        fun withConcatenations(value: List<CodePart>): S
+
+        /**
+         * See [T.concatenations]
+         */
+        fun withConcatenations(vararg values: CodePart): S
+    }
 }

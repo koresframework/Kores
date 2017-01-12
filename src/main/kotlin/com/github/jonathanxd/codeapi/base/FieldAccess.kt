@@ -25,21 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo;
-import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.literal.Literal;
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.FieldAccessBuilder
+import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
- * Use JVM Stack value (is supported by {@code BytecodeGenerators}).
+ * Access to a variable
  */
-@GenerateTo(Literal.class)
-public class Stack extends Literal {
+interface FieldAccess : Accessor, Typed, Named {
 
-    public static final Stack INSTANCE = new Stack();
+    override val type: CodeType
+    override val target: CodePart
 
-    private Stack() {
-        super("stack", Types.OBJECT);
-    }
+    override fun builder(): Builder<FieldAccess, *> = FieldAccessBuilder(this)
+
+    interface Builder<out T : FieldAccess, S : Builder<T, S>> :
+            Accessor.Builder<T, S>,
+            Typed.Builder<T, S>,
+            Named.Builder<T, S>
 }

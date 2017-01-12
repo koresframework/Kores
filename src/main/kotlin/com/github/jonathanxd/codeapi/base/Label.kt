@@ -32,11 +32,11 @@ import com.github.jonathanxd.codeapi.builder.LabelBuilder
 /**
  * Label.
  */
-interface Label: Named, BodyHolder {
+interface Label : BodyHolder, Named {
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun labelBuilder() = LabelBuilder(this)
+    override fun builder(): Builder<Label, *> = LabelBuilder(this)
 
+    interface Builder<out T : Label, S : Builder<T, S>> :
+            BodyHolder.Builder<T, S>,
+            Named.Builder<T, S>
 }

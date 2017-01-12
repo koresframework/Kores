@@ -45,9 +45,20 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
 
     override val type: CodeType
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun annotationPropertyBuilder() = AnnotationPropertyBuilder(this)
+    override fun builder(): Builder<AnnotationProperty, *> = AnnotationPropertyBuilder(this)
+
+    interface Builder<out T: AnnotationProperty, S: Builder<T, S>> :
+            Named.Builder<T, S>,
+            Typed.Builder<T, S>,
+            Annotable.Builder<T, S>,
+            ReturnTypeHolder.Builder<T, S> {
+
+        override fun withReturnType(value: CodeType?): S = this.withType(value)
+
+        /**
+         * See [T.value]
+         */
+        fun withValue(value: Any?): S
+    }
 
 }

@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
@@ -54,7 +54,7 @@ public class TryWithResourcesTest_ {
         LoadedCodeType<Trm> TRM_TYPE = CodeAPI.getJavaType(Trm.class);
 
         TryWithResources tryWithResources = CodeAPI.tryWithResources(
-                FieldFactory.field(TRM_TYPE, "trm", CodeAPI.invokeConstructor(TRM_TYPE)),
+                VariableFactory.variable(TRM_TYPE, "trm", CodeAPI.invokeConstructor(TRM_TYPE)),
                 CodeAPI.source(
                         CodeAPI.invokeVirtual(TRM_TYPE, CodeAPI.accessLocalVariable(TRM_TYPE, "trm"), "read", new TypeSpec(Types.VOID), Collections.emptyList())
                 )

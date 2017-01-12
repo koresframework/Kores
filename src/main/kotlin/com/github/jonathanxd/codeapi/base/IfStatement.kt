@@ -43,9 +43,16 @@ interface IfStatement : IfExpressionHolder, BodyHolder {
      */
     val elseStatement: CodeSource
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun ifStatementBuilder() = IfStatementBuilder(this)
+    override fun builder(): Builder<IfStatement, *> = IfStatementBuilder(this)
 
+    interface Builder<out T: IfStatement, S: Builder<T, S>> :
+            IfExpressionHolder.Builder<T, S>,
+            BodyHolder.Builder<T, S> {
+
+        /**
+         * See [T.elseStatement]
+         */
+        fun withElseStatement(value: CodeSource): S
+
+    }
 }

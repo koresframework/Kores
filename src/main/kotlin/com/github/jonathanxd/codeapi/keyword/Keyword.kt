@@ -40,4 +40,5 @@ open class Keyword(override val name: String) : CodePart, Named {
     override val isExpression: Boolean
         get() = true
 
+    override fun builder() = throw IllegalStateException("Cannot create a builder of a Keyword.")
 }

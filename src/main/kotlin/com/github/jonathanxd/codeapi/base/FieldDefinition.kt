@@ -34,14 +34,16 @@ import com.github.jonathanxd.codeapi.type.CodeType
 /**
  * Defines the value of a field or variable.
  */
-interface FieldDefinition : Accessor, Named, Typed, ValueHolder {
-    override val target: CodePart?
+interface FieldDefinition : Accessor, FieldBase, ValueHolder {
+    override val target: CodePart
     override val type: CodeType
     override val value: CodePart
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun fieldDefinitionBuilder() = FieldDefinitionBuilder(this)
+    override fun builder(): Builder<FieldDefinition, *> = FieldDefinitionBuilder(this)
 
+
+    interface Builder<out T: FieldDefinition, S: Builder<T, S>> :
+            Accessor.Builder<T, S>,
+            FieldBase.Builder<T, S>,
+            ValueHolder.Builder<T, S>
 }

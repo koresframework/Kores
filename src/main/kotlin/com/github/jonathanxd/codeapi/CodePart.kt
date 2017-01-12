@@ -27,15 +27,13 @@
  */
 package com.github.jonathanxd.codeapi
 
+import com.github.jonathanxd.codeapi.builder.Builder
+
 /**
  * A CodePart is an element that can exists in the source code.
  *
  * All interfaces that have a concrete implementation and extends [CodePart] must provide a
- * `builder` method that return a concrete (and open for extension) builder instance,
- * this method provides a way for preprocessors and processors mutate this object.
- * The builder method name should be formatted like: `className+Builder` to avoid method conflict,
- * make sure to chose correct builder method, if you chose a incorrect version of builder method
- * it will return a different instance.
+ * `builder` method that return a builder instance with defined default values.
  *
  */
 interface CodePart {
@@ -48,4 +46,13 @@ interface CodePart {
     val isExpression: Boolean
         get() = false
 
+    /**
+     * This builder may or may not accept null values, it depends on implementation.
+     */
+    fun builder(): Builder<CodePart, *> = SelfBuilder(this)
+
+    class SelfBuilder(val self: CodePart): Builder<CodePart, SelfBuilder> {
+        override fun build(): CodePart = self
+
+    }
 }

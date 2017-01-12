@@ -56,9 +56,28 @@ interface EnumValue : Named, Typed {
      */
     val ordinal: Int
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun enumValueBuilder() = EnumValueBuilder(this)
+    override fun builder(): Builder<EnumValue, *> = EnumValueBuilder(this)
 
+    interface Builder<out T : EnumValue, S : Builder<T, S>> :
+            Named.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withName(value: String): S = this.withEnumEntry(value)
+        override fun withType(value: CodeType?): S = this.withEnumType(value!!)
+
+        /**
+         * See [T.enumType]
+         */
+        fun withEnumType(value: CodeType): S
+
+        /**
+         * See [T.enumEntry]
+         */
+        fun withEnumEntry(value: String): S
+
+        /**
+         * See [T.ordinal]
+         */
+        fun withOrdinal(value: Int): S
+    }
 }

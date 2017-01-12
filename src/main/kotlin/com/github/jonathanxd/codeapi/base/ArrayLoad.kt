@@ -46,9 +46,23 @@ interface ArrayLoad : ArrayAccess, Typed {
     override val type: CodeType?
         get() = this.valueType
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun arrayLoadBuilder() = ArrayLoadBuilder(this)
+    override fun builder(): Builder<ArrayLoad, *> = ArrayLoadBuilder(this)
 
+
+    interface Builder<out T: ArrayLoad, S: Builder<T, S>> :
+            ArrayAccess.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withType(value: CodeType?): S = this.withValueType(value!!)
+
+        /**
+         * See [T.index]
+         */
+        fun withIndex(value: CodePart): S
+
+        /**
+         * See [T.valueType]
+         */
+        fun withValueType(value: CodeType): S
+    }
 }

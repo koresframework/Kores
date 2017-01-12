@@ -25,11 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base.impl
+@file:JvmName("VariableFactory")
+package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.VariableOperate
-import com.github.jonathanxd.codeapi.operator.Operator
+import com.github.jonathanxd.codeapi.base.VariableDeclaration
+import com.github.jonathanxd.codeapi.base.impl.VariableDeclarationImpl
 import com.github.jonathanxd.codeapi.type.CodeType
 
-data class VariableOperateImpl(override val target: CodePart, override val name: String, override val localization: CodeType?, override val variableType: CodeType, override val value: CodePart?, override val operation: Operator) : VariableOperate
+fun variable(type: CodeType, name: String, value: CodePart?): VariableDeclaration = VariableDeclarationImpl(value, name, type)
+fun variable(type: CodeType, name: String): VariableDeclaration = VariableDeclarationImpl(null, name, type)

@@ -46,6 +46,15 @@ interface BodyHolder : CodePart {
     val hasBody: Boolean
         get() = this.body != null
 
+    override fun builder(): Builder<BodyHolder, *>
+
+    interface Builder<out T : BodyHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.body]
+         */
+        fun withBody(value: CodeSource?): S
+    }
+
     companion object {
         /**
          * Validates the method body (avoid infinite recursion)

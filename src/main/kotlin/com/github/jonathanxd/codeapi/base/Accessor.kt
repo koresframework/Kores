@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -38,11 +39,25 @@ interface Accessor : CodePart {
     /**
      * Access target
      */
-    val target: CodePart?
+    val target: CodePart
 
     /**
      * Access localization
      */
-    val localization: CodeType?
+    val localization: CodeType
 
+    override fun builder(): Builder<Accessor, *>
+
+    interface Builder<out T: Accessor, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.target]
+         */
+        fun withTarget(value: CodePart): S
+
+        /**
+         * See [T.localization]
+         */
+        fun withLocalization(value: CodeType): S
+    }
 }

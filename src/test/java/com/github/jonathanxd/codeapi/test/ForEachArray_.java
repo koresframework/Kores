@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
@@ -68,7 +69,7 @@ public class ForEachArray_ {
                                 new CodeParameter[]{new CodeParameter(Types.STRING.toArray(1), "strArray")},
                                 CodeAPI.sourceOfParts(
                                         FieldFactory.field(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
-                                        CodeAPI.forEachArray(FieldFactory.field(Types.STRING, "str"),
+                                        CodeAPI.forEachArray(VariableFactory.variable(Types.STRING, "str"),
                                                 CodeAPI.accessLocalVariable(Types.STRING.toArray(1), "strArray"),
                                                 CodeAPI.source(
                                                         Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))

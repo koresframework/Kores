@@ -44,7 +44,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
 @GenerateTo(FieldDeclaration::class)
 data class HiddenField @JvmOverloads constructor(
         override val name: String,
-        override val variableType: CodeType,
+        override val type: CodeType,
         override val value: CodePart? = null,
         override val modifiers: Set<CodeModifier> = emptySet(),
         override val annotations: List<Annotation> = emptyList()) : FieldDeclaration

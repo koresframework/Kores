@@ -27,20 +27,39 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.Alias
+import com.github.jonathanxd.codeapi.util.self
 
 /**
  * Field declaration
  */
-interface FieldDeclaration : CodeElement, VariableDeclaration, Named, Typed, ValueHolder, ModifiersHolder, Annotable {
-    override val type: CodeType
-        get() = this.variableType
+interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable {
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun fieldDeclarationBuilder() = FieldDeclarationBuilder(this)
+    override val localization: CodeType
+        get() = Alias.THIS
 
+    override val target: CodePart
+        get() = if (this.modifiers.contains(CodeModifier.STATIC)) CodeAPI.accessStatic() else CodeAPI.accessThis()
+
+
+    override fun builder(): Builder<FieldDeclaration, *> = FieldDeclarationBuilder(this)
+
+    interface Builder<out T : FieldDeclaration, S : Builder<T, S>> :
+            FieldBase.Builder<T, S>,
+            Named.Builder<T, S>,
+            Typed.Builder<T, S>,
+            ValueHolder.Builder<T, S>,
+            ModifiersHolder.Builder<T, S>,
+            Annotable.Builder<T, S> {
+
+        override fun withLocalization(value: CodeType): S = self()
+        override fun withTarget(value: CodePart): S = self()
+
+    }
 }

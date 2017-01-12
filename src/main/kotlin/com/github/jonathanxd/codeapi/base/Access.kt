@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.AccessBuilder
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.keyword.Keyword
 import com.github.jonathanxd.codeapi.keyword.Keywords
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -54,10 +55,7 @@ interface Access : CodePart {
      */
     val localization: CodeType?
 
-    /**
-     * See [CodePart]
-     */
-    fun accessBuilder() = AccessBuilder(this)
+    override fun builder(): Builder<Access, *> = AccessBuilder(this)
 
     enum class Type(val keyword: Keyword?) {
 
@@ -65,6 +63,11 @@ interface Access : CodePart {
          * Access to local scope
          */
         LOCAL(null),
+
+        /**
+         * Access to static scope
+         */
+        STATIC(null),
 
         /**
          * Access to this scope
@@ -82,5 +85,17 @@ interface Access : CodePart {
         SUPER(Keywords.SUPER)
     }
 
+    interface Builder<out T: Access, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.type]
+         */
+        fun withType(value: Type): S
+
+        /**
+         * See [T.localization]
+         */
+        fun withLocalization(value: CodeType?): S
+    }
 
 }

@@ -28,25 +28,40 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.VariableOperateBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
- * Operate a variable, ex: INCREMENT, DECREMENT, PLUS X, MINUS X, etc...
+ * Base field (access and definition common class)
  */
-interface VariableOperate : VariableAccess, Operate, ValueHolder {
+interface FieldBase : Named, Typed {
 
     /**
-     * Value to apply operation (some operations doesn't require any value).
+     * Field localization.
      */
-    override val value: CodePart?
-
-    override val type: CodeType?
-        get() = super<VariableAccess>.type
+    val localization: CodeType
 
     /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
+     * Target of the access
      */
-    fun variableOperateBuilder() = VariableOperateBuilder(this)
+    val target: CodePart
 
+    override val type: CodeType
+
+    override fun builder(): Builder<FieldBase, *>
+
+    interface Builder<out T: FieldBase, S: Builder<T, S>> :
+            Named.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        /**
+         * See [T.localization]
+         */
+        fun withLocalization(value: CodeType): S
+
+        /**
+         * See [T.target]
+         */
+        fun withTarget(value: CodePart): S
+
+    }
 }

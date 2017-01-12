@@ -38,9 +38,9 @@ interface Return : ValueHolder, Typed {
     override val type: CodeType
     override val value: CodePart
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun returnBuilder() = ReturnBuilder(this)
+    override fun builder(): Builder<Return, *> = ReturnBuilder(this)
 
+    interface Builder<out T: Return, S: Builder<T, S>> :
+            ValueHolder.Builder<T, S>,
+            Typed.Builder<T, S>
 }

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.builder.ThrowExceptionBuilder
 
 /**
@@ -40,9 +41,14 @@ interface ThrowException : CodePart {
      */
     val partToThrow: CodePart
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun throwExceptionBuilder() = ThrowExceptionBuilder(this)
+    override fun builder(): Builder<ThrowException, *> = ThrowExceptionBuilder(this)
 
+    interface Builder<out T : ThrowException, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.partToThrow]
+         */
+        fun withPartToThrow(value: CodePart): S
+
+    }
 }

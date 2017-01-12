@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -40,4 +41,13 @@ interface SuperClassHolder : CodePart {
      */
     val superClass: CodeType?
 
+    override fun builder(): Builder<SuperClassHolder, *>
+
+    interface Builder<out T : SuperClassHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.superClass]
+         */
+        fun withSuperClass(value: CodeType?): S
+    }
 }

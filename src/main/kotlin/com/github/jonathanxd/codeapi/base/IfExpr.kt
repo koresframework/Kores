@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.builder.IfExprBuilder
 import com.github.jonathanxd.codeapi.operator.Operator
 
@@ -53,10 +54,23 @@ interface IfExpr : CodePart {
      */
     val expr2: CodePart
 
+    override fun builder(): Builder<IfExpr, *> = IfExprBuilder(this)
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun ifExprBuilder() = IfExprBuilder(this)
+    interface Builder<out T: IfExpr, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.expr1]
+         */
+        fun withExpr1(value: CodePart): S
+
+        /**
+         * See [T.operation]
+         */
+        fun withOperation(value: Operator): S
+
+        /**
+         * See [T.expr2]
+         */
+        fun withExpr2(value: CodePart): S
+    }
 
 }

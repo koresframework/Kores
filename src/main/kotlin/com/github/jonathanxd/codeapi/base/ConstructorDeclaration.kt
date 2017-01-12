@@ -47,4 +47,13 @@ interface ConstructorDeclaration : MethodDeclaration {
      */
     fun constructorDeclarationBuilder() = ConstructorDeclarationBuilder(this)
 
+    override fun builder(): Builder<ConstructorDeclaration, *> = ConstructorDeclarationBuilder(this)
+
+    interface Builder<out T: ConstructorDeclaration, S: Builder<T, S>>: MethodDeclaration.Builder<T, S> {
+        @Suppress("UNCHECKED_CAST")
+        override fun withName(value: String): S = this as S
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withReturnType(value: CodeType?): S = this as S
+    }
 }

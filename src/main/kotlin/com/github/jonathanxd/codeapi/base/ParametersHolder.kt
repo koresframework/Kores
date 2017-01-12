@@ -27,16 +27,31 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.common.CodeParameter
 
 /**
  * Parameter holder
  */
-interface ParametersHolder {
+interface ParametersHolder : CodePart {
 
     /**
      * Parameters
      */
     val parameters: List<CodeParameter>
 
+    override fun builder(): Builder<ParametersHolder, *>
+
+    interface Builder<out T: ParametersHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.parameters]
+         */
+        fun withParameters(value: List<CodeParameter>): S
+
+        /**
+         * See [T.parameters]
+         */
+        fun withParameters(vararg values: CodeParameter): S
+    }
 }

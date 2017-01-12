@@ -47,4 +47,17 @@ interface VariableBase : Named, Typed {
     override val type: CodeType?
         get() = this.variableType
 
+    override fun builder(): Builder<VariableBase, *>
+
+    interface Builder<out T: VariableBase, S: Builder<T, S>> :
+            Named.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withType(value: CodeType?): S = this.withVariableType(value!!)
+
+        /**
+         * See [T.variableType]
+         */
+        fun withVariableType(value: CodeType): S
+    }
 }

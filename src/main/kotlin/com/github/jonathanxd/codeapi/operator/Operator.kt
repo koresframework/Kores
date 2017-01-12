@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.operator
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.base.Named
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.util.ToStringBuilder
 
 /**
@@ -38,7 +39,7 @@ import com.github.jonathanxd.codeapi.util.ToStringBuilder
  * Example of operators: Increment, Decrement, Less_than, etc...
  */
 @GenerateTo(Named::class)
-open class Operator(override val name: String) : CodePart, Named {
+sealed class Operator(override val name: String) : CodePart, Named {
 
     override val isExpression: Boolean
         get() = true
@@ -47,5 +48,36 @@ open class Operator(override val name: String) : CodePart, Named {
         return ToStringBuilder.builder(this.javaClass)
                 .add("name", this.name)
                 .toString()
+    }
+
+    override fun builder(): Builder = Builder(this)
+
+    /**
+     * Mathematical operator
+     */
+    class Math(name: String): Operator(name)
+
+    /**
+     * Conditional operator
+     */
+    class Conditional(name: String): Operator(name)
+
+    class Builder() : Named.Builder<Operator, Builder> {
+
+        lateinit var name: String
+
+        constructor(defaults: Operator) : this() {
+            this.name = defaults.name
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun build(): Operator {
+            return Operators.knownOperators[this.name] ?: throw IllegalArgumentException("Cannot find operator: $name")
+        }
+
     }
 }

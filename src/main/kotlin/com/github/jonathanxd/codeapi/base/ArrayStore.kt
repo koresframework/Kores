@@ -54,9 +54,27 @@ interface ArrayStore : ArrayAccess, ValueHolder {
      */
     val valueToStore: CodePart
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun arrayStoreBuilder() = ArrayStoreBuilder(this)
+    override fun builder(): Builder<ArrayStore, *> = ArrayStoreBuilder(this)
 
+    interface Builder<out T: ArrayStore, S: Builder<T, S>> :
+            ArrayAccess.Builder<T, S>,
+            ValueHolder.Builder<T, S> {
+
+        override fun withValue(value: CodePart?): S = this.withValueToStore(value!!)
+
+        /**
+         * See [T.index]
+         */
+        fun withIndex(value: CodePart): S
+
+        /**
+         * See [T.valueType]
+         */
+        fun withValueType(value: CodeType): S
+
+        /**
+         * See [T.valueToStore]
+         */
+        fun withValueToStore(value: CodePart): S
+    }
 }

@@ -49,9 +49,19 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
      */
     override val arguments: List<CodeArgument>
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun enumEntryBuilder() = EnumEntryBuilder(this)
+    override fun builder(): Builder<EnumEntry, *> = EnumEntryBuilder(this)
 
+    interface Builder<out T : EnumEntry, S : Builder<T, S>> :
+            ArgumentHolder.Builder<T, S>,
+            Named.Builder<T, S>,
+            BodyHolder.Builder<T, S> {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withArray(value: Boolean): S = this as S
+
+        /**
+         * See [T.constructorSpec]
+         */
+        fun withConstructorSpec(value: TypeSpec?): S
+    }
 }

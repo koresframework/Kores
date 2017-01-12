@@ -39,4 +39,12 @@ interface QualifiedNamed : Named {
      * Qualified name
      */
     val qualifiedName: String
+
+    override fun builder(): Builder<QualifiedNamed, *>
+
+    interface Builder<out T : QualifiedNamed, S : Builder<T, S>> : Named.Builder<T, S> {
+        override fun withName(value: String): S = this.withQualifiedName(value)
+
+        fun withQualifiedName(value: String): S
+    }
 }

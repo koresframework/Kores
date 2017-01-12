@@ -38,7 +38,7 @@ interface WhileStatement : IfExpressionHolder, BodyHolder {
      */
     val type: Type
 
-    fun whileStatementBuilder() = WhileStatementBuilder(this)
+    override fun builder(): Builder<WhileStatement, *> = WhileStatementBuilder(this)
 
     enum class Type {
         /**
@@ -50,5 +50,15 @@ interface WhileStatement : IfExpressionHolder, BodyHolder {
          * Do-while statement
          */
         DO_WHILE
+    }
+
+    interface Builder<out T : WhileStatement, S : Builder<T, S>> :
+            IfExpressionHolder.Builder<T, S>,
+            BodyHolder.Builder<T, S> {
+
+        /**
+         * See [T.type]
+         */
+        fun withType(type: Type): S
     }
 }

@@ -25,22 +25,12 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.ClassType
+import com.github.jonathanxd.codeapi.builder.Builder
 
-interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
-
-    override val classType: ClassType
-        get() = ClassType.CLASS
-
-
-    override fun builder(): Builder<ClassDeclaration, *> = ClassDeclarationBuilder(this)
-
-    interface Builder<out T: ClassDeclaration, S: Builder<T, S>> :
-            TypeDeclaration.Builder<T, S>,
-            SuperClassHolder.Builder<T, S>,
-            ImplementationHolder.Builder<T, S>
-
-}
+/**
+ * Cast from [Builder] of [T] of implicit type [S].
+ */
+@Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
+inline fun <T, S: Builder<T, S>> Builder<T, S>.self() = this as S

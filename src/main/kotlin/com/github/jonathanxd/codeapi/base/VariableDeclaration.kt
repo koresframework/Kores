@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.VariableDeclarationBuilder
 
 /**
  * Declaration of a variable
@@ -39,4 +40,9 @@ interface VariableDeclaration : VariableBase, ValueHolder {
      */
     override val value: CodePart?
 
+    override fun builder(): Builder<VariableDeclaration, *> = VariableDeclarationBuilder(this)
+
+    interface Builder<out T: VariableDeclaration, S: Builder<T, S>> :
+            VariableBase.Builder<T, S>,
+            ValueHolder.Builder<T, S>
 }

@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder;
+import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
@@ -64,7 +64,7 @@ public class MethodFragment_ {
 
         source.add(
                 Predefined.invokePrintln(CodeAPI.argument(
-                        MethodFragmentBuilder.builder()
+                        SimpleMethodFragmentBuilder.builder()
                                 .withDeclaringType(classDeclaration)
                                 .withScope(Scope.STATIC)
                                 .withDescription(new TypeSpec(Types.STRING, listOf(Types.STRING)))

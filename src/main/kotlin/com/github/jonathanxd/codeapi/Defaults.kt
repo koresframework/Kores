@@ -36,6 +36,9 @@ import com.github.jonathanxd.codeapi.base.impl.AccessImpl
 object Defaults {
 
     @JvmField
+    val ACCESS_STATIC = AccessImpl(type = Access.Type.STATIC, localization = null)
+
+    @JvmField
     val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
 
     @JvmField

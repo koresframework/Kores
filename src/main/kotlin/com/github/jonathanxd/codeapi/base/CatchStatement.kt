@@ -48,9 +48,28 @@ interface CatchStatement : BodyHolder, Typed {
         get() = this.variable.type
 
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun catchStatementBuilder() = CatchStatementBuilder(this)
+    override fun builder(): Builder<CatchStatement, *> = CatchStatementBuilder(this)
 
+    interface Builder<out T: CatchStatement, S: Builder<T, S>> :
+            BodyHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withType(value: CodeType?): S = this as S
+
+        /**
+         * See [T.exceptionTypes]
+         */
+        fun withExceptionTypes(value: List<CodeType>): S
+
+        /**
+         * See [T.variable]
+         */
+        fun withExceptionTypes(vararg values: CodeType): S
+
+        /**
+         * See [T.variable]
+         */
+        fun withVariable(value: VariableDeclaration): S
+    }
 }

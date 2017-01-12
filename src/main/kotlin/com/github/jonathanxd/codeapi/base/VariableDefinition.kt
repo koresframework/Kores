@@ -38,9 +38,10 @@ interface VariableDefinition : Named, Typed, ValueHolder {
     override val type: CodeType
     override val value: CodePart
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun variableDefinitionBuilder() = VariableDefinitionBuilder(this)
+    override fun builder(): Builder<VariableDefinition, *> = VariableDefinitionBuilder(this)
 
+    interface Builder<out T: VariableDefinition, S: Builder<T, S>> :
+            Named.Builder<T, S>,
+            Typed.Builder<T, S>,
+            ValueHolder.Builder<T, S>
 }

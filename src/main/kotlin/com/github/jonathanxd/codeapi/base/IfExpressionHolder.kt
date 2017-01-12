@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
@@ -39,6 +40,20 @@ interface IfExpressionHolder : CodePart {
      * If expressions and operations
      */
     val expressions: List<CodePart>
+
+    override fun builder(): Builder<IfExpressionHolder, *>
+
+    interface Builder<out T: IfExpressionHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.expressions]
+         */
+        fun withExpressions(value: List<CodePart>): S
+
+        /**
+         * See [T.expressions]
+         */
+        fun withExpressions(vararg values: CodePart): S
+    }
 
     companion object {
         fun check(part: CodePart) {

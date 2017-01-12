@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.base.ValueHolder
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -37,4 +36,26 @@ import com.github.jonathanxd.codeapi.util.CodePartUtil
 data class CodeArgument(override val value: CodePart) : ValueHolder, Typed {
     override val type: CodeType?
         get() = CodePartUtil.getTypeOrNull(this.value)
+
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() :
+            ValueHolder.Builder<CodeArgument, Builder>, Typed.Builder<CodeArgument, Builder> {
+        lateinit var value: CodePart
+
+        constructor(defaults: CodeArgument) : this() {
+            this.value = defaults.value
+        }
+
+        override fun withType(value: CodeType?): Builder = this
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value!!
+            return this
+        }
+
+
+        override fun build(): CodeArgument = CodeArgument(this.value)
+
+    }
 }

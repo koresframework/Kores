@@ -50,9 +50,21 @@ interface InstanceOfCheck : Typed {
      */
     val checkType: CodeType
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun instanceOfCheckBuilder() = InstanceOfCheckBuilder(this)
+    override fun builder(): Builder<InstanceOfCheck, *> = InstanceOfCheckBuilder(this)
 
+    interface Builder<out T: InstanceOfCheck, S: Builder<T, S>> : Typed.Builder<T, S> {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withType(value: CodeType?): S = this as S
+
+        /**
+         * See [T.part]
+         */
+        fun withPart(value: CodePart): S
+
+        /**
+         * See [T.checkType]
+         */
+        fun withCheckType(value: CodeType): S
+    }
 }

@@ -72,10 +72,33 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
      */
     val invokeDynamic: InvokeDynamic?
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun methodInvocationBuilder() = MethodInvocationBuilder(this)
+    override fun builder(): Builder<MethodInvocation, *> = MethodInvocationBuilder(this)
 
+    interface Builder<out T: MethodInvocation, S: Builder<T, S>> :
+            Accessor.Builder<T, S>,
+            ArgumentHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withArray(value: Boolean): S = this as S
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withType(value: CodeType?): S = this as S
+
+        /**
+         * See [T.spec]
+         */
+        fun withSpec(value: MethodSpecification): S
+
+        /**
+         * See [T.invokeType]
+         */
+        fun withInvokeType(value: InvokeType): S
+
+        /**
+         * See [T.invokeDynamic]
+         */
+        fun withInvokeDynamic(value: InvokeDynamic?): S
+    }
 
 }

@@ -89,7 +89,7 @@ public class AnnotatedTest_ {
                                         values("value", new Object[]{
                                                 enumValue(MyEnum.class, "A")
                                         }))))
-                                .withVariableType(Types.STRING)
+                                .withType(Types.STRING)
                                 .withName("field")
                                 .withValue(Literals.NULL)
                                 .build()

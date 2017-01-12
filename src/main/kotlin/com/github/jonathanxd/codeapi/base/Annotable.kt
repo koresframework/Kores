@@ -37,4 +37,19 @@ interface Annotable : CodePart {
      * Annotations
      */
     val annotations: List<Annotation>
+
+    override fun builder(): Builder<Annotable, *>
+
+    interface Builder<out T : Annotable, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.annotations]
+         */
+        fun withAnnotations(value: List<Annotation>): S
+
+        /**
+         * See [T.annotations]
+         */
+        fun withAnnotations(vararg values: Annotation): S
+    }
 }

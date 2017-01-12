@@ -40,7 +40,8 @@ import com.github.jonathanxd.codeapi.base.CatchStatement;
 import com.github.jonathanxd.codeapi.base.ControlFlow;
 import com.github.jonathanxd.codeapi.base.EnumEntry;
 import com.github.jonathanxd.codeapi.base.EnumValue;
-import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldAccess;
+import com.github.jonathanxd.codeapi.base.FieldBase;
 import com.github.jonathanxd.codeapi.base.FieldDefinition;
 import com.github.jonathanxd.codeapi.base.ForEachStatement;
 import com.github.jonathanxd.codeapi.base.ForStatement;
@@ -61,9 +62,9 @@ import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.base.VariableBase;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDefinition;
-import com.github.jonathanxd.codeapi.base.VariableOperate;
 import com.github.jonathanxd.codeapi.base.WhileStatement;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
@@ -77,7 +78,7 @@ import com.github.jonathanxd.codeapi.base.impl.CatchStatementImpl;
 import com.github.jonathanxd.codeapi.base.impl.ControlFlowImpl;
 import com.github.jonathanxd.codeapi.base.impl.EnumEntryImpl;
 import com.github.jonathanxd.codeapi.base.impl.EnumValueImpl;
-import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl;
+import com.github.jonathanxd.codeapi.base.impl.FieldAccessImpl;
 import com.github.jonathanxd.codeapi.base.impl.FieldDefinitionImpl;
 import com.github.jonathanxd.codeapi.base.impl.ForEachStatementImpl;
 import com.github.jonathanxd.codeapi.base.impl.ForStatementImpl;
@@ -86,7 +87,6 @@ import com.github.jonathanxd.codeapi.base.impl.IfStatementImpl;
 import com.github.jonathanxd.codeapi.base.impl.InstanceOfCheckImpl;
 import com.github.jonathanxd.codeapi.base.impl.LabelImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl;
-import com.github.jonathanxd.codeapi.base.impl.MethodFragmentImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
 import com.github.jonathanxd.codeapi.base.impl.OperateImpl;
@@ -97,19 +97,15 @@ import com.github.jonathanxd.codeapi.base.impl.TryStatementImpl;
 import com.github.jonathanxd.codeapi.base.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.base.impl.VariableAccessImpl;
 import com.github.jonathanxd.codeapi.base.impl.VariableDefinitionImpl;
-import com.github.jonathanxd.codeapi.base.impl.VariableOperateImpl;
 import com.github.jonathanxd.codeapi.base.impl.WhileStatementImpl;
 import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
-import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder;
-import com.github.jonathanxd.codeapi.helper.IfExpressionHelper;
 import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -122,6 +118,10 @@ import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentImpl;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
+import com.github.jonathanxd.codeapi.helper.ConcatHelper;
+import com.github.jonathanxd.codeapi.helper.IfExpressionHelper;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operator;
 import com.github.jonathanxd.codeapi.operator.Operators;
@@ -129,6 +129,7 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.JavaType;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
+import com.github.jonathanxd.codeapi.util.Alias;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
@@ -153,10 +154,8 @@ import java.util.stream.StreamSupport;
  */
 public final class CodeAPI {
 
-    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
-
-
     public static final Annotation[] EMPTY_ANNOTATIONS = {};
+    private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
     // =========================================================
     //          Annotations
@@ -942,8 +941,8 @@ public final class CodeAPI {
      * @param declaration Declaration.
      * @return Access to {@code declaration}.
      */
-    public static VariableAccess accessDeclaration(VariableDeclaration declaration) {
-        return accessField__Factory(null, null, declaration.getVariableType(), declaration.getName());
+    public static VariableAccess accessVariable(VariableDeclaration declaration) {
+        return accessVariable__Factory(declaration.getVariableType(), declaration.getName());
     }
 
     /**
@@ -953,7 +952,7 @@ public final class CodeAPI {
      * @param name      Name of the field.
      * @return Access to a static field.
      */
-    public static VariableAccess accessStaticField(CodeType fieldType, String name) {
+    public static FieldAccess accessStaticField(CodeType fieldType, String name) {
         return accessField__Factory(null, null, fieldType, name);
     }
 
@@ -965,8 +964,8 @@ public final class CodeAPI {
      * @param name         Name of the field.
      * @return Access to a static field.
      */
-    public static VariableAccess accessStaticField(CodeType localization, CodeType fieldType, String name) {
-        return accessField__Factory(localization, null, fieldType, name);
+    public static FieldAccess accessStaticField(CodeType localization, CodeType fieldType, String name) {
+        return accessField__Factory(localization, CodeAPI.accessStatic(), fieldType, name);
     }
 
     /**
@@ -978,8 +977,18 @@ public final class CodeAPI {
      * @param name         Name of the field.
      * @return Access to a field or variable.
      */
-    public static VariableAccess accessField(CodeType localization, CodePart at, CodeType fieldType, String name) {
+    public static FieldAccess accessField(CodeType localization, CodePart at, CodeType fieldType, String name) {
         return accessField__Factory(localization, at, fieldType, name);
+    }
+
+    /**
+     * Access a field or variable.
+     *
+     * @param fieldBase Field to access
+     * @return Access to a field or variable.
+     */
+    public static FieldAccess accessField(FieldBase fieldBase) {
+        return accessField__Factory(fieldBase.getLocalization(), fieldBase.getTarget(), fieldBase.getType(), fieldBase.getName());
     }
 
     /**
@@ -989,8 +998,8 @@ public final class CodeAPI {
      * @param name      Name of the field.
      * @return Access to a static field of current class.
      */
-    public static VariableAccess accessThisField(CodeType fieldType, String name) {
-        return accessField__Factory(null, CodeAPI.accessThis(), fieldType, name);
+    public static FieldAccess accessThisField(CodeType fieldType, String name) {
+        return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), fieldType, name);
     }
 
     /**
@@ -1001,7 +1010,7 @@ public final class CodeAPI {
      * @return Access to variable.
      */
     public static VariableAccess accessLocalVariable(CodeType variableType, String name) {
-        return accessField__Factory(null, CodeAPI.accessLocal(), variableType, name);
+        return accessVariable__Factory(variableType, name);
     }
 
     // Class
@@ -1013,8 +1022,8 @@ public final class CodeAPI {
      * @param name      Name of the field.
      * @return Access to a static field.
      */
-    public static VariableAccess accessStaticField(Class<?> fieldType, String name) {
-        return accessField__Factory(null, null, CodeAPI.getJavaType(fieldType), name);
+    public static FieldAccess accessStaticField(Class<?> fieldType, String name) {
+        return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessStatic(), CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1025,8 +1034,8 @@ public final class CodeAPI {
      * @param name         Name of the field.
      * @return Access to a static field.
      */
-    public static VariableAccess accessStaticField(Class<?> localization, Class<?> fieldType, String name) {
-        return accessField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name);
+    public static FieldAccess accessStaticField(Class<?> localization, Class<?> fieldType, String name) {
+        return accessField__Factory(CodeAPI.getJavaType(localization), CodeAPI.accessStatic(), CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1038,7 +1047,7 @@ public final class CodeAPI {
      * @param name         Name of the field.
      * @return Access to a field or variable.
      */
-    public static VariableAccess accessField(Class<?> localization, CodePart at, Class<?> fieldType, String name) {
+    public static FieldAccess accessField(Class<?> localization, CodePart at, Class<?> fieldType, String name) {
         return accessField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name);
     }
 
@@ -1049,8 +1058,8 @@ public final class CodeAPI {
      * @param name      Name of the field.
      * @return Access to a static field of current class.
      */
-    public static VariableAccess accessThisField(Class<?> fieldType, String name) {
-        return accessField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name);
+    public static FieldAccess accessThisField(Class<?> fieldType, String name) {
+        return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name);
     }
 
     /**
@@ -1061,17 +1070,35 @@ public final class CodeAPI {
      * @return Access to variable.
      */
     public static VariableAccess accessLocalVariable(Class<?> variableType, String name) {
-        return accessField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name);
+        return accessVariable__Factory(CodeAPI.getJavaType(variableType), name);
+    }
+
+    /**
+     * Access a local variable.
+     *
+     * @param variable Variable to access.
+     * @return Access to variable.
+     */
+    public static VariableAccess accessLocalVariable(VariableBase variable) {
+        return accessVariable__Factory(variable.getType(), variable.getName());
     }
 
     // Factory
-    private static VariableAccess accessField__Factory(CodeType localization, CodePart at, CodeType type, String name) {
-        return new VariableAccessImpl(at, name, localization, type);
+    private static FieldAccess accessField__Factory(CodeType localization, CodePart at, CodeType type, String name) {
+        return new FieldAccessImpl(name, type, at, localization);
+    }
+
+    private static VariableAccess accessVariable__Factory(CodeType type, String name) {
+        return new VariableAccessImpl(name, type);
     }
 
     // =========================================================
     //          Set Variables & Fields
     // =========================================================
+
+    public static FieldDefinition setField(FieldBase fieldBase, CodePart value) {
+        return setField__Factory(fieldBase.getLocalization(), fieldBase.getTarget(), fieldBase.getType(), fieldBase.getName(), value);
+    }
 
 
     public static VariableDefinition setDeclarationValue(VariableDeclaration declaration, CodePart value) {
@@ -1122,7 +1149,7 @@ public final class CodeAPI {
 
     // Factory
     private static FieldDefinition setField__Factory(CodeType localization, CodePart at, CodeType type, String name, CodePart value) {
-        return new FieldDefinitionImpl(localization, type, value, name, at);
+        return new FieldDefinitionImpl(type, value, name, at, localization);
     }
 
     private static VariableDefinition setVariable__Factory(CodeType type, String name, CodePart value) {
@@ -1133,106 +1160,61 @@ public final class CodeAPI {
     //          Operate Variables & Fields & Values
     // =========================================================
 
-    public static Operate operate(CodePart part, Operator operation, CodePart value) {
+    public static Operate operate(CodePart part, Operator.Math operation, CodePart value) {
         return factory__operate(part, operation, value);
     }
 
-    public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation, CodePart value) {
-        return operateField__Factory(null, null, declaration.getVariableType(), declaration.getName(), operation, value);
+    /**
+     * Operate a variable value and assign the result to variable.
+     *
+     * @param variable  Variable.
+     * @param operation Operation.
+     * @param value     Second value to apply to operation.
+     * @return Definition of result of operation.
+     */
+    public static VariableDefinition operateAndAssign(VariableBase variable, Operator.Math operation, CodePart value) {
+        return setLocalVariable(variable.getVariableType(), variable.getName(), operate(accessLocalVariable(variable), operation, value));
     }
 
-    public static VariableOperate operateDeclarationValue(VariableDeclaration declaration, Operator operation) {
-        return operateField__Factory(null, null, declaration.getVariableType(), declaration.getName(), operation, null);
+    /**
+     * Operate a variable value.
+     *
+     * @param variable  Variable to get value.
+     * @param operation Operation.
+     * @param value     Second value to apply to operation.
+     * @return Operation instance.
+     */
+    public static Operate operate(VariableBase variable, Operator.Math operation, CodePart value) {
+        return factory__operate(accessLocalVariable(variable), operation, value);
     }
 
-    public static VariableOperate operateStaticThisField(CodeType fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessThis(), fieldType, name, operation, value);
+    /**
+     * Operate a field value and assign the result to variable.
+     *
+     * @param field     Field to get value.
+     * @param operation Operation.
+     * @param value     Second value to apply to operation.
+     * @return Definition of result of operation.
+     */
+    public static FieldDefinition operateAndAssign(FieldBase field, Operator.Math operation, CodePart value) {
+        return setField(field, factory__operate(accessField(field), operation, value));
     }
 
-    public static VariableOperate operateStaticThisField(CodeType fieldType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessThis(), fieldType, name, operation, null);
+    /**
+     * Operate a variable value.
+     *
+     * @param field     Field to get value.
+     * @param operation Operation.
+     * @param value     Second value to apply to operation.
+     * @return Operation instance.
+     */
+    public static Operate operate(FieldBase field, Operator.Math operation, CodePart value) {
+        return factory__operate(accessField(field), operation, value);
     }
 
-    public static VariableOperate operateStaticField(CodeType localization, CodeType fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(localization, null, fieldType, name, operation, value);
-    }
-
-    public static VariableOperate operateStaticField(CodeType localization, CodeType fieldType, String name, Operator operation) {
-        return operateField__Factory(localization, null, fieldType, name, operation, null);
-    }
-
-    public static VariableOperate operateField(CodeType localization, CodePart at, CodeType fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(localization, at, fieldType, name, operation, value);
-    }
-
-    public static VariableOperate operateField(CodeType localization, CodePart at, CodeType fieldType, String name, Operator operation) {
-        return operateField__Factory(localization, at, fieldType, name, operation, null);
-    }
-
-    public static VariableOperate operateThisField(CodeType fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessThis(), fieldType, name, operation, value);
-    }
-
-    public static VariableOperate operateThisField(CodeType fieldType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessThis(), fieldType, name, operation, null);
-    }
-
-    public static VariableOperate operateLocalVariable(CodeType variableType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessLocal(), variableType, name, operation, value);
-    }
-
-    public static VariableOperate operateLocalVariable(CodeType variableType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessLocal(), variableType, name, operation, null);
-    }
-
-    // Class
-
-    public static VariableOperate operateStaticThisField(Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, value);
-    }
-
-    public static VariableOperate operateStaticThisField(Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, null);
-    }
-
-    public static VariableOperate operateStaticField(Class<?> localization, Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, operation, value);
-    }
-
-    public static VariableOperate operateStaticField(Class<?> localization, Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, operation, null);
-    }
-
-    public static VariableOperate operateField(Class<?> localization, CodePart at, Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, operation, value);
-    }
-
-    public static VariableOperate operateField(Class<?> localization, CodePart at, Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, operation, null);
-    }
-
-    public static VariableOperate operateThisField(Class<?> fieldType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, value);
-    }
-
-    public static VariableOperate operateThisField(Class<?> fieldType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, operation, null);
-    }
-
-    public static VariableOperate operateLocalVariable(Class<?> variableType, String name, Operator operation, CodePart value) {
-        return operateField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name, operation, value);
-    }
-
-    public static VariableOperate operateLocalVariable(Class<?> variableType, String name, Operator operation) {
-        return operateField__Factory(null, CodeAPI.accessLocal(), CodeAPI.getJavaType(variableType), name, operation, null);
-    }
 
     // Factory
-    private static VariableOperate operateField__Factory(CodeType localization, CodePart at, CodeType type, String name, Operator operation, CodePart value) {
-        return new VariableOperateImpl(at, name, localization, type, value, operation);
-    }
-
-    private static Operate factory__operate(CodePart part, Operator operation, CodePart value) {
+    private static Operate factory__operate(CodePart part, Operator.Math operation, CodePart value) {
         return new OperateImpl(part, operation, value);
     }
 
@@ -1609,9 +1591,9 @@ public final class CodeAPI {
     /**
      * Create a if statement.
      *
-     * @param expressions Expressions.
-     * @param body        Body of the if.
-     * @param elseStatement   Else statement of the if.
+     * @param expressions   Expressions.
+     * @param body          Body of the if.
+     * @param elseStatement Else statement of the if.
      * @return If statement.
      */
     public static IfStatement ifStatement(List<CodePart> expressions, CodeSource body, CodeSource elseStatement) {
@@ -1632,8 +1614,8 @@ public final class CodeAPI {
     /**
      * Create a if statement.
      *
-     * @param ifExpr    Expression.
-     * @param body      Body of the if.
+     * @param ifExpr        Expression.
+     * @param body          Body of the if.
      * @param elseStatement Else statement of the if.
      * @return If statement.
      */
@@ -1739,6 +1721,7 @@ public final class CodeAPI {
 
     /**
      * Break the flow
+     *
      * @return Break ControlFlow
      */
     public static ControlFlow aBreak() {
@@ -1757,6 +1740,7 @@ public final class CodeAPI {
 
     /**
      * Continue the flow
+     *
      * @return Continue ControlFlow
      */
     public static ControlFlow aContinue() {
@@ -1822,9 +1806,9 @@ public final class CodeAPI {
     /**
      * Create a try-catch-finally statement.
      *
-     * @param toSurround    Code to surround.
-     * @param catchStatements   Catch statements.
-     * @param finallySource Finally statement.
+     * @param toSurround      Code to surround.
+     * @param catchStatements Catch statements.
+     * @param finallySource   Finally statement.
      * @return Try-Catch-Finally statement.
      */
     public static TryStatement tryStatement(CodeSource toSurround, List<CatchStatement> catchStatements, CodeSource finallySource) {
@@ -1834,9 +1818,9 @@ public final class CodeAPI {
     /**
      * Create a try-catch-finally statement.
      *
-     * @param toSurround    Code to surround.
-     * @param catchStatement    Catch statement.
-     * @param finallySource Finally statement.
+     * @param toSurround     Code to surround.
+     * @param catchStatement Catch statement.
+     * @param finallySource  Finally statement.
      * @return Try-Catch-Finally statement.
      */
     public static TryStatement tryStatement(CodeSource toSurround, CatchStatement catchStatement, CodeSource finallySource) {
@@ -1846,7 +1830,7 @@ public final class CodeAPI {
     /**
      * Create a try-catch statement.
      *
-     * @param toSurround  Code to surround.
+     * @param toSurround      Code to surround.
      * @param catchStatements Catch statements.
      * @return Try-Catch statement.
      */
@@ -1857,7 +1841,7 @@ public final class CodeAPI {
     /**
      * Create a try-catch statement.
      *
-     * @param toSurround Code to surround.
+     * @param toSurround     Code to surround.
      * @param catchStatement Catch statement.
      * @return Try-Catch statement.
      */
@@ -1911,10 +1895,10 @@ public final class CodeAPI {
     /**
      * Create a try-with-resources statement.
      *
-     * @param variable      Resource variable
-     * @param toSurround    Code to surround.
-     * @param catchStatements   Catch statements.
-     * @param finallySource Finally statement.
+     * @param variable        Resource variable
+     * @param toSurround      Code to surround.
+     * @param catchStatements Catch statements.
+     * @param finallySource   Finally statement.
      * @return Try-with-resources statement.
      */
     public static TryWithResources tryWithResources(VariableDeclaration variable, CodeSource toSurround, List<CatchStatement> catchStatements, CodeSource finallySource) {
@@ -1924,10 +1908,10 @@ public final class CodeAPI {
     /**
      * Create a try-with-resources statement.
      *
-     * @param variable      Resource variable
-     * @param toSurround    Code to surround.
-     * @param catchStatement    Catch statement.
-     * @param finallySource Finally statement.
+     * @param variable       Resource variable
+     * @param toSurround     Code to surround.
+     * @param catchStatement Catch statement.
+     * @param finallySource  Finally statement.
      * @return Try-with-resources statement.
      */
     public static TryWithResources tryWithResources(VariableDeclaration variable, CodeSource toSurround, CatchStatement catchStatement, CodeSource finallySource) {
@@ -1950,8 +1934,8 @@ public final class CodeAPI {
      * /**
      * Create a try-with-resources statement.
      *
-     * @param variable    Resource variable
-     * @param toSurround  Code to surround.
+     * @param variable        Resource variable
+     * @param toSurround      Code to surround.
      * @param catchStatements Catch statements.
      * @return Try-with-resources statement.
      */
@@ -1963,8 +1947,8 @@ public final class CodeAPI {
      * /**
      * Create a try-with-resources statement.
      *
-     * @param variable   Resource variable
-     * @param toSurround Code to surround.
+     * @param variable       Resource variable
+     * @param toSurround     Code to surround.
      * @param catchStatement Catch statement.
      * @return Try-with-resources statement.
      */
@@ -2008,7 +1992,7 @@ public final class CodeAPI {
     /**
      * Create a do-while statement.
      *
-     * @param check Expression.
+     * @param check  Expression.
      * @param source Source.
      * @return Do-while statement.
      */
@@ -2054,14 +2038,14 @@ public final class CodeAPI {
      * forEachStatement(field IterationType expression) body
      * }</pre>
      *
-     * @param field         Variable to store values.
+     * @param variable      Variable to store values.
      * @param iterationType Iteration type (constants: {@link IterationTypes}).
      * @param expression    Expression.
      * @param body          For each statement.
      * @return ForEach statement.
      */
-    public static ForEachStatement forEachStatement(FieldDeclaration field, IterationType iterationType, CodePart expression, CodeSource body) {
-        return forEachStatement__Factory(field, iterationType, expression, body);
+    public static ForEachStatement forEachStatement(VariableDeclaration variable, IterationType iterationType, CodePart expression, CodeSource body) {
+        return forEachStatement__Factory(variable, iterationType, expression, body);
     }
 
     /**
@@ -2071,7 +2055,7 @@ public final class CodeAPI {
      * forEachStatement(field : expression) body
      * }</pre>
      *
-     * @param variable      Variable to store values.
+     * @param variable   Variable to store values.
      * @param expression Expression (the array).
      * @param body       ForEach body.
      * @return ForEach statement iterating an array.
@@ -2087,7 +2071,7 @@ public final class CodeAPI {
      * forEachStatement(field : expression) body
      * }</pre>
      *
-     * @param variable      Variable to store values.
+     * @param variable   Variable to store values.
      * @param expression Expression (the iterable object).
      * @param body       ForEach body.
      * @return ForEach statement iterating an iterable element.
@@ -2181,11 +2165,11 @@ public final class CodeAPI {
      * Create a method fragment.
      *
      * @param typeDeclaration Class to insert method.
-     * @param scope         Scope of fragment.
-     * @param returnType    Return type of method.
-     * @param parameters    Parameters of the method.
-     * @param arguments     Arguments to pass to method.
-     * @param body          Body of method.
+     * @param scope           Scope of fragment.
+     * @param returnType      Return type of method.
+     * @param parameters      Parameters of the method.
+     * @param arguments       Arguments to pass to method.
+     * @param body            Body of method.
      * @return Method fragment.
      */
     public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
@@ -2196,10 +2180,10 @@ public final class CodeAPI {
      * Create a static method fragment.
      *
      * @param typeDeclaration Class to insert method.
-     * @param returnType    Return type of method.
-     * @param parameters    Parameters of the method.
-     * @param arguments     Arguments to pass to method.
-     * @param body          Body of method.
+     * @param returnType      Return type of method.
+     * @param parameters      Parameters of the method.
+     * @param arguments       Arguments to pass to method.
+     * @param body            Body of method.
      * @return Method fragment.
      */
     public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
@@ -2210,10 +2194,10 @@ public final class CodeAPI {
      * Create a instance method fragment.
      *
      * @param typeDeclaration Class to insert method.
-     * @param returnType    Return type of method.
-     * @param parameters    Parameters of the method.
-     * @param arguments     Arguments to pass to method.
-     * @param body          Body of method.
+     * @param returnType      Return type of method.
+     * @param parameters      Parameters of the method.
+     * @param arguments       Arguments to pass to method.
+     * @param body            Body of method.
      * @return Method fragment.
      */
     public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
@@ -2227,11 +2211,11 @@ public final class CodeAPI {
      * Create a method fragment.
      *
      * @param typeDeclaration Class to insert method.
-     * @param scope         Scope of fragment.
-     * @param returnType    Return type of method.
-     * @param parameters    Parameters of the method.
-     * @param arguments     Arguments to pass to method.
-     * @param body          Body of method.
+     * @param scope           Scope of fragment.
+     * @param returnType      Return type of method.
+     * @param parameters      Parameters of the method.
+     * @param arguments       Arguments to pass to method.
+     * @param body            Body of method.
      * @return Method fragment.
      */
     public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
@@ -2242,10 +2226,10 @@ public final class CodeAPI {
      * Create a static method fragment.
      *
      * @param typeDeclaration Class to insert method.
-     * @param returnType    Return type of method.
-     * @param parameters    Parameters of the method.
-     * @param arguments     Arguments to pass to method.
-     * @param body          Body of method.
+     * @param returnType      Return type of method.
+     * @param parameters      Parameters of the method.
+     * @param arguments       Arguments to pass to method.
+     * @param body            Body of method.
      * @return Method fragment.
      */
     public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
@@ -2256,10 +2240,10 @@ public final class CodeAPI {
      * Create a instance method fragment.
      *
      * @param typeDeclaration Class to insert method.
-     * @param returnType    Return type of method.
-     * @param parameters    Parameters of the method.
-     * @param arguments     Arguments to pass to method.
-     * @param body          Body of method.
+     * @param returnType      Return type of method.
+     * @param parameters      Parameters of the method.
+     * @param arguments       Arguments to pass to method.
+     * @param body            Body of method.
      * @return Method fragment.
      */
     public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
@@ -2271,7 +2255,7 @@ public final class CodeAPI {
 
         List<CodeParameter> parameterList = ArrayToList.toList(parameters);
 
-        return new MethodFragmentImpl(typeDeclaration, scope, ArrayToList.toList(arguments),
+        return new SimpleMethodFragmentImpl(typeDeclaration, scope, ArrayToList.toList(arguments),
                 new TypeSpec(returnType, parameterList.stream().map(CodeParameter::getType).collect(Collectors.toList())),
                 parameterList, body);
     }
@@ -2350,7 +2334,7 @@ public final class CodeAPI {
 
         InvokeType invokeType;
 
-        if(methodSpec.getLocalization().isInterface()) {
+        if (methodSpec.getLocalization().isInterface()) {
             invokeType = InvokeType.INVOKE_INTERFACE;
         } else {
             invokeType = InvokeType.INVOKE_VIRTUAL;
@@ -2380,6 +2364,17 @@ public final class CodeAPI {
     // =========================================================
     //          Utils
     // =========================================================
+
+    /**
+     * Access static {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     *
+     * Equivalent to Java static context.
+     *
+     * @return Access static {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     */
+    public static Access accessStatic() {
+        return Defaults.ACCESS_STATIC;
+    }
 
     /**
      * Access this {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.

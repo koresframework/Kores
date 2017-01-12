@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
 import java.util.*
@@ -39,6 +40,8 @@ data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val para
         return Objects.hash(returnType, parameterTypes)
     }
 
+    override fun builder(): Builder = Builder(this)
+
     override fun equals(other: Any?): Boolean {
 
         if (other !is TypeSpec)
@@ -49,6 +52,40 @@ data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val para
 
     override fun compareTo(other: TypeSpec): Int {
         return if (this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes) 0 else 1
+    }
+
+    class Builder() : Typed.Builder<TypeSpec, Builder> {
+
+        var returnType: CodeType = Types.VOID
+        var parameterTypes: List<CodeType> = emptyList()
+
+        constructor(defaults: TypeSpec): this() {
+            this.returnType = defaults.returnType
+            this.parameterTypes = defaults.parameterTypes
+        }
+
+        override fun withType(value: CodeType?): Builder {
+            this.returnType = value!!
+            return this
+        }
+
+        fun withReturnType(value: CodeType): Builder {
+            this.returnType = value
+            return this
+        }
+
+        fun withParameterTypes(value: List<CodeType>): Builder {
+            this.parameterTypes = value
+            return this
+        }
+
+        fun withParameterTypes(vararg values: CodeType): Builder {
+            this.parameterTypes = values.toList()
+            return this
+        }
+
+        override fun build(): TypeSpec = TypeSpec(returnType, parameterTypes)
+
     }
 
 }

@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder
+import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Scope
 import com.github.jonathanxd.codeapi.common.TypeSpec
@@ -73,9 +74,26 @@ interface MethodFragment : MethodInvocation, CodeElement {
     val body: CodeSource
         get() = this.declaration.body!!
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun methodFragumentBuilder() = MethodFragmentBuilder(this)
+    override fun builder(): Builder<MethodFragment, *> = MethodFragmentBuilder(this)
+
+    interface Builder<out T : MethodFragment, S : Builder<T, S>> :
+            MethodInvocation.Builder<T, S> {
+
+        /**
+         * See [T.declaration]
+         */
+        fun withDeclaration(value: MethodDeclaration): S
+
+        /**
+         * See [T.scope]
+         */
+        fun withScope(value: Scope): S
+
+        /**
+         * See [T.declaringType]
+         */
+        fun withDeclaringType(value: TypeDeclaration): S
+
+    }
 
 }

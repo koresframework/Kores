@@ -34,26 +34,27 @@ package com.github.jonathanxd.codeapi.builder
  *
  * @param T Type of element to build.
  */
-abstract class Builder<out T, S: Builder<T, S>> {
+interface Builder<out T, S: Builder<T, S>> {
 
     /**
      * Build the object of type [T].
      *
      * @return Instance of object of type [T].
      */
-    abstract fun build(): T
+    fun build(): T
 
-    /**
-     * Build the object of type [T].
-     *
-     * @param func Consumer of builder instance.
-     * @return Instance of object of type [T].
-     */
-    @Suppress("UNCHECKED_CAST")
-    inline fun build(func: S.() -> Unit): T {
-        func(this as S)
-        return build()
-    }
+}
+
+/**
+ * Build the object of type [T].
+ *
+ * @param func Consumer of builder instance.
+ * @return Instance of object of type [T].
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <T, S: Builder<T, S>> S.build(func: S.() -> Unit): T {
+    func(this)
+    return build()
 }
 
 

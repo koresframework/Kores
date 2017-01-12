@@ -38,10 +38,9 @@ interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
     override val classType: ClassType
         get() = ClassType.INTERFACE
 
+    override fun builder(): Builder<InterfaceDeclaration, *> = InterfaceDeclarationBuilder(this)
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun interfaceDeclarationBuilder() = InterfaceDeclarationBuilder(this)
-
+    interface Builder<out T: InterfaceDeclaration, S: Builder<T, S>> :
+            TypeDeclaration.Builder<T, S>,
+            ImplementationHolder.Builder<T, S>
 }

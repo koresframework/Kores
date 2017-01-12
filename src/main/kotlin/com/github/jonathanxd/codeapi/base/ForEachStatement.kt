@@ -53,9 +53,23 @@ interface ForEachStatement : BodyHolder {
      */
     val iterableElement: CodePart
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun forEachStatementBuilder() = ForEachStatementBuilder(this)
+    override fun builder(): Builder<ForEachStatement, *> = ForEachStatementBuilder(this)
+
+    interface Builder<out T: ForEachStatement, S: Builder<T, S>> : BodyHolder.Builder<T, S> {
+        /**
+         * See [T.variable]
+         */
+        fun withVariable(value: VariableDeclaration): S
+
+        /**
+         * See [T.iterationType]
+         */
+        fun withIterationType(value: IterationType): S
+
+        /**
+         * See [T.iterableElement]
+         */
+        fun withIterableElement(value: CodePart): S
+    }
 
 }

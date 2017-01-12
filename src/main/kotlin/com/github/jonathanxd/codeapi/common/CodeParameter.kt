@@ -33,4 +33,44 @@ import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
 
-data class CodeParameter @JvmOverloads constructor(override val type: CodeType, override val name: String, override val annotations: List<Annotation> = emptyList()) : Typed, Named, Annotable
+data class CodeParameter @JvmOverloads constructor(override val type: CodeType, override val name: String, override val annotations: List<Annotation> = emptyList()) : Typed, Named, Annotable {
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() :
+            Named.Builder<CodeParameter, Builder>,
+            Typed.Builder<CodeParameter, Builder>,
+            Annotable.Builder<CodeParameter, Builder> {
+
+        lateinit var name: String
+        lateinit var type: CodeType
+        var annotations: List<Annotation> = emptyList()
+
+        constructor(defaults: CodeParameter) : this() {
+            this.name = defaults.name
+            this.type = defaults.type
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withType(value: CodeType?): Builder {
+            this.type = value!!
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withAnnotations(vararg values: Annotation): Builder {
+            this.annotations = values.toList()
+            return this
+        }
+
+        override fun build(): CodeParameter = CodeParameter(this.type, this.name, this.annotations)
+
+    }
+}

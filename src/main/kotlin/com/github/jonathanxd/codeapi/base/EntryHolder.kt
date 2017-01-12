@@ -39,4 +39,17 @@ interface EntryHolder : CodePart {
      */
     val entries: List<EnumEntry>
 
+    override fun builder(): Builder<EntryHolder, *>
+
+    interface Builder<out T : EntryHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.entries]
+         */
+        fun withEntries(value: List<EnumEntry>): S
+
+        /**
+         * See [T.entries]
+         */
+        fun withEntries(vararg values: EnumEntry): S
+    }
 }

@@ -42,9 +42,19 @@ interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnType
 
     override val returnType: CodeType
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun methodDeclarationBuilder() = MethodDeclarationBuilder(this)
+    override fun builder(): Builder<MethodDeclaration, *> = MethodDeclarationBuilder(this)
 
+    interface Builder<out T : MethodDeclaration, S : Builder<T, S>> :
+            BodyHolder.Builder<T, S>,
+            ModifiersHolder.Builder<T, S>,
+            ReturnTypeHolder.Builder<T, S>,
+            ParametersHolder.Builder<T, S>,
+            GenericSignatureHolder.Builder<T, S>,
+            Annotable.Builder<T, S>,
+            Named.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withType(value: CodeType?): S = this.withReturnType(value!!)
+
+    }
 }

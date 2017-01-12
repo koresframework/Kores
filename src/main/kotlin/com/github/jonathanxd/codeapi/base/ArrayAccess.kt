@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -45,5 +46,18 @@ interface ArrayAccess : CodePart {
      */
     val arrayType: CodeType
 
+    override fun builder(): Builder<ArrayAccess, *>
+
+    interface Builder<out T: ArrayAccess, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.target]
+         */
+        fun withTarget(value: CodePart): S
+
+        /**
+         * See [T.arrayType]
+         */
+        fun withArrayType(value: CodeType): S
+    }
 
 }

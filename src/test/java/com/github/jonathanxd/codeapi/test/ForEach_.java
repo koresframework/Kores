@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.type.CodeType;
@@ -72,7 +72,7 @@ public class ForEach_ {
                                 Modifier.PUBLIC,
                                 new CodeParameter[]{new CodeParameter(Generic.type(Types.LIST).of(Types.STRING), "strList")},
                                 CodeAPI.source(
-                                        CodeAPI.forEachIterable(FieldFactory.field(Types.STRING, "str"),
+                                        CodeAPI.forEachIterable(VariableFactory.variable(Types.STRING, "str"),
                                                 CodeAPI.accessLocalVariable(
                                                         Generic.type(Types.LIST).of(Types.STRING),
                                                         "strList"),

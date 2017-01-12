@@ -55,9 +55,34 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
      */
     val forUpdate: CodePart?
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun forStatementBuilder() = ForStatementBuilder(this)
+    override fun builder(): Builder<ForStatement, *> = ForStatementBuilder(this)
+
+    interface Builder<out T : ForStatement, S : Builder<T, S>> :
+            IfExpressionHolder.Builder<T, S>,
+            BodyHolder.Builder<T, S> {
+
+        override fun withExpressions(value: List<CodePart>): S = this.withForExpression(value)
+        override fun withExpressions(vararg values: CodePart): S = this.withForExpression(*values)
+
+        /**
+         * See [T.forInit]
+         */
+        fun withForInit(value: CodePart?): S
+
+        /**
+         * See [T.forExpression]
+         */
+        fun withForExpression(value: List<CodePart>): S
+
+        /**
+         * See [T.forExpression]
+         */
+        fun withForExpression(vararg values: CodePart): S
+
+        /**
+         * See [T.forUpdate]
+         */
+        fun withForUpdate(value: CodePart?): S
+    }
 
 }

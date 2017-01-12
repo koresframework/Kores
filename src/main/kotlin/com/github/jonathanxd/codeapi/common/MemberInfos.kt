@@ -51,6 +51,10 @@ class MemberInfos(val declaration: TypeDeclaration) {
     }
 
     fun find(access: VariableAccess): MemberInfo {
+        return this.find { memberInfo -> memberInfo.memberInstance is VariableDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
+    }
+
+    fun find(access: FieldAccess): MemberInfo {
         return this.find { memberInfo -> memberInfo.memberInstance is FieldDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
     }
 

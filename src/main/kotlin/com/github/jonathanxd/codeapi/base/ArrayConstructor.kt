@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.ArrayConstructorBuilder
 import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
+import com.github.jonathanxd.codeapi.builder.build
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.Stack
@@ -65,7 +66,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
                 arrayStores.add(
                         ArrayStoreBuilder().build {
                             this.arrayType = arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
-                            this.target = Stack.INSTANCE
+                            this.target = Stack
                             this.index = Literals.INT(i)
                             this.valueType = argument.type!!
                             this.valueToStore = argumentValue
@@ -82,9 +83,33 @@ interface ArrayConstructor : ArgumentHolder, Typed {
     override val array: Boolean
         get() = true
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun arrayConstructorBuilder() = ArrayConstructorBuilder(this)
+    override fun builder(): Builder<ArrayConstructor, *> = ArrayConstructorBuilder(this)
 
+    interface Builder<out T: ArrayConstructor, S: Builder<T, S>> :
+            ArgumentHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withType(value: CodeType?): S = this.withArrayType(value!!)
+
+        @Suppress("UNCHECKED_CAST")
+        override fun withArray(value: Boolean): S {
+            return this as S
+        }
+
+        /**
+         * See [T.arrayType]
+         */
+        fun withArrayType(value: CodeType): S
+
+        /**
+         * See [T.dimensions]
+         */
+        fun withDimensions(value: List<CodePart>): S
+
+        /**
+         * See [T.dimensions]
+         */
+        fun withDimensions(vararg values: CodePart): S
+
+    }
 }

@@ -25,22 +25,10 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.ClassType
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.FieldAccess
+import com.github.jonathanxd.codeapi.type.CodeType
 
-interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
-
-    override val classType: ClassType
-        get() = ClassType.CLASS
-
-
-    override fun builder(): Builder<ClassDeclaration, *> = ClassDeclarationBuilder(this)
-
-    interface Builder<out T: ClassDeclaration, S: Builder<T, S>> :
-            TypeDeclaration.Builder<T, S>,
-            SuperClassHolder.Builder<T, S>,
-            ImplementationHolder.Builder<T, S>
-
-}
+data class FieldAccessImpl(override val name: String, override val type: CodeType, override val target: CodePart, override val localization: CodeType) : FieldAccess

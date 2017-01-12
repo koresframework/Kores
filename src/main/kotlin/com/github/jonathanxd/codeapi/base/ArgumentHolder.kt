@@ -42,4 +42,23 @@ interface ArgumentHolder : CodePart {
      */
     val array: Boolean
 
+    override fun builder(): Builder<ArgumentHolder, *>
+
+    interface Builder<out T : ArgumentHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.arguments]
+         */
+        fun withArguments(value: List<CodeArgument>): S
+
+        /**
+         * See [T.arguments]
+         */
+        fun withArguments(vararg values: CodeArgument): S
+
+        /**
+         * See [T.array]
+         */
+        fun withArray(value: Boolean): S
+    }
+
 }

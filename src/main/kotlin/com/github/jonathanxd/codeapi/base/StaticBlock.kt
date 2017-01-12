@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.builder.StaticBlockBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.codeapi.util.self
 
 interface StaticBlock : ConstructorDeclaration {
     override val name: String
@@ -54,10 +55,19 @@ interface StaticBlock : ConstructorDeclaration {
     override val modifiers: Set<CodeModifier>
         get() = Constants.MODIFIERS
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun staticBlockBuilder() = StaticBlockBuilder(this)
+    override fun builder(): Builder<StaticBlock, *> = StaticBlockBuilder(this)
+
+    interface Builder<out T: StaticBlock, S: Builder<T, S>> : ConstructorDeclaration.Builder<T, S> {
+        override fun withName(value: String): S = self()
+        override fun withAnnotations(value: List<Annotation>): S = self()
+        override fun withAnnotations(vararg value: Annotation): S = self()
+        override fun withParameters(value: List<CodeParameter>): S = self()
+        override fun withParameters(vararg values: CodeParameter): S = self()
+        override fun withReturnType(value: CodeType?): S = self()
+        override fun withModifiers(value: Set<CodeModifier>): S = self()
+        override fun withModifiers(vararg values: CodeModifier): S = self()
+        override fun withGenericSignature(value: GenericSignature): S = self()
+    }
 
     companion object Constants {
         val NAME = "<clinit>"

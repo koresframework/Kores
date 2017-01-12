@@ -35,8 +35,37 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
     override val type: CodeType?
         get() = this.methodTypeSpec.type
 
+    override fun builder(): Builder = Builder(this)
 
     override fun compareTo(other: MethodInvokeSpec): Int {
         return this.methodTypeSpec.compareTo(other.methodTypeSpec)
+    }
+
+    class Builder() : Typed.Builder<MethodInvokeSpec, Builder> {
+
+        lateinit var invokeType: InvokeType
+        lateinit var methodTypeSpec: MethodTypeSpec
+
+        constructor(defaults: MethodInvokeSpec) : this() {
+            this.invokeType = defaults.invokeType
+            this.methodTypeSpec = defaults.methodTypeSpec
+        }
+
+        override fun withType(value: CodeType?): Builder {
+            this.methodTypeSpec = methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value!!))
+            return this
+        }
+
+        fun withInvokeType(value: InvokeType): Builder {
+            this.invokeType = value
+            return this
+        }
+
+        fun withMethodTypeSpec(value: MethodTypeSpec) : Builder {
+            this.methodTypeSpec = value
+            return this
+        }
+
+        override fun build(): MethodInvokeSpec = MethodInvokeSpec(this.invokeType, this.methodTypeSpec)
     }
 }

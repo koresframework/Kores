@@ -180,7 +180,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
         return this.operate(operation, value)
     }
 
-    private fun operate(operation: Operator, value: CodePart?): OperateHelper {
+    private fun operate(operation: Operator.Math, value: CodePart?): OperateHelper {
         this.part = OperateImpl(this.part!!, operation, value)
 
         return this

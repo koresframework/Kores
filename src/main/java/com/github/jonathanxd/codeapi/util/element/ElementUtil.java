@@ -29,12 +29,14 @@ package com.github.jonathanxd.codeapi.util.element;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.base.FieldAccess;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.MethodSpecification;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
@@ -79,10 +81,14 @@ public class ElementUtil {
         return false;
     }
 
-    public static boolean equal(FieldDeclaration fieldDeclaration, VariableAccess access) {
+    public static boolean equal(FieldDeclaration fieldDeclaration, FieldAccess access) {
         return access.getName().equals(fieldDeclaration.getName())
-                && access.getVariableType().is(fieldDeclaration.getVariableType())
-                && access.getLocalization() != null;
+                && access.getType().is(fieldDeclaration.getType());
+    }
+
+    public static boolean equal(VariableDeclaration fieldDeclaration, VariableAccess access) {
+        return access.getName().equals(fieldDeclaration.getName())
+                && access.getVariableType().is(fieldDeclaration.getType());
     }
 
     public static MethodInvocation invoke(MethodDeclaration methodDeclaration, CodePart target, List<CodeArgument> arguments, TypeDeclaration type) {
