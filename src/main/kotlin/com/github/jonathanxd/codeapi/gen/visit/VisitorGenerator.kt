@@ -146,7 +146,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      * @param additional Additional object.
      * @return Result objects.
      */
-    fun generateTo(partClass: Class<out CodePart>, codePart: CodePart, extraData: MapData, additional: Any?): Array<out T> {
+    open fun generateTo(partClass: Class<out CodePart>, codePart: CodePart, extraData: MapData, additional: Any?): Array<out T> {
         return this.generateTo(partClass, codePart, extraData, null, additional)
     }
 
@@ -160,7 +160,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      * @param additional Additional object.
      * @return Result objects.
      */
-    fun generateTo(partClass: Class<out CodePart>, codePart: CodePart, extraData: MapData, consumer: Consumer<Array<out T>>?, additional: Any?): Array<out T> {
+    open fun generateTo(partClass: Class<out CodePart>, codePart: CodePart, extraData: MapData, consumer: Consumer<Array<out T>>?, additional: Any?): Array<out T> {
         try {
             val tVisitor = get(partClass)
 
