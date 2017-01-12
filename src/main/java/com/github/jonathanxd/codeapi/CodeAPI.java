@@ -1677,7 +1677,7 @@ public final class CodeAPI {
      * @param part2    Part2.
      * @return The verification part.
      */
-    public static IfExpr check(CodePart part1, Operator operator, CodePart part2) {
+    public static IfExpr check(CodePart part1, Operator.Conditional operator, CodePart part2) {
         return new IfExprImpl(part1, operator, part2);
     }
 

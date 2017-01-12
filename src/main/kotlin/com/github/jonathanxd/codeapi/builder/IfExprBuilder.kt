@@ -41,7 +41,7 @@ open class IfExprBuilder(): IfExpr.Builder<IfExpr, IfExprBuilder> {
     /**
      * See [IfExpr.operation]
      */
-    lateinit var operation: com.github.jonathanxd.codeapi.operator.Operator
+    lateinit var operation: com.github.jonathanxd.codeapi.operator.Operator.Conditional
 
     /**
      * See [IfExpr.expr2]
@@ -67,7 +67,7 @@ open class IfExprBuilder(): IfExpr.Builder<IfExpr, IfExprBuilder> {
     /**
      * See [IfExpr.operation]
      */
-    override fun withOperation(value: com.github.jonathanxd.codeapi.operator.Operator): IfExprBuilder {
+    override fun withOperation(value: com.github.jonathanxd.codeapi.operator.Operator.Conditional): IfExprBuilder {
         this.operation = value
         return this
     }

@@ -47,7 +47,7 @@ interface IfExpr : CodePart {
     /**
      * Operation
      */
-    val operation: Operator
+    val operation: Operator.Conditional
 
     /**
      * Second expression
@@ -65,7 +65,7 @@ interface IfExpr : CodePart {
         /**
          * See [T.operation]
          */
-        fun withOperation(value: Operator): S
+        fun withOperation(value: Operator.Conditional): S
 
         /**
          * See [T.expr2]
