@@ -29,22 +29,18 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.base.FieldDeclaration
-import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.base.VariableDeclaration
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
- * This class denotes a hidden field.
+ * This class denotes a hidden variable.
  *
- * In source code, this field will be obfuscated
+ * In source code, this variable will be obfuscated
  *
- * In bytecode, the LocalVariableTable will not contain this field.
+ * In bytecode, the LocalVariableTable will not contain this variable.
  */
-@GenerateTo(FieldDeclaration::class)
-data class HiddenField @JvmOverloads constructor(
+@GenerateTo(VariableDeclaration::class)
+data class HiddenVariable @JvmOverloads constructor(
         override val name: String,
-        override val type: CodeType,
-        override val value: CodePart? = null,
-        override val modifiers: Set<CodeModifier> = emptySet(),
-        override val annotations: List<Annotation> = emptyList()) : FieldDeclaration
+        override val variableType: CodeType,
+        override val value: CodePart? = null) : VariableDeclaration
