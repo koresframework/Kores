@@ -42,6 +42,9 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 
+// ---------------------------------------------------------------
+//       Class
+// ---------------------------------------------------------------
 
 // Short methods
 fun aClass(modifiers: Int = 0,
@@ -132,6 +135,73 @@ fun aClass(outerClass: CodeType? = null,
     )
 }
 
+// ---------------------------------------------------------------
+//       Interface
+// ---------------------------------------------------------------
+
+
+// Short methods
+fun anInterface(modifiers: Int = 0,
+           qualifiedName: String,
+           source: CodeSource = CodeSource.empty()) =
+    // Select correct method
+    anInterface(
+            outerClass = null,
+            modifiers = modifiers,
+            qualifiedName = qualifiedName,
+            source = source
+    )
+
+
+fun anInterface(modifiers: Int = 0,
+           qualifiedName: String,
+           superInterfaces: Array<CodeType> = emptyArray(),
+           source: CodeSource = CodeSource.empty()) =
+    // Select correct method
+    anInterface(
+            outerClass = null,
+            modifiers = modifiers,
+            qualifiedName = qualifiedName,
+            superInterfaces = superInterfaces,
+            source = source
+    )
+
+
+fun anInterface(annotations: Array<Annotation> = emptyArray(),
+           modifiers: Int = 0,
+           qualifiedName: String,
+           signature: GenericSignature = GenericSignature.empty(),
+           superInterfaces: Array<CodeType> = emptyArray(),
+           source: CodeSource = CodeSource.empty()) =
+    anInterface(
+            outerClass = null,
+            annotations = annotations,
+            modifiers = modifiers,
+            qualifiedName = qualifiedName,
+            signature = signature,
+            superInterfaces = superInterfaces,
+            source = source
+    )
+
+
+fun anInterface(modifiers: Int = 0,
+           qualifiedName: String,
+           signature: GenericSignature = GenericSignature.empty(),
+           superInterfaces: Array<CodeType> = emptyArray(),
+           source: CodeSource = CodeSource.empty()) =
+    // Select correct method
+    anInterface(
+            outerClass = null,
+            modifiers = modifiers,
+            qualifiedName = qualifiedName,
+            signature = signature,
+            superInterfaces = superInterfaces,
+            source = source
+    )
+
+
+// /Short methods
+
 @JvmOverloads
 fun anInterface(outerClass: CodeType? = null,
                 annotations: Array<Annotation> = emptyArray(),
@@ -150,6 +220,50 @@ fun anInterface(outerClass: CodeType? = null,
             body = source
     )
 }
+
+// ---------------------------------------------------------------
+//       Annotation
+// ---------------------------------------------------------------
+
+// Short methods
+fun anAnnotation(modifiers: Int = 0,
+                 qualifiedName: String,
+                 properties: Array<AnnotationProperty> = emptyArray(),
+                 source: CodeSource = CodeSource.empty()) =
+    // Select correct method
+    anAnnotation(
+            outerClass = null,
+            modifiers = modifiers,
+            qualifiedName = qualifiedName,
+            properties = properties,
+            source = source
+    )
+
+fun anAnnotation(modifiers: Int = 0,
+                 qualifiedName: String,
+                 source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anAnnotation(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                properties = emptyArray(),
+                source = source
+        )
+
+fun anAnnotation(qualifiedName: String,
+                 source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anAnnotation(
+                outerClass = null,
+                modifiers = 0,
+                qualifiedName = qualifiedName,
+                properties = emptyArray(),
+                source = source
+        )
+
+// /Short methods
+
 
 @JvmOverloads
 fun anAnnotation(outerClass: CodeType? = null,
@@ -170,6 +284,68 @@ fun anAnnotation(outerClass: CodeType? = null,
     )
 }
 
+
+// ---------------------------------------------------------------
+//       Enum
+// ---------------------------------------------------------------
+
+// Short methods
+fun anEnum(modifiers: Int = 0,
+           qualifiedName: String,
+           source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anEnum(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                entries = emptyArray(),
+                source = source
+        )
+
+
+fun anEnum(modifiers: Int = 0,
+           qualifiedName: String,
+           implementations: Array<CodeType> = emptyArray(),
+           source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anEnum(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                implementations = implementations,
+                entries = emptyArray(),
+                source = source
+        )
+
+
+fun anEnum(modifiers: Int = 0,
+           qualifiedName: String,
+           implementations: Array<CodeType> = emptyArray(),
+           entries: Array<EnumEntry> = emptyArray(),
+           source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anEnum(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                implementations = implementations,
+                entries = entries,
+                source = source
+        )
+
+
+fun anEnum(qualifiedName: String,
+                 source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anEnum(
+                outerClass = null,
+                modifiers = 0,
+                qualifiedName = qualifiedName,
+                entries = emptyArray(),
+                source = source
+        )
+
+// /Short methods
 
 @JvmOverloads
 fun anEnum(outerClass: CodeType? = null,
