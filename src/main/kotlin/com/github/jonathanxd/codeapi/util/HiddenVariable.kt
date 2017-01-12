@@ -41,6 +41,6 @@ import com.github.jonathanxd.codeapi.type.CodeType
  */
 @GenerateTo(VariableDeclaration::class)
 data class HiddenVariable @JvmOverloads constructor(
-        override val name: String,
         override val variableType: CodeType,
+        override val name: String,
         override val value: CodePart? = null) : VariableDeclaration

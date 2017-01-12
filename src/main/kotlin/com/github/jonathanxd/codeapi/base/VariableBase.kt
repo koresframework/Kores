@@ -44,7 +44,7 @@ interface VariableBase : Named, Typed {
      */
     val variableType: CodeType
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.variableType
 
     override fun builder(): Builder<VariableBase, *>

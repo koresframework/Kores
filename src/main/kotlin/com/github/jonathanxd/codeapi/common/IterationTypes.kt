@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.util.CodePartUtil
+import com.github.jonathanxd.codeapi.util.HiddenVariable
 
 /**
  * Common [IterationTypes][IterationType]
@@ -61,7 +62,7 @@ object IterationTypes {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = sugarEnvironment.getVariableName("\$array_index")
-                val indexFieldDecl = field(Types.INT, fieldName, Literals.INT(0))
+                val indexFieldDecl = HiddenVariable(Types.INT, fieldName, Literals.INT(0))
                 val accessIndex = VariableAccessImpl(
                         name = indexFieldDecl.name,
                         variableType = indexFieldDecl.type
@@ -131,7 +132,7 @@ object IterationTypes {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = sugarEnvironment.getVariableName("\$iterable_iterator")
-                val iterFieldDecl = field(Types.ITERATOR, fieldName, Literals.NULL)
+                val iterFieldDecl = HiddenVariable(Types.ITERATOR, fieldName, Literals.NULL)
                 val accessIter = VariableAccessImpl(
                         name = iterFieldDecl.name,
                         variableType = iterFieldDecl.type
