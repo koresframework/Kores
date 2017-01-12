@@ -42,19 +42,19 @@ class MemberInfos(val declaration: TypeDeclaration) {
         return this.memberInfoList.add(codeElement)
     }
 
-    fun find(memberInfoPredicate: (MemberInfo) -> Boolean): MemberInfo {
+    fun find(memberInfoPredicate: (MemberInfo) -> Boolean): MemberInfo? {
         return this.getMemberInfoList().stream().filter(memberInfoPredicate).findFirst().orElse(null)
     }
 
-    fun find(methodSpecification: MethodSpecification): MemberInfo {
+    fun find(methodSpecification: MethodSpecification): MemberInfo? {
         return this.find { memberInfo -> memberInfo.memberInstance is MethodDeclaration && ElementUtil.equal(memberInfo.memberInstance, methodSpecification) }
     }
 
-    fun find(access: VariableAccess): MemberInfo {
+    fun find(access: VariableAccess): MemberInfo? {
         return this.find { memberInfo -> memberInfo.memberInstance is VariableDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
     }
 
-    fun find(access: FieldAccess): MemberInfo {
+    fun find(access: FieldAccess): MemberInfo? {
         return this.find { memberInfo -> memberInfo.memberInstance is FieldDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
     }
 
