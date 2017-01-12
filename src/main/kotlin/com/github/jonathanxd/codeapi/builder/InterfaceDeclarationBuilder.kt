@@ -51,7 +51,7 @@ open class InterfaceDeclarationBuilder(): InterfaceDeclaration.Builder<Interface
     /**
      * See [InterfaceDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [InterfaceDeclaration.modifiers]
@@ -127,7 +127,7 @@ open class InterfaceDeclarationBuilder(): InterfaceDeclaration.Builder<Interface
     /**
      * See [InterfaceDeclaration.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): InterfaceDeclarationBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): InterfaceDeclarationBuilder {
         this.body = value
         return this
     }

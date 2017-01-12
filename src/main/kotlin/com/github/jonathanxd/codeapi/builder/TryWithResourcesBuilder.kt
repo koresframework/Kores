@@ -46,12 +46,12 @@ open class TryWithResourcesBuilder(): TryWithResources.Builder<TryWithResources,
     /**
      * See [TryWithResources.finallyStatement]
      */
-    var finallyStatement: com.github.jonathanxd.codeapi.CodeSource? = null
+    var finallyStatement: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [TryWithResources.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: TryWithResources) : this() {
         this.variable = defaults.variable
@@ -91,7 +91,7 @@ open class TryWithResourcesBuilder(): TryWithResources.Builder<TryWithResources,
     /**
      * See [TryWithResources.finallyStatement]
      */
-    override fun withFinallyStatement(value: com.github.jonathanxd.codeapi.CodeSource?): TryWithResourcesBuilder {
+    override fun withFinallyStatement(value: com.github.jonathanxd.codeapi.CodeSource): TryWithResourcesBuilder {
         this.finallyStatement = value
         return this
     }
@@ -100,7 +100,7 @@ open class TryWithResourcesBuilder(): TryWithResources.Builder<TryWithResources,
     /**
      * See [TryWithResources.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): TryWithResourcesBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): TryWithResourcesBuilder {
         this.body = value
         return this
     }

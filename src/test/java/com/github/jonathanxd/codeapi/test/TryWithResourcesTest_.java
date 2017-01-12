@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -42,6 +43,7 @@ import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Collections;
+import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
@@ -61,9 +63,9 @@ public class TryWithResourcesTest_ {
         );
 
 
-        ClassDeclaration classDeclaration = ClassFactory.aClass(PUBLIC,
+        ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC),
                 "test.TryWithResourcesTestClass", sourceOfParts(
-                        ConstructorFactory.constructor(PUBLIC, CodeAPI.source(
+                        ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeAPI.source(
                                 tryWithResources
                         ))
                 ));

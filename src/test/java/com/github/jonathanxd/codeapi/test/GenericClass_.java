@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
@@ -42,6 +43,7 @@ import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import static java.lang.reflect.Modifier.PUBLIC;
@@ -52,19 +54,19 @@ public class GenericClass_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        TypeDeclaration typeDeclaration = ClassFactory.aClass(PUBLIC, "com.Generic", GenericSignature.create(Generic.type("T").extends$(
+        TypeDeclaration typeDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.Generic", GenericSignature.create(Generic.type("T").extends$(
                 Generic.type(CodeAPI.getJavaType(List.class)).of("T")
         )), Types.OBJECT, new CodeType[]{Generic.type(CodeAPI.getJavaType(List.class)).of("T")}, CodeAPI.sourceOfParts(
                 MethodFactory.method(
                         GenericSignature.create(Generic.type("T").extends$(
                                 Generic.type(Types.LIST).of("T")
                         )),
-                        STATIC | PUBLIC,
+                        EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC),
                         "test", Types.VOID, new CodeParameter[]{new CodeParameter(Generic.type("T"), "val")},
                         CodeAPI.sourceOfParts(
                                 FieldFactory.field(Generic.type("T"), "fieldi", Literals.NULL)
                         )),
-                FieldFactory.field(PUBLIC, Generic.type("T"), "test", null)
+                FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), Generic.type("T"), "test", null)
         ));
 
         return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));

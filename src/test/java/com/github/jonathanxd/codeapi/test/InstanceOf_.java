@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
@@ -41,6 +42,8 @@ import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
+
+import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
@@ -65,8 +68,8 @@ public class InstanceOf_ {
 
         VariableAccess paramAccess = accessLocalVariable(Object.class, "param");
 
-        ClassDeclaration codeClass = ClassFactory.aClass(PUBLIC, "test.InstanceOf", sourceOfParts(
-                MethodFactory.method(STATIC | PUBLIC, "test", Types.VOID, new CodeParameter[]{parameter(Object.class, "param")},
+        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.InstanceOf", sourceOfParts(
+                MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID, new CodeParameter[]{parameter(Object.class, "param")},
                         sourceOfParts(
                                 ifStatement(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
                                         sourceOfParts(

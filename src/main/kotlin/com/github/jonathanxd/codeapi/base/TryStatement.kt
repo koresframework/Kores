@@ -54,7 +54,7 @@ interface TryStatement : BodyHolder, Typed {
     /**
      * Finally block statement
      */
-    val finallyStatement: CodeSource?
+    val finallyStatement: CodeSource
 
     override fun builder(): Builder<TryStatement, *> = TryStatementBuilder(this)
 
@@ -77,7 +77,7 @@ interface TryStatement : BodyHolder, Typed {
         /**
          * See [T.finallyStatement]
          */
-        fun withFinallyStatement(value: CodeSource?): S
+        fun withFinallyStatement(value: CodeSource): S
 
     }
 

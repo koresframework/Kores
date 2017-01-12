@@ -37,17 +37,20 @@ import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.ClassDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.EnumDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.InterfaceDeclarationImpl
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
+import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import com.github.jonathanxd.codeapi.util.fromJavaModifiers
+import java.util.*
 
 // ---------------------------------------------------------------
 //       Class
 // ---------------------------------------------------------------
 
 // Short methods
-fun aClass(modifiers: Int = 0,
+fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
     // Select correct method
@@ -59,7 +62,7 @@ fun aClass(modifiers: Int = 0,
     )
 }
 
-fun aClass(modifiers: Int = 0,
+fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            superType: CodeType = Types.OBJECT,
            implementations: Array<CodeType> = emptyArray(),
@@ -76,7 +79,7 @@ fun aClass(modifiers: Int = 0,
 }
 
 fun aClass(annotations: Array<Annotation> = emptyArray(),
-           modifiers: Int = 0,
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
            superType: CodeType = Types.OBJECT,
@@ -94,7 +97,7 @@ fun aClass(annotations: Array<Annotation> = emptyArray(),
     )
 }
 
-fun aClass(modifiers: Int = 0,
+fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
            superType: CodeType = Types.OBJECT,
@@ -117,7 +120,7 @@ fun aClass(modifiers: Int = 0,
 @JvmOverloads
 fun aClass(outerClass: CodeType? = null,
            annotations: Array<Annotation> = emptyArray(),
-           modifiers: Int = 0,
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
            superType: CodeType = Types.OBJECT,
@@ -129,7 +132,7 @@ fun aClass(outerClass: CodeType? = null,
             qualifiedName,
             ArrayToList.toList(annotations),
             source,
-            fromJavaModifiers(modifiers),
+            modifiers,
             signature,
             outerClass
     )
@@ -141,7 +144,7 @@ fun aClass(outerClass: CodeType? = null,
 
 
 // Short methods
-fun anInterface(modifiers: Int = 0,
+fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            source: CodeSource = CodeSource.empty()) =
     // Select correct method
@@ -153,7 +156,7 @@ fun anInterface(modifiers: Int = 0,
     )
 
 
-fun anInterface(modifiers: Int = 0,
+fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            superInterfaces: Array<CodeType> = emptyArray(),
            source: CodeSource = CodeSource.empty()) =
@@ -168,7 +171,7 @@ fun anInterface(modifiers: Int = 0,
 
 
 fun anInterface(annotations: Array<Annotation> = emptyArray(),
-           modifiers: Int = 0,
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
            superInterfaces: Array<CodeType> = emptyArray(),
@@ -184,7 +187,7 @@ fun anInterface(annotations: Array<Annotation> = emptyArray(),
     )
 
 
-fun anInterface(modifiers: Int = 0,
+fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
            superInterfaces: Array<CodeType> = emptyArray(),
@@ -205,7 +208,7 @@ fun anInterface(modifiers: Int = 0,
 @JvmOverloads
 fun anInterface(outerClass: CodeType? = null,
                 annotations: Array<Annotation> = emptyArray(),
-                modifiers: Int = 0,
+                modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 qualifiedName: String,
                 signature: GenericSignature = GenericSignature.empty(),
                 superInterfaces: Array<CodeType> = emptyArray(),
@@ -213,7 +216,7 @@ fun anInterface(outerClass: CodeType? = null,
     return InterfaceDeclarationImpl(
             outerClass = outerClass,
             annotations = ArrayToList.toList(annotations),
-            modifiers = fromJavaModifiers(modifiers),
+            modifiers = modifiers,
             genericSignature = signature,
             qualifiedName = qualifiedName,
             implementations = ArrayToList.toList(superInterfaces),
@@ -226,7 +229,7 @@ fun anInterface(outerClass: CodeType? = null,
 // ---------------------------------------------------------------
 
 // Short methods
-fun anAnnotation(modifiers: Int = 0,
+fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
                  properties: Array<AnnotationProperty> = emptyArray(),
                  source: CodeSource = CodeSource.empty()) =
@@ -239,7 +242,7 @@ fun anAnnotation(modifiers: Int = 0,
             source = source
     )
 
-fun anAnnotation(modifiers: Int = 0,
+fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
                  source: CodeSource = CodeSource.empty()) =
         // Select correct method
@@ -256,7 +259,7 @@ fun anAnnotation(qualifiedName: String,
         // Select correct method
         anAnnotation(
                 outerClass = null,
-                modifiers = 0,
+                modifiers = emptyEnumSet(),
                 qualifiedName = qualifiedName,
                 properties = emptyArray(),
                 source = source
@@ -268,7 +271,7 @@ fun anAnnotation(qualifiedName: String,
 @JvmOverloads
 fun anAnnotation(outerClass: CodeType? = null,
                  annotations: Array<Annotation> = emptyArray(),
-                 modifiers: Int = 0,
+                 modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
                  signature: GenericSignature = GenericSignature.empty(),
                  properties: Array<AnnotationProperty> = emptyArray(),
@@ -276,7 +279,7 @@ fun anAnnotation(outerClass: CodeType? = null,
     return AnnotationDeclarationImpl(
             outerClass = outerClass,
             annotations = ArrayToList.toList(annotations),
-            modifiers = fromJavaModifiers(modifiers),
+            modifiers = modifiers,
             genericSignature = signature,
             qualifiedName = qualifiedName,
             properties = ArrayToList.toList(properties),
@@ -290,7 +293,7 @@ fun anAnnotation(outerClass: CodeType? = null,
 // ---------------------------------------------------------------
 
 // Short methods
-fun anEnum(modifiers: Int = 0,
+fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            source: CodeSource = CodeSource.empty()) =
         // Select correct method
@@ -303,7 +306,7 @@ fun anEnum(modifiers: Int = 0,
         )
 
 
-fun anEnum(modifiers: Int = 0,
+fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            implementations: Array<CodeType> = emptyArray(),
            source: CodeSource = CodeSource.empty()) =
@@ -318,7 +321,7 @@ fun anEnum(modifiers: Int = 0,
         )
 
 
-fun anEnum(modifiers: Int = 0,
+fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            implementations: Array<CodeType> = emptyArray(),
            entries: Array<EnumEntry> = emptyArray(),
@@ -339,7 +342,7 @@ fun anEnum(qualifiedName: String,
         // Select correct method
         anEnum(
                 outerClass = null,
-                modifiers = 0,
+                modifiers = emptyEnumSet(),
                 qualifiedName = qualifiedName,
                 entries = emptyArray(),
                 source = source
@@ -350,7 +353,7 @@ fun anEnum(qualifiedName: String,
 @JvmOverloads
 fun anEnum(outerClass: CodeType? = null,
            annotations: Array<Annotation> = emptyArray(),
-           modifiers: Int = 0,
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
            implementations: Array<CodeType> = emptyArray(),
@@ -359,7 +362,7 @@ fun anEnum(outerClass: CodeType? = null,
     return EnumDeclarationImpl(
             outerClass = outerClass,
             annotations = ArrayToList.toList(annotations),
-            modifiers = fromJavaModifiers(modifiers),
+            modifiers = modifiers,
             genericSignature = signature,
             qualifiedName = qualifiedName,
             implementations = ArrayToList.toList(implementations),

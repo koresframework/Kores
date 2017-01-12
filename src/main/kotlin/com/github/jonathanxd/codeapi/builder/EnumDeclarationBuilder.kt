@@ -56,7 +56,7 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
     /**
      * See [EnumDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [EnumDeclaration.modifiers]
@@ -151,7 +151,7 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
     /**
      * See [EnumDeclaration.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): EnumDeclarationBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): EnumDeclarationBuilder {
         this.body = value
         return this
     }

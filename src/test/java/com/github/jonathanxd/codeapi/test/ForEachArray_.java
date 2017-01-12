@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -45,6 +46,8 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import java.util.EnumSet;
+
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
 
@@ -55,17 +58,17 @@ public class ForEachArray_ {
         TypeDeclaration typeDeclaration = ClassFactory.aClass(
                 null,
                 new Annotation[0],
-                PUBLIC,
+                EnumSet.of(CodeModifier.PUBLIC),
                 "com.ForEach",
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.sourceOfParts(
-                        FieldFactory.field(new Annotation[0], PUBLIC | STATIC, Types.STRING, "stra", Literals.STRING("XA")),
+                        FieldFactory.field(new Annotation[0], EnumSet.of(CodeModifier.PUBLIC, CodeModifier.STATIC), Types.STRING, "stra", Literals.STRING("XA")),
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
-                                PUBLIC,
+                                EnumSet.of(CodeModifier.PUBLIC),
                                 new CodeParameter[]{new CodeParameter(Types.STRING.toArray(1), "strArray")},
                                 CodeAPI.sourceOfParts(
                                         FieldFactory.field(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),

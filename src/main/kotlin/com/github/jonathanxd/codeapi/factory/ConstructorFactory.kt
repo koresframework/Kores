@@ -32,15 +32,18 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
 import com.github.jonathanxd.codeapi.base.impl.ConstructorDeclarationImpl
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.fromJavaModifiers
+import com.github.jonathanxd.codeapi.util.emptyEnumSet
+import java.util.*
 
 // Short methods
 
 fun constructor(signature: GenericSignature = GenericSignature.empty(),
-                modifiers: Int = 0,
+                modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
 
@@ -54,7 +57,7 @@ fun constructor(signature: GenericSignature = GenericSignature.empty(),
     )
 }
 
-fun constructor(modifiers: Int = 0,
+fun constructor(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
 
@@ -67,7 +70,7 @@ fun constructor(modifiers: Int = 0,
     )
 }
 
-fun constructor(modifiers: Int = 0,
+fun constructor(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
 
     // Select correct method
@@ -83,14 +86,14 @@ fun constructor(modifiers: Int = 0,
 @JvmOverloads
 fun constructor(annotations: Array<Annotation> = emptyArray(),
                 signature: GenericSignature = GenericSignature.empty(),
-                modifiers: Int = 0,
+                modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
     return ConstructorDeclarationImpl(
             ArrayToList.toList(parameters),
             ArrayToList.toList(annotations),
             source,
-            fromJavaModifiers(modifiers),
+            modifiers,
             signature
     )
 }

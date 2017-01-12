@@ -36,15 +36,9 @@ import com.github.jonathanxd.codeapi.CodeSource
 interface BodyHolder : CodePart {
 
     /**
-     * Body
+     * Body.
      */
-    val body: CodeSource?
-
-    val requiredBody: CodeSource
-        get() = this.body ?: CodeSource.empty()
-
-    val hasBody: Boolean
-        get() = this.body != null
+    val body: CodeSource
 
     override fun builder(): Builder<BodyHolder, *>
 
@@ -52,7 +46,7 @@ interface BodyHolder : CodePart {
         /**
          * See [T.body]
          */
-        fun withBody(value: CodeSource?): S
+        fun withBody(value: CodeSource): S
     }
 
     companion object {
@@ -62,7 +56,7 @@ interface BodyHolder : CodePart {
         fun checkBody(self: BodyHolder) {
             val body = self.body
 
-            if (body != null && body.any { it == self }) {
+            if (body.any { it == self }) {
                 throw IllegalStateException("You have putted $self instance inside your own body, it may cause StackOverFlow Exception.")
             }
         }

@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.WhileStatement
 
-data class WhileStatementImpl(override val type: WhileStatement.Type, override val expressions: List<CodePart>, override val body: CodeSource?) : WhileStatement {
+data class WhileStatementImpl(override val type: WhileStatement.Type, override val expressions: List<CodePart>, override val body: CodeSource) : WhileStatement {
     init {
         BodyHolder.checkBody(this)
     }

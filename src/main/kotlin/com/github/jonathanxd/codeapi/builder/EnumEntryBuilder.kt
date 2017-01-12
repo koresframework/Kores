@@ -51,7 +51,7 @@ open class EnumEntryBuilder(): EnumEntry.Builder<EnumEntry, EnumEntryBuilder> {
     /**
      * See [EnumEntry.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: EnumEntry) : this() {
         this.constructorSpec = defaults.constructorSpec
@@ -100,7 +100,7 @@ open class EnumEntryBuilder(): EnumEntry.Builder<EnumEntry, EnumEntryBuilder> {
     /**
      * See [EnumEntry.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): EnumEntryBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): EnumEntryBuilder {
         this.body = value
         return this
     }

@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -47,6 +48,7 @@ import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.util.Collections;
+import java.util.EnumSet;
 
 import kotlin.collections.CollectionsKt;
 
@@ -59,18 +61,18 @@ public class InnerClassTest_ {
 
         MutableCodeSource source = new MutableCodeSource();
 
-        TypeDeclaration codeClass = ClassFactory.aClass(PUBLIC, "test.InnerClass", source);
+        TypeDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.InnerClass", source);
 
         TypeDeclaration inner = ClassFactory.aClass(codeClass, new Annotation[0],
-                PUBLIC,
+                EnumSet.of(CodeModifier.PUBLIC),
                 "Inner",
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.source(
-                FieldFactory.field(PUBLIC, codeClass, "a",
+                FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), codeClass, "a",
                         CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(new CodeArgument(Literals.STRING("Hello"))))),
-                MethodFactory.method(PRIVATE, "call", Types.STRING, CodeAPI.source(
+                MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeAPI.source(
                         Predefined.invokePrintln(new CodeArgument(
                                 CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), Types.STRING, "field")
                         )),
@@ -80,12 +82,12 @@ public class InnerClassTest_ {
         ));
 
         source.addAll(CodeAPI.sourceOfParts(
-                FieldFactory.field(PRIVATE,
+                FieldFactory.field(EnumSet.of(CodeModifier.PRIVATE),
                         CodeAPI.getJavaType(String.class),
                         "field",
                         Literals.STRING("XSD")),
 
-                ConstructorFactory.constructor(PUBLIC, CodeAPI.sourceOfParts(
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeAPI.sourceOfParts(
                         CodeAPI.invokeVirtual(
                                 inner,
                                 CodeAPI.invokeConstructor(inner),
@@ -94,11 +96,11 @@ public class InnerClassTest_ {
                                 Collections.emptyList()
                         )
                 )),
-                ConstructorFactory.constructor(PRIVATE, new CodeParameter[]{CodeAPI.parameter(String.class, "str")},
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PRIVATE), new CodeParameter[]{CodeAPI.parameter(String.class, "str")},
                         CodeAPI.source(
                                 Predefined.invokePrintln(CodeAPI.argument(CodeAPI.accessLocalVariable(String.class, "str")))
                         )),
-                MethodFactory.method(PUBLIC, "mm", Types.VOID, CodeAPI.sourceOfParts(
+                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "mm", Types.VOID, CodeAPI.sourceOfParts(
                         Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A")))
                 )),
                 inner

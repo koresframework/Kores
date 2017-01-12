@@ -41,7 +41,7 @@ open class IfStatementBuilder(): IfStatement.Builder<IfStatement, IfStatementBui
     /**
      * See [IfStatement.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [IfStatement.elseStatement]
@@ -76,7 +76,7 @@ open class IfStatementBuilder(): IfStatement.Builder<IfStatement, IfStatementBui
     /**
      * See [IfStatement.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): IfStatementBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): IfStatementBuilder {
         this.body = value
         return this
     }

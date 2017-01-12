@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
@@ -45,6 +46,8 @@ import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import java.util.EnumSet;
+
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static java.lang.reflect.Modifier.PUBLIC;
 import static java.lang.reflect.Modifier.STATIC;
@@ -56,10 +59,10 @@ public class MethodFragment_ {
 
         MutableCodeSource source = new MutableCodeSource();
 
-        ClassDeclaration classDeclaration = ClassFactory.aClass(PUBLIC, "com.MethodFragment", sourceOfParts(
-                MethodFactory.method(STATIC | PUBLIC, "test", Types.VOID,
+        ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.MethodFragment", sourceOfParts(
+                MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID,
                         source),
-                FieldFactory.field(PUBLIC, Generic.type("T"), "test")
+                FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), Generic.type("T"), "test")
         ));
 
         source.add(

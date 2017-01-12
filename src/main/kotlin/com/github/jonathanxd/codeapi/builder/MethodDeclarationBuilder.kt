@@ -51,7 +51,7 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
     /**
      * See [MethodDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [MethodDeclaration.returnType]
@@ -127,7 +127,7 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
     /**
      * See [MethodDeclaration.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): MethodDeclarationBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): MethodDeclarationBuilder {
         this.body = value
         return this
     }

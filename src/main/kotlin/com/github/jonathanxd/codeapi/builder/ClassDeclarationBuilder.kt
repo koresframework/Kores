@@ -56,7 +56,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     /**
      * See [ClassDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [ClassDeclaration.modifiers]
@@ -142,7 +142,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     /**
      * See [ClassDeclaration.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): ClassDeclarationBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): ClassDeclarationBuilder {
         this.body = value
         return this
     }

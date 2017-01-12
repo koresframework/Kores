@@ -39,7 +39,7 @@ class IfExpressionHelper private constructor() {
 
     private val list = mutableListOf<CodePart>()
 
-    fun check(part1: CodePart, operation: Operator, part2: CodePart): IfExpressionHelper {
+    fun check(part1: CodePart, operation: Operator.Conditional, part2: CodePart): IfExpressionHelper {
         this.list.add(IfExprImpl(part1, operation, part2))
         return this
     }
@@ -78,7 +78,7 @@ class IfExpressionHelper private constructor() {
     }
 
     // And
-    fun and(part1: CodePart, operation: Operator, part2: CodePart): IfExpressionHelper {
+    fun and(part1: CodePart, operation: Operator.Conditional, part2: CodePart): IfExpressionHelper {
 
         this.list.add(Operators.AND)
 
@@ -128,7 +128,7 @@ class IfExpressionHelper private constructor() {
     }
 
     // Or
-    fun or(part1: CodePart, operation: Operator, part2: CodePart): IfExpressionHelper {
+    fun or(part1: CodePart, operation: Operator.Conditional, part2: CodePart): IfExpressionHelper {
 
         this.list.add(Operators.OR)
 

@@ -36,7 +36,7 @@ open class TryStatementBuilder(): TryStatement.Builder<TryStatement, TryStatemen
     /**
      * See [TryStatement.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [TryStatement.catchStatements]
@@ -46,7 +46,7 @@ open class TryStatementBuilder(): TryStatement.Builder<TryStatement, TryStatemen
     /**
      * See [TryStatement.finallyStatement]
      */
-    var finallyStatement: com.github.jonathanxd.codeapi.CodeSource? = null
+    var finallyStatement: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: TryStatement) : this() {
         this.body = defaults.body
@@ -58,7 +58,7 @@ open class TryStatementBuilder(): TryStatement.Builder<TryStatement, TryStatemen
     /**
      * See [TryStatement.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): TryStatementBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): TryStatementBuilder {
         this.body = value
         return this
     }
@@ -85,7 +85,7 @@ open class TryStatementBuilder(): TryStatement.Builder<TryStatement, TryStatemen
     /**
      * See [TryStatement.finallyStatement]
      */
-    override fun withFinallyStatement(value: com.github.jonathanxd.codeapi.CodeSource?): TryStatementBuilder {
+    override fun withFinallyStatement(value: com.github.jonathanxd.codeapi.CodeSource): TryStatementBuilder {
         this.finallyStatement = value
         return this
     }

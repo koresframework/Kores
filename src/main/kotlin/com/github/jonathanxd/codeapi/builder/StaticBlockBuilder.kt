@@ -36,7 +36,7 @@ open class StaticBlockBuilder(): StaticBlock.Builder<StaticBlock, StaticBlockBui
     /**
      * See [StaticBlock.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: StaticBlock) : this() {
         this.body = defaults.body
@@ -46,7 +46,7 @@ open class StaticBlockBuilder(): StaticBlock.Builder<StaticBlock, StaticBlockBui
     /**
      * See [StaticBlock.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): StaticBlockBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): StaticBlockBuilder {
         this.body = value
         return this
     }

@@ -41,7 +41,7 @@ open class CaseBuilder(): Case.Builder<Case, CaseBuilder> {
     /**
      * See [Case.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: Case) : this() {
         this.value = defaults.value
@@ -61,7 +61,7 @@ open class CaseBuilder(): Case.Builder<Case, CaseBuilder> {
     /**
      * See [Case.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): CaseBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): CaseBuilder {
         this.body = value
         return this
     }

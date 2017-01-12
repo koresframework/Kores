@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -40,6 +41,7 @@ import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.lang.reflect.Modifier;
+import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.literal.Literals.INT;
 
@@ -47,8 +49,8 @@ public class OperateTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        ClassDeclaration codeClass = ClassFactory.aClass(Modifier.PUBLIC, "com.OperateTest", CodeAPI.source(
-                ConstructorFactory.constructor(Modifier.PUBLIC, new CodeParameter[]{CodeAPI.parameter(int.class, "num")}, CodeAPI.source(
+        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.OperateTest", CodeAPI.source(
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), new CodeParameter[]{CodeAPI.parameter(int.class, "num")}, CodeAPI.source(
                         Predefined.invokePrintlnStr(
                                 Predefined.intToString(
                                         OperateHelper.builder(INT(9))

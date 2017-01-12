@@ -51,7 +51,7 @@ open class ForStatementBuilder(): ForStatement.Builder<ForStatement, ForStatemen
     /**
      * See [ForStatement.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: ForStatement) : this() {
         this.forInit = defaults.forInit
@@ -100,7 +100,7 @@ open class ForStatementBuilder(): ForStatement.Builder<ForStatement, ForStatemen
     /**
      * See [ForStatement.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): ForStatementBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): ForStatementBuilder {
         this.body = value
         return this
     }

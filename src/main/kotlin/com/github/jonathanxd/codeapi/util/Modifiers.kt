@@ -203,33 +203,50 @@ fun newModifierSet(): Set<CodeModifier> {
 }
 
 object Internal {
+    @JvmField
     val BRIDGE = 0x00000040
+
+    @JvmField
     val VARARGS = 0x00000080
+
+    @JvmField
     val SYNTHETIC = 0x00001000
+
+    @JvmField
     val ANNOTATION = 0x00002000
+
+    @JvmField
     val ENUM = 0x00004000
+
+    @JvmField
     val MANDATED = 0x00008000
 
+    @JvmStatic
     fun isBridge(modifiers: Int): Boolean {
         return modifiers and BRIDGE != 0
     }
 
+    @JvmStatic
     fun isVarArgs(modifiers: Int): Boolean {
         return modifiers and VARARGS != 0
     }
 
+    @JvmStatic
     fun isSynthetic(modifiers: Int): Boolean {
         return modifiers and SYNTHETIC != 0
     }
 
+    @JvmStatic
     fun isAnnotation(modifiers: Int): Boolean {
         return modifiers and ANNOTATION != 0
     }
 
+    @JvmStatic
     fun isEnum(modifiers: Int): Boolean {
         return modifiers and ENUM != 0
     }
 
+    @JvmStatic
     fun isMandated(modifiers: Int): Boolean {
         return modifiers and MANDATED != 0
     }

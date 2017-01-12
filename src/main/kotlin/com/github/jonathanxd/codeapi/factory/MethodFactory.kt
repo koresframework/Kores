@@ -26,28 +26,31 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("MethodFactory")
+
 package com.github.jonathanxd.codeapi.factory
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
+import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import com.github.jonathanxd.codeapi.util.fromJavaModifiers
+import java.util.*
 
 // Short methods
 
 fun method(genericSignature: GenericSignature = GenericSignature.empty(),
-           modifiers: Int = 0,
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource? = null): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
     return method(
@@ -61,11 +64,11 @@ fun method(genericSignature: GenericSignature = GenericSignature.empty(),
     )
 }
 
-fun method(modifiers: Int = 0,
+fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource? = null): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
     return method(
@@ -78,10 +81,10 @@ fun method(modifiers: Int = 0,
     )
 }
 
-fun method(modifiers: Int = 0,
+fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: CodeType = Types.VOID,
-           source: CodeSource? = null): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
     return method(
@@ -98,18 +101,18 @@ fun method(modifiers: Int = 0,
 @JvmOverloads
 fun method(annotations: Array<Annotation> = emptyArray(),
            genericSignature: GenericSignature = GenericSignature.empty(),
-           modifiers: Int = 0,
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource? = null): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
     return MethodDeclarationImpl(
             ArrayToList.toList(parameters),
             name,
             ArrayToList.toList(annotations),
             source,
             returnType,
-            fromJavaModifiers(modifiers),
+            modifiers,
             genericSignature
     )
 }

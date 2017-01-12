@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -46,6 +47,7 @@ import com.github.jonathanxd.codeapi.util.ArrayToList;
 
 import java.lang.reflect.Modifier;
 import java.util.Collections;
+import java.util.EnumSet;
 
 import kotlin.collections.CollectionsKt;
 
@@ -77,17 +79,18 @@ public class CommonGen {
 
         TypeDeclaration typeDeclaration = ClassFactory.aClass(null,
                 new Annotation[0],
-                Modifier.PUBLIC,
+                EnumSet.of(CodeModifier.PUBLIC),
                 name,
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.sourceOfParts(
-                        ConstructorFactory.constructor(new Annotation[0], GenericSignature.empty(), Modifier.PUBLIC, new CodeParameter[0],
+                        ConstructorFactory.constructor(new Annotation[0], GenericSignature.empty(), EnumSet.of(CodeModifier.PUBLIC),
+                                new CodeParameter[0],
                                 CodeAPI.sourceOfParts(
                                         FieldFactory.field(
                                                 new Annotation[0],
-                                                Modifier.PRIVATE,
+                                                EnumSet.of(CodeModifier.PRIVATE),
                                                 stringArrayType,
                                                 "array",
                                                 CodeAPI.arrayConstruct(stringArrayType, new CodePart[]{INT(2), INT(5)},
@@ -98,14 +101,14 @@ public class CommonGen {
                                                 )),
 
                                         FieldFactory.field(new Annotation[0],
-                                                0,
+                                                EnumSet.noneOf(CodeModifier.class),
                                                 Types.STRING.toArray(1),
                                                 "array2",
                                                 CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(0)}, Collections.emptyList())
                                         ),
 
                                         FieldFactory.field(new Annotation[0],
-                                                0,
+                                                EnumSet.noneOf(CodeModifier.class),
                                                 Types.OBJECT.toArray(1),
                                                 "array3",
                                                 CodeAPI.arrayConstruct(Types.OBJECT, new CodePart[]{INT(1)}, ArrayToList.toList(values3))

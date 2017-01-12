@@ -41,7 +41,7 @@ open class LabelBuilder(): Label.Builder<Label, LabelBuilder> {
     /**
      * See [Label.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: Label) : this() {
         this.name = defaults.name
@@ -61,7 +61,7 @@ open class LabelBuilder(): Label.Builder<Label, LabelBuilder> {
     /**
      * See [Label.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): LabelBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): LabelBuilder {
         this.body = value
         return this
     }

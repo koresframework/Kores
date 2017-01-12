@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration
 
@@ -51,7 +52,7 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
     /**
      * See [AnnotationDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = CodeSource.empty()
 
     /**
      * See [AnnotationDeclaration.modifiers]
@@ -127,7 +128,7 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
     /**
      * See [AnnotationDeclaration.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): AnnotationDeclarationBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): AnnotationDeclarationBuilder {
         this.body = value
         return this
     }

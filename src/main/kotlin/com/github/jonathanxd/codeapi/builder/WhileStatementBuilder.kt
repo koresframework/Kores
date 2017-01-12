@@ -46,7 +46,7 @@ open class WhileStatementBuilder(): WhileStatement.Builder<WhileStatement, While
     /**
      * See [WhileStatement.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: WhileStatement) : this() {
         this.type = defaults.type
@@ -85,7 +85,7 @@ open class WhileStatementBuilder(): WhileStatement.Builder<WhileStatement, While
     /**
      * See [WhileStatement.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): WhileStatementBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): WhileStatementBuilder {
         this.body = value
         return this
     }

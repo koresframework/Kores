@@ -33,20 +33,23 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
+import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import com.github.jonathanxd.codeapi.util.fromJavaModifiers
+import java.util.*
 
 // Short methods
 
-fun field(modifiers: Int = 0,
+fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
           type: CodeType,
           name: String): FieldDeclaration {
     // Provide annotations argument to let Kotlin Compiler to select correct method
     return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name)
 }
 
-fun field(modifiers: Int = 0,
+fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
           type: CodeType,
           name: String,
           value: CodePart? = null): FieldDeclaration {
@@ -65,14 +68,14 @@ fun field(type: CodeType,
 
 @JvmOverloads
 fun field(annotations: Array<Annotation> = emptyArray(),
-          modifiers: Int = 0,
+          modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
           type: CodeType,
           name: String,
           value: CodePart? = null): FieldDeclaration {
     return FieldDeclarationImpl(
             ArrayToList.toList(annotations),
             value,
-            fromJavaModifiers(modifiers),
+            modifiers,
             name,
             type
     )

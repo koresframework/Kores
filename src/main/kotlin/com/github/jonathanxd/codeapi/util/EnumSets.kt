@@ -25,15 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base.impl
+@file:Suppress("NOTHING_TO_INLINE")
 
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.BodyHolder
-import com.github.jonathanxd.codeapi.base.CatchStatement
-import com.github.jonathanxd.codeapi.base.TryStatement
+package com.github.jonathanxd.codeapi.util
 
-data class TryStatementImpl(override val body: CodeSource, override val catchStatements: List<CatchStatement>, override val finallyStatement: CodeSource) : TryStatement {
-    init {
-        BodyHolder.checkBody(this)
-    }
-}
+import java.util.*
+
+inline fun <reified E: Enum<E>> emptyEnumSet() = EnumSet.noneOf(E::class.java)
+
+inline fun <E: Enum<E>> enumSetOf(first: E) = EnumSet.of(first)
+inline fun <E: Enum<E>> enumSetOf(first: E, vararg rest: E) = EnumSet.of(first, *rest)

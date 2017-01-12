@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 
-data class InterfaceDeclarationImpl(override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource?, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : InterfaceDeclaration {
+data class InterfaceDeclarationImpl(override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : InterfaceDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

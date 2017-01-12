@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -42,6 +43,7 @@ import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import java.lang.reflect.Modifier;
+import java.util.EnumSet;
 
 public class ConcatTest_ {
 
@@ -50,7 +52,7 @@ public class ConcatTest_ {
 
         TypeDeclaration typeDeclaration = ClassFactory.aClass(null,
                 new Annotation[0],
-                Modifier.PUBLIC,
+                EnumSet.of(CodeModifier.PUBLIC),
                 "com.ConcatTest",
                 GenericSignature.empty(),
                 Types.OBJECT,
@@ -59,7 +61,7 @@ public class ConcatTest_ {
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
-                                Modifier.PUBLIC,
+                                EnumSet.of(CodeModifier.PUBLIC),
                                 new CodeParameter[]{CodeAPI.parameter(String.class, "av")},
                                 CodeAPI.source(
                                         Predefined.invokePrintlnStr(CodeAPI.concatHelper("Hello")

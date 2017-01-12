@@ -51,7 +51,7 @@ open class ForEachStatementBuilder(): ForEachStatement.Builder<ForEachStatement,
     /**
      * See [ForEachStatement.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     constructor(defaults: ForEachStatement) : this() {
         this.variable = defaults.variable
@@ -91,7 +91,7 @@ open class ForEachStatementBuilder(): ForEachStatement.Builder<ForEachStatement,
     /**
      * See [ForEachStatement.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): ForEachStatementBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): ForEachStatementBuilder {
         this.body = value
         return this
     }

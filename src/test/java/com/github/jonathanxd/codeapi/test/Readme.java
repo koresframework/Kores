@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -39,6 +40,7 @@ import com.github.jonathanxd.codeapi.literal.Literals;
 import org.junit.Test;
 
 import java.io.PrintStream;
+import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
 import static com.github.jonathanxd.codeapi.CodeAPI.argument;
@@ -59,8 +61,8 @@ public class Readme {
     public void readme() {
         MutableCodeSource source = emptyMutableSource();
 
-        ClassDeclaration myClass = ClassFactory.aClass(PUBLIC, "mypackage.MyClass", sourceOfParts(
-                ConstructorFactory.constructor(PUBLIC, sourceOfParts(
+        ClassDeclaration myClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "mypackage.MyClass", sourceOfParts(
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), sourceOfParts(
                         CodeAPI.invokeVirtual(PrintStream.class,
                                 accessStaticField(System.class, PrintStream.class, "out"),
                                 "println",

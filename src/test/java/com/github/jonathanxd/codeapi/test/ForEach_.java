@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeArgument;
+import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
@@ -48,6 +49,7 @@ import com.github.jonathanxd.iutils.object.Pair;
 import org.junit.Assert;
 
 import java.lang.reflect.Modifier;
+import java.util.EnumSet;
 
 public class ForEach_ {
 
@@ -60,7 +62,7 @@ public class ForEach_ {
         ClassDeclaration classDeclaration = ClassFactory.aClass(
                 null,
                 new Annotation[0],
-                Modifier.PUBLIC,
+                EnumSet.of(CodeModifier.PUBLIC),
                 "com.ForEach",
                 GenericSignature.empty(),
                 Types.OBJECT,
@@ -69,7 +71,7 @@ public class ForEach_ {
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
-                                Modifier.PUBLIC,
+                                EnumSet.of(CodeModifier.PUBLIC),
                                 new CodeParameter[]{new CodeParameter(Generic.type(Types.LIST).of(Types.STRING), "strList")},
                                 CodeAPI.source(
                                         CodeAPI.forEachIterable(VariableFactory.variable(Types.STRING, "str"),

@@ -46,7 +46,7 @@ open class ConstructorDeclarationBuilder(): ConstructorDeclaration.Builder<Const
     /**
      * See [ConstructorDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource? = null
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [ConstructorDeclaration.modifiers]
@@ -106,7 +106,7 @@ open class ConstructorDeclarationBuilder(): ConstructorDeclaration.Builder<Const
     /**
      * See [ConstructorDeclaration.body]
      */
-    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource?): ConstructorDeclarationBuilder {
+    override fun withBody(value: com.github.jonathanxd.codeapi.CodeSource): ConstructorDeclarationBuilder {
         this.body = value
         return this
     }
