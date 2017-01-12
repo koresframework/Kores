@@ -70,15 +70,6 @@ enum class InvokeType {
 
 
     /**
-     * Get InvokeType corresponding to the {@code type}, if [codeType] is null, [INVOKE_STATIC], if [CodeType.isInterface],
-     * [INVOKE_INTERFACE] else [INVOKE_VIRTUAL]
-     *
-     * @param codeType Code Type
-     * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
-     */
-    fun get(codeType: CodeType?) = if(codeType == null) INVOKE_STATIC else if(codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
-
-    /**
      * Returns true if the InvokeType is [INVOKE_STATIC].
      *
      * @return True if the InvokeType is [INVOKE_STATIC].
@@ -112,4 +103,16 @@ enum class InvokeType {
      * @return True if the InvokeType is [INVOKE_DYNAMIC].
      */
     fun isDynamic() = this == INVOKE_DYNAMIC
+
+    companion object {
+        /**
+         * Get InvokeType corresponding to the {@code type}, if [codeType] is null, [INVOKE_STATIC], if [CodeType.isInterface],
+         * [INVOKE_INTERFACE] else [INVOKE_VIRTUAL]
+         *
+         * @param codeType Code Type
+         * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
+         */
+        @JvmStatic
+        fun get(codeType: CodeType?) = if(codeType == null) INVOKE_STATIC else if(codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+    }
 }
