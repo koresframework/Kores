@@ -74,8 +74,8 @@ public class SwitchTest_ {
 
                                                 // Enum
                                                 CodeAPI.switchEnum(CodeAPI.accessLocalVariable(TestEnum.class, "testEnum"),
-                                                        CodeAPI.aCase(CodeAPI.enumValue("A"), CodeAPI.sourceOfParts(print("A"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(CodeAPI.enumValue("B"), CodeAPI.sourceOfParts(print("B"))),
+                                                        CodeAPI.aCase(CodeAPI.enumValue(CodeAPI.getJavaType(TestEnum.class), "A"), CodeAPI.sourceOfParts(print("A"), CodeAPI.aBreak())),
+                                                        CodeAPI.aCase(CodeAPI.enumValue(CodeAPI.getJavaType(TestEnum.class), "B"), CodeAPI.sourceOfParts(print("B"))),
                                                         CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("B or default")))),
 
                                                 // String

@@ -334,7 +334,7 @@ public final class CodeAPI {
      * @return New enum entry.
      */
     public static EnumEntry enumEntry(String name) {
-        return enumEntry__factory(name, null, null, null);
+        return enumEntry__factory(name, emptySource(), null, Collections.emptyList());
     }
 
     /**
@@ -345,7 +345,7 @@ public final class CodeAPI {
      * @return New enum entry.
      */
     public static EnumEntry enumEntry(String name, CodeSource body) {
-        return enumEntry__factory(name, body, null, null);
+        return enumEntry__factory(name, body, null, Collections.emptyList());
     }
 
     /**
@@ -357,7 +357,7 @@ public final class CodeAPI {
      * @return new enum entry.
      */
     public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments) {
-        return enumEntry__factory(name, null, constructorSpec, constructorArguments);
+        return enumEntry__factory(name, emptySource(), constructorSpec, constructorArguments);
     }
 
     /**
@@ -370,9 +370,6 @@ public final class CodeAPI {
      * @return new enum entry.
      */
     public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments, CodeSource body) {
-        if (body.isEmpty())
-            body = null;
-
         return enumEntry__factory(name, body, constructorSpec, constructorArguments);
     }
 
@@ -598,14 +595,13 @@ public final class CodeAPI {
      * @return Invocation of super constructor of current class.
      */
     public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, List<CodeArgument> arguments) {
-        return invokeSuperConstructor__factory(null, constructorSpec, arguments);
+        return invokeSuperConstructor__factory(Alias.SUPER.INSTANCE, constructorSpec, arguments);
     }
 
     /**
      * Invoke super constructor of current type declaration.
      *
-     * @param superClass      Super class of current type declaration (if null, CodeAPI will
-     *                        determine it automatically).
+     * @param superClass      Super class of current type declaration.
      * @param constructorSpec Type specification of constructor.
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
@@ -617,8 +613,7 @@ public final class CodeAPI {
     /**
      * Invoke super constructor of current type declaration.
      *
-     * @param superClass      Super class of current type declaration (if null, CodeAPI will
-     *                        determine it automatically).
+     * @param superClass      Super class of current type declaration.
      * @param constructorSpec Type specification of constructor.
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
@@ -672,7 +667,7 @@ public final class CodeAPI {
      * @return Invocation of static method.
      */
     public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, null, null, arguments,
+        return invoke__factory(InvokeType.INVOKE_STATIC, Alias.THIS.INSTANCE, CodeAPI.accessStatic(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -700,7 +695,7 @@ public final class CodeAPI {
      * @return Invocation of instance method.
      */
     public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, null, CodeAPI.accessThis(), arguments,
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -713,7 +708,7 @@ public final class CodeAPI {
      * @return Invocation of interface method.
      */
     public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, null, CodeAPI.accessThis(), arguments,
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -748,7 +743,7 @@ public final class CodeAPI {
      * @return Invocation of special method.
      */
     public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
-        return invoke__factory(InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis(), arguments,
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -928,7 +923,7 @@ public final class CodeAPI {
     }
 
     private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, List<CodeArgument> arguments) {
-        return new MethodInvocationImpl(null, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis());
+        return new MethodInvocationImpl(Alias.THIS.INSTANCE, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis());
     }
 
     // =========================================================
@@ -953,7 +948,7 @@ public final class CodeAPI {
      * @return Access to a static field.
      */
     public static FieldAccess accessStaticField(CodeType fieldType, String name) {
-        return accessField__Factory(null, null, fieldType, name);
+        return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessStatic(), fieldType, name);
     }
 
     /**
@@ -1106,11 +1101,11 @@ public final class CodeAPI {
     }
 
     public static FieldDefinition setStaticThisField(CodeType fieldType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessThis(), fieldType, name, value);
+        return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), fieldType, name, value);
     }
 
     public static FieldDefinition setStaticField(CodeType localization, CodeType fieldType, String name, CodePart value) {
-        return setField__Factory(localization, null, fieldType, name, value);
+        return setField__Factory(localization, CodeAPI.accessStatic(), fieldType, name, value);
     }
 
     public static FieldDefinition setField(CodeType localization, CodePart at, CodeType fieldType, String name, CodePart value) {
@@ -1118,7 +1113,7 @@ public final class CodeAPI {
     }
 
     public static FieldDefinition setThisField(CodeType fieldType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessThis(), fieldType, name, value);
+        return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), fieldType, name, value);
     }
 
     public static VariableDefinition setLocalVariable(CodeType variableType, String name, CodePart value) {
@@ -1128,11 +1123,11 @@ public final class CodeAPI {
     // Class
 
     public static FieldDefinition setStaticThisField(Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
+        return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static FieldDefinition setStaticField(Class<?> localization, Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(CodeAPI.getJavaType(localization), null, CodeAPI.getJavaType(fieldType), name, value);
+        return setField__Factory(CodeAPI.getJavaType(localization), CodeAPI.accessStatic(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static FieldDefinition setField(Class<?> localization, CodePart at, Class<?> fieldType, String name, CodePart value) {
@@ -1140,7 +1135,7 @@ public final class CodeAPI {
     }
 
     public static FieldDefinition setThisField(Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(null, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
+        return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
     }
 
     public static VariableDefinition setLocalVariable(Class<?> variableType, String name, CodePart value) {
@@ -1457,16 +1452,6 @@ public final class CodeAPI {
      */
     public static EnumValue enumValue(CodeType enumType, String entry) {
         return enumValue__factory(enumType, entry, -1);
-    }
-
-    /**
-     * EnumValue in Case check.
-     *
-     * @param entry Enum entry (aka Field)
-     * @return Enum value
-     */
-    public static EnumValue enumValue(String entry) {
-        return enumValue__factory(null, entry, -1);
     }
 
     // Factory
@@ -1835,7 +1820,7 @@ public final class CodeAPI {
      * @return Try-Catch statement.
      */
     public static TryStatement tryStatement(CodeSource toSurround, List<CatchStatement> catchStatements) {
-        return tryStatement__Factory(toSurround, catchStatements, null);
+        return tryStatement__Factory(toSurround, catchStatements, emptySource());
     }
 
     /**
@@ -1846,7 +1831,7 @@ public final class CodeAPI {
      * @return Try-Catch statement.
      */
     public static TryStatement tryStatement(CodeSource toSurround, CatchStatement catchStatement) {
-        return tryStatement__Factory(toSurround, Collections.singletonList(catchStatement), null);
+        return tryStatement__Factory(toSurround, Collections.singletonList(catchStatement), emptySource());
     }
 
     // Factory
@@ -1940,7 +1925,7 @@ public final class CodeAPI {
      * @return Try-with-resources statement.
      */
     public static TryWithResources tryWithResources(VariableDeclaration variable, CodeSource toSurround, List<CatchStatement> catchStatements) {
-        return tryWithResources__Factory(variable, toSurround, catchStatements, null);
+        return tryWithResources__Factory(variable, toSurround, catchStatements, emptySource());
     }
 
     /**
@@ -1953,7 +1938,7 @@ public final class CodeAPI {
      * @return Try-with-resources statement.
      */
     public static TryWithResources tryWithResources(VariableDeclaration variable, CodeSource toSurround, CatchStatement catchStatement) {
-        return tryWithResources__Factory(variable, toSurround, Collections.singletonList(catchStatement), null);
+        return tryWithResources__Factory(variable, toSurround, Collections.singletonList(catchStatement), emptySource());
     }
 
     /**
@@ -1964,7 +1949,7 @@ public final class CodeAPI {
      * @return Try-with-resources statement.
      */
     public static TryWithResources tryWithResources(VariableDeclaration variable, CodeSource toSurround) {
-        return tryWithResources__Factory(variable, toSurround, Collections.emptyList(), null);
+        return tryWithResources__Factory(variable, toSurround, Collections.emptyList(), emptySource());
     }
 
     // Factory
