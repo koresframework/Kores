@@ -1553,6 +1553,15 @@ public final class CodeAPI {
         return typeSpec__factory(Types.VOID, parameterTypes);
     }
 
+    /**
+     * Specification of a method that returns void.
+     *
+     * @param parameterTypes Parameter types.
+     * @return Specification of a signature.
+     */
+    public static TypeSpec voidTypeSpec(CodeType... parameterTypes) {
+        return typeSpec__factory(Types.VOID, parameterTypes);
+    }
     // Class
 
     /**
@@ -1583,6 +1592,16 @@ public final class CodeAPI {
      * @return Specification of a signature.
      */
     public static TypeSpec constructorTypeSpec(Class<?>... parameterTypes) {
+        return typeSpec__factory(Types.VOID, toCodeType(parameterTypes));
+    }
+
+    /**
+     * Specification of a method that returns void.
+     *
+     * @param parameterTypes Parameter types.
+     * @return Specification of a signature.
+     */
+    public static TypeSpec voidTypeSpec(Class<?>... parameterTypes) {
         return typeSpec__factory(Types.VOID, toCodeType(parameterTypes));
     }
 
