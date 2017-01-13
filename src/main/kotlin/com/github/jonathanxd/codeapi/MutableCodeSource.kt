@@ -65,6 +65,9 @@ class MutableCodeSource : CodeSource, Cloneable {
     override val isEmpty: Boolean
         get() = this.backingList.isEmpty()
 
+    override val isNotEmpty: Boolean
+        get() = !this.isEmpty
+
     override fun contains(o: Any): Boolean {
         return this.backingList.contains(o)
     }
