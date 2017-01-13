@@ -81,7 +81,7 @@ interface SwitchStatement : ValueHolder, Typed {
      */
     val cases: List<Case>
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.value.type
 
     override fun builder(): Builder<SwitchStatement, *> = SwitchStatementBuilder(this)
@@ -89,7 +89,7 @@ interface SwitchStatement : ValueHolder, Typed {
     interface Builder<out T: SwitchStatement, S: Builder<T, S>> :
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S> {
-        override fun withType(value: CodeType?): S = self()
+        override fun withType(value: CodeType): S = self()
 
         override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
 

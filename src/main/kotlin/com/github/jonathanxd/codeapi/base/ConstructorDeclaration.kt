@@ -54,6 +54,6 @@ interface ConstructorDeclaration : MethodDeclaration {
         override fun withName(value: String): S = this as S
 
         @Suppress("UNCHECKED_CAST")
-        override fun withReturnType(value: CodeType?): S = this as S
+        override fun withReturnType(value: CodeType): S = this as S
     }
 }

@@ -27,15 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.Builder
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.builder.CaseBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
 interface Case : ValueHolder, Typed, BodyHolder {
 
-    override val type: CodeType?
-        get() = this.value?.let { CodePartUtil.getTypeOrNull(it) }
+    override val type: CodeType
+        get() = this.value?.let { CodePartUtil.getType(it) } ?: Types.INT
 
     /**
      * Is case default
@@ -49,12 +49,12 @@ interface Case : ValueHolder, Typed, BodyHolder {
 
     override fun builder(): Builder<Case, *> = CaseBuilder(this)
 
-    interface Builder<out T: Case, S: Builder<T, S>> :
+    interface Builder<out T : Case, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S>,
             BodyHolder.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType?): S = this as S
+        override fun withType(value: CodeType): S = this as S
     }
 }

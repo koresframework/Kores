@@ -124,8 +124,8 @@ open class FieldDeclarationBuilder(): FieldDeclaration.Builder<FieldDeclaration,
     /**
      * See [FieldDeclaration.type]
      */
-    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType?): FieldDeclarationBuilder {
-        this.type = value!!
+    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType): FieldDeclarationBuilder {
+        this.type = value
         return this
     }
 

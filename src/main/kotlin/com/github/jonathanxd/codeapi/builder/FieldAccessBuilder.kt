@@ -73,8 +73,8 @@ open class FieldAccessBuilder(): FieldAccess.Builder<FieldAccess, FieldAccessBui
     /**
      * See [FieldAccess.type]
      */
-    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType?): FieldAccessBuilder {
-        this.type = value!!
+    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType): FieldAccessBuilder {
+        this.type = value
         return this
     }
 

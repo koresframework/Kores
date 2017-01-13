@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
  */
 interface InstanceOfCheck : Typed {
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = Types.BOOLEAN
 
     /**
@@ -55,7 +55,7 @@ interface InstanceOfCheck : Typed {
     interface Builder<out T: InstanceOfCheck, S: Builder<T, S>> : Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType?): S = this as S
+        override fun withType(value: CodeType): S = this as S
 
         /**
          * See [T.part]

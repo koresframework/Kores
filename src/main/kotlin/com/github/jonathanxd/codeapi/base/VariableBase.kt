@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
- * Base variable manipulation
+ * Base variable manipulation.
  */
 interface VariableBase : Named, Typed {
 
@@ -53,7 +53,7 @@ interface VariableBase : Named, Typed {
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType?): S = this.withVariableType(value!!)
+        override fun withType(value: CodeType): S = this.withVariableType(value)
 
         /**
          * See [T.variableType]

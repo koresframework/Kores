@@ -40,7 +40,7 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
      */
     val value: Any?
 
-    override val returnType: CodeType?
+    override val returnType: CodeType
         get() = this.type
 
     override val type: CodeType
@@ -53,7 +53,7 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
             Annotable.Builder<T, S>,
             ReturnTypeHolder.Builder<T, S> {
 
-        override fun withReturnType(value: CodeType?): S = this.withType(value)
+        override fun withReturnType(value: CodeType): S = this.withType(value)
 
         /**
          * See [T.value]

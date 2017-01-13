@@ -72,7 +72,7 @@ interface MethodFragment : MethodInvocation, CodeElement {
      * Method body
      */
     val body: CodeSource
-        get() = this.declaration.body!!
+        get() = this.declaration.body
 
     override fun builder(): Builder<MethodFragment, *> = MethodFragmentBuilder(this)
 

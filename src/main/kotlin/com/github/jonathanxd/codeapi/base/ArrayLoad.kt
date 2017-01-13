@@ -43,7 +43,7 @@ interface ArrayLoad : ArrayAccess, Typed {
      */
     val valueType: CodeType
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.valueType
 
     override fun builder(): Builder<ArrayLoad, *> = ArrayLoadBuilder(this)
@@ -53,7 +53,7 @@ interface ArrayLoad : ArrayAccess, Typed {
             ArrayAccess.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType?): S = this.withValueType(value!!)
+        override fun withType(value: CodeType): S = this.withValueType(value)
 
         /**
          * See [T.index]

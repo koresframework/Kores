@@ -51,14 +51,14 @@ interface Cast : Typed {
      */
     val castedPart: CodePart
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.targetType
 
     override fun builder(): Builder<Cast, *> = CastBuilder(this)
 
     interface Builder<out T: Cast, S: Builder<T, S>> : Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType?): S = this.withTargetType(value!!)
+        override fun withType(value: CodeType): S = this.withTargetType(value)
 
         /**
          * See [T.originalType]

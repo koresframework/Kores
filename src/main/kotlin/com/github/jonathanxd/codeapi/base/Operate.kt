@@ -53,8 +53,8 @@ interface Operate : ValueHolder, Typed {
      */
     override val value: CodePart?
 
-    override val type: CodeType?
-        get() = CodePartUtil.getTypeOrNull(this.target)
+    override val type: CodeType
+        get() = CodePartUtil.getType(this.target)
 
     override fun builder(): Builder<Operate, *> = OperateBuilder(this)
 
@@ -63,7 +63,7 @@ interface Operate : ValueHolder, Typed {
             Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType?): S = this as S
+        override fun withType(value: CodeType): S = this as S
 
         /**
          * See [T.target]

@@ -27,64 +27,42 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.base.VariableBase
 import com.github.jonathanxd.codeapi.type.CodeType
-import java.util.*
 
-data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val parameterTypes: List<CodeType> = emptyList()) : Typed, Comparable<TypeSpec> {
-    override val type: CodeType
-        get() = this.returnType
-
-    override fun hashCode(): Int {
-        return Objects.hash(returnType, parameterTypes)
-    }
+/**
+ * Reference to a Variable, this class must never appear in CodeSource.
+ */
+data class VariableRef(override val variableType: CodeType, override val name: String) : VariableBase {
 
     override fun builder(): Builder = Builder(this)
 
-    override fun equals(other: Any?): Boolean {
+    class Builder() : VariableBase.Builder<VariableRef, Builder> {
 
-        if (other !is TypeSpec)
-            return false
+        lateinit var name: String
+        lateinit var type: CodeType
 
-        return this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes;
-    }
-
-    override fun compareTo(other: TypeSpec): Int {
-        return if (this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes) 0 else 1
-    }
-
-    class Builder() : Typed.Builder<TypeSpec, Builder> {
-
-        var returnType: CodeType = Types.VOID
-        var parameterTypes: List<CodeType> = emptyList()
-
-        constructor(defaults: TypeSpec): this() {
-            this.returnType = defaults.returnType
-            this.parameterTypes = defaults.parameterTypes
+        constructor(defaults: VariableRef) : this() {
+            this.name = defaults.name
+            this.type = defaults.variableType
         }
 
-        override fun withType(value: CodeType): Builder {
-            this.returnType = value
+        override fun withName(value: String): Builder {
+            this.name = name
             return this
         }
 
-        fun withReturnType(value: CodeType): Builder {
-            this.returnType = value
+        override fun withVariableType(value: CodeType): Builder {
+            this.type = type
             return this
         }
 
-        fun withParameterTypes(value: List<CodeType>): Builder {
-            this.parameterTypes = value
-            return this
-        }
+        override fun build(): VariableRef = VariableRef(this.type, this.name)
 
-        fun withParameterTypes(vararg values: CodeType): Builder {
-            this.parameterTypes = values.toList()
-            return this
+        companion object {
+            @JvmStatic
+            fun builder() = Builder()
         }
-
-        override fun build(): TypeSpec = TypeSpec(returnType, parameterTypes)
 
     }
 

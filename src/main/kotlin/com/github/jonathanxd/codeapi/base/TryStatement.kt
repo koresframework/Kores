@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.util.self
  */
 interface TryStatement : BodyHolder, Typed {
 
-    override val type: CodeType?
+    override val type: CodeType
         get() {
             if (catchStatements.isEmpty() || catchStatements.size > 1)
                 return Types.THROWABLE
@@ -62,7 +62,7 @@ interface TryStatement : BodyHolder, Typed {
             BodyHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType?): S = self()
+        override fun withType(value: CodeType): S = self()
 
         /**
          * See [T.catchStatements]

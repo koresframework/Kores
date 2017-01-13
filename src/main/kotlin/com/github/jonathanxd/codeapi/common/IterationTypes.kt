@@ -108,9 +108,7 @@ object IterationTypes {
                         modifiers = emptySet()
                 ))
 
-                t.body?.let {
-                    body.addAll(it)
-                }
+                body.addAll(t.body)
 
                 return CodeSource.fromPart(ForStatementImpl(
                         forInit = indexFieldDecl,
@@ -192,9 +190,7 @@ object IterationTypes {
 
                 body.add(eachField)
 
-                t.body?.let {
-                    body.addAll(it)
-                }
+                body.addAll(t.body)
 
                 return CodeSource.fromPart(ForStatementImpl(
                         forInit = iterFieldDecl,

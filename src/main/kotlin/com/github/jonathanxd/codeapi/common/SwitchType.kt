@@ -93,7 +93,7 @@ interface SwitchType : PartProcessor, SugarSyntax<SwitchStatement, SwitchStateme
         }
 
         private fun <R : Typed> checkType(typed: R): R {
-            if (!typed.type!!.`is`(Types.INT)) {
+            if (!typed.type.`is`(Types.INT)) {
                 throw IllegalArgumentException("Translated switch is not a numeric switch!")
             }
 

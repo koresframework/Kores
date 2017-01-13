@@ -44,7 +44,7 @@ interface CatchStatement : BodyHolder, Typed {
      */
     val variable: VariableDeclaration
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.variable.type
 
 
@@ -55,7 +55,7 @@ interface CatchStatement : BodyHolder, Typed {
             Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType?): S = this as S
+        override fun withType(value: CodeType): S = this as S
 
         /**
          * See [T.exceptionTypes]

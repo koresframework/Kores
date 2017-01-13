@@ -136,8 +136,8 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
     /**
      * See [MethodDeclaration.returnType]
      */
-    override fun withReturnType(value: com.github.jonathanxd.codeapi.type.CodeType?): MethodDeclarationBuilder {
-        this.returnType = value!!
+    override fun withReturnType(value: com.github.jonathanxd.codeapi.type.CodeType): MethodDeclarationBuilder {
+        this.returnType = value
         return this
     }
 

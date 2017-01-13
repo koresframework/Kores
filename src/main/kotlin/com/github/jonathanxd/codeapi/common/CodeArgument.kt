@@ -34,8 +34,8 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 
 data class CodeArgument(override val value: CodePart) : ValueHolder, Typed {
-    override val type: CodeType?
-        get() = CodePartUtil.getTypeOrNull(this.value)
+    override val type: CodeType
+        get() = CodePartUtil.getType(this.value)
 
     override fun builder(): Builder = Builder(this)
 
@@ -47,7 +47,7 @@ data class CodeArgument(override val value: CodePart) : ValueHolder, Typed {
             this.value = defaults.value
         }
 
-        override fun withType(value: CodeType?): Builder = this
+        override fun withType(value: CodeType): Builder = this
 
         override fun withValue(value: CodePart?): Builder {
             this.value = value!!

@@ -58,8 +58,8 @@ open class VariableDefinitionBuilder(): VariableDefinition.Builder<VariableDefin
     /**
      * See [VariableDefinition.type]
      */
-    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType?): VariableDefinitionBuilder {
-        this.type = value!!
+    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType): VariableDefinitionBuilder {
+        this.type = value
         return this
     }
 

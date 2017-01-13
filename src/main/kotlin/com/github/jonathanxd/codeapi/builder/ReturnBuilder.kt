@@ -52,8 +52,8 @@ open class ReturnBuilder(): Return.Builder<Return, ReturnBuilder> {
     /**
      * See [Return.type]
      */
-    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType?): ReturnBuilder {
-        this.type = value!!
+    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType): ReturnBuilder {
+        this.type = value
         return this
     }
 

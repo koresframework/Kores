@@ -1207,6 +1207,64 @@ public final class CodeAPI {
         return factory__operate(accessField(field), operation, value);
     }
 
+    // Spec
+
+    /**
+     * Operate a variable value and assign the result to variable.
+     *
+     * @param variableType Type of the variable
+     * @param variableName Name of the variable
+     * @param operation    Operation.
+     * @param value        Second value to apply to operation.
+     * @return Definition of result of operation.
+     */
+    public static VariableDefinition operateAndAssign(CodeType variableType, String variableName, Operator.Math operation, CodePart value) {
+        return setLocalVariable(variableType, variableName, operate(accessLocalVariable(variableType, variableName), operation, value));
+    }
+
+    /**
+     * Operate a variable value.
+     *
+     * @param variableType Type of the variable
+     * @param variableName Name of the variable
+     * @param operation    Operation.
+     * @param value        Second value to apply to operation.
+     * @return Operation instance.
+     */
+    public static Operate operate(CodeType variableType, String variableName, Operator.Math operation, CodePart value) {
+        return factory__operate(accessLocalVariable(variableType, variableName), operation, value);
+    }
+
+    /**
+     * Operate a field value and assign the result to variable.
+     *
+     * @param localization Localization of the field
+     * @param at           Target of the field access
+     * @param fieldType    Type of the field
+     * @param fieldName    Name of the field
+     * @param operation    Operation.
+     * @param value        Second value to apply to operation.
+     * @return Definition of result of operation.
+     */
+    public static FieldDefinition operateAndAssign(CodeType localization, CodePart at, CodeType fieldType, String fieldName, Operator.Math operation, CodePart value) {
+        return setField(localization, at, fieldType, fieldName, factory__operate(accessField(localization, at, fieldType, fieldName), operation, value));
+    }
+
+    /**
+     * Operate a variable value.
+     *
+     * @param localization Localization of the field
+     * @param at           Target of the field access
+     * @param fieldType    Type of the field
+     * @param fieldName    Name of the field
+     * @param operation    Operation.
+     * @param value        Second value to apply to operation.
+     * @return Operation instance.
+     */
+    public static Operate operate(CodeType localization, CodePart at, CodeType fieldType, String fieldName, Operator.Math operation, CodePart value) {
+        return factory__operate(accessField(localization, at, fieldType, fieldName), operation, value);
+    }
+
 
     // Factory
     private static Operate factory__operate(CodePart part, Operator.Math operation, CodePart value) {

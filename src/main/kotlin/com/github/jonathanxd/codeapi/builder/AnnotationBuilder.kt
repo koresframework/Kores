@@ -67,8 +67,8 @@ open class AnnotationBuilder(): Annotation.Builder<Annotation, AnnotationBuilder
     /**
      * See [Annotation.type]
      */
-    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType?): AnnotationBuilder {
-        this.type = value!!
+    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType): AnnotationBuilder {
+        this.type = value
         return this
     }
 

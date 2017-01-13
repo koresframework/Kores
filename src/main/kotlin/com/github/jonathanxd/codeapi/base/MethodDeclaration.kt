@@ -54,7 +54,7 @@ interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnType
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType?): S = this.withReturnType(value!!)
+        override fun withType(value: CodeType): S = this.withReturnType(value)
 
     }
 }

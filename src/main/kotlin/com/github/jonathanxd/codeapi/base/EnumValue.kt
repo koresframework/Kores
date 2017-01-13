@@ -38,7 +38,7 @@ interface EnumValue : Named, Typed {
     override val name: String
         get() = this.enumEntry
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.enumType
 
     /**
@@ -63,7 +63,7 @@ interface EnumValue : Named, Typed {
             Typed.Builder<T, S> {
 
         override fun withName(value: String): S = this.withEnumEntry(value)
-        override fun withType(value: CodeType?): S = this.withEnumType(value!!)
+        override fun withType(value: CodeType): S = this.withEnumType(value)
 
         /**
          * See [T.enumType]

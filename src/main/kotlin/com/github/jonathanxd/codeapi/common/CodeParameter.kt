@@ -55,8 +55,8 @@ data class CodeParameter @JvmOverloads constructor(override val type: CodeType, 
             return this
         }
 
-        override fun withType(value: CodeType?): Builder {
-            this.type = value!!
+        override fun withType(value: CodeType): Builder {
+            this.type = value
             return this
         }
 

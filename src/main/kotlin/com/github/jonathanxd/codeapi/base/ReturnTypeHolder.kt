@@ -38,11 +38,11 @@ interface ReturnTypeHolder : CodePart {
     /**
      * Type of return
      */
-    val returnType: CodeType?
+    val returnType: CodeType
 
     override fun builder(): Builder<ReturnTypeHolder, *>
 
     interface Builder<out T : ReturnTypeHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-        fun withReturnType(value: CodeType?): S
+        fun withReturnType(value: CodeType): S
     }
 }

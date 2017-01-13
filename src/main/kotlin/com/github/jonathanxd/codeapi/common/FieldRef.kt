@@ -27,65 +27,57 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.FieldBase
 import com.github.jonathanxd.codeapi.type.CodeType
-import java.util.*
 
-data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val parameterTypes: List<CodeType> = emptyList()) : Typed, Comparable<TypeSpec> {
-    override val type: CodeType
-        get() = this.returnType
-
-    override fun hashCode(): Int {
-        return Objects.hash(returnType, parameterTypes)
-    }
+/**
+ * Field reference, this class must never appear in CodeSource.
+ */
+data class FieldRef(override val localization: CodeType, override val target: CodePart, override val type: CodeType, override val name: String) : FieldBase {
 
     override fun builder(): Builder = Builder(this)
 
-    override fun equals(other: Any?): Boolean {
+    class Builder(): FieldBase.Builder<FieldRef, Builder> {
 
-        if (other !is TypeSpec)
-            return false
+        lateinit var name: String
+        lateinit var type: CodeType
+        lateinit var localization: CodeType
+        lateinit var target: CodePart
 
-        return this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes;
-    }
+        constructor(defaults: FieldRef): this() {
+            this.name = defaults.name
+            this.type = defaults.type
+            this.localization = defaults.localization
+            this.target = defaults.target
+        }
 
-    override fun compareTo(other: TypeSpec): Int {
-        return if (this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes) 0 else 1
-    }
-
-    class Builder() : Typed.Builder<TypeSpec, Builder> {
-
-        var returnType: CodeType = Types.VOID
-        var parameterTypes: List<CodeType> = emptyList()
-
-        constructor(defaults: TypeSpec): this() {
-            this.returnType = defaults.returnType
-            this.parameterTypes = defaults.parameterTypes
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
         }
 
         override fun withType(value: CodeType): Builder {
-            this.returnType = value
+            this.type = value
             return this
         }
 
-        fun withReturnType(value: CodeType): Builder {
-            this.returnType = value
+        override fun withLocalization(value: CodeType): Builder {
+            this.localization = value
             return this
         }
 
-        fun withParameterTypes(value: List<CodeType>): Builder {
-            this.parameterTypes = value
+        override fun withTarget(value: CodePart): Builder {
+            this.target = value
             return this
         }
 
-        fun withParameterTypes(vararg values: CodeType): Builder {
-            this.parameterTypes = values.toList()
-            return this
-        }
+        override fun build(): FieldRef = FieldRef(localization, target, type, name)
 
-        override fun build(): TypeSpec = TypeSpec(returnType, parameterTypes)
+        companion object {
+            @JvmStatic
+            fun builder() = Builder()
+        }
 
     }
-
 }

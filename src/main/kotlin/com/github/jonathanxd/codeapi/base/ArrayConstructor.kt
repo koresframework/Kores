@@ -68,7 +68,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
                             this.arrayType = arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                             this.target = Stack
                             this.index = Literals.INT(i)
-                            this.valueType = argument.type!!
+                            this.valueType = argument.type
                             this.valueToStore = argumentValue
                         }
                 )
@@ -77,7 +77,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
             return arrayStores
         }
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.arrayType
 
     override val array: Boolean
@@ -89,7 +89,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
             ArgumentHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType?): S = this.withArrayType(value!!)
+        override fun withType(value: CodeType): S = this.withArrayType(value)
 
         @Suppress("UNCHECKED_CAST")
         override fun withArray(value: Boolean): S {

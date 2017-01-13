@@ -84,7 +84,7 @@ object SwitchTypes {
 
         override fun generate(t: SwitchStatement, processor: PartProcessor): SwitchStatement {
             val part = t.value
-            val type = t.value.type!!
+            val type = t.value.type
 
             if (isAcceptable(type)) {
                 return SwitchStatementBuilder(t).withValue(autoUnboxing(part, type)).build()
@@ -106,7 +106,7 @@ object SwitchTypes {
             if (aCase.isDefault)
                 return aCase
 
-            if (aCase.type!!.`is`(Types.INT))
+            if (aCase.type.`is`(Types.INT))
                 return aCase
 
             return CaseBuilder(aCase).withValue(Literals.INT(EnumTypeUtil.resolve(aCase.value, aSwitch))).build()

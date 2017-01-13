@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
 
 data class MethodTypeSpec(val localization: CodeType, val methodName: String, val typeSpec: TypeSpec) : Typed, Comparable<MethodTypeSpec> {
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.typeSpec.type
 
     override fun builder(): Builder = Builder(this)
@@ -55,8 +55,8 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
             this.typeSpec = defaults.typeSpec
         }
 
-        override fun withType(value: CodeType?): Builder {
-            this.typeSpec = this.typeSpec.copy(returnType = value!!)
+        override fun withType(value: CodeType): Builder {
+            this.typeSpec = this.typeSpec.copy(returnType = value)
             return this
         }
 

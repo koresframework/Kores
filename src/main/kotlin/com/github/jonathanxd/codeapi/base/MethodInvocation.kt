@@ -54,7 +54,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
     /**
      * Method return type
      */
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.spec.description.returnType
 
     /**
@@ -83,7 +83,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
         override fun withArray(value: Boolean): S = this as S
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType?): S = this as S
+        override fun withType(value: CodeType): S = this as S
 
         /**
          * See [T.spec]

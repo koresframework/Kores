@@ -60,10 +60,10 @@ interface StaticBlock : ConstructorDeclaration {
     interface Builder<out T: StaticBlock, S: Builder<T, S>> : ConstructorDeclaration.Builder<T, S> {
         override fun withName(value: String): S = self()
         override fun withAnnotations(value: List<Annotation>): S = self()
-        override fun withAnnotations(vararg value: Annotation): S = self()
+        override fun withAnnotations(vararg values: Annotation): S = self()
         override fun withParameters(value: List<CodeParameter>): S = self()
         override fun withParameters(vararg values: CodeParameter): S = self()
-        override fun withReturnType(value: CodeType?): S = self()
+        override fun withReturnType(value: CodeType): S = self()
         override fun withModifiers(value: Set<CodeModifier>): S = self()
         override fun withModifiers(vararg values: CodeModifier): S = self()
         override fun withGenericSignature(value: GenericSignature): S = self()

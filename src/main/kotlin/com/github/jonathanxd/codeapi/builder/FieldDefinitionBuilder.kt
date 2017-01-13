@@ -70,8 +70,8 @@ open class FieldDefinitionBuilder(): FieldDefinition.Builder<FieldDefinition, Fi
     /**
      * See [FieldDefinition.type]
      */
-    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType?): FieldDefinitionBuilder {
-        this.type = value!!
+    override fun withType(value: com.github.jonathanxd.codeapi.type.CodeType): FieldDefinitionBuilder {
+        this.type = value
         return this
     }
 

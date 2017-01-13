@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
 
 data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed, Comparable<MethodInvokeSpec> {
 
-    override val type: CodeType?
+    override val type: CodeType
         get() = this.methodTypeSpec.type
 
     override fun builder(): Builder = Builder(this)
@@ -51,8 +51,8 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             this.methodTypeSpec = defaults.methodTypeSpec
         }
 
-        override fun withType(value: CodeType?): Builder {
-            this.methodTypeSpec = methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value!!))
+        override fun withType(value: CodeType): Builder {
+            this.methodTypeSpec = methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
             return this
         }
 

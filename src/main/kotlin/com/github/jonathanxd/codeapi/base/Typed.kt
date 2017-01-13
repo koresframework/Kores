@@ -39,7 +39,7 @@ interface Typed : CodePart {
     /**
      * Element type
      */
-    val type: CodeType?
+    val type: CodeType
 
     override fun builder(): Builder<Typed, *>
 
@@ -48,6 +48,6 @@ interface Typed : CodePart {
         /**
          * See [T.type]
          */
-        fun withType(value: CodeType?): S
+        fun withType(value: CodeType): S
     }
 }
