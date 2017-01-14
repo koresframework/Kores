@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.type.ClassType
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.CodeTypeUtil
 
 /**
  * Base class of all [TypeDeclaration]s like classes, interfaces and enums.
@@ -47,11 +48,22 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
      */
     val outerClass: CodeType?
 
+    /**
+     * Defined qualified name
+     */
+    override val qualifiedName: String
+
+    /**
+     * Platform name of the class, inner classes have inconsistent qualified names, this property
+     * fixes this problem.
+     */
+    val platformName: String get() = CodeTypeUtil.resolveRealQualified(this.qualifiedName, this.outerClass)
+
     override val type: String
-        get() = this.qualifiedName
+        get() = this.platformName
 
     override val canonicalName: String
-        get() = this.qualifiedName
+        get() = this.platformName
 
     override fun builder(): Builder<TypeDeclaration, *>
 

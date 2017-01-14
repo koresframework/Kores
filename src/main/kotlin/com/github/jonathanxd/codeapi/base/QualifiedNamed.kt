@@ -36,7 +36,7 @@ interface QualifiedNamed : Named {
         get() = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length);
 
     /**
-     * Qualified name
+     * The qualified name
      */
     val qualifiedName: String
 

@@ -48,7 +48,7 @@ public class CodeTypeUtil {
         return qualifiedName;
     }
 
-    public static String getRealNameStr(String qualified, CodeType outer) {
+    private static String getRealNameStr(String qualified, CodeType outer) {
         return outer.getCanonicalName() + "$" + qualified;
     }
 
