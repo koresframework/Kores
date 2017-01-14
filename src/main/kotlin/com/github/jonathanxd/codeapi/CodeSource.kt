@@ -41,7 +41,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
 
     open val isEmpty: Boolean = this.parts.isEmpty()
 
-    open val isNotEmpty: Boolean = !this.isEmpty
+    open val isNotEmpty: Boolean get() = !this.isEmpty
 
     open operator fun get(index: Int): CodePart {
         if (index >= this.parts.size)
