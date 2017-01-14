@@ -95,17 +95,15 @@ object IterationTypes {
 
                 val field = t.variable
 
-                body.add(FieldDeclarationImpl(
+                body.add(VariableDeclarationImpl(
                         name = field.name,
-                        type = field.variableType,
+                        variableType = field.variableType,
                         value = ArrayLoadImpl(
                                 arrayType = CodePartUtil.getType(t.iterableElement),
                                 target = t.iterableElement,
                                 index = accessIndex,
                                 valueType = field.variableType
-                        ),
-                        annotations = emptyList(),
-                        modifiers = emptySet()
+                        )
                 ))
 
                 body.addAll(t.body)
@@ -175,11 +173,9 @@ object IterationTypes {
                 )
 
                 // #Type Field_Name = (#Type) Iterator.next()Ljava/lang/Object;
-                val eachField = FieldDeclarationImpl(
-                        modifiers = emptySet(),
-                        annotations = emptyList(),
+                val eachField = VariableDeclarationImpl(
                         name = field.name,
-                        type = field.variableType,
+                        variableType = field.variableType,
                         value = CastImpl(
                                 originalType = Types.OBJECT,
                                 castedPart = next,
