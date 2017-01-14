@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.exception.ProcessingException
 import com.github.jonathanxd.codeapi.gen.ArrayAppender
 import com.github.jonathanxd.codeapi.gen.CodeGenerator
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
+import com.github.jonathanxd.codeapi.util.gento.GenToUtil
 import com.github.jonathanxd.iutils.data.MapData
 import com.github.jonathanxd.iutils.type.TypeInfo
 
@@ -191,27 +192,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
     }
 
     private operator fun get(cl: Class<*>): Visitor<*, T, *> {
-        if (visitors.containsKey(cl)) {
-            return visitors[cl]!!
-        } else {
-            val generateTo = cl.getDeclaredAnnotation(GenerateTo::class.java)
-
-            if (generateTo != null) {
-                return visitors[generateTo.value.java] ?: throw NullPointerException("Cannot get visitor for class: '" + generateTo.value.java.canonicalName + "'")
-            } else {
-                if (cl.isSynthetic || cl.isAnonymousClass || cl.isLocalClass) {
-                    val i: Class<*>
-                    if (cl.interfaces.isEmpty()) {
-                        i = cl.superclass
-                    } else {
-                        i = cl.interfaces[0]
-                    }
-                    return Objects.requireNonNull<Visitor<*, T, *>>(visitors[i], "Cannot get visitor for class: '" + i.canonicalName + "' (Local/Synthetic/Anonymous class): '" + cl + "'")
-                }
-
-                throw IllegalStateException("Cannot get visitor for class: '" + cl.canonicalName + "'")
-            }
-        }
+        return GenToUtil.get(cl, this.visitors)
     }
 
     companion object {

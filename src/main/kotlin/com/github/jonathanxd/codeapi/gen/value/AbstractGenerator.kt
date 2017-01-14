@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.gen.Appender
 import com.github.jonathanxd.codeapi.gen.CodeGenerator
 import com.github.jonathanxd.codeapi.util.ClassUtil
 import com.github.jonathanxd.codeapi.gen.value.Parent
+import com.github.jonathanxd.codeapi.util.gento.GenToUtil
 import com.github.jonathanxd.iutils.container.primitivecontainers.IntContainer
 import com.github.jonathanxd.iutils.data.MapData
 
@@ -124,7 +125,12 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
             }
         }
 
-        var get: ValueGenerator<*, T, C>? = if (filterEntry != null) filterEntry.value else null
+        var get: ValueGenerator<*, T, C>? = try {
+            GenToUtil.get(targetClass, this.registry)
+        }catch (ignore: Throwable) { null }
+
+        if(get == null)
+            get = if (filterEntry != null) filterEntry.value else null
 
         if (get == null) {
             if (generatorTargetClass.isSynthetic || generatorTargetClass.isAnonymousClass || generatorTargetClass.isLocalClass) {
@@ -141,7 +147,7 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
 
         if (get != null) {
 
-            if (filterEntry!!.key != targetClass)
+            if (filterEntry != null && filterEntry.key != targetClass)
                 logger.warning("Processor of '" + targetClass.canonicalName + "' isn't registered, using generic generator: '" + filterEntry.key + "'!")
             try {
                 return ArrayList(AbstractGenerator.help(get, target, this, Parent.create<ValueGenerator<*, T, C>>(get, target, parents), codeSourceData, processingData))
