@@ -25,49 +25,40 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.visit
+package com.github.jonathanxd.codeapi.util;
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.util.VisitorTypeUtil
-import com.github.jonathanxd.iutils.data.MapData
+import com.github.jonathanxd.codeapi.gen.visit.Visitor;
+import com.github.jonathanxd.codeapi.gen.visit.VoidVisitor;
+import com.github.jonathanxd.iutils.type.TypeInfo;
 
-/**
- * A part visitor.
- *
- * @param T Type of part.
- * @param R Type of generator result.
- * @param L Additional element type.
- */
-interface Visitor<in T : CodePart, R, in L> : PartProcessor {
-    /**
-     * Visit a [CodePart] of type [T].
-     *
-     * @param t                Part to visit.
-     * @param extraData        Data.
-     * @param visitorGenerator Generator.
-     * @param additional       Additional element.
-     * @return Result.
-     */
-    fun visit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<R>, additional: L): Array<out R>
-
-    /**
-     * End a visit to a [CodePart] of type [T].
-     *
-     * @param r                Result of [Visitor.visit] invocation.
-     * @param t                Part to visit.
-     * @param extraData        Data.
-     * @param visitorGenerator Generator.
-     * @param additional       Additional element.
-     */
-    fun endVisit(r: Array<out R>, t: T, extraData: MapData, visitorGenerator: VisitorGenerator<R>, additional: L) {
+public final class VisitorTypeUtil {
+    private VisitorTypeUtil() {
 
     }
 
-    fun getCodePartType(): Class<*>? = VisitorTypeUtil.getType(this, 0)
+    @SuppressWarnings("unchecked")
+    public static <T> Class<?> getType(VoidVisitor<?, T, ?> instance, int pos) {
+        Class<? extends VoidVisitor> aClass = instance.getClass();
+        TypeInfo<?> resolve = com.github.jonathanxd.iutils.type.TypeUtil.resolve(aClass, VoidVisitor.class);
+        TypeInfo[] related = resolve.getRelated();
 
-    fun getResultType(): Class<*>? = VisitorTypeUtil.getType(this, 1)
+        if (pos >= related.length)
+            return null;
 
-    fun getAdditionalType(): Class<*>? = VisitorTypeUtil.getType(this, 2)
+        return related[pos].getAClass();
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static <T> Class<?> getType(Visitor<?, T, ?> instance, int pos) {
+        Class<? extends Visitor> aClass = instance.getClass();
+        TypeInfo<?> resolve = com.github.jonathanxd.iutils.type.TypeUtil.resolve(aClass, Visitor.class);
+        TypeInfo[] related = resolve.getRelated();
+
+        if (pos >= related.length)
+            return null;
+
+        return related[pos].getAClass();
+    }
 
 }

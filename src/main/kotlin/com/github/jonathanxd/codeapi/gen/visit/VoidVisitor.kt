@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.gen.visit
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.util.VisitorArrayFactory
+import com.github.jonathanxd.codeapi.util.VisitorTypeUtil
 import com.github.jonathanxd.iutils.data.MapData
 
 /**
@@ -55,4 +56,11 @@ interface VoidVisitor<in T : CodePart, R, in L> : Visitor<T, R, L> {
 
         return VisitorArrayFactory.factory(this)
     }
+
+    override fun getCodePartType(): Class<*>? = VisitorTypeUtil.getType(this, 0)
+
+    override fun getResultType(): Class<*>? = VisitorTypeUtil.getType(this, 1)
+
+    override fun getAdditionalType(): Class<*>? = VisitorTypeUtil.getType(this, 2)
+
 }
