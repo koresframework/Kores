@@ -71,7 +71,7 @@ public class ForEachArray_ {
                                 EnumSet.of(CodeModifier.PUBLIC),
                                 new CodeParameter[]{new CodeParameter(Types.STRING.toArray(1), "strArray")},
                                 CodeAPI.sourceOfParts(
-                                        FieldFactory.field(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
+                                        VariableFactory.variable(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
                                         CodeAPI.forEachArray(VariableFactory.variable(Types.STRING, "str"),
                                                 CodeAPI.accessLocalVariable(Types.STRING.toArray(1), "strArray"),
                                                 CodeAPI.source(

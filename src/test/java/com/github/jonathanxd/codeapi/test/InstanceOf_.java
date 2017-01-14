@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
@@ -78,10 +79,10 @@ public class InstanceOf_ {
                                         sourceOfParts(
                                                 Predefined.invokePrintln(argument(STRING("Object is not String!")))
                                         )),
-                                field(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
-                                field(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
-                                field(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INTEGER_WRAPPER)), listOf(argument(Literals.INT(9))))),
-                                field(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
+                                VariableFactory.variable(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
+                                VariableFactory.variable(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
+                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INTEGER_WRAPPER)), listOf(argument(Literals.INT(9))))),
+                                VariableFactory.variable(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
 

@@ -72,7 +72,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
 
                 arrayStores.add(
                         ArrayStoreBuilder().build {
-                            this.arrayType = arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
+                            this.arrayType = this@ArrayConstructor.arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                             this.target = Stack
                             this.index = Literals.INT(i)
                             this.valueType = argument.type
