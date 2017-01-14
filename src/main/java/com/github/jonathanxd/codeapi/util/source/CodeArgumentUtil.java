@@ -123,7 +123,7 @@ public class CodeArgumentUtil {
      * @return Converted argument.
      */
     public static CodeArgument fromParameters(CodeParameter parameter) {
-        return null;//new CodeArgument(Helper.accessLocalVariable(parameter.getName(), parameter.getRequiredType()), parameter.getRequiredType());
+        return new CodeArgument(CodeAPI.accessLocalVariable(parameter.getType(), parameter.getName()));
     }
 
 
@@ -148,7 +148,7 @@ public class CodeArgumentUtil {
      * @return Converted argument.
      */
     public static CodeArgument fromJavaParameter(Parameter parameter) {
-        return null;//new CodeArgument(Helper.accessLocalVariable(parameter.getName(), Helper.getJavaType(parameter.getType())), true, Helper.getJavaType(parameter.getType()));
+        return new CodeArgument(CodeAPI.accessLocalVariable(parameter.getType(), parameter.getName()));
     }
 
 }
