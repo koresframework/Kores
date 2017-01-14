@@ -63,7 +63,16 @@ public class CodeTypeUtil {
     }
 
     public static String codeTypeToArray(CodeType codeType, int dimensions) {
-        String name = CodeTypeUtil.codeTypeToFullAsm(codeType);
+        return codeTypeToArray(codeType, codeType.getType(), dimensions);
+    }
+
+    public static String codeTypeToArray(CodeType codeType, String type, int dimensions) {
+
+        String name = "L" + type.replace('.', '/') + ";";
+
+        if (codeType.isArray()) {
+            name = codeType.getArrayBaseComponent().getType();
+        }
 
         StringBuilder sb = new StringBuilder();
 
