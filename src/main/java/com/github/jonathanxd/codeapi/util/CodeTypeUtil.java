@@ -71,7 +71,7 @@ public class CodeTypeUtil {
         String name;
 
         if (codeType.isArray()) {
-            name = codeType.getArrayBaseComponent().getType();
+            name = codeType.getArrayBaseComponent().getJavaSpecName();
         } else if(codeType.isPrimitive()) {
             return type.replace(".", "/");
         } else {
