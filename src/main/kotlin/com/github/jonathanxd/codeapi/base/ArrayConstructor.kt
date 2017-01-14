@@ -40,6 +40,13 @@ import com.github.jonathanxd.codeapi.util.Stack
  */
 interface ArrayConstructor : ArgumentHolder, Typed {
 
+    override val types: List<CodeType>
+        get() = ArrayList<CodeType>(this.arguments.size).apply {
+            (0..arguments.size).forEach {
+                add(arrayType.arrayComponent)
+            }
+        }
+
     /**
      * Type of the array.
      */

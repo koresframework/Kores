@@ -29,8 +29,14 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.CodeArgument
+import com.github.jonathanxd.codeapi.type.CodeType
 
 interface ArgumentHolder : CodePart {
+
+    /**
+     * Expected types of each argument
+     */
+    val types: List<CodeType>
 
     /**
      * Argument list

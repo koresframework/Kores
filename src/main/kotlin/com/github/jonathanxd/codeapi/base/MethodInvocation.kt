@@ -38,6 +38,9 @@ import com.github.jonathanxd.codeapi.type.CodeType
  */
 interface MethodInvocation : Accessor, ArgumentHolder, Typed {
 
+    override val types: List<CodeType>
+        get() = this.spec.description.parameterTypes
+
     override val array: Boolean
         get() = false
 

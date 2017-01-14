@@ -30,11 +30,15 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.builder.EnumEntryBuilder
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
  * Enumeration entry
  */
 interface EnumEntry : ArgumentHolder, Named, BodyHolder {
+
+    override val types: List<CodeType>
+        get() = this.constructorSpec?.parameterTypes ?: emptyList()
 
     override val array: Boolean
         get() = false
