@@ -38,6 +38,9 @@ interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
     override val classType: ClassType
         get() = ClassType.INTERFACE
 
+    override val isInterface: Boolean
+        get() = true
+
     override fun builder(): Builder<InterfaceDeclaration, *> = InterfaceDeclarationBuilder(this)
 
     interface Builder<out T: InterfaceDeclaration, S: Builder<T, S>> :
