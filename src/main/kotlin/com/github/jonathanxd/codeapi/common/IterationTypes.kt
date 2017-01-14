@@ -128,7 +128,7 @@ object IterationTypes {
 
             override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource {
                 val fieldName = sugarEnvironment.getVariableName("\$iterable_iterator")
-                val iterFieldDecl = HiddenVariable(Types.ITERATOR, fieldName, Literals.NULL)
+                val iterFieldDecl = HiddenVariable(Types.ITERATOR, fieldName, t.iterableElement)
                 val accessIter = VariableAccessImpl(
                         name = iterFieldDecl.name,
                         variableType = iterFieldDecl.type
