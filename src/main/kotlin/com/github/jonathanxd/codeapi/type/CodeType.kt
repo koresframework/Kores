@@ -104,7 +104,7 @@ interface CodeType : CodePart, Comparable<CodeType> {
      * `path.to.A.B[]` = `[Lpath/to/A$B;`
      */
     val javaSpecName: String
-        get() = if(this.isArray) CodeTypeUtil.codeTypeToArray(this, this.arrayDimension) else "L" + this.type.replace('.', '/') + ";"
+        get() = CodeTypeUtil.codeTypeToTypeDesc(this)
 
     /**
      * True if this [CodeType] is a primitive type.

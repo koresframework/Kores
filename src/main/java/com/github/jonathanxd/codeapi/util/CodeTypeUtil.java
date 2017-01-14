@@ -62,25 +62,27 @@ public class CodeTypeUtil {
         return type.getJavaSpecName();
     }
 
-    public static String codeTypeToArray(CodeType codeType, int dimensions) {
-        return codeTypeToArray(codeType, codeType.getType(), dimensions);
+    public static String codeTypeToTypeDesc(CodeType codeType) {
+        return codeTypeToTypeDesc(codeType, codeType.getType());
     }
 
-    public static String codeTypeToArray(CodeType codeType, String type, int dimensions) {
+    public static String codeTypeToTypeDesc(CodeType codeType, String type) {
 
         String name;
 
         if (codeType.isArray()) {
             name = codeType.getArrayBaseComponent().getType();
         } else if(codeType.isPrimitive()) {
-            name = type.replace(".", "/");
+            return type.replace(".", "/");
         } else {
-            name = "L" + type.replace('.', '/') + ";";
+            return "L" + type.replace('.', '/') + ";";
         }
 
         StringBuilder sb = new StringBuilder();
 
-        for (int x = 0; x < dimensions; ++x)
+        int arrayDimension = codeType.getArrayDimension();
+
+        for (int x = 0; x < arrayDimension; ++x)
             sb.append('[');
 
         return sb.toString() + name;
