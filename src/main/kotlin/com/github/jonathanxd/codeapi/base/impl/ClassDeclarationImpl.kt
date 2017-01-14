@@ -34,13 +34,20 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.codeapi.util.CodeTypeUtil
+import com.github.jonathanxd.codeapi.util.asString
 
-data class ClassDeclarationImpl(override val superClass: CodeType?, override val implementations: List<CodeType>, override val qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : ClassDeclaration {
+class ClassDeclarationImpl(override val superClass: CodeType?, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : ClassDeclaration {
+
+    override val qualifiedName: String = qualifiedName
+        get() = CodeTypeUtil.resolveRealQualified(field, this.outerClass)
+
+
     init {
         BodyHolder.checkBody(this)
     }
 
     override fun hashCode(): Int = CodeType.hash(this)
     override fun equals(other: Any?): Boolean = CodeType.eq(this, other)
+    override fun toString(): String = this.asString()
 }

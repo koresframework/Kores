@@ -68,6 +68,6 @@ public class StringTest {
 
         System.out.println("=== Normal To Strings method ===");
 
-        System.out.println(ToString.toString((CodePart) typeDeclaration));
+        System.out.println(ToString.anyToString((CodePart) typeDeclaration));
     }
 }

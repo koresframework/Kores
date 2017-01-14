@@ -35,8 +35,13 @@ import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.CodeTypeUtil
+import com.github.jonathanxd.codeapi.util.asString
 
-data class AnnotationDeclarationImpl(override val qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnnotationDeclaration {
+class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnnotationDeclaration {
+
+    override val qualifiedName: String = qualifiedName
+        get() = CodeTypeUtil.resolveRealQualified(field, this.outerClass)
 
     init {
         BodyHolder.checkBody(this)
@@ -44,4 +49,5 @@ data class AnnotationDeclarationImpl(override val qualifiedName: String, overrid
 
     override fun hashCode(): Int = CodeType.hash(this)
     override fun equals(other: Any?): Boolean = CodeType.eq(this, other)
+    override fun toString(): String = this.asString()
 }

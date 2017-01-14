@@ -42,7 +42,7 @@ import java.util.*
  *
  * `@top` means top declaration
  */
-fun toString(part: Any?): String = toString(mutableListOf(), part)
+fun Any?.asString(): String = toString(mutableListOf(), this)
 
 private fun toString(parts: MutableList<CodePart>, part: Any?): String =
         part.let {
