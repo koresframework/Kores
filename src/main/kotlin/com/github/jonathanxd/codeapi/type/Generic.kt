@@ -299,7 +299,7 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
         get() = !isType || this.codeType.isVirtual
 
     override fun compareTo(other: CodeType): Int {
-        return if (isType) this.codeType.compareTo(other) else -1
+        return if (isType) this.codeType.compareTo(other) else if(other is GenericType && !other.isType) this.javaSpecName.compareTo(other.javaSpecName) else -1
     }
 
     override val isArray: Boolean
