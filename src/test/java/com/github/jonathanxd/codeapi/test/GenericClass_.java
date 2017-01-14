@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.CodeType;
@@ -64,7 +65,7 @@ public class GenericClass_ {
                         EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC),
                         "test", Types.VOID, new CodeParameter[]{new CodeParameter(Generic.type("T"), "val")},
                         CodeAPI.sourceOfParts(
-                                FieldFactory.field(Generic.type("T"), "fieldi", Literals.NULL)
+                                VariableFactory.variable(Generic.type("T"), "fieldi", Literals.NULL)
                         )),
                 FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), Generic.type("T"), "test", null)
         ));
