@@ -27,16 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.GenericType.Bound
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil
 import com.github.jonathanxd.iutils.array.ArrayUtils
-
-import java.util.Arrays
-import java.util.Objects
+import java.util.*
 
 
 /**
@@ -189,12 +185,12 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     }
 
     @Suppress("UNCHECKED_CAST")
-    /**
-     * Generic type that extends type variables `ss`.
-     *
-     * @param ss Types names.
-     * @return New instance of generic type.
-     */
+            /**
+             * Generic type that extends type variables `ss`.
+             *
+             * @param ss Types names.
+             * @return New instance of generic type.
+             */
     fun `extends$`(vararg ss: String): Generic {
         val bounds = ss.map { s -> GenericType.Extends(Generic(s)) }.toTypedArray()
 
@@ -275,19 +271,19 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
         get() = !this.isWildcard && this.isType_
 
     override val type: String
-        get() = if (true) this.codeType.type else this.name
+        get() = this.codeType.type
 
     override val canonicalName: String
-        get() = if (isType) this.codeType.canonicalName else this.name
+        get() = this.codeType.canonicalName
 
     override val packageName: String
-        get() = if (isType) this.codeType.packageName else ""
+        get() = this.codeType.packageName
 
     override val simpleName: String
-        get() = if (isType) this.codeType.simpleName else this.name
+        get() = this.codeType.simpleName
 
     override val javaSpecName: String
-        get() = if (isType) this.codeType.javaSpecName else name
+        get() = this.codeType.javaSpecName
 
     override val isPrimitive: Boolean
         get() = isType && this.codeType.isPrimitive
@@ -299,7 +295,18 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
         get() = !isType || this.codeType.isVirtual
 
     override fun compareTo(other: CodeType): Int {
-        return if (isType) this.codeType.compareTo(other) else if(other is GenericType && !other.isType) this.javaSpecName.compareTo(other.javaSpecName) else -1
+        return if (isType)
+            this.codeType.compareTo(other)
+        else if (other is GenericType && !other.isType)
+            if (this.bounds.isEmpty() && other.bounds.isEmpty())
+                this.name.compareTo(other.name)
+            else
+                if (this.bounds.size == other.bounds.size
+                        && this.name.compareTo(other.name) == 0
+                        && Arrays.equals(this.bounds, other.bounds))
+                    0
+                else -1
+        else -1
     }
 
     override val isArray: Boolean
