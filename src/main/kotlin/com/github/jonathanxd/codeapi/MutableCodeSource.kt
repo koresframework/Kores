@@ -210,9 +210,7 @@ class MutableCodeSource : CodeSource, Cloneable {
         return this.backingList.hashCode()
     }
 
-    override fun toString(): String {
-        return this.backingList.toString()
-    }
+    override fun toString(): String = if(this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
     override fun stream(): Stream<CodePart> {
         return this.backingList.stream()

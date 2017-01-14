@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi
 import com.github.jonathanxd.codeapi.util.IterableUtil
 import java.util.*
 import java.util.function.Consumer
+import java.util.stream.Collectors
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
@@ -91,6 +92,8 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
     open fun stream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), false)
 
     open fun parallelStream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), true)
+
+    override fun toString(): String = if(this.isEmpty) "CodeSource[]" else "CodeSource[...]"
 
     private inner class Iterat : Iterator<CodePart> {
 
