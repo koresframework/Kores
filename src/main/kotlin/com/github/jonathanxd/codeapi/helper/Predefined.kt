@@ -54,7 +54,7 @@ object Predefined {
     fun invokePrintln(vararg arguments: CodeArgument): MethodInvocation {
         return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
                 CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
-                "println", TypeSpec(Types.VOID), Arrays.asList(*arguments))
+                "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), Arrays.asList(*arguments))
     }
 
     @JvmStatic
