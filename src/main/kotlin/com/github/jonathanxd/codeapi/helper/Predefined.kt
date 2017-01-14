@@ -52,9 +52,26 @@ object Predefined {
 
     @JvmStatic
     fun invokePrintln(vararg arguments: CodeArgument): MethodInvocation {
+
+        val arg: CodeArgument = if (arguments.size == 1) {
+            arguments.single()
+        } else {
+            val helper = ConcatHelper.builder()
+            val iter = arguments.iterator()
+
+            while(iter.hasNext()) {
+                helper.concat(iter.next().value)
+
+                if(iter.hasNext())
+                    helper.concat(" ")
+            }
+
+            CodeArgument(helper.build())
+        }
+
         return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
                 CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
-                "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), Arrays.asList(*arguments))
+                "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), listOf(arg))
     }
 
     @JvmStatic
