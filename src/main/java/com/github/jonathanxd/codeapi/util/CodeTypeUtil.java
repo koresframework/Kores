@@ -68,10 +68,14 @@ public class CodeTypeUtil {
 
     public static String codeTypeToArray(CodeType codeType, String type, int dimensions) {
 
-        String name = "L" + type.replace('.', '/') + ";";
+        String name;
 
         if (codeType.isArray()) {
             name = codeType.getArrayBaseComponent().getType();
+        } else if(codeType.isPrimitive()) {
+            name = type.replace(".", "/");
+        } else {
+            name = "L" + type.replace('.', '/') + ";";
         }
 
         StringBuilder sb = new StringBuilder();
