@@ -2394,15 +2394,9 @@ public final class CodeAPI {
         }
 
 
-        InvokeType invokeType;
+        InvokeType invokeType = InvokeType.resolvable(Alias.THIS.INSTANCE);
 
-        if (methodSpec.getLocalization().isInterface()) {
-            invokeType = InvokeType.INVOKE_INTERFACE;
-        } else {
-            invokeType = InvokeType.INVOKE_VIRTUAL;
-        }
-
-        CodePart toAdd = CodeAPI.invoke(invokeType, methodSpec.getLocalization(), CodeAPI.accessThis(),
+        CodePart toAdd = CodeAPI.invoke(invokeType, Alias.THIS.INSTANCE, CodeAPI.accessThis(),
                 methodSpec.getMethodName(), methodSpec.getTypeSpec(), codeArguments);
 
         if (return_) {

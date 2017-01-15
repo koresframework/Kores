@@ -32,41 +32,19 @@ import com.github.jonathanxd.codeapi.type.CodeType
 /**
  * Type of the invocation.
  */
-enum class InvokeType {
+sealed class InvokeType {
 
-    /**
-     * Static method invocation.
-     */
-    INVOKE_STATIC,
+    abstract val real: InvokeType
 
-    /**
-     * Virtual method invocation (instance methods).
-     */
-    INVOKE_VIRTUAL,
+    class Common : InvokeType() {
+        override val real: InvokeType
+            get() = this
+    }
 
-    /**
-     * Special invocation.
-     *
-     * - Initialization (constructor methods).
-     * - Private methods.
-     * - Superclass methods invocation.
-     */
-    INVOKE_SPECIAL,
-
-    /**
-     * Interface method invocation.
-     */
-    INVOKE_INTERFACE,
-
-    /**
-     * Invoke a method dynamically.
-     *
-     * Invoke dynamic uses a bootstrap to invoke the method. Dynamic invocations is used in lambdas
-     * for example.
-     *
-     * Dynamic invocations is a hard thing that is explained in class: {@link InvokeDynamic}.
-     */
-    INVOKE_DYNAMIC;
+    class Resolution(val alias: CodeType) : InvokeType() {
+        override val real: InvokeType
+            get() = throw IllegalStateException("The InvokeType of type Resolution must be resolved before any operation. (Alias: $alias)")
+    }
 
 
     /**
@@ -74,37 +52,78 @@ enum class InvokeType {
      *
      * @return True if the InvokeType is [INVOKE_STATIC].
      */
-    fun isStatic() = this == INVOKE_STATIC
+    fun isStatic() = this.real == INVOKE_STATIC
 
     /**
      * Returns true if the InvokeType is [INVOKE_VIRTUAL].
      *
      * @return True if the InvokeType is [INVOKE_VIRTUAL].
      */
-    fun isVirtual() = this == INVOKE_VIRTUAL
+    fun isVirtual() = this.real == INVOKE_VIRTUAL
 
     /**
      * Returns true if the InvokeType is [INVOKE_SPECIAL].
      *
      * @return True if the InvokeType is [INVOKE_SPECIAL].
      */
-    fun isSpecial() = this == INVOKE_SPECIAL
+    fun isSpecial() = this.real == INVOKE_SPECIAL
 
     /**
      * Returns true if the InvokeType is [INVOKE_INTERFACE].
      *
      * @return True if the InvokeType is [INVOKE_INTERFACE].
      */
-    fun isInterface() = this == INVOKE_INTERFACE
+    fun isInterface() = this.real == INVOKE_INTERFACE
 
     /**
      * Returns true if the InvokeType is [INVOKE_DYNAMIC].
      *
      * @return True if the InvokeType is [INVOKE_DYNAMIC].
      */
-    fun isDynamic() = this == INVOKE_DYNAMIC
+    fun isDynamic() = this.real == INVOKE_DYNAMIC
 
     companion object {
+
+        /**
+         * Static method invocation.
+         */
+        @JvmField
+        val INVOKE_STATIC = Common()
+
+        /**
+         * Virtual method invocation (instance methods).
+         */
+        @JvmField
+        val INVOKE_VIRTUAL = Common()
+
+        /**
+         * Special invocation.
+         *
+         * - Initialization (constructor methods).
+         * - Private methods.
+         * - Superclass methods invocation.
+         */
+        @JvmField
+        val INVOKE_SPECIAL = Common()
+
+        /**
+         * Interface method invocation.
+         */
+        @JvmField
+        val INVOKE_INTERFACE = Common()
+
+        /**
+         * Invoke a method dynamically.
+         *
+         * Invoke dynamic uses a bootstrap to invoke the method. Dynamic invocations is used in lambdas
+         * for example.
+         *
+         * Dynamic invocations is a hard thing that is explained in class: {@link InvokeDynamic}.
+         */
+        @JvmField
+        val INVOKE_DYNAMIC = Common()
+
+
         /**
          * Get InvokeType corresponding to the {@code type}, if [codeType] is null, [INVOKE_STATIC], if [CodeType.isInterface],
          * [INVOKE_INTERFACE] else [INVOKE_VIRTUAL]
@@ -113,6 +132,16 @@ enum class InvokeType {
          * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
          */
         @JvmStatic
-        fun get(codeType: CodeType?) = if(codeType == null) INVOKE_STATIC else if(codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+        fun get(codeType: CodeType?) = if (codeType == null) INVOKE_STATIC else if (codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+
+
+        /**
+         * Create a InvokeType to be resolved by the generator.
+         *
+         * @param codeType Alias Code Type
+         * @return A InvokeType to be resolved by the generator.
+         */
+        @JvmStatic
+        fun resolvable(codeType: CodeType) = Resolution(codeType)
     }
 }
