@@ -52,6 +52,12 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
     val outerClass: CodeType?
 
     /**
+     * The specified name (for inner classes this property is set to simple name of inner class)
+     */
+    val specifiedName: String
+        get() = this.qualifiedName
+
+    /**
      * Defined qualified name
      */
     override val qualifiedName: String

@@ -39,6 +39,8 @@ import com.github.jonathanxd.iutils.string.ToStringHelper
 
 class InterfaceDeclarationImpl(override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : InterfaceDeclaration {
 
+    override val specifiedName: String = qualifiedName
+
     override val qualifiedName: String = qualifiedName
         get() = CodeTypeUtil.resolveRealQualified(field, this.outerClass)
 

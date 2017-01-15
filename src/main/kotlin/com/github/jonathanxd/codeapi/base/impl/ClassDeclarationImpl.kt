@@ -40,6 +40,8 @@ import com.github.jonathanxd.iutils.string.ToStringHelper
 
 class ClassDeclarationImpl(override val superClass: CodeType?, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : ClassDeclaration {
 
+    override val specifiedName: String = qualifiedName
+
     override val qualifiedName: String = qualifiedName
         get() = CodeTypeUtil.resolveRealQualified(field, this.outerClass)
 
