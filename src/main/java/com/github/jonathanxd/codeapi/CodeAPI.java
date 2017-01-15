@@ -2399,8 +2399,11 @@ public final class CodeAPI {
         InvokeType invokeType = isStatic ? InvokeType.INVOKE_STATIC : InvokeType.get(owner);
 
 
-        CodePart toAdd = CodeAPI.invoke(invokeType, isStatic ? owner : Alias.THIS.INSTANCE, isStatic ? CodeAPI.accessStatic() : CodeAPI.accessThis(),
-                methodSpec.getMethodName(), methodSpec.getTypeSpec(), codeArguments);
+        CodePart toAdd = CodeAPI.invoke(invokeType,
+                isStatic ? owner : Alias.THIS.INSTANCE, isStatic ? CodeAPI.accessStatic() : CodeAPI.accessThis(),
+                methodSpec.getMethodName(),
+                new TypeSpec(currentReturnType, currentParameters.stream().map(CodeParameter::getType).collect(Collectors.toList())),
+                codeArguments);
 
         if (return_) {
             CodeType returnType = methodSpec.getTypeSpec().getReturnType();
