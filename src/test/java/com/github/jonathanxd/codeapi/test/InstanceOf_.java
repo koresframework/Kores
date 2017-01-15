@@ -81,7 +81,7 @@ public class InstanceOf_ {
                                         )),
                                 VariableFactory.variable(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
                                 VariableFactory.variable(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
-                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INTEGER_WRAPPER)), listOf(argument(Literals.INT(9))))),
+                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INT)), listOf(argument(Literals.INT(9))))),
                                 VariableFactory.variable(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
