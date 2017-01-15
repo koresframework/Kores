@@ -92,8 +92,8 @@ public class CommonGen {
                                                 "array",
                                                 CodeAPI.arrayConstruct(stringArrayType, new CodePart[]{INT(2), INT(5)},
                                                         CollectionsKt.listOf(
-                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values))),
-                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING, new CodePart[]{INT(5)}, ArrayToList.toList(values2)))
+                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values))),
+                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values2)))
                                                         )
                                                 )),
 
