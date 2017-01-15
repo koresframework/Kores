@@ -38,25 +38,26 @@ import java.util.*
 /**
  * Create a String representation of the part of this [CodePart]
  *
- * This method take care of StackOverFlow.
+ * This method doesn't throw StackOverFlow.
  *
  * `@top` means top declaration
  */
-fun Any?.asString(): String = toString(mutableListOf(), this)
+@JvmOverloads
+fun Any?.asString(simple: Boolean = true): String = toString(mutableListOf(), this, simple)
 
-private fun toString(parts: MutableList<CodePart>, part: Any?): String =
+private fun toString(parts: MutableList<CodePart>, part: Any?, simple: Boolean): String =
         part.let {
             if (it == null)
                 "null"
             else
                 it.javaClass.simpleName + StringJoiner(", ", "[", "]").let { buffer ->
-                    toString(parts, it, { a -> buffer.add(a) })
+                    toString(parts, it, simple, { a -> buffer.add(a) })
                     buffer.toString()
                 }
         }
 
 
-private fun toString(parts: MutableList<CodePart>, part: Any, buffer: (String) -> Unit) {
+private fun toString(parts: MutableList<CodePart>, part: Any, simple: Boolean, buffer: (String) -> Unit) {
 
     if (part !is CodePart) {
         buffer(part.toString())
@@ -89,32 +90,32 @@ private fun toString(parts: MutableList<CodePart>, part: Any, buffer: (String) -
         val name = it.first
         val value = it.second
 
-        if (value is Iterable<*>) {
-            if (value is CodePart)
-                parts.add(value)
-
-            value.forEach { vall ->
-                buffer("$name = ${toString(parts, vall)}")
-            }
+        if (simple) {
+            buffer("$name = $value")
         } else {
+            if (value is Iterable<*>) {
+                if (value is CodePart)
+                    parts.add(value)
 
-            if (parts.contains(value)) {
-                buffer("$name = @out")
+                value.forEach { vall ->
+                    buffer("$name = ${toString(parts, vall, simple)}")
+                }
             } else {
-                if (value == null) {
-                    buffer("$name = null")
-                } else {
-                    if (value is CodePart) {
-                        parts.add(value)
-                        val str = try {
-                            value.toString()
-                        } catch (e: Error) {
-                            toString(parts, value)
-                        }
 
-                        buffer("$name = $str")
+                if (parts.contains(value)) {
+                    buffer("$name = @out")
+                } else {
+                    if (value == null) {
+                        buffer("$name = null")
                     } else {
-                        buffer("$name = $value")
+                        if (value is CodePart) {
+                            parts.add(value)
+                            val str = toString(parts, value, simple)
+
+                            buffer("$name = $str")
+                        } else {
+                            buffer("$name = $value")
+                        }
                     }
                 }
             }
