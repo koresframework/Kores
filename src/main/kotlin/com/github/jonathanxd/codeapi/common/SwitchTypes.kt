@@ -60,6 +60,8 @@ object SwitchTypes {
 
     @JvmField
     val ENUM = object : SwitchType {
+        override val isUnique: Boolean = true
+
         override fun createGenerator(): SwitchType.SwitchGenerator = EnumSwitchGenerator
 
     }
