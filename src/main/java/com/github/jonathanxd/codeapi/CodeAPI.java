@@ -2369,7 +2369,7 @@ public final class CodeAPI {
     //          Bridge Method
     // =========================================================
 
-    public static MethodDeclaration bridgeMethod(MethodDeclaration current, MethodTypeSpec methodSpec) {
+    public static MethodDeclaration bridgeMethod(TypeDeclaration owner, MethodDeclaration current, MethodTypeSpec methodSpec) {
         List<CodeType> parameterTypes = methodSpec.getTypeSpec().getParameterTypes();
         List<CodeParameter> currentParameters = current.getParameters();
 
@@ -2394,9 +2394,12 @@ public final class CodeAPI {
         }
 
 
-        InvokeType invokeType = InvokeType.resolvable(Alias.THIS.INSTANCE);
+        boolean isStatic = current.getModifiers().contains(CodeModifier.STATIC);
 
-        CodePart toAdd = CodeAPI.invoke(invokeType, Alias.THIS.INSTANCE, CodeAPI.accessThis(),
+        InvokeType invokeType = isStatic ? InvokeType.INVOKE_STATIC : InvokeType.get(owner);
+
+
+        CodePart toAdd = CodeAPI.invoke(invokeType, isStatic ? owner : Alias.THIS.INSTANCE, isStatic ? CodeAPI.accessStatic() : CodeAPI.accessThis(),
                 methodSpec.getMethodName(), methodSpec.getTypeSpec(), codeArguments);
 
         if (return_) {
