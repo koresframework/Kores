@@ -104,7 +104,7 @@ public class CommonGen {
 
                                         VariableFactory.variable(Types.OBJECT.toArray(1),
                                                 "array3",
-                                                CodeAPI.arrayConstruct(Types.OBJECT, new CodePart[]{INT(1)}, ArrayToList.toList(values3))
+                                                CodeAPI.arrayConstruct(Types.OBJECT.toArray(1), new CodePart[]{INT(1)}, ArrayToList.toList(values3))
                                         ),
 
                                         Predefined.invokePrintln(new CodeArgument(
