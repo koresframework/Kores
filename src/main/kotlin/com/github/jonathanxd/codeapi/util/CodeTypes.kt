@@ -38,3 +38,6 @@ val <T : Any> Class<T>.codeType: CodeType
 
 val <T : Any> KClass<T>.codeType: CodeType
     get() = this.java.codeType
+
+val CodeType.descName: String
+    get() = "L${this.canonicalName};"
