@@ -59,6 +59,6 @@ interface WhileStatement : IfExpressionHolder, BodyHolder {
         /**
          * See [T.type]
          */
-        fun withType(type: Type): S
+        fun withType(value: Type): S
     }
 }

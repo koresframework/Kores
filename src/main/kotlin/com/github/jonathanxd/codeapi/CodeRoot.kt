@@ -39,13 +39,11 @@ interface CodeRoot : CodeElement, BodyHolder {
      * All elements inside this CodeRoot
      */
     val elements: List<CodeElement>
-        get() = this.body?.let {
-            SourceInspect
-                    .find { it is CodeElement }
-                    .include { it is CodeSource }
-                    .includeSource(true)
-                    .mapTo { it as CodeElement }
-                    .inspect(it)
-        }.orEmpty()
+        get() = SourceInspect
+                .find { it is CodeElement }
+                .include { it is CodeSource }
+                .includeSource(true)
+                .mapTo { it as CodeElement }
+                .inspect(this.body)
 
 }

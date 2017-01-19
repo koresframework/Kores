@@ -41,7 +41,7 @@ import com.github.jonathanxd.codeapi.inspect.SourceInspect
 object MemberInfosUtil {
     @JvmStatic
     fun createMemberInfos(typeDeclaration: TypeDeclaration): MemberInfos {
-        val body = typeDeclaration.body ?: CodeSource.empty()
+        val body = typeDeclaration.body
 
         val elements = SourceInspect.find { codePart -> codePart is MethodDeclaration || codePart is FieldDeclaration }
                 .include { bodied -> bodied is CodeSource }
