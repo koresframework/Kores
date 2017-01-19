@@ -77,7 +77,7 @@ public class SimpleResolver implements TypeResolver {
 
                 if (aClass != null)
                     return CodeAPI.getJavaType(aClass);
-            } catch (Throwable t) {
+            } catch (Throwable ignored) {
             }
         }
 

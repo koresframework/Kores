@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.util;
 
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.description.Description;
 import com.github.jonathanxd.iutils.description.DescriptionUtil;
 
@@ -38,7 +37,7 @@ import java.util.stream.Collectors;
 public class DescriptionHelper {
 
     public static TypeSpec toTypeSpec(Description description, TypeResolver resolver) {
-        String returnType = description.getReturnType();
+        String returnType = description.getType();
         String[] parameterTypes = description.getParameterTypes();
 
         return new TypeSpec(
@@ -50,7 +49,7 @@ public class DescriptionHelper {
     public static TypeSpec toTypeSpec(String desc, TypeResolver resolver) {
         String[] parameterTypes = DescriptionUtil.getParameterTypes(desc);
 
-        String returnType = DescriptionUtil.getReturnType(desc);
+        String returnType = DescriptionUtil.getType(desc);
 
         return new TypeSpec(resolver.resolveUnknown(returnType), Arrays.stream(parameterTypes).map(resolver::resolveUnknown).collect(Collectors.toList()));
     }

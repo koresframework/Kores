@@ -2428,56 +2428,56 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Access static {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * Access static {@link TypeDeclaration}.
      *
      * Equivalent to Java static context.
      *
-     * @return Access static {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * @return Access static {@link TypeDeclaration}.
      */
     public static Access accessStatic() {
         return Defaults.ACCESS_STATIC;
     }
 
     /**
-     * Access this {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * Access this {@link TypeDeclaration}.
      *
      * Equivalent to Java {@code this}.
      *
-     * @return Access this {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * @return Access this {@link TypeDeclaration}.
      */
     public static Access accessLocal() {
         return Defaults.ACCESS_LOCAL;
     }
 
     /**
-     * Access this {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * Access this {@link TypeDeclaration}.
      *
      * Equivalent to Java {@code this}.
      *
-     * @return Access this {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * @return Access this {@link TypeDeclaration}.
      */
     public static Access accessThis() {
         return Defaults.ACCESS_THIS;
     }
 
     /**
-     * Access super type of current {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * Access super type of current {@link TypeDeclaration}.
      *
      * Equivalent to Java {@code super}.
      *
-     * @return Access super type of current {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * @return Access super type of current {@link TypeDeclaration}.
      */
     public static Access accessSuper() {
         return Defaults.ACCESS_SUPER;
     }
 
     /**
-     * Access enclosing class of current {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * Access enclosing class of current {@link TypeDeclaration}.
      *
      * Equivalent to Java {@code CLASS.this}.
      *
      * @param localization Localization of outer class.
-     * @return Access enclosing class of current {@link com.github.jonathanxd.codeapi.base.TypeDeclaration}.
+     * @return Access enclosing class of current {@link TypeDeclaration}.
      */
     public static Access accessOuter(CodeType localization) {
         return Common.accessOuter(localization);
@@ -2488,7 +2488,7 @@ public final class CodeAPI {
      *
      * @param name        Name of the type.
      * @param isInterface Is the type an interface.
-     * @return {@link PlainCodeType Plain Code Type} representation.
+     * @return {@link PlainCodeType} representation.
      */
     public static PlainCodeType plainType(String name, boolean isInterface) {
         return new PlainCodeType(name, isInterface);
@@ -2498,7 +2498,7 @@ public final class CodeAPI {
      * Plain interface code type.
      *
      * @param name Name of the type.
-     * @return {@link PlainCodeType Plain Code Type} representation.
+     * @return {@link PlainCodeType} representation.
      */
     public static PlainCodeType plainInterfaceType(String name) {
         return new PlainCodeType(name, true);
@@ -2508,7 +2508,7 @@ public final class CodeAPI {
      * Plain class code type.
      *
      * @param name Name of the type.
-     * @return {@link PlainCodeType Plain Code Type} representation.
+     * @return {@link PlainCodeType} representation.
      */
     public static PlainCodeType plainClassType(String name) {
         return new PlainCodeType(name, false);
@@ -2537,7 +2537,7 @@ public final class CodeAPI {
     /**
      * Helper method to create if expressions.
      *
-     * @param objects {@link IfExpr}s and {@link Operator}s.
+     * @param objects {@link IfExpr IfExprs} and {@link Operator Operators}.
      * @return If multi values.
      */
     public static List<CodePart> ifExprs(Object... objects) {
@@ -2604,10 +2604,8 @@ public final class CodeAPI {
             Object atI = objs[i];
             if (at0 instanceof CodePart) {
                 helper = helper.concat((CodePart) atI);
-            } else if (at0 instanceof String) {
-                helper = helper.concat((String) atI);
             } else {
-                throw new IllegalArgumentException("Invalid element type at index " + i + " (" + atI + ") in array: '" + Arrays.toString(objs) + "'! Acceptable types: String|CodePart");
+                helper = helper.concat((String) atI);
             }
 
         }
@@ -2724,8 +2722,7 @@ public final class CodeAPI {
         }
 
         /**
-         * Invoke a {@link com.github.jonathanxd.codeapi.common.InvokeDynamic.LambdaFragment}
-         * dynamically.
+         * Invoke a LambdaFragment.
          *
          * @param fragment Lambda Fragment.
          * @return Invocation of lambda fragment.

@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
 
 /**
- * CodeRoot is an {@link CodeElement element} that contains other {@link CodeElement}s inside.
+ * CodeRoot is an [element][CodeElement] that contains other [Elements][CodeElement] inside.
  */
 interface CodeRoot : CodeElement, BodyHolder {
 
@@ -39,11 +39,13 @@ interface CodeRoot : CodeElement, BodyHolder {
      * All elements inside this CodeRoot
      */
     val elements: List<CodeElement>
-        get() = SourceInspect
-                .find { it is CodeElement }
-                .include { it is CodeSource }
-                .includeSource(true)
-                .mapTo { it as CodeElement }
-                .inspect(this.body)
+        get() = this.body.let {
+            SourceInspect
+                    .find { it is CodeElement }
+                    .include { it is CodeSource }
+                    .includeSource(true)
+                    .mapTo { it as CodeElement }
+                    .inspect(it)
+        }
 
 }

@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.base.BodyHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -55,8 +54,8 @@ public class SourceInspect<R> {
     private final boolean inspectCodeSource;
 
     /**
-     * Predicate to test {@link BodyHolder} element. If predicate test returns true, inspect the {@link
-     * BodyHolder} source.
+     * Predicate to test {@link BodyHolder} element. If predicate test returns true, inspect the
+     * {@link BodyHolder} source.
      */
     private final Predicate<BodyHolder> subPredicate;
 
@@ -113,8 +112,7 @@ public class SourceInspect<R> {
                 if (this.subPredicate != null && this.subPredicate.test((BodyHolder) codePart)) {
                     CodeSource body = ((BodyHolder) codePart).getBody();
 
-                    if (body != null)
-                        this.inspect(body, true, list);
+                    this.inspect(body, true, list);
                 }
             }
             if (inspect) {

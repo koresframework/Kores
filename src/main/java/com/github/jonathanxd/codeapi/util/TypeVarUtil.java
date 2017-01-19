@@ -121,19 +121,6 @@ public class TypeVarUtil {
         return conflicts;
     }
 
-    public static TypeVariable<?> find(TypeVariable<?>[] typeVariables, GenericType genericType) {
-        GenericType.Bound<CodeType>[] bounds = genericType.getBounds();
-
-        for (int i = 0; i < bounds.length; ++i) {
-            if (i >= typeVariables.length)
-                break;
-
-            return TypeVarUtil.toTypeVar(bounds[i], typeVariables[i]);
-        }
-
-        return null;
-    }
-
     public static TypeVariable<?>[] getTypeVariables(CodeType codeType) {
         if (codeType instanceof LoadedCodeType<?>) {
             return ((LoadedCodeType<?>) codeType).getLoadedType().getTypeParameters();

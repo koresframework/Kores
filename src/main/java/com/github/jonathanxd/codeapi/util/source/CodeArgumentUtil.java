@@ -60,8 +60,7 @@ public class CodeArgumentUtil {
 
             CodePart part = passed[i].getValue();
 
-            if(type != null)
-                part = CodeAPI.cast(passed[i].getType(), type, part);
+            part = CodeAPI.cast(passed[i].getType(), type, part);
 
             newArguments[i] = new CodeArgument(part);
         }
