@@ -29,30 +29,30 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.FieldDeclaration
-import com.github.jonathanxd.codeapi.base.MethodDeclaration
-import com.github.jonathanxd.codeapi.base.ModifiersHolder
-import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.MemberInfo
 import com.github.jonathanxd.codeapi.common.MemberInfos
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
 
 object MemberInfosUtil {
+    @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun createMemberInfos(typeDeclaration: TypeDeclaration): MemberInfos {
         val body = typeDeclaration.body
 
-        val elements = SourceInspect.find { codePart -> codePart is MethodDeclaration || codePart is FieldDeclaration }
+        val elements = SourceInspect.find { codePart -> codePart is MethodDeclaration || codePart is FieldDeclaration || codePart is TypeDeclaration }
                 .include { bodied -> bodied is CodeSource }
                 .mapTo { codePart -> codePart as CodeElement }
                 .inspect(body)
 
         val memberInfos = MemberInfos(typeDeclaration)
 
+        memberInfos.put(MemberInfo.ofAccessible(null, typeDeclaration))
+
         for (element in elements) {
             if (element is ModifiersHolder) {
-                memberInfos.put(MemberInfo.of(element, !element.modifiers.contains(CodeModifier.PRIVATE)))
+                memberInfos.put(MemberInfo.of(typeDeclaration, element, !element.modifiers.contains(CodeModifier.PRIVATE)))
             }
         }
 

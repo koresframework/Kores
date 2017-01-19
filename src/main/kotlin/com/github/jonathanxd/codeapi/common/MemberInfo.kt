@@ -28,9 +28,17 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.FieldDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.ModifiersHolder
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.iutils.description.Description
+import com.github.jonathanxd.iutils.description.ElementType
 
-class MemberInfo internal constructor(val memberInstance: CodeElement, val isAccessible: Boolean) {
+class MemberInfo private constructor(val memberInstance: CodeElement, val isAccessible: Boolean, val description: Description) {
+
     var accessibleMember: CodeElement? = null
         set(accessibleMember) {
 
@@ -46,20 +54,36 @@ class MemberInfo internal constructor(val memberInstance: CodeElement, val isAcc
 
     companion object {
 
-        fun ofAccessible(element: CodeElement): MemberInfo {
-            return MemberInfo(element, true)
+        fun ofAccessible(root: TypeDeclaration?, element: CodeElement): MemberInfo {
+            return MemberInfo(element, true, this.getDescription(root, element))
         }
 
-        fun ofInaccessible(element: CodeElement): MemberInfo {
-            return MemberInfo(element, false)
+        fun ofInaccessible(root: TypeDeclaration?, element: CodeElement): MemberInfo {
+            return MemberInfo(element, false, this.getDescription(root, element))
         }
 
-        fun of(element: CodeElement, isAccessible: Boolean): MemberInfo {
-            return MemberInfo(element, isAccessible)
+        fun of(root: TypeDeclaration?, element: CodeElement, isAccessible: Boolean): MemberInfo {
+            return MemberInfo(element, isAccessible, this.getDescription(root, element))
         }
 
-        fun <T> of(element: T): MemberInfo where T : CodeElement, T : ModifiersHolder {
-            return MemberInfo.of(element, !element.modifiers.contains(CodeModifier.PRIVATE))
+        fun <T> of(root: TypeDeclaration?, element: T): MemberInfo where T : CodeElement, T : ModifiersHolder {
+            return MemberInfo.of(root, element, !element.modifiers.contains(CodeModifier.PRIVATE))
         }
+
+        private fun getDescription(root: TypeDeclaration?, element: CodePart): Description {
+
+            return when(element) {
+                is FieldDeclaration -> Description(root!!.getDescName(), element.name, emptyArray(), element.type.getDescName(), ElementType.FIELD)
+                is MethodDeclaration -> Description(root!!.getDescName(), element.name, element.parameters.getDescName(), element.type.getDescName(), ElementType.METHOD)
+                is TypeDeclaration -> Description(element.getDescName(), "", emptyArray(), "", ElementType.CLASS)
+                else -> throw IllegalArgumentException("Element must be a Field, Method or Type Declaration. Provided element: $element")
+            }
+        }
+
+        @Suppress("NOTHING_TO_INLINE")
+        private inline fun CodeType.getDescName() = "L${this.canonicalName};"
+
+        @Suppress("NOTHING_TO_INLINE")
+        private inline fun List<CodeParameter>.getDescName() = this.map { it.type.getDescName() }.toTypedArray()
     }
 }

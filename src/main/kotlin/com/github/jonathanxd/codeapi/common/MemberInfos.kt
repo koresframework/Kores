@@ -42,8 +42,8 @@ class MemberInfos(val declaration: TypeDeclaration) {
         return this.memberInfoList.add(codeElement)
     }
 
-    fun find(memberInfoPredicate: (MemberInfo) -> Boolean): MemberInfo? {
-        return this.getMemberInfoList().stream().filter(memberInfoPredicate).findFirst().orElse(null)
+    inline fun find(memberInfoPredicate: (MemberInfo) -> Boolean): MemberInfo? {
+        return this.getMemberInfoList().firstOrNull(memberInfoPredicate)
     }
 
     fun find(methodSpecification: MethodSpecification): MemberInfo? {
