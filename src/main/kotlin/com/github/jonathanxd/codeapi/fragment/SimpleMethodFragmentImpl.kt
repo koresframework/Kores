@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
+import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -53,7 +54,7 @@ data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration,
     )
 
     override val declaration: MethodDeclaration = MethodDeclarationImpl(
-            modifiers = setOf(CodeModifier.PRIVATE, if(scope == Scope.STATIC) CodeModifier.STATIC else CodeModifier.FINAL),
+            modifiers = setOf(CodeModifier.PRIVATE, if (scope == Scope.STATIC) CodeModifier.STATIC else CodeModifier.FINAL),
             parameters = parameters,
             annotations = emptyList(),
             genericSignature = GenericSignature.empty(),
@@ -62,12 +63,12 @@ data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration,
             body = body
     )
 
-    override val invokeType: InvokeType = if(scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.INVOKE_VIRTUAL
+    override val invokeType: InvokeType = if (scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.INVOKE_VIRTUAL
     override val localization: CodeType = declaringType
-    override val target: CodePart = if(scope == Scope.STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS
+    override val target: CodePart = if (scope == Scope.STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS
     override val invokeDynamic: InvokeDynamic? = null
 
-    override fun builder(): MethodFragment.Builder<MethodFragment, *> = throw IllegalStateException("NIE")
+    override fun builder(): MethodFragment.Builder<MethodFragment, *> = MethodFragmentBuilder(this)
 
     private companion object {
 
