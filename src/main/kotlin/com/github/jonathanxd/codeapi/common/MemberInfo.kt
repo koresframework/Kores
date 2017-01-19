@@ -70,7 +70,7 @@ class MemberInfo private constructor(val memberInstance: CodeElement, val isAcce
             return MemberInfo.of(root, element, !element.modifiers.contains(CodeModifier.PRIVATE))
         }
 
-        private fun getDescription(root: TypeDeclaration?, element: CodePart): Description {
+        fun getDescription(root: TypeDeclaration?, element: CodePart): Description {
 
             return when(element) {
                 is FieldDeclaration -> Description(root!!.getDescName(), element.name, emptyArray(), element.type.getDescName(), ElementType.FIELD)
