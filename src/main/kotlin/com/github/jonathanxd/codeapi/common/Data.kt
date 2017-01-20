@@ -62,4 +62,6 @@ class Data @JvmOverloads constructor(val parent: Data? = null) {
         return this.map[key]?.lastOrNull() as? T ?: throw IllegalStateException(message)
     }
 
+    fun newChild(): Data = Data(this)
+
 }
