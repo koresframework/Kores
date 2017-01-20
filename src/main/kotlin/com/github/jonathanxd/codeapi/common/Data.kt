@@ -51,7 +51,7 @@ class Data @JvmOverloads constructor(val parent: Data? = null) : Cloneable {
 
     @Suppress("UNCHECKED_CAST")
     fun <T> getAllAsList(key: String): List<T> {
-        return ArrayList(this.map[key] as List<T>)
+        return (this.map[key] as List<T>?)?.let { ArrayList(it) }.orEmpty()
     }
 
     @Suppress("UNCHECKED_CAST")
