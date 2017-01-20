@@ -27,10 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.gen.value
 
+import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.gen.CodeGenerator
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.gen.value.Parent
-import com.github.jonathanxd.iutils.data.MapData
 
 /**
  * Generator of [OUT] from part [INP] that supports [CodeGenerator] of type [C].
@@ -43,5 +42,5 @@ import com.github.jonathanxd.iutils.data.MapData
  * @param C     Supported [CodeGenerator]
  */
 interface ValueGenerator<in INP, OUT, C> : PartProcessor {
-    fun gen(inp: INP, c: C, parents: Parent<ValueGenerator<*, OUT, C>>, codeSourceData: CodeSourceData, data: MapData): List<Value<*, OUT, C>>
+    fun gen(inp: INP, c: C, parents: Parent<ValueGenerator<*, OUT, C>>, codeSourceData: CodeSourceData, data: Data): List<Value<*, OUT, C>>
 }

@@ -25,40 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.value
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.common.Data
-import com.github.jonathanxd.codeapi.gen.Appender
+import com.github.jonathanxd.iutils.map.ListHashMap
+import java.util.*
 
-/**
- * Value.
- *
- * A value is a holder of information.
- *
- * Values can have different behaviors, a value process the provided information and generate the
- * [TARGET] object directly or indirectly.
- *
- * @param T        Type of value.
- * @param TARGET   Target object type.
- * @param C        Generator type.
- */
-interface Value<out T, TARGET, in C> {
+class Data @JvmOverloads constructor(val parent: Data? = null) {
 
-    /**
-     * Gets the value.
-     *
-     * @return Value.
-     */
-    val value: T
+    private val map = ListHashMap<String, Any>()
 
-    /**
-     * Apply the information.
-     *
-     * @param value          Current value.
-     * @param generator      Generator.
-     * @param appender       Appender.
-     * @param codeSourceData Data of the source.
-     * @param data           Data of the processing environment.
-     */
-    fun apply(value: TARGET, generator: C, appender: Appender<TARGET>, codeSourceData: CodeSourceData, data: Data)
+    fun registerData(key: String, obj: Any) {
+        this.map.putToList(key, obj)
+    }
+
+    fun unregisterData(key: String, obj: Any) {
+        this.map.removeFromList(key, obj)
+    }
+
+    fun unregisterAllData(key: String) {
+        this.map.remove(key)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getAllAsList(key: String): List<T> {
+        return ArrayList(this.map[key] as List<T>)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getOptional(key: String): Optional<T> {
+        return Optional.ofNullable(this.map[key]?.lastOrNull()) as Optional<T>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    @JvmOverloads
+    fun <T> getRequired(key: String, message: String = "Cannot find required key: $key"): T {
+        return this.map[key]?.lastOrNull() as? T ?: throw IllegalStateException(message)
+    }
+
 }

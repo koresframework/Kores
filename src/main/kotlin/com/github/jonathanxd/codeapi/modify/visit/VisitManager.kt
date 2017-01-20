@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.modify.visit
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.util.gento.GenToUtil
-import com.github.jonathanxd.iutils.data.MapData
 import java.util.*
 
 /**
@@ -60,7 +60,7 @@ open class VisitManager<T : CodePart> {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <U : CodePart> visit(part: U, data: MapData): U {
+    fun <U : CodePart> visit(part: U, data: Data): U {
         return this.getVisitor<CodePart>(part.javaClass).visit(part, data, this) as U
     }
 
@@ -68,7 +68,7 @@ open class VisitManager<T : CodePart> {
     fun visit(part: T): T {
         val aClass = part.javaClass
 
-        val data = MapData()
+        val data = Data()
 
         val visitor = this.getVisitor<CodePart>(aClass)
 

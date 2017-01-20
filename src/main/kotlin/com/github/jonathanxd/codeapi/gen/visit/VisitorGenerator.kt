@@ -29,17 +29,13 @@ package com.github.jonathanxd.codeapi.gen.visit
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
+import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.exception.ProcessingException
 import com.github.jonathanxd.codeapi.gen.ArrayAppender
 import com.github.jonathanxd.codeapi.gen.CodeGenerator
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import com.github.jonathanxd.codeapi.util.gento.GenToUtil
-import com.github.jonathanxd.iutils.data.MapData
-import com.github.jonathanxd.iutils.type.TypeInfo
-
-import java.util.HashMap
-import java.util.Objects
+import java.util.*
 import java.util.function.Consumer
 
 /**
@@ -91,7 +87,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      *
      * @return Data.
      */
-    protected abstract fun makeData(): MapData
+    protected abstract fun makeData(): Data
 
     override fun <V : CodePart, R : CodePart> registerSugarSyntax(type: Class<V>, sugarSyntax: SugarSyntax<V, R>): SugarSyntax<*, *>? {
 
@@ -118,7 +114,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
         return this.gen(source, extraData, null)
     }
 
-    override fun gen(source: CodeSource, data: MapData, additional: Any?): Array<out T> {
+    override fun gen(source: CodeSource, data: Data, additional: Any?): Array<out T> {
 
         val appender = createAppender()
 
@@ -152,7 +148,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      * @param additional Additional object.
      * @return Result objects.
      */
-    open fun <C: CodePart> generateTo(partClass: Class<out C>, codePart: C, extraData: MapData, additional: Any?): Array<out T> {
+    open fun <C : CodePart> generateTo(partClass: Class<out C>, codePart: C, extraData: Data, additional: Any?): Array<out T> {
         return this.generateTo(partClass, codePart, extraData, null, additional)
     }
 
@@ -166,11 +162,11 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      * @param additional Additional object.
      * @return Result objects.
      */
-    open fun <C: CodePart> generateTo(partClass: Class<out C>, codePart: C, extraData: MapData, consumer: Consumer<Array<out T>>?, additional: Any?): Array<out T> {
+    open fun <C : CodePart> generateTo(partClass: Class<out C>, codePart: C, extraData: Data, consumer: Consumer<Array<out T>>?, additional: Any?): Array<out T> {
         try {
             val tVisitor = get(partClass)
 
-            if(!partClass.isInstance(codePart)) {
+            if (!partClass.isInstance(codePart)) {
                 throw ClassCastException("Required type of visitor '${tVisitor.javaClass.canonicalName}' is ${partClass.canonicalName}, but provided codePart '$codePart' is of type '${codePart.javaClass.canonicalName}'.")
             }
 
@@ -193,12 +189,12 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <L : CodePart, D> visit(visitor: Visitor<L, T, D>, value: Any, extraData: MapData, additional: Any?): Array<out T> {
+    private fun <L : CodePart, D> visit(visitor: Visitor<L, T, D>, value: Any, extraData: Data, additional: Any?): Array<out T> {
         return visitor.visit(value as L, extraData, this, additional as D)
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <L : CodePart, D> endVisit(visitor: Visitor<L, T, D>, results: Array<out T>, value: Any, extraData: MapData, additional: Any?) {
+    private fun <L : CodePart, D> endVisit(visitor: Visitor<L, T, D>, results: Array<out T>, value: Any, extraData: Data, additional: Any?) {
         visitor.endVisit(results, value as L, extraData, this, additional as D)
     }
 
@@ -209,10 +205,10 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
     companion object {
 
         @JvmField
-        val APPENDER_REPRESENTATION: TypeInfo<ArrayAppender<*>> = TypeInfo.of(ArrayAppender::class.java).setUnique(true).build()
+        val APPENDER_REPRESENTATION = "APPENDER"
 
         @JvmField
-        val VISITOR_REPRESENTATION: TypeInfo<VisitorGenerator<*>> = TypeInfo.a(VisitorGenerator::class.java).setUnique(true).build()
+        val VISITOR_REPRESENTATION = "VISITOR"
     }
 
 }

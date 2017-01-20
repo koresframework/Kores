@@ -28,11 +28,11 @@
 package com.github.jonathanxd.codeapi.modify.visit
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.iutils.data.MapData
+import com.github.jonathanxd.codeapi.common.Data
 
 /**
  * Visitor that transforms part [U].
  */
 interface PartVisitor<U : CodePart> {
-    fun visit(codePart: U, data: MapData, visitManager: VisitManager<*>): U
+    fun visit(codePart: U, data: Data, visitManager: VisitManager<*>): U
 }

@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.gen.visit
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.iutils.data.MapData
 
 /**
  * A part visitor.
@@ -48,7 +48,7 @@ interface Visitor<in T : CodePart, R, in L> : PartProcessor {
      * @param additional       Additional element.
      * @return Result.
      */
-    fun visit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<R>, additional: L): Array<out R>
+    fun visit(t: T, extraData: Data, visitorGenerator: VisitorGenerator<R>, additional: L): Array<out R>
 
     /**
      * End a visit to a [CodePart] of type [T].
@@ -59,9 +59,8 @@ interface Visitor<in T : CodePart, R, in L> : PartProcessor {
      * @param visitorGenerator Generator.
      * @param additional       Additional element.
      */
-    fun endVisit(r: Array<out R>, t: T, extraData: MapData, visitorGenerator: VisitorGenerator<R>, additional: L) {
+    fun endVisit(r: Array<out R>, t: T, extraData: Data, visitorGenerator: VisitorGenerator<R>, additional: L) {
 
     }
-
 
 }

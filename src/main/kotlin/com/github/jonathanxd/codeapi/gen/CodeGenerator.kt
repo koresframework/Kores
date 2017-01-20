@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.gen
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
-import com.github.jonathanxd.iutils.data.MapData
 import com.github.jonathanxd.iutils.option.Options
 
 /**
@@ -47,7 +47,7 @@ interface CodeGenerator<out OUT> : PartProcessor {
      * @return Generated object.
      */
     fun gen(source: CodeSource): OUT {
-        return this.gen(source, MapData(), null)
+        return this.gen(source, Data(), null)
     }
 
     /**
@@ -57,7 +57,7 @@ interface CodeGenerator<out OUT> : PartProcessor {
      * @return Generated object.
      */
     fun gen(part: CodePart): OUT {
-        return this.gen(CodeSource.fromVarArgs(part), MapData(), null)
+        return this.gen(CodeSource.fromVarArgs(part), Data(), null)
     }
 
     /**
@@ -68,7 +68,7 @@ interface CodeGenerator<out OUT> : PartProcessor {
      * @param additional Additional object
      * @return Generated object.
      */
-    fun gen(part: CodePart, data: MapData, additional: Any?): OUT {
+    fun gen(part: CodePart, data: Data, additional: Any?): OUT {
         return this.gen(CodeSource.fromVarArgs(part), data, additional)
     }
 
@@ -80,7 +80,7 @@ interface CodeGenerator<out OUT> : PartProcessor {
      * @param additional Additional object
      * @return Generated object.
      */
-    fun gen(source: CodeSource, data: MapData, additional: Any?): OUT
+    fun gen(source: CodeSource, data: Data, additional: Any?): OUT
 
     /**
      * Register a sugar syntax. The generation of [T] will be delegated into [Sugar Syntax Generator][SugarSyntax.createGenerator].

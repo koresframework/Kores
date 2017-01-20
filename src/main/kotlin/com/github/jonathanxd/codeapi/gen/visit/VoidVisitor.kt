@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.gen.visit
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.iutils.data.MapData
+import com.github.jonathanxd.codeapi.common.Data
 
 /**
  * A part visitor.
@@ -46,10 +46,10 @@ interface VoidVisitor<in T : CodePart, R, in L> : Visitor<T, R, L> {
      * @param visitorGenerator Generator.
      * @param additional       Additional element.
      */
-    fun voidVisit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<R>, additional: L)
+    fun voidVisit(t: T, extraData: Data, visitorGenerator: VisitorGenerator<R>, additional: L)
 
     @Suppress("UNCHECKED_CAST")
-    override fun visit(t: T, extraData: MapData, visitorGenerator: VisitorGenerator<R>, additional: L): Array<out R> {
+    override fun visit(t: T, extraData: Data, visitorGenerator: VisitorGenerator<R>, additional: L): Array<out R> {
 
         voidVisit(t, extraData, visitorGenerator, additional)
 
