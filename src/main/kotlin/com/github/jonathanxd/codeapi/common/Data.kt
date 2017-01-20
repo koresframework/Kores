@@ -27,10 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.iutils.`object`.Node
+import com.github.jonathanxd.iutils.function.collector.BiCollectors
+import com.github.jonathanxd.iutils.function.stream.MapStream
 import com.github.jonathanxd.iutils.map.ListHashMap
 import java.util.*
 
-class Data @JvmOverloads constructor(val parent: Data? = null) {
+class Data @JvmOverloads constructor(val parent: Data? = null) : Cloneable {
 
     private val map = ListHashMap<String, Any>()
 
@@ -64,4 +67,13 @@ class Data @JvmOverloads constructor(val parent: Data? = null) {
 
     fun newChild(): Data = Data(this)
 
+    override fun clone(): Data {
+        val clone = Data(this.parent)
+
+        val clonedMap = MapStream.of(this.map).map { t, u -> Node(t, ArrayList(u)) }.collect(BiCollectors.toHashMap<String, List<Any>>())
+
+        clone.map.putAll(clonedMap)
+
+        return clone
+    }
 }
