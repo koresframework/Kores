@@ -48,7 +48,11 @@ import java.util.function.Consumer
 abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
 
     private val visitors = HashMap<Class<*>, Visitor<*, T, *>>()
-    abstract val resultType: Class<T>
+
+    /**
+     * Empty array used by [VoidVisitor].
+     */
+    abstract val emptyArray: Array<out T>
 
     /**
      * Add a visitor.

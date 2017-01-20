@@ -53,7 +53,7 @@ interface VoidVisitor<in T : CodePart, R, in L> : Visitor<T, R, L> {
 
         voidVisit(t, extraData, visitorGenerator, additional)
 
-        return java.lang.reflect.Array.newInstance(visitorGenerator.resultType, 0) as Array<out R>
+        return visitorGenerator.emptyArray
     }
 
 }
