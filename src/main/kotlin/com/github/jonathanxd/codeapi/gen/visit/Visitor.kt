@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.gen.visit
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.util.VisitorTypeUtil
 import com.github.jonathanxd.iutils.data.MapData
 
 /**
@@ -64,10 +63,5 @@ interface Visitor<in T : CodePart, R, in L> : PartProcessor {
 
     }
 
-    fun getCodePartType(): Class<*>? = VisitorTypeUtil.getType(this, 0)
-
-    fun getResultType(): Class<*>? = VisitorTypeUtil.getType(this, 1)
-
-    fun getAdditionalType(): Class<*>? = VisitorTypeUtil.getType(this, 2)
 
 }

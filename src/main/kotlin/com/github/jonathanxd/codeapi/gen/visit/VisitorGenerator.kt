@@ -48,6 +48,7 @@ import java.util.function.Consumer
 abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
 
     private val visitors = HashMap<Class<*>, Visitor<*, T, *>>()
+    abstract val resultType: Class<T>
 
     /**
      * Add a visitor.
@@ -147,7 +148,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      * @param additional Additional object.
      * @return Result objects.
      */
-    open fun generateTo(partClass: Class<out CodePart>, codePart: CodePart, extraData: MapData, additional: Any?): Array<out T> {
+    open fun <C: CodePart> generateTo(partClass: Class<out C>, codePart: C, extraData: MapData, additional: Any?): Array<out T> {
         return this.generateTo(partClass, codePart, extraData, null, additional)
     }
 
@@ -161,14 +162,12 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
      * @param additional Additional object.
      * @return Result objects.
      */
-    open fun generateTo(partClass: Class<out CodePart>, codePart: CodePart, extraData: MapData, consumer: Consumer<Array<out T>>?, additional: Any?): Array<out T> {
+    open fun <C: CodePart> generateTo(partClass: Class<out C>, codePart: C, extraData: MapData, consumer: Consumer<Array<out T>>?, additional: Any?): Array<out T> {
         try {
             val tVisitor = get(partClass)
 
-            tVisitor.getCodePartType()?.let {
-                if(!it.isInstance(codePart)) {
-                    throw ClassCastException("Required type of visitor '${tVisitor.javaClass.canonicalName}' is ${it.javaClass.canonicalName}, but provided codePart '$codePart' is of type '${codePart.javaClass.canonicalName}'.")
-                }
+            if(!partClass.isInstance(codePart)) {
+                throw ClassCastException("Required type of visitor '${tVisitor.javaClass.canonicalName}' is ${partClass.canonicalName}, but provided codePart '$codePart' is of type '${codePart.javaClass.canonicalName}'.")
             }
 
             val visit = visit(tVisitor, codePart, extraData, additional)
