@@ -76,4 +76,8 @@ class Data @JvmOverloads constructor(val parent: Data? = null) : Cloneable {
 
         return clone
     }
+
+    override fun toString(): String {
+        return "Data[${this.map}]"
+    }
 }
