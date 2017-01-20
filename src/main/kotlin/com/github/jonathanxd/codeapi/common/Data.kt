@@ -67,7 +67,7 @@ class Data @JvmOverloads constructor(val parent: Data? = null) : Cloneable {
 
     fun newChild(): Data = Data(this)
 
-    override fun clone(): Data {
+    override public fun clone(): Data {
         val clone = Data(this.parent)
 
         val clonedMap = MapStream.of(this.map).map { t, u -> Node(t, ArrayList(u)) }.collect(BiCollectors.toHashMap<String, List<Any>>())
