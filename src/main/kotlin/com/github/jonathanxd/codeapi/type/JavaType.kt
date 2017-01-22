@@ -39,34 +39,6 @@ import com.github.jonathanxd.codeapi.util.toStr
 @GenerateTo(CodeType::class)
 open class JavaType<T> constructor(override val loadedType: Class<T>) : LoadedCodeType<T> {
 
-    override val type: String
-        get() = this.loadedType.typeName.let {
-            when(it) {
-                "byte" -> "B"
-                "short" -> "S"
-                "int" -> "I"
-                "char" -> "C"
-                "double" -> "D"
-                "float" -> "F"
-                "long" -> "J"
-                "boolean" -> "Z"
-                "void" -> "V"
-                else -> it
-            }
-        }
-
-    override val canonicalName: String
-        get() = this.loadedType.canonicalName
-
-    override val isInterface: Boolean
-        get() = loadedType.isInterface
-
-    override val isPrimitive: Boolean
-        get() = loadedType.isPrimitive
-
-    override val isVirtual: Boolean
-        get() = false
-
 
     override fun equals(other: Any?): Boolean = this.eq(other)
     override fun hashCode(): Int = this.hash()

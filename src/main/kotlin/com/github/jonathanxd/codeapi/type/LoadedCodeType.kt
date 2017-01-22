@@ -48,6 +48,31 @@ interface LoadedCodeType<T> : CodeType {
     override val isVirtual: Boolean
         get() = false
 
+    override val type: String
+        get() = this.loadedType.typeName.let {
+            when(it) {
+                "byte" -> "B"
+                "short" -> "S"
+                "int" -> "I"
+                "char" -> "C"
+                "double" -> "D"
+                "float" -> "F"
+                "long" -> "J"
+                "boolean" -> "Z"
+                "void" -> "V"
+                else -> it
+            }
+        }
+
+    override val canonicalName: String
+        get() = this.loadedType.canonicalName
+
+    override val isInterface: Boolean
+        get() = loadedType.isInterface
+
+    override val isPrimitive: Boolean
+        get() = loadedType.isPrimitive
+
     override val wrapperType: CodeType?
         get() {
             val box = Primitive.box(loadedType)

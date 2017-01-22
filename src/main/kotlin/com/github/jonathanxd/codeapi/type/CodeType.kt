@@ -88,12 +88,10 @@ interface CodeType : CodePart, Comparable<CodeType> {
      */
     val simpleName: String
         get() {
-            val type = type
-
             if (isPrimitive)
                 return type
 
-            return type.substring(type.lastIndexOf('.') + 1)
+            return canonicalName.substring(canonicalName.lastIndexOf('.') + 1)
         }
 
     /**
