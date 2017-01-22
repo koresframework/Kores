@@ -77,7 +77,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     constructor(defaults: ClassDeclaration) : this() {
         this.superClass = defaults.superClass
         this.implementations = defaults.implementations
-        this.qualifiedName = defaults.qualifiedName
+        this.qualifiedName = defaults.specifiedName // Fixes inner issue
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers

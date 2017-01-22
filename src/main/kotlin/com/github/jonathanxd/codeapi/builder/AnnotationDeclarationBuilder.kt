@@ -70,7 +70,7 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
     var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
 
     constructor(defaults: AnnotationDeclaration) : this() {
-        this.qualifiedName = defaults.qualifiedName
+        this.qualifiedName = defaults.specifiedName // Fixes inner issue
         this.properties = defaults.properties
         this.annotations = defaults.annotations
         this.body = defaults.body
