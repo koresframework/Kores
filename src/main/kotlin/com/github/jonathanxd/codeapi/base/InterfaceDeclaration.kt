@@ -28,15 +28,11 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.ClassType
 
 /**
  * Interface declaration
  */
 interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
-
-    override val classType: ClassType
-        get() = ClassType.INTERFACE
 
     override val isInterface: Boolean
         get() = true

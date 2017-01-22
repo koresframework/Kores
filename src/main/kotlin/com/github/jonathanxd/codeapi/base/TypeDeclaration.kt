@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeRoot
-import com.github.jonathanxd.codeapi.type.ClassType
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -39,12 +38,6 @@ import com.github.jonathanxd.codeapi.type.CodeType
  *
  */
 interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, BodyHolder, Annotable {
-
-    /**
-     * Class type.
-     */
-    val classType: ClassType
-        get() = ClassType.CLASS
 
     /**
      * Outer class (null if this type is not a inner class).
