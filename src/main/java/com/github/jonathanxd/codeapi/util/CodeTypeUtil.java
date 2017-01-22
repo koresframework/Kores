@@ -65,7 +65,7 @@ public class CodeTypeUtil {
     }
 
     private static String getInternalNameStr(String qualified, CodeType outer) {
-        return outer.getCanonicalName() + "$" + qualified;
+        return outer.getType() + "$" + qualified;
     }
 
     public static String codeTypeToFullAsm(CodeType type) {
