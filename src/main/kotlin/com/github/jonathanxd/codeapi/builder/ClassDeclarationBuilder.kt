@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.impl.ClassDeclarationImpl
 import com.github.jonathanxd.codeapi.base.ClassDeclaration
 
@@ -184,7 +185,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     }
 
     override fun build(): ClassDeclaration = ClassDeclarationImpl(
-            superClass = this.superClass,
+            superClass = this.superClass ?: Types.OBJECT,
             implementations = this.implementations,
             qualifiedName = this.qualifiedName,
             annotations = this.annotations,

@@ -82,6 +82,9 @@ object Types {
     @JvmField val SET: LoadedCodeType<Set<*>> = PredefinedType(Set::class.java)
     @JvmField val DEQUE: LoadedCodeType<Deque<*>> = PredefinedType(Deque::class.java)
 
+    // CodeAPI
+    @JvmField val CODE_TYPE: LoadedCodeType<CodeType> = PredefinedType(CodeType::class.java)
+
     @GenerateTo(CodeType::class)
     private class PredefinedType<T> internal constructor(tClass: Class<T>) : JavaType<T>(tClass)
 

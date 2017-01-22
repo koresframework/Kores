@@ -39,7 +39,7 @@ interface SuperClassHolder : CodePart {
     /**
      * Super type
      */
-    val superClass: CodeType?
+    val superClass: CodeType
 
     override fun builder(): Builder<SuperClassHolder, *>
 
