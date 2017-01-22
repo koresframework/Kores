@@ -57,11 +57,7 @@ class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: A
                 throw NullPointerException("codeType is null and name is null")
             }
 
-            var specName = codeType.javaSpecName
-
-            specName = specName.substring(0, specName.length - 1)
-
-            this.name = specName
+            this.name = codeType.javaSpecName.let { it.substring(0, it.length - 1) }
         }
 
         if (codeType != null) {

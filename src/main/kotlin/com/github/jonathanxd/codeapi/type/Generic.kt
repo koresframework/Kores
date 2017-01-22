@@ -108,11 +108,7 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
                 throw NullPointerException("codeType is null and name is null")
             }
 
-            var specName = codeType.javaSpecName
-
-            specName = specName.substring(0, specName.length - 1)
-
-            this.name = specName
+            this.name = codeType.javaSpecName.let { it.substring(0, it.length - 1) }
         }
 
         if (codeType != null) {
