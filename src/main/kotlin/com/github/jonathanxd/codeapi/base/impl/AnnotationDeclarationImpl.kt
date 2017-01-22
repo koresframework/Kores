@@ -50,6 +50,9 @@ class AnnotationDeclarationImpl(qualifiedName: String, override val properties: 
     override val type: String = qualifiedName
         get() = CodeTypeUtil.resolveInternalQualified(field, this.outerClass)
 
+    override val simpleName: String
+        get() = this.specifiedName
+
     init {
         BodyHolder.checkBody(this)
     }
