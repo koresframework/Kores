@@ -45,6 +45,18 @@ internal class LoadedArrayCodeType<T>(override val loadedType: Class<T>, compone
     override val isArray: Boolean
         get() = super<CodeTypeArray>.isArray
 
+    override val type: String
+        get() = super<CodeTypeArray>.type
+
+    override val isInterface: Boolean
+        get() = super<CodeTypeArray>.isInterface
+
+    override val isPrimitive: Boolean
+        get() = super<CodeTypeArray>.isPrimitive
+
+    override val canonicalName: String
+        get() = super<CodeTypeArray>.canonicalName
+
     override fun equals(other: Any?): Boolean = this.eq(other)
 
     override fun hashCode(): Int = this.hash()
