@@ -33,12 +33,10 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -59,20 +57,20 @@ public class CommonGen {
     public static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
     public static CodeSource gen() {
-        CodeArgument[] values = {
-                new CodeArgument(STRING("A")), new CodeArgument(STRING("B")),
-                new CodeArgument(STRING("C")), new CodeArgument(STRING("D")),
-                new CodeArgument(STRING("E"))
+        CodePart[] values = {
+                STRING("A"), STRING("B"),
+                STRING("C"), STRING("D"),
+                STRING("E")
         };
 
-        CodeArgument[] values2 = {
-                new CodeArgument(STRING("F")), new CodeArgument(STRING("G")),
-                new CodeArgument(STRING("H")), new CodeArgument(STRING("I")),
-                new CodeArgument(STRING("J"))
+        CodePart[] values2 = {
+                STRING("F"), STRING("G"),
+                STRING("H"), STRING("I"),
+                STRING("J")
         };
 
-        CodeArgument[] values3 = {
-                new CodeArgument(INT(1))
+        CodePart[] values3 = {
+                INT(1)
         };
 
         LoadedCodeType<String[][]> stringArrayType = CodeAPI.getJavaType(String[][].class);
@@ -92,8 +90,8 @@ public class CommonGen {
                                                 "array",
                                                 CodeAPI.arrayConstruct(stringArrayType, new CodePart[]{INT(2), INT(5)},
                                                         CollectionsKt.listOf(
-                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values))),
-                                                                new CodeArgument(CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values2)))
+                                                                CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values)),
+                                                                CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values2))
                                                         )
                                                 )),
 
@@ -107,7 +105,7 @@ public class CommonGen {
                                                 CodeAPI.arrayConstruct(Types.OBJECT.toArray(1), new CodePart[]{INT(1)}, ArrayToList.toList(values3))
                                         ),
 
-                                        Predefined.invokePrintln(new CodeArgument(
+                                        Predefined.invokePrintln(
                                                 CodeAPI.getArrayValue(Types.STRING.toArray(1),
                                                         CodeAPI.getArrayValue(Types.STRING.toArray(2),
                                                                 CodeAPI.accessLocalVariable(
@@ -116,7 +114,7 @@ public class CommonGen {
                                                                 ),
                                                                 INT(0)
                                                         ),
-                                                        INT(0))))
+                                                        INT(0)))
 
 
                                 ))

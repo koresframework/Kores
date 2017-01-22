@@ -39,7 +39,6 @@ import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -91,7 +90,7 @@ public class ElementUtil {
                 && access.getVariableType().is(fieldDeclaration.getType());
     }
 
-    public static MethodInvocation invoke(MethodDeclaration methodDeclaration, CodePart target, List<CodeArgument> arguments, TypeDeclaration type) {
+    public static MethodInvocation invoke(MethodDeclaration methodDeclaration, CodePart target, List<CodePart> arguments, TypeDeclaration type) {
         boolean isConstructor = methodDeclaration.getName().equals("<init>");
         boolean isStatic = methodDeclaration.getModifiers().contains(CodeModifier.STATIC);
 

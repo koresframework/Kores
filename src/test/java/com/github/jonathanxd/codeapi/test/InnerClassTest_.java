@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
@@ -52,9 +51,6 @@ import java.util.EnumSet;
 
 import kotlin.collections.CollectionsKt;
 
-import static java.lang.reflect.Modifier.PRIVATE;
-import static java.lang.reflect.Modifier.PUBLIC;
-
 public class InnerClassTest_ {
     //
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
@@ -71,11 +67,11 @@ public class InnerClassTest_ {
                 new CodeType[0],
                 CodeAPI.source(
                 FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), codeClass, "a",
-                        CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(new CodeArgument(Literals.STRING("Hello"))))),
+                        CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello")))),
                 MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeAPI.source(
-                        Predefined.invokePrintln(new CodeArgument(
+                        Predefined.invokePrintln(
                                 CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), Types.STRING, "field")
-                        )),
+                        ),
                         CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(Types.VOID), Collections.emptyList()),
                         CodeAPI.returnValue(String.class, Literals.STRING("A"))
                 ))

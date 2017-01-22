@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayConstructor
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.type.CodeType
 
-data class ArrayConstructorImpl(override val arguments: List<CodeArgument>, override val arrayType: CodeType, override val dimensions: List<CodePart>) : ArrayConstructor
+data class ArrayConstructorImpl(override val arguments: List<CodePart>, override val arrayType: CodeType, override val dimensions: List<CodePart>) : ArrayConstructor

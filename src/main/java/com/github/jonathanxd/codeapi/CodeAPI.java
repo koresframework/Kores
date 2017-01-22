@@ -104,7 +104,6 @@ import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
@@ -356,7 +355,7 @@ public final class CodeAPI {
      * @param constructorArguments Constructor arguments.
      * @return new enum entry.
      */
-    public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments) {
+    public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodePart> constructorArguments) {
         return enumEntry__factory(name, emptySource(), constructorSpec, constructorArguments);
     }
 
@@ -369,13 +368,13 @@ public final class CodeAPI {
      * @param body                 Enum entry body.
      * @return new enum entry.
      */
-    public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodeArgument> constructorArguments, CodeSource body) {
+    public static EnumEntry enumEntry(String name, TypeSpec constructorSpec, List<CodePart> constructorArguments, CodeSource body) {
         return enumEntry__factory(name, body, constructorSpec, constructorArguments);
     }
 
     // Factory
 
-    private static EnumEntry enumEntry__factory(String name, CodeSource body, TypeSpec spec, List<CodeArgument> arguments) {
+    private static EnumEntry enumEntry__factory(String name, CodeSource body, TypeSpec spec, List<CodePart> arguments) {
         return new EnumEntryImpl(spec, arguments, name, body);
     }
 
@@ -410,7 +409,7 @@ public final class CodeAPI {
     //          Array Constructors
     // =========================================================
 
-    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions, List<CodePart> arguments) {
         return arrayConstruct__factory(arrayType, dimensions, arguments);
     }
 
@@ -424,13 +423,13 @@ public final class CodeAPI {
         return arrayConstruct__factory(CodeAPI.getJavaType(arrayType), dimensions, Collections.emptyList());
     }
 
-    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions, List<CodePart> arguments) {
         return arrayConstruct__factory(CodeAPI.getJavaType(arrayType), dimensions, arguments);
     }
 
     // Factory
 
-    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, List<CodeArgument> arguments) {
+    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, List<CodePart> arguments) {
         return new ArrayConstructorImpl(arguments, arrayType, ArrayToList.toList(dimensions));
     }
 
@@ -562,16 +561,6 @@ public final class CodeAPI {
     //          Arguments
     // =========================================================
 
-    /**
-     * Create an {@link CodeArgument argument}.
-     *
-     * @param value Value of argument.
-     * @return {@link CodeArgument} instance.
-     */
-    public static CodeArgument argument(CodePart value) {
-        return new CodeArgument(value);
-    }
-
     // =========================================================
     //          Invoke
     // =========================================================
@@ -583,7 +572,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current class.
      */
-    public static MethodInvocation invokeThisConstructor(TypeSpec constructorSpec, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeThisConstructor(TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeThisConstructor__factory(constructorSpec, arguments);
     }
 
@@ -594,7 +583,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current class.
      */
-    public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeSuperConstructor__factory(Alias.SUPER.INSTANCE, constructorSpec, arguments);
     }
 
@@ -606,7 +595,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
      */
-    public static MethodInvocation invokeSuperConstructor(CodeType superClass, TypeSpec constructorSpec, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeSuperConstructor(CodeType superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeSuperConstructor__factory(superClass, constructorSpec, arguments);
     }
 
@@ -618,7 +607,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
      */
-    public static MethodInvocation invokeSuperConstructor(Class<?> superClass, TypeSpec constructorSpec, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeSuperConstructor(Class<?> superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeSuperConstructor__factory(CodeAPI.getJavaType(superClass), constructorSpec, arguments);
     }
 
@@ -640,7 +629,7 @@ public final class CodeAPI {
      * @param arguments Arguments to pass to constructor.
      * @return Invocation of constructor of {@code type} with provided arguments.
      */
-    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodePart> arguments) {
         return invokeConstructor__factory(type, spec, arguments);
     }
 
@@ -653,7 +642,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(CodeType localization, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeStatic(CodeType localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_STATIC, localization, localization, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -666,7 +655,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_STATIC, Alias.THIS.INSTANCE, CodeAPI.accessStatic(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -681,7 +670,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeVirtual(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -694,7 +683,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -707,7 +696,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_INTERFACE, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -722,7 +711,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeInterface(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -742,7 +731,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_SPECIAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -764,7 +753,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_SPECIAL, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -781,7 +770,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of a method.
      */
-    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(invokeType, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -829,7 +818,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(Class<?> localization, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeStatic(Class<?> localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_STATIC, CodeAPI.getJavaType(localization), CodeAPI.getJavaType(localization), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -844,7 +833,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(localization), target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -859,7 +848,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invokeInterface(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_INTERFACE, CodeAPI.getJavaType(localization), target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -875,7 +864,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of a method.
      */
-    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodeArgument> arguments) {
+    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(invokeType, CodeAPI.getJavaType(localization), target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -886,7 +875,7 @@ public final class CodeAPI {
         return new MethodSpecificationImpl(methodType, methodName, methodDescription);
     }
 
-    private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, List<CodeArgument> arguments, MethodSpecification methodSpecification) {
+    private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, List<CodePart> arguments, MethodSpecification methodSpecification) {
         return new MethodInvocationImpl(localization, arguments, methodSpecification, invokeType, null, target);
     }
 
@@ -914,15 +903,15 @@ public final class CodeAPI {
                 methodFragment.getTarget());
     }
 
-    private static MethodInvocation invokeConstructor__factory(CodeType type, TypeSpec spec, List<CodeArgument> arguments) {
+    private static MethodInvocation invokeConstructor__factory(CodeType type, TypeSpec spec, List<CodePart> arguments) {
         return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.CONSTRUCTOR, "<init>", spec), InvokeType.INVOKE_SPECIAL, null, type);
     }
 
-    private static MethodInvocation invokeSuperConstructor__factory(CodeType type, TypeSpec constructorSpec, List<CodeArgument> arguments) {
+    private static MethodInvocation invokeSuperConstructor__factory(CodeType type, TypeSpec constructorSpec, List<CodePart> arguments) {
         return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessSuper());
     }
 
-    private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, List<CodeArgument> arguments) {
+    private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, List<CodePart> arguments) {
         return new MethodInvocationImpl(Alias.THIS.INSTANCE, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis());
     }
 
@@ -2234,7 +2223,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, scope, returnType, parameters, arguments, body);
     }
 
@@ -2248,7 +2237,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.STATIC, returnType, parameters, arguments, body);
     }
 
@@ -2262,7 +2251,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.INSTANCE, returnType, parameters, arguments, body);
     }
 
@@ -2280,7 +2269,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, scope, toCodeType(returnType), parameters, arguments, body);
     }
 
@@ -2294,7 +2283,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.STATIC, toCodeType(returnType), parameters, arguments, body);
     }
 
@@ -2308,12 +2297,12 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.INSTANCE, toCodeType(returnType), parameters, arguments, body);
     }
 
     // Factory
-    private static MethodFragment fragment__factory(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodeArgument[] arguments, CodeSource body) {
+    private static MethodFragment fragment__factory(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
 
         List<CodeParameter> parameterList = ArrayToList.toList(parameters);
 
@@ -2381,7 +2370,7 @@ public final class CodeAPI {
         boolean return_ = !currentReturnType.is(Types.VOID);
 
         List<CodeParameter> codeParameters = new ArrayList<>();
-        List<CodeArgument> codeArguments = new ArrayList<>();
+        List<CodePart> codeArguments = new ArrayList<>();
 
         for (int i = 0; i < currentParameters.size(); i++) {
             CodeParameter currentParameter = currentParameters.get(i);
@@ -2390,7 +2379,7 @@ public final class CodeAPI {
 
             codeParameters.add(new CodeParameter(targetType, currentParameter.getName()));
 
-            codeArguments.add(new CodeArgument(CodeAPI.cast(targetType, currentType, CodeAPI.accessLocalVariable(targetType, currentParameter.getName()))));
+            codeArguments.add(CodeAPI.cast(targetType, currentType, CodeAPI.accessLocalVariable(targetType, currentParameter.getName())));
         }
 
 

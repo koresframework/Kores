@@ -51,7 +51,7 @@ open class MethodFragmentBuilder(): MethodFragment.Builder<MethodFragment, Metho
     /**
      * See [MethodFragment.arguments]
      */
-    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument> = emptyList()
+    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart> = emptyList()
 
     /**
      * See [MethodFragment.scope]
@@ -121,7 +121,7 @@ open class MethodFragmentBuilder(): MethodFragment.Builder<MethodFragment, Metho
     /**
      * See [MethodFragment.arguments]
      */
-    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument>): MethodFragmentBuilder {
+    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart>): MethodFragmentBuilder {
         this.arguments = value
         return this
     }
@@ -130,7 +130,7 @@ open class MethodFragmentBuilder(): MethodFragment.Builder<MethodFragment, Metho
     /**
      * See [MethodFragment.arguments]
      */
-    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): MethodFragmentBuilder {
+    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.CodePart): MethodFragmentBuilder {
         this.arguments = values.toList()
         return this
     }

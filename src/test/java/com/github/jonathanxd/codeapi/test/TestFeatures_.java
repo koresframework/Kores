@@ -40,7 +40,6 @@ import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -60,7 +59,7 @@ import static java.util.Collections.singletonList;
 
 @SuppressWarnings("Duplicates")
 public class TestFeatures_ {
-    public static CodePart invokePrintln(CodeArgument toPrint) {
+    public static CodePart invokePrintln(CodePart toPrint) {
         return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(PrintStream.class),
                 CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
                 "println",
@@ -81,19 +80,19 @@ public class TestFeatures_ {
 
         methodSource.add(CodeAPI.ifStatement(
                 CodeAPI.checkNotNull(CodeAPI.accessLocalVariable(Object.class, "n")),
-                CodeAPI.source(invokePrintln(new CodeArgument(Literals.STRING("Hello :D"))))
+                CodeAPI.source(invokePrintln(Literals.STRING("Hello :D")))
                 )
         );
 
         methodSource.add(VariableFactory.variable(Types.STRING, "dingdong", Literals.STRING("DingDong")));
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "dingdong"))));
+        methodSource.add(Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "dingdong")));
 
         methodSource.add(CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
                 CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
                 "println",
                 CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
-                singletonList(new CodeArgument(CodeAPI.accessLocalVariable(Types.OBJECT, "n")))));
+                singletonList(CodeAPI.accessLocalVariable(Types.OBJECT, "n"))));
 
 
         return codeMethod;
@@ -133,14 +132,14 @@ public class TestFeatures_ {
                 CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
                 "println",
                 CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
-                Collections.singletonList(new CodeArgument(Literals.STRING("Hello"))));
+                Collections.singletonList(Literals.STRING("Hello")));
 
         CodePart invokeTest2 = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, codeClass,
                 CodeAPI.accessThis(),
                 "printIt",
                 CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
 
-                Collections.singletonList(new CodeArgument(Literals.STRING("Oi"))));
+                Collections.singletonList(Literals.STRING("Oi")));
 
         ConstructorDeclaration codeConstructor = ConstructorDeclarationBuilder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
@@ -179,7 +178,7 @@ public class TestFeatures_ {
                 )));
 
         methodSource.add(Predefined.invokePrintln(
-                new CodeArgument(CodeAPI.accessLocalVariable(Types.INT, "x"))
+                CodeAPI.accessLocalVariable(Types.INT, "x")
         ));
 
         methodSource.add(CodeAPI.returnValue(Types.INT, Literals.INT(1)));

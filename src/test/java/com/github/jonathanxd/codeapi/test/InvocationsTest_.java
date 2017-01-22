@@ -97,7 +97,7 @@ public class InvocationsTest_ {
         }
     }
 
-    public static CodePart invokePrintln(CodeArgument toPrint) {
+    public static CodePart invokePrintln(CodePart toPrint) {
         return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(PrintStream.class),
                 CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
                 "println",
@@ -162,12 +162,12 @@ public class InvocationsTest_ {
                 CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
                 "println",
                 CodeAPI.voidTypeSpec(Types.OBJECT),
-                Collections.singletonList(new CodeArgument(Literals.STRING("Hello"))));
+                Collections.singletonList(Literals.STRING("Hello")));
 
         CodePart invokeTest2 = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, codeClass, CodeAPI.accessThis(),
                 "printIt",
                 CodeAPI.voidTypeSpec(Types.OBJECT),
-                Collections.singletonList(new CodeArgument(Literals.STRING("Oi"))));
+                Collections.singletonList(Literals.STRING("Oi")));
 
         ConstructorDeclaration codeConstructor = ConstructorDeclarationBuilder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
@@ -201,12 +201,12 @@ public class InvocationsTest_ {
                 CodeAPI.invoke(InvokeType.INVOKE_STATIC, InvocationsTest_.class, CodeAPI.accessStatic(),
                         "bmp",
                         CodeAPI.voidTypeSpec(String.class, String.class),
-                        Arrays.asList(new CodeArgument(Literals.STRING("xy")), new CodeArgument(Literals.STRING("yz")))
+                        Arrays.asList(Literals.STRING("xy"), Literals.STRING("yz"))
                 )
         );
 
         // Invocations test
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Interface ->"))));
+        methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Interface ->")));
 
         methodSource.add(
                 VariableFactory.variable(CodeAPI.getJavaType(Greeter.class), "greeter", CodeAPI.invokeConstructor(CodeAPI.getJavaType(WorldGreeter.class)))
@@ -222,11 +222,11 @@ public class InvocationsTest_ {
 
         methodSource.add(greetingVar);
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(greetingVar))));
+        methodSource.add(Predefined.invokePrintln(CodeAPI.accessLocalVariable(greetingVar)));
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Interface <-"))));
+        methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Interface <-")));
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic ->"))));
+        methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic ->")));
 
         CodeType supplierType = CodeAPI.getJavaType(Supplier.class);
 
@@ -264,13 +264,13 @@ public class InvocationsTest_ {
         methodSource.add(supplierField);
 
         methodSource.add(Predefined.invokePrintln(
-                CodeAPI.argument(
-                        CodeAPI.cast(Types.OBJECT, Types.STRING,
-                                CodeAPI.invokeInterface(supplierType, CodeAPI.accessLocalVariable(supplierField), "get",
-                                        new TypeSpec(Types.OBJECT),
-                                        emptyList())
-                        )
+
+                CodeAPI.cast(Types.OBJECT, Types.STRING,
+                        CodeAPI.invokeInterface(supplierType, CodeAPI.accessLocalVariable(supplierField), "get",
+                                new TypeSpec(Types.OBJECT),
+                                emptyList())
                 )
+
         ));
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,22 +299,22 @@ public class InvocationsTest_ {
 
         methodSource.add(var2);
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(var2))));
+        methodSource.add(Predefined.invokePrintln(CodeAPI.accessLocalVariable(var2)));
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic <-"))));
+        methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic <-")));
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic Bootstrap ->"))));
+        methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap ->")));
 
         MethodInvocation methodInvocation = CodeAPI.Specific.invokeDynamic(
                 new InvokeDynamic.Bootstrap(BOOTSTRAP_SPEC, InvokeType.INVOKE_STATIC, new Object[0]),
                 CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(InvocationsTest_.class), CodeAPI.accessStatic(),
                         "helloWorld",
                         CodeAPI.typeSpec(Types.VOID, Types.STRING),
-                        singletonList(new CodeArgument(Literals.STRING("World")))));
+                        singletonList(Literals.STRING("World"))));
 
         methodSource.add(methodInvocation);
 
-        methodSource.add(Predefined.invokePrintln(new CodeArgument(Literals.STRING("Invoke Dynamic Bootstrap <-"))));
+        methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap <-")));
 
         methodSource.add(CodeAPI.ifStatement(
                 CodeAPI.ifExprs(
@@ -327,7 +327,7 @@ public class InvocationsTest_ {
                 )));
 
         methodSource.add(Predefined.invokePrintln(
-                new CodeArgument(CodeAPI.accessLocalVariable(Types.INT, "x"))
+                CodeAPI.accessLocalVariable(Types.INT, "x")
         ));
 
         methodSource.add(CodeAPI.returnValue(Types.INT, Literals.INT(1)));

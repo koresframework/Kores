@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.MethodInvocationBuilder
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -52,7 +52,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
     /**
      * Method arguments
      */
-    override val arguments: List<CodeArgument>
+    override val arguments: List<CodePart>
 
     /**
      * Method return type

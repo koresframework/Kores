@@ -65,7 +65,7 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
 
             val call = generateTo(part.javaClass /*as Class<? extends CodePart>*/, part, null, codeSourceData, data)
 
-            if (call != null && !call.isEmpty()) {
+            if (!call.isEmpty()) {
                 for (value in call) {
                     AbstractGenerator.helpApply(value, part, instance, appender, codeSourceData, data)
                 }
@@ -207,8 +207,8 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
          * @param C              Type of [AbstractGenerator].
          */
         @Suppress("UNCHECKED_CAST")
-        fun <T, C> helpApply(value: Value<*, T, C>, target: Any, instance: Any, appender: Appender<T>, codeSourceData: CodeSourceData, processingData: Data) {
-            value.apply(target as T, instance as C, appender, codeSourceData, processingData)
+        fun <T, C> helpApply(value: Value<*, T, C>, target: CodePart, instance: Any, appender: Appender<T>, codeSourceData: CodeSourceData, processingData: Data) {
+            value.apply(target, instance as C, appender, codeSourceData, processingData)
         }
 
         /**

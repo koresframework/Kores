@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.fragment
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.MethodFragment
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.builder.Builder
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Scope
 import com.github.jonathanxd.codeapi.common.TypeSpec
@@ -51,7 +51,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
     /**
      * See [MethodFragment.arguments]
      */
-    var arguments: List<CodeArgument> = emptyList()
+    var arguments: List<CodePart> = emptyList()
 
     /**
      * See [MethodFragment.description]
@@ -99,7 +99,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
     /**
      * See [MethodFragment.arguments]
      */
-    fun withArguments(value: List<CodeArgument>): SimpleMethodFragmentBuilder {
+    fun withArguments(value: List<CodePart>): SimpleMethodFragmentBuilder {
         this.arguments = value
         return this
     }
@@ -108,7 +108,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
     /**
      * See [MethodFragment.arguments]
      */
-    fun withArguments(vararg values: CodeArgument): SimpleMethodFragmentBuilder {
+    fun withArguments(vararg values: CodePart): SimpleMethodFragmentBuilder {
         this.arguments = values.toList()
         return this
     }

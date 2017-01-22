@@ -41,7 +41,7 @@ open class MethodInvocationBuilder(): MethodInvocation.Builder<MethodInvocation,
     /**
      * See [MethodInvocation.arguments]
      */
-    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument> = emptyList()
+    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart> = emptyList()
 
     /**
      * See [MethodInvocation.spec]
@@ -85,7 +85,7 @@ open class MethodInvocationBuilder(): MethodInvocation.Builder<MethodInvocation,
     /**
      * See [MethodInvocation.arguments]
      */
-    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument>): MethodInvocationBuilder {
+    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart>): MethodInvocationBuilder {
         this.arguments = value
         return this
     }
@@ -94,7 +94,7 @@ open class MethodInvocationBuilder(): MethodInvocation.Builder<MethodInvocation,
     /**
      * See [MethodInvocation.arguments]
      */
-    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): MethodInvocationBuilder {
+    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.CodePart): MethodInvocationBuilder {
         this.arguments = values.toList()
         return this
     }

@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.type.CodeType
 
 interface ArgumentHolder : CodePart {
@@ -41,7 +40,7 @@ interface ArgumentHolder : CodePart {
     /**
      * Argument list
      */
-    val arguments: List<CodeArgument>
+    val arguments: List<CodePart>
 
     /**
      * Array arguments
@@ -54,12 +53,12 @@ interface ArgumentHolder : CodePart {
         /**
          * See [T.arguments]
          */
-        fun withArguments(value: List<CodeArgument>): S
+        fun withArguments(value: List<CodePart>): S
 
         /**
          * See [T.arguments]
          */
-        fun withArguments(vararg values: CodeArgument): S
+        fun withArguments(vararg values: CodePart): S
 
         /**
          * See [T.array]

@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
@@ -48,7 +47,6 @@ import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Assert;
 
-import java.lang.reflect.Modifier;
 import java.util.EnumSet;
 
 public class ForEach_ {
@@ -79,7 +77,7 @@ public class ForEach_ {
                                                         Generic.type(Types.LIST).of(Types.STRING),
                                                         "strList"),
                                                 CodeAPI.source(
-                                                        Predefined.invokePrintln(new CodeArgument(CodeAPI.accessLocalVariable(String.class, "str")))
+                                                        Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "str"))
                                                 ))
                                 ))
                 ));

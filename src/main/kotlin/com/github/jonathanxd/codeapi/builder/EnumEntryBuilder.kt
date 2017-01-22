@@ -41,7 +41,7 @@ open class EnumEntryBuilder(): EnumEntry.Builder<EnumEntry, EnumEntryBuilder> {
     /**
      * See [EnumEntry.arguments]
      */
-    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument> = emptyList()
+    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart> = emptyList()
 
     /**
      * See [EnumEntry.name]
@@ -73,7 +73,7 @@ open class EnumEntryBuilder(): EnumEntry.Builder<EnumEntry, EnumEntryBuilder> {
     /**
      * See [EnumEntry.arguments]
      */
-    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument>): EnumEntryBuilder {
+    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart>): EnumEntryBuilder {
         this.arguments = value
         return this
     }
@@ -82,7 +82,7 @@ open class EnumEntryBuilder(): EnumEntry.Builder<EnumEntry, EnumEntryBuilder> {
     /**
      * See [EnumEntry.arguments]
      */
-    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): EnumEntryBuilder {
+    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.CodePart): EnumEntryBuilder {
         this.arguments = values.toList()
         return this
     }

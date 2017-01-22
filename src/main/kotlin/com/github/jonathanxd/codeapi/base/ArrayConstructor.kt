@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
 import com.github.jonathanxd.codeapi.builder.build
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.CodePartUtil
 import com.github.jonathanxd.codeapi.util.Stack
 
 /**
@@ -68,15 +69,13 @@ interface ArrayConstructor : ArgumentHolder, Typed {
             for (i in arguments.indices) {
                 val argument = arguments[i]
 
-                val argumentValue = argument.value
-
                 arrayStores.add(
                         ArrayStoreBuilder().build {
                             this.arrayType = this@ArrayConstructor.arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                             this.target = Stack
                             this.index = Literals.INT(i)
-                            this.valueType = argument.type
-                            this.valueToStore = argumentValue
+                            this.valueType = CodePartUtil.getType(argument)
+                            this.valueToStore = argument
                         }
                 )
             }

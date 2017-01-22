@@ -31,7 +31,6 @@ import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import java.io.PrintStream
@@ -40,33 +39,33 @@ import java.util.*
 object Predefined {
     @JvmStatic
     fun toString(part: CodePart): MethodInvocation {
-        return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList<CodeArgument>())
+        return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
     }
 
     @JvmStatic
     fun intToString(part: CodePart): MethodInvocation {
         return CodeAPI.invokeStatic(String::class.java, "valueOf",
                 TypeSpec(Types.STRING, listOf(Types.INT)),
-                listOf(CodeAPI.argument(part)))
+                listOf(part))
     }
 
     @JvmStatic
-    fun invokePrintln(vararg arguments: CodeArgument): MethodInvocation {
+    fun invokePrintln(vararg arguments: CodePart): MethodInvocation {
 
-        val arg: CodeArgument = if (arguments.size == 1) {
+        val arg: CodePart = if (arguments.size == 1) {
             arguments.single()
         } else {
             val helper = ConcatHelper.builder()
             val iter = arguments.iterator()
 
             while(iter.hasNext()) {
-                helper.concat(iter.next().value)
+                helper.concat(iter.next())
 
                 if(iter.hasNext())
                     helper.concat(" ")
             }
 
-            CodeArgument(helper.build())
+            helper.build()
         }
 
         return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
@@ -81,6 +80,6 @@ object Predefined {
                 CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
                 "println",
                 CodeAPI.typeSpec(Types.VOID, Types.STRING),
-                listOf(CodeAPI.argument(part)))
+                listOf(part))
     }
 }

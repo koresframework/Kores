@@ -29,10 +29,9 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.*
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.Scope
 import com.github.jonathanxd.codeapi.type.CodeType
 
-data class MethodFragmentImpl(override val target: CodePart, override val localization: CodeType, override val declaration: MethodDeclaration, override val arguments: List<CodeArgument>, override val scope: Scope, override val declaringType: TypeDeclaration, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?) : MethodFragment
+data class MethodFragmentImpl(override val target: CodePart, override val localization: CodeType, override val declaration: MethodDeclaration, override val arguments: List<CodePart>, override val scope: Scope, override val declaringType: TypeDeclaration, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?) : MethodFragment

@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.EnumEntryBuilder
-import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
 
@@ -51,7 +51,7 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
     /**
      * Enum constructor arguments
      */
-    override val arguments: List<CodeArgument>
+    override val arguments: List<CodePart>
 
     override fun builder(): Builder<EnumEntry, *> = EnumEntryBuilder(this)
 

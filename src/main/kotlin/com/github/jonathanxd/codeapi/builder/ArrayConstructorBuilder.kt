@@ -36,7 +36,7 @@ open class ArrayConstructorBuilder(): ArrayConstructor.Builder<ArrayConstructor,
     /**
      * See [ArrayConstructor.arguments]
      */
-    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument> = emptyList()
+    var arguments: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart> = emptyList()
 
     /**
      * See [ArrayConstructor.arrayType]
@@ -58,7 +58,7 @@ open class ArrayConstructorBuilder(): ArrayConstructor.Builder<ArrayConstructor,
     /**
      * See [ArrayConstructor.arguments]
      */
-    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.common.CodeArgument>): ArrayConstructorBuilder {
+    override fun withArguments(value: kotlin.collections.List<com.github.jonathanxd.codeapi.CodePart>): ArrayConstructorBuilder {
         this.arguments = value
         return this
     }
@@ -67,7 +67,7 @@ open class ArrayConstructorBuilder(): ArrayConstructor.Builder<ArrayConstructor,
     /**
      * See [ArrayConstructor.arguments]
      */
-    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.common.CodeArgument): ArrayConstructorBuilder {
+    override fun withArguments(vararg values: com.github.jonathanxd.codeapi.CodePart): ArrayConstructorBuilder {
         this.arguments = values.toList()
         return this
     }

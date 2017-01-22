@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.gen.value
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.gen.Appender
 
@@ -40,6 +41,7 @@ import com.github.jonathanxd.codeapi.gen.Appender
  *
  * @param T        Type of value.
  * @param TARGET   Target object type.
+ * @param O        Output type
  * @param C        Generator type.
  */
 interface Value<out T, TARGET, in C> {
@@ -60,5 +62,5 @@ interface Value<out T, TARGET, in C> {
      * @param codeSourceData Data of the source.
      * @param data           Data of the processing environment.
      */
-    fun apply(value: TARGET, generator: C, appender: Appender<TARGET>, codeSourceData: CodeSourceData, data: Data)
+    fun apply(value: CodePart, generator: C, appender: Appender<TARGET>, codeSourceData: CodeSourceData, data: Data)
 }

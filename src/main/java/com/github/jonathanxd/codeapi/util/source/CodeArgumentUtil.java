@@ -29,9 +29,9 @@ package com.github.jonathanxd.codeapi.util.source;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.util.CodePartUtil;
 
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
@@ -51,18 +51,18 @@ public class CodeArgumentUtil {
      * @param passed   Provided parameters
      * @return Array with checked arguments.
      */
-    public static CodeArgument[] createChecked(CodeArgument[] expected, CodeArgument[] passed) {
+    public static CodePart[] createChecked(CodePart[] expected, CodePart[] passed) {
 
-        CodeArgument[] newArguments = new CodeArgument[passed.length];
+        CodePart[] newArguments = new CodePart[passed.length];
 
         for (int i = 0; i < newArguments.length; i++) {
-            CodeType type = expected[i].getType();
+            CodeType type = CodePartUtil.getType(expected[i]);
 
-            CodePart part = passed[i].getValue();
+            CodePart part = passed[i];
 
-            part = CodeAPI.cast(passed[i].getType(), type, part);
+            part = CodeAPI.cast(CodePartUtil.getType(passed[i]), type, part);
 
-            newArguments[i] = new CodeArgument(part);
+            newArguments[i] = part;
         }
 
         return newArguments;
@@ -90,64 +90,64 @@ public class CodeArgumentUtil {
     }
 
     /**
-     * Convert from {@link CodeParameter} to {@link CodeArgument}.
+     * Convert from {@link CodeParameter} to {@code argument}.
      *
      * Parameters will be converted to local access of variables.
      *
      * @param parameters Parameters.
      * @return Converted arguments.
      */
-    public static List<CodeArgument> argumentsFromParameters(List<CodeParameter> parameters) {
+    public static List<CodePart> argumentsFromParameters(List<CodeParameter> parameters) {
         return parameters.stream().map(CodeArgumentUtil::fromParameters).collect(Collectors.toList());
     }
 
     /**
-     * Convert from {@link CodeParameter} to {@link CodeArgument}.
+     * Convert from {@link CodeParameter} to {@code arguments}.
      *
      * Parameters will be converted to local access of variables.
      *
      * @param parameters Parameters.
      * @return Converted arguments.
      */
-    public static CodeArgument[] argumentsFromParameters(CodeParameter[] parameters) {
-        return Arrays.stream(parameters).map(CodeArgumentUtil::fromParameters).toArray(CodeArgument[]::new);
+    public static CodePart[] argumentsFromParameters(CodeParameter[] parameters) {
+        return Arrays.stream(parameters).map(CodeArgumentUtil::fromParameters).toArray(CodePart[]::new);
     }
 
     /**
-     * Convert from {@link CodeParameter} to {@link CodeArgument}.
+     * Convert from {@link CodeParameter} to {@code argument}.
      *
      * Parameter will be converted to local access of variables.
      *
      * @param parameter Parameter.
      * @return Converted argument.
      */
-    public static CodeArgument fromParameters(CodeParameter parameter) {
-        return new CodeArgument(CodeAPI.accessLocalVariable(parameter.getType(), parameter.getName()));
+    public static CodePart fromParameters(CodeParameter parameter) {
+        return CodeAPI.accessLocalVariable(parameter.getType(), parameter.getName());
     }
 
 
     /**
-     * Convert from {@link Parameter} to {@link CodeArgument}.
+     * Convert from {@link Parameter} to {@code argument}.
      *
      * Parameters will be converted to local access of variables.
      *
      * @param parameters Parameters.
      * @return Converted arguments.
      */
-    public static CodeArgument[] argumentsFromJavaParameters(Parameter[] parameters) {
-        return Arrays.stream(parameters).map(CodeArgumentUtil::fromJavaParameter).toArray(CodeArgument[]::new);
+    public static CodePart[] argumentsFromJavaParameters(Parameter[] parameters) {
+        return Arrays.stream(parameters).map(CodeArgumentUtil::fromJavaParameter).toArray(CodePart[]::new);
     }
 
     /**
-     * Convert from {@link Parameter} to {@link CodeArgument}.
+     * Convert from {@link Parameter} to {@code argument}.
      *
      * Parameter will be converted to local access of variables.
      *
      * @param parameter Parameter.
      * @return Converted argument.
      */
-    public static CodeArgument fromJavaParameter(Parameter parameter) {
-        return new CodeArgument(CodeAPI.accessLocalVariable(parameter.getType(), parameter.getName()));
+    public static CodePart fromJavaParameter(Parameter parameter) {
+        return CodeAPI.accessLocalVariable(parameter.getType(), parameter.getName());
     }
 
 }

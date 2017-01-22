@@ -45,7 +45,7 @@ import java.util.concurrent.ThreadLocalRandom
 /**
  * Fragment utility class.
  */
-data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration, override val scope: Scope, override val arguments: List<CodeArgument>, override val description: TypeSpec, override val parameters: List<CodeParameter>, override val body: CodeSource) : MethodFragment {
+data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration, override val scope: Scope, override val arguments: List<CodePart>, override val description: TypeSpec, override val parameters: List<CodeParameter>, override val body: CodeSource) : MethodFragment {
 
     override val spec: MethodSpecification = MethodSpecificationImpl(
             description = description,
