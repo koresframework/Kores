@@ -47,9 +47,6 @@ import com.github.jonathanxd.iutils.object.Pair;
 import java.util.EnumSet;
 import java.util.List;
 
-import static java.lang.reflect.Modifier.PUBLIC;
-import static java.lang.reflect.Modifier.STATIC;
-
 public class GenericClass_ {
 
 

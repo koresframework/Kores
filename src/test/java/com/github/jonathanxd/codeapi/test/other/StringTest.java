@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;

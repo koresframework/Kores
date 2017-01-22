@@ -34,12 +34,12 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
+import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.Generic;
@@ -49,8 +49,6 @@ import com.github.jonathanxd.iutils.object.Pair;
 import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static java.lang.reflect.Modifier.PUBLIC;
-import static java.lang.reflect.Modifier.STATIC;
 import static kotlin.collections.CollectionsKt.listOf;
 
 public class MethodFragment_ {
@@ -66,18 +64,18 @@ public class MethodFragment_ {
         ));
 
         source.add(
-                Predefined.invokePrintln(CodeAPI.argument(
+                Predefined.invokePrintln(
                         SimpleMethodFragmentBuilder.builder()
                                 .withDeclaringType(classDeclaration)
                                 .withScope(Scope.STATIC)
                                 .withDescription(new TypeSpec(Types.STRING, listOf(Types.STRING)))
                                 .withParameters(CodeAPI.parameter(String.class, "input"))
-                                .withArguments(CodeAPI.argument(Literals.STRING("BOB")))
+                                .withArguments(Literals.STRING("BOB"))
                                 .withBody(CodeAPI.sourceOfParts(
                                         CodeAPI.returnValue(Types.STRING, CodeAPI.accessLocalVariable(String.class, "input"))
                                 ))
                                 .build()
-                ))
+                )
         );
 
         return Pair.of(classDeclaration, sourceOfParts(classDeclaration));

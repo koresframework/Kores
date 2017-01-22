@@ -47,7 +47,6 @@ import com.github.jonathanxd.iutils.object.Pair;
 import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
-import static com.github.jonathanxd.codeapi.CodeAPI.argument;
 import static com.github.jonathanxd.codeapi.CodeAPI.check;
 import static com.github.jonathanxd.codeapi.CodeAPI.checkFalse;
 import static com.github.jonathanxd.codeapi.CodeAPI.checkTrue;
@@ -57,11 +56,8 @@ import static com.github.jonathanxd.codeapi.CodeAPI.invokeConstructor;
 import static com.github.jonathanxd.codeapi.CodeAPI.isInstanceOf;
 import static com.github.jonathanxd.codeapi.CodeAPI.parameter;
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.factory.FieldFactory.field;
 import static com.github.jonathanxd.codeapi.literal.Literals.STRING;
-import static java.lang.reflect.Modifier.PUBLIC;
-import static java.lang.reflect.Modifier.STATIC;
-import static kotlin.collections.CollectionsKt.*;
+import static kotlin.collections.CollectionsKt.listOf;
 
 public class InstanceOf_ {
 
@@ -74,14 +70,14 @@ public class InstanceOf_ {
                         sourceOfParts(
                                 ifStatement(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
                                         sourceOfParts(
-                                                Predefined.invokePrintln(argument(STRING("Object is String!")))
+                                                Predefined.invokePrintln(STRING("Object is String!"))
                                         ),
                                         sourceOfParts(
-                                                Predefined.invokePrintln(argument(STRING("Object is not String!")))
+                                                Predefined.invokePrintln(STRING("Object is not String!"))
                                         )),
                                 VariableFactory.variable(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
                                 VariableFactory.variable(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
-                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INT)), listOf(argument(Literals.INT(9))))),
+                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INT)), listOf(Literals.INT(9)))),
                                 VariableFactory.variable(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));

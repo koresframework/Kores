@@ -42,7 +42,6 @@ import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
-import com.github.jonathanxd.codeapi.common.CodeArgument;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;

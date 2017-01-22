@@ -59,7 +59,7 @@ public class EnumTest_ {
                                         .withReturnType(Types.VOID)
                                         .withName("v")
                                         .withBody(CodeAPI.sourceOfParts(
-                                                Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A")))
+                                                Predefined.invokePrintln(Literals.STRING("A"))
                                         ))
                                         .build()
 
@@ -72,12 +72,12 @@ public class EnumTest_ {
                                                 .withReturnType(Types.VOID)
                                                 .withName("v")
                                                 .withBody(CodeAPI.sourceOfParts(
-                                                        Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("B")))
+                                                        Predefined.invokePrintln(Literals.STRING("B"))
                                                 ))
                                                 .build()
 
                                 ))
-                        )//
+                )//
                 .build();
 
         return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));

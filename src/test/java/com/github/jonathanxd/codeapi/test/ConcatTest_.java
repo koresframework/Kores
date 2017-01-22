@@ -42,7 +42,6 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import java.lang.reflect.Modifier;
 import java.util.EnumSet;
 
 public class ConcatTest_ {

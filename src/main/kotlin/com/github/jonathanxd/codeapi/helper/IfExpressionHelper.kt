@@ -53,7 +53,7 @@ class IfExpressionHelper private constructor() {
         return this.checkTrue(
                 CodeAPI.invokeVirtual(Any::class.java, part1, "equals",
                         CodeAPI.typeSpec(Types.BOOLEAN, Types.OBJECT),
-                        listOf(CodeAPI.argument(part2)))
+                        listOf(part2))
         )
     }
 

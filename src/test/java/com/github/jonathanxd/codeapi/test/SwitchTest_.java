@@ -102,7 +102,7 @@ public class SwitchTest_ {
     }
 
     private static CodePart print(String str) {
-        return Predefined.invokePrintln(CodeAPI.argument(Literals.STRING(str)));
+        return Predefined.invokePrintln(Literals.STRING(str));
     }
 
     public enum TestEnum {

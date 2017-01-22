@@ -46,7 +46,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static java.lang.reflect.Modifier.PUBLIC;
 
 public class TryWithResourcesTest_ {
     //

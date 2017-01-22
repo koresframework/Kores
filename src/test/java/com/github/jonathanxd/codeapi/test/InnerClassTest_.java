@@ -66,16 +66,16 @@ public class InnerClassTest_ {
                 Types.OBJECT,
                 new CodeType[0],
                 CodeAPI.source(
-                FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), codeClass, "a",
-                        CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello")))),
-                MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeAPI.source(
-                        Predefined.invokePrintln(
-                                CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), Types.STRING, "field")
-                        ),
-                        CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(Types.VOID), Collections.emptyList()),
-                        CodeAPI.returnValue(String.class, Literals.STRING("A"))
-                ))
-        ));
+                        FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), codeClass, "a",
+                                CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello")))),
+                        MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeAPI.source(
+                                Predefined.invokePrintln(
+                                        CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), Types.STRING, "field")
+                                ),
+                                CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(Types.VOID), Collections.emptyList()),
+                                CodeAPI.returnValue(String.class, Literals.STRING("A"))
+                        ))
+                ));
 
         source.addAll(CodeAPI.sourceOfParts(
                 FieldFactory.field(EnumSet.of(CodeModifier.PRIVATE),
@@ -94,10 +94,10 @@ public class InnerClassTest_ {
                 )),
                 ConstructorFactory.constructor(EnumSet.of(CodeModifier.PRIVATE), new CodeParameter[]{CodeAPI.parameter(String.class, "str")},
                         CodeAPI.source(
-                                Predefined.invokePrintln(CodeAPI.argument(CodeAPI.accessLocalVariable(String.class, "str")))
+                                Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "str"))
                         )),
                 MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "mm", Types.VOID, CodeAPI.sourceOfParts(
-                        Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A")))
+                        Predefined.invokePrintln(Literals.STRING("A"))
                 )),
                 inner
         ));
