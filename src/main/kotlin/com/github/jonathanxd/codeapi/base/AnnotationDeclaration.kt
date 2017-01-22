@@ -40,6 +40,9 @@ interface AnnotationDeclaration : TypeDeclaration {
      */
     val properties: List<AnnotationProperty>
 
+    override val isInterface: Boolean
+        get() = true
+
     override fun builder(): Builder<AnnotationDeclaration, *> = AnnotationDeclarationBuilder(this)
 
     interface Builder<out T: AnnotationDeclaration, S: Builder<T, S>> : TypeDeclaration.Builder<T, S> {
