@@ -34,21 +34,37 @@ import java.lang.invoke.MethodHandles;
 public class CodeTypeUtil {
     private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-    public static String resolveRealQualified(String qualifiedName, CodeType outer) {
-
+    private static String resolveQualified(String qualifiedName, CodeType outer, boolean isInternal) {
         if (outer != null) {
             String packageName = outer.getPackageName();
 
+            // Prevent duplication of the name
             if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
-                // Prevent duplication of the name
-                return CodeTypeUtil.getRealNameStr(qualifiedName, outer);
+                if(isInternal) {
+                    return CodeTypeUtil.getInternalNameStr(qualifiedName, outer);
+                } else {
+                    return CodeTypeUtil.getRealNameStr(qualifiedName, outer);
+                }
             }
         }
 
         return qualifiedName;
+
+    }
+
+    public static String resolveInternalQualified(String qualifiedName, CodeType outer) {
+        return resolveQualified(qualifiedName, outer, true);
+    }
+
+    public static String resolveRealQualified(String qualifiedName, CodeType outer) {
+        return resolveQualified(qualifiedName, outer, false);
     }
 
     private static String getRealNameStr(String qualified, CodeType outer) {
+        return outer.getCanonicalName() + "." + qualified;
+    }
+
+    private static String getInternalNameStr(String qualified, CodeType outer) {
         return outer.getCanonicalName() + "$" + qualified;
     }
 

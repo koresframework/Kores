@@ -47,6 +47,8 @@ class ClassDeclarationImpl(override val superClass: CodeType, override val imple
     override val qualifiedName: String = qualifiedName
         get() = CodeTypeUtil.resolveRealQualified(field, this.outerClass)
 
+    override val type: String = qualifiedName
+        get() = CodeTypeUtil.resolveInternalQualified(field, this.outerClass)
 
     init {
         BodyHolder.checkBody(this)

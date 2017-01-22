@@ -41,7 +41,6 @@ import com.github.jonathanxd.codeapi.gen.Appender
  *
  * @param T        Type of value.
  * @param TARGET   Target object type.
- * @param O        Output type
  * @param C        Generator type.
  */
 interface Value<out T, TARGET, in C> {

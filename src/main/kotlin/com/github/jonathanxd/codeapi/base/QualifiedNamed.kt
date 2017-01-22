@@ -33,7 +33,7 @@ package com.github.jonathanxd.codeapi.base
 interface QualifiedNamed : Named {
 
     override val name: String
-        get() = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length);
+        get() = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1, qualifiedName.length)
 
     /**
      * The qualified name
