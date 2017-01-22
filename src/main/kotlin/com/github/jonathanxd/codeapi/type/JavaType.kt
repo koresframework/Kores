@@ -29,32 +29,15 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.toStr
 
 /**
  * Java class [CodeType].
  */
 @GenerateTo(CodeType::class)
 open class JavaType<T> constructor(override val loadedType: Class<T>) : LoadedCodeType<T> {
-
-    override fun equals(other: Any?): Boolean {
-
-        if (other == null)
-            return false
-
-        if (other is Class<*>) {
-            return this.loadedType == other
-        }
-
-        if (other is LoadedCodeType<*>) {
-            return this.loadedType == other.loadedType
-        }
-
-        if (other is CodeType) {
-            return this.javaSpecName == other.javaSpecName
-        }
-
-        return CodeType.eq(this, other)
-    }
 
     override val type: String
         get() = this.loadedType.typeName.let {
@@ -75,10 +58,6 @@ open class JavaType<T> constructor(override val loadedType: Class<T>) : LoadedCo
     override val canonicalName: String
         get() = this.loadedType.canonicalName
 
-    override fun hashCode(): Int {
-        return CodeType.hash(this)
-    }
-
     override val isInterface: Boolean
         get() = loadedType.isInterface
 
@@ -88,11 +67,9 @@ open class JavaType<T> constructor(override val loadedType: Class<T>) : LoadedCo
     override val isVirtual: Boolean
         get() = false
 
-    override fun toString(): String {
-        return this.javaSpecName
-    }
 
-    override val isExpression: Boolean
-        get() = false
+    override fun equals(other: Any?): Boolean = this.eq(other)
+    override fun hashCode(): Int = this.hash()
+    override fun toString(): String = this.toStr()
 
 }

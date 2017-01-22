@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
 
 /**
  * A [CodeTypeArray] that are loaded by JVM.
@@ -43,12 +45,8 @@ internal class LoadedArrayCodeType<T>(override val loadedType: Class<T>, compone
     override val isArray: Boolean
         get() = super<CodeTypeArray>.isArray
 
-    override fun equals(other: Any?): Boolean {
-        return CodeType.eq(this, other)
-    }
+    override fun equals(other: Any?): Boolean = this.eq(other)
 
-    override fun hashCode(): Int {
-        return CodeType.hash(this)
-    }
+    override fun hashCode(): Int = this.hash()
 
 }

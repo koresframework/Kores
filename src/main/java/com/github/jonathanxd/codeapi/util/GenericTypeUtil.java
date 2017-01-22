@@ -82,7 +82,7 @@ public class GenericTypeUtil {
         }
 
 
-        GenericType.Bound<CodeType>[] bounds = genericType.getBounds();
+        GenericType.Bound[] bounds = genericType.getBounds();
 
         if (bounds.length != 0) {
 
@@ -90,7 +90,7 @@ public class GenericTypeUtil {
 
                 boolean hasNext = i + 1 < bounds.length;
 
-                GenericType.Bound<CodeType> bound = bounds[i];
+                GenericType.Bound bound = bounds[i];
 
                 boolean extendsOrSuper = bound.getSign().equals("+") || bound.getSign().equals("-");
 

@@ -41,9 +41,6 @@ import com.github.jonathanxd.codeapi.util.ToStringBuilder
 @GenerateTo(Named::class)
 sealed class Operator(override val name: String) : CodePart, Named {
 
-    override val isExpression: Boolean
-        get() = true
-
     override fun toString(): String {
         return ToStringBuilder.builder(this.javaClass)
                 .add("name", this.name)

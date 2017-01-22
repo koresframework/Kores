@@ -39,14 +39,6 @@ import com.github.jonathanxd.codeapi.builder.Builder
 interface CodePart {
 
     /**
-     * Returns true if this is a expression part, false otherwise.
-     *
-     * @return Returns true if this is a expression part, false otherwise.
-     */
-    val isExpression: Boolean
-        get() = false
-
-    /**
      * This builder may or may not accept null values, it depends on implementation.
      */
     fun builder(): Builder<CodePart, *> = SelfBuilder(this)

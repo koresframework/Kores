@@ -39,9 +39,6 @@ import com.github.jonathanxd.codeapi.type.CodeType
  */
 abstract class Literal(override val name: String, override val type: CodeType) : CodePart, Named, Typed {
 
-    override val isExpression: Boolean
-        get() = true
-
     override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
 
 }

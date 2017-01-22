@@ -27,29 +27,64 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.toStr
 
-/**
- * Plain string code type.
- */
-@GenerateTo(CodeType::class)
-class PlainCodeType @JvmOverloads constructor(override val type: String, override val isInterface: Boolean = false) : CodeType {
+class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: Array<GenericType.Bound>) : GenericType {
 
-    override val canonicalName: String = this.type
+    override val name: String
+    override val codeType: CodeType
 
-    override fun equals(other: Any?): Boolean {
-        return this.eq(other)
+    /**
+     * Is type defined
+     */
+    private val isType_: Boolean
+
+    /**
+     * Defined type.
+     */
+    private val definedCodeType: CodeType?
+
+    init {
+        this.isType_ = codeType != null
+
+        if (name != null) {
+            this.name = name
+        } else {
+            if (codeType == null) {
+                throw NullPointerException("codeType is null and name is null")
+            }
+
+            var specName = codeType.javaSpecName
+
+            specName = specName.substring(0, specName.length - 1)
+
+            this.name = specName
+        }
+
+        if (codeType != null) {
+            this.codeType = codeType
+            this.definedCodeType = codeType
+        } else {
+            if (this.bounds.isEmpty()) {
+                this.definedCodeType = null
+                this.codeType = Types.OBJECT
+            } else {
+                this.codeType = bounds[0].type
+                this.definedCodeType = this.codeType
+            }
+        }
     }
 
-    override fun hashCode(): Int {
-        return this.hash()
-    }
+    override val isType: Boolean
+        get() = !this.isWildcard && this.isType_
 
-    override fun toString(): String {
-        return "Plain[" + this.canonicalName + "]"
-    }
+    override fun toArray(dimensions: Int): GenericType = GenericTypeImpl(this.name, this.codeType.toArray(dimensions), this.bounds)
+
+    override fun equals(other: Any?): Boolean = this.eq(other)
+    override fun hashCode(): Int = this.hash()
+    override fun toString(): String = this.toStr()
 
 }

@@ -148,16 +148,16 @@ public class TypeVarUtil {
     public static TypeVariable<?>[] fillTypeVars(TypeVariable<?>[] typeParameters, GenericType generic) {
         List<TypeVariable<?>> filledTypeVars = new ArrayList<>();
 
-        GenericType.Bound<CodeType>[] bounds = generic.getBounds();
+        GenericType.Bound[] bounds = generic.getBounds();
 
         for (int i = 0; i < bounds.length; i++) {
             if (i >= typeParameters.length)
                 break;
 
             TypeVariable<?> typeParameter = typeParameters[i];
-            GenericType.Bound<CodeType> bound = bounds[i];
+            GenericType.Bound bound = bounds[i];
 
-            if (bound instanceof GenericType.GenericBound<?>) {
+            if (bound instanceof GenericType.GenericBound) {
                 TypeVariable<?> typeVar = TypeVarUtil.toTypeVar(bound, typeParameter);
                 filledTypeVars.add(typeVar);
             }
@@ -213,9 +213,9 @@ public class TypeVarUtil {
 
         List<Type> typeList = new ArrayList<>();
 
-        GenericType.Bound<CodeType>[] bounds = generic.getBounds();
+        GenericType.Bound[] bounds = generic.getBounds();
 
-        for (GenericType.Bound<CodeType> typeBound : bounds) {
+        for (GenericType.Bound typeBound : bounds) {
             CodeType type = typeBound.getType();
 
             if (type instanceof GenericType) {
@@ -230,7 +230,7 @@ public class TypeVarUtil {
         return new GenericTypeVariable(generic.getCodeType(), null, generic.getName(), typeList.stream().toArray(Type[]::new));
     }
 
-    private static TypeVariable<?> toTypeVar(GenericType.Bound<CodeType> bound, TypeVariable<?> variable) {
+    private static TypeVariable<?> toTypeVar(GenericType.Bound bound, TypeVariable<?> variable) {
 
         if (bound.getType() instanceof Generic) {
             Generic generic = (Generic) bound.getType();
@@ -243,7 +243,7 @@ public class TypeVarUtil {
             List<Type> typeList = new ArrayList<>();
 
             Type[] typeVarBounds = variable.getBounds();
-            GenericType.Bound<CodeType>[] bounds = generic.getBounds();
+            GenericType.Bound[] bounds = generic.getBounds();
 
             for (int i = 0; i < bounds.length; i++) {
                 if (i >= typeVarBounds.length)
@@ -251,7 +251,7 @@ public class TypeVarUtil {
 
                 Type typeVarBound = typeVarBounds[i];
 
-                GenericType.Bound<CodeType> typeBound = bounds[i];
+                GenericType.Bound typeBound = bounds[i];
 
                 if (typeVarBound instanceof TypeVariable) {
                     typeList.add(TypeVarUtil.toTypeVar(typeBound, (TypeVariable<?>) typeVarBound));
@@ -273,7 +273,7 @@ public class TypeVarUtil {
             this.type = type;
         }
 
-        public static GenericJavaType fromBound(GenericType.Bound<CodeType> bound) {
+        public static GenericJavaType fromBound(GenericType.Bound bound) {
             CodeType type;
             if (bound.getSign().equals("*")) {
                 type = Types.OBJECT;

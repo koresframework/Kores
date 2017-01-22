@@ -29,6 +29,9 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.util.CodeTypeUtil
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.toStr
 
 /**
  * Common implementation of [CodeType] arrays.
@@ -56,9 +59,6 @@ internal open class CodeTypeArray(val component: CodeType, override val arrayDim
 
     override val isPrimitive: Boolean
         get() = component.isPrimitive
-
-    override val isExpression: Boolean
-        get() = component.isExpression
 
     override val arrayBaseComponent: CodeType
         get() = this.component
@@ -88,14 +88,11 @@ internal open class CodeTypeArray(val component: CodeType, override val arrayDim
             return name + sb.toString()
         }
 
-    override fun equals(other: Any?): Boolean {
-        return CodeType.eq(this, other)
-    }
-
-    override fun hashCode(): Int {
-        return CodeType.hash(this)
-    }
-
     override val isArray: Boolean
         get() = true
+
+    override fun equals(other: Any?): Boolean = this.eq(other)
+    override fun hashCode(): Int = this.hash()
+    override fun toString(): String = this.toStr()
+
 }

@@ -36,6 +36,8 @@ import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodeTypeUtil
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
 class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnnotationDeclaration {
@@ -49,8 +51,9 @@ class AnnotationDeclarationImpl(qualifiedName: String, override val properties: 
         BodyHolder.checkBody(this)
     }
 
-    override fun hashCode(): Int = CodeType.hash(this)
-    override fun equals(other: Any?): Boolean = CodeType.eq(this, other)
+    override fun hashCode(): Int = this.hash()
+    override fun equals(other: Any?): Boolean = this.eq(other)
+
     override fun toString(): String =
             ToStringHelper.defaultHelper("AnnotationDeclarationImpl")
                     .add("outerClass", this.outerClass)

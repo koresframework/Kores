@@ -172,7 +172,7 @@ interface CodeType : CodePart, Comparable<CodeType> {
      * @param dimensions Dimension of the array.
      * @return [CodeTypeArray] with specified dimension.
      */
-    open fun toArray(dimensions: Int): CodeType {
+    fun toArray(dimensions: Int): CodeType {
         if (this is CodeTypeArray) {
             return CodeTypeArray(this.component, this.arrayDimension + dimensions)
         }
@@ -197,26 +197,4 @@ interface CodeType : CodePart, Comparable<CodeType> {
     override fun hashCode(): Int
     override fun equals(other: Any?): Boolean
 
-    companion object {
-        /**
-         * Default hash algorithm.
-         *
-         * @param codeType Receiver.
-         * @return Hash code.
-         */
-        fun hash(codeType: CodeType?): Int {
-            return codeType?.javaSpecName?.hashCode() ?: 0
-        }
-
-        /**
-         * Default equals method.
-         *
-         * @param codeType Receiver.
-         * @param obj      Object to test.
-         * @return True if this [CodeType] is equals to another [CodeType].
-         */
-        fun eq(codeType: CodeType?, obj: Any?): Boolean {
-            return if (codeType == null) obj == null else obj is CodeType && codeType.`is`(obj)
-        }
-    }
 }
