@@ -120,11 +120,14 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
             }
         }
 
+        var resolved = false
         var get: ValueGenerator<*, T, C>? = try {
+            resolved = true
             GenToUtil.get(targetClass, this.registry)
         } catch (ignore: Throwable) {
             null
         }
+
 
         if (get == null)
             get = if (filterEntry != null) filterEntry.value else null
@@ -144,7 +147,7 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
 
         if (get != null) {
 
-            if (filterEntry != null && filterEntry.key != targetClass)
+            if (!resolved && filterEntry != null && filterEntry.key != targetClass)
                 logger.warning("Processor of '" + targetClass.canonicalName + "' isn't registered, using generic generator: '" + filterEntry.key + "'!")
             try {
                 return ArrayList(AbstractGenerator.help(get, target, this, Parent.create<ValueGenerator<*, T, C>>(get, target, parents), codeSourceData, processingData))
