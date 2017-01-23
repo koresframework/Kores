@@ -441,22 +441,18 @@ public final class CodeAPI {
         return getArrayLength__factory(access);
     }
 
-    public static ArrayLoad getArrayValue(CodeType arrayType, Typed access, CodePart index) {
-        return getArrayValue__factory(index, access, arrayType);
+    public static ArrayLoad getArrayValue(CodeType valueType, Typed access, CodePart index) {
+        return getArrayValue__factory(index, access, valueType);
     }
 
-    public static ArrayStore setArrayValue(CodeType arrayType, Typed access, CodePart index, CodePart value) {
-        return setArrayValue__factory(index, access, arrayType, value);
+    public static ArrayStore setArrayValue(Typed access, CodePart index, Typed value) {
+        return setArrayValue__factory(index, access, value);
     }
 
     // Class
 
-    public static ArrayLoad getArrayValue(Class<?> arrayType, Typed access, CodePart index) {
-        return getArrayValue__factory(index, access, CodeAPI.getJavaType(arrayType));
-    }
-
-    public static ArrayStore setArrayValue(Class<?> arrayType, Typed access, CodePart index, CodePart value) {
-        return setArrayValue__factory(index, access, CodeAPI.getJavaType(arrayType), value);
+    public static ArrayLoad getArrayValue(Class<?> valueType, Typed access, CodePart index) {
+        return getArrayValue__factory(index, access, CodeAPI.getJavaType(valueType));
     }
 
     // Factory
@@ -465,12 +461,12 @@ public final class CodeAPI {
         return new ArrayLengthImpl(access.getType(), access);
     }
 
-    private static ArrayLoad getArrayValue__factory(CodePart index, Typed access, CodeType arrayType) {
-        return new ArrayLoadImpl(index, access, access.getType(), arrayType);
+    private static ArrayLoad getArrayValue__factory(CodePart index, Typed access, CodeType valueType) {
+        return new ArrayLoadImpl(index, access, valueType, access.getType());
     }
 
-    private static ArrayStore setArrayValue__factory(CodePart index, Typed access, CodeType arrayType, CodePart value) {
-        return new ArrayStoreImpl(index, access, access.getType(), value, arrayType);
+    private static ArrayStore setArrayValue__factory(CodePart index, Typed access, Typed value) {
+        return new ArrayStoreImpl(index, access, value.getType(), value, access.getType());
     }
 
 
