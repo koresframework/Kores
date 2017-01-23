@@ -41,4 +41,7 @@ abstract class Literal(override val name: String, override val type: CodeType) :
 
     override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
 
+    override fun toString(): String {
+        return "${this.javaClass.simpleName}[name=$name, type=$type]"
+    }
 }
