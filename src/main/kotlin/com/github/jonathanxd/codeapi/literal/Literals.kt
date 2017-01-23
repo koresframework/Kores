@@ -176,10 +176,10 @@ object Literals {
     }
 
     @GenerateTo(Literal::class)
-    private class SimpleLiteral internal constructor(name: String, dataType: CodeType) : Literal(name, dataType)
+    private class SimpleLiteral internal constructor(name: String, dataType: CodeType) : Literal(name, name, dataType)
 
     @GenerateTo(Literal::class)
-    class ClassLiteral internal constructor(type: CodeType) : Literal(type.canonicalName, TYPE) {
+    class ClassLiteral internal constructor(type: CodeType) : Literal(type, type.canonicalName, TYPE) {
         companion object {
             private val TYPE = CodeAPI.getJavaType(CodeType::class.java)
         }
@@ -212,7 +212,7 @@ object Literals {
     }
 
     @GenerateTo(Literal::class)
-    class BoolLiteral internal constructor(val value: Boolean) : Literal(value.toString(), TYPE) {
+    class BoolLiteral internal constructor(value: Boolean) : Literal(value.toString(), TYPE) {
         companion object {
 
             private val TYPE = CodeAPI.getJavaType(java.lang.Boolean.TYPE)
