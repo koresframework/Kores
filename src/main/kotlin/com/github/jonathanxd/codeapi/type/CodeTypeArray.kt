@@ -52,13 +52,13 @@ internal open class CodeTypeArray(val component: CodeType, override val arrayDim
         }
 
     override val isVirtual: Boolean
-        get() = component.isVirtual
+        get() = this.component.isVirtual
 
     override val isInterface: Boolean
-        get() = component.isInterface
+        get() = this.arrayDimension == 0 && this.component.isInterface
 
     override val isPrimitive: Boolean
-        get() = component.isPrimitive
+        get() = this.arrayDimension == 0 && this.component.isPrimitive
 
     override val arrayBaseComponent: CodeType
         get() = this.component
