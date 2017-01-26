@@ -36,9 +36,9 @@ import com.github.jonathanxd.codeapi.util.hash
  * Plain string code type.
  */
 @GenerateTo(CodeType::class)
-class PlainCodeType @JvmOverloads constructor(override val type: String, override val isInterface: Boolean = false) : CodeType {
+open class PlainCodeType @JvmOverloads constructor(override val type: String, override val isInterface: Boolean = false) : CodeType {
 
-    override val canonicalName: String = this.type
+    override val canonicalName: String get() = this.type
 
     override fun equals(other: Any?): Boolean {
         return this.eq(other)
