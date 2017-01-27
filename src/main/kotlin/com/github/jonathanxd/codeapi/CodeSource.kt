@@ -27,20 +27,18 @@
  */
 package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.util.IterableUtil
 import java.util.*
 import java.util.function.Consumer
-import java.util.stream.Collectors
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
 open class CodeSource private constructor(private val parts: Array<CodePart> = emptyArray()) : Iterable<CodePart>, CodePart {
 
-    protected constructor(): this(emptyArray())
+    protected constructor() : this(emptyArray())
 
-    open val size: Int = this.parts.size
+    open val size: Int get() = this.parts.size
 
-    open val isEmpty: Boolean = this.parts.isEmpty()
+    open val isEmpty: Boolean get() = this.parts.isEmpty()
 
     open val isNotEmpty: Boolean get() = !this.isEmpty
 
@@ -55,11 +53,25 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
         return this.parts.any { Companion.equals(it, o) }
     }
 
+    open operator fun plus(other: CodePart): CodeSource {
+        return CodeSource.fromIterable(this.toList() + other)
+    }
+
+    open operator fun minus(other: CodePart): CodeSource {
+        return CodeSource.fromIterable(this.toList() - other)
+    }
+
+    open operator fun plus(other: Iterable<CodePart>): CodeSource {
+        return CodeSource.fromIterable(this.toList() + other)
+    }
+
+    open operator fun minus(other: Iterable<CodePart>): CodeSource {
+        return CodeSource.fromIterable(this.toArray().filterNot { it in other })
+    }
 
     open fun containsAll(c: Collection<*>): Boolean {
         return c.any { this.contains(it) }
     }
-
 
     open fun indexOf(o: Any): Int = this.parts.indices.firstOrNull { Companion.equals(this.parts[it], o) } ?: -1
 
@@ -93,7 +105,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
 
     open fun parallelStream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), true)
 
-    override fun toString(): String = if(this.isEmpty) "CodeSource[]" else "CodeSource[...]"
+    override fun toString(): String = if (this.isEmpty) "CodeSource[]" else "CodeSource[...]"
 
     private inner class Iterat : Iterator<CodePart> {
 
@@ -107,7 +119,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
             if (!this.hasNext())
                 throw java.util.NoSuchElementException()
 
-            return this@CodeSource.get(this.index++)
+            return this@CodeSource[this.index++]
         }
     }
 
@@ -127,7 +139,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
             if (!this.hasNext())
                 throw java.util.NoSuchElementException()
 
-            return this@CodeSource.get(this.index++)
+            return this@CodeSource[this.index++]
         }
 
         override fun hasPrevious(): Boolean {
@@ -139,7 +151,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
             if (!this.hasPrevious())
                 throw java.util.NoSuchElementException()
 
-            return this@CodeSource.get(--this.index)
+            return this@CodeSource[--this.index]
         }
 
         override fun nextIndex(): Int {
@@ -151,6 +163,9 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
         }
 
     }
+
+    inline fun CodeSource(size: Int, init: (index: Int) -> CodePart): CodeSource = fromIterable(List(size, init))
+
 
     companion object {
         private val EMPTY = emptyArray<CodePart>()
@@ -179,19 +194,25 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromIterable(iterable: Iterable<CodePart>): CodeSource {
-            return CodeSource(IterableUtil.stream(iterable).toArray { arrayOfNulls<CodePart>(it) as Array<CodePart> })
+            if(iterable is Collection<CodePart>)
+                return CodeSource(iterable.toTypedArray())
+
+            return CodeSource(iterable.toList().toTypedArray())
         }
 
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromGenericIterable(iterable: Iterable<*>): CodeSource {
-            return CodeSource(IterableUtil.stream(iterable).toArray { arrayOfNulls<CodePart>(it) as Array<CodePart> })
+            if(iterable is Collection<*>)
+                return CodeSource((iterable as Collection<CodePart>).toTypedArray())
+
+            return CodeSource((iterable as Iterable<CodePart>).toList().toTypedArray())
         }
 
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromCodeSourceIterable(iterable: Iterable<CodeSource>): CodeSource {
-            return CodeSource(IterableUtil.stream(iterable).flatMap { it.stream() }.toArray { arrayOfNulls<CodePart>(it) as Array<CodePart> })
+            return CodeSource(iterable.flatMap { it }.toTypedArray())
         }
 
         private fun equals(a: Any?, b: Any?): Boolean {

@@ -28,15 +28,10 @@
 package com.github.jonathanxd.codeapi
 
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.util.IterableUtil
-
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.Spliterator
+import java.util.*
 import java.util.function.Consumer
 import java.util.function.Predicate
 import java.util.function.UnaryOperator
-import java.util.stream.Collectors
 import java.util.stream.Stream
 
 /**
@@ -67,6 +62,38 @@ class MutableCodeSource : CodeSource, Cloneable {
 
     override val isNotEmpty: Boolean
         get() = !this.isEmpty
+
+    override operator fun plus(other: CodePart): MutableCodeSource {
+        return MutableCodeSource(this.backingList + other)
+    }
+
+    override operator fun minus(other: CodePart): MutableCodeSource {
+        return MutableCodeSource(this.backingList - other)
+    }
+
+    override operator fun plus(other: Iterable<CodePart>): MutableCodeSource {
+        return MutableCodeSource(this.backingList + other)
+    }
+
+    override operator fun minus(other: Iterable<CodePart>): MutableCodeSource {
+        return MutableCodeSource(this.backingList - other)
+    }
+
+    operator fun plusAssign(other: Iterable<CodePart>) {
+        this.addAll(other)
+    }
+
+    operator fun minusAssign(other: Iterable<CodePart>) {
+        this.removeAll(other)
+    }
+
+    operator fun plusAssign(other: CodePart) {
+        this.add(other)
+    }
+
+    operator fun minusAssign(other: CodePart) {
+        this.remove(other)
+    }
 
     override fun contains(o: Any): Boolean {
         return this.backingList.contains(o)
@@ -123,6 +150,14 @@ class MutableCodeSource : CodeSource, Cloneable {
     }
 
     fun retainAll(c: Collection<*>): Boolean {
+        return this.backingList.retainAll(c)
+    }
+
+    fun removeAll(c: Iterable<CodePart>): Boolean {
+        return this.backingList.removeAll(c)
+    }
+
+    fun retainAll(c: Iterable<CodePart>): Boolean {
         return this.backingList.retainAll(c)
     }
 
@@ -210,7 +245,7 @@ class MutableCodeSource : CodeSource, Cloneable {
         return this.backingList.hashCode()
     }
 
-    override fun toString(): String = if(this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
+    override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
     override fun stream(): Stream<CodePart> {
         return this.backingList.stream()
@@ -230,7 +265,7 @@ class MutableCodeSource : CodeSource, Cloneable {
 
 
     /**
-     * Exposes [.removeRange]
+     * Exposes [removeRange]
      */
     private class BackingArrayList : ArrayList<CodePart> {
         constructor() : super()
@@ -255,4 +290,11 @@ class MutableCodeSource : CodeSource, Cloneable {
             super.removeRange(fromIndex, toIndex)
         }
     }
+
+    inline fun MutableCodeSource(size: Int, init: (index: Int) -> CodePart): MutableCodeSource =
+            MutableCodeSource().let {
+                for (i in 0..size - 1) it += init(i)
+                return@let it
+            }
+
 }
