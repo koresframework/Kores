@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
@@ -50,6 +51,7 @@ public class VisitTest {
         ClassDeclaration myClass = CodeAPI.aClassBuilder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.ABC")
+                .withSuperClass(Types.OBJECT)
                 .withBody(new MutableCodeSource())
                 .build();
 
