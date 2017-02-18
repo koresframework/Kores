@@ -76,7 +76,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     /**
      * See [ClassDeclaration.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: ClassDeclaration) : this() {
         this.superClass = defaults.superClass

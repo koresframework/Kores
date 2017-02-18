@@ -76,7 +76,7 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
     /**
      * See [EnumDeclaration.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: EnumDeclaration) : this() {
         this.entries = defaults.entries

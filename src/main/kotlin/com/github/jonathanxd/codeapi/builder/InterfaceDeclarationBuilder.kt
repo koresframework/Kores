@@ -71,7 +71,7 @@ open class InterfaceDeclarationBuilder(): InterfaceDeclaration.Builder<Interface
     /**
      * See [InterfaceDeclaration.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: InterfaceDeclaration) : this() {
         this.implementations = defaults.implementations

@@ -61,7 +61,7 @@ open class FieldDeclarationBuilder(): FieldDeclaration.Builder<FieldDeclaration,
     /**
      * See [FieldDeclaration.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: FieldDeclaration) : this() {
         this.annotations = defaults.annotations

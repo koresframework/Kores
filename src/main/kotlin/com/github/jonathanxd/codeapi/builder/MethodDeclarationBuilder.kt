@@ -71,7 +71,7 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
     /**
      * See [MethodDeclaration.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: MethodDeclaration) : this() {
         this.parameters = defaults.parameters

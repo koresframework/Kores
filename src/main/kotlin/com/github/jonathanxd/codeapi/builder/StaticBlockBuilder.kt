@@ -41,7 +41,7 @@ open class StaticBlockBuilder(): StaticBlock.Builder<StaticBlock, StaticBlockBui
     /**
      * See [StaticBlock.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: StaticBlock) : this() {
         this.body = defaults.body

@@ -61,7 +61,7 @@ open class ConstructorDeclarationBuilder(): ConstructorDeclaration.Builder<Const
     /**
      * See [ConstructorDeclaration.comments]
      */
-    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+    var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: ConstructorDeclaration) : this() {
         this.parameters = defaults.parameters
