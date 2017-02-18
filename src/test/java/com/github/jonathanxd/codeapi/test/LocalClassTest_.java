@@ -68,6 +68,7 @@ public class LocalClassTest_ {
         ));
 
 
+
         return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
 

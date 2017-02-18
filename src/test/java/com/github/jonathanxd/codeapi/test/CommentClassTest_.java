@@ -65,6 +65,7 @@ public class CommentClassTest_ {
                 CommentsFactory.linkMethod("Test Method Link", indexOfMethodSpec)
         );
 
+
         TypeDeclaration myCl = ClassDeclarationBuilder.builder()
                 .withComments(comments)
                 .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
