@@ -32,22 +32,18 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
-import com.github.jonathanxd.codeapi.base.impl.comment.PlainImpl;
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.CommentsBuilder;
+import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder;
+import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.CommentsFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
-import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
-import java.util.Collections;
+import java.io.PrintStream;
 import java.util.EnumSet;
 
 public class CommentClassTest_ {
@@ -60,7 +56,7 @@ public class CommentClassTest_ {
         /*
          * Comment test class. {@link String#indexOf(int, int) Test Method Link}
          */
-        Comments comments = CommentsFactory.comments(
+        Comments comments = CommentsFactory.documentation(
                 CommentsFactory.plain("Comment test class. "),
                 CommentsFactory.linkMethod("Test Method Link", indexOfMethodSpec)
         );
@@ -71,7 +67,33 @@ public class CommentClassTest_ {
                 .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyClass")
                 .withSuperClass(Types.OBJECT)
-                .withBody(CodeSource.empty())
+                .withBody(CodeAPI.sourceOfParts(
+                        FieldDeclarationBuilder.builder()
+                                .withComments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
+                                .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
+                                .withName("fieldi")
+                                .withType(Types.STRING)
+                                .withValue(Literals.STRING("field"))
+                                .build(),
+                        MethodDeclarationBuilder.builder()
+                                .withComments(
+                                        CommentsFactory.documentation(
+                                                CommentsFactory.plain("Print "),
+                                                CommentsFactory.linkField("'fieldi' value", "com.MyClass", "fieldi", Types.STRING),
+                                                CommentsFactory.plain(" to "),
+                                                CommentsFactory.linkField("java.lang.System", "out", CodeAPI.getJavaType(PrintStream.class)),
+                                                CommentsFactory.plain(".")
+                                        )
+                                )
+                                .withModifiers(CodeModifier.PUBLIC)
+                                .withReturnType(Types.VOID)
+                                .withName("printFieldi")
+                                .withBody(CodeAPI.sourceOfParts(
+                                        CommentsFactory.comments(CommentsFactory.plain("Prints 'fieldi' value")),
+                                        Predefined.invokePrintlnStr(CodeAPI.accessThisField(Types.STRING, "fieldi"))
+                                ))
+                                .build()
+                ))
                 .build();
 
 
