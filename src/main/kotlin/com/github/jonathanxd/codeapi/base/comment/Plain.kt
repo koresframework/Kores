@@ -25,38 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.CodeElement
-import com.github.jonathanxd.codeapi.CodeRoot
-import com.github.jonathanxd.codeapi.base.comment.CommentHolder
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.builder.PlainBuilder
 
 /**
- * Method declaration
+ * Plain comment (like texts)
  */
-interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
+interface Plain : Comment {
 
-    override val type: CodeType
-        get() = this.returnType
+    /**
+     * Text of the plain comment
+     */
+    val text: String
 
-    override val returnType: CodeType
+    override fun builder(): Builder<Plain, *> = PlainBuilder()
 
-    override fun builder(): Builder<MethodDeclaration, *> = MethodDeclarationBuilder(this)
+    interface Builder<out T : Plain, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
-    interface Builder<out T : MethodDeclaration, S : Builder<T, S>> :
-            BodyHolder.Builder<T, S>,
-            ModifiersHolder.Builder<T, S>,
-            ReturnTypeHolder.Builder<T, S>,
-            ParametersHolder.Builder<T, S>,
-            GenericSignatureHolder.Builder<T, S>,
-            Annotable.Builder<T, S>,
-            Named.Builder<T, S>,
-            Typed.Builder<T, S>,
-            CommentHolder.Builder<T, S> {
-
-        override fun withType(value: CodeType): S = this.withReturnType(value)
+        /**
+         * See [T.text]
+         */
+        fun withText(value: String): S
 
     }
 }

@@ -25,56 +25,80 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.operator
+package com.github.jonathanxd.codeapi.base.comment
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.base.Named
-import com.github.jonathanxd.codeapi.builder.Builder
-import com.github.jonathanxd.codeapi.util.ToStringBuilder
+import com.github.jonathanxd.codeapi.builder.CommentsBuilder
 
 /**
- * Operator.
- *
- * Example of operators: Increment, Decrement, Less_than, etc...
+ * Hold a list of comments.
  */
-@GenerateTo(Named::class)
-sealed class Operator(override val name: String) : CodePart, Named {
+interface Comments : CodePart {
 
-    override fun toString(): String {
-        return ToStringBuilder.builder(this::class.java)
-                .add("name", this.name)
-                .toString()
+    /**
+     * Comments
+     */
+    val comments: List<Comment>
+
+    /**
+     * Type of this comments node.
+     */
+    val type: Type
+
+    /**
+     * Returns true if this [Comments] instance is [Absent]. Absent comment is not the same as
+     * empty comment.
+     */
+    fun isAbsent() = this === Absent
+
+    /**
+     * Returns true if this [Comments] instance is not [Absent]. Absent comment is not the same as
+     * empty comment.
+     */
+    fun isNotAbsent() = this === Absent
+
+    override fun builder(): Builder<Comments, *> = CommentsBuilder()
+
+    /**
+     * Comment type
+     */
+    enum class Type {
+        /**
+         * A simple comment.
+         */
+        COMMENT,
+
+        /**
+         * Documentation comment.
+         */
+        DOCUMENTATION
     }
 
-    override fun builder(): Builder = Builder(this)
+    interface Builder<out T : Comments, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.comments]
+         */
+        fun withComments(value: List<Comment>): S
+
+        /**
+         * See [T.comments]
+         */
+        fun withComments(vararg values: Comment): S
+
+        /**
+         * See [T.target]
+         */
+        fun withType(value: Type): S
+
+    }
 
     /**
-     * Mathematical operator
+     * Absent comments. Absent comment should not be generated.
      */
-    class Math(name: String): Operator(name)
-
-    /**
-     * Conditional operator
-     */
-    class Conditional(name: String): Operator(name)
-
-    class Builder() : Named.Builder<Operator, Builder> {
-
-        lateinit var name: String
-
-        constructor(defaults: Operator) : this() {
-            this.name = defaults.name
-        }
-
-        override fun withName(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun build(): Operator {
-            return Operators.knownOperators[this.name] ?: throw IllegalArgumentException("Cannot find operator: $name")
-        }
-
+    object Absent : Comments {
+        override val comments: List<Comment> = emptyList()
+        override val type: Type = Type.COMMENT
     }
 }
+

@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration
 
@@ -52,7 +51,7 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
     /**
      * See [AnnotationDeclaration.body]
      */
-    var body: com.github.jonathanxd.codeapi.CodeSource = CodeSource.empty()
+    var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
     /**
      * See [AnnotationDeclaration.modifiers]
@@ -69,14 +68,20 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
      */
     var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
 
+    /**
+     * See [AnnotationDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: AnnotationDeclaration) : this() {
-        this.qualifiedName = defaults.specifiedName // Fixes inner issue
+        this.qualifiedName = defaults.qualifiedName
         this.properties = defaults.properties
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers
         this.genericSignature = defaults.genericSignature
         this.outerClass = defaults.outerClass
+        this.comments = defaults.comments
     }
 
 
@@ -169,6 +174,15 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
         return this
     }
 
+
+    /**
+     * See [AnnotationDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): AnnotationDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): AnnotationDeclaration = AnnotationDeclarationImpl(
             qualifiedName = this.qualifiedName,
             properties = this.properties,
@@ -176,7 +190,8 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
             body = this.body,
             modifiers = this.modifiers,
             genericSignature = this.genericSignature,
-            outerClass = this.outerClass
+            outerClass = this.outerClass,
+            comments = this.comments
     )
 
 

@@ -73,15 +73,21 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
      */
     var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
 
+    /**
+     * See [EnumDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: EnumDeclaration) : this() {
         this.entries = defaults.entries
         this.implementations = defaults.implementations
-        this.qualifiedName = defaults.specifiedName // Fixes inner issue
+        this.qualifiedName = defaults.qualifiedName
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers
         this.genericSignature = defaults.genericSignature
         this.outerClass = defaults.outerClass
+        this.comments = defaults.comments
     }
 
 
@@ -192,6 +198,15 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
         return this
     }
 
+
+    /**
+     * See [EnumDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): EnumDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): EnumDeclaration = EnumDeclarationImpl(
             entries = this.entries,
             implementations = this.implementations,
@@ -200,7 +215,8 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
             body = this.body,
             modifiers = this.modifiers,
             genericSignature = this.genericSignature,
-            outerClass = this.outerClass
+            outerClass = this.outerClass,
+            comments = this.comments
     )
 
 

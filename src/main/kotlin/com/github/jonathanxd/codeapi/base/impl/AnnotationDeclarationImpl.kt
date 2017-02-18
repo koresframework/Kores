@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration
 import com.github.jonathanxd.codeapi.base.AnnotationProperty
 import com.github.jonathanxd.codeapi.base.BodyHolder
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -40,7 +41,10 @@ import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnnotationDeclaration {
+/**
+ * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
+ */
+class AnnotationDeclarationImpl @JvmOverloads constructor(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments = Comments.Absent) : AnnotationDeclaration {
 
     override val specifiedName: String = qualifiedName
 

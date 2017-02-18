@@ -61,12 +61,12 @@ open class VisitManager<T : CodePart> {
 
     @Suppress("UNCHECKED_CAST")
     fun <U : CodePart> visit(part: U, data: Data): U {
-        return this.getVisitor<CodePart>(part.javaClass).visit(part, data, this) as U
+        return this.getVisitor<CodePart>(part::class.java).visit(part, data, this) as U
     }
 
     @Suppress("UNCHECKED_CAST")
     fun visit(part: T): T {
-        val aClass = part.javaClass
+        val aClass = part::class.java
 
         val data = Data()
 

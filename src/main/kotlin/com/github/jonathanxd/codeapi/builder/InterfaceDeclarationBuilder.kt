@@ -68,14 +68,20 @@ open class InterfaceDeclarationBuilder(): InterfaceDeclaration.Builder<Interface
      */
     var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
 
+    /**
+     * See [InterfaceDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: InterfaceDeclaration) : this() {
         this.implementations = defaults.implementations
-        this.qualifiedName = defaults.specifiedName // Fixes inner issue
+        this.qualifiedName = defaults.qualifiedName
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers
         this.genericSignature = defaults.genericSignature
         this.outerClass = defaults.outerClass
+        this.comments = defaults.comments
     }
 
 
@@ -168,6 +174,15 @@ open class InterfaceDeclarationBuilder(): InterfaceDeclaration.Builder<Interface
         return this
     }
 
+
+    /**
+     * See [InterfaceDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): InterfaceDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): InterfaceDeclaration = InterfaceDeclarationImpl(
             implementations = this.implementations,
             qualifiedName = this.qualifiedName,
@@ -175,7 +190,8 @@ open class InterfaceDeclarationBuilder(): InterfaceDeclaration.Builder<Interface
             body = this.body,
             modifiers = this.modifiers,
             genericSignature = this.genericSignature,
-            outerClass = this.outerClass
+            outerClass = this.outerClass,
+            comments = this.comments
     )
 
 

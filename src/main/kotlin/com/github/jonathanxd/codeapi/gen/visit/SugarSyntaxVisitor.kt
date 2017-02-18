@@ -38,7 +38,7 @@ open class SugarSyntaxVisitor<in T : CodePart, out R : CodePart, V>(val sugarSyn
                 extraData.getRequired(ENVIRONMENT)
         ).generate(t, visitorGenerator)
 
-        visitorGenerator.generateTo(generated.javaClass, generated, extraData, null)
+        visitorGenerator.generateTo(generated::class.java, generated, extraData, null)
     }
 
     companion object {

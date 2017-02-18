@@ -58,12 +58,18 @@ open class ConstructorDeclarationBuilder(): ConstructorDeclaration.Builder<Const
      */
     var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
+    /**
+     * See [ConstructorDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: ConstructorDeclaration) : this() {
         this.parameters = defaults.parameters
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers
         this.genericSignature = defaults.genericSignature
+        this.comments = defaults.comments
     }
 
 
@@ -138,12 +144,22 @@ open class ConstructorDeclarationBuilder(): ConstructorDeclaration.Builder<Const
         return this
     }
 
+
+    /**
+     * See [ConstructorDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): ConstructorDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): ConstructorDeclaration = ConstructorDeclarationImpl(
             parameters = this.parameters,
             annotations = this.annotations,
             body = this.body,
             modifiers = this.modifiers,
-            genericSignature = this.genericSignature
+            genericSignature = this.genericSignature,
+            comments = this.comments
     )
 
 

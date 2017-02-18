@@ -32,12 +32,12 @@ package com.github.jonathanxd.codeapi.factory
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
-import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 import java.util.*
 
 // Short methods
@@ -78,6 +78,22 @@ fun field(annotations: Array<Annotation> = emptyArray(),
             modifiers,
             name,
             type
+    )
+}
+
+fun field(comments: Comments,
+          annotations: Array<Annotation> = emptyArray(),
+          modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+          type: CodeType,
+          name: String,
+          value: CodePart? = null): FieldDeclaration {
+    return FieldDeclarationImpl(
+            ArrayToList.toList(annotations),
+            value,
+            modifiers,
+            name,
+            type,
+            comments
     )
 }
 

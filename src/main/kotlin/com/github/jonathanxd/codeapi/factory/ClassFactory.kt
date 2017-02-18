@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.ClassDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.EnumDeclarationImpl
@@ -138,6 +139,28 @@ fun aClass(outerClass: CodeType? = null,
     )
 }
 
+fun aClass(outerClass: CodeType? = null,
+           comments: Comments,
+           annotations: Array<Annotation> = emptyArray(),
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+           qualifiedName: String,
+           signature: GenericSignature = GenericSignature.empty(),
+           superType: CodeType = Types.OBJECT,
+           implementations: Array<CodeType> = emptyArray(),
+           source: CodeSource = CodeSource.empty()): ClassDeclaration {
+    return ClassDeclarationImpl(
+            superType,
+            ArrayToList.toList(implementations),
+            qualifiedName,
+            ArrayToList.toList(annotations),
+            source,
+            modifiers,
+            signature,
+            outerClass,
+            comments
+    )
+}
+
 // ---------------------------------------------------------------
 //       Interface
 // ---------------------------------------------------------------
@@ -224,6 +247,26 @@ fun anInterface(outerClass: CodeType? = null,
     )
 }
 
+fun anInterface(outerClass: CodeType? = null,
+                comments: Comments,
+                annotations: Array<Annotation> = emptyArray(),
+                modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+                qualifiedName: String,
+                signature: GenericSignature = GenericSignature.empty(),
+                superInterfaces: Array<CodeType> = emptyArray(),
+                source: CodeSource = CodeSource.empty()): InterfaceDeclaration {
+    return InterfaceDeclarationImpl(
+            outerClass = outerClass,
+            annotations = ArrayToList.toList(annotations),
+            modifiers = modifiers,
+            genericSignature = signature,
+            qualifiedName = qualifiedName,
+            implementations = ArrayToList.toList(superInterfaces),
+            comments = comments,
+            body = source
+    )
+}
+
 // ---------------------------------------------------------------
 //       Annotation
 // ---------------------------------------------------------------
@@ -287,6 +330,25 @@ fun anAnnotation(outerClass: CodeType? = null,
     )
 }
 
+fun anAnnotation(outerClass: CodeType? = null,
+                 comments: Comments,
+                 annotations: Array<Annotation> = emptyArray(),
+                 modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+                 qualifiedName: String,
+                 signature: GenericSignature = GenericSignature.empty(),
+                 properties: Array<AnnotationProperty> = emptyArray(),
+                 source: CodeSource = CodeSource.empty()): AnnotationDeclaration {
+    return AnnotationDeclarationImpl(
+            outerClass = outerClass,
+            annotations = ArrayToList.toList(annotations),
+            modifiers = modifiers,
+            genericSignature = signature,
+            qualifiedName = qualifiedName,
+            properties = ArrayToList.toList(properties),
+            comments = comments,
+            body = source
+    )
+}
 
 // ---------------------------------------------------------------
 //       Enum
@@ -367,6 +429,28 @@ fun anEnum(outerClass: CodeType? = null,
             qualifiedName = qualifiedName,
             implementations = ArrayToList.toList(implementations),
             entries = ArrayToList.toList(entries),
+            body = source
+    )
+}
+
+fun anEnum(outerClass: CodeType? = null,
+           comments: Comments,
+           annotations: Array<Annotation> = emptyArray(),
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+           qualifiedName: String,
+           signature: GenericSignature = GenericSignature.empty(),
+           implementations: Array<CodeType> = emptyArray(),
+           entries: Array<EnumEntry> = emptyArray(),
+           source: CodeSource = CodeSource.empty()): EnumDeclaration {
+    return EnumDeclarationImpl(
+            outerClass = outerClass,
+            annotations = ArrayToList.toList(annotations),
+            modifiers = modifiers,
+            genericSignature = signature,
+            qualifiedName = qualifiedName,
+            implementations = ArrayToList.toList(implementations),
+            entries = ArrayToList.toList(entries),
+            comments = comments,
             body = source
     )
 }

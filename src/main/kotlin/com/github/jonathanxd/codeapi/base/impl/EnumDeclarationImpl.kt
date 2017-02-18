@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.EnumDeclaration
 import com.github.jonathanxd.codeapi.base.EnumEntry
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -40,7 +41,10 @@ import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-class EnumDeclarationImpl(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : EnumDeclaration {
+/**
+ * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
+ */
+class EnumDeclarationImpl @JvmOverloads constructor(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments = Comments.Absent) : EnumDeclaration {
 
     override val specifiedName: String = qualifiedName
 

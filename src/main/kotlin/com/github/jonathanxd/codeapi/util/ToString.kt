@@ -50,7 +50,7 @@ private fun toString(parts: MutableList<CodePart>, part: Any?, simple: Boolean):
             if (it == null)
                 "null"
             else
-                it.javaClass.simpleName + StringJoiner(", ", "[", "]").let { buffer ->
+                it::class.java.simpleName + StringJoiner(", ", "[", "]").let { buffer ->
                     toString(parts, it, simple, { a -> buffer.add(a) })
                     buffer.toString()
                 }
@@ -64,7 +64,7 @@ private fun toString(parts: MutableList<CodePart>, part: Any, simple: Boolean, b
         return
     }
 
-    val fields = (part.javaClass.fields + part.javaClass.declaredFields).distinct()
+    val fields = (part::class.java.fields + part::class.java.declaredFields).distinct()
 
     parts.add(part)
 
@@ -73,7 +73,7 @@ private fun toString(parts: MutableList<CodePart>, part: Any, simple: Boolean, b
         it.name to it[part]
     }.let {
         if (it.isEmpty()) {
-            part.javaClass.methods.filter {
+            part::class.java.methods.filter {
                 !Modifier.isStatic(it.modifiers)
                         && Modifier.isPublic(it.modifiers)
                         && it.name.startsWith("get")

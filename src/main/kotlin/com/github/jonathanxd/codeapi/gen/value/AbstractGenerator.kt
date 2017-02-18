@@ -63,14 +63,14 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
 
             index.set(i)
 
-            val call = generateTo(part.javaClass /*as Class<? extends CodePart>*/, part, null, codeSourceData, data)
+            val call = generateTo(part::class.java /*as Class<? extends CodePart>*/, part, null, codeSourceData, data)
 
             if (!call.isEmpty()) {
                 for (value in call) {
                     AbstractGenerator.helpApply(value, part, instance, appender, codeSourceData, data)
                 }
             } else {
-                throw IllegalStateException("Cannot find generator for '" + part.javaClass.canonicalName + "'")
+                throw IllegalStateException("Cannot find generator for '" + part::class.java.canonicalName + "'")
             }
         }
 
@@ -157,7 +157,7 @@ abstract class AbstractGenerator<T, C : AbstractGenerator<T, C>> : CodeGenerator
 
         }
 
-        throw IllegalStateException("Cannot find generator for '" + generatorTargetClass.canonicalName + "' while processing '" + target.javaClass.canonicalName + "'. Parents = " + parents)
+        throw IllegalStateException("Cannot find generator for '" + generatorTargetClass.canonicalName + "' while processing '" + target::class.java.canonicalName + "'. Parents = " + parents)
     }
 
     /**

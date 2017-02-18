@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -39,7 +40,7 @@ import com.github.jonathanxd.codeapi.util.self
 /**
  * Field declaration
  */
-interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable {
+interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable, CommentHolder {
 
     override val localization: CodeType
         get() = Alias.THIS
@@ -56,7 +57,8 @@ interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, 
             Typed.Builder<T, S>,
             ValueHolder.Builder<T, S>,
             ModifiersHolder.Builder<T, S>,
-            Annotable.Builder<T, S> {
+            Annotable.Builder<T, S>,
+            CommentHolder.Builder<T, S> {
 
         override fun withLocalization(value: CodeType): S = self()
         override fun withTarget(value: CodePart): S = self()

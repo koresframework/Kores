@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
@@ -40,7 +41,6 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
-import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 import java.util.*
 
 // Short methods
@@ -114,6 +114,26 @@ fun method(annotations: Array<Annotation> = emptyArray(),
             returnType,
             modifiers,
             genericSignature
+    )
+}
+
+fun method(comments: Comments,
+           annotations: Array<Annotation> = emptyArray(),
+           genericSignature: GenericSignature = GenericSignature.empty(),
+           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+           name: String,
+           returnType: CodeType = Types.VOID,
+           parameters: Array<CodeParameter> = emptyArray(),
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
+    return MethodDeclarationImpl(
+            ArrayToList.toList(parameters),
+            name,
+            ArrayToList.toList(annotations),
+            source,
+            returnType,
+            modifiers,
+            genericSignature,
+            comments
     )
 }
 

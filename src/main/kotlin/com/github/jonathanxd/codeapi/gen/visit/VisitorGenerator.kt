@@ -167,7 +167,7 @@ abstract class VisitorGenerator<T> : CodeGenerator<Array<out T>> {
             val tVisitor = get(partClass)
 
             if (!partClass.isInstance(codePart)) {
-                throw ClassCastException("Required type of visitor '${tVisitor.javaClass.canonicalName}' is ${partClass.canonicalName}, but provided codePart '$codePart' is of type '${codePart.javaClass.canonicalName}'.")
+                throw ClassCastException("Required type of visitor '${tVisitor::class.java.canonicalName}' is ${partClass.canonicalName}, but provided codePart '$codePart' is of type '${codePart::class.java.canonicalName}'.")
             }
 
             val visit = visit(tVisitor, codePart, extraData, additional)

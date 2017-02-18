@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
-import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.impl.ClassDeclarationImpl
 import com.github.jonathanxd.codeapi.base.ClassDeclaration
 
@@ -37,7 +36,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     /**
      * See [ClassDeclaration.superClass]
      */
-    var superClass: com.github.jonathanxd.codeapi.type.CodeType? = null
+    lateinit var superClass: com.github.jonathanxd.codeapi.type.CodeType
 
     /**
      * See [ClassDeclaration.implementations]
@@ -74,15 +73,21 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
      */
     var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
 
+    /**
+     * See [ClassDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: ClassDeclaration) : this() {
         this.superClass = defaults.superClass
         this.implementations = defaults.implementations
-        this.qualifiedName = defaults.specifiedName // Fixes inner issue
+        this.qualifiedName = defaults.qualifiedName
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers
         this.genericSignature = defaults.genericSignature
         this.outerClass = defaults.outerClass
+        this.comments = defaults.comments
     }
 
 
@@ -90,7 +95,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
      * See [ClassDeclaration.superClass]
      */
     override fun withSuperClass(value: com.github.jonathanxd.codeapi.type.CodeType?): ClassDeclarationBuilder {
-        this.superClass = value
+        this.superClass = value!!
         return this
     }
 
@@ -184,15 +189,25 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
         return this
     }
 
+
+    /**
+     * See [ClassDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): ClassDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): ClassDeclaration = ClassDeclarationImpl(
-            superClass = this.superClass ?: Types.OBJECT,
+            superClass = this.superClass,
             implementations = this.implementations,
             qualifiedName = this.qualifiedName,
             annotations = this.annotations,
             body = this.body,
             modifiers = this.modifiers,
             genericSignature = this.genericSignature,
-            outerClass = this.outerClass
+            outerClass = this.outerClass,
+            comments = this.comments
     )
 
 

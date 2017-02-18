@@ -45,6 +45,6 @@ abstract class Literal protected constructor(val value: Any, override val name: 
     override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
 
     override fun toString(): String {
-        return "${this.javaClass.simpleName}[name=$name, type=$type]"
+        return "${this::class.java.simpleName}[name=$name, type=$type]"
     }
 }

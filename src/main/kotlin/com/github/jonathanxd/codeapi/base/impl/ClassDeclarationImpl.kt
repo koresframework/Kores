@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.ClassDeclaration
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -40,7 +41,10 @@ import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-class ClassDeclarationImpl(override val superClass: CodeType, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : ClassDeclaration {
+/**
+ * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
+ */
+class ClassDeclarationImpl @JvmOverloads constructor(override val superClass: CodeType, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments = Comments.Absent) : ClassDeclaration {
 
     override val specifiedName: String = qualifiedName
 

@@ -31,6 +31,7 @@ package com.github.jonathanxd.codeapi.factory
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.base.impl.ConstructorDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
@@ -95,5 +96,21 @@ fun constructor(annotations: Array<Annotation> = emptyArray(),
             source,
             modifiers,
             signature
+    )
+}
+
+fun constructor(comments: Comments,
+                annotations: Array<Annotation> = emptyArray(),
+                signature: GenericSignature = GenericSignature.empty(),
+                modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+                parameters: Array<CodeParameter> = emptyArray(),
+                source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
+    return ConstructorDeclarationImpl(
+            ArrayToList.toList(parameters),
+            ArrayToList.toList(annotations),
+            source,
+            modifiers,
+            signature,
+            comments
     )
 }

@@ -1534,6 +1534,16 @@ public final class CodeAPI {
      * @param parameterTypes Parameter types.
      * @return Specification of a signature.
      */
+    public static TypeSpec constructorTypeSpec() {
+        return typeSpec__factory(Types.VOID);
+    }
+
+    /**
+     * Specification of a constructor signature.
+     *
+     * @param parameterTypes Parameter types.
+     * @return Specification of a signature.
+     */
     public static TypeSpec constructorTypeSpec(CodeType... parameterTypes) {
         return typeSpec__factory(Types.VOID, parameterTypes);
     }
@@ -1591,6 +1601,10 @@ public final class CodeAPI {
     }
 
     // Factory
+
+    private static TypeSpec typeSpec__factory(CodeType returnType) {
+        return new TypeSpec(returnType, Collections.emptyList());
+    }
 
     private static TypeSpec typeSpec__factory(CodeType returnType, CodeType[] parameterTypes) {
         return new TypeSpec(returnType, ArrayToList.toList(parameterTypes));

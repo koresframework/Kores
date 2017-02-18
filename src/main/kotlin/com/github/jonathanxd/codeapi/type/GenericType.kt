@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.type
 
+import com.github.jonathanxd.codeapi.util.eq
 import java.util.*
 
 /**
@@ -137,6 +138,7 @@ interface GenericType : CodeType {
 
     override fun toArray(dimensions: Int): GenericType
 
+    override fun `is`(another: CodeType?): Boolean = this == another
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int
     override fun toString(): String

@@ -34,12 +34,6 @@ import com.github.jonathanxd.codeapi.type.LoadedCodeType
 import java.util.*
 
 /**
- * Default `is` algorithm for [GenericType], this algorithm differs from the `CodeType`,
- * the default implementation don't take care about generics.
- */
-fun GenericType.`is`(other: CodeType): Boolean = this == other
-
-/**
  * Default equals algorithm for [GenericType]
  */
 fun GenericType.eq(other: Any?): Boolean {
@@ -105,7 +99,7 @@ fun CodeType.eq(obj: Any?): Boolean = obj is CodeType && this.`is`(obj)
  *
  * This methods generates a string with the simple name of current class and the [Java type specification][CodeType.javaSpecName].
  */
-fun CodeType.toStr(): String = "${this.javaClass.simpleName}[${this.javaSpecName}]"
+fun CodeType.toStr(): String = "${this::class.java.simpleName}[${this.javaSpecName}]"
 
 /**
  * Default equality check for [LoadedCodeType], this method checks if the loaded types are equal.

@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeRoot
+import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -35,9 +36,8 @@ import com.github.jonathanxd.codeapi.type.CodeType
  *
  * The [qualifiedName] MUST return a qualifiedName even for the inner classes, the [qualifiedName] of
  * inner classes must be: '[outerClass qualifiedName][qualifiedName] + simpleInnerName'.
- *
  */
-interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, BodyHolder, Annotable {
+interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, BodyHolder, Annotable, CommentHolder {
 
     /**
      * Outer class (null if this type is not a inner class).
@@ -68,7 +68,8 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
             QualifiedNamed.Builder<T, S>,
             GenericSignatureHolder.Builder<T, S>,
             BodyHolder.Builder<T, S>,
-            Annotable.Builder<T, S> {
+            Annotable.Builder<T, S>,
+            CommentHolder.Builder<T, S> {
         fun withOuterClass(value: CodeType?): S
     }
 }

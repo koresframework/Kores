@@ -25,38 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.base.impl.comment
 
-import com.github.jonathanxd.codeapi.CodeElement
-import com.github.jonathanxd.codeapi.CodeRoot
-import com.github.jonathanxd.codeapi.base.comment.CommentHolder
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.base.comment.Comment
+import com.github.jonathanxd.codeapi.base.comment.Comments
 
-/**
- * Method declaration
- */
-interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
-
-    override val type: CodeType
-        get() = this.returnType
-
-    override val returnType: CodeType
-
-    override fun builder(): Builder<MethodDeclaration, *> = MethodDeclarationBuilder(this)
-
-    interface Builder<out T : MethodDeclaration, S : Builder<T, S>> :
-            BodyHolder.Builder<T, S>,
-            ModifiersHolder.Builder<T, S>,
-            ReturnTypeHolder.Builder<T, S>,
-            ParametersHolder.Builder<T, S>,
-            GenericSignatureHolder.Builder<T, S>,
-            Annotable.Builder<T, S>,
-            Named.Builder<T, S>,
-            Typed.Builder<T, S>,
-            CommentHolder.Builder<T, S> {
-
-        override fun withType(value: CodeType): S = this.withReturnType(value)
-
-    }
-}
+data class CommentsImpl(override val comments: List<Comment>, override val type: Comments.Type) : Comments

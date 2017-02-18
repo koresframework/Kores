@@ -58,12 +58,18 @@ open class FieldDeclarationBuilder(): FieldDeclaration.Builder<FieldDeclaration,
      */
     lateinit var type: com.github.jonathanxd.codeapi.type.CodeType
 
+    /**
+     * See [FieldDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: FieldDeclaration) : this() {
         this.annotations = defaults.annotations
         this.value = defaults.value
         this.modifiers = defaults.modifiers
         this.name = defaults.name
         this.type = defaults.type
+        this.comments = defaults.comments
     }
 
 
@@ -129,12 +135,22 @@ open class FieldDeclarationBuilder(): FieldDeclaration.Builder<FieldDeclaration,
         return this
     }
 
+
+    /**
+     * See [FieldDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): FieldDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): FieldDeclaration = FieldDeclarationImpl(
             annotations = this.annotations,
             value = this.value,
             modifiers = this.modifiers,
             name = this.name,
-            type = this.type
+            type = this.type,
+            comments = this.comments
     )
 
 

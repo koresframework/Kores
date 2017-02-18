@@ -85,7 +85,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
 
     open fun toArray(): Array<CodePart> = this.parts.clone()
 
-    open fun <T> toArray(a: Array<T>): Array<T> = Arrays.copyOf(this.parts, this.parts.size, a.javaClass)
+    open fun <T> toArray(a: Array<T>): Array<T> = Arrays.copyOf(this.parts, this.parts.size, a::class.java)
 
     override fun spliterator(): Spliterator<CodePart> = Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
 

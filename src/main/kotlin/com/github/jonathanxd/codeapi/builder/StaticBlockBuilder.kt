@@ -38,8 +38,14 @@ open class StaticBlockBuilder(): StaticBlock.Builder<StaticBlock, StaticBlockBui
      */
     var body: com.github.jonathanxd.codeapi.CodeSource = com.github.jonathanxd.codeapi.CodeSource.empty()
 
+    /**
+     * See [StaticBlock.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: StaticBlock) : this() {
         this.body = defaults.body
+        this.comments = defaults.comments
     }
 
 
@@ -51,8 +57,18 @@ open class StaticBlockBuilder(): StaticBlock.Builder<StaticBlock, StaticBlockBui
         return this
     }
 
+
+    /**
+     * See [StaticBlock.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): StaticBlockBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): StaticBlock = StaticBlockImpl(
-            body = this.body
+            body = this.body,
+            comments = this.comments
     )
 
 

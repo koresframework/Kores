@@ -31,12 +31,15 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.GenericType
 
-data class ConstructorDeclarationImpl(override val parameters: List<CodeParameter>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature) : ConstructorDeclaration {
+/**
+ * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
+ */
+data class ConstructorDeclarationImpl @JvmOverloads constructor(override val parameters: List<CodeParameter>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val comments: Comments = Comments.Absent) : ConstructorDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

@@ -68,6 +68,11 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
      */
     var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
 
+    /**
+     * See [MethodDeclaration.comments]
+     */
+    lateinit var comments: com.github.jonathanxd.codeapi.base.comment.Comments
+
     constructor(defaults: MethodDeclaration) : this() {
         this.parameters = defaults.parameters
         this.name = defaults.name
@@ -76,6 +81,7 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
         this.returnType = defaults.returnType
         this.modifiers = defaults.modifiers
         this.genericSignature = defaults.genericSignature
+        this.comments = defaults.comments
     }
 
 
@@ -168,6 +174,15 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
         return this
     }
 
+
+    /**
+     * See [MethodDeclaration.comments]
+     */
+    override fun withComments(value: com.github.jonathanxd.codeapi.base.comment.Comments): MethodDeclarationBuilder {
+        this.comments = value
+        return this
+    }
+
     override fun build(): MethodDeclaration = MethodDeclarationImpl(
             parameters = this.parameters,
             name = this.name,
@@ -175,7 +190,8 @@ open class MethodDeclarationBuilder(): MethodDeclaration.Builder<MethodDeclarati
             body = this.body,
             returnType = this.returnType,
             modifiers = this.modifiers,
-            genericSignature = this.genericSignature
+            genericSignature = this.genericSignature,
+            comments = this.comments
     )
 
 

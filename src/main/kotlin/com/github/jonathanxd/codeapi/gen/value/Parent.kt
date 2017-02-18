@@ -58,7 +58,7 @@ class Parent<T>(val current: T, val target: Any, val parent: Parent<T>?) {
      * @return Found Parent, empty otherwise.
      */
     fun find(valueType: Class<*>): Optional<Parent<T>> {
-        return find({ t -> valueType.isAssignableFrom(t.target.javaClass) })
+        return find({ t -> valueType.isAssignableFrom(t.target::class.java) })
     }
 
     /**
@@ -68,7 +68,7 @@ class Parent<T>(val current: T, val target: Any, val parent: Parent<T>?) {
      * @return Found Parent, empty otherwise.
      */
     fun findEqual(valueType: Class<*>): Optional<Parent<T>> {
-        return find { t -> valueType == t.target.javaClass }
+        return find { t -> valueType == t.target::class.java }
     }
 
     /**
