@@ -60,6 +60,33 @@ class Data @JvmOverloads constructor(val parent: Data? = null) : Cloneable {
     }
 
     @Suppress("UNCHECKED_CAST")
+    fun <T: Any> getOrCreate(key: String, defaultValue: Lazy<T>): T {
+        val opt = this.getOptional<T>(key)
+
+        if(opt.isPresent)
+            return opt.get()
+        else {
+            val value = defaultValue.value
+            this.registerData(key, value)
+            return value
+        }
+    }
+
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T: Any> getOrCreate(key: String, defaultValue: T): T {
+
+        val opt = this.getOptional<T>(key)
+
+        if(opt.isPresent)
+            return opt.get()
+        else {
+            this.registerData(key, defaultValue)
+            return defaultValue
+        }
+
+    }
+    @Suppress("UNCHECKED_CAST")
     @JvmOverloads
     fun <T> getRequired(key: String, message: String = "Cannot find required key: $key"): T {
         return this.map[key]?.lastOrNull() as? T ?: throw IllegalStateException(message)
