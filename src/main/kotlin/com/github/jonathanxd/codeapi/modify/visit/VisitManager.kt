@@ -65,6 +65,11 @@ open class VisitManager<T : CodePart> {
     }
 
     @Suppress("UNCHECKED_CAST")
+    fun <U : CodePart> visit(type: Class<U>, part: U, data: Data): U {
+        return this.getVisitor<CodePart>(type).visit(part, data, this) as U
+    }
+
+    @Suppress("UNCHECKED_CAST")
     fun visit(part: T): T {
         val aClass = part::class.java
 
