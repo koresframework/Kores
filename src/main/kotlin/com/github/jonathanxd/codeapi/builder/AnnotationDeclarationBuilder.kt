@@ -74,7 +74,7 @@ open class AnnotationDeclarationBuilder(): AnnotationDeclaration.Builder<Annotat
     var comments: com.github.jonathanxd.codeapi.base.comment.Comments = com.github.jonathanxd.codeapi.base.comment.Comments.Absent
 
     constructor(defaults: AnnotationDeclaration) : this() {
-        this.qualifiedName = defaults.qualifiedName
+        this.qualifiedName = defaults.specifiedName // Fixes inner issue
         this.properties = defaults.properties
         this.annotations = defaults.annotations
         this.body = defaults.body

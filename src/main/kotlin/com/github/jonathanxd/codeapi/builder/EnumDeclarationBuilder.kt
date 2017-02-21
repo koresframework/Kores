@@ -81,7 +81,7 @@ open class EnumDeclarationBuilder(): EnumDeclaration.Builder<EnumDeclaration, En
     constructor(defaults: EnumDeclaration) : this() {
         this.entries = defaults.entries
         this.implementations = defaults.implementations
-        this.qualifiedName = defaults.qualifiedName
+        this.qualifiedName = defaults.specifiedName // Fixes inner issue
         this.annotations = defaults.annotations
         this.body = defaults.body
         this.modifiers = defaults.modifiers
