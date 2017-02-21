@@ -59,7 +59,7 @@ public class LocalClassTest_ {
                 codeClass,
                 new Annotation[0],
                 EnumSet.noneOf(CodeModifier.class),
-                "test.Greeter",
+                "Greeter",
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
