@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.impl.ClassDeclarationImpl
 import com.github.jonathanxd.codeapi.base.ClassDeclaration
 
@@ -36,7 +37,7 @@ open class ClassDeclarationBuilder(): ClassDeclaration.Builder<ClassDeclaration,
     /**
      * See [ClassDeclaration.superClass]
      */
-    lateinit var superClass: com.github.jonathanxd.codeapi.type.CodeType
+    var superClass: com.github.jonathanxd.codeapi.type.CodeType = Types.OBJECT
 
     /**
      * See [ClassDeclaration.implementations]

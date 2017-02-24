@@ -117,6 +117,7 @@ import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.common.Void;
 import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentImpl;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
@@ -493,6 +494,10 @@ public final class CodeAPI {
     // =========================================================
     //          Return
     // =========================================================
+
+    public static Return returnVoid() {
+        return new ReturnImpl(Void.INSTANCE.getType(), Void.INSTANCE);
+    }
 
     public static Return returnValue(CodeType valueType, CodePart value) {
         return new ReturnImpl(valueType, value);
