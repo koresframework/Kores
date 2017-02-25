@@ -27,14 +27,25 @@
  */
 package com.github.jonathanxd.codeapi.util;
 
+import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
+import com.github.jonathanxd.codeapi.type.PlainCodeType;
+import com.github.jonathanxd.iutils.condition.Conditions;
+import com.github.jonathanxd.iutils.type.TypeInfo;
+
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility of generic types.
  */
 public class GenericTypeUtil {
+
+    private static final Pattern TYPE_VAR_REGEX = Pattern.compile("(([A-Za-z0-9_?]*) (extends|super) ).*");
 
     /**
      * Convert generic signature to string.
@@ -126,6 +137,99 @@ public class GenericTypeUtil {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Parse {@link String generic source string} and construct {@link GenericType}.
+     *
+     * @param sourceString Source string.
+     * @return Construct a {@link GenericType} from {@code generic source string};
+     */
+    public static GenericType fromSourceString(String sourceString) {
+        return GenericTypeUtil.fromSourceString(sourceString, s -> {
+            try {
+                return CodeAPI.getJavaType(TypeInfo.resolveClass(s));
+            } catch (Exception e) {
+                return new PlainCodeType(s, false);
+            }
+        });
+    }
+
+    /**
+     * Parse {@link String generic source string} and construct {@link GenericType}.
+     *
+     * @param sourceString Source string.
+     * @param typeResolver Resolves {@link CodeType} from {@link String string type}.
+     * @return Construct a {@link GenericType} from {@code generic source string};
+     */
+    public static GenericType fromSourceString(String sourceString, Function<String, CodeType> typeResolver) {
+        if (sourceString.contains("<")) {
+            Conditions.require(sourceString.endsWith(">"), "The input generic string: '" + sourceString + "' MUST end with '>'.");
+
+            String type = GenericTypeUtil.extractType(sourceString);
+            String generic = GenericTypeUtil.extractGeneric(sourceString);
+
+            CodeType apply = typeResolver.apply(type);
+
+            Generic genericType = Generic.type(apply);
+
+            return GenericTypeUtil.fromSourceString(genericType, generic, typeResolver);
+        }
+
+        return Generic.type(typeResolver.apply(sourceString));
+    }
+
+    private static Generic fromSourceString(Generic generic, String sourceString, Function<String, CodeType> typeResolver) {
+
+        if (!sourceString.contains("<"))
+            return generic.of(typeResolver.apply(sourceString));
+
+        String[] types;
+
+        if (StringsKt.containsBefore(sourceString, ", ", "<"))
+            types = sourceString.split(", ");
+        else
+            types = new String[]{sourceString};
+
+        for (String type_ : types) {
+
+            if(!type_.contains("<")) {
+                generic = generic.of(typeResolver.apply(type_));
+            } else {
+                String genericStr = GenericTypeUtil.extractGeneric(type_);
+                type_ = GenericTypeUtil.extractType(type_);
+
+
+
+                if (type_.startsWith("? extends ")) {
+                    type_ = type_.substring("? extends ".length());
+
+                    generic = generic.of(Generic.wildcard().extends$(
+                            GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">")
+                    ));
+                } else if (type_.startsWith("? super ")) {
+                    type_ = type_.substring("? super ".length());
+
+                    generic = generic.of(Generic.wildcard().extends$(
+                            GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">")
+                    ));
+                } else {
+                    generic = generic.of(GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">"));
+                }
+            }
+        }
+
+
+        return generic;
+
+    }
+
+    private static String extractType(String str) {
+        return str.substring(0, str.indexOf("<"));
+    }
+
+    private static String extractGeneric(String str) {
+        return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
     }
 
 }
