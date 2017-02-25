@@ -181,9 +181,6 @@ public class GenericTypeUtil {
 
     private static Generic fromSourceString(Generic generic, String sourceString, Function<String, CodeType> typeResolver) {
 
-        if (!sourceString.contains("<"))
-            return generic.of(typeResolver.apply(sourceString));
-
         String[] types;
 
         if (StringsKt.containsBefore(sourceString, ", ", "<"))
@@ -192,31 +189,38 @@ public class GenericTypeUtil {
             types = new String[]{sourceString};
 
         for (String type_ : types) {
+            boolean containsTag = type_.contains("<");
 
-            if(!type_.contains("<")) {
-                generic = generic.of(typeResolver.apply(type_));
-            } else {
-                String genericStr = GenericTypeUtil.extractGeneric(type_);
-                type_ = GenericTypeUtil.extractType(type_);
+            String genericStr = containsTag ? GenericTypeUtil.extractGeneric(type_) : null;
+            type_ = containsTag ? GenericTypeUtil.extractType(type_) : type_;
 
+            Matcher matcher = TYPE_VAR_REGEX.matcher(type_);
 
+            if(matcher.matches()) {
+                type_ = type_.substring(matcher.group(1).length());
 
-                if (type_.startsWith("? extends ")) {
-                    type_ = type_.substring("? extends ".length());
+                String varName = matcher.group(2);
+                boolean isWildcard = varName.equals("?");
 
-                    generic = generic.of(Generic.wildcard().extends$(
-                            GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">")
-                    ));
-                } else if (type_.startsWith("? super ")) {
-                    type_ = type_.substring("? super ".length());
+                boolean isExtends = matcher.group(3).equals("extends");
 
-                    generic = generic.of(Generic.wildcard().extends$(
-                            GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">")
-                    ));
-                } else {
-                    generic = generic.of(GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">"));
+                Generic base = isWildcard ? Generic.wildcard() : Generic.type(varName);
+
+                CodeType codeType = genericStr == null ? typeResolver.apply(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
+
+                if (isExtends) {
+                    generic = generic.of(base.extends$(codeType));
+                } else /* if(isSuper) */{
+                    generic = generic.of(base.super$(codeType));
                 }
+
+            } else {
+
+                CodeType codeType = genericStr == null ? typeResolver.apply(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
+
+                generic = generic.of(codeType);
             }
+
         }
 
 
