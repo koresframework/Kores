@@ -37,6 +37,12 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
     override fun builder(): Builder = Builder(this)
 
     /**
+     * Human readable method specification string.
+     */
+    fun toMethodString() =
+            "${localization.canonicalName}.$methodName${typeSpec.toTypeString()}"
+
+    /**
      * This method will not compare the method localization.
      */
     override operator fun compareTo(other: MethodTypeSpec): Int {
@@ -76,7 +82,6 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
         }
 
         override fun build(): MethodTypeSpec = MethodTypeSpec(localization, methodName, typeSpec)
-
 
     }
 }

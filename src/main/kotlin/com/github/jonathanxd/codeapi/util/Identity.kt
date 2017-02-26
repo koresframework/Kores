@@ -26,6 +26,7 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("Identity")
+
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -97,19 +98,18 @@ fun CodeType.eq(obj: Any?): Boolean = obj is CodeType && this.`is`(obj)
 /**
  * Default to string conversion for [CodeType].
  *
- * This methods generates a string with the simple name of current class,
- * [Java type specification][CodeType.javaSpecName] and [Type Identification][CodeType.identification].
+ * This methods generates a string with the simple name of current class and the [Type Identification][CodeType.identification].
  */
-fun CodeType.toStr(): String = "${this::class.java.simpleName}[spec: ${this.javaSpecName}, identification: ${this.identification}]"
+fun CodeType.toStr(): String = "${this::class.java.simpleName}[${this.identification}]"
 
 /**
  * Default equality check for [LoadedCodeType], this method checks if the loaded types are equal.
  */
 fun <T> LoadedCodeType<T>.eq(obj: Any?) =
-        if(obj == null)
+        if (obj == null)
             false
         else
-            if(obj is LoadedCodeType<*>)
+            if (obj is LoadedCodeType<*>)
                 this.loadedType == obj.loadedType
             else
                 (this as CodeType).eq(obj)

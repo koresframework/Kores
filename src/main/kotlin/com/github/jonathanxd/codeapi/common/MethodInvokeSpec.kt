@@ -35,6 +35,12 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
     override val type: CodeType
         get() = this.methodTypeSpec.type
 
+    /**
+     * Human readable method invocation string.
+     */
+    fun toInvocationString() =
+            "${invokeType.name.toLowerCase()} ${this.methodTypeSpec.toMethodString()}"
+
     override fun builder(): Builder = Builder(this)
 
     override fun compareTo(other: MethodInvokeSpec): Int {

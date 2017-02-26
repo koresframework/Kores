@@ -40,6 +40,13 @@ data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val para
         return Objects.hash(returnType, parameterTypes)
     }
 
+    /**
+     * Human readable type specification string.
+     */
+    fun toTypeString() =
+            "(${this.parameterTypes.map { it.canonicalName }.joinToString()})${this.returnType.canonicalName}"
+
+
     override fun builder(): Builder = Builder(this)
 
     override fun equals(other: Any?): Boolean {
@@ -59,7 +66,7 @@ data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val para
         var returnType: CodeType = Types.VOID
         var parameterTypes: List<CodeType> = emptyList()
 
-        constructor(defaults: TypeSpec): this() {
+        constructor(defaults: TypeSpec) : this() {
             this.returnType = defaults.returnType
             this.parameterTypes = defaults.parameterTypes
         }
