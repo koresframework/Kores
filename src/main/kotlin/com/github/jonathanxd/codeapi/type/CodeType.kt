@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.util.CodeTypeUtil
+import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
 
 /**
  * A type representation, like:
@@ -102,7 +102,7 @@ interface CodeType : CodePart, Comparable<CodeType> {
      * `path.to.A.B[]` = `[Lpath/to/A$B;`
      */
     val javaSpecName: String
-        get() = CodeTypeUtil.codeTypeToTypeDesc(this)
+        get() = codeTypeToTypeDesc(this)
 
     /**
      * True if this [CodeType] is a primitive type.
@@ -153,7 +153,7 @@ interface CodeType : CodePart, Comparable<CodeType> {
      * returns [Integer], the Java equivalent method returns: `Integer[][]`.
      */
     val arrayBaseComponent: CodeType
-        get() = if(this.isArray) throw IllegalStateException("arrayBaseComponent not implemented") else this
+        get() = if (this.isArray) throw IllegalStateException("arrayBaseComponent not implemented") else this
 
     /**
      * Array component.
@@ -162,7 +162,15 @@ interface CodeType : CodePart, Comparable<CodeType> {
      * returns `Integer[][]`.
      */
     val arrayComponent: CodeType
-        get() = if(this.isArray) throw IllegalStateException("arrayComponent not implemented") else this
+        get() = if (this.isArray) throw IllegalStateException("arrayComponent not implemented") else this
+
+    /**
+     * Unique string identification, this property may be used for equality comparison, normal types,
+     * array types and generic types have different identifications, if a generic type represent a single
+     * [CodeType] without any bound, then the identification will be the same as the single [CodeType].
+     */
+    val identification: String
+        get() = this.javaSpecName
 
     /**
      * Convert this [CodeType] to a [CodeTypeArray].
@@ -189,7 +197,7 @@ interface CodeType : CodePart, Comparable<CodeType> {
     }
 
     override fun compareTo(other: CodeType): Int {
-        return this.javaSpecName.compareTo(other.javaSpecName)
+        return this.identification.compareTo(other.identification)
     }
 
     override fun hashCode(): Int

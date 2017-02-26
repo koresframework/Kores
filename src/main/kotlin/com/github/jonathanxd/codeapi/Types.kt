@@ -84,6 +84,7 @@ object Types {
 
     // CodeAPI
     @JvmField val CODE_TYPE: LoadedCodeType<CodeType> = PredefinedType(CodeType::class.java)
+    @JvmField val CODE_PART: LoadedCodeType<CodePart> = PredefinedType(CodePart::class.java)
 
     @GenerateTo(CodeType::class)
     private class PredefinedType<T> internal constructor(tClass: Class<T>) : JavaType<T>(tClass)

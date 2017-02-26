@@ -40,16 +40,16 @@ fun GenericType.eq(other: Any?): Boolean {
 
     if (other is GenericType) {
 
-        if (this.isWildcard == other.isWildcard
+        return this.isWildcard == other.isWildcard
                 && this.isType == other.isType
                 && this.name == other.name
-                && Arrays.deepEquals(this.bounds, other.bounds)) {
-            return true
-        }
+                && Arrays.deepEquals(this.bounds, other.bounds)
 
+    } else if (other is CodeType) {
+        return this.isType && this.bounds.isEmpty() && this.identification == other.identification
+    } else {
+        return false
     }
-
-    return false
 }
 
 /**
@@ -83,7 +83,7 @@ fun GenericType.toStr(): String {
  * @return Hash code.
  */
 fun CodeType.hash(): Int {
-    return this.javaSpecName.hashCode()
+    return this.identification.hashCode()
 }
 
 /**
@@ -97,9 +97,10 @@ fun CodeType.eq(obj: Any?): Boolean = obj is CodeType && this.`is`(obj)
 /**
  * Default to string conversion for [CodeType].
  *
- * This methods generates a string with the simple name of current class and the [Java type specification][CodeType.javaSpecName].
+ * This methods generates a string with the simple name of current class,
+ * [Java type specification][CodeType.javaSpecName] and [Type Identification][CodeType.identification].
  */
-fun CodeType.toStr(): String = "${this::class.java.simpleName}[${this.javaSpecName}]"
+fun CodeType.toStr(): String = "${this::class.java.simpleName}[spec: ${this.javaSpecName}, identification: ${this.identification}]"
 
 /**
  * Default equality check for [LoadedCodeType], this method checks if the loaded types are equal.

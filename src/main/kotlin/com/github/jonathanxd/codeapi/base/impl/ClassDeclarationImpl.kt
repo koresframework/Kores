@@ -35,10 +35,7 @@ import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.CodeTypeUtil
-import com.github.jonathanxd.codeapi.util.asString
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.*
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
 /**
@@ -49,10 +46,10 @@ class ClassDeclarationImpl @JvmOverloads constructor(override val superClass: Co
     override val specifiedName: String = qualifiedName
 
     override val qualifiedName: String = qualifiedName
-        get() = CodeTypeUtil.resolveRealQualified(field, this.outerClass)
+        get() = resolveRealQualified(field, this.outerClass)
 
     override val type: String = qualifiedName
-        get() = CodeTypeUtil.resolveInternalQualified(field, this.outerClass)
+        get() = resolveInternalQualified(field, this.outerClass)
 
     init {
         BodyHolder.checkBody(this)

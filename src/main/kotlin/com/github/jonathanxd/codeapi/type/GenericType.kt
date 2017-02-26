@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.toName
 import java.util.*
 
 /**
@@ -73,6 +74,13 @@ interface GenericType : CodeType {
     val isWildcard: Boolean
         get() = this.name == "*"
 
+    override val identification: String
+        get() {
+            if (this.isType && this.bounds.isEmpty())
+                return this.javaSpecName
+            else
+                return toName(this)
+        }
 
     // CodeType Overrides
     override val type: String
@@ -142,6 +150,7 @@ interface GenericType : CodeType {
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int
     override fun toString(): String
+    override fun compareTo(other: CodeType): Int = if (this.eq(other)) 0 else -1
 
     override fun builder(): Builder<GenericType, *> = GenericTypeBuilder(this)
 
