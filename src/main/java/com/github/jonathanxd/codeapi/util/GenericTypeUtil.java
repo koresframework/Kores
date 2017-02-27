@@ -216,9 +216,13 @@ public class GenericTypeUtil {
 
             } else {
 
-                CodeType codeType = genericStr == null ? typeResolver.apply(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
+                if(type_.equals("?")) {
+                    generic = generic.of(Generic.wildcard());
+                } else {
+                    CodeType codeType = genericStr == null ? typeResolver.apply(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
 
-                generic = generic.of(codeType);
+                    generic = generic.of(codeType);
+                }
             }
 
         }
