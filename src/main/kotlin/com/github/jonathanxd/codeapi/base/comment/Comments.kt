@@ -55,7 +55,7 @@ interface Comments : CodePart {
      * Returns true if this [Comments] instance is not [Absent]. Absent comment is not the same as
      * empty comment.
      */
-    fun isNotAbsent() = this === Absent
+    fun isNotAbsent() = this !== Absent
 
     override fun builder(): Builder<Comments, *> = CommentsBuilder()
 
