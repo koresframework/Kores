@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.base.BodyHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -98,7 +99,7 @@ public class SourceInspect<R> {
 
         List<R> list = new ArrayList<>();
 
-        this.inspect(source, this.inspectCodeSource, list, 0);
+        this.inspect(source, this.inspectCodeSource, list::add, 0);
 
         return list;
     }
@@ -115,7 +116,7 @@ public class SourceInspect<R> {
 
         List<R> list = new ArrayList<>();
 
-        this.inspect(source, this.inspectCodeSource, list, start);
+        this.inspect(source, this.inspectCodeSource, list::add, start);
 
         return list;
     }
@@ -132,7 +133,7 @@ public class SourceInspect<R> {
      * returns {@code false}.
      * @throws IndexOutOfBoundsException If {@code start} index exceeds the {@code source} size.
      */
-    private boolean inspect(CodeSource source, boolean inspect, List<R> list, int start) {
+    private boolean inspect(CodeSource source, boolean inspect, Consumer<R> consumer, int start) {
 
         if (start == 0 && source.getSize() == 0)
             return true;
@@ -148,14 +149,14 @@ public class SourceInspect<R> {
                 if (this.subPredicate != null && this.subPredicate.test((BodyHolder) codePart)) {
                     CodeSource body = ((BodyHolder) codePart).getBody();
 
-                    if (!this.inspect(body, true, list, 0)) {
+                    if (!this.inspect(body, true, consumer, 0)) {
                         return false;
                     }
                 }
             }
             if (inspect) {
                 if (this.predicate.test(codePart)) {
-                    list.add(this.mapper.apply(codePart));
+                    consumer.accept(this.mapper.apply(codePart));
                 } else if (this.stopPredicate.test(codePart)) {
                     return false;
                 }
