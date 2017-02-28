@@ -2541,8 +2541,14 @@ public final class CodeAPI {
     /**
      * Helper method to create if expressions.
      *
-     * @param objects {@link IfExpr IfExprs} and {@link Operator Operators}.
+     * @param objects {@link IfExpr IfExprs} and {@link Operator Operators}. If the object is not a
+     *                {@link IfExpr} or {@link Operator}, but is an instance of {@link CodePart}
+     *                then it will be wrapped in {@link CodeAPI#checkTrue(CodePart)}, if it is note
+     *                instance of {@link CodePart} a {@link IllegalArgumentException} will be
+     *                thrown.
      * @return If multi values.
+     * @throws IllegalArgumentException If an element of {@code objects} is not {@link IfExpr},
+     *                                  {@link Operator} or {@link CodePart}.
      */
     public static List<CodePart> ifExprs(Object... objects) {
         List<CodePart> list = new ArrayList<>();
@@ -2551,7 +2557,10 @@ public final class CodeAPI {
             if (object instanceof IfExpr || object instanceof Operator) {
                 list.add((CodePart) object);
             } else {
-                throw new IllegalArgumentException("Illegal input object: '" + object + "'.");
+                if (object instanceof CodePart)
+                    list.add(checkTrue((CodePart) object));
+                else
+                    throw new IllegalArgumentException("Illegal input object: '" + object + "'.");
             }
         }
 
