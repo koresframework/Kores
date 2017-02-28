@@ -61,9 +61,9 @@ interface Link : Comment {
             /**
              * A link to a class
              *
-             * @param canonicalName Canonical name of the class
+             * @param type Class type.
              */
-            data class Class(val canonicalName: String) : Element
+            data class Class(val type: CodeType) : Element
 
             /**
              * A link to a method
@@ -75,11 +75,11 @@ interface Link : Comment {
             /**
              * A link to a field
              *
-             * @param declaringClass Canonical name of declaring class of the field.
+             * @param declaringClass Declaring class of the field.
              * @param name Field name.
              * @param type Field type.
              */
-            data class Field(val declaringClass: String, val name: String, val type: CodeType) : Element
+            data class Field(val declaringClass: CodeType, val name: String, val type: CodeType) : Element
 
         }
 
