@@ -43,10 +43,15 @@ public class SourceInspectBuilder<R> {
     private Predicate<CodePart> partPredicate;
 
     /**
-     * Predicate to test {@link BodyHolder} elements. If test returns true, inspect elements inside the
-     * {@link BodyHolder}.
+     * Predicate to test {@link BodyHolder} elements. If test returns true, inspect elements inside
+     * the {@link BodyHolder}.
      */
     private Predicate<BodyHolder> subFindPredicate;
+
+    /**
+     * Predicate to test where to stop inspection.
+     */
+    private Predicate<CodePart> stopPredicate = codePart -> false;
 
     /**
      * True to inspect {@link CodeSource}, and not only sub elements.
@@ -124,6 +129,18 @@ public class SourceInspectBuilder<R> {
     }
 
     /**
+     * Sets the predicate that test where {@link CodePart} stops the inspection.
+     *
+     * @param predicate Predicate to test {@link CodePart}. If the predicate returns true, the
+     *                  inspection stop.
+     * @return {@code this}.
+     */
+    public SourceInspectBuilder<R> stopWhen(Predicate<CodePart> predicate) {
+        this.stopPredicate = predicate;
+        return this;
+    }
+
+    /**
      * Map the accepted elements to another type.
      *
      * @param mapper Mapper function
@@ -155,6 +172,6 @@ public class SourceInspectBuilder<R> {
      * @return {@link SourceInspect}.
      */
     public SourceInspect<R> build() {
-        return new SourceInspect<>(this.partPredicate, this.inspectCodeSource, this.subFindPredicate, this.mapper);
+        return new SourceInspect<>(this.partPredicate, this.inspectCodeSource, this.subFindPredicate, this.stopPredicate, this.mapper);
     }
 }

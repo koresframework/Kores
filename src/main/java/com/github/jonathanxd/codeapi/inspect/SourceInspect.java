@@ -60,14 +60,20 @@ public class SourceInspect<R> {
     private final Predicate<BodyHolder> subPredicate;
 
     /**
+     * Predicate to test where the inspection stops.
+     */
+    private final Predicate<CodePart> stopPredicate;
+
+    /**
      * Mapper to convert {@link CodePart}s to {@link R}.
      */
     private final Function<CodePart, R> mapper;
 
-    SourceInspect(Predicate<CodePart> predicate, boolean inspectCodeSource, Predicate<BodyHolder> subPredicate, Function<CodePart, R> mapper) {
+    SourceInspect(Predicate<CodePart> predicate, boolean inspectCodeSource, Predicate<BodyHolder> subPredicate, Predicate<CodePart> stopPredicate, Function<CodePart, R> mapper) {
         this.predicate = predicate;
         this.inspectCodeSource = inspectCodeSource;
         this.subPredicate = subPredicate;
+        this.stopPredicate = stopPredicate;
         this.mapper = mapper;
     }
 
@@ -121,12 +127,15 @@ public class SourceInspect<R> {
      * @param inspect Inspect current element.
      * @param list    Current list to add elements.
      * @param start   Starting index.
+     * @return Returns {@code true} if no one element matches the {@link #stopPredicate}, {@code
+     * false} if any element matches the {@link #stopPredicate}. The inspection stops if this method
+     * returns {@code false}.
      * @throws IndexOutOfBoundsException If {@code start} index exceeds the {@code source} size.
      */
-    private void inspect(CodeSource source, boolean inspect, List<R> list, int start) {
+    private boolean inspect(CodeSource source, boolean inspect, List<R> list, int start) {
 
         if (start == 0)
-            return;
+            return true;
 
         if (start >= source.getSize())
             throw new IndexOutOfBoundsException("Start index '" + start + "' is out of bounds. Size: " + source.getSize() + ".");
@@ -139,14 +148,21 @@ public class SourceInspect<R> {
                 if (this.subPredicate != null && this.subPredicate.test((BodyHolder) codePart)) {
                     CodeSource body = ((BodyHolder) codePart).getBody();
 
-                    this.inspect(body, true, list, 0);
+                    if (!this.inspect(body, true, list, 0)) {
+                        return false;
+                    }
                 }
             }
             if (inspect) {
                 if (this.predicate.test(codePart)) {
                     list.add(this.mapper.apply(codePart));
+                } else if (this.stopPredicate.test(codePart)) {
+                    return false;
                 }
             }
+
         }
+
+        return true;
     }
 }
