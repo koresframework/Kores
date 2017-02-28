@@ -106,6 +106,7 @@ import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder;
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.common.IfGroup;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
@@ -1536,7 +1537,6 @@ public final class CodeAPI {
     /**
      * Specification of a constructor signature.
      *
-     * @param parameterTypes Parameter types.
      * @return Specification of a signature.
      */
     public static TypeSpec constructorTypeSpec() {
@@ -2550,17 +2550,20 @@ public final class CodeAPI {
      * @throws IllegalArgumentException If an element of {@code objects} is not {@link IfExpr},
      *                                  {@link Operator} or {@link CodePart}.
      */
+    @SuppressWarnings("unchecked")
     public static List<CodePart> ifExprs(Object... objects) {
         List<CodePart> list = new ArrayList<>();
 
         for (Object object : objects) {
             if (object instanceof IfExpr || object instanceof Operator) {
                 list.add((CodePart) object);
+            } else if (object instanceof CodePart) {
+                list.add(checkTrue((CodePart) object));
+            } else if (object instanceof List<?>) {
+                List<? extends CodePart> other = (List<? extends CodePart>) object;
+                list.add(new IfGroup(other));
             } else {
-                if (object instanceof CodePart)
-                    list.add(checkTrue((CodePart) object));
-                else
-                    throw new IllegalArgumentException("Illegal input object: '" + object + "'.");
+                throw new IllegalArgumentException("Illegal input object: '" + object + "'.");
             }
         }
 
