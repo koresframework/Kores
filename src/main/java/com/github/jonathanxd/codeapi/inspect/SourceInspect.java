@@ -134,7 +134,7 @@ public class SourceInspect<R> {
      */
     private boolean inspect(CodeSource source, boolean inspect, List<R> list, int start) {
 
-        if (start == 0)
+        if (start == 0 && source.getSize() == 0)
             return true;
 
         if (start >= source.getSize())
