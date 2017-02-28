@@ -28,17 +28,28 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.IfExpressionHolder
 
-data class IfGroup(val expressions: List<CodePart>) : CodePart {
+data class IfGroup(override val expressions: List<CodePart>) : CodePart, IfExpressionHolder {
 
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<IfGroup, Builder> {
+    class Builder() : IfExpressionHolder.Builder<IfGroup, Builder> {
 
         var expressions: List<CodePart> = emptyList()
 
         constructor(defaults: IfGroup) : this() {
             this.expressions = defaults.expressions
+        }
+
+        override fun withExpressions(value: List<CodePart>): Builder {
+            this.expressions = value
+            return this
+        }
+
+        override fun withExpressions(vararg values: CodePart): Builder {
+            this.expressions = values.toList()
+            return this
         }
 
         override fun build(): IfGroup = IfGroup(this.expressions)
