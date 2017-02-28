@@ -92,7 +92,24 @@ public class SourceInspect<R> {
 
         List<R> list = new ArrayList<>();
 
-        this.inspect(source, this.inspectCodeSource, list);
+        this.inspect(source, this.inspectCodeSource, list, 0);
+
+        return list;
+    }
+
+    /**
+     * Inspect the CodeSource.
+     *
+     * @param source Code source to inspect,
+     * @param start  Start index.
+     * @return List of elements that are accepted by {@link #predicate}.
+     * @throws IndexOutOfBoundsException If {@code start} index exceeds the {@code source} size.
+     */
+    public List<R> inspect(CodeSource source, int start) {
+
+        List<R> list = new ArrayList<>();
+
+        this.inspect(source, this.inspectCodeSource, list, start);
 
         return list;
     }
@@ -103,16 +120,26 @@ public class SourceInspect<R> {
      * @param source  Code source.
      * @param inspect Inspect current element.
      * @param list    Current list to add elements.
+     * @param start   Starting index.
+     * @throws IndexOutOfBoundsException If {@code start} index exceeds the {@code source} size.
      */
-    private void inspect(CodeSource source, boolean inspect, List<R> list) {
+    private void inspect(CodeSource source, boolean inspect, List<R> list, int start) {
 
-        for (CodePart codePart : source) {
+        if (start == 0)
+            return;
+
+        if (start >= source.getSize())
+            throw new IndexOutOfBoundsException("Start index '" + start + "' is out of bounds. Size: " + source.getSize() + ".");
+
+        for (int i = start; i < source.getSize(); i++) {
+            CodePart codePart = source.get(i);
+
             // Deep inspection
             if (codePart instanceof BodyHolder) {
                 if (this.subPredicate != null && this.subPredicate.test((BodyHolder) codePart)) {
                     CodeSource body = ((BodyHolder) codePart).getBody();
 
-                    this.inspect(body, true, list);
+                    this.inspect(body, true, list, 0);
                 }
             }
             if (inspect) {
