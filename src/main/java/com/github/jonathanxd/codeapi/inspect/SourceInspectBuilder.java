@@ -167,6 +167,20 @@ public class SourceInspectBuilder<R> {
     }
 
     /**
+     * Inspect the {@link CodeSource}.
+     *
+     * @param codeSource Source to inspect.
+     * @param start      Start index.
+     * @return List with accepted elements.
+     * @throws IndexOutOfBoundsException If {@code start} index exceeds the {@code codeSource} size.
+     */
+    public List<R> inspect(CodeSource codeSource, int start) {
+        SourceInspect<R> build = this.build();
+
+        return build.inspect(codeSource, start);
+    }
+
+    /**
      * Build the {@link SourceInspect}.
      *
      * @return {@link SourceInspect}.
