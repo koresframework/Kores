@@ -82,7 +82,7 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     /**
      * Is a type.
      */
-    private val isType_: Boolean
+    private val isType_: Boolean = codeType != null
 
     /**
      * Create a generic type from a name (ex: T, E, R).
@@ -99,8 +99,6 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     private constructor(type: CodeType) : this(null, type, emptyArray())
 
     init {
-        this.isType_ = codeType != null
-
         if (name != null) {
             this.name = name
         } else {

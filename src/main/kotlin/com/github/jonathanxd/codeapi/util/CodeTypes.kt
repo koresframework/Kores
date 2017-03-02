@@ -31,9 +31,11 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.Generic
+import java.lang.reflect.*
 import kotlin.reflect.KClass
 
-val <T : Any> Class<T>.codeType: CodeType
+val <T> Class<T>.codeType: CodeType
     get() = CodeAPI.getJavaType(this)
 
 val <T : Any> KClass<T>.codeType: CodeType
@@ -41,3 +43,31 @@ val <T : Any> KClass<T>.codeType: CodeType
 
 val CodeType.descName: String
     get() = "L${this.canonicalName};"
+
+val Type.codeType: CodeType
+    get() = when (this) {
+        is ParameterizedType -> Generic.type(this.rawType.codeType).of(*this.actualTypeArguments.map(Type::codeType).toTypedArray())
+        is GenericArrayType -> Generic.type(this.genericComponentType.codeType)
+        is TypeVariable<*> -> Generic.type(this.name).of(*this.bounds.map(Type::codeType).toTypedArray())
+        is WildcardType -> {
+            var generic = Generic.wildcard()
+
+            this.lowerBounds.forEach {
+                if(it is Class<*> && it == Any::class.java)
+                    return@forEach
+
+                generic = generic.`super$`(it.codeType)
+            }
+
+            this.upperBounds.forEach {
+                if(it is Class<*> && it == Any::class.java)
+                    return@forEach
+
+                generic = generic.`extends$`(it.codeType)
+            }
+
+            generic
+        }
+        is Class<*> -> this.codeType
+        else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
+    }

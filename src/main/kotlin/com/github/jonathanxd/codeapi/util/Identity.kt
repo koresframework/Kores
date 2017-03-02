@@ -79,6 +79,34 @@ fun GenericType.toStr(): String {
 }
 
 /**
+ *
+ * Creates string representation of components of [GenericType].
+ *
+ * **This method is not recommended for object comparison.**
+ */
+fun GenericType.toComponentString(): String {
+    return ToStringBuilder.builder(this::class.java)
+            .add("name", this.name)
+            .add("isWildcard", this.isWildcard)
+            .add(if (this.isType) "codeType" else "inferredType", this.codeType)
+            .add("isType", this.isWildcard)
+            .add("bounds", this.bounds.map { it.toComponentString() })
+            .toString()
+}
+
+/**
+ * Creates a string representation of components of [GenericType.Bound].
+ *
+ * **This method is not recommended for object comparison.**
+ */
+fun GenericType.Bound.toComponentString(): String {
+    return ToStringBuilder.builder(this::class.java)
+            .add("sign", this.sign)
+            .add("type", this.type)
+            .toString()
+}
+
+/**
  * Default hash algorithm.
  *
  * @return Hash code.
