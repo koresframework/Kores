@@ -30,6 +30,7 @@
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
 import java.lang.reflect.*
@@ -46,21 +47,21 @@ val CodeType.descName: String
 
 val Type.codeType: CodeType
     get() = when (this) {
-        is ParameterizedType -> Generic.type(this.rawType.codeType).of(*this.actualTypeArguments.map(Type::codeType).toTypedArray())
+        is ParameterizedType -> Generic.type(this.rawType.codeType).of(*this.actualTypeArguments.map(Type::codeType).filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is GenericArrayType -> Generic.type(this.genericComponentType.codeType)
-        is TypeVariable<*> -> Generic.type(this.name).of(*this.bounds.map(Type::codeType).toTypedArray())
+        is TypeVariable<*> -> Generic.type(this.name).of(*this.bounds.map(Type::codeType).filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is WildcardType -> {
             var generic = Generic.wildcard()
 
             this.lowerBounds.forEach {
-                if(it is Class<*> && it == Any::class.java)
+                if (it is Class<*> && it == Any::class.java)
                     return@forEach
 
                 generic = generic.`super$`(it.codeType)
             }
 
             this.upperBounds.forEach {
-                if(it is Class<*> && it == Any::class.java)
+                if (it is Class<*> && it == Any::class.java)
                     return@forEach
 
                 generic = generic.`extends$`(it.codeType)

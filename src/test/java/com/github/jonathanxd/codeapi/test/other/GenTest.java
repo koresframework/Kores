@@ -37,6 +37,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +70,24 @@ public class GenTest {
                         Generic.wildcard().super$(Generic.type(CodeAPI.getJavaType(Map.class)).of(Types.INTEGER_WRAPPER, Types.STRING))
                 ))
         ));
+
+
+        CodeType mType = CodeTypes.getCodeType(M.class.getTypeParameters()[0]);
+        CodeType iter = CodeTypes.getCodeType(M.class.getDeclaredMethod("iter").getGenericReturnType());
+
+        System.out.println(mType);
+        System.out.println(iter);
+
+        Assert.assertTrue(Generic.type("T").is(mType));
+        Assert.assertTrue(Generic.type(Types.ITERATOR).of("T").is(iter));
+
+    }
+
+
+    public static class M<T> {
+        public Iterator<T> iter() {
+            return null;
+        }
     }
 
 }
