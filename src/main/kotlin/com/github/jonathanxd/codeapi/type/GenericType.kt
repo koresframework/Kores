@@ -61,7 +61,7 @@ interface GenericType : CodeType {
 
     /**
      * Returns true if this is a Type generic type, false if is a Type Variable generic type.
-
+     *
      * @return True if this is a Type generic type, false if is a Type Variable generic type.
      */
     val isType: Boolean

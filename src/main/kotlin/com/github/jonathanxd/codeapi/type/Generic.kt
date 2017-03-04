@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.type
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.GenericType.Bound
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.toStr
@@ -191,6 +192,22 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     }
 
     /**
+     * Add a type bound.
+     *
+     * @param type Type.
+     * @return New instance of generic type.
+     */
+    fun of(type: Class<*>): Generic = this.of(type.codeType)
+
+    /**
+     * Add type bounds.
+     *
+     * @param types Types.
+     * @return New instance of generic type.
+     */
+    fun of(vararg types: Class<*>): Generic = this.of(*types.map { it.codeType }.toTypedArray())
+
+    /**
      * Generic type that extends type variable `s`.
      *
      * @param s Type name.
@@ -215,9 +232,8 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
 
     /**
      * Generic type that extends type `type`.
-
+     *
      * @param type Type.
-     * *
      * @return New instance of generic type.
      */
     fun `extends$`(type: CodeType): Generic {
@@ -236,6 +252,24 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
 
         return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray<Bound>(this.bounds, bounds))
     }
+
+
+    /**
+     * Generic type that extends type `type`.
+     *
+     * @param type Type.
+     * @return New instance of generic type.
+     */
+    fun `extends$`(type: Class<*>): Generic = this.`extends$`(type.codeType)
+
+
+    /**
+     * Generic type that extends types `types`.
+     *
+     * @param types Types.
+     * @return New instance of generic type.
+     */
+    fun `extends$`(vararg types: Class<*>): Generic = this.`extends$`(*types.map { it.codeType }.toTypedArray())
 
     /**
      * Generic type that have a super type variable `s`.
@@ -282,6 +316,23 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
 
         return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds))
     }
+
+    /**
+     * Generic type that have a super type `type`.
+     *
+     * @param type Type.
+     * @return New instance of generic type.
+     */
+    fun `super$`(type: Class<*>): Generic = this.`super$`(type.codeType)
+
+    /**
+     * Generic type that have a super types `types`.
+     *
+     * @param types Types.
+     * @return New instance of generic type.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun `super$`(vararg types: Class<*>): Generic = this.`super$`(*types.map { it.codeType }.toTypedArray())
 
     override val isType: Boolean
         get() = !this.isWildcard && this.isType_
@@ -393,6 +444,15 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
         fun type(type: CodeType): Generic {
             return Generic(null, type, emptyArray())
         }
+
+        /**
+         * Create a generic type from a type.
+         *
+         * @param type Type.
+         * @return Generic of type.
+         */
+        @JvmStatic
+        fun type(type: Class<*>): Generic = this.type(type.codeType)
 
         /**
          * Create a generic wildcard (? in Java Language, * in JVM).

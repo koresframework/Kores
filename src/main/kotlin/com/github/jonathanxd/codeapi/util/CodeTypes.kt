@@ -43,6 +43,17 @@ val <T> Class<T>.codeType: CodeType
 val <T : Any> KClass<T>.codeType: CodeType
     get() = this.java.codeType
 
+// Multi
+val <T> Array<out Class<T>>.codeTypes: Array<CodeType>
+    get() = Array(this.size) { this[it].codeType }
+
+val <T : Any> Array<out KClass<T>>.codeTypes: Array<CodeType>
+    get() = Array(this.size) { this[it].java.codeType }
+
+val Array<out Type>.codeTypes: Array<CodeType>
+    get() = Array(this.size) { this[it].codeType }
+// Multi
+
 val CodeType.descName: String
     get() = "L${this.canonicalName};"
 
@@ -74,14 +85,15 @@ val Type.codeType: CodeType
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
     }
 
+
 fun CodeType.getType(name: String): CodeType? {
-    if(this is GenericType)
+    if (this is GenericType)
         return this.getType(name)
     return null
 }
 
 fun CodeType.getType(name: String, inside: CodeType): CodeType? {
-    if(this is GenericType)
+    if (this is GenericType)
         return this.getType(name, inside)
     return null
 }
@@ -94,7 +106,7 @@ fun CodeType.applyType(typeName: String, type: CodeType): CodeType {
 }
 
 fun GenericType.getType(name: String): CodeType? {
-    if(!this.isType && !this.isWildcard && this.name == name)
+    if (!this.isType && !this.isWildcard && this.name == name)
         return this.codeType
     else
         return this.codeType.getType(name) ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
@@ -103,16 +115,16 @@ fun GenericType.getType(name: String): CodeType? {
 fun GenericType.getType(name: String, inside: CodeType): CodeType? {
     val type = (inside as? GenericType)?.codeType ?: inside
 
-    if(!this.isType && !this.isWildcard && this.name == name)
+    if (!this.isType && !this.isWildcard && this.name == name)
         return type
-    else if(inside is GenericType) {
+    else if (inside is GenericType) {
         this.codeType.getType(name, inside.codeType)?.let {
             return it
         }
 
         this.bounds.forEachIndexed { index, bound ->
             if (inside.bounds.size == this.bounds.size)
-                return bound.type.getType(name, inside.bounds[index].type)
+                bound.type.getType(name, inside.bounds[index].type)?.let { return it }
         }
     }
 
@@ -138,10 +150,10 @@ fun GenericType.applyType(typeName: String, type: CodeType): GenericType {
             return Generic.wildcard().of(*bounds)
         }
 
-        if(this.isType) {
+        if (this.isType) {
             return Generic.type(this.codeType.applyType(typeName, type)).of(*bounds)
         }
     }
 
-    throw IllegalArgumentException("Illegal generic receiver '$this'")
+    return this
 }

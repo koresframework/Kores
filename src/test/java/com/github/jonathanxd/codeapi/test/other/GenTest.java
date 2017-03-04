@@ -31,16 +31,20 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.type.GenericType;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class GenTest {
 
@@ -92,12 +96,30 @@ public class GenTest {
         CodeType t = CodeTypes.getType(generic, "T", typed);
 
         System.out.println(t);
+
+        CodeType genericBase = Generic.type(Multi.class).of("K").of("V");
+        CodeType base = Generic.type(Multi.class).of(String.class, Integer.class);
+
+        CodeType consume = CodeTypes.getCodeType(Multi.class.getDeclaredMethod("consume", BiConsumer.class).getGenericParameterTypes()[0]);
+
+        consume = CodeTypes.applyType(consume, "K", CodeTypes.getType(genericBase, "K", base));
+
+        consume = CodeTypes.applyType(consume, "V", CodeTypes.getType(genericBase, "V", base));
+
+        Assert.assertTrue(Generic.type(BiConsumer.class).of(Generic.wildcard().super$(String.class)).of(Generic.wildcard().super$(Integer.class)).is(consume));
+
     }
 
 
     public static class M<T> {
         public Iterator<T> iter() {
             return null;
+        }
+    }
+
+    public static class Multi<K, V> {
+        public void consume(BiConsumer<? super K, ? super V> biConsumer) {
+
         }
     }
 

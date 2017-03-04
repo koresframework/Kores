@@ -16,6 +16,6 @@ buildscript {
 }
 
 group 'com.github.jonathanxd'
-version '3.2.4'
+version '3.2.5'
 
 apply from: 'gradle/common.gradle'
