@@ -84,8 +84,14 @@ public class GenTest {
 
         CodeType generic = Generic.wildcard().extends$(Generic.type(Types.LIST).of(Generic.wildcard().super$("T")));
         CodeType typeGeneric = CodeTypes.applyType(generic, "T", Types.STRING);
+        CodeType typed = Generic.wildcard().extends$(Generic.type(Types.LIST).of(Generic.wildcard().super$(Types.STRING)));
 
-        Assert.assertTrue(Generic.wildcard().extends$(Generic.type(Types.LIST).of(Generic.wildcard().super$(Types.STRING))).is(typeGeneric));
+        Assert.assertTrue(typed.is(typeGeneric));
+
+
+        CodeType t = CodeTypes.getType(generic, "T", typed);
+
+        System.out.println(t);
     }
 
 
