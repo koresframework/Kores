@@ -126,6 +126,26 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     }
 
     /**
+     * Add a bound.
+     *
+     * @param bound Bound.
+     * @return New instance of generic type.
+     */
+    fun of(bound: GenericType.Bound): Generic {
+        return Generic(this.name, this.definedCodeType, ArrayUtils.addToArray<Bound>(this.bounds, bound))
+    }
+
+    /**
+     * Add all [bounds].
+     *
+     * @param bounds Bounds.
+     * @return New instance of generic type.
+     */
+    fun of(vararg bounds: GenericType.Bound): Generic {
+        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray<Bound>(this.bounds, bounds))
+    }
+
+    /**
      * Add a name bound.
      *
      * @param s Name.

@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
+import com.github.jonathanxd.codeapi.type.GenericType
 import java.lang.reflect.*
 import kotlin.reflect.KClass
 
@@ -72,3 +73,37 @@ val Type.codeType: CodeType
         is Class<*> -> this.codeType
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
     }
+
+fun CodeType.applyType(typeName: String, type: CodeType): CodeType {
+    if (this is GenericType)
+        return this.applyType(typeName, type)
+    else
+        return this
+}
+
+fun GenericType.applyType(typeName: String, type: CodeType): GenericType {
+    val bounds = this.bounds.map {
+        when (it) {
+            is GenericType.GenericBound -> GenericType.GenericBound(it.type.applyType(typeName, type))
+            is GenericType.Super -> GenericType.Super(it.type.applyType(typeName, type))
+            is GenericType.Extends -> GenericType.Extends(it.type.applyType(typeName, type))
+            else -> throw IllegalArgumentException("Illegal bound type '$it'!")
+        }
+    }.toTypedArray()
+
+    if (!this.isType && !this.isWildcard) {
+        if (this.name == typeName) {
+            return type as? GenericType ?: Generic.type(type).of(*bounds)
+        }
+    } else {
+        if (this.isWildcard) {
+            return Generic.wildcard().of(*bounds)
+        }
+
+        if(this.isType) {
+            return Generic.type(this.codeType.applyType(typeName, type)).of(*bounds)
+        }
+    }
+
+    throw IllegalArgumentException("Illegal generic receiver '$this'")
+}

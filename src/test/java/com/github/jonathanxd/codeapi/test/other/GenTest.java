@@ -75,12 +75,17 @@ public class GenTest {
         CodeType mType = CodeTypes.getCodeType(M.class.getTypeParameters()[0]);
         CodeType iter = CodeTypes.getCodeType(M.class.getDeclaredMethod("iter").getGenericReturnType());
 
-        System.out.println(mType);
-        System.out.println(iter);
-
         Assert.assertTrue(Generic.type("T").is(mType));
         Assert.assertTrue(Generic.type(Types.ITERATOR).of("T").is(iter));
 
+        CodeType type = CodeTypes.applyType(iter, "T", Types.STRING);
+
+        Assert.assertTrue(Generic.type(Types.ITERATOR).of(Types.STRING).is(type));
+
+        CodeType generic = Generic.wildcard().extends$(Generic.type(Types.LIST).of(Generic.wildcard().super$("T")));
+        CodeType typeGeneric = CodeTypes.applyType(generic, "T", Types.STRING);
+
+        Assert.assertTrue(Generic.wildcard().extends$(Generic.type(Types.LIST).of(Generic.wildcard().super$(Types.STRING))).is(typeGeneric));
     }
 
 
