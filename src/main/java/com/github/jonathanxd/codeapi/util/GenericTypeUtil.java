@@ -128,7 +128,7 @@ public class GenericTypeUtil {
                 }
 
                 if (hasNext && extendsOrSuper) {
-                    sb.append(" & ");
+                    sb.append(" &");
                 } else if (hasNext) {
                     sb.append(", ");
                 }

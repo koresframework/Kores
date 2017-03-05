@@ -61,7 +61,7 @@ interface GenericType : CodeType {
 
     /**
      * Returns true if this is a Type generic type, false if is a Type Variable generic type.
-
+     *
      * @return True if this is a Type generic type, false if is a Type Variable generic type.
      */
     val isType: Boolean
@@ -229,8 +229,6 @@ interface GenericType : CodeType {
 
     /**
      * Generic type bounds.
-     *
-     * @param T   Type of bound.
      */
     abstract class Bound(val type: CodeType) {
 
@@ -244,7 +242,7 @@ interface GenericType : CodeType {
         override fun equals(other: Any?): Boolean {
             if (other is Bound) {
 
-                if (this.sign == other.sign && this.type == other.type) {
+                if (this.sign == other.sign && this.type.`is`(other.type)) {
                     return true
                 }
             }
@@ -259,15 +257,11 @@ interface GenericType : CodeType {
 
     /**
      * Bound to wildcard.
-     *
-     * @param <T> Type of CodeType
      */
     abstract class WildcardBound(type: CodeType) : Bound(type)
 
     /**
      * Bound to type.
-     *
-     * @param T  Type of CodeType
      */
     class GenericBound(type: CodeType) : Bound(type) {
         override val sign: String = ""
@@ -275,8 +269,6 @@ interface GenericType : CodeType {
 
     /**
      * Bound to extends.
-     *
-     * @param T  Type of CodeType
      */
     class Extends(type: CodeType) : WildcardBound(type) {
         override val sign: String = "+"
@@ -284,8 +276,6 @@ interface GenericType : CodeType {
 
     /**
      * Bound to super type.
-     *
-     * @param <T> Type of CodeType
      */
     class Super(type: CodeType) : WildcardBound(type) {
         override val sign: String = "-"
