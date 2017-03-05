@@ -27,7 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.Access
 import com.github.jonathanxd.codeapi.type.CodeType
 
-data class AccessImpl(override val type: Access.Type, override val localization: CodeType?) : Access
+data class AccessImpl @GenBuilder(base = Access::class) constructor(override val type: Access.Type, override val localization: CodeType?) : Access
