@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.iutils.type.TypeUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,7 +41,9 @@ import org.junit.Test;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -111,6 +114,38 @@ public class GenTest {
     }
 
 
+    @Test
+    public void parseRecursive() {
+        TypeVariable<Class<BD>>[] typeParameters = BD.class.getTypeParameters();
+
+        TypeUtil.toReference(typeParameters[0]);
+        TypeUtil.toReference(typeParameters[1]);
+
+        CodeType baseType = CodeTypes.getCodeTypeFromTypeParameters(BD.class);
+
+        String boundTypeName = null;
+
+        if (baseType instanceof GenericType) {
+            GenericType genType = (GenericType) baseType;
+
+            if (genType.getBounds().length == 2) {
+                GenericType.Bound bound = genType.getBounds()[1];
+                CodeType boundType = bound.getType();
+
+                if (boundType instanceof GenericType) {
+                    GenericType bound_ = (GenericType) boundType;
+
+                    if (!bound_.isType() && bound_.getBounds().length == 1) {
+                        if (bound_.getBounds()[0].getType().getCanonicalName().equals(baseType.getCanonicalName()))
+                            boundTypeName = bound_.getName();
+                    }
+                }
+            }
+
+        }
+    }
+
+
     public static class M<T> {
         public Iterator<T> iter() {
             return null;
@@ -123,4 +158,12 @@ public class GenTest {
         }
     }
 
+
+    public interface BD<T extends CharSequence, S extends BD<T, S>> extends Builder<T, S> {
+
+    }
+
+    public interface Builder<T, S extends Builder<T, S>> {
+
+    }
 }

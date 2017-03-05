@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.codeapi.type.GenericType
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl
 import java.lang.reflect.*
 import kotlin.reflect.KClass
 
@@ -57,11 +58,31 @@ val Array<out Type>.codeTypes: Array<CodeType>
 val CodeType.descName: String
     get() = "L${this.canonicalName};"
 
-val Type.codeType: CodeType
-    get() = when (this) {
-        is ParameterizedType -> Generic.type(this.rawType.codeType).of(*this.actualTypeArguments.map(Type::codeType).filter { !it.`is`(Types.OBJECT) }.toTypedArray())
-        is GenericArrayType -> Generic.type(this.genericComponentType.codeType)
-        is TypeVariable<*> -> Generic.type(this.name).of(*this.bounds.map(Type::codeType).filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+val Type.codeType: CodeType get() = this.getType(false)
+
+fun Class<*>.getCodeTypeFromTypeParameters(): CodeType {
+    var generic = Generic.type(this)
+
+    this.typeParameters.forEach {
+        generic = generic.of(it.getType(false))
+    }
+
+    return generic
+}
+
+private fun Type.getType(isParameterized: Boolean = false): CodeType {
+    return when (this) {
+        is ParameterizedType -> Generic.type(this.rawType.getType(false)).of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+        is GenericArrayType -> Generic.type(this.genericComponentType.getType(false))
+        is TypeVariable<*> -> {
+            val type = Generic.type(this.name)
+
+            if(isParameterized)
+                return type
+
+            type.`extends$`(*this.bounds.map { it.getType(false) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+
+        }
         is WildcardType -> {
             var generic = Generic.wildcard()
 
@@ -69,21 +90,25 @@ val Type.codeType: CodeType
                 if (it is Class<*> && it == Any::class.java)
                     return@forEach
 
-                generic = generic.`super$`(it.codeType)
+                generic = generic.`super$`(it.getType(false))
             }
 
             this.upperBounds.forEach {
                 if (it is Class<*> && it == Any::class.java)
                     return@forEach
 
-                generic = generic.`extends$`(it.codeType)
+                generic = generic.`extends$`(it.getType(false))
             }
 
             generic
         }
-        is Class<*> -> this.codeType
+        is Class<*> -> this.codeType.let {
+            it
+        }
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
     }
+}
+
 
 
 fun CodeType.getType(name: String): CodeType? {
