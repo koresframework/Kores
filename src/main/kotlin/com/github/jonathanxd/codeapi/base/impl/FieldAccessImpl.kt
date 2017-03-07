@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.FieldAccess
 import com.github.jonathanxd.codeapi.type.CodeType
 
+@GenBuilder
 data class FieldAccessImpl(override val name: String, override val type: CodeType, override val target: CodePart, override val localization: CodeType) : FieldAccess

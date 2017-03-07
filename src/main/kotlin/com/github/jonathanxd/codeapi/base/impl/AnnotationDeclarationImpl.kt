@@ -43,10 +43,8 @@ import com.github.jonathanxd.codeapi.util.resolveInternalQualified
 import com.github.jonathanxd.codeapi.util.resolveRealQualified
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-/**
- * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
- */
-class AnnotationDeclarationImpl @JvmOverloads @GenBuilder(base = AnnotationDeclaration::class) constructor(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments = Comments.Absent) : AnnotationDeclaration {
+@GenBuilder
+class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments) : AnnotationDeclaration {
 
     override val specifiedName: String = qualifiedName
 

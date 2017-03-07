@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
@@ -38,10 +39,8 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.*
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-/**
- * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
- */
-class ClassDeclarationImpl @JvmOverloads constructor(override val superClass: CodeType, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments = Comments.Absent) : ClassDeclaration {
+@GenBuilder
+class ClassDeclarationImpl(override val superClass: CodeType, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments) : ClassDeclaration {
 
     override val specifiedName: String = qualifiedName
 

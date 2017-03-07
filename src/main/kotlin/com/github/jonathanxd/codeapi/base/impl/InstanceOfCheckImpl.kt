@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.InstanceOfCheck
 import com.github.jonathanxd.codeapi.type.CodeType
 
+@GenBuilder
 data class InstanceOfCheckImpl(override val part: CodePart, override val checkType: CodeType) : InstanceOfCheck

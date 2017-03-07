@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
@@ -38,10 +39,8 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 
-/**
- * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
- */
-data class MethodDeclarationImpl @JvmOverloads constructor(override val parameters: List<CodeParameter>, override val name: String, override val annotations: List<Annotation>, override val body: CodeSource, override val returnType: CodeType, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val comments: Comments = Comments.Absent) : MethodDeclaration {
+@GenBuilder
+data class MethodDeclarationImpl(override val parameters: List<CodeParameter>, override val name: String, override val annotations: List<Annotation>, override val body: CodeSource, override val returnType: CodeType, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val comments: Comments) : MethodDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

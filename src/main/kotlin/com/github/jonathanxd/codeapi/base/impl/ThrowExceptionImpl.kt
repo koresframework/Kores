@@ -27,7 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ThrowException
 
+@GenBuilder
 data class ThrowExceptionImpl(override val partToThrow: CodePart) : ThrowException

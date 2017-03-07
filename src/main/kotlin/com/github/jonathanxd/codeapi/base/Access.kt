@@ -90,12 +90,12 @@ interface Access : CodePart {
         /**
          * See [T.type]
          */
-        fun withType(value: Type): Builder<T, S>
+        fun withType(value: Type): S
 
         /**
          * See [T.localization]
          */
-        fun withLocalization(value: CodeType?): Builder<T, S>
+        fun withLocalization(value: CodeType?): S
     }
 
 }

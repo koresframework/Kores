@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.kapt.*
+
 apply plugin: 'idea'
 
 // Programming Language
@@ -36,7 +38,7 @@ ext {
 sourceSets {
     generated {
         java {
-            srcDirs = ['src/main/generated']
+            srcDirs = ['src/generated']
         }
     }
 }
@@ -75,6 +77,12 @@ task javadocJar(type: Jar, dependsOn: dokka) {
 task testJar(type: Jar, dependsOn: testClasses) {
     baseName = "test-${project.archivesBaseName}"
     from sourceSets.test.output
+}
+
+task copyGenerated(type: Copy, dependsOn: kapt) {
+    from 'build/generated/source/kapt/main'
+    into 'src/generated/java'
+    include "*.*"
 }
 
 configurations {

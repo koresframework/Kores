@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.common.MethodType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 
+@GenBuilder
 data class MethodSpecificationImpl(override val methodType: MethodType, override val methodName: String, override val description: TypeSpec) : MethodSpecification

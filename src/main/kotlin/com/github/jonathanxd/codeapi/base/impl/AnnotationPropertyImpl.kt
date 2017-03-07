@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.AnnotationProperty
 import com.github.jonathanxd.codeapi.type.CodeType
 
+@GenBuilder
 data class AnnotationPropertyImpl(override val type: CodeType, override val name: String, override val annotations: List<Annotation>, override val value: Any?) : AnnotationProperty

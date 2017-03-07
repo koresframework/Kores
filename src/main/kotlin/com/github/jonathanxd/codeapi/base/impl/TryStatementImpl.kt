@@ -27,11 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.CatchStatement
 import com.github.jonathanxd.codeapi.base.TryStatement
 
+@GenBuilder
 data class TryStatementImpl(override val body: CodeSource, override val catchStatements: List<CatchStatement>, override val finallyStatement: CodeSource) : TryStatement {
     init {
         BodyHolder.checkBody(this)

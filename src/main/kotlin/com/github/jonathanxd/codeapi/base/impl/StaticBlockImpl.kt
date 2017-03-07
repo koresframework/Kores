@@ -27,15 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.StaticBlock
 import com.github.jonathanxd.codeapi.base.comment.Comments
 
-/**
- * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
- */
-data class StaticBlockImpl @JvmOverloads constructor(override val body: CodeSource, override val comments: Comments = Comments.Absent) : StaticBlock {
+@GenBuilder
+data class StaticBlockImpl(override val body: CodeSource, override val comments: Comments) : StaticBlock {
     init {
         BodyHolder.checkBody(this)
     }

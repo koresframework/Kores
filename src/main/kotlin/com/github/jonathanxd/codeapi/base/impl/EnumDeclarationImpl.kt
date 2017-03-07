@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
@@ -42,10 +43,8 @@ import com.github.jonathanxd.codeapi.util.resolveInternalQualified
 import com.github.jonathanxd.codeapi.util.resolveRealQualified
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-/**
- * Note: In version 4.0 the JvmOverloads annotation and [comments] default value should be removed.
- */
-class EnumDeclarationImpl @JvmOverloads constructor(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments = Comments.Absent) : EnumDeclaration {
+@GenBuilder
+class EnumDeclarationImpl constructor(override val entries: List<EnumEntry>, override val implementations: List<CodeType>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments) : EnumDeclaration {
 
     override val specifiedName: String = qualifiedName
 

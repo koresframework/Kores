@@ -40,6 +40,7 @@ import com.github.jonathanxd.codeapi.base.impl.comment.LinkImpl
 import com.github.jonathanxd.codeapi.base.impl.comment.PlainImpl
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.PlainCodeType
 
 @JvmOverloads fun comments(type: Comments.Type = Comments.Type.COMMENT, vararg comments: Comment): Comments = CommentsImpl(comments.toList(), type)
 fun documentation(vararg comments: Comment): Comments = CommentsImpl(comments.toList(), Comments.Type.DOCUMENTATION)
@@ -52,8 +53,12 @@ fun code(part: CodePart): Comment = CodeImpl(Code.CodeNode.CodeRepresentation(pa
 @JvmOverloads fun link(name: String? = null, url: String): Comment = LinkImpl(name, Link.LinkTarget.URL(url))
 @JvmOverloads fun link(name: String? = null, element: Link.LinkTarget.Element): Comment = LinkImpl(name, element)
 
-@JvmOverloads fun linkClass(name: String? = null, canonicalName: String): Comment = LinkImpl(name, Link.LinkTarget.Element.Class(canonicalName))
+@JvmOverloads fun linkClass(name: String? = null, type: CodeType): Comment = LinkImpl(name, Link.LinkTarget.Element.Class(type))
 
-@JvmOverloads fun linkField(name: String? = null, declaringClass: String, fieldName: String, fieldType: CodeType): Comment = LinkImpl(name, Link.LinkTarget.Element.Field(declaringClass, fieldName, fieldType))
+@JvmOverloads fun linkClass(name: String? = null, canonicalName: String): Comment = LinkImpl(name, Link.LinkTarget.Element.Class(PlainCodeType(canonicalName, false)))
+
+@JvmOverloads fun linkField(name: String? = null, declaringClass: CodeType, fieldName: String, fieldType: CodeType): Comment = LinkImpl(name, Link.LinkTarget.Element.Field(declaringClass, fieldName, fieldType))
+
+@JvmOverloads fun linkField(name: String? = null, declaringClass: String, fieldName: String, fieldType: CodeType): Comment = LinkImpl(name, Link.LinkTarget.Element.Field(PlainCodeType(declaringClass, false), fieldName, fieldType))
 
 @JvmOverloads fun linkMethod(name: String? = null, methodSpec: MethodTypeSpec): Comment = LinkImpl(name, Link.LinkTarget.Element.Method(methodSpec))

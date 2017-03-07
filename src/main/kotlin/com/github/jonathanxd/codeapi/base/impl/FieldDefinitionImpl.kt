@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.FieldDefinition
 import com.github.jonathanxd.codeapi.type.CodeType
 
+@GenBuilder
 data class FieldDefinitionImpl(override val type: CodeType, override val value: CodePart, override val name: String, override val target: CodePart, override val localization: CodeType) : FieldDefinition

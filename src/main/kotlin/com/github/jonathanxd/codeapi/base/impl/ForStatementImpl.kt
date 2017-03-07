@@ -27,11 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.ForStatement
 
+@GenBuilder
 data class ForStatementImpl(override val forInit: CodePart?, override val forExpression: List<CodePart>, override val forUpdate: CodePart?, override val body: CodeSource) : ForStatement {
     init {
         BodyHolder.checkBody(this)
