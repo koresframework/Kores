@@ -28,4 +28,15 @@
 package com.github.jonathanxd.codeapi.util
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun String.containsBefore(str: String, before: String): Boolean = this.indexOf(str) < this.indexOf(before)
+inline fun String.containsBefore(str: String, before: String): Boolean {
+    val findIndex = this.indexOf(str)
+    val beforeIndex = this.indexOf(before)
+
+    if(findIndex == -1)
+        return false
+
+    if(beforeIndex == -1)
+        return true
+
+    return findIndex < beforeIndex
+}
