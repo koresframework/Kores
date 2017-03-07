@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 import com.github.jonathanxd.iutils.type.TypeUtil;
 
 import org.junit.Assert;
@@ -56,6 +57,13 @@ public class GenTest {
 
     public Map<String, List<? super Map<Integer, String>>> myMethod() {
         return null;
+    }
+
+    @Test
+    public void fromStringTest() throws Exception {
+        GenericType genericType = GenericTypeUtil.fromSourceString("java.util.Map<java.lang.String,java.lang.Object>");
+
+        Assert.assertTrue(Generic.type(Map.class).of(String.class, Object.class).is(genericType));
     }
 
     @Test

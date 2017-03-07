@@ -183,12 +183,13 @@ public class GenericTypeUtil {
 
         String[] types;
 
-        if (StringsKt.containsBefore(sourceString, ", ", "<"))
-            types = sourceString.split(", ");
+        if (StringsKt.containsBefore(sourceString, ",", "<"))
+            types = sourceString.split(",");
         else
             types = new String[]{sourceString};
 
         for (String type_ : types) {
+            type_ = type_.trim(); // Remove unnecessary space.
             boolean containsTag = type_.contains("<");
 
             String genericStr = containsTag ? GenericTypeUtil.extractGeneric(type_) : null;
