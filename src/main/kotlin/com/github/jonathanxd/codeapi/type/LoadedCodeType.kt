@@ -51,15 +51,15 @@ interface LoadedCodeType<T> : CodeType {
     override val type: String
         get() = this.loadedType.typeName.let {
             when(it) {
-                "byte" -> "B"
-                "short" -> "S"
-                "int" -> "I"
-                "char" -> "C"
-                "double" -> "D"
-                "float" -> "F"
-                "long" -> "J"
-                "boolean" -> "Z"
-                "void" -> "V"
+                "B" -> "byte"
+                "S" -> "short"
+                "I" -> "int"
+                "C" -> "char"
+                "D" -> "double"
+                "F" -> "float"
+                "J" -> "long"
+                "Z" -> "boolean"
+                "V" -> "void"
                 else -> it
             }
         }

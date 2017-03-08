@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.codeapi.type.GenericType
-import sun.reflect.generics.reflectiveObjects.TypeVariableImpl
 import java.lang.reflect.*
 import kotlin.reflect.KClass
 
@@ -77,7 +76,7 @@ private fun Type.getType(isParameterized: Boolean = false): CodeType {
         is TypeVariable<*> -> {
             val type = Generic.type(this.name)
 
-            if(isParameterized)
+            if (isParameterized)
                 return type
 
             type.`extends$`(*this.bounds.map { it.getType(false) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
@@ -108,7 +107,6 @@ private fun Type.getType(isParameterized: Boolean = false): CodeType {
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
     }
 }
-
 
 
 fun CodeType.getType(name: String): CodeType? {
@@ -182,3 +180,4 @@ fun GenericType.applyType(typeName: String, type: CodeType): GenericType {
 
     return this
 }
+
