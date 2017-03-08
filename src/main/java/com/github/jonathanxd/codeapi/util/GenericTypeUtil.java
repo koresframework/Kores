@@ -163,32 +163,44 @@ public class GenericTypeUtil {
      * @return Construct a {@link GenericType} from {@code generic source string};
      */
     public static GenericType fromSourceString(String sourceString, Function<String, CodeType> typeResolver) {
+        return GenericTypeUtil.fromSourceString(sourceString, CodeTypeResolver.Companion.fromJavaFunction(typeResolver));
+    }
+
+    /**
+     * Parse {@link String generic source string} and construct {@link GenericType}.
+     *
+     * @param sourceString Source string.
+     * @param typeResolver Resolves {@link CodeType} from {@link String string type}.
+     * @return Construct a {@link GenericType} from {@code generic source string};
+     */
+    public static GenericType fromSourceString(String sourceString, CodeTypeResolver typeResolver) {
         if (sourceString.contains("<")) {
             Conditions.require(sourceString.endsWith(">"), "The input generic string: '" + sourceString + "' MUST end with '>'.");
 
             String type = GenericTypeUtil.extractType(sourceString);
             String generic = GenericTypeUtil.extractGeneric(sourceString);
 
-            CodeType apply = typeResolver.apply(type);
+            CodeType apply = typeResolver.invoke(type);
 
             Generic genericType = Generic.type(apply);
 
             return GenericTypeUtil.fromSourceString(genericType, generic, typeResolver);
         }
 
-        return Generic.type(typeResolver.apply(sourceString));
+        return Generic.type(typeResolver.invoke(sourceString));
     }
 
-    private static Generic fromSourceString(Generic generic, String sourceString, Function<String, CodeType> typeResolver) {
+    private static Generic fromSourceString(Generic generic, String sourceString, CodeTypeResolver typeResolver) {
 
         String[] types;
 
-        if (StringsKt.containsBefore(sourceString, ", ", "<"))
-            types = sourceString.split(", ");
+        if (StringsKt.containsBefore(sourceString, ",", "<"))
+            types = sourceString.split(",");
         else
             types = new String[]{sourceString};
 
         for (String type_ : types) {
+            type_ = type_.trim(); // Remove unnecessary space.
             boolean containsTag = type_.contains("<");
 
             String genericStr = containsTag ? GenericTypeUtil.extractGeneric(type_) : null;
@@ -206,7 +218,7 @@ public class GenericTypeUtil {
 
                 Generic base = isWildcard ? Generic.wildcard() : Generic.type(varName);
 
-                CodeType codeType = genericStr == null ? typeResolver.apply(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
+                CodeType codeType = genericStr == null ? typeResolver.invoke(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
 
                 if (isExtends) {
                     generic = generic.of(base.extends$(codeType));
@@ -219,7 +231,7 @@ public class GenericTypeUtil {
                 if(type_.equals("?")) {
                     generic = generic.of(Generic.wildcard());
                 } else {
-                    CodeType codeType = genericStr == null ? typeResolver.apply(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
+                    CodeType codeType = genericStr == null ? typeResolver.invoke(type_) : GenericTypeUtil.fromSourceString(type_ + "<" + genericStr + ">", typeResolver);
 
                     generic = generic.of(codeType);
                 }

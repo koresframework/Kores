@@ -27,16 +27,39 @@
  */
 package com.github.jonathanxd.codeapi.util
 
-@Suppress("NOTHING_TO_INLINE")
-inline fun String.containsBefore(str: String, before: String): Boolean {
-    val findIndex = this.indexOf(str)
-    val beforeIndex = this.indexOf(before)
+import com.github.jonathanxd.codeapi.type.CodeType
+import java.util.function.Function
 
-    if(findIndex == -1)
-        return false
+abstract class CodeTypeResolver : (String) -> CodeType, Function<String, CodeType> /* Java compatibility */ {
 
-    if(beforeIndex == -1)
-        return true
+    override fun apply(t: String): CodeType = this.invoke(t)
 
-    return findIndex < beforeIndex
+    override fun invoke(p1: String): CodeType {
+        if(p1.endsWith("[]")) {
+            val index = p1.indexOf("[]")
+            val without = p1.substring(0..index)
+            val dimension = p1.substring(index).replace("]", "")
+            return this.resolve("${dimension}L$without;")
+        }
+
+        return this.resolve(p1)
+    }
+
+    protected abstract fun resolve(t: String): CodeType
+
+    companion object {
+        fun fromJavaFunction(func: Function<String, CodeType>): CodeTypeResolver = WrappedCodeTypeResolver(func)
+        fun fromKtFunction(func: (String) -> CodeType): CodeTypeResolver = WrappedCodeTypeResolver0(func)
+    }
+
+    // Backward compatible
+    private class WrappedCodeTypeResolver(val func: Function<String, CodeType>) : CodeTypeResolver() {
+        override fun resolve(t: String): CodeType = func.apply(t)
+    }
+
+    // Backward compatible
+    private class WrappedCodeTypeResolver0(val func: (String) -> CodeType) : CodeTypeResolver() {
+        override fun resolve(t: String): CodeType = func(t)
+    }
 }
+

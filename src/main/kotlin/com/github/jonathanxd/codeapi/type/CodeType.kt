@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
 
 /**
@@ -138,13 +139,35 @@ interface CodeType : CodePart, Comparable<CodeType> {
      * Wrapper type.
      */
     val wrapperType: CodeType?
-        get() = null
+        get() = when (this.type) {
+            "byte" -> Types.BYTE_WRAPPER
+            "short" -> Types.SHORT_WRAPPER
+            "int" -> Types.INTEGER_WRAPPER
+            "char" -> Types.CHARACTER_WRAPPER
+            "double" -> Types.DOUBLE_WRAPPER
+            "float" -> Types.FLOAT_WRAPPER
+            "long" -> Types.LONG_WRAPPER
+            "boolean" -> Types.BOOLEAN_WRAPPER
+            "void" -> Types.VOID
+            else -> null
+        }
 
     /**
      * Primitive type.
      */
     val primitiveType: CodeType?
-        get() = null
+        get() = when (this.type) {
+            "java.lang.Byte" -> Types.BYTE
+            "java.lang.Short" -> Types.SHORT
+            "java.lang.Integer" -> Types.INT
+            "java.lang.Character" -> Types.CHAR
+            "java.lang.Double" -> Types.DOUBLE
+            "java.lang.Float" -> Types.FLOAT
+            "java.lang.Long" -> Types.LONG
+            "java.lang.Boolean" -> Types.BOOLEAN
+            "java.lang.Void" -> Types.VOID
+            else -> null
+        }
 
     /**
      * Array base component.
