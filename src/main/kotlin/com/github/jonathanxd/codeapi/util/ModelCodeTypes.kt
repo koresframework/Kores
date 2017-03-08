@@ -122,7 +122,7 @@ private fun TypeParameterElement.getType(isParameterized: Boolean = false): Code
 }
 
 
-fun TypeElement.getCodeTypeFromTypeParameters(codeTypeResolver: CodeTypeResolver): CodeType {
+fun TypeElement.getCodeTypeFromTypeParameters(): CodeType {
     var generic = Generic.type(this.codeType)
 
     this.typeParameters.forEach {
