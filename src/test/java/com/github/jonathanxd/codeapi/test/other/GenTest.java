@@ -65,11 +65,14 @@ public class GenTest {
         Generic of = Generic.type(List.class).of(Generic.wildcard());
         Generic ofCharSeqEx = Generic.type(List.class).of(Generic.wildcard().extends$(CharSequence.class));
         Generic ofCharSeq = Generic.type(List.class).of(CharSequence.class);
+        Generic ofS = Generic.type(List.class).of(String.class);
+        Generic ofS2 = Generic.type(List.class).of(String.class);
         Generic ofNb = Generic.type(List.class).of(Number.class);
         Generic ofInt = Generic.type(List.class).of(Integer.class);
 
         Assert.assertTrue(Identity.nonStrictEq(of, Types.LIST));
         Assert.assertTrue(Identity.nonStrictEq(ofCharSeq, ofCharSeqEx));
+        Assert.assertTrue(Identity.nonStrictEq(ofS, ofS2));
         Assert.assertFalse(Identity.nonStrictEq(ofNb, ofInt));
     }
 
