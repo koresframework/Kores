@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
+import com.github.jonathanxd.codeapi.util.Identity;
 import com.github.jonathanxd.iutils.type.TypeUtil;
 
 import org.junit.Assert;
@@ -57,6 +58,19 @@ public class GenTest {
 
     public Map<String, List<? super Map<Integer, String>>> myMethod() {
         return null;
+    }
+
+    @Test
+    public void nonStrictEqTest() {
+        Generic of = Generic.type(List.class).of(Generic.wildcard());
+        Generic ofCharSeqEx = Generic.type(List.class).of(Generic.wildcard().extends$(CharSequence.class));
+        Generic ofCharSeq = Generic.type(List.class).of(CharSequence.class);
+        Generic ofNb = Generic.type(List.class).of(Number.class);
+        Generic ofInt = Generic.type(List.class).of(Integer.class);
+
+        Assert.assertTrue(Identity.nonStrictEq(of, Types.LIST));
+        Assert.assertTrue(Identity.nonStrictEq(ofCharSeq, ofCharSeqEx));
+        Assert.assertFalse(Identity.nonStrictEq(ofNb, ofInt));
     }
 
     @Test

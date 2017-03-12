@@ -35,6 +35,79 @@ import com.github.jonathanxd.codeapi.type.LoadedCodeType
 import java.util.*
 
 /**
+ * Non-strict generic equality check, only works for generic types.
+ *
+ * This method will not make strict bound checks, it means that `List<?>` is equal to `List`,
+ * `List<? extends Person>` is equal to `List<Person>`, but `List<Number>` is not equal to `List<Integer>`.
+ */
+fun CodeType.nonStrictEq(other: CodeType): Boolean {
+    if (this is GenericType)
+        return this.nonStrictEq(other)
+
+    if (other is GenericType)
+        return other.nonStrictEq(this)
+
+    return this.`is`(other)
+}
+
+/**
+ * Non-strict generic bound equality check, only works for generic types.
+ *
+ * This method will not make strict bound checks, it means that `List<?>` is equal to `List`,
+ * `List<? extends Person>` is equal to `List<Person>`, but `List<Number>` is not equal to `List<Integer>`.
+ */
+fun GenericType.nonStrictEq(other: CodeType): Boolean {
+    if (other is GenericType) {
+
+        return this.isWildcard == other.isWildcard
+                && this.isType == other.isType
+                && this.name == other.name
+                && this.bounds.nonStrictEq(other.bounds)
+
+    } else if (other is CodeType) {
+
+        if (this.bounds.all { it.type is GenericType && it.type.isWildcard })
+            return this.codeType.identification == other.identification
+
+        return this.isType && this.bounds.isEmpty() && this.identification == other.identification
+    } else {
+        return false
+    }
+
+}
+
+/**
+ * Non-strict bound comparison.
+ */
+private fun GenericType.Bound.nonStrictEq(other: GenericType.Bound): Boolean {
+    val thisType = this.type
+    val otherType = other.type
+
+    val comparator = { it: CodeType, other: CodeType ->
+        it is GenericType && it.isWildcard && it.bounds.isNotEmpty() && it.bounds.any { it.type.`is`(other) }
+    }
+
+    return comparator(thisType, otherType) || comparator(otherType, thisType) || thisType.`is`(other.type)
+}
+
+/**
+ * Non-strict array bound comparison.
+ */
+private fun Array<out GenericType.Bound>.nonStrictEq(others: Array<out GenericType.Bound>): Boolean {
+
+    if (this.size != others.size)
+        return false
+
+    this.forEachIndexed { index, bound ->
+        if (!bound.nonStrictEq(others[index]))
+            return@nonStrictEq false
+    }
+
+    return true
+}
+
+
+/**
  * Default equals algorithm for [GenericType]
  */
 fun GenericType.eq(other: Any?): Boolean {
