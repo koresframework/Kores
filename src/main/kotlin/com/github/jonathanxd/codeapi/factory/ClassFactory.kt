@@ -126,7 +126,8 @@ fun aClass(outerClass: CodeType? = null,
            signature: GenericSignature = GenericSignature.empty(),
            superType: CodeType = Types.OBJECT,
            implementations: Array<CodeType> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): ClassDeclaration {
+           source: CodeSource = CodeSource.empty(),
+           comments: Comments = Comments.Absent): ClassDeclaration {
     return ClassDeclarationImpl(
             superType,
             ArrayToList.toList(implementations),
@@ -135,7 +136,8 @@ fun aClass(outerClass: CodeType? = null,
             source,
             modifiers,
             signature,
-            outerClass
+            outerClass,
+            comments
     )
 }
 
@@ -235,7 +237,8 @@ fun anInterface(outerClass: CodeType? = null,
                 qualifiedName: String,
                 signature: GenericSignature = GenericSignature.empty(),
                 superInterfaces: Array<CodeType> = emptyArray(),
-                source: CodeSource = CodeSource.empty()): InterfaceDeclaration {
+                source: CodeSource = CodeSource.empty(),
+                comments: Comments = Comments.Absent): InterfaceDeclaration {
     return InterfaceDeclarationImpl(
             outerClass = outerClass,
             annotations = ArrayToList.toList(annotations),
@@ -243,7 +246,8 @@ fun anInterface(outerClass: CodeType? = null,
             genericSignature = signature,
             qualifiedName = qualifiedName,
             implementations = ArrayToList.toList(superInterfaces),
-            body = source
+            body = source,
+            comments = comments
     )
 }
 
@@ -318,7 +322,8 @@ fun anAnnotation(outerClass: CodeType? = null,
                  qualifiedName: String,
                  signature: GenericSignature = GenericSignature.empty(),
                  properties: Array<AnnotationProperty> = emptyArray(),
-                 source: CodeSource = CodeSource.empty()): AnnotationDeclaration {
+                 source: CodeSource = CodeSource.empty(),
+                 comments: Comments = Comments.Absent): AnnotationDeclaration {
     return AnnotationDeclarationImpl(
             outerClass = outerClass,
             annotations = ArrayToList.toList(annotations),
@@ -326,7 +331,8 @@ fun anAnnotation(outerClass: CodeType? = null,
             genericSignature = signature,
             qualifiedName = qualifiedName,
             properties = ArrayToList.toList(properties),
-            body = source
+            body = source,
+            comments = comments
     )
 }
 
@@ -420,7 +426,8 @@ fun anEnum(outerClass: CodeType? = null,
            signature: GenericSignature = GenericSignature.empty(),
            implementations: Array<CodeType> = emptyArray(),
            entries: Array<EnumEntry> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): EnumDeclaration {
+           source: CodeSource = CodeSource.empty(),
+           comments: Comments = Comments.Absent): EnumDeclaration {
     return EnumDeclarationImpl(
             outerClass = outerClass,
             annotations = ArrayToList.toList(annotations),
@@ -429,7 +436,8 @@ fun anEnum(outerClass: CodeType? = null,
             qualifiedName = qualifiedName,
             implementations = ArrayToList.toList(implementations),
             entries = ArrayToList.toList(entries),
-            body = source
+            body = source,
+            comments = comments
     )
 }
 

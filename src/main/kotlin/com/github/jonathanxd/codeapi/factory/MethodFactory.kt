@@ -105,7 +105,8 @@ fun method(annotations: Array<Annotation> = emptyArray(),
            name: String,
            returnType: CodeType = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): MethodDeclaration {
+           source: CodeSource = CodeSource.empty(),
+           comments: Comments = Comments.Absent): MethodDeclaration {
     return MethodDeclarationImpl(
             ArrayToList.toList(parameters),
             name,
@@ -113,7 +114,8 @@ fun method(annotations: Array<Annotation> = emptyArray(),
             source,
             returnType,
             modifiers,
-            genericSignature
+            genericSignature,
+            comments
     )
 }
 

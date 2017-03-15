@@ -71,13 +71,15 @@ fun field(annotations: Array<Annotation> = emptyArray(),
           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
           type: CodeType,
           name: String,
-          value: CodePart? = null): FieldDeclaration {
+          value: CodePart? = null,
+          comments: Comments = Comments.Absent): FieldDeclaration {
     return FieldDeclarationImpl(
             ArrayToList.toList(annotations),
             value,
             modifiers,
             name,
-            type
+            type,
+            comments
     )
 }
 

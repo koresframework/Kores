@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.MethodFragment
 import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
 import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder
@@ -60,7 +61,8 @@ data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration,
             genericSignature = GenericSignature.empty(),
             name = spec.methodName,
             returnType = spec.description.returnType,
-            body = body
+            body = body,
+            comments = Comments.Absent
     )
 
     override val invokeType: InvokeType = if (scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.INVOKE_VIRTUAL

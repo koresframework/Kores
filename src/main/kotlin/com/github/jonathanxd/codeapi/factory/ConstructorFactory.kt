@@ -89,13 +89,15 @@ fun constructor(annotations: Array<Annotation> = emptyArray(),
                 signature: GenericSignature = GenericSignature.empty(),
                 modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
-                source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
+                source: CodeSource = CodeSource.empty(),
+                comments: Comments = Comments.Absent): ConstructorDeclaration {
     return ConstructorDeclarationImpl(
             ArrayToList.toList(parameters),
             ArrayToList.toList(annotations),
             source,
             modifiers,
-            signature
+            signature,
+            comments
     )
 }
 
