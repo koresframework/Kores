@@ -61,6 +61,15 @@ public class GenTest {
     }
 
     @Test
+    public void concreteTypeTest() {
+
+        GenericType generic = Generic.type("S").extends$(Generic.type(List.class).of(String.class));
+
+        Assert.assertTrue(Types.LIST.is(CodeTypes.getConcreteType(generic)));
+
+    }
+
+    @Test
     public void nonStrictEqTest() {
         Generic of = Generic.type(List.class).of(Generic.wildcard());
         Generic ofCharSeqEx = Generic.type(List.class).of(Generic.wildcard().extends$(CharSequence.class));

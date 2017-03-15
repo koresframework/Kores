@@ -52,12 +52,28 @@ val <T : Any> Array<out KClass<T>>.codeTypes: Array<CodeType>
 
 val Array<out Type>.codeTypes: Array<CodeType>
     get() = Array(this.size) { this[it].codeType }
-// Multi
+
+// /Multi
 
 val CodeType.descName: String
     get() = "L${this.canonicalName};"
 
 val Type.codeType: CodeType get() = this.getType(false)
+
+/**
+ * Gets the concrete type of [CodeType], if this is a [GenericType], the property getter will try to
+ * infer the concrete type looping the [GenericType Inferred type][GenericType.codeType].
+ *
+ * Example: for `S extends List<String>`, it will return `List` (obs: the [GenericType.codeType] of `S extends List<String>` is `List<String>`.
+ */
+val CodeType.concreteType: CodeType
+    get() = if (this is GenericType) {
+        var type = this
+        while (type is GenericType)
+            type = type.codeType
+
+        type
+    } else this
 
 fun Class<*>.getCodeTypeFromTypeParameters(): CodeType {
     var generic = Generic.type(this)
