@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.builder.AnnotationPropertyBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
 
@@ -47,18 +49,27 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
 
     override fun builder(): Builder<AnnotationProperty, *> = AnnotationPropertyBuilder(this)
 
-    interface Builder<out T: AnnotationProperty, S: Builder<T, S>> :
+    interface Builder<out T : AnnotationProperty, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S>,
             Annotable.Builder<T, S>,
             ReturnTypeHolder.Builder<T, S> {
 
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "withReturnType"))
         override fun withReturnType(value: CodeType): S = this.withType(value)
 
         /**
          * See [T.value]
          */
         fun withValue(value: Any?): S
+
+        object Defaults {
+
+            @JvmStatic
+            fun withReturnType(builder: Builder<AnnotationProperty, *>, value: CodeType): Builder<AnnotationProperty, *> =
+                    builder.withType(value)
+
+        }
     }
 
 }

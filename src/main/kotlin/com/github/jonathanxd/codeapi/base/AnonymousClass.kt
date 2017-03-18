@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.Defaults
+import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.common.CodeModifier
@@ -67,6 +70,7 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
             SuperClassHolder.Builder<T, S>,
             ArgumentHolder.Builder<T, S> {
 
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withOuterClass(value: CodeType?): S = self()
 
         /**

@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.DefaultValues
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
+import com.github.jonathanxd.buildergenerator.annotation.PropertyInfo
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 
@@ -43,6 +46,11 @@ interface GenericSignatureHolder : CodePart {
     override fun builder(): Builder<GenericSignatureHolder, *>
 
     interface Builder<out T : GenericSignatureHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.genericSignature]
+         */
+        @PropertyInfo(defaultValue = MethodRef(value = DefaultValues::class, name = "empty"))
         fun withGenericSignature(value: GenericSignature): S
     }
 }

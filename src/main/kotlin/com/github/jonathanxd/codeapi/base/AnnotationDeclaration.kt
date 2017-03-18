@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.Defaults
+import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder
 import com.github.jonathanxd.codeapi.builder.Builder
 
@@ -46,6 +49,7 @@ interface AnnotationDeclaration : TypeDeclaration {
     override fun builder(): Builder<AnnotationDeclaration, *> = AnnotationDeclarationBuilder(this)
 
     interface Builder<out T: AnnotationDeclaration, S: Builder<T, S>> : TypeDeclaration.Builder<T, S> {
+
         /**
          * See [T.properties]
          */
@@ -54,6 +58,7 @@ interface AnnotationDeclaration : TypeDeclaration {
         /**
          * See [T.properties]
          */
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "varArgToList"))
         fun withProperties(vararg values: AnnotationProperty): S
     }
 }

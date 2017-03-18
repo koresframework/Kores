@@ -75,6 +75,7 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
         @PropertyInfo(defaultsPropertyName = "specifiedName")
         override fun withQualifiedName(value: String): S
 
+        @PropertyInfo(isNullable = true)
         fun withOuterClass(value: CodeType?): S
     }
 }

@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.DefaultValues
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
+import com.github.jonathanxd.buildergenerator.annotation.PropertyInfo
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
@@ -46,6 +49,7 @@ interface BodyHolder : CodePart {
         /**
          * See [T.body]
          */
+        @PropertyInfo(defaultValue = MethodRef(value = DefaultValues::class, name = "empty"))
         fun withBody(value: CodeSource): S
     }
 
