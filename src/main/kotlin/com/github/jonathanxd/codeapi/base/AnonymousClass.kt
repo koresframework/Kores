@@ -29,11 +29,21 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
 
 interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
+
+    override val array: Boolean
+        get() = false
+
+    override val modifiers: Set<CodeModifier>
+        get() = setOf(CodeModifier.PACKAGE_PRIVATE)
+
+    override val types: List<CodeType>
+        get() = this.constructorSpec.parameterTypes
 
     /**
      * Specification of constructor to invoke.

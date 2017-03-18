@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.AnonymousClass
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -45,7 +44,7 @@ import com.github.jonathanxd.codeapi.util.resolveRealQualified
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
 @GenBuilder
-class AnonymousClassImpl(qualifiedName: String, override val constructorSpec: TypeSpec, override val arguments: List<CodePart>, override val constructorBody: CodeSource, override val annotations: List<Annotation>, override val body: CodeSource, override val types: List<CodeType>, override val comments: Comments, override val superClass: CodeType, override val genericSignature: GenericSignature, override val modifiers: Set<CodeModifier>, override val array: Boolean, override val outerClass: CodeType?) : AnonymousClass {
+class AnonymousClassImpl(qualifiedName: String, override val constructorSpec: TypeSpec, override val arguments: List<CodePart>, override val constructorBody: CodeSource, override val annotations: List<Annotation>, override val body: CodeSource, override val comments: Comments, override val superClass: CodeType, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnonymousClass {
 
     override val specifiedName: String = qualifiedName
 

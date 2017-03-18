@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.common.SwitchType
@@ -91,7 +93,8 @@ interface SwitchStatement : ValueHolder, Typed {
             Typed.Builder<T, S> {
         override fun withType(value: CodeType): S = self()
 
-        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "withValue"))
+        override fun withValue(value: CodePart?): S
 
         /**
          * See [T.value]
@@ -112,6 +115,14 @@ interface SwitchStatement : ValueHolder, Typed {
          * See [T.cases]
          */
         fun withCases(vararg values: Case): S
+
+        object Defaults {
+            @JvmStatic
+            fun withValue(builder: SwitchStatement.Builder<SwitchStatement, *>, value: CodePart?): SwitchStatement.Builder<SwitchStatement, *> {
+                return builder.withValue(value as Typed)
+            }
+        }
     }
 
 }
+
