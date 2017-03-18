@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.CatchStatement
 import com.github.jonathanxd.codeapi.base.TryWithResources
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
 
-@GenBuilder
 data class TryWithResourcesImpl(override val variable: VariableDeclaration, override val catchStatements: List<CatchStatement>, override val finallyStatement: CodeSource, override val body: CodeSource) : TryWithResources {
     init {
         BodyHolder.checkBody(this)

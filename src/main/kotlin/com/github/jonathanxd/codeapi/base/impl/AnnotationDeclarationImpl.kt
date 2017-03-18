@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration
@@ -43,7 +42,6 @@ import com.github.jonathanxd.codeapi.util.resolveInternalQualified
 import com.github.jonathanxd.codeapi.util.resolveRealQualified
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-@GenBuilder
 class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments) : AnnotationDeclaration {
 
     override val specifiedName: String = qualifiedName

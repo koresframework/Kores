@@ -43,7 +43,6 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
-import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 import java.util.*
 
 // ---------------------------------------------------------------
@@ -170,62 +169,62 @@ fun aClass(outerClass: CodeType? = null,
 
 // Short methods
 fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-           qualifiedName: String,
-           source: CodeSource = CodeSource.empty()) =
-    // Select correct method
-    anInterface(
-            outerClass = null,
-            modifiers = modifiers,
-            qualifiedName = qualifiedName,
-            source = source
-    )
+                qualifiedName: String,
+                source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anInterface(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                source = source
+        )
 
 
 fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-           qualifiedName: String,
-           superInterfaces: Array<CodeType> = emptyArray(),
-           source: CodeSource = CodeSource.empty()) =
-    // Select correct method
-    anInterface(
-            outerClass = null,
-            modifiers = modifiers,
-            qualifiedName = qualifiedName,
-            superInterfaces = superInterfaces,
-            source = source
-    )
+                qualifiedName: String,
+                superInterfaces: Array<CodeType> = emptyArray(),
+                source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anInterface(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                superInterfaces = superInterfaces,
+                source = source
+        )
 
 
 fun anInterface(annotations: Array<Annotation> = emptyArray(),
-           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-           qualifiedName: String,
-           signature: GenericSignature = GenericSignature.empty(),
-           superInterfaces: Array<CodeType> = emptyArray(),
-           source: CodeSource = CodeSource.empty()) =
-    anInterface(
-            outerClass = null,
-            annotations = annotations,
-            modifiers = modifiers,
-            qualifiedName = qualifiedName,
-            signature = signature,
-            superInterfaces = superInterfaces,
-            source = source
-    )
+                modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
+                qualifiedName: String,
+                signature: GenericSignature = GenericSignature.empty(),
+                superInterfaces: Array<CodeType> = emptyArray(),
+                source: CodeSource = CodeSource.empty()) =
+        anInterface(
+                outerClass = null,
+                annotations = annotations,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                signature = signature,
+                superInterfaces = superInterfaces,
+                source = source
+        )
 
 
 fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-           qualifiedName: String,
-           signature: GenericSignature = GenericSignature.empty(),
-           superInterfaces: Array<CodeType> = emptyArray(),
-           source: CodeSource = CodeSource.empty()) =
-    // Select correct method
-    anInterface(
-            outerClass = null,
-            modifiers = modifiers,
-            qualifiedName = qualifiedName,
-            signature = signature,
-            superInterfaces = superInterfaces,
-            source = source
-    )
+                qualifiedName: String,
+                signature: GenericSignature = GenericSignature.empty(),
+                superInterfaces: Array<CodeType> = emptyArray(),
+                source: CodeSource = CodeSource.empty()) =
+        // Select correct method
+        anInterface(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                signature = signature,
+                superInterfaces = superInterfaces,
+                source = source
+        )
 
 
 // /Short methods
@@ -280,14 +279,14 @@ fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
                  properties: Array<AnnotationProperty> = emptyArray(),
                  source: CodeSource = CodeSource.empty()) =
-    // Select correct method
-    anAnnotation(
-            outerClass = null,
-            modifiers = modifiers,
-            qualifiedName = qualifiedName,
-            properties = properties,
-            source = source
-    )
+        // Select correct method
+        anAnnotation(
+                outerClass = null,
+                modifiers = modifiers,
+                qualifiedName = qualifiedName,
+                properties = properties,
+                source = source
+        )
 
 fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
@@ -406,7 +405,7 @@ fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 
 
 fun anEnum(qualifiedName: String,
-                 source: CodeSource = CodeSource.empty()) =
+           source: CodeSource = CodeSource.empty()) =
         // Select correct method
         anEnum(
                 outerClass = null,

@@ -49,7 +49,7 @@ interface FieldBase : Named, Typed {
 
     override fun builder(): Builder<FieldBase, *>
 
-    interface Builder<out T: FieldBase, S: Builder<T, S>> :
+    interface Builder<out T : FieldBase, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 

@@ -113,6 +113,6 @@ enum class InvokeType {
          * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
          */
         @JvmStatic
-        fun get(codeType: CodeType?) = if(codeType == null) INVOKE_STATIC else if(codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+        fun get(codeType: CodeType?) = if (codeType == null) INVOKE_STATIC else if (codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
     }
 }

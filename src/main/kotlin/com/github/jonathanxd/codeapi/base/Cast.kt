@@ -56,7 +56,7 @@ interface Cast : Typed {
 
     override fun builder(): Builder<Cast, *> = CastBuilder(this)
 
-    interface Builder<out T: Cast, S: Builder<T, S>> : Typed.Builder<T, S> {
+    interface Builder<out T : Cast, S : Builder<T, S>> : Typed.Builder<T, S> {
 
         override fun withType(value: CodeType): S = this.withTargetType(value)
 

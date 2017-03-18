@@ -56,7 +56,7 @@ interface ArrayStore : ArrayAccess, ValueHolder {
 
     override fun builder(): Builder<ArrayStore, *> = ArrayStoreBuilder(this)
 
-    interface Builder<out T: ArrayStore, S: Builder<T, S>> :
+    interface Builder<out T : ArrayStore, S : Builder<T, S>> :
             ArrayAccess.Builder<T, S>,
             ValueHolder.Builder<T, S> {
 

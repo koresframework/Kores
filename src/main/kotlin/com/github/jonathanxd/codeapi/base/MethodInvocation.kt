@@ -77,7 +77,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
 
     override fun builder(): Builder<MethodInvocation, *> = MethodInvocationBuilder(this)
 
-    interface Builder<out T: MethodInvocation, S: Builder<T, S>> :
+    interface Builder<out T : MethodInvocation, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
             ArgumentHolder.Builder<T, S>,
             Typed.Builder<T, S> {

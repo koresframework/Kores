@@ -27,9 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.buildergenerator.DefaultValues
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
-import com.github.jonathanxd.buildergenerator.annotation.PropertyInfo
 import com.github.jonathanxd.codeapi.CodePart
 
 /**
@@ -47,7 +44,6 @@ interface CommentHolder : CodePart {
         /**
          * See [T.comments]
          */
-        @PropertyInfo(defaultValue = MethodRef(value = DefaultValues::class, name = "empty"))
         fun withComments(value: Comments): S
 
     }

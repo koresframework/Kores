@@ -33,4 +33,4 @@ import com.github.jonathanxd.codeapi.builder.Builder
  * Cast from [Builder] of [T] of implicit type [S].
  */
 @Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
-inline fun <T, S: Builder<T, S>> Builder<T, S>.self() = this as S
+inline fun <T, S : Builder<T, S>> Builder<T, S>.self() = this as S

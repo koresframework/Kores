@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -48,7 +47,7 @@ interface Accessor : CodePart {
 
     override fun builder(): Builder<Accessor, *>
 
-    interface Builder<out T: Accessor, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : Accessor, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [T.target]

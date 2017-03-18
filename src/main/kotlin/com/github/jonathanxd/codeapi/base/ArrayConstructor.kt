@@ -91,7 +91,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
 
     override fun builder(): Builder<ArrayConstructor, *> = ArrayConstructorBuilder(this)
 
-    interface Builder<out T: ArrayConstructor, S: Builder<T, S>> :
+    interface Builder<out T : ArrayConstructor, S : Builder<T, S>> :
             ArgumentHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 

@@ -26,6 +26,7 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("ConstructorFactory")
+
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodeSource
@@ -37,7 +38,6 @@ import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.ArrayToList
-import com.github.jonathanxd.codeapi.util.fromJavaModifiers
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.util.*
 

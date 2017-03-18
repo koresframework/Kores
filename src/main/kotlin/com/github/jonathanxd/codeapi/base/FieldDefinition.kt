@@ -42,7 +42,7 @@ interface FieldDefinition : Accessor, FieldBase, ValueHolder {
     override fun builder(): Builder<FieldDefinition, *> = FieldDefinitionBuilder(this)
 
 
-    interface Builder<out T: FieldDefinition, S: Builder<T, S>> :
+    interface Builder<out T : FieldDefinition, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
             FieldBase.Builder<T, S>,
             ValueHolder.Builder<T, S>

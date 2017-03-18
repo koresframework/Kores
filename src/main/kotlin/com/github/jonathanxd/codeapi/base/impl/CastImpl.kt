@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Cast
 import com.github.jonathanxd.codeapi.type.CodeType
 
-@GenBuilder
 data class CastImpl(override val originalType: CodeType?, override val targetType: CodeType, override val castedPart: CodePart) : Cast

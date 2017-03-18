@@ -161,5 +161,5 @@ internal class TypeElementCodeType(val typeElement: TypeElement) : CodeType {
 val TypeElement.typeName: String
     get() {
         val element = (this.enclosingElement as? TypeElement)
-        return if(element != null) "${element.typeName}\$${this.simpleName}" else this.qualifiedName.toString()
+        return if (element != null) "${element.typeName}\$${this.simpleName}" else this.qualifiedName.toString()
     }

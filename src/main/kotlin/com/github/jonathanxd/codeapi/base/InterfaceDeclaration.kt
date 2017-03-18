@@ -39,7 +39,7 @@ interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
 
     override fun builder(): Builder<InterfaceDeclaration, *> = InterfaceDeclarationBuilder(this)
 
-    interface Builder<out T: InterfaceDeclaration, S: Builder<T, S>> :
+    interface Builder<out T : InterfaceDeclaration, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
             ImplementationHolder.Builder<T, S>
 }

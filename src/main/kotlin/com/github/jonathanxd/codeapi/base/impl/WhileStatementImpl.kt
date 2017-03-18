@@ -27,13 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.WhileStatement
 
-@GenBuilder
 data class WhileStatementImpl(override val type: WhileStatement.Type, override val expressions: List<CodePart>, override val body: CodeSource) : WhileStatement {
     init {
         BodyHolder.checkBody(this)

@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.common.CodeParameter
 
 /**
@@ -43,7 +42,7 @@ interface ParametersHolder : CodePart {
 
     override fun builder(): Builder<ParametersHolder, *>
 
-    interface Builder<out T: ParametersHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : ParametersHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
          * See [T.parameters]
          */

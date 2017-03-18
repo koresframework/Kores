@@ -72,7 +72,7 @@ class MemberInfo private constructor(val memberInstance: CodeElement, val isAcce
 
         fun getDescription(root: TypeDeclaration?, element: CodePart): Description {
 
-            return when(element) {
+            return when (element) {
                 is FieldDeclaration -> Description(root!!.getDescName(), element.name, emptyArray(), element.type.getDescName(), ElementType.FIELD)
                 is MethodDeclaration -> Description(root!!.getDescName(), element.name, element.parameters.getDescName(), element.type.getDescName(), ElementType.METHOD)
                 is TypeDeclaration -> Description(element.getDescName(), "", emptyArray(), "", ElementType.CLASS)

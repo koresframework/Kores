@@ -59,7 +59,7 @@ interface MethodSpecification : Named {
 
     override fun builder(): Builder<MethodSpecification, *> = MethodSpecificationBuilder(this)
 
-    interface Builder<out T: MethodSpecification, S: Builder<T, S>> : Named.Builder<T, S> {
+    interface Builder<out T : MethodSpecification, S : Builder<T, S>> : Named.Builder<T, S> {
 
         override fun withName(value: String): S = this.withMethodName(value)
 

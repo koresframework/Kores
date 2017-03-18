@@ -47,7 +47,7 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
 
     override fun builder(): Builder<AnnotationProperty, *> = AnnotationPropertyBuilder(this)
 
-    interface Builder<out T: AnnotationProperty, S: Builder<T, S>> :
+    interface Builder<out T : AnnotationProperty, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S>,
             Annotable.Builder<T, S>,

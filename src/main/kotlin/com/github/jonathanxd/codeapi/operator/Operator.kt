@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.operator
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.base.Named
-import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.util.ToStringBuilder
 
 /**
@@ -52,12 +51,12 @@ sealed class Operator(override val name: String) : CodePart, Named {
     /**
      * Mathematical operator
      */
-    class Math(name: String): Operator(name)
+    class Math(name: String) : Operator(name)
 
     /**
      * Conditional operator
      */
-    class Conditional(name: String): Operator(name)
+    class Conditional(name: String) : Operator(name)
 
     class Builder() : Named.Builder<Operator, Builder> {
 

@@ -40,7 +40,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
 abstract class Literal protected constructor(val value: Any, override val name: String, override val type: CodeType) : CodePart, Named, Typed {
 
     // Compatibility
-    constructor(name: String, type: CodeType): this(name, name, type)
+    constructor(name: String, type: CodeType) : this(name, name, type)
 
     override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
 

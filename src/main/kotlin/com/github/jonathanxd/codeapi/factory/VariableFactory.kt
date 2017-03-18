@@ -26,6 +26,7 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("VariableFactory")
+
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodePart

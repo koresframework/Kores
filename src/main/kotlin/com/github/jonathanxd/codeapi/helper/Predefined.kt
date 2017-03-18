@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import java.io.PrintStream
-import java.util.*
 
 object Predefined {
     @JvmStatic
@@ -58,10 +57,10 @@ object Predefined {
             val helper = ConcatHelper.builder()
             val iter = arguments.iterator()
 
-            while(iter.hasNext()) {
+            while (iter.hasNext()) {
                 helper.concat(iter.next())
 
-                if(iter.hasNext())
+                if (iter.hasNext())
                     helper.concat(" ")
             }
 

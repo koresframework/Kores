@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
@@ -43,7 +42,7 @@ interface IfExpressionHolder : CodePart {
 
     override fun builder(): Builder<IfExpressionHolder, *>
 
-    interface Builder<out T: IfExpressionHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : IfExpressionHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
          * See [T.expressions]
          */

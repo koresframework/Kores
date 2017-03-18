@@ -49,7 +49,7 @@ sealed class InvokeDynamic(val methodTypeSpec: MethodTypeSpec) {
      *                            [Long], [Float], [Double], [CodeType],
      *                            or [MethodInvokeSpec].
      */
-    class Bootstrap(methodTypeSpec: MethodTypeSpec, val invokeType: InvokeType, val arguments: Array<Any>): InvokeDynamic(methodTypeSpec) {
+    class Bootstrap(methodTypeSpec: MethodTypeSpec, val invokeType: InvokeType, val arguments: Array<Any>) : InvokeDynamic(methodTypeSpec) {
         override fun toString(): String = "Bootstrap[methodTypeSpec = $methodTypeSpec, invokeType = $invokeType, arguments = ${Arrays.toString(this.arguments)}]"
     }
 

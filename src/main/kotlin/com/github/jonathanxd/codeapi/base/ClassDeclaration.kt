@@ -33,7 +33,7 @@ interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHo
 
     override fun builder(): Builder<ClassDeclaration, *> = ClassDeclarationBuilder(this)
 
-    interface Builder<out T: ClassDeclaration, S: Builder<T, S>> :
+    interface Builder<out T : ClassDeclaration, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
             SuperClassHolder.Builder<T, S>,
             ImplementationHolder.Builder<T, S>

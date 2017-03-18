@@ -43,7 +43,7 @@ interface CodePart {
      */
     fun builder(): Builder<CodePart, *> = SelfBuilder(this)
 
-    class SelfBuilder(val self: CodePart): Builder<CodePart, SelfBuilder> {
+    class SelfBuilder(val self: CodePart) : Builder<CodePart, SelfBuilder> {
         override fun build(): CodePart = self
 
     }

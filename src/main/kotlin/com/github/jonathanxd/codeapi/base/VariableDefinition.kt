@@ -40,7 +40,7 @@ interface VariableDefinition : Named, Typed, ValueHolder {
 
     override fun builder(): Builder<VariableDefinition, *> = VariableDefinitionBuilder(this)
 
-    interface Builder<out T: VariableDefinition, S: Builder<T, S>> :
+    interface Builder<out T : VariableDefinition, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S>,
             ValueHolder.Builder<T, S>

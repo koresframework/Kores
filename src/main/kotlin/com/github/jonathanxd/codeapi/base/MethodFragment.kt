@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder
-import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Scope
 import com.github.jonathanxd.codeapi.common.TypeSpec

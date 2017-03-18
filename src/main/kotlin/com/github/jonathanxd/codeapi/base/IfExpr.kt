@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.builder.IfExprBuilder
 import com.github.jonathanxd.codeapi.operator.Operator
 
@@ -56,7 +55,7 @@ interface IfExpr : CodePart {
 
     override fun builder(): Builder<IfExpr, *> = IfExprBuilder(this)
 
-    interface Builder<out T: IfExpr, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : IfExpr, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
          * See [T.expr1]
          */

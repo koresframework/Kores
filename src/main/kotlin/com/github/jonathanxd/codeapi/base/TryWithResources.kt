@@ -41,7 +41,7 @@ interface TryWithResources : TryStatement {
 
     override fun builder(): Builder<TryWithResources, *> = TryWithResourcesBuilder(this)
 
-    interface Builder<out T: TryWithResources, S: Builder<T, S>> : TryStatement.Builder<T, S> {
+    interface Builder<out T : TryWithResources, S : Builder<T, S>> : TryStatement.Builder<T, S> {
         /**
          * See [T.variable]
          */
