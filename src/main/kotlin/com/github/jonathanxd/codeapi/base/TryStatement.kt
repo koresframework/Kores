@@ -58,7 +58,7 @@ interface TryStatement : BodyHolder, Typed {
 
     override fun builder(): Builder<TryStatement, *> = TryStatementBuilder(this)
 
-    interface Builder<out T: TryStatement, S: Builder<T, S>> :
+    interface Builder<out T : TryStatement, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 

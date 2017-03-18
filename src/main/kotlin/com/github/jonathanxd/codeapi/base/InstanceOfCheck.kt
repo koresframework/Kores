@@ -52,7 +52,7 @@ interface InstanceOfCheck : Typed {
 
     override fun builder(): Builder<InstanceOfCheck, *> = InstanceOfCheckBuilder(this)
 
-    interface Builder<out T: InstanceOfCheck, S: Builder<T, S>> : Typed.Builder<T, S> {
+    interface Builder<out T : InstanceOfCheck, S : Builder<T, S>> : Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
         override fun withType(value: CodeType): S = this as S

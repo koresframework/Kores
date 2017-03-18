@@ -194,7 +194,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromIterable(iterable: Iterable<CodePart>): CodeSource {
-            if(iterable is Collection<CodePart>)
+            if (iterable is Collection<CodePart>)
                 return CodeSource(iterable.toTypedArray())
 
             return CodeSource(iterable.toList().toTypedArray())
@@ -203,7 +203,7 @@ open class CodeSource private constructor(private val parts: Array<CodePart> = e
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromGenericIterable(iterable: Iterable<*>): CodeSource {
-            if(iterable is Collection<*>)
+            if (iterable is Collection<*>)
                 return CodeSource((iterable as Collection<CodePart>).toTypedArray())
 
             return CodeSource((iterable as Iterable<CodePart>).toList().toTypedArray())

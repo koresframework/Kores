@@ -45,7 +45,7 @@ interface IfStatement : IfExpressionHolder, BodyHolder {
 
     override fun builder(): Builder<IfStatement, *> = IfStatementBuilder(this)
 
-    interface Builder<out T: IfStatement, S: Builder<T, S>> :
+    interface Builder<out T : IfStatement, S : Builder<T, S>> :
             IfExpressionHolder.Builder<T, S>,
             BodyHolder.Builder<T, S> {
 

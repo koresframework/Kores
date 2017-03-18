@@ -27,17 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Case
 import com.github.jonathanxd.codeapi.base.SwitchStatement
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.base.impl.SwitchStatementImpl
 import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.sugar.Generator
 import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
-import java.util.Objects
-import java.util.stream.Collectors
 
 /**
  * Transformation applier, this Switch object must be transformed into an INT.

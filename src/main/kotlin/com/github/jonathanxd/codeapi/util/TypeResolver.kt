@@ -35,7 +35,7 @@ abstract class CodeTypeResolver : (String) -> CodeType, Function<String, CodeTyp
     override fun apply(t: String): CodeType = this.invoke(t)
 
     override fun invoke(p1: String): CodeType {
-        if(p1.endsWith("[]")) {
+        if (p1.endsWith("[]")) {
             val index = p1.indexOf("[]")
             val without = p1.substring(0..index)
             val dimension = p1.substring(index).replace("]", "")

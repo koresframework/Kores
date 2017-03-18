@@ -49,7 +49,7 @@ interface VariableBase : Named, Typed {
 
     override fun builder(): Builder<VariableBase, *>
 
-    interface Builder<out T: VariableBase, S: Builder<T, S>> :
+    interface Builder<out T : VariableBase, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 

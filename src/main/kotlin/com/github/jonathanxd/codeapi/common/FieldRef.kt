@@ -38,14 +38,14 @@ data class FieldRef(override val localization: CodeType, override val target: Co
 
     override fun builder(): Builder = Builder(this)
 
-    class Builder(): FieldBase.Builder<FieldRef, Builder> {
+    class Builder() : FieldBase.Builder<FieldRef, Builder> {
 
         lateinit var name: String
         lateinit var type: CodeType
         lateinit var localization: CodeType
         lateinit var target: CodePart
 
-        constructor(defaults: FieldRef): this() {
+        constructor(defaults: FieldRef) : this() {
             this.name = defaults.name
             this.type = defaults.type
             this.localization = defaults.localization

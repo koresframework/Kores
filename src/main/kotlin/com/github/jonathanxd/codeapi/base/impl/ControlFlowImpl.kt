@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.ControlFlow
 import com.github.jonathanxd.codeapi.base.Label
 
-@GenBuilder
 data class ControlFlowImpl(override val type: ControlFlow.Type, override val at: Label?) : ControlFlow

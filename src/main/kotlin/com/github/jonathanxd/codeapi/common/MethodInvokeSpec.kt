@@ -67,7 +67,7 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             return this
         }
 
-        fun withMethodTypeSpec(value: MethodTypeSpec) : Builder {
+        fun withMethodTypeSpec(value: MethodTypeSpec): Builder {
             this.methodTypeSpec = value
             return this
         }

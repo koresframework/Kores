@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.builder.AccessBuilder
-import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.keyword.Keyword
 import com.github.jonathanxd.codeapi.keyword.Keywords
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -85,7 +84,7 @@ interface Access : CodePart {
         SUPER(Keywords.SUPER)
     }
 
-    interface Builder<out T: Access, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : Access, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [T.type]

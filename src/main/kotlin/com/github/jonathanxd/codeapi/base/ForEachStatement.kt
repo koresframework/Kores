@@ -55,7 +55,7 @@ interface ForEachStatement : BodyHolder {
 
     override fun builder(): Builder<ForEachStatement, *> = ForEachStatementBuilder(this)
 
-    interface Builder<out T: ForEachStatement, S: Builder<T, S>> : BodyHolder.Builder<T, S> {
+    interface Builder<out T : ForEachStatement, S : Builder<T, S>> : BodyHolder.Builder<T, S> {
         /**
          * See [T.variable]
          */

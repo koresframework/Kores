@@ -50,7 +50,7 @@ interface LoadedCodeType<T> : CodeType {
 
     override val type: String
         get() = this.loadedType.typeName.let {
-            when(it) {
+            when (it) {
                 "B" -> "byte"
                 "S" -> "short"
                 "I" -> "int"

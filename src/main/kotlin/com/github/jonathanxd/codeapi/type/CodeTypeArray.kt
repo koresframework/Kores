@@ -64,7 +64,7 @@ internal open class CodeTypeArray(val component: CodeType, override val arrayDim
 
     override val arrayComponent: CodeType
         get() {
-            if(this.isArray) {
+            if (this.isArray) {
                 if (this.arrayDimension - 1 == 0) {
                     return this.component
                 } else {

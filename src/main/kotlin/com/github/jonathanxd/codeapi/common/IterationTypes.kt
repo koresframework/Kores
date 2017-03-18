@@ -27,10 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.*
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.MutableCodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.impl.*
-import com.github.jonathanxd.codeapi.factory.field
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operators

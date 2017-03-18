@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayLoad
 import com.github.jonathanxd.codeapi.type.CodeType
 
-@GenBuilder
 data class ArrayLoadImpl(override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val arrayType: CodeType) : ArrayLoad

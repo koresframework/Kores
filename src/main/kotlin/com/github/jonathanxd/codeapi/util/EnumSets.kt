@@ -31,7 +31,7 @@ package com.github.jonathanxd.codeapi.util
 
 import java.util.*
 
-inline fun <reified E: Enum<E>> emptyEnumSet() = EnumSet.noneOf(E::class.java)
+inline fun <reified E : Enum<E>> emptyEnumSet() = EnumSet.noneOf(E::class.java)
 
-inline fun <E: Enum<E>> enumSetOf(first: E) = EnumSet.of(first)
-inline fun <E: Enum<E>> enumSetOf(first: E, vararg rest: E) = EnumSet.of(first, *rest)
+inline fun <E : Enum<E>> enumSetOf(first: E) = EnumSet.of(first)
+inline fun <E : Enum<E>> enumSetOf(first: E, vararg rest: E) = EnumSet.of(first, *rest)

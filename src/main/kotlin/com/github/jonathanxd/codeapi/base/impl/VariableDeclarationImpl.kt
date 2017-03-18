@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
 import com.github.jonathanxd.codeapi.type.CodeType
 
-@GenBuilder
 data class VariableDeclarationImpl(override val value: CodePart?, override val name: String, override val variableType: CodeType) : VariableDeclaration

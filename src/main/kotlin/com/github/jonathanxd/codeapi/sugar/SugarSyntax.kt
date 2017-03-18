@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.sugar
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.gen.PartProcessor
 
 /**
  * In CodeAPI, [SugarSyntax] could have different implementations, these implementations

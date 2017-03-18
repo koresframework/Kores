@@ -29,7 +29,10 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.base.FieldDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.ModifiersHolder
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.MemberInfo
 import com.github.jonathanxd.codeapi.common.MemberInfos

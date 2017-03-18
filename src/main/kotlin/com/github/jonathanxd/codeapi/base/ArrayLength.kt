@@ -47,7 +47,7 @@ interface ArrayLength : ArrayAccess, Typed {
 
     override fun builder(): Builder<ArrayLength, *> = ArrayLengthBuilder(this)
 
-    interface Builder<out T: ArrayLength, S: Builder<T, S>> :
+    interface Builder<out T : ArrayLength, S : Builder<T, S>> :
             ArrayAccess.Builder<T, S>,
             Typed.Builder<T, S> {
 

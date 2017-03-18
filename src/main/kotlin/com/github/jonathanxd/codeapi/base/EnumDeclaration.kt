@@ -36,7 +36,7 @@ interface EnumDeclaration : TypeDeclaration, ImplementationHolder, EntryHolder {
 
     override fun builder(): Builder<EnumDeclaration, *> = EnumDeclarationBuilder(this)
 
-    interface Builder<out T: EnumDeclaration, S: Builder<T, S>> :
+    interface Builder<out T : EnumDeclaration, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
             ImplementationHolder.Builder<T, S>,
             EntryHolder.Builder<T, S>

@@ -44,5 +44,4 @@ enum class CodeModifier(val modifierType: ModifierType, expr_: String? = null) :
 
     val expr: String = expr_ ?: this.name.toLowerCase()
 
-
 }

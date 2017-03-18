@@ -27,13 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.builder.StaticBlockBuilder
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.builder.StaticBlockBuilder
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.util.self
 
 interface StaticBlock : ConstructorDeclaration {
@@ -57,7 +56,7 @@ interface StaticBlock : ConstructorDeclaration {
 
     override fun builder(): Builder<StaticBlock, *> = StaticBlockBuilder(this)
 
-    interface Builder<out T: StaticBlock, S: Builder<T, S>> : ConstructorDeclaration.Builder<T, S> {
+    interface Builder<out T : StaticBlock, S : Builder<T, S>> : ConstructorDeclaration.Builder<T, S> {
         override fun withName(value: String): S = self()
         override fun withAnnotations(value: List<Annotation>): S = self()
         override fun withAnnotations(vararg values: Annotation): S = self()

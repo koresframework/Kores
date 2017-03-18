@@ -28,8 +28,7 @@
 package com.github.jonathanxd.codeapi.generic
 
 import com.github.jonathanxd.codeapi.type.GenericType
-
-import java.util.Arrays
+import java.util.*
 
 /**
  * Hold information about generic signatures.

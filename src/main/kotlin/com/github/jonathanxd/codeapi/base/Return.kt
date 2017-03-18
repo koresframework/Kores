@@ -40,7 +40,7 @@ interface Return : ValueHolder, Typed {
 
     override fun builder(): Builder<Return, *> = ReturnBuilder(this)
 
-    interface Builder<out T: Return, S: Builder<T, S>> :
+    interface Builder<out T : Return, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S>
 }

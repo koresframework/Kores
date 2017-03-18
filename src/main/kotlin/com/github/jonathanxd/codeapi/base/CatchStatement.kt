@@ -50,7 +50,7 @@ interface CatchStatement : BodyHolder, Typed {
 
     override fun builder(): Builder<CatchStatement, *> = CatchStatementBuilder(this)
 
-    interface Builder<out T: CatchStatement, S: Builder<T, S>> :
+    interface Builder<out T : CatchStatement, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 

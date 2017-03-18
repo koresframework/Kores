@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
@@ -35,5 +34,4 @@ import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 
-@GenBuilder
 data class FieldDeclarationImpl(override val annotations: List<Annotation>, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val name: String, override val type: CodeType, override val comments: Comments) : FieldDeclaration

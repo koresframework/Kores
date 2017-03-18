@@ -32,10 +32,10 @@ inline fun String.containsBefore(str: String, before: String): Boolean {
     val findIndex = this.indexOf(str)
     val beforeIndex = this.indexOf(before)
 
-    if(findIndex == -1)
+    if (findIndex == -1)
         return false
 
-    if(beforeIndex == -1)
+    if (beforeIndex == -1)
         return true
 
     return findIndex < beforeIndex

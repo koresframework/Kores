@@ -47,5 +47,4 @@ object Defaults {
     @JvmField
     val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
 
-
 }

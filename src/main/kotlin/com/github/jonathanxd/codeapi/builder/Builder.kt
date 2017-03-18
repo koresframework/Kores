@@ -32,7 +32,7 @@ package com.github.jonathanxd.codeapi.builder
  *
  * @param T Type of element to build.
  */
-interface Builder<out T, S: Builder<T, S>> {
+interface Builder<out T, S : Builder<T, S>> {
 
     /**
      * Build the object of type [T].
@@ -50,7 +50,7 @@ interface Builder<out T, S: Builder<T, S>> {
  * @return Instance of object of type [T].
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, S: Builder<T, S>> S.build(func: S.() -> Unit): T {
+inline fun <T, S : Builder<T, S>> S.build(func: S.() -> Unit): T {
     func(this)
     return build()
 }

@@ -49,7 +49,7 @@ interface ConstructorDeclaration : MethodDeclaration {
 
     override fun builder(): Builder<ConstructorDeclaration, *> = ConstructorDeclarationBuilder(this)
 
-    interface Builder<out T: ConstructorDeclaration, S: Builder<T, S>>: MethodDeclaration.Builder<T, S> {
+    interface Builder<out T : ConstructorDeclaration, S : Builder<T, S>> : MethodDeclaration.Builder<T, S> {
         @Suppress("UNCHECKED_CAST")
         override fun withName(value: String): S = this as S
 

@@ -42,7 +42,7 @@ interface VariableDeclaration : VariableBase, ValueHolder {
 
     override fun builder(): Builder<VariableDeclaration, *> = VariableDeclarationBuilder(this)
 
-    interface Builder<out T: VariableDeclaration, S: Builder<T, S>> :
+    interface Builder<out T : VariableDeclaration, S : Builder<T, S>> :
             VariableBase.Builder<T, S>,
             ValueHolder.Builder<T, S>
 }

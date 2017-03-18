@@ -49,7 +49,7 @@ interface ArrayLoad : ArrayAccess, Typed {
     override fun builder(): Builder<ArrayLoad, *> = ArrayLoadBuilder(this)
 
 
-    interface Builder<out T: ArrayLoad, S: Builder<T, S>> :
+    interface Builder<out T : ArrayLoad, S : Builder<T, S>> :
             ArrayAccess.Builder<T, S>,
             Typed.Builder<T, S> {
 
