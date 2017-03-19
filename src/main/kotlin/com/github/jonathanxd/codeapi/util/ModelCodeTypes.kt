@@ -40,6 +40,9 @@ import javax.lang.model.type.*
 val TypeElement.codeType: CodeType
     get() = TypeElementCodeType(this)
 
+val TypeMirror.codeType: CodeType
+    get() = this.toCodeType(false)
+
 fun TypeMirror.toCodeType(isParameterized: Boolean): CodeType {
 
     fun parseIntersection(intersectionType: IntersectionType, isSuper: Boolean): Array<GenericType.Bound> =

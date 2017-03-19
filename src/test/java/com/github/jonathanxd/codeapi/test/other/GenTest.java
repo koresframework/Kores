@@ -66,6 +66,8 @@ public class GenTest {
         GenericType generic = Generic.type("S").extends$(Generic.type(List.class).of(String.class));
 
         Assert.assertTrue(Types.LIST.is(CodeTypes.getConcreteType(generic)));
+        Assert.assertTrue(Generic.type(List.class).of(String.class).is(generic.getCodeType()));
+        Assert.assertFalse(Types.LIST.is(generic.getCodeType()));
 
     }
 

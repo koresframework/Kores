@@ -7,3 +7,8 @@ Class structure representation.
 [BytecodeWriter](https://github.com/JonathanxD/CodeAPI-BytecodeWriter)
 [SourceWriter](https://github.com/JonathanxD/CodeAPI-SourceWriter)
 [BytecodeReader](https://github.com/JonathanxD/CodeAPI-BytecodeReader)
+
+
+# 4.0.0
+
+The 4.0.0 development is stopped until Kotlin Team fixes the issue with IntelliJ Plugin that causes Kotlin compiler to crash when using annotation processors.
