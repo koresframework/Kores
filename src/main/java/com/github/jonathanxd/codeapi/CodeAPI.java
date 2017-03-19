@@ -66,6 +66,7 @@ import com.github.jonathanxd.codeapi.base.VariableBase;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDefinition;
 import com.github.jonathanxd.codeapi.base.WhileStatement;
+import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
 import com.github.jonathanxd.codeapi.base.impl.ArrayConstructorImpl;
@@ -2424,7 +2425,8 @@ public final class CodeAPI {
                 CodeAPI.sourceOfParts(toAdd),
                 currentReturnType,
                 codeModifiers,
-                GenericSignature.empty());
+                GenericSignature.empty(),
+                Comments.Absent.INSTANCE);
     }
 
     // =========================================================

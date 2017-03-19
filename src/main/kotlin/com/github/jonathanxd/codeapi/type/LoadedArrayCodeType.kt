@@ -61,4 +61,7 @@ internal class LoadedArrayCodeType<T>(override val loadedType: Class<T>, compone
 
     override fun hashCode(): Int = this.hash()
 
+    override val defaultResolver: CodeTypeResolver<Class<*>>
+        get() = CodeTypeResolver.Java(this.loadedType.classLoader ?: ClassLoader.getSystemClassLoader())
+
 }

@@ -91,7 +91,7 @@ interface SwitchStatement : ValueHolder, Typed {
             Typed.Builder<T, S> {
         override fun withType(value: CodeType): S = self()
 
-        override fun withValue(value: CodePart?): S
+        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
 
         /**
          * See [T.value]

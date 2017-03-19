@@ -106,6 +106,26 @@ interface CodeType : CodePart, Comparable<CodeType> {
         get() = codeTypeToTypeDesc(this)
 
     /**
+     * Binary name of the class.
+     *
+     * [String] = `java.lang.String`
+     * [Int] = `int`
+     * `String[]` = `[Ljava.lang.String;`
+     *
+     */
+    val binaryName: String
+        get() = if (!this.isArray) this.type else {
+            val sb = StringBuilder()
+
+            val arrayDimension = this.arrayDimension
+
+            for (x in 0..arrayDimension - 1)
+                sb.append('[')
+
+            sb.toString() + "L${this.type};"
+        }
+
+    /**
      * True if this [CodeType] is a primitive type.
      */
     val isPrimitive: Boolean
@@ -194,6 +214,14 @@ interface CodeType : CodePart, Comparable<CodeType> {
      */
     val identification: String
         get() = this.javaSpecName
+
+    /**
+     * Default resolver.
+     *
+     * This resolver always returns `this` instance for [CodeTypeResolver.resolve] method.
+     */
+    val defaultResolver: CodeTypeResolver<*>
+        get() = CodeTypeResolver.DefaultResolver
 
     /**
      * Convert this [CodeType] to a [CodeTypeArray].

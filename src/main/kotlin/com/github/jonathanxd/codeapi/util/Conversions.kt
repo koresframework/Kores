@@ -43,6 +43,7 @@ import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.VariableElement
+import javax.lang.model.util.Elements
 
 
 // For more Conversions use CodeAPI-Conversions
@@ -97,8 +98,8 @@ fun Method.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: Li
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>): MethodInvocation =
-        CodeAPI.invoke(invokeType ?: this.invokeType, (this.enclosingElement as TypeElement).codeType, target, this.simpleName.toString(), TypeSpec(this.returnType.codeType, this.parameters.map { it.asType().codeType }), arguments)
+fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>, elements: Elements): MethodInvocation =
+        CodeAPI.invoke(invokeType ?: this.invokeType, (this.enclosingElement as TypeElement).getCodeType(elements), target, this.simpleName.toString(), TypeSpec(this.returnType.getCodeType(elements), this.parameters.map { it.asType().getCodeType(elements) }), arguments)
 
 
 /**
@@ -120,12 +121,12 @@ fun Field.toAccess(target: CodePart?): FieldAccess =
  *
  * @param target Target of the field access, null (or static access) for static access.
  */
-fun VariableElement.toAccess(target: CodePart?): FieldAccess =
+fun VariableElement.toAccess(target: CodePart?, elements: Elements): FieldAccess =
         FieldAccessBuilder.builder()
                 .build {
-                    this.localization = (this@toAccess.enclosingElement as TypeElement).codeType
+                    this.localization = (this@toAccess.enclosingElement as TypeElement).getCodeType(elements)
                     this.target = target ?: CodeAPI.accessStatic()
-                    this.type = this@toAccess.asType().codeType
+                    this.type = this@toAccess.asType().getCodeType(elements)
                     this.name = this@toAccess.simpleName.toString()
                 }
 

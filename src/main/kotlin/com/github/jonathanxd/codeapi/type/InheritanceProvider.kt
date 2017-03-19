@@ -27,37 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
-
 /**
- * Plain string code type.
+ * Mixin interface, marks the element as a provider of superclass and superinterfaces for [CodeTypeResolvers][CodeTypeResolver].
  */
-@GenerateTo(CodeType::class)
-open class PlainCodeType @JvmOverloads constructor(override val type: String,
-                                                   override val isInterface: Boolean = false,
-                                                   val superclass_: () -> CodeType? = { throw IllegalStateException("No super class provider") },
-                                                   val superinterfaces_: () -> List<CodeType> = throw IllegalStateException("No super interfaces provider")) : CodeType, InheritanceProvider {
+interface InheritanceProvider {
 
-    override val canonicalName: String get() = this.type
+    /**
+     * Super class
+     */
+    val superclass: CodeType?
 
-    override val superclass: CodeType?
-        get() = superclass_()
-
-    override val superinterfaces: List<CodeType>
-        get() = superinterfaces_()
-
-    override fun equals(other: Any?): Boolean {
-        return this.eq(other)
-    }
-
-    override fun hashCode(): Int {
-        return this.hash()
-    }
-
-    override fun toString(): String {
-        return "Plain[" + this.canonicalName + "]"
-    }
+    /**
+     * Super interfaces
+     */
+    val superinterfaces: List<CodeType>
 
 }
