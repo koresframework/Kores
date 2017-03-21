@@ -29,16 +29,15 @@
 
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl
-import com.github.jonathanxd.codeapi.base.impl.ClassDeclarationImpl
-import com.github.jonathanxd.codeapi.base.impl.EnumDeclarationImpl
-import com.github.jonathanxd.codeapi.base.impl.InterfaceDeclarationImpl
+import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
@@ -461,3 +460,84 @@ fun anEnum(outerClass: CodeType? = null,
             body = source
     )
 }
+
+
+// ---------------------------------------------------------------
+//       Anonymous class
+// ---------------------------------------------------------------
+
+// Short methods
+fun anonymousClass(outerClass: CodeType,
+                   name: String,
+                   superType: CodeType,
+                   source: CodeSource = CodeSource.empty()): AnonymousClass {
+    // Select correct method
+    return anonymousClass(
+            outerClass = outerClass,
+            qualifiedName = name,
+            superType = superType,
+            source = source
+    )
+}
+
+fun anonymousClass(outerClass: CodeType,
+                   name: String,
+                   superType: CodeType,
+                   constructorSpec: TypeSpec,
+                   arguments: Array<CodePart>,
+                   source: CodeSource = CodeSource.empty()): AnonymousClass {
+    // Select correct method
+    return anonymousClass(
+            outerClass = outerClass,
+            qualifiedName = name,
+            superType = superType,
+            constructorSpec = constructorSpec,
+            arguments = arguments,
+            source = source
+    )
+}
+
+fun anonymousClass(outerClass: CodeType,
+                   name: String,
+                   superType: CodeType,
+                   constructorSpec: TypeSpec,
+                   arguments: Array<CodePart>,
+                   constructorBody: CodeSource,
+                   source: CodeSource = CodeSource.empty()): AnonymousClass {
+    // Select correct method
+    return anonymousClass(
+            outerClass = outerClass,
+            qualifiedName = name,
+            superType = superType,
+            arguments = arguments,
+            constructorSpec = constructorSpec,
+            constructorBody = constructorBody,
+            source = source
+    )
+}
+
+// /Short methods
+
+@JvmOverloads
+fun anonymousClass(outerClass: CodeType,
+                   annotations: Array<Annotation> = emptyArray(),
+                   qualifiedName: String,
+                   superType: CodeType,
+                   constructorSpec: TypeSpec = TypeSpec(Types.VOID),
+                   arguments: Array<CodePart> = emptyArray(),
+                   source: CodeSource = CodeSource.empty(),
+                   constructorBody: CodeSource = CodeSource.empty(),
+                   comments: Comments = Comments.Absent): AnonymousClass {
+    return AnonymousClassImpl(
+            outerClass = outerClass,
+            annotations = ArrayToList.toList(annotations),
+            comments = comments,
+            superClass = superType,
+            qualifiedName = qualifiedName,
+            body = source,
+            constructorSpec = constructorSpec,
+            arguments = ArrayToList.toList(arguments),
+            constructorBody = constructorBody
+    )
+}
+

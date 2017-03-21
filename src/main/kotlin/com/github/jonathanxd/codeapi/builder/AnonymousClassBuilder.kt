@@ -74,11 +74,6 @@ open class AnonymousClassBuilder() : AnonymousClass.Builder<AnonymousClass, Anon
     lateinit var superClass: com.github.jonathanxd.codeapi.type.CodeType
 
     /**
-     * See [AnonymousClass.genericSignature]
-     */
-    var genericSignature: com.github.jonathanxd.codeapi.generic.GenericSignature = com.github.jonathanxd.codeapi.generic.GenericSignature.empty()
-
-    /**
      * See [AnonymousClass.outerClass]
      */
     var outerClass: com.github.jonathanxd.codeapi.type.CodeType? = null
@@ -92,7 +87,6 @@ open class AnonymousClassBuilder() : AnonymousClass.Builder<AnonymousClass, Anon
         this.body = defaults.body
         this.comments = defaults.comments
         this.superClass = defaults.superClass
-        this.genericSignature = defaults.genericSignature
         this.outerClass = defaults.outerClass
     }
 
@@ -188,15 +182,6 @@ open class AnonymousClassBuilder() : AnonymousClass.Builder<AnonymousClass, Anon
 
 
     /**
-     * See [AnonymousClass.genericSignature]
-     */
-    override fun withGenericSignature(value: com.github.jonathanxd.codeapi.generic.GenericSignature): AnonymousClassBuilder {
-        this.genericSignature = value
-        return this
-    }
-
-
-    /**
      * See [AnonymousClass.outerClass]
      */
     override fun withOuterClass(value: com.github.jonathanxd.codeapi.type.CodeType?): AnonymousClassBuilder {
@@ -213,7 +198,6 @@ open class AnonymousClassBuilder() : AnonymousClass.Builder<AnonymousClass, Anon
             body = this.body,
             comments = this.comments,
             superClass = this.superClass,
-            genericSignature = this.genericSignature,
             outerClass = this.outerClass
     )
 

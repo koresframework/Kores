@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
 
@@ -44,6 +45,9 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
 
     override val types: List<CodeType>
         get() = this.constructorSpec.parameterTypes
+
+    override val genericSignature: GenericSignature
+        get() = GenericSignature.empty()
 
     /**
      * Specification of constructor to invoke.
@@ -71,6 +75,7 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
         override fun withModifiers(vararg values: CodeModifier): S = self()
         override fun withArray(value: Boolean): S = self()
         override fun withOuterClass(value: CodeType?): S = self()
+        override fun withGenericSignature(value: GenericSignature): S = self()
 
         /**
          * See [T.constructorSpec]

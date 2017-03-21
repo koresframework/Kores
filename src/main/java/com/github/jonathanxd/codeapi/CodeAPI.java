@@ -148,6 +148,9 @@ import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import kotlin.collections.CollectionsKt;
+import kotlin.text.StringsKt;
+
 /**
  * Factory class.
  *
@@ -870,6 +873,16 @@ public final class CodeAPI {
     public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(invokeType, CodeAPI.getJavaType(localization), target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
+    }
+
+    public static MethodInvocation invokeFieldGetter(InvokeType invokeType, CodeType localization, CodePart target, CodeType fieldType, String fieldName) {
+        return invoke__factory(invokeType, localization, target, Collections.emptyList(),
+                spec__factory("get".concat(StringsKt.capitalize(fieldName)), new TypeSpec(fieldType), MethodType.METHOD));
+    }
+
+    public static MethodInvocation invokeFieldSetter(InvokeType invokeType, CodeType localization, CodePart target, CodeType fieldType, String fieldName, CodePart value) {
+        return invoke__factory(invokeType, localization, target, CollectionsKt.listOf(value),
+                spec__factory("set".concat(StringsKt.capitalize(fieldName)), typeSpec(Types.VOID, fieldType), MethodType.METHOD));
     }
 
     // Factory

@@ -42,7 +42,7 @@ import com.github.jonathanxd.codeapi.util.resolveInternalQualified
 import com.github.jonathanxd.codeapi.util.resolveRealQualified
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
-class AnonymousClassImpl(qualifiedName: String, override val constructorSpec: TypeSpec, override val arguments: List<CodePart>, override val constructorBody: CodeSource, override val annotations: List<Annotation>, override val body: CodeSource, override val comments: Comments, override val superClass: CodeType, override val genericSignature: GenericSignature, override val outerClass: CodeType?) : AnonymousClass {
+class AnonymousClassImpl(qualifiedName: String, override val constructorSpec: TypeSpec, override val arguments: List<CodePart>, override val constructorBody: CodeSource, override val annotations: List<Annotation>, override val body: CodeSource, override val comments: Comments, override val superClass: CodeType, override val outerClass: CodeType?) : AnonymousClass {
 
     override val specifiedName: String = qualifiedName
 
