@@ -120,6 +120,7 @@ private fun Type.getType(isParameterized: Boolean = false): CodeType {
         is Class<*> -> this.codeType.let {
             it
         }
+        is CodeType -> this
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
     }
 }

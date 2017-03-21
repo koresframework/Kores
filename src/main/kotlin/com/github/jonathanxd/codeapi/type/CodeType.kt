@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.type
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
+import java.lang.reflect.Type
 
 /**
  * A type representation, like:
@@ -47,7 +48,7 @@ import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
  *
  * The implementation MUST implement [hashCode] and [equals].
  */
-interface CodeType : CodePart, Comparable<CodeType> {
+interface CodeType : CodePart, Comparable<CodeType>, Type {
 
     /**
      * Type name, examples:
@@ -253,5 +254,8 @@ interface CodeType : CodePart, Comparable<CodeType> {
 
     override fun hashCode(): Int
     override fun equals(other: Any?): Boolean
+
+    override fun getTypeName(): String =
+            this.toString()
 
 }
