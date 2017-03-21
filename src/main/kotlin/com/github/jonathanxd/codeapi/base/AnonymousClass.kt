@@ -67,6 +67,9 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
             SuperClassHolder.Builder<T, S>,
             ArgumentHolder.Builder<T, S> {
 
+        override fun withModifiers(value: Set<CodeModifier>): S = self()
+        override fun withModifiers(vararg values: CodeModifier): S = self()
+        override fun withArray(value: Boolean): S = self()
         override fun withOuterClass(value: CodeType?): S = self()
 
         /**
