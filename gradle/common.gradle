@@ -35,14 +35,6 @@ ext {
     description = "Framework to generate Java code and Bytecode code."
 }
 
-sourceSets {
-    generated {
-        java {
-            srcDirs = ['src/generated']
-        }
-    }
-}
-
 shadowJar {
     dependencies {
         include(dependency("com.github.JonathanxD:JwIUtils"))
@@ -77,12 +69,6 @@ task javadocJar(type: Jar, dependsOn: dokka) {
 task testJar(type: Jar, dependsOn: testClasses) {
     baseName = "test-${project.archivesBaseName}"
     from sourceSets.test.output
-}
-
-task copyGenerated(type: Copy, dependsOn: kapt) {
-    from 'build/generated/source/kapt/main'
-    into 'src/generated/java'
-    include "*.*"
 }
 
 configurations {
