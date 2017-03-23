@@ -35,7 +35,6 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.helper.Predefined;

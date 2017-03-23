@@ -87,7 +87,7 @@ interface CodeTypeResolver<out T> {
                 return concreteType.typeElement.superclass?.getCodeType(concreteType.elements)
 
             if (concreteType is SuperClassHolder)
-                return concreteType.superClass
+                return concreteType.superClass.codeType
 
             if (concreteType is InheritanceProvider)
                 return concreteType.superclass
@@ -105,7 +105,7 @@ interface CodeTypeResolver<out T> {
                 return concreteType.typeElement.interfaces?.map { it.getCodeType(concreteType.elements) }.orEmpty()
 
             if (concreteType is ImplementationHolder)
-                return concreteType.implementations.toList()
+                return concreteType.implementations.map{it.codeType}.toList()
 
             if (concreteType is InheritanceProvider)
                 return concreteType.superinterfaces.toList()
