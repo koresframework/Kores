@@ -166,12 +166,15 @@ public final class CodeAPI {
     public static final Annotation[] EMPTY_ANNOTATIONS = {};
     private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
-    private static final BuilderProvider provider = null;
+    private static final BuilderProvider provider = new BuilderGenProvider();
 
     public static BuilderProvider getBuilderProvider() {
         return Objects.requireNonNull(CodeAPI.provider, "Provider is not defined");
     }
 
+    static {
+
+    }
 
     // =========================================================
     //          Annotations

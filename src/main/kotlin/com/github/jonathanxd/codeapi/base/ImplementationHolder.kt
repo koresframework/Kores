@@ -47,11 +47,11 @@ interface ImplementationHolder : CodePart {
         /**
          * See [T.implementations]
          */
-        fun withImplementations(value: List<CodeType>): S
+        fun withImplementations(value: List<Type>): S
 
         /**
          * See [T.implementations]
          */
-        fun withImplementations(vararg values: CodeType): S
+        fun withImplementations(vararg values: Type): S
     }
 }

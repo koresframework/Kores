@@ -35,14 +35,6 @@ ext {
     description = "Framework to generate Java code and Bytecode code."
 }
 
-sourceSets {
-    generated {
-        java {
-            srcDirs = ['src/generated']
-        }
-    }
-}
-
 shadowJar {
     dependencies {
         include(dependency("com.github.JonathanxD:JwIUtils"))

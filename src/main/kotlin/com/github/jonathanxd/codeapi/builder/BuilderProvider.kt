@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.builder
 
 import com.github.jonathanxd.codeapi.CodePart
+import java.util.*
 
 /**
  * Provides builders of CodePart
@@ -37,31 +38,62 @@ interface BuilderProvider {
     /**
      * Register providers of builder
      */
-    fun <T: CodePart, B: Builder<T, B>> register(type: Class<T>, provider: () -> B, defaultsProvider: (defaults: T) -> B)
+    fun <T : CodePart, B : Builder<T, *>> register(type: Class<B>, factory: () -> B, defaultsFactory: (defaults: T) -> B)
 
     /**
      * Creates a builder of part [T] with [codePart] as default value provider.
      */
-    operator fun <T: CodePart, B: Builder<T, *>> get(type: Class<B>, codePart: T): B
+    operator fun <T : CodePart, B : Builder<T, *>> get(type: Class<B>, codePart: T): B
 
     /**
      * Creates a builder of part [T] with default values.
      */
-    operator fun <T: CodePart, B: Builder<T, *>> get(type: Class<B>): B
+    operator fun <T : CodePart, B : Builder<T, *>> get(type: Class<B>): B
 
+}
+
+abstract class MapBuilderProvider : BuilderProvider {
+
+    private val builderMap = HashMap<Class<*>, BuilderFactory<*, *>>()
+
+    override final fun <T : CodePart, B : Builder<T, *>> register(type: Class<B>, factory: () -> B, defaultsFactory: (defaults: T) -> B) {
+        this.builderMap.put(type, BuilderFactory(factory, defaultsFactory))
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override final fun <T : CodePart, B : Builder<T, *>> get(type: Class<B>, codePart: T): B {
+        if (!this.builderMap.containsKey(type))
+            throw IllegalArgumentException("Cannot find builder of type '" + type.canonicalName + "'!")
+
+        val builderFactory = this.builderMap[type] as BuilderFactory<T, *>
+
+        return builderFactory.defaultsFactory(codePart) as B
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override final fun <T : CodePart, B : Builder<T, *>> get(type: Class<B>): B {
+        if (!this.builderMap.containsKey(type))
+            throw IllegalArgumentException("Cannot find builder of type '" + type.canonicalName + "'!")
+
+        val builderFactory = this.builderMap[type] as BuilderFactory<T, *>
+
+        return builderFactory.factory() as B
+    }
+
+    internal data class BuilderFactory<T : CodePart, B : Builder<T, *>>(val factory: () -> B, val defaultsFactory: (T) -> B)
 
 }
 
 /**
  * Creates a builder of part [T].
  */
-operator inline fun <T: CodePart, reified B: Builder<T, *>> BuilderProvider.invoke(): B {
+operator inline fun <T : CodePart, reified B : Builder<T, *>> BuilderProvider.invoke(): B {
     return this[B::class.java]
 }
 
 /**
  * Creates a builder of part [T].
  */
-operator inline fun <T: CodePart, reified B: Builder<T, *>> BuilderProvider.invoke(codePart: T): B {
+operator inline fun <T : CodePart, reified B : Builder<T, *>> BuilderProvider.invoke(codePart: T): B {
     return this[B::class.java, codePart]
 }
