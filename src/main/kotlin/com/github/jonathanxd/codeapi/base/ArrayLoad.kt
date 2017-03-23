@@ -27,10 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ArrayLoadBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
+@Concrete
 interface ArrayLoad : ArrayAccess, Typed {
 
     /**
@@ -41,19 +44,19 @@ interface ArrayLoad : ArrayAccess, Typed {
     /**
      * Type of the value
      */
-    val valueType: CodeType
+    val valueType: Type
 
-    override val type: CodeType
+    override val type: Type
         get() = this.valueType
 
-    override fun builder(): Builder<ArrayLoad, *> = ArrayLoadBuilder(this)
+    override fun builder(): Builder<ArrayLoad, *> = CodeAPI.getBuilderProvider()(this)
 
 
     interface Builder<out T : ArrayLoad, S : Builder<T, S>> :
             ArrayAccess.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType): S = this.withValueType(value)
+        override fun withType(value: Type): S = this.withValueType(value)
 
         /**
          * See [T.index]
@@ -63,6 +66,12 @@ interface ArrayLoad : ArrayAccess, Typed {
         /**
          * See [T.valueType]
          */
-        fun withValueType(value: CodeType): S
+        fun withValueType(value: Type): S
+
+        companion object {
+            fun builder(): Builder<ArrayLoad, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ArrayLoad): Builder<ArrayLoad, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

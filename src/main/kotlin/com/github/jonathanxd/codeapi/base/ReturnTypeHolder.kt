@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Return type holder part
@@ -38,11 +38,15 @@ interface ReturnTypeHolder : CodePart {
     /**
      * Type of return
      */
-    val returnType: CodeType
+    val returnType: Type
 
     override fun builder(): Builder<ReturnTypeHolder, *>
 
     interface Builder<out T : ReturnTypeHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-        fun withReturnType(value: CodeType): S
+
+        /**
+         * See [T.returnType]
+         */
+        fun withReturnType(value: Type): S
     }
 }

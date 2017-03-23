@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.IfExprBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operator
 
 /**
@@ -36,6 +38,7 @@ import com.github.jonathanxd.codeapi.operator.Operator
  *
  * @see IfStatement
  */
+@Concrete
 interface IfExpr : CodePart {
 
     /**
@@ -53,7 +56,7 @@ interface IfExpr : CodePart {
      */
     val expr2: CodePart
 
-    override fun builder(): Builder<IfExpr, *> = IfExprBuilder(this)
+    override fun builder(): Builder<IfExpr, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : IfExpr, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
@@ -70,6 +73,12 @@ interface IfExpr : CodePart {
          * See [T.expr2]
          */
         fun withExpr2(value: CodePart): S
+
+        companion object {
+            fun builder(): Builder<IfExpr, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: IfExpr): Builder<IfExpr, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
 }

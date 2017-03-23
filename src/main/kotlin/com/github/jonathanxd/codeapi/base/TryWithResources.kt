@@ -27,11 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.TryWithResourcesBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Try-with-resources
  */
+@Concrete
 interface TryWithResources : TryStatement {
 
     /**
@@ -39,12 +42,18 @@ interface TryWithResources : TryStatement {
      */
     val variable: VariableDeclaration
 
-    override fun builder(): Builder<TryWithResources, *> = TryWithResourcesBuilder(this)
+    override fun builder(): Builder<TryWithResources, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : TryWithResources, S : Builder<T, S>> : TryStatement.Builder<T, S> {
         /**
          * See [T.variable]
          */
         fun withVariable(value: VariableDeclaration): S
+
+        companion object {
+            fun builder(): Builder<TryWithResources, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: TryWithResources): Builder<TryWithResources, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.sugar.Generator
 import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
+import com.github.jonathanxd.codeapi.util.`is`
 
 /**
  * Transformation applier, this Switch object must be transformed into an INT.

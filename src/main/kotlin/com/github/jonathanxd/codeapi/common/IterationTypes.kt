@@ -43,6 +43,7 @@ import com.github.jonathanxd.codeapi.util.HiddenVariable
 /**
  * Common [IterationTypes][IterationType]
  */
+// TODO: Remove this and create an enum because we need better handling in the processors
 object IterationTypes {
 
     /**

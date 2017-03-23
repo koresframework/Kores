@@ -27,17 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Enum declaration
  */
+@Concrete
 interface EnumDeclaration : TypeDeclaration, ImplementationHolder, EntryHolder {
 
-    override fun builder(): Builder<EnumDeclaration, *> = EnumDeclarationBuilder(this)
+    override fun builder(): Builder<EnumDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : EnumDeclaration, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
             ImplementationHolder.Builder<T, S>,
-            EntryHolder.Builder<T, S>
+            EntryHolder.Builder<T, S> {
+
+        companion object {
+            fun builder(): Builder<EnumDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: EnumDeclaration): Builder<EnumDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

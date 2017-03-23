@@ -27,14 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
+import java.lang.reflect.Type
 
+@Concrete
 interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
 
     override val array: Boolean
@@ -43,7 +48,7 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
     override val modifiers: Set<CodeModifier>
         get() = setOf(CodeModifier.PACKAGE_PRIVATE)
 
-    override val types: List<CodeType>
+    override val types: List<Type>
         get() = this.constructorSpec.parameterTypes
 
     override val genericSignature: GenericSignature
@@ -64,7 +69,7 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
      */
     val constructorBody: CodeSource
 
-    override fun builder(): Builder<AnonymousClass, *>
+    override fun builder(): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : AnonymousClass, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
@@ -74,7 +79,7 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
         override fun withModifiers(value: Set<CodeModifier>): S = self()
         override fun withModifiers(vararg values: CodeModifier): S = self()
         override fun withArray(value: Boolean): S = self()
-        override fun withOuterClass(value: CodeType?): S = self()
+        override fun withOuterClass(value: Type?): S = self()
         override fun withGenericSignature(value: GenericSignature): S = self()
 
         /**
@@ -86,6 +91,11 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
          * See [T.constructorBody]
          */
         fun withConstructorBody(value: CodeSource): S
+
+        companion object {
+            fun builder(): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: AnonymousClass): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 

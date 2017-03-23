@@ -27,23 +27,32 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.FieldDefinitionBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Defines the value of a field or variable.
  */
+@Concrete
 interface FieldDefinition : Accessor, FieldBase, ValueHolder {
     override val target: CodePart
-    override val type: CodeType
+    override val type: Type
     override val value: CodePart
 
-    override fun builder(): Builder<FieldDefinition, *> = FieldDefinitionBuilder(this)
-
+    override fun builder(): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : FieldDefinition, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
             FieldBase.Builder<T, S>,
-            ValueHolder.Builder<T, S>
+            ValueHolder.Builder<T, S> {
+
+        companion object {
+            fun builder(): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: FieldDefinition): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

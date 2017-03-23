@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.modify.visit.VisitManager;
 
@@ -45,7 +44,7 @@ public class VisitTest {
     public void visitTest() {
         VisitManager<ClassDeclaration> codeClassVisitManager = new VisitManager<>();
 
-        codeClassVisitManager.register(ClassDeclaration.class, (codePart, data, visitManager) -> new ClassDeclarationBuilder(codePart).withQualifiedName("com.XYZ").build());
+        codeClassVisitManager.register(ClassDeclaration.class, (codePart, data, visitManager) -> codePart.builder().withQualifiedName("com.XYZ").build());
 
 
         ClassDeclaration myClass = CodeAPI.aClassBuilder()

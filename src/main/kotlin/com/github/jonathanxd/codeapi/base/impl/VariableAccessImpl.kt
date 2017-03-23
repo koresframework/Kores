@@ -28,6 +28,6 @@
 package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.base.VariableAccess
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class VariableAccessImpl(override val name: String, override val variableType: CodeType) : VariableAccess
+data class VariableAccessImpl(override val name: String, override val variableType: Type) : VariableAccess

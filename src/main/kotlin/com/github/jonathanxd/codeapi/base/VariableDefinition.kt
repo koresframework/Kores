@@ -27,21 +27,31 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.VariableDefinitionBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Defines the value of a local variable.
  */
+@Concrete
 interface VariableDefinition : Named, Typed, ValueHolder {
-    override val type: CodeType
+
+    override val type: Type
     override val value: CodePart
 
-    override fun builder(): Builder<VariableDefinition, *> = VariableDefinitionBuilder(this)
+    override fun builder(): Builder<VariableDefinition, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : VariableDefinition, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S>,
-            ValueHolder.Builder<T, S>
+            ValueHolder.Builder<T, S> {
+        companion object {
+            fun builder(): Builder<VariableDefinition, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: VariableDefinition): Builder<VariableDefinition, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

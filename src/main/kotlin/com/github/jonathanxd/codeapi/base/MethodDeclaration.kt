@@ -27,23 +27,26 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeRoot
+import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Method declaration
  */
+@Concrete
 interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
 
-    override val type: CodeType
+    override val type: Type
         get() = this.returnType
 
-    override val returnType: CodeType
+    override val returnType: Type
 
-    override fun builder(): Builder<MethodDeclaration, *> = MethodDeclarationBuilder(this)
+    override fun builder(): Builder<MethodDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : MethodDeclaration, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
@@ -56,7 +59,12 @@ interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnType
             Typed.Builder<T, S>,
             CommentHolder.Builder<T, S> {
 
-        override fun withType(value: CodeType): S = this.withReturnType(value)
+        override fun withType(value: Type): S = this.withReturnType(value)
+
+        companion object {
+            fun builder(): Builder<MethodDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: MethodDeclaration): Builder<MethodDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 }

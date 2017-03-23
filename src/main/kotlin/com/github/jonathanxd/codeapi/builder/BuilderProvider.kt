@@ -27,5 +27,41 @@
  */
 package com.github.jonathanxd.codeapi.builder
 
+import com.github.jonathanxd.codeapi.CodePart
+
+/**
+ * Provides builders of CodePart
+ */
 interface BuilderProvider {
+
+    /**
+     * Register providers of builder
+     */
+    fun <T: CodePart, B: Builder<T, B>> register(type: Class<T>, provider: () -> B, defaultsProvider: (defaults: T) -> B)
+
+    /**
+     * Creates a builder of part [T] with [codePart] as default value provider.
+     */
+    operator fun <T: CodePart, B: Builder<T, *>> get(type: Class<B>, codePart: T): B
+
+    /**
+     * Creates a builder of part [T] with default values.
+     */
+    operator fun <T: CodePart, B: Builder<T, *>> get(type: Class<B>): B
+
+
+}
+
+/**
+ * Creates a builder of part [T].
+ */
+operator inline fun <T: CodePart, reified B: Builder<T, *>> BuilderProvider.invoke(): B {
+    return this[B::class.java]
+}
+
+/**
+ * Creates a builder of part [T].
+ */
+operator inline fun <T: CodePart, reified B: Builder<T, *>> BuilderProvider.invoke(codePart: T): B {
+    return this[B::class.java, codePart]
 }

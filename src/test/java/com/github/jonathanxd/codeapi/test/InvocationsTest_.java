@@ -39,9 +39,6 @@ import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
@@ -133,7 +130,7 @@ public class InvocationsTest_ {
         MutableCodeSource codeSource = new MutableCodeSource();
         MutableCodeSource clSource = new MutableCodeSource();
 
-        ClassDeclaration codeClass = ClassDeclarationBuilder.builder()
+        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("fullName." + InvocationsTest_.class.getSimpleName() + "_Generated")
                 .withSuperClass(Types.OBJECT)
@@ -168,7 +165,7 @@ public class InvocationsTest_ {
                 CodeAPI.voidTypeSpec(Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Oi")));
 
-        ConstructorDeclaration codeConstructor = ConstructorDeclarationBuilder.builder()
+        ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withBody(CodeAPI.source(invokeTest, invokeTest2))
                 .build();
@@ -186,7 +183,7 @@ public class InvocationsTest_ {
     public static MethodDeclaration makeCM2(TypeDeclaration typeDeclaration) {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclaration codeMethod = MethodDeclarationBuilder.builder()
+        MethodDeclaration codeMethod = MethodDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("check")
                 .withReturnType(Types.BOOLEAN)

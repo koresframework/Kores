@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayLength
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class ArrayLengthImpl(override val arrayType: CodeType, override val target: CodePart) : ArrayLength
+data class ArrayLengthImpl(override val arrayType: Type, override val target: CodePart) : ArrayLength

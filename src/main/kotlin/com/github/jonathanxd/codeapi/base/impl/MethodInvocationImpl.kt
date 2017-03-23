@@ -32,6 +32,6 @@ import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.MethodSpecification
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class MethodInvocationImpl(override val localization: CodeType, override val arguments: List<CodePart>, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?, override val target: CodePart) : MethodInvocation
+data class MethodInvocationImpl(override val localization: Type, override val arguments: List<CodePart>, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?, override val target: CodePart) : MethodInvocation

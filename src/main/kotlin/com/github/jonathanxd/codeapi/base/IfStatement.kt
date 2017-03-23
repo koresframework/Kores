@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.builder.IfStatementBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * A if statement.
@@ -36,6 +38,7 @@ import com.github.jonathanxd.codeapi.builder.IfStatementBuilder
  *
  * @see IfExpr
  */
+@Concrete
 interface IfStatement : IfExpressionHolder, BodyHolder {
 
     /**
@@ -43,7 +46,7 @@ interface IfStatement : IfExpressionHolder, BodyHolder {
      */
     val elseStatement: CodeSource
 
-    override fun builder(): Builder<IfStatement, *> = IfStatementBuilder(this)
+    override fun builder(): Builder<IfStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : IfStatement, S : Builder<T, S>> :
             IfExpressionHolder.Builder<T, S>,
@@ -53,6 +56,11 @@ interface IfStatement : IfExpressionHolder, BodyHolder {
          * See [T.elseStatement]
          */
         fun withElseStatement(value: CodeSource): S
+
+        companion object {
+            fun builder(): Builder<IfStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: IfStatement): Builder<IfStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 }

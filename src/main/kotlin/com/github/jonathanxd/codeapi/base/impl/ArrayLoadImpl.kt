@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayLoad
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class ArrayLoadImpl(override val index: CodePart, override val target: CodePart, override val valueType: CodeType, override val arrayType: CodeType) : ArrayLoad
+data class ArrayLoadImpl(override val index: CodePart, override val target: CodePart, override val valueType: Type, override val arrayType: Type) : ArrayLoad

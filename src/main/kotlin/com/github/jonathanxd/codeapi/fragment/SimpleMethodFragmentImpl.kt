@@ -37,10 +37,10 @@ import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
-import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 import java.util.concurrent.ThreadLocalRandom
 
 /**
@@ -66,11 +66,11 @@ data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration,
     )
 
     override val invokeType: InvokeType = if (scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.INVOKE_VIRTUAL
-    override val localization: CodeType = declaringType
+    override val localization: Type = declaringType
     override val target: CodePart = if (scope == Scope.STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS
     override val invokeDynamic: InvokeDynamic? = null
 
-    override fun builder(): MethodFragment.Builder<MethodFragment, *> = MethodFragmentBuilder(this)
+    override fun builder(): MethodFragment.Builder<MethodFragment, *> = MethodFragment.Builder.builder(this)
 
     private companion object {
 

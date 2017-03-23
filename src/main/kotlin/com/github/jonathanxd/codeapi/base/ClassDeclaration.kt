@@ -27,15 +27,25 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
+@Concrete
 interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
 
-    override fun builder(): Builder<ClassDeclaration, *> = ClassDeclarationBuilder(this)
+    override fun builder(): Builder<ClassDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ClassDeclaration, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
             SuperClassHolder.Builder<T, S>,
-            ImplementationHolder.Builder<T, S>
+            ImplementationHolder.Builder<T, S> {
+
+        companion object {
+            fun builder(): Builder<ClassDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ClassDeclaration): Builder<ClassDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 
 }

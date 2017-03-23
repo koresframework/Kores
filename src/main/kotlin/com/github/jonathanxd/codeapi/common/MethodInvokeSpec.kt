@@ -29,10 +29,11 @@ package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed, Comparable<MethodInvokeSpec> {
 
-    override val type: CodeType
+    override val type: Type
         get() = this.methodTypeSpec.type
 
     /**
@@ -57,7 +58,7 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             this.methodTypeSpec = defaults.methodTypeSpec
         }
 
-        override fun withType(value: CodeType): Builder {
+        override fun withType(value: Type): Builder {
             this.methodTypeSpec = methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
             return this
         }

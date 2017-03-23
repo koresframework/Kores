@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Base variable manipulation.
@@ -42,9 +42,9 @@ interface VariableBase : Named, Typed {
     /**
      * Variable type
      */
-    val variableType: CodeType
+    val variableType: Type
 
-    override val type: CodeType
+    override val type: Type
         get() = this.variableType
 
     override fun builder(): Builder<VariableBase, *>
@@ -53,11 +53,11 @@ interface VariableBase : Named, Typed {
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType): S = this.withVariableType(value)
+        override fun withType(value: Type): S = this.withVariableType(value)
 
         /**
          * See [T.variableType]
          */
-        fun withVariableType(value: CodeType): S
+        fun withVariableType(value: Type): S
     }
 }

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * An implementation holder
@@ -38,7 +39,7 @@ interface ImplementationHolder : CodePart {
     /**
      * Implementations
      */
-    val implementations: List<CodeType>
+    val implementations: List<Type>
 
     override fun builder(): Builder<ImplementationHolder, *>
 

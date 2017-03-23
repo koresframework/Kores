@@ -32,9 +32,6 @@ import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.StaticBlockBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 
 /**
@@ -54,16 +51,16 @@ public final class PredefinedTest {
 
     public static PredefinedTest create(String name) {
 
-        ConstructorDeclaration constructorDeclaration = ConstructorDeclarationBuilder.builder()
+        ConstructorDeclaration constructorDeclaration = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withBody(new MutableCodeSource())
                 .build();
 
-        StaticBlock staticBlock = StaticBlockBuilder.builder()
+        StaticBlock staticBlock = StaticBlock.Builder.Companion.builder()
                 .withBody(new MutableCodeSource())
                 .build();
 
-        ClassDeclaration classDeclaration = ClassDeclarationBuilder.builder()
+        ClassDeclaration classDeclaration = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName(name)
                 .withBody(CodeAPI.source(constructorDeclaration, staticBlock).toMutable())

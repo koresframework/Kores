@@ -27,9 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.builder.LinkBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Link comment: comment linking to an element or a url
@@ -46,7 +47,7 @@ interface Link : Comment {
      */
     val target: LinkTarget
 
-    override fun builder(): Builder<Link, *> = LinkBuilder()
+    override fun builder(): Builder<Link, *> = CodeAPI.getBuilderProvider()(this)
 
     /**
      * Target of the link
@@ -63,7 +64,7 @@ interface Link : Comment {
              *
              * @param type Class type.
              */
-            data class Class(val type: CodeType) : Element
+            data class Class(val type: Type) : Element
 
             /**
              * A link to a method
@@ -79,7 +80,7 @@ interface Link : Comment {
              * @param name Field name.
              * @param type Field type.
              */
-            data class Field(val declaringClass: CodeType, val name: String, val type: CodeType) : Element
+            data class Field(val declaringClass: Type, val name: String, val type: Type) : Element
 
         }
 

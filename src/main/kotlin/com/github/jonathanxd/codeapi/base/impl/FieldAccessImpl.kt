@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.FieldAccess
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class FieldAccessImpl(override val name: String, override val type: CodeType, override val target: CodePart, override val localization: CodeType) : FieldAccess
+data class FieldAccessImpl(override val name: String, override val type: Type, override val target: CodePart, override val localization: Type) : FieldAccess

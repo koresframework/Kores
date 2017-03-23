@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
@@ -46,7 +45,8 @@ import kotlin.collections.SetsKt;
 public class AnnotationTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        AnnotationDeclaration build = new AnnotationDeclarationBuilder()
+
+        AnnotationDeclaration build = AnnotationDeclaration.Builder.Companion.builder()
                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyAnnotation")
                 .withProperties(CollectionsKt.listOf(new AnnotationPropertyImpl(Types.STRING, "value", Collections.emptyList(), null),

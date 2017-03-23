@@ -29,19 +29,21 @@
 
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
+import java.lang.reflect.Type
 
-private fun resolveQualified(qualifiedName: String, outer: CodeType?, isInternal: Boolean): String {
+private fun resolveInnerName(qualifiedName: String, outer: Type?, isInternal: Boolean): String {
     if (outer != null) {
-        val packageName = outer.packageName
+        outer.codeType.let { outer ->
+            val packageName = outer.packageName
 
-        // Prevent duplication of the name
-        if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
-            if (isInternal) {
-                return getInternalNameStr(qualifiedName, outer)
-            } else {
-                return getRealNameStr(qualifiedName, outer)
+            // Prevent duplication of the name
+            if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
+                if (isInternal) {
+                    return getTypeNameStr(qualifiedName, outer)
+                } else {
+                    return getQualifiedNameStr(qualifiedName, outer)
+                }
             }
         }
     }
@@ -50,44 +52,48 @@ private fun resolveQualified(qualifiedName: String, outer: CodeType?, isInternal
 
 }
 
-fun resolveInternalQualified(qualifiedName: String, outer: CodeType?): String {
-    return resolveQualified(qualifiedName, outer, true)
+fun resolveTypeName(qualifiedName: String, outer: Type?): String {
+    return resolveInnerName(qualifiedName, outer, true)
 }
 
-fun resolveRealQualified(qualifiedName: String, outer: CodeType?): String {
-    return resolveQualified(qualifiedName, outer, false)
+fun resolveQualifiedName(qualifiedName: String, outer: Type?): String {
+    return resolveInnerName(qualifiedName, outer, false)
 }
 
-private fun getRealNameStr(qualified: String, outer: CodeType): String {
-    return outer.canonicalName + "." + qualified
+private fun getQualifiedNameStr(qualified: String, outer: Type): String {
+    return outer.codeType.canonicalName + "." + qualified
 }
 
-private fun getInternalNameStr(qualified: String, outer: CodeType): String {
-    return outer.type + "$" + qualified
+private fun getTypeNameStr(qualified: String, outer: Type): String {
+    return outer.codeType.type + "$" + qualified
 }
 
-fun codeTypeToFullAsm(type: CodeType): String {
-    return if (type.isPrimitive)
-        primitiveCodeTypeToAsm(type)
-    else
-        type.javaSpecName//"L" + type.getType().replace('.', '/') + ";";
+fun codeTypeToJvmName(type: Type): String {
+    return type.codeType.let { type ->
+        if (type.isPrimitive)
+            primitiveCodeTypeToJvmName(type)
+        else
+            type.javaSpecName
+    }
 }
 
-fun primitiveCodeTypeToAsm(type: CodeType): String {
-    return type.javaSpecName
+fun primitiveCodeTypeToJvmName(type: Type): String {
+    return type.codeType.javaSpecName
 }
 
 @JvmOverloads
-fun codeTypeToTypeDesc(codeType: CodeType, type: String = codeType.type): String {
+fun codeTypeToTypeDesc(type: Type, typeStr: String = type.codeType.type): String {
 
     val name: String
+
+    val codeType = type.codeType
 
     if (codeType.isArray) {
         name = codeType.arrayBaseComponent.javaSpecName
     } else if (codeType.isPrimitive) {
-        return type.replace(".", "/")
+        return typeStr.replace(".", "/")
     } else {
-        return "L" + type.replace('.', '/') + ";"
+        return "L" + typeStr.replace('.', '/') + ";"
     }
 
     val sb = StringBuilder()
@@ -100,7 +106,9 @@ fun codeTypeToTypeDesc(codeType: CodeType, type: String = codeType.type): String
     return sb.toString() + name
 }
 
-fun toName(codeType: CodeType): String {
+fun toName(type: Type): String {
+    val codeType = type.codeType
+
     if (codeType is GenericType) {
 
         val name = codeType.name
@@ -125,7 +133,7 @@ fun toName(codeType: CodeType): String {
         }
 
     } else {
-        return fixResult(codeTypeToFullAsm(codeType))
+        return fixResult(codeTypeToJvmName(codeType))
     }
 }
 

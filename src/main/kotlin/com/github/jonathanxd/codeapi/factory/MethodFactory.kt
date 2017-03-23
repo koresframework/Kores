@@ -41,6 +41,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
+import java.lang.reflect.Type
 import java.util.*
 
 // Short methods
@@ -48,7 +49,7 @@ import java.util.*
 fun method(genericSignature: GenericSignature = GenericSignature.empty(),
            modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
-           returnType: CodeType = Types.VOID,
+           returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
@@ -66,7 +67,7 @@ fun method(genericSignature: GenericSignature = GenericSignature.empty(),
 
 fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
-           returnType: CodeType = Types.VOID,
+           returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
@@ -83,7 +84,7 @@ fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 
 fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
-           returnType: CodeType = Types.VOID,
+           returnType: Type = Types.VOID,
            source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
@@ -103,7 +104,7 @@ fun method(annotations: Array<Annotation> = emptyArray(),
            genericSignature: GenericSignature = GenericSignature.empty(),
            modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
-           returnType: CodeType = Types.VOID,
+           returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty(),
            comments: Comments = Comments.Absent): MethodDeclaration {
@@ -124,7 +125,7 @@ fun method(comments: Comments,
            genericSignature: GenericSignature = GenericSignature.empty(),
            modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
-           returnType: CodeType = Types.VOID,
+           returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty()): MethodDeclaration {
     return MethodDeclarationImpl(

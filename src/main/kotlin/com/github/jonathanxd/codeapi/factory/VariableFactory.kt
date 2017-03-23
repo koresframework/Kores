@@ -32,7 +32,7 @@ package com.github.jonathanxd.codeapi.factory
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
 import com.github.jonathanxd.codeapi.base.impl.VariableDeclarationImpl
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-fun variable(type: CodeType, name: String, value: CodePart?): VariableDeclaration = VariableDeclarationImpl(value, name, type)
-fun variable(type: CodeType, name: String): VariableDeclaration = VariableDeclarationImpl(null, name, type)
+fun variable(type: Type, name: String, value: CodePart?): VariableDeclaration = VariableDeclarationImpl(value, name, type)
+fun variable(type: Type, name: String): VariableDeclaration = VariableDeclarationImpl(null, name, type)

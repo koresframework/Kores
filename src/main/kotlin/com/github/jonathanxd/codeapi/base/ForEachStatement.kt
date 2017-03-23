@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ForEachStatementBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.IterationType
 
 /**
@@ -36,6 +38,7 @@ import com.github.jonathanxd.codeapi.common.IterationType
  *
  * @see IterationType
  */
+@Concrete
 interface ForEachStatement : BodyHolder {
 
     /**
@@ -53,7 +56,7 @@ interface ForEachStatement : BodyHolder {
      */
     val iterableElement: CodePart
 
-    override fun builder(): Builder<ForEachStatement, *> = ForEachStatementBuilder(this)
+    override fun builder(): Builder<ForEachStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ForEachStatement, S : Builder<T, S>> : BodyHolder.Builder<T, S> {
         /**
@@ -70,6 +73,12 @@ interface ForEachStatement : BodyHolder {
          * See [T.iterableElement]
          */
         fun withIterableElement(value: CodePart): S
+
+        companion object {
+            fun builder(): Builder<ForEachStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ForEachStatement): Builder<ForEachStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
 }

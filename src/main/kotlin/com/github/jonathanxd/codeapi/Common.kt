@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi
 
 import com.github.jonathanxd.codeapi.base.Access
 import com.github.jonathanxd.codeapi.base.impl.AccessImpl
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Common constructors
@@ -40,6 +40,6 @@ object Common {
      * Create a access to outer class [localization].
      */
     @JvmStatic
-    fun accessOuter(localization: CodeType) = AccessImpl(type = Access.Type.OUTER, localization = localization)
+    fun accessOuter(localization: Type) = AccessImpl(type = Access.Type.OUTER, localization = localization)
 
 }

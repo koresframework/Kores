@@ -27,8 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.CommentsBuilder
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Hold a list of comments.
@@ -57,7 +58,7 @@ interface Comments : CodePart {
      */
     fun isNotAbsent() = this !== Absent
 
-    override fun builder(): Builder<Comments, *> = CommentsBuilder()
+    override fun builder(): Builder<Comments, *> = CodeAPI.getBuilderProvider()(this)
 
     /**
      * Comment type

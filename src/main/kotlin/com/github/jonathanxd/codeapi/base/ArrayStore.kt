@@ -27,13 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Store a value in array.
  */
+@Concrete
 interface ArrayStore : ArrayAccess, ValueHolder {
 
     /**
@@ -47,14 +50,14 @@ interface ArrayStore : ArrayAccess, ValueHolder {
     /**
      * Type of the value
      */
-    val valueType: CodeType
+    val valueType: Type
 
     /**
      * Value to store in array
      */
     val valueToStore: CodePart
 
-    override fun builder(): Builder<ArrayStore, *> = ArrayStoreBuilder(this)
+    override fun builder(): Builder<ArrayStore, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ArrayStore, S : Builder<T, S>> :
             ArrayAccess.Builder<T, S>,
@@ -70,11 +73,17 @@ interface ArrayStore : ArrayAccess, ValueHolder {
         /**
          * See [T.valueType]
          */
-        fun withValueType(value: CodeType): S
+        fun withValueType(value: Type): S
 
         /**
          * See [T.valueToStore]
          */
         fun withValueToStore(value: CodePart): S
+
+        companion object {
+            fun builder(): Builder<ArrayStore, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ArrayStore): Builder<ArrayStore, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

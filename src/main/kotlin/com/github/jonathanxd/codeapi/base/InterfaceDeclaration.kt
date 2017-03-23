@@ -27,19 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Interface declaration
  */
+@Concrete
 interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
 
     override val isInterface: Boolean
         get() = true
 
-    override fun builder(): Builder<InterfaceDeclaration, *> = InterfaceDeclarationBuilder(this)
+    override fun builder(): Builder<InterfaceDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : InterfaceDeclaration, S : Builder<T, S>> :
             TypeDeclaration.Builder<T, S>,
-            ImplementationHolder.Builder<T, S>
+            ImplementationHolder.Builder<T, S> {
+        companion object {
+            fun builder(): Builder<InterfaceDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: InterfaceDeclaration): Builder<InterfaceDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+    }
 }

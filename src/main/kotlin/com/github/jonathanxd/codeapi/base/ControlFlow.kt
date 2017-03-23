@@ -27,12 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ControlFlowBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Control the flow of a statement.
  */
+@Concrete
 interface ControlFlow : CodePart {
 
     /**
@@ -47,7 +50,7 @@ interface ControlFlow : CodePart {
      */
     val at: Label?
 
-    override fun builder(): Builder<ControlFlow, *> = ControlFlowBuilder(this)
+    override fun builder(): Builder<ControlFlow, *> = CodeAPI.getBuilderProvider()(this)
 
     enum class Type {
         /**
@@ -71,5 +74,11 @@ interface ControlFlow : CodePart {
          * See [T.at]
          */
         fun withAt(value: Label?): S
+
+        companion object {
+            fun builder(): Builder<ControlFlow, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ControlFlow): Builder<ControlFlow, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

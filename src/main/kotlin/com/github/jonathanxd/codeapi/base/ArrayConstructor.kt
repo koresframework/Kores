@@ -27,31 +27,34 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ArrayConstructorBuilder
-import com.github.jonathanxd.codeapi.builder.ArrayStoreBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.build
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.literal.Literals
-import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 import com.github.jonathanxd.codeapi.util.Stack
+import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.reflect.Type
 
 /**
  * Constructor of array type.
  */
+@Concrete
 interface ArrayConstructor : ArgumentHolder, Typed {
 
-    override val types: List<CodeType>
-        get() = ArrayList<CodeType>(this.arguments.size).apply {
+    override val types: List<Type>
+        get() = ArrayList<Type>(this.arguments.size).apply {
             (0..arguments.size).forEach {
-                add(arrayType.arrayComponent)
+                add(arrayType.codeType.arrayComponent)
             }
         }
 
     /**
      * Type of the array.
      */
-    val arrayType: CodeType
+    val arrayType: Type
 
     /**
      * Array dimensions
@@ -70,32 +73,32 @@ interface ArrayConstructor : ArgumentHolder, Typed {
                 val argument = arguments[i]
 
                 arrayStores.add(
-                        ArrayStoreBuilder().build {
-                            this.arrayType = this@ArrayConstructor.arrayType//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
-                            this.target = Stack
-                            this.index = Literals.INT(i)
-                            this.valueType = CodePartUtil.getType(argument)
-                            this.valueToStore = argument
-                        }
+                        ArrayStore.Builder.builder()
+                                .withArrayType(this@ArrayConstructor.arrayType)//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
+                                .withTarget(Stack)
+                                .withIndex(Literals.INT(i))
+                                .withValueType(CodePartUtil.getType(argument))
+                                .withValueToStore(argument)
+                                .build()
                 )
             }
 
             return arrayStores
         }
 
-    override val type: CodeType
+    override val type: Type
         get() = this.arrayType
 
     override val array: Boolean
         get() = true
 
-    override fun builder(): Builder<ArrayConstructor, *> = ArrayConstructorBuilder(this)
+    override fun builder(): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ArrayConstructor, S : Builder<T, S>> :
             ArgumentHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType): S = this.withArrayType(value)
+        override fun withType(value: Type): S = this.withArrayType(value)
 
         @Suppress("UNCHECKED_CAST")
         override fun withArray(value: Boolean): S {
@@ -105,7 +108,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
         /**
          * See [T.arrayType]
          */
-        fun withArrayType(value: CodeType): S
+        fun withArrayType(value: Type): S
 
         /**
          * See [T.dimensions]
@@ -116,6 +119,12 @@ interface ArrayConstructor : ArgumentHolder, Typed {
          * See [T.dimensions]
          */
         fun withDimensions(vararg values: CodePart): S
+
+        companion object {
+            fun builder(): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ArrayConstructor): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
 
     }
 }

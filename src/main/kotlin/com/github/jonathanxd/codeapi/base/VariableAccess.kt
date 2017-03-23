@@ -27,15 +27,24 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.VariableAccessBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Access to a variable
  */
+@Concrete
 interface VariableAccess : VariableBase {
 
-    override fun builder(): Builder<VariableAccess, *> = VariableAccessBuilder(this)
+    override fun builder(): Builder<VariableAccess, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : VariableAccess, S : Builder<T, S>> :
-            VariableBase.Builder<T, S>
+            VariableBase.Builder<T, S> {
+        companion object {
+            fun builder(): Builder<VariableAccess, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: VariableAccess): Builder<VariableAccess, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

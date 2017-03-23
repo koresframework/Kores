@@ -32,7 +32,6 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.base.FieldAccess
 import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.builder.FieldAccessBuilder
 import com.github.jonathanxd.codeapi.builder.build
 import com.github.jonathanxd.codeapi.common.*
 import java.lang.reflect.Field
@@ -108,13 +107,12 @@ fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, ar
  * @param target Target of the field access, null (or static access) for static access.
  */
 fun Field.toAccess(target: CodePart?): FieldAccess =
-        FieldAccessBuilder.builder()
-                .build {
-                    this.localization = this@toAccess.declaringClass.codeType
-                    this.target = target ?: CodeAPI.accessStatic()
-                    this.type = this@toAccess.type.codeType
-                    this.name = this@toAccess.name
-                }
+        FieldAccess.Builder.builder()
+                .withLocalization(this.declaringClass.codeType)
+                .withTarget(target ?: CodeAPI.accessStatic())
+                .withTarget(this.type.codeType)
+                .withName(this.name)
+                .build()
 
 /**
  * Create [FieldAccess] from [VariableElement].
@@ -122,13 +120,12 @@ fun Field.toAccess(target: CodePart?): FieldAccess =
  * @param target Target of the field access, null (or static access) for static access.
  */
 fun VariableElement.toAccess(target: CodePart?, elements: Elements): FieldAccess =
-        FieldAccessBuilder.builder()
-                .build {
-                    this.localization = (this@toAccess.enclosingElement as TypeElement).getCodeType(elements)
-                    this.target = target ?: CodeAPI.accessStatic()
-                    this.type = this@toAccess.asType().getCodeType(elements)
-                    this.name = this@toAccess.simpleName.toString()
-                }
+        FieldAccess.Builder.builder()
+                .withLocalization((this.enclosingElement as TypeElement).getCodeType(elements))
+                .withTarget(target ?: CodeAPI.accessStatic())
+                .withType(this.asType().getCodeType(elements))
+                .withName(this.simpleName.toString())
+                .build()
 
 
 /**

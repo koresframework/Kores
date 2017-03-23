@@ -32,8 +32,9 @@ import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class CodeParameter @JvmOverloads constructor(override val type: CodeType, override val name: String, override val annotations: List<Annotation> = emptyList()) : Typed, Named, Annotable {
+data class CodeParameter @JvmOverloads constructor(override val type: Type, override val name: String, override val annotations: List<Annotation> = emptyList()) : Typed, Named, Annotable {
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -42,7 +43,7 @@ data class CodeParameter @JvmOverloads constructor(override val type: CodeType, 
             Annotable.Builder<CodeParameter, Builder> {
 
         lateinit var name: String
-        lateinit var type: CodeType
+        lateinit var type: Type
         var annotations: List<Annotation> = emptyList()
 
         constructor(defaults: CodeParameter) : this() {
@@ -55,7 +56,7 @@ data class CodeParameter @JvmOverloads constructor(override val type: CodeType, 
             return this
         }
 
-        override fun withType(value: CodeType): Builder {
+        override fun withType(value: Type): Builder {
             this.type = value
             return this
         }

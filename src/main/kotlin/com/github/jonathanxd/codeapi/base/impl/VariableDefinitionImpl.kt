@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.VariableDefinition
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class VariableDefinitionImpl(override val type: CodeType, override val name: String, override val value: CodePart) : VariableDefinition
+data class VariableDefinitionImpl(override val type: Type, override val name: String, override val value: CodePart) : VariableDefinition

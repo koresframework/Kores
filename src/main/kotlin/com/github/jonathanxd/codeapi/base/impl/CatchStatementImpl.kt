@@ -31,9 +31,9 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.CatchStatement
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class CatchStatementImpl(override val exceptionTypes: List<CodeType>, override val body: CodeSource, override val variable: VariableDeclaration) : CatchStatement {
+data class CatchStatementImpl(override val exceptionTypes: List<Type>, override val body: CodeSource, override val variable: VariableDeclaration) : CatchStatement {
     init {
         BodyHolder.checkBody(this)
     }

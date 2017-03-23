@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Base field (access and definition common class)
@@ -38,14 +38,14 @@ interface FieldBase : Named, Typed {
     /**
      * Field localization.
      */
-    val localization: CodeType
+    val localization: Type
 
     /**
      * Target of the access
      */
     val target: CodePart
 
-    override val type: CodeType
+    override val type: Type
 
     override fun builder(): Builder<FieldBase, *>
 
@@ -56,7 +56,7 @@ interface FieldBase : Named, Typed {
         /**
          * See [T.localization]
          */
-        fun withLocalization(value: CodeType): S
+        fun withLocalization(value: Type): S
 
         /**
          * See [T.target]

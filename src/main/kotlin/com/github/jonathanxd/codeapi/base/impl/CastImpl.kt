@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Cast
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class CastImpl(override val originalType: CodeType?, override val targetType: CodeType, override val castedPart: CodePart) : Cast
+data class CastImpl(override val originalType: Type?, override val targetType: Type, override val castedPart: CodePart) : Cast

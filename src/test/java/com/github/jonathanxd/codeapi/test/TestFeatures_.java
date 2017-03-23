@@ -37,9 +37,6 @@ import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
@@ -70,7 +67,7 @@ public class TestFeatures_ {
     public static MethodDeclaration makeCM() {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclaration codeMethod = MethodDeclarationBuilder.builder()
+        MethodDeclaration codeMethod = MethodDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("printIt")
                 .withParameters(new CodeParameter(Types.OBJECT, "n"))
@@ -104,7 +101,7 @@ public class TestFeatures_ {
 
         MutableCodeSource clSource = new MutableCodeSource();
 
-        ClassDeclaration codeClass = ClassDeclarationBuilder.builder()
+        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("fullName." + TestFeatures_.class.getSimpleName())
                 .withSuperClass(Types.OBJECT)
@@ -141,7 +138,7 @@ public class TestFeatures_ {
 
                 Collections.singletonList(Literals.STRING("Oi")));
 
-        ConstructorDeclaration codeConstructor = ConstructorDeclarationBuilder.builder()
+        ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withBody(CodeAPI.source(invokeTest, invokeTest2))
                 .build();
@@ -159,7 +156,7 @@ public class TestFeatures_ {
     public static MethodDeclaration makeCM2() {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclaration codeMethod = MethodDeclarationBuilder.builder()
+        MethodDeclaration codeMethod = MethodDeclaration.Builder.Companion.builder()
                 .withName("check")
                 .withModifiers(CodeModifier.PUBLIC)
                 .withParameters(new CodeParameter(Types.INT, "x"))

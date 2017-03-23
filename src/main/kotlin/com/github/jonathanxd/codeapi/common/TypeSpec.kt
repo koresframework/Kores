@@ -29,12 +29,17 @@ package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.reflect.Type
 import java.util.*
 
-data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val parameterTypes: List<CodeType> = emptyList()) : Typed, Comparable<TypeSpec> {
-    override val type: CodeType
+data class TypeSpec @JvmOverloads constructor(val returnType: Type, val parameterTypes: List<Type> = emptyList()) : Typed, Comparable<TypeSpec> {
+
+    override val type: Type
         get() = this.returnType
+
+    private val returnTypeCodeType = this.type.codeType
+    private val parameterTypesCodeType = this.parameterTypes.map(Type::codeType)
 
     override fun hashCode(): Int {
         return Objects.hash(returnType, parameterTypes)
@@ -44,7 +49,7 @@ data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val para
      * Human readable type specification string.
      */
     fun toTypeString() =
-            "(${this.parameterTypes.map { it.canonicalName }.joinToString()})${this.returnType.canonicalName}"
+            "(${this.parameterTypesCodeType.map { it.canonicalName }.joinToString()})${this.returnTypeCodeType.canonicalName}"
 
 
     override fun builder(): Builder = Builder(this)
@@ -54,39 +59,39 @@ data class TypeSpec @JvmOverloads constructor(val returnType: CodeType, val para
         if (other !is TypeSpec)
             return false
 
-        return this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes;
+        return this.returnTypeCodeType.`is`(other.returnTypeCodeType) && this.parameterTypes == other.parameterTypes
     }
 
     override fun compareTo(other: TypeSpec): Int {
-        return if (this.returnType.`is`(other.returnType) && this.parameterTypes == other.parameterTypes) 0 else 1
+        return if (this.returnTypeCodeType.`is`(other.returnTypeCodeType) && this.parameterTypes == other.parameterTypes) 0 else 1
     }
 
     class Builder() : Typed.Builder<TypeSpec, Builder> {
 
-        var returnType: CodeType = Types.VOID
-        var parameterTypes: List<CodeType> = emptyList()
+        var returnType: Type = Types.VOID
+        var parameterTypes: List<Type> = emptyList()
 
         constructor(defaults: TypeSpec) : this() {
             this.returnType = defaults.returnType
             this.parameterTypes = defaults.parameterTypes
         }
 
-        override fun withType(value: CodeType): Builder {
+        override fun withType(value: Type): Builder {
             this.returnType = value
             return this
         }
 
-        fun withReturnType(value: CodeType): Builder {
+        fun withReturnType(value: Type): Builder {
             this.returnType = value
             return this
         }
 
-        fun withParameterTypes(value: List<CodeType>): Builder {
+        fun withParameterTypes(value: List<Type>): Builder {
             this.parameterTypes = value
             return this
         }
 
-        fun withParameterTypes(vararg values: CodeType): Builder {
+        fun withParameterTypes(vararg values: Type): Builder {
             this.parameterTypes = values.toList()
             return this
         }

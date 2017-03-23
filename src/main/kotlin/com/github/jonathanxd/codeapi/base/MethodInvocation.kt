@@ -27,18 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.MethodInvocationBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Invocation of a method
  */
+@Concrete
 interface MethodInvocation : Accessor, ArgumentHolder, Typed {
 
-    override val types: List<CodeType>
+    override val types: List<Type>
         get() = this.spec.description.parameterTypes
 
     override val array: Boolean
@@ -47,7 +50,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
     /**
      * Method localization
      */
-    override val localization: CodeType
+    override val localization: Type
 
     /**
      * Method arguments
@@ -57,7 +60,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
     /**
      * Method return type
      */
-    override val type: CodeType
+    override val type: Type
         get() = this.spec.description.returnType
 
     /**
@@ -75,7 +78,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
      */
     val invokeDynamic: InvokeDynamic?
 
-    override fun builder(): Builder<MethodInvocation, *> = MethodInvocationBuilder(this)
+    override fun builder(): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : MethodInvocation, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
@@ -86,7 +89,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
         override fun withArray(value: Boolean): S = this as S
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType): S = this as S
+        override fun withType(value: Type): S = this as S
 
         /**
          * See [T.spec]
@@ -102,6 +105,12 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
          * See [T.invokeDynamic]
          */
         fun withInvokeDynamic(value: InvokeDynamic?): S
+
+        companion object {
+            fun builder(): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: MethodInvocation): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
 }

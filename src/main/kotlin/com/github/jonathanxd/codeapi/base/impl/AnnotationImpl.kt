@@ -28,6 +28,6 @@
 package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class AnnotationImpl(override val visible: Boolean, override val type: CodeType, override val values: Map<String, Any>) : Annotation
+data class AnnotationImpl(override val visible: Boolean, override val type: Type, override val values: Map<String, Any>) : Annotation

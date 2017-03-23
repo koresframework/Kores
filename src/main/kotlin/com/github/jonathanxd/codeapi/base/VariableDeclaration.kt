@@ -27,12 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.VariableDeclarationBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Declaration of a variable
  */
+@Concrete
 interface VariableDeclaration : VariableBase, ValueHolder {
 
     /**
@@ -40,9 +43,15 @@ interface VariableDeclaration : VariableBase, ValueHolder {
      */
     override val value: CodePart?
 
-    override fun builder(): Builder<VariableDeclaration, *> = VariableDeclarationBuilder(this)
+    override fun builder(): Builder<VariableDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : VariableDeclaration, S : Builder<T, S>> :
             VariableBase.Builder<T, S>,
-            ValueHolder.Builder<T, S>
+            ValueHolder.Builder<T, S> {
+        companion object {
+            fun builder(): Builder<VariableDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: VariableDeclaration): Builder<VariableDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

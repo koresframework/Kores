@@ -29,8 +29,8 @@ package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver;
 
@@ -41,14 +41,14 @@ public class TypeResolverTest {
 
     @Test
     public void typeResolverTest() {
-        TypeDeclaration basex = ClassDeclarationBuilder.builder()
+        TypeDeclaration basex = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.BaseX")
                 .withSuperClass(Types.OBJECT)
                 .withImplementations(CodeAPI.getJavaType(BaseExt.class))
                 .build();
 
-        TypeDeclaration typeDeclaration = ClassDeclarationBuilder.builder()
+        TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.TypeResolverTest")
                 .withSuperClass(basex)

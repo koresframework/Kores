@@ -27,11 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Annotation declaration
  */
+@Concrete
 interface AnnotationDeclaration : TypeDeclaration {
 
     /**
@@ -42,7 +45,7 @@ interface AnnotationDeclaration : TypeDeclaration {
     override val isInterface: Boolean
         get() = true
 
-    override fun builder(): Builder<AnnotationDeclaration, *> = AnnotationDeclarationBuilder(this)
+    override fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : AnnotationDeclaration, S : Builder<T, S>> : TypeDeclaration.Builder<T, S> {
         /**
@@ -54,5 +57,10 @@ interface AnnotationDeclaration : TypeDeclaration {
          * See [T.properties]
          */
         fun withProperties(vararg values: AnnotationProperty): S
+
+        companion object {
+            fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: AnnotationDeclaration): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
     }
 }

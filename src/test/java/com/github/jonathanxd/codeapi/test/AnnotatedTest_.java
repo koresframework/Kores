@@ -30,10 +30,10 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
@@ -62,7 +62,7 @@ public class AnnotatedTest_ {
 
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
 
-        TypeDeclaration typeDeclaration = new ClassDeclarationBuilder()
+        TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(Modifiers.fromJavaModifiers(Modifier.PUBLIC))
                 .withGenericSignature(GenericSignature.empty())
                 .withAnnotations(listOf(
@@ -74,7 +74,7 @@ public class AnnotatedTest_ {
                 )
                 .withQualifiedName("test.AnnotatedTestClass")
                 .withBody(sourceOfParts(
-                        new MethodDeclarationBuilder()
+                        MethodDeclaration.Builder.Companion.builder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
                                 .withAnnotations(listOf(visibleAnnotation(plainCodeType)))
                                 .withGenericSignature(GenericSignature.empty())
@@ -83,7 +83,7 @@ public class AnnotatedTest_ {
                                 .withParameters(listOf(new CodeParameter(Types.OBJECT, "first", listOf(visibleAnnotation(getJavaType(Deprecated.class))))))
                                 .withBody(sourceOfParts(CodeAPI.returnValue(Types.OBJECT, Literals.NULL)))
                                 .build(),
-                        new FieldDeclarationBuilder()
+                        FieldDeclaration.Builder.Companion.builder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
                                 .withAnnotations(listOf(visibleAnnotation(Simple.class,
                                         values("value", new Object[]{
