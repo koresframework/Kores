@@ -35,9 +35,9 @@ import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class MethodDeclarationImpl(override val parameters: List<CodeParameter>, override val name: String, override val annotations: List<Annotation>, override val body: CodeSource, override val returnType: CodeType, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val comments: Comments) : MethodDeclaration {
+data class MethodDeclarationImpl(override val parameters: List<CodeParameter>, override val name: String, override val annotations: List<Annotation>, override val body: CodeSource, override val returnType: Type, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val comments: Comments) : MethodDeclaration {
     init {
         BodyHolder.checkBody(this)
     }

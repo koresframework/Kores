@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Accessor of an element
@@ -43,7 +43,7 @@ interface Accessor : CodePart {
     /**
      * Access localization
      */
-    val localization: CodeType
+    val localization: Type
 
     override fun builder(): Builder<Accessor, *>
 
@@ -57,6 +57,6 @@ interface Accessor : CodePart {
         /**
          * See [T.localization]
          */
-        fun withLocalization(value: CodeType): S
+        fun withLocalization(value: Type): S
     }
 }

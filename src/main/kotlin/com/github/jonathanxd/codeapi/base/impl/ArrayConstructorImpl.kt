@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayConstructor
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class ArrayConstructorImpl(override val arguments: List<CodePart>, override val arrayType: CodeType, override val dimensions: List<CodePart>) : ArrayConstructor
+data class ArrayConstructorImpl(override val arguments: List<CodePart>, override val arrayType: Type, override val dimensions: List<CodePart>) : ArrayConstructor

@@ -27,15 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.OperateBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
+import java.lang.reflect.Type
 
 /**
  * Mathematical operation.
  */
+@Concrete
 interface Operate : ValueHolder, Typed {
 
     /**
@@ -56,14 +60,14 @@ interface Operate : ValueHolder, Typed {
     override val type: CodeType
         get() = CodePartUtil.getType(this.target)
 
-    override fun builder(): Builder<Operate, *> = OperateBuilder(this)
+    override fun builder(): Builder<Operate, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Operate, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType): S = this as S
+        override fun withType(value: Type): S = this as S
 
         /**
          * See [T.target]
@@ -74,6 +78,12 @@ interface Operate : ValueHolder, Typed {
          * See [T.operation]
          */
         fun withOperation(value: Operator.Math): S
+
+        companion object {
+            fun builder(): Builder<Operate, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Operate): Builder<Operate, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
 
     }
 

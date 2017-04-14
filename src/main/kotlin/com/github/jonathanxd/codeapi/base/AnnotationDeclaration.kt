@@ -27,15 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.Defaults
-import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder
-import com.github.jonathanxd.codeapi.builder.Builder
 
 /**
  * Annotation declaration
  */
+@Concrete
 interface AnnotationDeclaration : TypeDeclaration {
 
     /**
@@ -46,10 +43,9 @@ interface AnnotationDeclaration : TypeDeclaration {
     override val isInterface: Boolean
         get() = true
 
-    override fun builder(): Builder<AnnotationDeclaration, *> = AnnotationDeclarationBuilder(this)
+    override fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T: AnnotationDeclaration, S: Builder<T, S>> : TypeDeclaration.Builder<T, S> {
-
+    interface Builder<out T : AnnotationDeclaration, S : Builder<T, S>> : TypeDeclaration.Builder<T, S> {
         /**
          * See [T.properties]
          */
@@ -60,5 +56,10 @@ interface AnnotationDeclaration : TypeDeclaration {
          */
         @DefaultImpl(MethodRef(value = Defaults::class, name = "varArgToList"))
         fun withProperties(vararg values: AnnotationProperty): S
+
+        companion object {
+            fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: AnnotationDeclaration): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
     }
 }

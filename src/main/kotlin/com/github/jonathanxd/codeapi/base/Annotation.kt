@@ -27,18 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.AnnotationBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * An annotation.
  */
+@Concrete
 interface Annotation : Typed {
 
     /**
      * Annotation type
      */
-    override val type: CodeType
+    override val type: Type
 
     /**
      * True if is visible at runtime (Only affects bytecode generation).
@@ -48,9 +51,9 @@ interface Annotation : Typed {
     /**
      * Annotation values.
      *
-     * The Annotation value must be: {@link Byte}, {@link Boolean}, {@link Character}, {@link
-     * Short}, {@link Integer}, {@link Long}, {@link Float}, {@link Double}, {@link String}, {@link
-     * CodeType}, OBJECT, ARRAY, {@link EnumValue} or other {@link Annotation}.
+     * The Annotation value must be: [Byte], [Boolean], [Char], [Short],
+     * [Int], [Long], [Float], [Double], [String], [Type],
+     * OBJECT, ARRAY, [EnumValue] or other [Annotation].
      *
      * Key = Name of annotation key. Value = Value of annotation key
      *
@@ -58,7 +61,7 @@ interface Annotation : Typed {
      */
     val values: Map<String, Any>
 
-    override fun builder(): Builder<Annotation, *> = AnnotationBuilder(this)
+    override fun builder(): Builder<Annotation, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Annotation, S : Builder<T, S>> : Typed.Builder<T, S> {
 
@@ -71,5 +74,11 @@ interface Annotation : Typed {
          * See [T.values]
          */
         fun withValues(value: Map<String, Any>): S
+
+        companion object {
+            fun builder(): Builder<Annotation, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Annotation): Builder<Annotation, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

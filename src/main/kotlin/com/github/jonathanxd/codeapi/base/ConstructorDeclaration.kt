@@ -27,33 +27,37 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Constructor declaration
  */
+@Concrete
 interface ConstructorDeclaration : MethodDeclaration {
 
     override val name: String
         get() = "<init>"
 
-    override val returnType: CodeType
+    override val returnType: Type
         get() = Types.VOID
 
-    /**
-     * Read [com.github.jonathanxd.codeapi.CodePart]
-     */
-    fun constructorDeclarationBuilder() = ConstructorDeclarationBuilder(this)
-
-    override fun builder(): Builder<ConstructorDeclaration, *> = ConstructorDeclarationBuilder(this)
+    override fun builder(): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ConstructorDeclaration, S : Builder<T, S>> : MethodDeclaration.Builder<T, S> {
         @Suppress("UNCHECKED_CAST")
         override fun withName(value: String): S = this as S
 
         @Suppress("UNCHECKED_CAST")
-        override fun withReturnType(value: CodeType): S = this as S
+        override fun withReturnType(value: Type): S = this as S
+
+        companion object {
+            fun builder(): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ConstructorDeclaration): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

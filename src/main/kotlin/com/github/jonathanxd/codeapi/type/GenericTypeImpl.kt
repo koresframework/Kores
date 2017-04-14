@@ -40,7 +40,7 @@ class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: A
     /**
      * Is type defined
      */
-    private val isType_: Boolean
+    private val isType_: Boolean = codeType != null
 
     /**
      * Defined type.
@@ -48,7 +48,6 @@ class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: A
     private val definedCodeType: CodeType?
 
     init {
-        this.isType_ = codeType != null
 
         if (name != null) {
             this.name = name

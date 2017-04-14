@@ -95,6 +95,9 @@ interface LoadedCodeType<T> : CodeType {
             return null
         }
 
+    override val defaultResolver: CodeTypeResolver<Class<*>>
+        get() = CodeTypeResolver.Java(this.loadedType.classLoader ?: ClassLoader.getSystemClassLoader())
+
     fun toLoadedArray(array: Class<T>, dimensions: Int): LoadedCodeType<T> {
         return LoadedArrayCodeType(array, this, dimensions)
     }

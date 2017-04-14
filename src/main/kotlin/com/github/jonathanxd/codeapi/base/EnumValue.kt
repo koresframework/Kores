@@ -27,24 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.EnumValueBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Enum value
  */
+@Concrete
 interface EnumValue : Named, Typed {
 
     override val name: String
         get() = this.enumEntry
 
-    override val type: CodeType
+    override val type: Type
         get() = this.enumType
 
     /**
      * The enum type.
      */
-    val enumType: CodeType
+    val enumType: Type
 
     /**
      * The enum entry.
@@ -56,19 +59,19 @@ interface EnumValue : Named, Typed {
      */
     val ordinal: Int
 
-    override fun builder(): Builder<EnumValue, *> = EnumValueBuilder(this)
+    override fun builder(): Builder<EnumValue, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : EnumValue, S : Builder<T, S>> :
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 
         override fun withName(value: String): S = this.withEnumEntry(value)
-        override fun withType(value: CodeType): S = this.withEnumType(value)
+        override fun withType(value: Type): S = this.withEnumType(value)
 
         /**
          * See [T.enumType]
          */
-        fun withEnumType(value: CodeType): S
+        fun withEnumType(value: Type): S
 
         /**
          * See [T.enumEntry]
@@ -79,5 +82,11 @@ interface EnumValue : Named, Typed {
          * See [T.ordinal]
          */
         fun withOrdinal(value: Int): S
+
+        companion object {
+            fun builder(): Builder<EnumValue, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: EnumValue): Builder<EnumValue, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

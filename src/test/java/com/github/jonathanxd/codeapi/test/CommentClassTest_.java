@@ -30,11 +30,11 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.factory.CommentsFactory;
@@ -62,20 +62,20 @@ public class CommentClassTest_ {
         );
 
 
-        TypeDeclaration myCl = ClassDeclarationBuilder.builder()
+        TypeDeclaration myCl = ClassDeclaration.Builder.Companion.builder()
                 .withComments(comments)
                 .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyClass")
                 .withSuperClass(Types.OBJECT)
                 .withBody(CodeAPI.sourceOfParts(
-                        FieldDeclarationBuilder.builder()
+                        FieldDeclaration.Builder.Companion.builder()
                                 .withComments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
                                 .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
                                 .withName("fieldi")
                                 .withType(Types.STRING)
                                 .withValue(Literals.STRING("field"))
                                 .build(),
-                        MethodDeclarationBuilder.builder()
+                        MethodDeclaration.Builder.Companion.builder()
                                 .withComments(
                                         CommentsFactory.documentation(
                                                 CommentsFactory.plain("Print "),

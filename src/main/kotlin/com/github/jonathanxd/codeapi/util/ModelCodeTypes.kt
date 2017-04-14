@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.CodeTypeResolver
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.NullType
@@ -36,18 +37,20 @@ import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.TypeParameterElement
 import javax.lang.model.type.*
+import javax.lang.model.util.Elements
 
-val TypeElement.codeType: CodeType
-    get() = TypeElementCodeType(this)
+fun TypeElement.getCodeType(elements: Elements): CodeType = TypeElementCodeType(this, elements)
 
-fun TypeMirror.toCodeType(isParameterized: Boolean): CodeType {
+fun TypeMirror.getCodeType(elements: Elements): CodeType = this.toCodeType(false, elements)
+
+fun TypeMirror.toCodeType(isParameterized: Boolean, elements: Elements): CodeType {
 
     fun parseIntersection(intersectionType: IntersectionType, isSuper: Boolean): Array<GenericType.Bound> =
             intersectionType.bounds.map {
                 if (isSuper)
-                    GenericType.Super(it.toCodeType(false))
+                    GenericType.Super(it.toCodeType(false, elements))
                 else
-                    GenericType.Extends(it.toCodeType(false))
+                    GenericType.Extends(it.toCodeType(false, elements))
             }.toTypedArray()
 
     return when (this) {
@@ -69,26 +72,26 @@ fun TypeMirror.toCodeType(isParameterized: Boolean): CodeType {
             val superBound = this.superBound
 
             if (superBound is DeclaredType && superBound.toString() != "java.lang.Object")
-                generic = generic.`super$`(superBound.toCodeType(false))
+                generic = generic.`super$`(superBound.toCodeType(false, elements))
             else if (superBound is IntersectionType)
                 generic = generic.of(*parseIntersection(superBound, true))
 
             val extendBound = this.extendsBound
 
             if (extendBound is DeclaredType && extendBound.toString() != "java.lang.Object")
-                generic = generic.`extends$`(extendBound.toCodeType(false))
+                generic = generic.`extends$`(extendBound.toCodeType(false, elements))
             else if (extendBound is IntersectionType)
                 generic = generic.of(*parseIntersection(extendBound, false))
 
             generic
         }
-        is DeclaredType -> Generic.type((this.asElement() as TypeElement).codeType).of(*this.typeArguments.map { it.toCodeType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+        is DeclaredType -> Generic.type((this.asElement() as TypeElement).getCodeType(elements)).of(*this.typeArguments.map { it.toCodeType(true, elements) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is ArrayType -> {
             val str = this.toString()
             val index = str.indexOf("[]")
             val dimensions = str.substring(index).length / 2
 
-            Generic.type(this.componentType.toCodeType(true)).toArray(dimensions)
+            Generic.type(this.componentType.toCodeType(true, elements)).toArray(dimensions)
         }
         is TypeVariable -> {
             var type = Generic.type(this.toString())
@@ -99,14 +102,14 @@ fun TypeMirror.toCodeType(isParameterized: Boolean): CodeType {
             val superBound = this.lowerBound
 
             if (superBound is DeclaredType && superBound.toString() != "java.lang.Object")
-                type = type.`super$`(superBound.toCodeType(false))
+                type = type.`super$`(superBound.toCodeType(false, elements))
             else if (superBound is IntersectionType)
                 type = type.of(*parseIntersection(superBound, true))
 
             val extendBound = this.upperBound
 
             if (extendBound is DeclaredType && extendBound.toString() != "java.lang.Object")
-                type = type.`extends$`(extendBound.toCodeType(false))
+                type = type.`extends$`(extendBound.toCodeType(false, elements))
             else if (extendBound is IntersectionType)
                 type = type.of(*parseIntersection(extendBound, false))
 
@@ -117,22 +120,22 @@ fun TypeMirror.toCodeType(isParameterized: Boolean): CodeType {
     }
 }
 
-private fun TypeParameterElement.getType(isParameterized: Boolean = false): CodeType {
-    return (this.asType() as TypeVariable).toCodeType(isParameterized)
+private fun TypeParameterElement.getType(isParameterized: Boolean = false, elements: Elements): CodeType {
+    return (this.asType() as TypeVariable).toCodeType(isParameterized, elements)
 }
 
 
-fun TypeElement.getCodeTypeFromTypeParameters(): CodeType {
-    var generic = Generic.type(this.codeType)
+fun TypeElement.getCodeTypeFromTypeParameters(elements: Elements): CodeType {
+    var generic = Generic.type(this.getCodeType(elements))
 
     this.typeParameters.forEach {
-        generic = generic.of(it.getType(false))
+        generic = generic.of(it.getType(false, elements))
     }
 
     return generic
 }
 
-internal class TypeElementCodeType(val typeElement: TypeElement) : CodeType {
+internal class TypeElementCodeType(val typeElement: TypeElement, val elements: Elements) : CodeType {
 
     override val isArray: Boolean
         get() = false
@@ -155,6 +158,9 @@ internal class TypeElementCodeType(val typeElement: TypeElement) : CodeType {
     override fun toString(): String = this.toStr()
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
+
+    override val defaultResolver: CodeTypeResolver<TypeElement>
+        get() = CodeTypeResolver.Model(elements)
 
 }
 

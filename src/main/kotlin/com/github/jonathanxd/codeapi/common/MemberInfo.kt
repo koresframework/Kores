@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.ModifiersHolder
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.description.Description
 import com.github.jonathanxd.iutils.description.ElementType
 
@@ -73,8 +74,8 @@ class MemberInfo private constructor(val memberInstance: CodeElement, val isAcce
         fun getDescription(root: TypeDeclaration?, element: CodePart): Description {
 
             return when (element) {
-                is FieldDeclaration -> Description(root!!.getDescName(), element.name, emptyArray(), element.type.getDescName(), ElementType.FIELD)
-                is MethodDeclaration -> Description(root!!.getDescName(), element.name, element.parameters.getDescName(), element.type.getDescName(), ElementType.METHOD)
+                is FieldDeclaration -> Description(root!!.getDescName(), element.name, emptyArray(), element.type.codeType.getDescName(), ElementType.FIELD)
+                is MethodDeclaration -> Description(root!!.getDescName(), element.name, element.parameters.getDescName(), element.type.codeType.getDescName(), ElementType.METHOD)
                 is TypeDeclaration -> Description(element.getDescName(), "", emptyArray(), "", ElementType.CLASS)
                 else -> throw IllegalArgumentException("Element must be a Field, Method or Type Declaration. Provided element: $element")
             }
@@ -84,6 +85,6 @@ class MemberInfo private constructor(val memberInstance: CodeElement, val isAcce
         private inline fun CodeType.getDescName() = "L${this.canonicalName};"
 
         @Suppress("NOTHING_TO_INLINE")
-        private inline fun List<CodeParameter>.getDescName() = this.map { it.type.getDescName() }.toTypedArray()
+        private inline fun List<CodeParameter>.getDescName() = this.map { it.type.codeType.getDescName() }.toTypedArray()
     }
 }

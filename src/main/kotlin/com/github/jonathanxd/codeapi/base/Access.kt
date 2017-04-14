@@ -27,15 +27,18 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.AccessBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.keyword.Keyword
 import com.github.jonathanxd.codeapi.keyword.Keywords
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type as ReflectType
 
 /**
  * Access to a Scope.
  */
+@Concrete
 interface Access : CodePart {
 
     /**
@@ -52,9 +55,9 @@ interface Access : CodePart {
     /**
      * Localization of the scope.
      */
-    val localization: CodeType?
+    val localization: ReflectType?
 
-    override fun builder(): Builder<Access, *> = AccessBuilder(this)
+    override fun builder(): Builder<Access, *> = CodeAPI.getBuilderProvider()(this)
 
     enum class Type(val keyword: Keyword?) {
 
@@ -94,7 +97,13 @@ interface Access : CodePart {
         /**
          * See [T.localization]
          */
-        fun withLocalization(value: CodeType?): S
+        fun withLocalization(value: ReflectType?): S
+
+        companion object {
+            fun builder(): Builder<Access, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Access): Builder<Access, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
 }

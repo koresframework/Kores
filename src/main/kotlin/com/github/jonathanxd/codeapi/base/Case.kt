@@ -27,14 +27,17 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.builder.CaseBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.util.CodePartUtil
+import java.lang.reflect.Type
 
+@Concrete
 interface Case : ValueHolder, Typed, BodyHolder {
 
-    override val type: CodeType
+    override val type: Type
         get() = this.value?.let { CodePartUtil.getType(it) } ?: Types.INT
 
     /**
@@ -47,7 +50,7 @@ interface Case : ValueHolder, Typed, BodyHolder {
      */
     val isNotDefault get() = !this.isDefault
 
-    override fun builder(): Builder<Case, *> = CaseBuilder(this)
+    override fun builder(): Builder<Case, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Case, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
@@ -55,6 +58,12 @@ interface Case : ValueHolder, Typed, BodyHolder {
             BodyHolder.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType): S = this as S
+        override fun withType(value: Type): S = this as S
+
+        companion object {
+            fun builder(): Builder<Case, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Case): Builder<Case, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

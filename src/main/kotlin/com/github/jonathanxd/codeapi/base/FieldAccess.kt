@@ -27,22 +27,32 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.FieldAccessBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Access to a variable
  */
+@Concrete
 interface FieldAccess : Accessor, Typed, Named {
 
-    override val type: CodeType
+    override val type: Type
     override val target: CodePart
 
-    override fun builder(): Builder<FieldAccess, *> = FieldAccessBuilder(this)
+    override fun builder(): Builder<FieldAccess, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : FieldAccess, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
             Typed.Builder<T, S>,
-            Named.Builder<T, S>
+            Named.Builder<T, S> {
+
+        companion object {
+            fun builder(): Builder<FieldAccess, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: FieldAccess): Builder<FieldAccess, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

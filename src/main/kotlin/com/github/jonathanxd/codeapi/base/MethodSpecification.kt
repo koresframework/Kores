@@ -27,13 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.MethodSpecificationBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.MethodType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 
 /**
  * Specification of a method
  */
+@Concrete
 interface MethodSpecification : Named {
 
     /**
@@ -57,7 +60,7 @@ interface MethodSpecification : Named {
      */
     val description: TypeSpec
 
-    override fun builder(): Builder<MethodSpecification, *> = MethodSpecificationBuilder(this)
+    override fun builder(): Builder<MethodSpecification, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : MethodSpecification, S : Builder<T, S>> : Named.Builder<T, S> {
 
@@ -77,6 +80,11 @@ interface MethodSpecification : Named {
          * See [T.description]
          */
         fun withDescription(value: TypeSpec): S
+
+        companion object {
+            fun builder(): Builder<MethodSpecification, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: MethodSpecification): Builder<MethodSpecification, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 

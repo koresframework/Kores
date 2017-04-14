@@ -35,8 +35,6 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -60,7 +58,7 @@ public class LoopTest_ {
 
         MutableCodeSource clSource = new MutableCodeSource();
 
-        ClassDeclaration codeClass = ClassDeclarationBuilder.builder()
+        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withSuperClass(Types.OBJECT)
                 .withQualifiedName("fullName." + LoopTest_.class.getSimpleName())
@@ -72,7 +70,7 @@ public class LoopTest_ {
         VariableAccess accessU = CodeAPI.accessLocalVariable(Types.INT, "u");
 
 
-        ConstructorDeclaration codeConstructor = ConstructorDeclarationBuilder.builder()
+        ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withBody(source(
 

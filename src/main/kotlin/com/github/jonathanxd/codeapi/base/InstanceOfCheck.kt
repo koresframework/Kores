@@ -27,17 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.builder.InstanceOfCheckBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Instance of check
  */
+@Concrete
 interface InstanceOfCheck : Typed {
 
-    override val type: CodeType
+    override val type: Type
         get() = Types.BOOLEAN
 
     /**
@@ -48,14 +52,14 @@ interface InstanceOfCheck : Typed {
     /**
      * Type to check
      */
-    val checkType: CodeType
+    val checkType: Type
 
-    override fun builder(): Builder<InstanceOfCheck, *> = InstanceOfCheckBuilder(this)
+    override fun builder(): Builder<InstanceOfCheck, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : InstanceOfCheck, S : Builder<T, S>> : Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType): S = this as S
+        override fun withType(value: Type): S = this as S
 
         /**
          * See [T.part]
@@ -65,6 +69,12 @@ interface InstanceOfCheck : Typed {
         /**
          * See [T.checkType]
          */
-        fun withCheckType(value: CodeType): S
+        fun withCheckType(value: Type): S
+
+        companion object {
+            fun builder(): Builder<InstanceOfCheck, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: InstanceOfCheck): Builder<InstanceOfCheck, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

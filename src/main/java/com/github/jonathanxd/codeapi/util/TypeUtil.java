@@ -30,18 +30,19 @@ package com.github.jonathanxd.codeapi.util;
 import com.github.jonathanxd.codeapi.base.Typed;
 import com.github.jonathanxd.codeapi.type.CodeType;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TypeUtil {
-    public static List<CodeType> toTypes(List<? extends Typed> list) {
+    public static List<Type> toTypes(List<? extends Typed> list) {
         return list.stream().map(Typed::getType).collect(Collectors.toList());
     }
 
-    public static boolean equals(List<CodeType> types, List<CodeType> types2) {
+    public static boolean equals(List<Type> types, List<Type> types2) {
         if (types.size() == types2.size()) {
             for (int i = 0; i < types.size(); i++) {
-                if (!types.get(i).is(types2.get(i)))
+                if (!Identity.is(types.get(i), types2.get(i)))
                     return false;
             }
 

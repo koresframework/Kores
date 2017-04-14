@@ -27,9 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.builder.MethodFragmentBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Scope
 import com.github.jonathanxd.codeapi.common.TypeSpec
@@ -38,6 +40,7 @@ import com.github.jonathanxd.codeapi.common.TypeSpec
  * A fragment of a method declaration. This method may be inlined or declared as method of current
  * type.
  */
+@Concrete
 interface MethodFragment : MethodInvocation, CodeElement {
 
     /**
@@ -73,7 +76,7 @@ interface MethodFragment : MethodInvocation, CodeElement {
     val body: CodeSource
         get() = this.declaration.body
 
-    override fun builder(): Builder<MethodFragment, *> = MethodFragmentBuilder(this)
+    override fun builder(): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : MethodFragment, S : Builder<T, S>> :
             MethodInvocation.Builder<T, S> {
@@ -92,6 +95,12 @@ interface MethodFragment : MethodInvocation, CodeElement {
          * See [T.declaringType]
          */
         fun withDeclaringType(value: TypeDeclaration): S
+
+        companion object {
+            fun builder(): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: MethodFragment): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
 
     }
 

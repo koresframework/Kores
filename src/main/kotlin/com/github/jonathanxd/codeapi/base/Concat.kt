@@ -27,9 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ConcatBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
+@Concrete
 interface Concat : CodePart {
 
     /**
@@ -37,7 +40,7 @@ interface Concat : CodePart {
      */
     val concatenations: List<CodePart>
 
-    override fun builder(): Builder<Concat, *> = ConcatBuilder(this)
+    override fun builder(): Builder<Concat, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Concat, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
@@ -49,5 +52,11 @@ interface Concat : CodePart {
          * See [T.concatenations]
          */
         fun withConcatenations(vararg values: CodePart): S
+
+        companion object {
+            fun builder(): Builder<Concat, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Concat): Builder<Concat, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

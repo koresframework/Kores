@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 
 /**
- * An element that supports {@link GenericSignature}.
+ * An element that supports [GenericSignature].
  */
 interface GenericSignatureHolder : CodePart {
 

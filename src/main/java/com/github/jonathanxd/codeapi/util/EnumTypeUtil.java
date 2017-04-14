@@ -42,7 +42,7 @@ public class EnumTypeUtil {
     @SuppressWarnings("unchecked")
     public static int resolve(CodePart p, SwitchStatement aSwitch) {
 
-        CodeType type = aSwitch.getType();
+        CodeType type = CodeTypes.getCodeType(aSwitch.getType());
 
         if (p instanceof Literal) {
             Literal l = (Literal) p;

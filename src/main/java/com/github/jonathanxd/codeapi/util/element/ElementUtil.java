@@ -46,9 +46,11 @@ import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.util.Identity;
 import com.github.jonathanxd.codeapi.util.TypeUtil;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,10 +71,10 @@ public class ElementUtil {
 
             List<CodeParameter> parameters = methodDeclaration.getParameters();
 
-            List<CodeType> codeTypes = TypeUtil.toTypes(parameters);
+            List<Type> codeTypes = TypeUtil.toTypes(parameters);
 
             if (TypeUtil.equals(codeTypes, methodDescription.getParameterTypes())) {
-                return methodDeclaration.getReturnType().is(methodDescription.getReturnType());
+                return Identity.is(methodDeclaration.getReturnType(), methodDescription.getReturnType());
             }
 
         }
@@ -82,12 +84,12 @@ public class ElementUtil {
 
     public static boolean equal(FieldDeclaration fieldDeclaration, FieldAccess access) {
         return access.getName().equals(fieldDeclaration.getName())
-                && access.getType().is(fieldDeclaration.getType());
+                && Identity.is(access.getType(), fieldDeclaration.getType());
     }
 
     public static boolean equal(VariableDeclaration fieldDeclaration, VariableAccess access) {
         return access.getName().equals(fieldDeclaration.getName())
-                && access.getVariableType().is(fieldDeclaration.getType());
+                && Identity.is(access.getVariableType(), fieldDeclaration.getType());
     }
 
     public static MethodInvocation invoke(MethodDeclaration methodDeclaration, CodePart target, List<CodePart> arguments, TypeDeclaration type) {

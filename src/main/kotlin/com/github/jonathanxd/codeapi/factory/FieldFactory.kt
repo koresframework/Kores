@@ -38,26 +38,27 @@ import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
+import java.lang.reflect.Type
 import java.util.*
 
 // Short methods
 
 fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-          type: CodeType,
+          type: Type,
           name: String): FieldDeclaration {
     // Provide annotations argument to let Kotlin Compiler to select correct method
     return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name)
 }
 
 fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-          type: CodeType,
+          type: Type,
           name: String,
           value: CodePart? = null): FieldDeclaration {
     // Provide annotations argument to let Kotlin Compiler to select correct method
     return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name, value = value)
 }
 
-fun field(type: CodeType,
+fun field(type: Type,
           name: String,
           value: CodePart? = null): FieldDeclaration {
     // Provide annotations argument to let Kotlin Compiler to select correct method
@@ -69,7 +70,7 @@ fun field(type: CodeType,
 @JvmOverloads
 fun field(annotations: Array<Annotation> = emptyArray(),
           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-          type: CodeType,
+          type: Type,
           name: String,
           value: CodePart? = null,
           comments: Comments = Comments.Absent): FieldDeclaration {
@@ -86,7 +87,7 @@ fun field(annotations: Array<Annotation> = emptyArray(),
 fun field(comments: Comments,
           annotations: Array<Annotation> = emptyArray(),
           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
-          type: CodeType,
+          type: Type,
           name: String,
           value: CodePart? = null): FieldDeclaration {
     return FieldDeclarationImpl(

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi;
 
 import com.github.jonathanxd.codeapi.base.Access;
 import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.base.AnnotationProperty;
 import com.github.jonathanxd.codeapi.base.ArrayConstructor;
 import com.github.jonathanxd.codeapi.base.ArrayLength;
@@ -37,7 +38,10 @@ import com.github.jonathanxd.codeapi.base.ArrayStore;
 import com.github.jonathanxd.codeapi.base.Case;
 import com.github.jonathanxd.codeapi.base.Cast;
 import com.github.jonathanxd.codeapi.base.CatchStatement;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.ControlFlow;
+import com.github.jonathanxd.codeapi.base.EnumDeclaration;
 import com.github.jonathanxd.codeapi.base.EnumEntry;
 import com.github.jonathanxd.codeapi.base.EnumValue;
 import com.github.jonathanxd.codeapi.base.FieldAccess;
@@ -48,6 +52,7 @@ import com.github.jonathanxd.codeapi.base.ForStatement;
 import com.github.jonathanxd.codeapi.base.IfExpr;
 import com.github.jonathanxd.codeapi.base.IfStatement;
 import com.github.jonathanxd.codeapi.base.InstanceOfCheck;
+import com.github.jonathanxd.codeapi.base.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.base.Label;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodFragment;
@@ -66,6 +71,7 @@ import com.github.jonathanxd.codeapi.base.VariableBase;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDefinition;
 import com.github.jonathanxd.codeapi.base.WhileStatement;
+import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
 import com.github.jonathanxd.codeapi.base.impl.ArrayConstructorImpl;
@@ -98,12 +104,7 @@ import com.github.jonathanxd.codeapi.base.impl.TryWithResourcesImpl;
 import com.github.jonathanxd.codeapi.base.impl.VariableAccessImpl;
 import com.github.jonathanxd.codeapi.base.impl.VariableDefinitionImpl;
 import com.github.jonathanxd.codeapi.base.impl.WhileStatementImpl;
-import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.ConstructorDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.EnumDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.InterfaceDeclarationBuilder;
-import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder;
+import com.github.jonathanxd.codeapi.builder.BuilderProvider;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.IfGroup;
@@ -132,8 +133,11 @@ import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.Alias;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.codeapi.util.Identity;
 import com.github.jonathanxd.iutils.map.WeakValueHashMap;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -141,11 +145,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import kotlin.collections.CollectionsKt;
+import kotlin.text.StringsKt;
 
 /**
  * Factory class.
@@ -158,12 +166,22 @@ public final class CodeAPI {
     public static final Annotation[] EMPTY_ANNOTATIONS = {};
     private final static WeakValueHashMap<Class<?>, CodeType> CODE_TYPES_CACHE = new WeakValueHashMap<>();
 
+    private static final BuilderProvider provider = new BuilderGenProvider();
+
+    public static BuilderProvider getBuilderProvider() {
+        return Objects.requireNonNull(CodeAPI.provider, "Provider is not defined");
+    }
+
+    static {
+
+    }
+
     // =========================================================
     //          Annotations
     // =========================================================
 
-    public static AnnotationDeclarationBuilder annotationBuilder() {
-        return new AnnotationDeclarationBuilder();
+    public static AnnotationDeclaration.Builder<AnnotationDeclaration, ?> annotationBuilder() {
+        return AnnotationDeclaration.Builder.Companion.builder();
     }
 
     /**
@@ -173,19 +191,8 @@ public final class CodeAPI {
      * @param name Property name.
      * @return Property.
      */
-    public static AnnotationProperty property(CodeType type, String name) {
+    public static AnnotationProperty property(Type type, String name) {
         return factory__property(Collections.emptyList(), type, name, null);
-    }
-
-    /**
-     * Create an annotation property of type {@code type} and name {@code name}.
-     *
-     * @param type Property type.
-     * @param name Property name.
-     * @return Property.
-     */
-    public static AnnotationProperty property(Class<?> type, String name) {
-        return factory__property(Collections.emptyList(), CodeAPI.toCodeType(type), name, null);
     }
 
     /**
@@ -196,32 +203,16 @@ public final class CodeAPI {
      * @param name  Property name.
      * @param value Default annotation value. The value must be: {@link Byte}, {@link Boolean},
      *              {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Float},
-     *              {@link Double}, {@link String}, {@link CodeType}, OBJECT, ARRAY, {@link
+     *              {@link Double}, {@link String}, {@link Type}, OBJECT, ARRAY, {@link
      *              EnumValue} or other {@link Annotation}.
      * @return Property.
      */
-    public static AnnotationProperty property(CodeType type, String name, Object value) {
+    public static AnnotationProperty property(Type type, String name, Object value) {
         return factory__property(Collections.emptyList(), type, name, value);
     }
 
     /**
      * Create an annotation property of type {@code type} and name {@code name} with default value
-     * {@code value}.
-     *
-     * @param type  Property type.
-     * @param name  Property name.
-     * @param value Default annotation value. The value must be: {@link Byte}, {@link Boolean},
-     *              {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Float},
-     *              {@link Double}, {@link String}, {@link CodeType}, OBJECT, ARRAY, {@link
-     *              EnumValue} or other {@link Annotation}.
-     * @return Property.
-     */
-    public static AnnotationProperty property(Class<?> type, String name, Object value) {
-        return factory__property(Collections.emptyList(), CodeAPI.toCodeType(type), name, value);
-    }
-
-    /**
-     * Create an annotation property of type {@code type} and name {@code name} with default value
      * {@code value} and annotated with {@code annotations}.
      *
      * @param annotations Annotations.
@@ -229,32 +220,15 @@ public final class CodeAPI {
      * @param name        Property name.
      * @param value       Default annotation value. The value must be: {@link Byte}, {@link
      *                    Boolean}, {@link Character}, {@link Short}, {@link Integer}, {@link Long},
-     *                    {@link Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                    {@link Float}, {@link Double}, {@link String}, {@link Type}, OBJECT,
      *                    ARRAY, {@link EnumValue} or other {@link Annotation}.
      * @return Property.
      */
-    public static AnnotationProperty property(List<Annotation> annotations, CodeType type, String name, Object value) {
+    public static AnnotationProperty property(List<Annotation> annotations, Type type, String name, Object value) {
         return factory__property(annotations, type, name, value);
     }
 
     /**
-     * Create an annotation property of type {@code type} and name {@code name} with default value
-     * {@code value} and annotated with {@code annotations}.
-     *
-     * @param annotations Annotations.
-     * @param type        Property type.
-     * @param name        Property name.
-     * @param value       Default annotation value. The value must be: {@link Byte}, {@link
-     *                    Boolean}, {@link Character}, {@link Short}, {@link Integer}, {@link Long},
-     *                    {@link Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
-     *                    ARRAY, {@link EnumValue} or other {@link Annotation}.
-     * @return Property.
-     */
-    public static AnnotationProperty property(List<Annotation> annotations, Class<?> type, String name, Object value) {
-        return factory__property(annotations, CodeAPI.toCodeType(type), name, value);
-    }
-
-    /**
      * Create an annotation property of type {@code type} and name {@code name} and annotated with
      * {@code annotations}.
      *
@@ -263,25 +237,12 @@ public final class CodeAPI {
      * @param name        Property name.
      * @return Property.
      */
-    public static AnnotationProperty property(List<Annotation> annotations, CodeType type, String name) {
+    public static AnnotationProperty property(List<Annotation> annotations, Type type, String name) {
         return factory__property(annotations, type, name, null);
     }
 
-    /**
-     * Create an annotation property of type {@code type} and name {@code name} and annotated with
-     * {@code annotations}.
-     *
-     * @param annotations Annotations.
-     * @param type        Property type.
-     * @param name        Property name.
-     * @return Property.
-     */
-    public static AnnotationProperty property(List<Annotation> annotations, Class<?> type, String name) {
-        return factory__property(annotations, CodeAPI.toCodeType(type), name, null);
-    }
-
     private static AnnotationProperty factory__property(List<Annotation> annotationList,
-                                                        CodeType type,
+                                                        Type type,
                                                         String name,
                                                         Object value) {
 
@@ -293,12 +254,12 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Create a {@link InterfaceDeclarationBuilder}.
+     * Create a {@link InterfaceDeclaration.Builder}.
      *
-     * @return New {@link InterfaceDeclarationBuilder}.
+     * @return New {@link InterfaceDeclaration.Builder}.
      */
-    public static InterfaceDeclarationBuilder anInterfaceBuilder() {
-        return new InterfaceDeclarationBuilder();
+    public static InterfaceDeclaration.Builder<InterfaceDeclaration, ?> anInterfaceBuilder() {
+        return InterfaceDeclaration.Builder.Companion.builder();
     }
 
     // =========================================================
@@ -306,12 +267,12 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Create a {@link ClassDeclarationBuilder}.
+     * Create a {@link ClassDeclaration.Builder}.
      *
-     * @return New {@link ClassDeclarationBuilder}.
+     * @return New {@link ClassDeclaration.Builder}.
      */
-    public static ClassDeclarationBuilder aClassBuilder() {
-        return new ClassDeclarationBuilder();
+    public static ClassDeclaration.Builder<ClassDeclaration, ?> aClassBuilder() {
+        return ClassDeclaration.Builder.Companion.builder();
     }
 
 
@@ -324,8 +285,8 @@ public final class CodeAPI {
      *
      * @return New enum builder
      */
-    public static EnumDeclarationBuilder enumBuilder() {
-        return new EnumDeclarationBuilder();
+    public static EnumDeclaration.Builder<EnumDeclaration, ?> enumBuilder() {
+        return EnumDeclaration.Builder.Companion.builder();
     }
 
     /**
@@ -385,12 +346,12 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Create a {@link MethodDeclarationBuilder}.
+     * Create a {@link MethodDeclaration.Builder}.
      *
-     * @return New {@link MethodDeclarationBuilder}.
+     * @return New {@link MethodDeclaration.Builder}.
      */
-    public static MethodDeclarationBuilder methodBuilder() {
-        return new MethodDeclarationBuilder();
+    public static MethodDeclaration.Builder<MethodDeclaration, ?> methodBuilder() {
+        return MethodDeclaration.Builder.Companion.builder();
     }
 
     // =========================================================
@@ -398,12 +359,12 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Create a {@link ConstructorDeclarationBuilder}.
+     * Create a {@link ConstructorDeclaration.Builder}.
      *
-     * @return New {@link ConstructorDeclarationBuilder}.
+     * @return New {@link ConstructorDeclaration.Builder}.
      */
-    public static ConstructorDeclarationBuilder constructorBuilder() {
-        return new ConstructorDeclarationBuilder();
+    public static ConstructorDeclaration.Builder<ConstructorDeclaration, ?> constructorBuilder() {
+        return ConstructorDeclaration.Builder.Companion.builder();
     }
 
 
@@ -411,27 +372,17 @@ public final class CodeAPI {
     //          Array Constructors
     // =========================================================
 
-    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions, List<CodePart> arguments) {
+    public static ArrayConstructor arrayConstruct(Type arrayType, CodePart[] dimensions, List<CodePart> arguments) {
         return arrayConstruct__factory(arrayType, dimensions, arguments);
     }
 
-    public static ArrayConstructor arrayConstruct(CodeType arrayType, CodePart[] dimensions) {
+    public static ArrayConstructor arrayConstruct(Type arrayType, CodePart[] dimensions) {
         return arrayConstruct__factory(arrayType, dimensions, Collections.emptyList());
-    }
-
-    // Class
-
-    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions) {
-        return arrayConstruct__factory(CodeAPI.getJavaType(arrayType), dimensions, Collections.emptyList());
-    }
-
-    public static ArrayConstructor arrayConstruct(Class<?> arrayType, CodePart[] dimensions, List<CodePart> arguments) {
-        return arrayConstruct__factory(CodeAPI.getJavaType(arrayType), dimensions, arguments);
     }
 
     // Factory
 
-    private static ArrayConstructor arrayConstruct__factory(CodeType arrayType, CodePart[] dimensions, List<CodePart> arguments) {
+    private static ArrayConstructor arrayConstruct__factory(Type arrayType, CodePart[] dimensions, List<CodePart> arguments) {
         return new ArrayConstructorImpl(arguments, arrayType, ArrayToList.toList(dimensions));
     }
 
@@ -443,18 +394,12 @@ public final class CodeAPI {
         return getArrayLength__factory(access);
     }
 
-    public static ArrayLoad getArrayValue(CodeType valueType, Typed access, CodePart index) {
+    public static ArrayLoad getArrayValue(Type valueType, Typed access, CodePart index) {
         return getArrayValue__factory(index, access, valueType);
     }
 
     public static ArrayStore setArrayValue(Typed access, CodePart index, Typed value) {
         return setArrayValue__factory(index, access, value);
-    }
-
-    // Class
-
-    public static ArrayLoad getArrayValue(Class<?> valueType, Typed access, CodePart index) {
-        return getArrayValue__factory(index, access, CodeAPI.getJavaType(valueType));
     }
 
     // Factory
@@ -463,7 +408,7 @@ public final class CodeAPI {
         return new ArrayLengthImpl(access.getType(), access);
     }
 
-    private static ArrayLoad getArrayValue__factory(CodePart index, Typed access, CodeType valueType) {
+    private static ArrayLoad getArrayValue__factory(CodePart index, Typed access, Type valueType) {
         return new ArrayLoadImpl(index, access, valueType, access.getType());
     }
 
@@ -500,38 +445,21 @@ public final class CodeAPI {
         return new ReturnImpl(Void.INSTANCE.getType(), Void.INSTANCE);
     }
 
-    public static Return returnValue(CodeType valueType, CodePart value) {
+    public static Return returnValue(Type valueType, CodePart value) {
         return new ReturnImpl(valueType, value);
     }
 
-    public static Return returnValue(Class<?> valueType, CodePart value) {
-        return new ReturnImpl(CodeAPI.getJavaType(valueType), value);
-    }
-
-    public static Return returnLocalVariable(CodeType fieldType, String fieldName) {
+    public static Return returnLocalVariable(Type fieldType, String fieldName) {
         return new ReturnImpl(fieldType, CodeAPI.accessLocalVariable(fieldType, fieldName));
     }
 
-    public static Return returnLocalVariable(Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessLocalVariable(CodeAPI.getJavaType(fieldType), fieldName));
-    }
-
-    public static Return returnThisField(CodeType fieldType, String fieldName) {
+    public static Return returnThisField(Type fieldType, String fieldName) {
         return new ReturnImpl(fieldType, CodeAPI.accessThisField(fieldType, fieldName));
     }
 
-    public static Return returnThisField(Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessThisField(CodeAPI.getJavaType(fieldType), fieldName));
+    public static Return returnStaticField(Type localization, Type fieldType, String fieldName) {
+        return new ReturnImpl(fieldType, CodeAPI.accessStaticField(localization, fieldType, fieldName));
     }
-
-    public static Return returnStaticField(CodeType localization, Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessStaticField(localization, CodeAPI.getJavaType(fieldType), fieldName));
-    }
-
-    public static Return returnStaticField(Class<?> localization, Class<?> fieldType, String fieldName) {
-        return new ReturnImpl(CodeAPI.getJavaType(fieldType), CodeAPI.accessStaticField(CodeAPI.getJavaType(localization), CodeAPI.getJavaType(fieldType), fieldName));
-    }
-
 
     // =========================================================
     //          Parameters
@@ -544,19 +472,8 @@ public final class CodeAPI {
      * @param name Name of the parameter.
      * @return {@link CodeParameter} instance.
      */
-    public static CodeParameter parameter(CodeType type, String name) {
+    public static CodeParameter parameter(Type type, String name) {
         return new CodeParameter(type, name);
-    }
-
-    /**
-     * Create a {@link CodeParameter parameter}.
-     *
-     * @param type Parameter value type.
-     * @param name Name of the parameter.
-     * @return {@link CodeParameter} instance.
-     */
-    public static CodeParameter parameter(Class<?> type, String name) {
-        return new CodeParameter(CodeAPI.getJavaType(type), name);
     }
 
     // =========================================================
@@ -597,41 +514,29 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
      */
-    public static MethodInvocation invokeSuperConstructor(CodeType superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
+    public static MethodInvocation invokeSuperConstructor(Type superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeSuperConstructor__factory(superClass, constructorSpec, arguments);
     }
 
     /**
-     * Invoke super constructor of current type declaration.
-     *
-     * @param superClass      Super class of current type declaration.
-     * @param constructorSpec Type specification of constructor.
-     * @param arguments       Constructor Arguments.
-     * @return Invocation of super constructor of current type declaration.
-     */
-    public static MethodInvocation invokeSuperConstructor(Class<?> superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
-        return invokeSuperConstructor__factory(CodeAPI.getJavaType(superClass), constructorSpec, arguments);
-    }
-
-    /**
-     * Invoke constructor of a {@link CodeType}.
+     * Invoke constructor of a {@link Type}.
      *
      * @param type Type to invoke constructor.
      * @return Invocation of constructor of {@code type}.
      */
-    public static MethodInvocation invokeConstructor(CodeType type) {
-        return invokeConstructor__factory(type, constructorTypeSpec(new CodeType[0]), Collections.emptyList());
+    public static MethodInvocation invokeConstructor(Type type) {
+        return invokeConstructor__factory(type, constructorTypeSpec(new Type[0]), Collections.emptyList());
     }
 
     /**
-     * Invoke constructor of a {@link CodeType}.
+     * Invoke constructor of a {@link Type}.
      *
      * @param type      Type to invoke constructor.
      * @param spec      Method specification.
      * @param arguments Arguments to pass to constructor.
      * @return Invocation of constructor of {@code type} with provided arguments.
      */
-    public static MethodInvocation invokeConstructor(CodeType type, TypeSpec spec, List<CodePart> arguments) {
+    public static MethodInvocation invokeConstructor(Type type, TypeSpec spec, List<CodePart> arguments) {
         return invokeConstructor__factory(type, spec, arguments);
     }
 
@@ -644,8 +549,8 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(CodeType localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, localization, localization, arguments,
+    public static MethodInvocation invokeStatic(Type localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, localization, CodeTypes.getCodeType(localization), arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
 
@@ -672,7 +577,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+    public static MethodInvocation invokeVirtual(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_VIRTUAL, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -713,7 +618,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+    public static MethodInvocation invokeInterface(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -755,7 +660,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+    public static MethodInvocation invokeSpecial(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(InvokeType.INVOKE_SPECIAL, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -772,7 +677,7 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of a method.
      */
-    public static MethodInvocation invoke(InvokeType invokeType, CodeType localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+    public static MethodInvocation invoke(InvokeType invokeType, Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
         return invoke__factory(invokeType, localization, target, arguments,
                 spec__factory(methodName, methodDescription, MethodType.METHOD));
     }
@@ -799,76 +704,14 @@ public final class CodeAPI {
         return invokeDynamic__factory(fragment);
     }
 
-    // Class
-
-    /**
-     * Invoke constructor of a {@link Class}.
-     *
-     * @param type Type to invoke constructor.
-     * @return Invocation of constructor of {@code type}.
-     */
-    public static MethodInvocation invokeConstructor(Class<?> type) {
-        return invokeConstructor__factory(CodeAPI.getJavaType(type), new TypeSpec(Types.VOID), Collections.emptyList());
+    public static MethodInvocation invokeFieldGetter(InvokeType invokeType, Type localization, CodePart target, Type fieldType, String fieldName) {
+        return invoke__factory(invokeType, localization, target, Collections.emptyList(),
+                spec__factory("get".concat(StringsKt.capitalize(fieldName)), new TypeSpec(fieldType), MethodType.METHOD));
     }
 
-    /**
-     * Invoke a static method.
-     *
-     * @param localization      Localization of the method.
-     * @param methodName        Name of the method.
-     * @param methodDescription Method type description.
-     * @param arguments         Method arguments.
-     * @return Invocation of static method.
-     */
-    public static MethodInvocation invokeStatic(Class<?> localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, CodeAPI.getJavaType(localization), CodeAPI.getJavaType(localization), arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
-    }
-
-    /**
-     * Invoke a instance method.
-     *
-     * @param localization      Localization of the method.
-     * @param target            Instance.
-     * @param methodName        Name of the method.
-     * @param methodDescription Method type description.
-     * @param arguments         Method arguments.
-     * @return Invocation of instance method.
-     */
-    public static MethodInvocation invokeVirtual(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(localization), target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
-    }
-
-    /**
-     * Invoke a interface method.
-     *
-     * @param localization      Localization of the method.
-     * @param target            Instance.
-     * @param methodName        Name of the method.
-     * @param methodDescription Method type description.
-     * @param arguments         Method arguments.
-     * @return Invocation of interface method.
-     */
-    public static MethodInvocation invokeInterface(Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, CodeAPI.getJavaType(localization), target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
-    }
-
-    /**
-     * Invoke a method.
-     *
-     * @param invokeType        Method invocation type.
-     * @param localization      Localization of the method.
-     * @param target            Instance.
-     * @param methodName        Name of the method.
-     * @param methodDescription Method type description.
-     * @param arguments         Method arguments.
-     * @return Invocation of a method.
-     */
-    public static MethodInvocation invoke(InvokeType invokeType, Class<?> localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(invokeType, CodeAPI.getJavaType(localization), target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocation invokeFieldSetter(InvokeType invokeType, Type localization, CodePart target, Type fieldType, String fieldName, CodePart value) {
+        return invoke__factory(invokeType, localization, target, CollectionsKt.listOf(value),
+                spec__factory("set".concat(StringsKt.capitalize(fieldName)), typeSpec(Types.VOID, fieldType), MethodType.METHOD));
     }
 
     // Factory
@@ -877,7 +720,7 @@ public final class CodeAPI {
         return new MethodSpecificationImpl(methodType, methodName, methodDescription);
     }
 
-    private static MethodInvocation invoke__factory(InvokeType invokeType, CodeType localization, CodePart target, List<CodePart> arguments, MethodSpecification methodSpecification) {
+    private static MethodInvocation invoke__factory(InvokeType invokeType, Type localization, CodePart target, List<CodePart> arguments, MethodSpecification methodSpecification) {
         return new MethodInvocationImpl(localization, arguments, methodSpecification, invokeType, null, target);
     }
 
@@ -905,11 +748,11 @@ public final class CodeAPI {
                 methodFragment.getTarget());
     }
 
-    private static MethodInvocation invokeConstructor__factory(CodeType type, TypeSpec spec, List<CodePart> arguments) {
-        return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.CONSTRUCTOR, "<init>", spec), InvokeType.INVOKE_SPECIAL, null, type);
+    private static MethodInvocation invokeConstructor__factory(Type type, TypeSpec spec, List<CodePart> arguments) {
+        return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.CONSTRUCTOR, "<init>", spec), InvokeType.INVOKE_SPECIAL, null, CodeTypes.getCodeType(type));
     }
 
-    private static MethodInvocation invokeSuperConstructor__factory(CodeType type, TypeSpec constructorSpec, List<CodePart> arguments) {
+    private static MethodInvocation invokeSuperConstructor__factory(Type type, TypeSpec constructorSpec, List<CodePart> arguments) {
         return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessSuper());
     }
 
@@ -938,19 +781,19 @@ public final class CodeAPI {
      * @param name      Name of the field.
      * @return Access to a static field.
      */
-    public static FieldAccess accessStaticField(CodeType fieldType, String name) {
+    public static FieldAccess accessStaticField(Type fieldType, String name) {
         return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessStatic(), fieldType, name);
     }
 
     /**
-     * Access a static field of {@link CodeType type} {@code localization}.
+     * Access a static field of {@link Type type} {@code localization}.
      *
      * @param localization Localization of the field.
      * @param fieldType    Type of the field.
      * @param name         Name of the field.
      * @return Access to a static field.
      */
-    public static FieldAccess accessStaticField(CodeType localization, CodeType fieldType, String name) {
+    public static FieldAccess accessStaticField(Type localization, Type fieldType, String name) {
         return accessField__Factory(localization, CodeAPI.accessStatic(), fieldType, name);
     }
 
@@ -963,7 +806,7 @@ public final class CodeAPI {
      * @param name         Name of the field.
      * @return Access to a field or variable.
      */
-    public static FieldAccess accessField(CodeType localization, CodePart at, CodeType fieldType, String name) {
+    public static FieldAccess accessField(Type localization, CodePart at, Type fieldType, String name) {
         return accessField__Factory(localization, at, fieldType, name);
     }
 
@@ -984,10 +827,14 @@ public final class CodeAPI {
      * @param name      Name of the field.
      * @return Access to a static field of current class.
      */
-    public static FieldAccess accessThisField(CodeType fieldType, String name) {
+    public static FieldAccess accessThisField(Type fieldType, String name) {
         return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), fieldType, name);
     }
 
+    public static VariableAccess accessLocalVariable(VariableBase variableBase) {
+        return accessVariable__Factory(variableBase.getVariableType(), variableBase.getName());
+    }
+
     /**
      * Access a local variable.
      *
@@ -995,86 +842,16 @@ public final class CodeAPI {
      * @param name         Name of the variable.
      * @return Access to variable.
      */
-    public static VariableAccess accessLocalVariable(CodeType variableType, String name) {
+    public static VariableAccess accessLocalVariable(Type variableType, String name) {
         return accessVariable__Factory(variableType, name);
     }
 
-    // Class
-
-    /**
-     * Access a static field of current class.
-     *
-     * @param fieldType Type of the field.
-     * @param name      Name of the field.
-     * @return Access to a static field.
-     */
-    public static FieldAccess accessStaticField(Class<?> fieldType, String name) {
-        return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessStatic(), CodeAPI.getJavaType(fieldType), name);
-    }
-
-    /**
-     * Access a static field of {@link CodeType type} {@code localization}.
-     *
-     * @param localization Localization of the field.
-     * @param fieldType    Type of the field.
-     * @param name         Name of the field.
-     * @return Access to a static field.
-     */
-    public static FieldAccess accessStaticField(Class<?> localization, Class<?> fieldType, String name) {
-        return accessField__Factory(CodeAPI.getJavaType(localization), CodeAPI.accessStatic(), CodeAPI.getJavaType(fieldType), name);
-    }
-
-    /**
-     * Access a field or variable.
-     *
-     * @param localization Localization of the field.
-     * @param at           Scope localization or instance of localization.
-     * @param fieldType    Type of the field.
-     * @param name         Name of the field.
-     * @return Access to a field or variable.
-     */
-    public static FieldAccess accessField(Class<?> localization, CodePart at, Class<?> fieldType, String name) {
-        return accessField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name);
-    }
-
-    /**
-     * Access a static field of current class.
-     *
-     * @param fieldType Type of the field.
-     * @param name      Name of the field.
-     * @return Access to a static field of current class.
-     */
-    public static FieldAccess accessThisField(Class<?> fieldType, String name) {
-        return accessField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name);
-    }
-
-    /**
-     * Access a local variable.
-     *
-     * @param variableType Type of the variable value.
-     * @param name         Name of the variable.
-     * @return Access to variable.
-     */
-    public static VariableAccess accessLocalVariable(Class<?> variableType, String name) {
-        return accessVariable__Factory(CodeAPI.getJavaType(variableType), name);
-    }
-
-    /**
-     * Access a local variable.
-     *
-     * @param variable Variable to access.
-     * @return Access to variable.
-     */
-    public static VariableAccess accessLocalVariable(VariableBase variable) {
-        return accessVariable__Factory(variable.getType(), variable.getName());
-    }
-
     // Factory
-    private static FieldAccess accessField__Factory(CodeType localization, CodePart at, CodeType type, String name) {
+    private static FieldAccess accessField__Factory(Type localization, CodePart at, Type type, String name) {
         return new FieldAccessImpl(name, type, at, localization);
     }
 
-    private static VariableAccess accessVariable__Factory(CodeType type, String name) {
+    private static VariableAccess accessVariable__Factory(Type type, String name) {
         return new VariableAccessImpl(name, type);
     }
 
@@ -1091,54 +868,32 @@ public final class CodeAPI {
         return setVariable__Factory(declaration.getVariableType(), declaration.getName(), value);
     }
 
-    public static FieldDefinition setStaticThisField(CodeType fieldType, String name, CodePart value) {
+    public static FieldDefinition setStaticThisField(Type fieldType, String name, CodePart value) {
         return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), fieldType, name, value);
     }
 
-    public static FieldDefinition setStaticField(CodeType localization, CodeType fieldType, String name, CodePart value) {
+    public static FieldDefinition setStaticField(Type localization, Type fieldType, String name, CodePart value) {
         return setField__Factory(localization, CodeAPI.accessStatic(), fieldType, name, value);
     }
 
-    public static FieldDefinition setField(CodeType localization, CodePart at, CodeType fieldType, String name, CodePart value) {
+    public static FieldDefinition setField(Type localization, CodePart at, Type fieldType, String name, CodePart value) {
         return setField__Factory(localization, at, fieldType, name, value);
     }
 
-    public static FieldDefinition setThisField(CodeType fieldType, String name, CodePart value) {
+    public static FieldDefinition setThisField(Type fieldType, String name, CodePart value) {
         return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), fieldType, name, value);
     }
 
-    public static VariableDefinition setLocalVariable(CodeType variableType, String name, CodePart value) {
+    public static VariableDefinition setLocalVariable(Type variableType, String name, CodePart value) {
         return setVariable__Factory(variableType, name, value);
     }
 
-    // Class
-
-    public static FieldDefinition setStaticThisField(Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
-    }
-
-    public static FieldDefinition setStaticField(Class<?> localization, Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(CodeAPI.getJavaType(localization), CodeAPI.accessStatic(), CodeAPI.getJavaType(fieldType), name, value);
-    }
-
-    public static FieldDefinition setField(Class<?> localization, CodePart at, Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(CodeAPI.getJavaType(localization), at, CodeAPI.getJavaType(fieldType), name, value);
-    }
-
-    public static FieldDefinition setThisField(Class<?> fieldType, String name, CodePart value) {
-        return setField__Factory(Alias.THIS.INSTANCE, CodeAPI.accessThis(), CodeAPI.getJavaType(fieldType), name, value);
-    }
-
-    public static VariableDefinition setLocalVariable(Class<?> variableType, String name, CodePart value) {
-        return setVariable__Factory(CodeAPI.getJavaType(variableType), name, value);
-    }
-
     // Factory
-    private static FieldDefinition setField__Factory(CodeType localization, CodePart at, CodeType type, String name, CodePart value) {
+    private static FieldDefinition setField__Factory(Type localization, CodePart at, Type type, String name, CodePart value) {
         return new FieldDefinitionImpl(type, value, name, at, localization);
     }
 
-    private static VariableDefinition setVariable__Factory(CodeType type, String name, CodePart value) {
+    private static VariableDefinition setVariable__Factory(Type type, String name, CodePart value) {
         return new VariableDefinitionImpl(type, name, value);
     }
 
@@ -1209,7 +964,7 @@ public final class CodeAPI {
      * @param value        Second value to apply to operation.
      * @return Definition of result of operation.
      */
-    public static VariableDefinition operateAndAssign(CodeType variableType, String variableName, Operator.Math operation, CodePart value) {
+    public static VariableDefinition operateAndAssign(Type variableType, String variableName, Operator.Math operation, CodePart value) {
         return setLocalVariable(variableType, variableName, operate(accessLocalVariable(variableType, variableName), operation, value));
     }
 
@@ -1222,7 +977,7 @@ public final class CodeAPI {
      * @param value        Second value to apply to operation.
      * @return Operation instance.
      */
-    public static Operate operate(CodeType variableType, String variableName, Operator.Math operation, CodePart value) {
+    public static Operate operate(Type variableType, String variableName, Operator.Math operation, CodePart value) {
         return factory__operate(accessLocalVariable(variableType, variableName), operation, value);
     }
 
@@ -1237,7 +992,7 @@ public final class CodeAPI {
      * @param value        Second value to apply to operation.
      * @return Definition of result of operation.
      */
-    public static FieldDefinition operateAndAssign(CodeType localization, CodePart at, CodeType fieldType, String fieldName, Operator.Math operation, CodePart value) {
+    public static FieldDefinition operateAndAssign(Type localization, CodePart at, Type fieldType, String fieldName, Operator.Math operation, CodePart value) {
         return setField(localization, at, fieldType, fieldName, factory__operate(accessField(localization, at, fieldType, fieldName), operation, value));
     }
 
@@ -1252,7 +1007,7 @@ public final class CodeAPI {
      * @param value        Second value to apply to operation.
      * @return Operation instance.
      */
-    public static Operate operate(CodeType localization, CodePart at, CodeType fieldType, String fieldName, Operator.Math operation, CodePart value) {
+    public static Operate operate(Type localization, CodePart at, Type fieldType, String fieldName, Operator.Math operation, CodePart value) {
         return factory__operate(accessField(localization, at, fieldType, fieldName), operation, value);
     }
 
@@ -1284,7 +1039,7 @@ public final class CodeAPI {
         return CodeAPI.annotation(Types.OVERRIDE);
     }
 
-    // CodeType
+    // Type
 
     /**
      * Create an annotation that is not visible at runtime (only affects bytecode generation).
@@ -1292,7 +1047,7 @@ public final class CodeAPI {
      * @param annotationType Type of annotation
      * @return A runtime invisible annotation.
      */
-    public static Annotation annotation(CodeType annotationType) {
+    public static Annotation annotation(Type annotationType) {
         return annotation__Factory(false, annotationType, Collections.emptyMap());
     }
 
@@ -1303,7 +1058,7 @@ public final class CodeAPI {
      * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
      * @return A runtime invisible annotation.
      */
-    public static Annotation annotation(boolean isVisible, CodeType annotationType) {
+    public static Annotation annotation(boolean isVisible, Type annotationType) {
         return annotation__Factory(isVisible, annotationType, Collections.emptyMap());
     }
 
@@ -1313,7 +1068,7 @@ public final class CodeAPI {
      * @param annotationType Type of annotation
      * @return A visible annotation
      */
-    public static Annotation visibleAnnotation(CodeType annotationType) {
+    public static Annotation visibleAnnotation(Type annotationType) {
         return annotation__Factory(true, annotationType, Collections.emptyMap());
     }
 
@@ -1323,11 +1078,11 @@ public final class CodeAPI {
      * @param annotationType Type of annotation
      * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
      *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       Float}, {@link Double}, {@link String}, {@link Type}, OBJECT,
      *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
      * @return A runtime invisible annotation.
      */
-    public static Annotation annotation(CodeType annotationType, Map<String, Object> values) {
+    public static Annotation annotation(Type annotationType, Map<String, Object> values) {
         return annotation__Factory(false, annotationType, values);
     }
 
@@ -1337,11 +1092,11 @@ public final class CodeAPI {
      * @param annotationType Type of annotation
      * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
      *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       Float}, {@link Double}, {@link String}, {@link Type}, OBJECT,
      *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
      * @return A visible annotation
      */
-    public static Annotation visibleAnnotation(CodeType annotationType, Map<String, Object> values) {
+    public static Annotation visibleAnnotation(Type annotationType, Map<String, Object> values) {
         return annotation__Factory(true, annotationType, values);
     }
 
@@ -1352,88 +1107,12 @@ public final class CodeAPI {
      * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
      * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
      *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       Float}, {@link Double}, {@link String}, {@link Type}, OBJECT,
      *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
      * @return A runtime invisible annotation.
      */
-    public static Annotation annotation(boolean isVisible, CodeType annotationType, Map<String, Object> values) {
+    public static Annotation annotation(boolean isVisible, Type annotationType, Map<String, Object> values) {
         return annotation__Factory(isVisible, annotationType, values);
-    }
-
-    // Class
-
-    /**
-     * Create an annotation that is not visible at runtime (only affects bytecode generation).
-     *
-     * @param annotationType Type of annotation
-     * @return A runtime invisible annotation.
-     */
-    public static Annotation annotation(Class<?> annotationType) {
-        return annotation__Factory(false, CodeAPI.toCodeType(annotationType), Collections.emptyMap());
-    }
-
-    /**
-     * Create an annotation.
-     *
-     * @param annotationType Type of annotation
-     * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
-     * @return A runtime invisible annotation.
-     */
-    public static Annotation annotation(boolean isVisible, Class<?> annotationType) {
-        return annotation__Factory(isVisible, CodeAPI.toCodeType(annotationType), Collections.emptyMap());
-    }
-
-    /**
-     * Create an annotation that is visible at runtime (only affects bytecode generation).
-     *
-     * @param annotationType Type of annotation
-     * @return A visible annotation
-     */
-    public static Annotation visibleAnnotation(Class<?> annotationType) {
-        return annotation__Factory(true, CodeAPI.toCodeType(annotationType), Collections.emptyMap());
-    }
-
-    /**
-     * Create an annotation that is not visible at runtime (only affects bytecode generation).
-     *
-     * @param annotationType Type of annotation
-     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
-     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
-     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
-     * @return A runtime invisible annotation.
-     */
-    public static Annotation annotation(Class<?> annotationType, Map<String, Object> values) {
-        return annotation__Factory(false, CodeAPI.toCodeType(annotationType), values);
-    }
-
-    /**
-     * Create an annotation that is visible at runtime (only affects bytecode generation).
-     *
-     * @param annotationType Type of annotation
-     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
-     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
-     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
-     * @return A visible annotation
-     */
-    public static Annotation visibleAnnotation(Class<?> annotationType, Map<String, Object> values) {
-        return annotation__Factory(true, CodeAPI.toCodeType(annotationType), values);
-    }
-
-    /**
-     * Create an annotation.
-     *
-     * @param annotationType Type of annotation
-     * @param isVisible      Is annotation visible at runtime (only affects bytecode generation).
-     * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
-     *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
-     *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
-     * @return A runtime invisible annotation.
-     */
-    public static Annotation annotation(boolean isVisible, Class<?> annotationType, Map<String, Object> values) {
-        return annotation__Factory(isVisible, CodeAPI.toCodeType(annotationType), values);
     }
 
     // Factory
@@ -1445,11 +1124,11 @@ public final class CodeAPI {
      * @param annotationType Type of annotation
      * @param values         The Annotation values must be: {@link Byte}, {@link Boolean}, {@link
      *                       Character}, {@link Short}, {@link Integer}, {@link Long}, {@link
-     *                       Float}, {@link Double}, {@link String}, {@link CodeType}, OBJECT,
+     *                       Float}, {@link Double}, {@link String}, {@link Type}, OBJECT,
      *                       ARRAY, {@link EnumValue} or other {@link Annotation}.
      * @return Annotation
      */
-    private static Annotation annotation__Factory(boolean isVisible, CodeType annotationType, Map<String, Object> values) {
+    private static Annotation annotation__Factory(boolean isVisible, Type annotationType, Map<String, Object> values) {
         return new AnnotationImpl(isVisible, annotationType, values);
     }
 
@@ -1465,30 +1144,7 @@ public final class CodeAPI {
      * @param ordinal  Ordinal value of enum entry.
      * @return Enum value
      */
-    public static EnumValue enumValue(Class<?> enumType, String entry, int ordinal) {
-        return enumValue__factory(CodeAPI.toCodeType(enumType), entry, ordinal);
-    }
-
-    /**
-     * EnumValue of an Annotation property.
-     *
-     * @param enumType Type of enum
-     * @param entry    Enum entry (aka Field)
-     * @return Enum value
-     */
-    public static EnumValue enumValue(Class<?> enumType, String entry) {
-        return enumValue__factory(CodeAPI.toCodeType(enumType), entry, -1);
-    }
-
-    /**
-     * EnumValue of an Annotation property.
-     *
-     * @param enumType Type of enum
-     * @param entry    Enum entry (aka Field)
-     * @param ordinal  Ordinal value of enum entry.
-     * @return Enum value
-     */
-    public static EnumValue enumValue(CodeType enumType, String entry, int ordinal) {
+    public static EnumValue enumValue(Type enumType, String entry, int ordinal) {
         return enumValue__factory(enumType, entry, ordinal);
     }
 
@@ -1499,13 +1155,13 @@ public final class CodeAPI {
      * @param entry    Enum entry (aka Field)
      * @return Enum value
      */
-    public static EnumValue enumValue(CodeType enumType, String entry) {
+    public static EnumValue enumValue(Type enumType, String entry) {
         return enumValue__factory(enumType, entry, -1);
     }
 
     // Factory
 
-    private static EnumValue enumValue__factory(CodeType enumType, String entry, int ordinal) {
+    private static EnumValue enumValue__factory(Type enumType, String entry, int ordinal) {
         return new EnumValueImpl(enumType, entry, ordinal);
     }
 
@@ -1519,8 +1175,8 @@ public final class CodeAPI {
      * @param returnType Return type.
      * @return Specification of a signature.
      */
-    public static TypeSpec typeSpec(CodeType returnType) {
-        return typeSpec__factory(returnType, new CodeType[]{});
+    public static TypeSpec typeSpec(Type returnType) {
+        return typeSpec__factory(returnType, new Type[]{});
     }
 
     /**
@@ -1530,7 +1186,7 @@ public final class CodeAPI {
      * @param parameterTypes Parameter types.
      * @return Specification of a signature.
      */
-    public static TypeSpec typeSpec(CodeType returnType, CodeType... parameterTypes) {
+    public static TypeSpec typeSpec(Type returnType, Type... parameterTypes) {
         return typeSpec__factory(returnType, parameterTypes);
     }
 
@@ -1549,7 +1205,7 @@ public final class CodeAPI {
      * @param parameterTypes Parameter types.
      * @return Specification of a signature.
      */
-    public static TypeSpec constructorTypeSpec(CodeType... parameterTypes) {
+    public static TypeSpec constructorTypeSpec(Type... parameterTypes) {
         return typeSpec__factory(Types.VOID, parameterTypes);
     }
 
@@ -1559,59 +1215,17 @@ public final class CodeAPI {
      * @param parameterTypes Parameter types.
      * @return Specification of a signature.
      */
-    public static TypeSpec voidTypeSpec(CodeType... parameterTypes) {
+    public static TypeSpec voidTypeSpec(Type... parameterTypes) {
         return typeSpec__factory(Types.VOID, parameterTypes);
-    }
-    // Class
-
-    /**
-     * Specification of a signature.
-     *
-     * @param returnType Return type.
-     * @return Specification of a signature.
-     */
-    public static TypeSpec typeSpec(Class<?> returnType) {
-        return typeSpec__factory(toCodeType(returnType), new CodeType[]{});
-    }
-
-    /**
-     * Specification of a signature.
-     *
-     * @param returnType     Return type.
-     * @param parameterTypes Parameter types.
-     * @return Specification of a signature.
-     */
-    public static TypeSpec typeSpec(Class<?> returnType, Class<?>... parameterTypes) {
-        return typeSpec__factory(toCodeType(returnType), toCodeType(parameterTypes));
-    }
-
-    /**
-     * Specification of a constructor signature.
-     *
-     * @param parameterTypes Parameter types.
-     * @return Specification of a signature.
-     */
-    public static TypeSpec constructorTypeSpec(Class<?>... parameterTypes) {
-        return typeSpec__factory(Types.VOID, toCodeType(parameterTypes));
-    }
-
-    /**
-     * Specification of a method that returns void.
-     *
-     * @param parameterTypes Parameter types.
-     * @return Specification of a signature.
-     */
-    public static TypeSpec voidTypeSpec(Class<?>... parameterTypes) {
-        return typeSpec__factory(Types.VOID, toCodeType(parameterTypes));
     }
 
     // Factory
 
-    private static TypeSpec typeSpec__factory(CodeType returnType) {
+    private static TypeSpec typeSpec__factory(Type returnType) {
         return new TypeSpec(returnType, Collections.emptyList());
     }
 
-    private static TypeSpec typeSpec__factory(CodeType returnType, CodeType[] parameterTypes) {
+    private static TypeSpec typeSpec__factory(Type returnType, Type[] parameterTypes) {
         return new TypeSpec(returnType, ArrayToList.toList(parameterTypes));
     }
 
@@ -1627,26 +1241,12 @@ public final class CodeAPI {
      * @param partToCast Part to cast.
      * @return Cast of element.
      */
-    public static Cast cast(CodeType fromType, CodeType toType, CodePart partToCast) {
+    public static Cast cast(Type fromType, Type toType, CodePart partToCast) {
         return cast__Factory(fromType, toType, partToCast);
     }
 
-    // Class
-
-    /**
-     * Cast an element from a type to another type.
-     *
-     * @param fromType   From type.
-     * @param toType     Target type to cast.
-     * @param partToCast Part to cast.
-     * @return Cast of element.
-     */
-    public static Cast cast(Class<?> fromType, Class<?> toType, CodePart partToCast) {
-        return cast__Factory(toCodeType(fromType), toCodeType(toType), partToCast);
-    }
-
     // Factory
-    private static Cast cast__Factory(CodeType fromType, CodeType toType, CodePart partToCast) {
+    private static Cast cast__Factory(Type fromType, Type toType, CodePart partToCast) {
         return new CastImpl(fromType, toType, partToCast);
     }
 
@@ -1837,31 +1437,13 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Check if {@link CodePart part} is instance of {@link CodeType type}.
+     * Check if {@link CodePart part} is instance of {@link Type type}.
      *
      * @param part Part.
      * @param type Type.
      * @return The verification part.
      */
-    public static InstanceOfCheck isInstanceOf(CodePart part, CodeType type) {
-        return isInstanceOf__Factory(part, type);
-    }
-
-    // Class
-
-    /**
-     * Check if {@link CodePart part} is instance of {@link Class type}.
-     *
-     * @param part Part.
-     * @param type Type.
-     * @return The verification part.
-     */
-    public static InstanceOfCheck isInstanceOf(CodePart part, Class<?> type) {
-        return isInstanceOf__Factory(part, toCodeType(type));
-    }
-
-    // Factory
-    private static InstanceOfCheck isInstanceOf__Factory(CodePart part, CodeType type) {
+    public static InstanceOfCheck isInstanceOf(CodePart part, Type type) {
         return new InstanceOfCheckImpl(part, type);
     }
 
@@ -1933,7 +1515,7 @@ public final class CodeAPI {
      * @param body      Body of the catch statement.
      * @return Catch statement.
      */
-    public static CatchStatement catchStatement(CodeType exception, VariableDeclaration variable, CodeSource body) {
+    public static CatchStatement catchStatement(Type exception, VariableDeclaration variable, CodeSource body) {
         return catchStatement__Factory(Collections.singletonList(exception), variable, body);
     }
 
@@ -1945,12 +1527,12 @@ public final class CodeAPI {
      * @param body       Body of the catch statement.
      * @return Catch statement.
      */
-    public static CatchStatement catchStatement(List<CodeType> exceptions, VariableDeclaration variable, CodeSource body) {
+    public static CatchStatement catchStatement(List<Type> exceptions, VariableDeclaration variable, CodeSource body) {
         return catchStatement__Factory(exceptions, variable, body);
     }
 
     // Factory
-    private static CatchStatement catchStatement__Factory(List<CodeType> exceptionTypes, VariableDeclaration exceptionVariable, CodeSource body) {
+    private static CatchStatement catchStatement__Factory(List<Type> exceptionTypes, VariableDeclaration exceptionVariable, CodeSource body) {
         return new CatchStatementImpl(exceptionTypes, body, exceptionVariable);
     }
 
@@ -2164,25 +1746,7 @@ public final class CodeAPI {
      * @param parameterTypes Parameter types of the method.
      * @return Specification of a method.
      */
-    public static MethodTypeSpec methodTypeSpec(CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
-        return methodTypeSpec__factory(location, returnType, methodName, parameterTypes);
-    }
-
-    /**
-     * Specification of a method.
-     *
-     * @param location       Localization of method.
-     * @param returnType     Return type of the method.
-     * @param methodName     Name of the method.
-     * @param parameterTypes Parameter types of the method.
-     * @return Specification of a method.
-     */
-    public static MethodTypeSpec methodTypeSpec(Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterTypes) {
-        return methodTypeSpec__factory(toCodeType(location), toCodeType(returnType), methodName, toCodeType(parameterTypes));
-    }
-
-    // Factory
-    private static MethodTypeSpec methodTypeSpec__factory(CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+    public static MethodTypeSpec methodTypeSpec(Type location, Type returnType, String methodName, Type... parameterTypes) {
         return new MethodTypeSpec(location, methodName, new TypeSpec(returnType, ArrayToList.toList(parameterTypes)));
     }
 
@@ -2200,26 +1764,7 @@ public final class CodeAPI {
      * @param parameterTypes Parameter types of the method.
      * @return Specification of a method.
      */
-    public static MethodInvokeSpec methodInvokeSpec(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
-        return methodInvokeSpec__factory(invokeType, location, returnType, methodName, parameterTypes);
-    }
-
-    /**
-     * Specification of a method to invoke.
-     *
-     * @param invokeType     Invocation type.
-     * @param location       Localization of method.
-     * @param returnType     Return type of the method.
-     * @param methodName     Name of the method.
-     * @param parameterTypes Parameter types of the method.
-     * @return Specification of a method.
-     */
-    public static MethodInvokeSpec methodInvokeSpec(InvokeType invokeType, Class<?> location, Class<?> returnType, String methodName, Class<?>... parameterTypes) {
-        return methodInvokeSpec__factory(invokeType, toCodeType(location), toCodeType(returnType), methodName, toCodeType(parameterTypes));
-    }
-
-    // Factory
-    private static MethodInvokeSpec methodInvokeSpec__factory(InvokeType invokeType, CodeType location, CodeType returnType, String methodName, CodeType... parameterTypes) {
+     public static MethodInvokeSpec methodInvokeSpec(InvokeType invokeType, Type location, Type returnType, String methodName, Type... parameterTypes) {
         return new MethodInvokeSpec(invokeType, new MethodTypeSpec(location, methodName, new TypeSpec(returnType, ArrayToList.toList(parameterTypes))));
     }
 
@@ -2238,7 +1783,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, scope, returnType, parameters, arguments, body);
     }
 
@@ -2252,7 +1797,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.STATIC, returnType, parameters, arguments, body);
     }
 
@@ -2266,58 +1811,12 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.INSTANCE, returnType, parameters, arguments, body);
     }
 
-
-    // Class
-
-    /**
-     * Create a method fragment.
-     *
-     * @param typeDeclaration Class to insert method.
-     * @param scope           Scope of fragment.
-     * @param returnType      Return type of method.
-     * @param parameters      Parameters of the method.
-     * @param arguments       Arguments to pass to method.
-     * @param body            Body of method.
-     * @return Method fragment.
-     */
-    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, Class<?> returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
-        return fragment__factory(typeDeclaration, scope, toCodeType(returnType), parameters, arguments, body);
-    }
-
-    /**
-     * Create a static method fragment.
-     *
-     * @param typeDeclaration Class to insert method.
-     * @param returnType      Return type of method.
-     * @param parameters      Parameters of the method.
-     * @param arguments       Arguments to pass to method.
-     * @param body            Body of method.
-     * @return Method fragment.
-     */
-    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
-        return fragment__factory(typeDeclaration, Scope.STATIC, toCodeType(returnType), parameters, arguments, body);
-    }
-
-    /**
-     * Create a instance method fragment.
-     *
-     * @param typeDeclaration Class to insert method.
-     * @param returnType      Return type of method.
-     * @param parameters      Parameters of the method.
-     * @param arguments       Arguments to pass to method.
-     * @param body            Body of method.
-     * @return Method fragment.
-     */
-    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, Class<?> returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
-        return fragment__factory(typeDeclaration, Scope.INSTANCE, toCodeType(returnType), parameters, arguments, body);
-    }
-
     // Factory
-    private static MethodFragment fragment__factory(TypeDeclaration typeDeclaration, Scope scope, CodeType returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    private static MethodFragment fragment__factory(TypeDeclaration typeDeclaration, Scope scope, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
 
         List<CodeParameter> parameterList = ArrayToList.toList(parameters);
 
@@ -2374,23 +1873,23 @@ public final class CodeAPI {
     // =========================================================
 
     public static MethodDeclaration bridgeMethod(TypeDeclaration owner, MethodDeclaration current, MethodTypeSpec methodSpec) {
-        List<CodeType> parameterTypes = methodSpec.getTypeSpec().getParameterTypes();
+        List<Type> parameterTypes = methodSpec.getTypeSpec().getParameterTypes();
         List<CodeParameter> currentParameters = current.getParameters();
 
         if (parameterTypes.size() > currentParameters.size())
             throw new IllegalArgumentException("Specified target method has more parameters than current method!");
 
-        CodeType currentReturnType = current.getReturnType();
+        Type currentReturnType = current.getReturnType();
 
-        boolean return_ = !currentReturnType.is(Types.VOID);
+        boolean return_ = !Identity.is(currentReturnType, Types.VOID);
 
         List<CodeParameter> codeParameters = new ArrayList<>();
         List<CodePart> codeArguments = new ArrayList<>();
 
         for (int i = 0; i < currentParameters.size(); i++) {
             CodeParameter currentParameter = currentParameters.get(i);
-            CodeType currentType = currentParameter.getType();
-            CodeType targetType = parameterTypes.get(i);
+            Type currentType = currentParameter.getType();
+            Type targetType = parameterTypes.get(i);
 
             codeParameters.add(new CodeParameter(targetType, currentParameter.getName()));
 
@@ -2410,7 +1909,7 @@ public final class CodeAPI {
                 codeArguments);
 
         if (return_) {
-            CodeType returnType = methodSpec.getTypeSpec().getReturnType();
+            Type returnType = methodSpec.getTypeSpec().getReturnType();
 
             toAdd = CodeAPI.returnValue(returnType, CodeAPI.cast(currentReturnType, returnType, toAdd));
         }
@@ -2424,7 +1923,8 @@ public final class CodeAPI {
                 CodeAPI.sourceOfParts(toAdd),
                 currentReturnType,
                 codeModifiers,
-                GenericSignature.empty());
+                GenericSignature.empty(),
+                Comments.Absent.INSTANCE);
     }
 
     // =========================================================
@@ -2483,7 +1983,7 @@ public final class CodeAPI {
      * @param localization Localization of outer class.
      * @return Access enclosing class of current {@link TypeDeclaration}.
      */
-    public static Access accessOuter(CodeType localization) {
+    public static Access accessOuter(Type localization) {
         return Common.accessOuter(localization);
     }
 
@@ -2764,7 +2264,7 @@ public final class CodeAPI {
          * @param invokeType     Invocation Type.
          * @param methodTypeSpec Bootstrap method.
          * @param args           BSM Arguments, must be an {@link String}, {@link Integer}, {@link
-         *                       Long}, {@link Float}, {@link Double}, {@link CodeType}, or {@link
+         *                       Long}, {@link Float}, {@link Double}, {@link Type}, or {@link
          *                       MethodInvokeSpec}.
          * @return Bootstrap specification.
          */

@@ -27,18 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.WhileStatementBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * While statement
  */
+@Concrete
 interface WhileStatement : IfExpressionHolder, BodyHolder {
     /**
      * Type of the while block
      */
     val type: Type
 
-    override fun builder(): Builder<WhileStatement, *> = WhileStatementBuilder(this)
+    override fun builder(): Builder<WhileStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     enum class Type {
         /**
@@ -60,5 +63,11 @@ interface WhileStatement : IfExpressionHolder, BodyHolder {
          * See [T.type]
          */
         fun withType(value: Type): S
+
+        companion object {
+            fun builder(): Builder<WhileStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: WhileStatement): Builder<WhileStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

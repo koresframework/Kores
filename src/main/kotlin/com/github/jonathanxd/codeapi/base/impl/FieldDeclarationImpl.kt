@@ -32,6 +32,6 @@ import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class FieldDeclarationImpl(override val annotations: List<Annotation>, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val name: String, override val type: CodeType, override val comments: Comments) : FieldDeclaration
+data class FieldDeclarationImpl(override val annotations: List<Annotation>, override val value: CodePart?, override val modifiers: Set<CodeModifier>, override val name: String, override val type: Type, override val comments: Comments) : FieldDeclaration

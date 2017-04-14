@@ -27,17 +27,20 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.EnumEntryBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.TypeSpec
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Enumeration entry
  */
+@Concrete
 interface EnumEntry : ArgumentHolder, Named, BodyHolder {
 
-    override val types: List<CodeType>
+    override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
 
     override val array: Boolean
@@ -53,7 +56,7 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
      */
     override val arguments: List<CodePart>
 
-    override fun builder(): Builder<EnumEntry, *> = EnumEntryBuilder(this)
+    override fun builder(): Builder<EnumEntry, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : EnumEntry, S : Builder<T, S>> :
             ArgumentHolder.Builder<T, S>,
@@ -67,5 +70,11 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
          * See [T.constructorSpec]
          */
         fun withConstructorSpec(value: TypeSpec?): S
+
+        companion object {
+            fun builder(): Builder<EnumEntry, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: EnumEntry): Builder<EnumEntry, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

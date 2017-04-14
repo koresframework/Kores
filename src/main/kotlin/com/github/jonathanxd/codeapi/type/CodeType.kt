@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.type
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
+import java.lang.reflect.Type
 
 /**
  * A type representation, like:
@@ -47,7 +48,7 @@ import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
  *
  * The implementation MUST implement [hashCode] and [equals].
  */
-interface CodeType : CodePart, Comparable<CodeType> {
+interface CodeType : CodePart, Comparable<CodeType>, Type {
 
     /**
      * Type name, examples:
@@ -104,6 +105,26 @@ interface CodeType : CodePart, Comparable<CodeType> {
      */
     val javaSpecName: String
         get() = codeTypeToTypeDesc(this)
+
+    /**
+     * Binary name of the class.
+     *
+     * [String] = `java.lang.String`
+     * [Int] = `int`
+     * `String[]` = `[Ljava.lang.String;`
+     *
+     */
+    val binaryName: String
+        get() = if (!this.isArray) this.type else {
+            val sb = StringBuilder()
+
+            val arrayDimension = this.arrayDimension
+
+            for (x in 0..arrayDimension - 1)
+                sb.append('[')
+
+            sb.toString() + "L${this.type};"
+        }
 
     /**
      * True if this [CodeType] is a primitive type.
@@ -196,6 +217,14 @@ interface CodeType : CodePart, Comparable<CodeType> {
         get() = this.javaSpecName
 
     /**
+     * Default resolver.
+     *
+     * This resolver always returns `this` instance for [CodeTypeResolver.resolve] method.
+     */
+    val defaultResolver: CodeTypeResolver<*>
+        get() = CodeTypeResolver.DefaultResolver
+
+    /**
      * Convert this [CodeType] to a [CodeTypeArray].
      *
      * @param dimensions Dimension of the array.
@@ -225,5 +254,8 @@ interface CodeType : CodePart, Comparable<CodeType> {
 
     override fun hashCode(): Int
     override fun equals(other: Any?): Boolean
+
+    override fun getTypeName(): String =
+            this.toString()
 
 }

@@ -32,7 +32,11 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.type.CodeType
 
-
+/**
+ * Aliases, only use alias in supported contexts.
+ *
+ * Example of supported contexts: Method Invocation Target, Field Access Target.
+ */
 sealed class Alias {
     /**
      * Current class localization.

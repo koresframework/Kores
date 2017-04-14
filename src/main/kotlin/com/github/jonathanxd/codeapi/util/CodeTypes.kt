@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import java.lang.reflect.*
 import kotlin.reflect.KClass
 
@@ -57,6 +58,11 @@ val Array<out Type>.codeTypes: Array<CodeType>
 
 val CodeType.descName: String
     get() = "L${this.canonicalName};"
+
+/**
+ * Store cached [Type] instances.
+ */
+private val cache = WeakValueHashMap<Type, CodeType>()
 
 val Type.codeType: CodeType get() = this.getType(false)
 
@@ -85,7 +91,14 @@ fun Class<*>.getCodeTypeFromTypeParameters(): CodeType {
     return generic
 }
 
-private fun Type.getType(isParameterized: Boolean = false): CodeType {
+fun Type.getType(isParameterized: Boolean = false): CodeType {
+
+    if(this is CodeType)
+        return this
+
+    if(cache.containsKey(this))
+        return cache[this]!!
+
     return when (this) {
         is ParameterizedType -> Generic.type(this.rawType.getType(false)).of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is GenericArrayType -> Generic.type(this.genericComponentType.getType(false))
@@ -121,6 +134,9 @@ private fun Type.getType(isParameterized: Boolean = false): CodeType {
             it
         }
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
+    }.let {
+        cache[this] = it
+        it
     }
 }
 

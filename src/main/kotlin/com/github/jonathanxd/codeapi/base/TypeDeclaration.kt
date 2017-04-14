@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Base class of all [TypeDeclaration]s like classes, interfaces and enums, and inner classes.
@@ -42,7 +43,7 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
     /**
      * Outer class (null if this type is not a inner class).
      */
-    val outerClass: CodeType?
+    val outerClass: Type?
 
     /**
      * The specified name (for inner classes this property is set to simple name of inner class)
@@ -74,6 +75,6 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
         override fun withQualifiedName(value: String): S
 
         @PropertyInfo(isNullable = true)
-        fun withOuterClass(value: CodeType?): S
+        fun withOuterClass(value: Type?): S
     }
 }

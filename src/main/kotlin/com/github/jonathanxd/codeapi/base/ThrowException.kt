@@ -27,12 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ThrowExceptionBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Throw an exception
  */
+@Concrete
 interface ThrowException : CodePart {
 
     /**
@@ -40,7 +43,7 @@ interface ThrowException : CodePart {
      */
     val partToThrow: CodePart
 
-    override fun builder(): Builder<ThrowException, *> = ThrowExceptionBuilder(this)
+    override fun builder(): Builder<ThrowException, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ThrowException, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
@@ -48,6 +51,11 @@ interface ThrowException : CodePart {
          * See [T.partToThrow]
          */
         fun withPartToThrow(value: CodePart): S
+
+        companion object {
+            fun builder(): Builder<ThrowException, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ThrowException): Builder<ThrowException, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 }

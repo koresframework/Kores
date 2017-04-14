@@ -32,6 +32,7 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
+import java.lang.reflect.Type
 import java.util.*
 
 /**
@@ -214,3 +215,5 @@ fun <T> LoadedCodeType<T>.eq(obj: Any?) =
                 this.loadedType == obj.loadedType
             else
                 (this as CodeType).eq(obj)
+
+fun Type.`is`(another: Type) = this.codeType.`is`(another.codeType)

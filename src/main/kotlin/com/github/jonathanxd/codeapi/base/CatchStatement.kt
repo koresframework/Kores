@@ -27,49 +27,58 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.builder.CatchStatementBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Catch block
  */
+@Concrete
 interface CatchStatement : BodyHolder, Typed {
     /**
      * Exception types to handle
      */
-    val exceptionTypes: List<CodeType>
+    val exceptionTypes: List<Type>
 
     /**
      * Variable to store exception
      */
     val variable: VariableDeclaration
 
-    override val type: CodeType
+    override val type: Type
         get() = this.variable.type
 
 
-    override fun builder(): Builder<CatchStatement, *> = CatchStatementBuilder(this)
+    override fun builder(): Builder<CatchStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : CatchStatement, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType): S = this as S
+        override fun withType(value: Type): S = this as S
 
         /**
          * See [T.exceptionTypes]
          */
-        fun withExceptionTypes(value: List<CodeType>): S
+        fun withExceptionTypes(value: List<Type>): S
 
         /**
          * See [T.variable]
          */
-        fun withExceptionTypes(vararg values: CodeType): S
+        fun withExceptionTypes(vararg values: Type): S
 
         /**
          * See [T.variable]
          */
         fun withVariable(value: VariableDeclaration): S
+
+        companion object {
+            fun builder(): Builder<CatchStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: CatchStatement): Builder<CatchStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

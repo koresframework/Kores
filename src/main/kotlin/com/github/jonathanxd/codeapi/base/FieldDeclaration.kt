@@ -30,26 +30,28 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
-import com.github.jonathanxd.codeapi.builder.FieldDeclarationBuilder
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
+import java.lang.reflect.Type
 
 /**
  * Field declaration
  */
+@Concrete
 interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable, CommentHolder {
 
-    override val localization: CodeType
+    override val localization: Type
         get() = Alias.THIS
 
     override val target: CodePart
         get() = if (this.modifiers.contains(CodeModifier.STATIC)) CodeAPI.accessStatic() else CodeAPI.accessThis()
 
 
-    override fun builder(): Builder<FieldDeclaration, *> = FieldDeclarationBuilder(this)
+    override fun builder(): Builder<FieldDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : FieldDeclaration, S : Builder<T, S>> :
             FieldBase.Builder<T, S>,
@@ -60,8 +62,14 @@ interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, 
             Annotable.Builder<T, S>,
             CommentHolder.Builder<T, S> {
 
-        override fun withLocalization(value: CodeType): S = self()
+        override fun withLocalization(value: Type): S = self()
         override fun withTarget(value: CodePart): S = self()
+
+        companion object {
+            fun builder(): Builder<FieldDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: FieldDeclaration): Builder<FieldDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
 
     }
 }

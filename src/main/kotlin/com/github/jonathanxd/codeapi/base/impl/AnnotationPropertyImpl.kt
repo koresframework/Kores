@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.AnnotationProperty
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class AnnotationPropertyImpl(override val type: CodeType, override val name: String, override val annotations: List<Annotation>, override val value: Any?) : AnnotationProperty
+data class AnnotationPropertyImpl(override val type: Type, override val name: String, override val annotations: List<Annotation>, override val value: Any?) : AnnotationProperty

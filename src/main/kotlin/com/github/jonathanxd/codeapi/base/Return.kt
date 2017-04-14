@@ -27,20 +27,30 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ReturnBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Return value
  */
+@Concrete
 interface Return : ValueHolder, Typed {
-    override val type: CodeType
+    override val type: Type
     override val value: CodePart
 
-    override fun builder(): Builder<Return, *> = ReturnBuilder(this)
+    override fun builder(): Builder<Return, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Return, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
-            Typed.Builder<T, S>
+            Typed.Builder<T, S> {
+
+        companion object {
+            fun builder(): Builder<Return, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Return): Builder<Return, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 }

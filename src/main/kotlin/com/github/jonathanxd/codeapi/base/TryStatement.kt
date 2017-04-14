@@ -27,18 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.builder.TryStatementBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.util.self
+import java.lang.reflect.Type
 
 /**
  * Try-catch-finally statement
  */
+@Concrete
 interface TryStatement : BodyHolder, Typed {
 
-    override val type: CodeType
+    override val type: Type
         get() {
             if (catchStatements.isEmpty() || catchStatements.size > 1)
                 return Types.THROWABLE
@@ -56,13 +59,13 @@ interface TryStatement : BodyHolder, Typed {
      */
     val finallyStatement: CodeSource
 
-    override fun builder(): Builder<TryStatement, *> = TryStatementBuilder(this)
+    override fun builder(): Builder<TryStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : TryStatement, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType): S = self()
+        override fun withType(value: Type): S = self()
 
         /**
          * See [T.catchStatements]
@@ -78,6 +81,11 @@ interface TryStatement : BodyHolder, Typed {
          * See [T.finallyStatement]
          */
         fun withFinallyStatement(value: CodeSource): S
+
+        companion object {
+            fun builder(): Builder<TryStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: TryStatement): Builder<TryStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 

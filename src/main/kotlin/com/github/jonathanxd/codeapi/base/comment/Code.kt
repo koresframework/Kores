@@ -27,8 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.CodeBuilder
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Code comment
@@ -40,7 +41,7 @@ interface Code : Comment {
      */
     val code: CodeNode
 
-    override fun builder(): Builder<Code, *> = CodeBuilder()
+    override fun builder(): Builder<Code, *> = CodeAPI.getBuilderProvider()(this)
 
     /**
      * Node of the code.

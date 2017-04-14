@@ -27,10 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.builder.ArrayLengthBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Access Array length.
@@ -42,17 +43,22 @@ interface ArrayLength : ArrayAccess, Typed {
      */
     override val target: CodePart
 
-    override val type: CodeType
+    override val type: Type
         get() = Types.INT
 
-    override fun builder(): Builder<ArrayLength, *> = ArrayLengthBuilder(this)
+    override fun builder(): Builder<ArrayLength, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ArrayLength, S : Builder<T, S>> :
             ArrayAccess.Builder<T, S>,
             Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: CodeType): S = this as S
+        override fun withType(value: Type): S = this as S
+
+        companion object {
+            fun builder(): Builder<ArrayLength, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ArrayLength): Builder<ArrayLength, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 }

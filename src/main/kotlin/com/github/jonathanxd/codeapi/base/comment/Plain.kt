@@ -27,7 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.builder.PlainBuilder
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Plain comment (like texts)
@@ -39,7 +40,7 @@ interface Plain : Comment {
      */
     val text: String
 
-    override fun builder(): Builder<Plain, *> = PlainBuilder()
+    override fun builder(): Builder<Plain, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Plain, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 

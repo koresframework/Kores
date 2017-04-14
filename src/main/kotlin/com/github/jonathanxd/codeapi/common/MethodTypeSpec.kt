@@ -29,9 +29,11 @@ package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.reflect.Type
 
-data class MethodTypeSpec(val localization: CodeType, val methodName: String, val typeSpec: TypeSpec) : Typed, Comparable<MethodTypeSpec> {
-    override val type: CodeType
+data class MethodTypeSpec(val localization: Type, val methodName: String, val typeSpec: TypeSpec) : Typed, Comparable<MethodTypeSpec> {
+    override val type: Type
         get() = this.typeSpec.type
 
     override fun builder(): Builder = Builder(this)
@@ -40,7 +42,7 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
      * Human readable method specification string.
      */
     fun toMethodString() =
-            "${localization.canonicalName}.$methodName${typeSpec.toTypeString()}"
+            "${localization.codeType.canonicalName}.$methodName${typeSpec.toTypeString()}"
 
     /**
      * This method will not compare the method localization.
@@ -51,7 +53,7 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
 
 
     class Builder() : Typed.Builder<MethodTypeSpec, Builder> {
-        lateinit var localization: CodeType
+        lateinit var localization: Type
         lateinit var methodName: String
         lateinit var typeSpec: TypeSpec
 
@@ -61,7 +63,7 @@ data class MethodTypeSpec(val localization: CodeType, val methodName: String, va
             this.typeSpec = defaults.typeSpec
         }
 
-        override fun withType(value: CodeType): Builder {
+        override fun withType(value: Type): Builder {
             this.typeSpec = this.typeSpec.copy(returnType = value)
             return this
         }

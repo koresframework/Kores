@@ -35,22 +35,22 @@ import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
-import com.github.jonathanxd.codeapi.util.resolveInternalQualified
-import com.github.jonathanxd.codeapi.util.resolveRealQualified
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
 import com.github.jonathanxd.iutils.string.ToStringHelper
+import java.lang.reflect.Type
 
-class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: CodeType?, override val comments: Comments) : AnnotationDeclaration {
+class AnnotationDeclarationImpl(qualifiedName: String, override val properties: List<AnnotationProperty>, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: Type?, override val comments: Comments) : AnnotationDeclaration {
 
     override val specifiedName: String = qualifiedName
 
     override val qualifiedName: String = qualifiedName
-        get() = resolveRealQualified(field, this.outerClass)
+        get() = resolveQualifiedName(field, this.outerClass)
 
     override val type: String = qualifiedName
-        get() = resolveInternalQualified(field, this.outerClass)
+        get() = resolveTypeName(field, this.outerClass)
 
     init {
         BodyHolder.checkBody(this)

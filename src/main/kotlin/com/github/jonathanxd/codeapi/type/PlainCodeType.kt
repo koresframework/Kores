@@ -35,9 +35,18 @@ import com.github.jonathanxd.codeapi.util.hash
  * Plain string code type.
  */
 @GenerateTo(CodeType::class)
-open class PlainCodeType @JvmOverloads constructor(override val type: String, override val isInterface: Boolean = false) : CodeType {
+open class PlainCodeType @JvmOverloads constructor(override val type: String,
+                                                   override val isInterface: Boolean = false,
+                                                   val superclass_: () -> CodeType? = { throw IllegalStateException("No super class provider") },
+                                                   val superinterfaces_: () -> List<CodeType> = throw IllegalStateException("No super interfaces provider")) : CodeType, InheritanceProvider {
 
     override val canonicalName: String get() = this.type
+
+    override val superclass: CodeType?
+        get() = superclass_()
+
+    override val superinterfaces: List<CodeType>
+        get() = superinterfaces_()
 
     override fun equals(other: Any?): Boolean {
         return this.eq(other)

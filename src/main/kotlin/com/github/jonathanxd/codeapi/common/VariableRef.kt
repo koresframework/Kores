@@ -28,19 +28,19 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.VariableBase
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Reference to a Variable, this class must never appear in CodeSource.
  */
-data class VariableRef(override val variableType: CodeType, override val name: String) : VariableBase {
+data class VariableRef(override val variableType: Type, override val name: String) : VariableBase {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() : VariableBase.Builder<VariableRef, Builder> {
 
         lateinit var name: String
-        lateinit var type: CodeType
+        lateinit var type: Type
 
         constructor(defaults: VariableRef) : this() {
             this.name = defaults.name
@@ -52,7 +52,7 @@ data class VariableRef(override val variableType: CodeType, override val name: S
             return this
         }
 
-        override fun withVariableType(value: CodeType): Builder {
+        override fun withVariableType(value: Type): Builder {
             this.type = type
             return this
         }

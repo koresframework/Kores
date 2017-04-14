@@ -44,7 +44,7 @@ public class CodePartUtil {
         } else if (codePart instanceof Typed) {
             Typed typed = (Typed) codePart;
 
-            type = typed.getType();
+            type = CodeTypes.getCodeType(typed.getType());
         } else {
             return null;
         }

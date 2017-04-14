@@ -29,6 +29,6 @@ package com.github.jonathanxd.codeapi.base.impl
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Return
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
-data class ReturnImpl(override val type: CodeType, override val value: CodePart) : Return
+data class ReturnImpl(override val type: Type, override val value: CodePart) : Return

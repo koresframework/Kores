@@ -30,20 +30,21 @@ package com.github.jonathanxd.codeapi.common
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Void instance for void returns
  */
 object Void : Typed {
 
-    override val type: CodeType
+    override val type: Type
         get() = Types.VOID
 
     override fun builder(): Builder = Builder
 
     object Builder : Typed.Builder<Void, Builder> {
 
-        override fun withType(value: CodeType): Builder {
+        override fun withType(value: Type): Builder {
             return this
         }
 

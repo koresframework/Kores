@@ -34,12 +34,13 @@ import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.base.impl.CastImpl
 import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl
 import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
-import com.github.jonathanxd.codeapi.builder.CaseBuilder
-import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.EnumTypeUtil
+import com.github.jonathanxd.codeapi.util.`is`
+import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.reflect.Type
 
 object SwitchTypes {
 
@@ -68,20 +69,20 @@ object SwitchTypes {
 
     private object NumericSwitchGenerator : SwitchType.SwitchGenerator() {
 
-        private fun autoUnboxing(part: Typed, type: CodeType): Typed {
-            if (!type.isPrimitive) {
+        private fun autoUnboxing(part: Typed, type: Type): Typed {
+            if (!type.codeType.isPrimitive) {
                 return CastImpl(type, Types.INT, part)
             }
 
             return part
         }
 
-        private fun isAcceptable(type: CodeType?): Boolean {
+        private fun isAcceptable(type: Type?): Boolean {
             return type != null && (type.`is`(Types.CHAR)
                     || type.`is`(Types.BYTE)
                     || type.`is`(Types.SHORT)
                     || type.`is`(Types.INT)
-                    || !type.isPrimitive && isAcceptable(type.primitiveType))
+                    || !type.codeType.isPrimitive && isAcceptable(type.codeType.primitiveType))
         }
 
         override fun generate(t: SwitchStatement, processor: PartProcessor): SwitchStatement {
@@ -89,7 +90,7 @@ object SwitchTypes {
             val type = t.value.type
 
             if (isAcceptable(type)) {
-                return SwitchStatementBuilder(t).withValue(autoUnboxing(part, type)).build()
+                return t.builder().withValue(autoUnboxing(part, type)).build()
             }
 
 
@@ -111,12 +112,12 @@ object SwitchTypes {
             if (aCase.type.`is`(Types.INT))
                 return aCase
 
-            return CaseBuilder(aCase).withValue(Literals.INT(EnumTypeUtil.resolve(aCase.value, aSwitch))).build()
+            return aCase.builder().withValue(Literals.INT(EnumTypeUtil.resolve(aCase.value, aSwitch))).build()
         }
 
 
         private fun translate(aSwitch: SwitchStatement): SwitchStatement {
-            return SwitchStatementBuilder(aSwitch).withValue(
+            return aSwitch.builder().withValue(
                     MethodInvocationImpl(
                             localization = Types.OBJECT,
                             invokeType = InvokeType.INVOKE_VIRTUAL,
@@ -144,11 +145,11 @@ object SwitchTypes {
             if (aCase.isDefault)
                 return aCase
 
-            return CaseBuilder(aCase).withValue(Literals.INT(EnumTypeUtil.resolve(aCase.value!!, aSwitch))).build()
+            return aCase.builder().withValue(Literals.INT(EnumTypeUtil.resolve(aCase.value!!, aSwitch))).build()
         }
 
         private fun translate(aSwitch: SwitchStatement): SwitchStatement {
-            return SwitchStatementBuilder(aSwitch)
+            return aSwitch.builder()
                     .withValue(
                             MethodInvocationImpl(
                                     localization = Types.ENUM,

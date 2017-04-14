@@ -27,11 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.SwitchStatementBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.SwitchType
-import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
+import java.lang.reflect.Type
 
 /**
  * Switch statement, this switch can switch numeric values and object values (like Enum, String or other
@@ -64,6 +66,7 @@ import com.github.jonathanxd.codeapi.util.self
  * and [Any.equals] methods.
  *
  */
+@Concrete
 interface SwitchStatement : ValueHolder, Typed {
 
     /**
@@ -81,17 +84,17 @@ interface SwitchStatement : ValueHolder, Typed {
      */
     val cases: List<Case>
 
-    override val type: CodeType
+    override val type: Type
         get() = this.value.type
 
-    override fun builder(): Builder<SwitchStatement, *> = SwitchStatementBuilder(this)
+    override fun builder(): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : SwitchStatement, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S> {
-        override fun withType(value: CodeType): S = self()
+        override fun withType(value: Type): S = self()
 
-        override fun withValue(value: CodePart?): S
+        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
 
         /**
          * See [T.value]
@@ -112,6 +115,11 @@ interface SwitchStatement : ValueHolder, Typed {
          * See [T.cases]
          */
         fun withCases(vararg values: Case): S
+
+        companion object {
+            fun builder(): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: SwitchStatement): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
 
     }
 

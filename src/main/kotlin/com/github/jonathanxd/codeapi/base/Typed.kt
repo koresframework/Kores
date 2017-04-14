@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * A element that can have a type.
@@ -38,7 +38,7 @@ interface Typed : CodePart {
     /**
      * Element type
      */
-    val type: CodeType
+    val type: Type
 
     override fun builder(): Builder<Typed, *>
 
@@ -47,6 +47,6 @@ interface Typed : CodePart {
         /**
          * See [T.type]
          */
-        fun withType(value: CodeType): S
+        fun withType(value: Type): S
     }
 }

@@ -27,53 +27,62 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.CastBuilder
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
  * Part casting
  */
+@Concrete
 interface Cast : Typed {
 
     /**
      * Original type
      */
-    val originalType: CodeType?
+    val originalType: Type?
 
     /**
      * Target type
      */
-    val targetType: CodeType
+    val targetType: Type
 
     /**
      * Part to cast
      */
     val castedPart: CodePart
 
-    override val type: CodeType
+    override val type: Type
         get() = this.targetType
 
-    override fun builder(): Builder<Cast, *> = CastBuilder(this)
+    override fun builder(): Builder<Cast, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : Cast, S : Builder<T, S>> : Typed.Builder<T, S> {
 
-        override fun withType(value: CodeType): S = this.withTargetType(value)
+        override fun withType(value: Type): S = this.withTargetType(value)
 
         /**
          * See [T.originalType]
          */
-        fun withOriginalType(value: CodeType?): S
+        fun withOriginalType(value: Type?): S
 
         /**
          * See [T.targetType]
          */
-        fun withTargetType(value: CodeType): S
+        fun withTargetType(value: Type): S
 
         /**
          * See [T.castedPart]
          */
         fun withCastedPart(value: CodePart): S
+
+        companion object {
+            fun builder(): Builder<Cast, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Cast): Builder<Cast, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
 }

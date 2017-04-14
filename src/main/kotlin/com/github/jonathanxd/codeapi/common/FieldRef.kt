@@ -30,19 +30,20 @@ package com.github.jonathanxd.codeapi.common
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.FieldBase
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
  * Field reference, this class must never appear in CodeSource.
  */
-data class FieldRef(override val localization: CodeType, override val target: CodePart, override val type: CodeType, override val name: String) : FieldBase {
+data class FieldRef(override val localization: Type, override val target: CodePart, override val type: Type, override val name: String) : FieldBase {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() : FieldBase.Builder<FieldRef, Builder> {
 
         lateinit var name: String
-        lateinit var type: CodeType
-        lateinit var localization: CodeType
+        lateinit var type: Type
+        lateinit var localization: Type
         lateinit var target: CodePart
 
         constructor(defaults: FieldRef) : this() {
@@ -57,12 +58,12 @@ data class FieldRef(override val localization: CodeType, override val target: Co
             return this
         }
 
-        override fun withType(value: CodeType): Builder {
+        override fun withType(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withLocalization(value: CodeType): Builder {
+        override fun withLocalization(value: Type): Builder {
             this.localization = value
             return this
         }

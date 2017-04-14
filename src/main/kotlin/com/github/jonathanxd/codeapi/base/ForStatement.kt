@@ -27,14 +27,17 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.ForStatementBuilder
+import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * For block statement
  *
  * for(forInit; forExpression; forUpdate)
  */
+@Concrete
 interface ForStatement : IfExpressionHolder, BodyHolder {
 
     override val expressions: List<CodePart>
@@ -55,7 +58,7 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
      */
     val forUpdate: CodePart?
 
-    override fun builder(): Builder<ForStatement, *> = ForStatementBuilder(this)
+    override fun builder(): Builder<ForStatement, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ForStatement, S : Builder<T, S>> :
             IfExpressionHolder.Builder<T, S>,
@@ -83,6 +86,12 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
          * See [T.forUpdate]
          */
         fun withForUpdate(value: CodePart?): S
+
+        companion object {
+            fun builder(): Builder<ForStatement, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ForStatement): Builder<ForStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
 }
