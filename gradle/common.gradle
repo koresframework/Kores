@@ -71,12 +71,6 @@ task testJar(type: Jar, dependsOn: testClasses) {
     from sourceSets.test.output
 }
 
-task copyGenerated(type: Copy, dependsOn: kapt) {
-    from 'build/generated/source/kapt/main'
-    into 'src/generated/java'
-    include "*.*"
-}
-
 configurations {
     tests
 }
