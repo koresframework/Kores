@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
@@ -85,7 +86,21 @@ private fun GenericType.Bound.nonStrictEq(other: GenericType.Bound): Boolean {
     val otherType = other.type
 
     val comparator = { it: CodeType, other: CodeType ->
-        it is GenericType && it.isWildcard && it.bounds.isNotEmpty() && it.bounds.any { it.type.`is`(other) }
+        (it is GenericType
+                && it.isWildcard)
+
+                && (it.bounds.isEmpty()
+                && (
+                other is GenericType
+                        && other.bounds.size == 1
+                        && other.bounds.first().nonStrictEq(GenericType.GenericBound(Types.OBJECT))
+                        || other.`is`(Types.OBJECT)
+                )
+                || (
+                it.bounds.isNotEmpty()
+                        && it.bounds.any { it.type.`is`(other) }
+                ))
+
     }
 
     return comparator(thisType, otherType) || comparator(otherType, thisType) || thisType.`is`(other.type)
