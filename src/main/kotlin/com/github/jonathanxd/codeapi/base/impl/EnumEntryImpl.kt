@@ -27,12 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.EnumEntry
 import com.github.jonathanxd.codeapi.common.TypeSpec
 
+@GenBuilder
 data class EnumEntryImpl(override val constructorSpec: TypeSpec?, override val arguments: List<CodePart>, override val name: String, override val body: CodeSource) : EnumEntry {
     init {
         BodyHolder.checkBody(this)

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.MethodFragment
@@ -37,4 +38,5 @@ import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.Scope
 import java.lang.reflect.Type
 
+@GenBuilder
 data class MethodFragmentImpl(override val target: CodePart, override val localization: Type, override val declaration: MethodDeclaration, override val arguments: List<CodePart>, override val scope: Scope, override val declaringType: TypeDeclaration, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?) : MethodFragment

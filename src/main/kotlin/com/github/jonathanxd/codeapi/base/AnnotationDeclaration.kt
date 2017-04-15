@@ -27,7 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.Defaults
+import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder
+import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Annotation declaration

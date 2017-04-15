@@ -27,7 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Concat
 
+@GenBuilder
 data class ConcatImpl(override val concatenations: List<CodePart>) : Concat

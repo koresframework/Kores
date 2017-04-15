@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
+import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
@@ -92,9 +94,11 @@ interface SwitchStatement : ValueHolder, Typed {
     interface Builder<out T : SwitchStatement, S : Builder<T, S>> :
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S> {
+
         override fun withType(value: Type): S = self()
 
-        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
+        @DefaultImpl(MethodRef(value = Builder::class, name = ":withValue", parameterTypes = arrayOf(Typed::class)))
+        override fun withValue(value: CodePart?): S
 
         /**
          * See [T.value]
@@ -120,6 +124,7 @@ interface SwitchStatement : ValueHolder, Typed {
             fun builder(): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke()
             fun builder(defaults: SwitchStatement): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
         }
+
 
     }
 

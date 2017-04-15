@@ -27,7 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.EnumValue
 import java.lang.reflect.Type
 
+@GenBuilder
 data class EnumValueImpl(override val enumType: Type, override val enumEntry: String, override val ordinal: Int) : EnumValue

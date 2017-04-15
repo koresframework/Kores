@@ -58,7 +58,7 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
             Annotable.Builder<T, S>,
             ReturnTypeHolder.Builder<T, S> {
 
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "withReturnType"))
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "withReturnType", parameterTypes = arrayOf(Builder::class, Type::class), returnType = Builder::class))
         override fun withReturnType(value: Type): S = this.withType(value)
 
         /**
@@ -75,7 +75,7 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
         object Defaults {
 
             @JvmStatic
-            fun withReturnType(builder: Builder<AnnotationProperty, *>, value: CodeType): Builder<AnnotationProperty, *> =
+            fun withReturnType(builder: Builder<AnnotationProperty, *>, value: Type): Builder<AnnotationProperty, *> =
                     builder.withType(value)
 
         }

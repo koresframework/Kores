@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Return
 import java.lang.reflect.Type
 
+@GenBuilder
 data class ReturnImpl(override val type: Type, override val value: CodePart) : Return

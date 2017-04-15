@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.MethodSpecification
@@ -34,4 +35,5 @@ import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
 import java.lang.reflect.Type
 
+@GenBuilder
 data class MethodInvocationImpl(override val localization: Type, override val arguments: List<CodePart>, override val spec: MethodSpecification, override val invokeType: InvokeType, override val invokeDynamic: InvokeDynamic?, override val target: CodePart) : MethodInvocation

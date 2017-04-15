@@ -39,7 +39,6 @@ import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.lang.reflect.Type

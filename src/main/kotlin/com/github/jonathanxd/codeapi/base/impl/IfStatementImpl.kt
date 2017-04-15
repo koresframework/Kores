@@ -27,11 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.IfStatement
 
+@GenBuilder
 data class IfStatementImpl(override val expressions: List<CodePart>, override val body: CodeSource, override val elseStatement: CodeSource) : IfStatement {
     init {
         BodyHolder.checkBody(this)

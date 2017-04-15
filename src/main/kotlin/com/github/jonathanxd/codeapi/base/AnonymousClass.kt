@@ -80,11 +80,18 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
             ArgumentHolder.Builder<T, S> {
 
         @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
-        override fun withOuterClass(value: CodeType?): S = self()
-        override fun withModifiers(value: Set<CodeModifier>): S = self()
-        override fun withModifiers(vararg values: CodeModifier): S = self()
-        override fun withArray(value: Boolean): S = self()
         override fun withOuterClass(value: Type?): S = self()
+
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
+        override fun withModifiers(value: Set<CodeModifier>): S = self()
+
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
+        override fun withModifiers(vararg values: CodeModifier): S = self()
+
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
+        override fun withArray(value: Boolean): S = self()
+
+        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withGenericSignature(value: GenericSignature): S = self()
 
         /**

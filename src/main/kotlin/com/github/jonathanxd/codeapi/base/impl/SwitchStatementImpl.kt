@@ -27,9 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.Case
 import com.github.jonathanxd.codeapi.base.SwitchStatement
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.common.SwitchType
 
+@GenBuilder
 data class SwitchStatementImpl(override val value: Typed, override val switchType: SwitchType, override val cases: List<Case>) : SwitchStatement

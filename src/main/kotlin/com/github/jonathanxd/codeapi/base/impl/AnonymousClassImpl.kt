@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
+import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
@@ -41,6 +42,7 @@ import com.github.jonathanxd.codeapi.util.resolveTypeName
 import com.github.jonathanxd.iutils.string.ToStringHelper
 import java.lang.reflect.Type
 
+@GenBuilder
 class AnonymousClassImpl(qualifiedName: String, override val constructorSpec: TypeSpec, override val arguments: List<CodePart>, override val constructorBody: CodeSource, override val annotations: List<Annotation>, override val body: CodeSource, override val comments: Comments, override val superClass: Type, override val outerClass: Type?) : AnonymousClass {
 
     override val specifiedName: String = qualifiedName
