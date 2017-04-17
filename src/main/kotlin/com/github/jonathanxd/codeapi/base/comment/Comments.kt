@@ -85,10 +85,10 @@ interface Comments : CodePart {
         /**
          * See [T.comments]
          */
-        fun withComments(vararg values: Comment): S
+        fun withComments(vararg values: Comment): S = withComments(values.toList())
 
         /**
-         * See [T.target]
+         * See [T.type]
          */
         fun withType(value: Type): S
 

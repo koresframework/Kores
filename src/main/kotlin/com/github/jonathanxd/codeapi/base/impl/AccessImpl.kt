@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.Access
 import java.lang.reflect.Type
 
-@GenBuilder
 data class AccessImpl(override val type: Access.Type, override val localization: Type?) : Access

@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.util.hash
 open class PlainCodeType @JvmOverloads constructor(override val type: String,
                                                    override val isInterface: Boolean = false,
                                                    val superclass_: () -> CodeType? = { throw IllegalStateException("No super class provider") },
-                                                   val superinterfaces_: () -> List<CodeType> = throw IllegalStateException("No super interfaces provider")) : CodeType, InheritanceProvider {
+                                                   val superinterfaces_: () -> List<CodeType> = {throw IllegalStateException("No super interfaces provider")}) : CodeType, InheritanceProvider {
 
     override val canonicalName: String get() = this.type
 

@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -58,7 +59,7 @@ interface CatchStatement : BodyHolder, Typed {
             Typed.Builder<T, S> {
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): S = this as S
+        override fun withType(value: Type): S = self()
 
         /**
          * See [T.exceptionTypes]
@@ -68,7 +69,7 @@ interface CatchStatement : BodyHolder, Typed {
         /**
          * See [T.variable]
          */
-        fun withExceptionTypes(vararg values: Type): S
+        fun withExceptionTypes(vararg values: Type): S = withExceptionTypes(values.toList())
 
         /**
          * See [T.variable]

@@ -27,9 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.DefaultValues
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
-import com.github.jonathanxd.buildergenerator.annotation.PropertyInfo
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 
@@ -50,7 +47,6 @@ interface GenericSignatureHolder : CodePart {
         /**
          * See [T.genericSignature]
          */
-        @PropertyInfo(defaultValue = MethodRef(value = DefaultValues::class, name = "empty"))
-        fun withGenericSignature(value: GenericSignature): S
+        fun withGenericSignature(value: GenericSignature): S //default: empty
     }
 }

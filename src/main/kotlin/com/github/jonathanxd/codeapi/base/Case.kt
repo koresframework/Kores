@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.util.CodePartUtil
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 @Concrete
@@ -57,8 +58,7 @@ interface Case : ValueHolder, Typed, BodyHolder {
             Typed.Builder<T, S>,
             BodyHolder.Builder<T, S> {
 
-        @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): S = this as S
+        override fun withType(value: Type): S = self()
 
         companion object {
             fun builder(): Builder<Case, *> = CodeAPI.getBuilderProvider().invoke()

@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
@@ -97,8 +95,7 @@ interface SwitchStatement : ValueHolder, Typed {
 
         override fun withType(value: Type): S = self()
 
-        @DefaultImpl(MethodRef(value = Builder::class, name = ":withValue", parameterTypes = arrayOf(Typed::class)))
-        override fun withValue(value: CodePart?): S
+        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
 
         /**
          * See [T.value]
@@ -118,7 +115,7 @@ interface SwitchStatement : ValueHolder, Typed {
         /**
          * See [T.cases]
          */
-        fun withCases(vararg values: Case): S
+        fun withCases(vararg values: Case): S = withCases(values.toList())
 
         companion object {
             fun builder(): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke()

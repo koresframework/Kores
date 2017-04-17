@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.CodePartUtil
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -66,8 +67,7 @@ interface Operate : ValueHolder, Typed {
             ValueHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): S = this as S
+        override fun withType(value: Type): S = self()
 
         /**
          * See [T.target]

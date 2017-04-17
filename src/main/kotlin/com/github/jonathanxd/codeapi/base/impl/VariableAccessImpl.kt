@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.base.VariableAccess
 import java.lang.reflect.Type
 
-@GenBuilder
 data class VariableAccessImpl(override val name: String, override val variableType: Type) : VariableAccess

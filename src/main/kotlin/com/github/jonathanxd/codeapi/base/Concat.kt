@@ -51,7 +51,7 @@ interface Concat : CodePart {
         /**
          * See [T.concatenations]
          */
-        fun withConcatenations(vararg values: CodePart): S
+        fun withConcatenations(vararg values: CodePart): S = withConcatenations(values.toList())
 
         companion object {
             fun builder(): Builder<Concat, *> = CodeAPI.getBuilderProvider().invoke()

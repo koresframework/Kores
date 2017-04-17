@@ -47,6 +47,10 @@ data class VariableRef(override val variableType: Type, override val name: Strin
             this.type = defaults.variableType
         }
 
+        override fun withType(value: Type): Builder {
+            return this.withVariableType(value)
+        }
+
         override fun withName(value: String): Builder {
             this.name = name
             return this

@@ -44,6 +44,7 @@ interface ModifiersHolder : CodePart {
 
     interface Builder<out T : ModifiersHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         fun withModifiers(value: Set<CodeModifier>): S
-        fun withModifiers(vararg values: CodeModifier): S
+
+        fun withModifiers(vararg values: CodeModifier): S = withModifiers(values.toSet())
     }
 }

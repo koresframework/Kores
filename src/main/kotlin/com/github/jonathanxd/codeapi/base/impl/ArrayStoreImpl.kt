@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayStore
 import java.lang.reflect.Type
 
-@GenBuilder
 data class ArrayStoreImpl(override val index: CodePart, override val target: CodePart, override val valueType: Type, override val valueToStore: CodePart, override val arrayType: Type) : ArrayStore

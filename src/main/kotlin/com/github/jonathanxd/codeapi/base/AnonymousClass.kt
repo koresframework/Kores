@@ -28,9 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.buildergenerator.Defaults
-import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
@@ -79,19 +76,17 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
             SuperClassHolder.Builder<T, S>,
             ArgumentHolder.Builder<T, S> {
 
+/*
         @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withOuterClass(value: Type?): S = self()
+*/
 
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withModifiers(value: Set<CodeModifier>): S = self()
 
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withModifiers(vararg values: CodeModifier): S = self()
 
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withArray(value: Boolean): S = self()
 
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
         override fun withGenericSignature(value: GenericSignature): S = self()
 
         /**

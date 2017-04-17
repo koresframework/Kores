@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
@@ -35,7 +34,6 @@ import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
 import com.github.jonathanxd.codeapi.common.IterationType
 
-@GenBuilder
 data class ForEachStatementImpl(override val variable: VariableDeclaration, override val iterationType: IterationType, override val iterableElement: CodePart, override val body: CodeSource) : ForEachStatement {
     init {
         BodyHolder.checkBody(this)

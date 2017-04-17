@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -85,11 +86,14 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
             ArgumentHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        @Suppress("UNCHECKED_CAST")
-        override fun withArray(value: Boolean): S = this as S
+        override fun withArray(value: Boolean): S = self()
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): S = this as S
+        override fun withType(value: Type): S {
+            val spec = this.spec ?: throw IllegalStateException("No method description defined")
+
+            return this.withSpec(spec.builder().withDescription(spec.description.copy(returnType = value)).build())
+        }
 
         /**
          * See [T.spec]
@@ -106,9 +110,25 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
          */
         fun withInvokeDynamic(value: InvokeDynamic?): S
 
+        /**
+         * See [T.spec]
+         */
+        val spec: MethodSpecification?
+
         companion object {
             fun builder(): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider().invoke()
             fun builder(defaults: MethodInvocation): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+        object DefaultsImpls {
+
+            @JvmStatic
+            fun withType(builder: Builder<MethodInvocation, *>, type: Type): Builder<MethodInvocation, *> {
+
+                val spec = builder.spec ?: throw IllegalStateException("No method description defined")
+
+                return builder.withSpec(spec.builder().withDescription(spec.description.copy(returnType = type)).build())
+            }
         }
 
     }

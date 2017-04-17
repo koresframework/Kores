@@ -42,7 +42,7 @@ public class TestInspect {
 
     @Test
     public void inspect() {
-        CodeSource source = GenericClass_.$()._2();
+        CodeSource source = GenericClass_.$().getSecond();
 
         List<FieldDeclaration> inspect = SourceInspect
                 .find(codePart -> codePart instanceof FieldDeclaration)

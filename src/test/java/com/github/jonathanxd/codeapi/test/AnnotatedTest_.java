@@ -43,6 +43,8 @@ import com.github.jonathanxd.codeapi.util.Modifiers;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.lang.reflect.Modifier;
 
 import kotlin.collections.SetsKt;
@@ -57,6 +59,10 @@ import static kotlin.collections.CollectionsKt.listOf;
 public class AnnotatedTest_ {
     //
 
+    @Test
+    public void test() {
+        $();
+    }
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 

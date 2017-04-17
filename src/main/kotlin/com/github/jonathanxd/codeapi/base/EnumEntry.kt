@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -63,8 +64,7 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
             Named.Builder<T, S>,
             BodyHolder.Builder<T, S> {
 
-        @Suppress("UNCHECKED_CAST")
-        override fun withArray(value: Boolean): S = this as S
+        override fun withArray(value: Boolean): S = self()
 
         /**
          * See [T.constructorSpec]

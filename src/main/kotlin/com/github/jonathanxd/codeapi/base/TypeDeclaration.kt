@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.annotation.PropertyInfo
 import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -75,7 +74,6 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
 
         override fun withQualifiedName(value: String): S
 
-        @PropertyInfo(isNullable = true)
         fun withOuterClass(value: Type?): S
     }
 }

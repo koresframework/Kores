@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.Scope
 import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.util.self
+import java.lang.reflect.Type
 
 /**
  * A fragment of a method declaration. This method may be inlined or declared as method of current
@@ -81,6 +83,12 @@ interface MethodFragment : MethodInvocation, CodeElement {
     interface Builder<out T : MethodFragment, S : Builder<T, S>> :
             MethodInvocation.Builder<T, S> {
 
+        override fun withType(value: Type): S {
+            val spec = this.spec ?: throw IllegalStateException("No method description defined")
+
+            return this.withSpec(spec.builder().withDescription(spec.description.copy(returnType = value)).build())
+        }
+
         /**
          * See [T.declaration]
          */
@@ -100,7 +108,6 @@ interface MethodFragment : MethodInvocation, CodeElement {
             fun builder(): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider().invoke()
             fun builder(defaults: MethodFragment): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider().invoke(defaults)
         }
-
 
     }
 

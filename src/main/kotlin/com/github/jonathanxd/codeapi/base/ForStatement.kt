@@ -65,7 +65,8 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
             BodyHolder.Builder<T, S> {
 
         override fun withExpressions(value: List<CodePart>): S = this.withForExpression(value)
-        override fun withExpressions(vararg values: CodePart): S = this.withForExpression(*values)
+
+        override fun withExpressions(vararg values: CodePart): S = this.withForExpression(values.toList())
 
         /**
          * See [T.forInit]
@@ -80,7 +81,7 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
         /**
          * See [T.forExpression]
          */
-        fun withForExpression(vararg values: CodePart): S
+        fun withForExpression(vararg values: CodePart): S = withForExpression(values.toList())
 
         /**
          * See [T.forUpdate]

@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ArrayLength
 import java.lang.reflect.Type
 
-@GenBuilder
 data class ArrayLengthImpl(override val arrayType: Type, override val target: CodePart) : ArrayLength

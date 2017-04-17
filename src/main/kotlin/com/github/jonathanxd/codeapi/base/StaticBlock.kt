@@ -61,6 +61,7 @@ interface StaticBlock : ConstructorDeclaration {
     override fun builder(): Builder<StaticBlock, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : StaticBlock, S : Builder<T, S>> : ConstructorDeclaration.Builder<T, S> {
+
         override fun withName(value: String): S = self()
         override fun withAnnotations(value: List<Annotation>): S = self()
         override fun withAnnotations(vararg values: Annotation): S = self()

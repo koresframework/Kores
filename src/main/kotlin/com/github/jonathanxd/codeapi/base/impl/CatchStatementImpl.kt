@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.base.CatchStatement
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
 import java.lang.reflect.Type
 
-@GenBuilder
 data class CatchStatementImpl(override val exceptionTypes: List<Type>, override val body: CodeSource, override val variable: VariableDeclaration) : CatchStatement {
     init {
         BodyHolder.checkBody(this)

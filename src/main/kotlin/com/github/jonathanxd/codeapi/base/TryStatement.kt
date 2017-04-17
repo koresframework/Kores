@@ -75,7 +75,7 @@ interface TryStatement : BodyHolder, Typed {
         /**
          * See [T.catchStatements]
          */
-        fun withCatchStatements(vararg values: CatchStatement): S
+        fun withCatchStatements(vararg values: CatchStatement): S = withCatchStatements(values.toList())
 
         /**
          * See [T.finallyStatement]

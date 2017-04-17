@@ -27,12 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.Defaults
-import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.AnnotationDeclarationBuilder
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
@@ -60,8 +56,7 @@ interface AnnotationDeclaration : TypeDeclaration {
         /**
          * See [T.properties]
          */
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "varArgToList"))
-        fun withProperties(vararg values: AnnotationProperty): S
+        fun withProperties(vararg values: AnnotationProperty): S = withProperties(values.toList())
 
         companion object {
             fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke()

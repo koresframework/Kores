@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.iutils.condition.Conditions;
-import com.github.jonathanxd.iutils.type.TypeInfo;
+import com.github.jonathanxd.iutils.type.*;
 
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -148,7 +148,7 @@ public class GenericTypeUtil {
     public static GenericType fromSourceString(String sourceString) {
         return GenericTypeUtil.fromSourceString(sourceString, s -> {
             try {
-                return CodeAPI.getJavaType(TypeInfo.resolveClass(s));
+                return CodeAPI.getJavaType(com.github.jonathanxd.iutils.type.TypeUtil.resolveClass(s));
             } catch (Exception e) {
                 return new PlainCodeType(s, false);
             }

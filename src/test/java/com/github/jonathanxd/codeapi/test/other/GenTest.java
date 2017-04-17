@@ -158,8 +158,8 @@ public class GenTest {
     public void parseRecursive() {
         TypeVariable<Class<BD>>[] typeParameters = BD.class.getTypeParameters();
 
-        TypeUtil.toReference(typeParameters[0]);
-        TypeUtil.toReference(typeParameters[1]);
+        TypeUtil.toTypeInfo(typeParameters[0]);
+        TypeUtil.toTypeInfo(typeParameters[1]);
 
         CodeType baseType = CodeTypes.getCodeTypeFromTypeParameters(BD.class);
 

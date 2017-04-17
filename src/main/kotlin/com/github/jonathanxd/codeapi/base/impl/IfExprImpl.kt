@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.IfExpr
 import com.github.jonathanxd.codeapi.operator.Operator
 
-@GenBuilder
 data class IfExprImpl(override val expr1: CodePart, override val operation: Operator.Conditional, override val expr2: CodePart) : IfExpr

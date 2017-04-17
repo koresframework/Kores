@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -48,11 +49,9 @@ interface ConstructorDeclaration : MethodDeclaration {
     override fun builder(): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
     interface Builder<out T : ConstructorDeclaration, S : Builder<T, S>> : MethodDeclaration.Builder<T, S> {
-        @Suppress("UNCHECKED_CAST")
-        override fun withName(value: String): S = this as S
 
-        @Suppress("UNCHECKED_CAST")
-        override fun withReturnType(value: Type): S = this as S
+        override fun withName(value: String): S = self()
+        override fun withReturnType(value: Type): S = self()
 
         companion object {
             fun builder(): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider().invoke()

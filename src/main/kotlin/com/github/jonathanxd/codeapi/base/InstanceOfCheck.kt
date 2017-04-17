@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -58,8 +58,7 @@ interface InstanceOfCheck : Typed {
 
     interface Builder<out T : InstanceOfCheck, S : Builder<T, S>> : Typed.Builder<T, S> {
 
-        @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): S = this as S
+        override fun withType(value: Type): S = self()
 
         /**
          * See [T.part]

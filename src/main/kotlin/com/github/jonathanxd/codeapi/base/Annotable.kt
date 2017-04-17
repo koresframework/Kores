@@ -27,11 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.DefaultValues
-import com.github.jonathanxd.buildergenerator.Defaults
-import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
-import com.github.jonathanxd.buildergenerator.annotation.PropertyInfo
 import com.github.jonathanxd.codeapi.CodePart
 
 /**
@@ -50,13 +45,11 @@ interface Annotable : CodePart {
         /**
          * See [T.annotations]
          */
-        @PropertyInfo(defaultValue = MethodRef(value = DefaultValues::class, name = "emptyList"))
         fun withAnnotations(value: List<Annotation>): S
 
         /**
          * See [T.annotations]
          */
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "varArgToList"))
-        fun withAnnotations(vararg values: Annotation): S
+        fun withAnnotations(vararg values: Annotation): S = withAnnotations(values.toList())
     }
 }

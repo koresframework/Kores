@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
@@ -38,7 +37,6 @@ import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import java.lang.reflect.Type
 
-@GenBuilder
 data class MethodDeclarationImpl(override val parameters: List<CodeParameter>, override val name: String, override val annotations: List<Annotation>, override val body: CodeSource, override val returnType: Type, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val comments: Comments) : MethodDeclaration {
     init {
         BodyHolder.checkBody(this)

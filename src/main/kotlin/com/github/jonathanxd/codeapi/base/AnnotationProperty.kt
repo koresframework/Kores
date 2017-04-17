@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.buildergenerator.annotation.DefaultImpl
-import com.github.jonathanxd.buildergenerator.annotation.MethodRef
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
@@ -58,7 +56,6 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
             Annotable.Builder<T, S>,
             ReturnTypeHolder.Builder<T, S> {
 
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "withReturnType", parameterTypes = arrayOf(Builder::class, Type::class), returnType = Builder::class))
         override fun withReturnType(value: Type): S = this.withType(value)
 
         /**

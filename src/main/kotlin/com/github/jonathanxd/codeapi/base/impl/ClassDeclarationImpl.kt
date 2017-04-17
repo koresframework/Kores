@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.impl
 
-import com.github.jonathanxd.buildergenerator.annotation.GenBuilder
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.BodyHolder
@@ -42,7 +41,6 @@ import com.github.jonathanxd.codeapi.util.resolveTypeName
 import com.github.jonathanxd.iutils.string.ToStringHelper
 import java.lang.reflect.Type
 
-@GenBuilder
 class ClassDeclarationImpl(override val superClass: Type, override val implementations: List<Type>, qualifiedName: String, override val annotations: List<Annotation>, override val body: CodeSource, override val modifiers: Set<CodeModifier>, override val genericSignature: GenericSignature, override val outerClass: Type?, override val comments: Comments) : ClassDeclaration {
 
     override val specifiedName: String = qualifiedName

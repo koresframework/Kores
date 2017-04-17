@@ -51,7 +51,7 @@ interface IfExpressionHolder : CodePart {
         /**
          * See [T.expressions]
          */
-        fun withExpressions(vararg values: CodePart): S
+        fun withExpressions(vararg values: CodePart): S = withExpressions(values.toList())
     }
 
     companion object {
