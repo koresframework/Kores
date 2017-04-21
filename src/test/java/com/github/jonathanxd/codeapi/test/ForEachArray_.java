@@ -45,6 +45,8 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 public class ForEachArray_ {
@@ -77,6 +79,11 @@ public class ForEachArray_ {
                 ));
 
         return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
 }

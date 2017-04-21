@@ -39,6 +39,8 @@ import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import kotlin.collections.CollectionsKt;
 import kotlin.collections.SetsKt;
 
@@ -81,6 +83,12 @@ public class EnumTest_ {
 
         return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
     public interface MyItf {
         void v();

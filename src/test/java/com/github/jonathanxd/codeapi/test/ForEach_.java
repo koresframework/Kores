@@ -46,6 +46,7 @@ import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.EnumSet;
 
@@ -83,6 +84,11 @@ public class ForEach_ {
                 ));
 
         return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
 

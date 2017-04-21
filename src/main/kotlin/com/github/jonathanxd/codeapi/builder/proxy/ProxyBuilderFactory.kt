@@ -31,10 +31,15 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.`is`
 import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.invoke.MethodHandle
+import java.lang.invoke.MethodHandles
+import java.lang.invoke.MethodType
 import java.lang.reflect.InvocationHandler
+import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.lang.reflect.Type
 import kotlin.reflect.KClass
@@ -45,7 +50,10 @@ import kotlin.reflect.jvm.javaType
 import kotlin.reflect.jvm.jvmErasure
 import kotlin.reflect.jvm.kotlinFunction
 
+private val lookup = MethodHandles.publicLookup()
+
 private val propertyCache = mutableMapOf<KClass<*>, List<PropertyInfo>>()
+private val defaultImplCache = mutableMapOf<Method, Method>()
 
 @Suppress("UNCHECKED_CAST")
 fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defaults: B?): T {
@@ -68,7 +76,7 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
 
             val find = defaultClassProperties.find { it.name == name }!! as KProperty1<B, Any?>
 
-            values.put(prop.parameter, find.get(defaults)!!)
+            values.put(prop.parameter, find.get(defaults))
 
         }
     } else {
@@ -79,6 +87,7 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
                 Set::class.codeType.javaSpecName -> emptySet<Any>()
                 CodeSource::class.codeType.javaSpecName -> CodeSource.empty()
                 Comments::class.codeType.javaSpecName -> Comments.Absent
+                GenericSignature::class.codeType.javaSpecName -> GenericSignature.empty()
                 Type::class.codeType.javaSpecName,
                 CodeType::class.codeType.javaSpecName -> if(prop.name == "superClass") Types.OBJECT else null
                 else -> null
@@ -100,22 +109,42 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
             val kparam = values.keys.find { it.name == name }!!
 
             if(!kparam.type.jvmErasure.java.isAssignableFrom(method.parameterTypes[0])) {
-                val javaBuilder = builder.java
+                var defaultImplMethod: Method? = null
+                if(defaultImplCache.containsKey(method))
+                    defaultImplMethod = defaultImplCache[method]
+                else {
+                    val javaBuilder = method.declaringClass
 
-                val defaultImpl = javaBuilder.classes.find { it.name == "DefaultImpls" }
+                    val defaultImpls = javaBuilder.classes.filter { it.name.endsWith("DefaultImpls") }
 
-                if(defaultImpl != null)
-                    return@InvocationHandler defaultImpl.getDeclaredMethod(method.name, javaBuilder, method.parameterTypes[0]).invoke(null, proxy, args[0])
-                else
+                    if(defaultImpls.isNotEmpty()) {
+                        for(it in defaultImpls) {
+                            try {
+                                defaultImplMethod = it.getDeclaredMethod(method.name, javaBuilder, method.parameterTypes[0])
+
+
+                                defaultImplCache[method] = defaultImplMethod
+                                break
+                            }catch(t: Throwable) {
+                            }
+                        }
+
+                    }
+                }
+
+                if(defaultImplMethod != null) {
+                    try {
+                        return@InvocationHandler defaultImplMethod.invoke(null, proxy, args[0])
+                    }catch (t: Throwable) {
+                        throw RuntimeException("Failed to invoke method $defaultImplMethod (original $method), property: $name, type: ${kparam.type}", t)
+                    }
+                } else
                     throw NoSuchMethodException("Cannot find right implementation of $method for implementation $implementation of builder $builder")
+
             }
 
-
             values[kparam] = args[0]
-
-
             return@InvocationHandler proxy
-
         }
 
         if(method.name.startsWith("get")) {
@@ -140,7 +169,7 @@ private fun cachePropertyInfo(implementation: KClass<*>) {
     if (propertyCache.containsKey(implementation))
         return
 
-    val primary = implementation.primaryConstructor!!
+    val primary = implementation.primaryConstructor ?: throw NullPointerException("Failed to find primary constructor of $implementation")
 
     val parameters = primary.valueParameters
 

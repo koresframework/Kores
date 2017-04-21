@@ -43,6 +43,8 @@ import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.io.PrintStream;
 import java.util.EnumSet;
 
@@ -98,6 +100,11 @@ public class CommentClassTest_ {
 
 
         return Pair.of(myCl, CodeAPI.sourceOfParts(myCl));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
 }

@@ -56,6 +56,8 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.io.PrintStream;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
@@ -333,6 +335,11 @@ public class InvocationsTest_ {
 
     public void helloWorld(String name) {
         System.out.println("Hello, " + name);
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
     public static class MyCallSite extends MutableCallSite {

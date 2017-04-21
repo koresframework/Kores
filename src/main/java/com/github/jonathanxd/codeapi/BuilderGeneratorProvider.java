@@ -76,6 +76,7 @@ import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.comment.Link;
 import com.github.jonathanxd.codeapi.base.comment.Plain;
 import com.github.jonathanxd.codeapi.base.impl.AccessImpl;
+import com.github.jonathanxd.codeapi.base.impl.AnnotationDeclarationImpl;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationImpl;
 import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
 import com.github.jonathanxd.codeapi.base.impl.AnonymousClassImpl;
@@ -145,7 +146,7 @@ public final class BuilderGeneratorProvider implements BuilderProvider {
     static {
         put(Access.Builder.class, AccessImpl.class);
         put(Annotation.Builder.class, AnnotationImpl.class);
-        put(AnnotationDeclaration.Builder.class, AnnotationDeclaration.class);
+        put(AnnotationDeclaration.Builder.class, AnnotationDeclarationImpl.class);
         put(AnnotationProperty.Builder.class, AnnotationPropertyImpl.class);
         put(AnonymousClass.Builder.class, AnonymousClassImpl.class);
         put(ArrayConstructor.Builder.class, ArrayConstructorImpl.class);

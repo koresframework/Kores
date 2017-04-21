@@ -50,6 +50,6 @@ interface EntryHolder : CodePart {
         /**
          * See [T.entries]
          */
-        fun withEntries(vararg values: EnumEntry): S
+        fun withEntries(vararg values: EnumEntry): S = withEntries(values.toList())
     }
 }

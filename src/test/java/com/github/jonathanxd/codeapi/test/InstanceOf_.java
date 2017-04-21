@@ -44,6 +44,8 @@ import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
@@ -83,6 +85,11 @@ public class InstanceOf_ {
         ));
 
         return Pair.of(codeClass, sourceOfParts(codeClass));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
 }

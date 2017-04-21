@@ -51,6 +51,6 @@ interface ParametersHolder : CodePart {
         /**
          * See [T.parameters]
          */
-        fun withParameters(vararg values: CodeParameter): S
+        fun withParameters(vararg values: CodeParameter): S = withParameters(values.toList())
     }
 }

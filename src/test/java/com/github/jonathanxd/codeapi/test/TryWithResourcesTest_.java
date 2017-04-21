@@ -42,6 +42,8 @@ import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.Collections;
 import java.util.EnumSet;
 
@@ -70,6 +72,11 @@ public class TryWithResourcesTest_ {
                 ));
 
         return Pair.of(classDeclaration, sourceOfParts(classDeclaration));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
 

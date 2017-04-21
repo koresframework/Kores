@@ -43,6 +43,8 @@ import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 public class ComplexIfTest_ {
@@ -92,5 +94,11 @@ public class ComplexIfTest_ {
 
         return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
 }

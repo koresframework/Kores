@@ -40,6 +40,8 @@ import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.literal.Literals.INT;
@@ -78,5 +80,11 @@ public class OperateTest_ {
 
         return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
 }

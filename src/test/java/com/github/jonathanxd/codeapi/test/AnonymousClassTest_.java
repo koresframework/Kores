@@ -46,6 +46,8 @@ import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 public class AnonymousClassTest_ {
@@ -76,6 +78,12 @@ public class AnonymousClassTest_ {
                 )));
 
         return Pair.of(predefinedTest.classDeclaration, predefinedTest.classDeclaration.getBody());
+    }
+
+
+    @Test
+    public void test() {
+        $();
     }
 
 

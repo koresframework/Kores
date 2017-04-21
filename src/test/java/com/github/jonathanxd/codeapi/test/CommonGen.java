@@ -44,6 +44,8 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.util.ArrayToList;
 
+import org.junit.Test;
+
 import java.util.Collections;
 import java.util.EnumSet;
 
@@ -123,4 +125,10 @@ public class CommonGen {
 
         return CodeAPI.sourceOfParts(typeDeclaration);
     }
+
+    @Test
+    public void test() {
+        gen();
+    }
+
 }

@@ -37,12 +37,15 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.Collections;
 
 import kotlin.collections.CollectionsKt;
 import kotlin.collections.SetsKt;
 
 public class AnnotationTest_ {
+
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
@@ -56,5 +59,10 @@ public class AnnotationTest_ {
                 .build();
 
         return Pair.of(build, CodeAPI.sourceOfParts(build));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 }

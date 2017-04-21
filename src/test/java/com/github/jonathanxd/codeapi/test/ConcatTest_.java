@@ -42,6 +42,8 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 public class ConcatTest_ {
@@ -74,6 +76,11 @@ public class ConcatTest_ {
                 ));
 
         return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
+    }
+
+    @Test
+    public void test() {
+        $();
     }
 
 }

@@ -43,6 +43,8 @@ import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.io.PrintStream;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.accessStaticField;
@@ -125,6 +127,12 @@ public class LoopTest_ {
         return Pair.of(codeClass, codeSource);
 
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
     private static final class BCLoader extends ClassLoader {
 

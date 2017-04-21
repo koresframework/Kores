@@ -46,6 +46,8 @@ import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
@@ -80,5 +82,11 @@ public class MethodFragment_ {
 
         return Pair.of(classDeclaration, sourceOfParts(classDeclaration));
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
 }

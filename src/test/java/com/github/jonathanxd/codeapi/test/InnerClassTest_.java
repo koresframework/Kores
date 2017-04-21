@@ -46,6 +46,8 @@ import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 import java.util.Collections;
 import java.util.EnumSet;
 
@@ -105,5 +107,11 @@ public class InnerClassTest_ {
 
         return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
 }

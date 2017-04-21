@@ -38,6 +38,8 @@ import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
+import org.junit.Test;
+
 public class SwitchTest_ {
 
 
@@ -100,6 +102,12 @@ public class SwitchTest_ {
 
         return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
     }
+
+    @Test
+    public void test() {
+        $();
+    }
+
 
     private static CodePart print(String str) {
         return Predefined.invokePrintln(Literals.STRING(str));
