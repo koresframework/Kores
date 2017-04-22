@@ -71,6 +71,10 @@ interface Code : Comment {
          */
         fun withCode(value: CodeNode): S
 
+        companion object {
+            fun builder(): Builder<Code, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Code): Builder<Code, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
     }
 
 }

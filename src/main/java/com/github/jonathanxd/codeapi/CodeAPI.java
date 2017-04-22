@@ -2046,7 +2046,7 @@ public final class CodeAPI {
      *                then it will be wrapped in {@link CodeAPI#checkTrue(CodePart)}, if it is note
      *                instance of {@link CodePart} a {@link IllegalArgumentException} will be
      *                thrown.
-     * @return If multi values.
+     * @return If expresssions.
      * @throws IllegalArgumentException If an element of {@code objects} is not {@link IfExpr},
      *                                  {@link Operator} or {@link CodePart}.
      */

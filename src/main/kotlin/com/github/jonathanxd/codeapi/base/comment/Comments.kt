@@ -92,6 +92,11 @@ interface Comments : CodePart {
          */
         fun withType(value: Type): S
 
+        companion object {
+            fun builder(): Builder<Comments, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Comments): Builder<Comments, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 
     /**

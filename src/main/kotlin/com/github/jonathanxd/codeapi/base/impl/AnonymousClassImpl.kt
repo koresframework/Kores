@@ -55,10 +55,6 @@ class AnonymousClassImpl(qualifiedName: String, override val constructorSpec: Ty
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): AnonymousClass.Builder<AnonymousClass, *> {
-        TODO("not implemented")
-    }
-
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
     override fun toString(): String =

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.builder.proxy
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.EnumValue
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -38,10 +39,7 @@ import com.github.jonathanxd.codeapi.util.codeType
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
-import java.lang.reflect.InvocationHandler
-import java.lang.reflect.Method
-import java.lang.reflect.Proxy
-import java.lang.reflect.Type
+import java.lang.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty1
@@ -82,6 +80,8 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
     } else {
         properties.forEach { prop ->
 
+            val defValue = getDefValue(prop.type)
+
             val value: Any? = when(prop.type.javaSpecName) {
                 List::class.codeType.javaSpecName -> emptyList<Any>()
                 Set::class.codeType.javaSpecName -> emptySet<Any>()
@@ -89,8 +89,9 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
                 Comments::class.codeType.javaSpecName -> Comments.Absent
                 GenericSignature::class.codeType.javaSpecName -> GenericSignature.empty()
                 Type::class.codeType.javaSpecName,
-                CodeType::class.codeType.javaSpecName -> if(prop.name == "superClass") Types.OBJECT else null
-                else -> null
+                CodeType::class.codeType.javaSpecName -> if(prop.name == "superClass") Types.OBJECT else defValue
+                Int::class.codeType.javaSpecName -> if(prop.name == "ordinal" && builder.java == EnumValue.Builder::class.java) -1 else defValue
+                else -> defValue
             }
 
 
@@ -102,13 +103,9 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
         if(method.name.startsWith("with")) {
             val name = method.name.substring("with".length).decapitalize()
 
-            if(!properties.any { it.name == name })
-                return@InvocationHandler proxy
-                //throw IllegalStateException("Property with name $name is not present in constructor $implementation of builder $builder.")
+            val kparam = values.keys.find { it.name == name }
 
-            val kparam = values.keys.find { it.name == name }!!
-
-            if(!kparam.type.jvmErasure.java.isAssignableFrom(method.parameterTypes[0])) {
+            if(kparam == null || !kparam.type.jvmErasure.java.isAssignableFrom(method.parameterTypes[0])) {
                 var defaultImplMethod: Method? = null
                 if(defaultImplCache.containsKey(method))
                     defaultImplMethod = defaultImplCache[method]
@@ -136,7 +133,7 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
                     try {
                         return@InvocationHandler defaultImplMethod.invoke(null, proxy, args[0])
                     }catch (t: Throwable) {
-                        throw RuntimeException("Failed to invoke method $defaultImplMethod (original $method), property: $name, type: ${kparam.type}", t)
+                        throw RuntimeException("Failed to invoke method $defaultImplMethod (original $method), property: $name, type: ${kparam?.type}", t)
                     }
                 } else
                     throw NoSuchMethodException("Cannot find right implementation of $method for implementation $implementation of builder $builder")
@@ -158,11 +155,29 @@ fun <T : Any, B: Any> create(builder: KClass<T>, implementation: KClass<*>, defa
         }
 
         if(method.name == "build") {
-            return@InvocationHandler constructor.callBy(values)
+            try {
+                return@InvocationHandler constructor.callBy(values)
+            }catch(t: InvocationTargetException) {
+                throw t.cause!!
+            }
         }
 
         throw NoSuchMethodException("Cannot find right implementation of $method for implementation $implementation of builder $builder")
     }) as T
+}
+
+fun getDefValue(type: CodeType): Any? {
+    return when(type.identification) {
+        Types.BOOLEAN.identification -> false
+        Types.CHAR.identification -> 0.toChar()
+        Types.BYTE.identification -> 0.toByte()
+        Types.SHORT.identification -> 0.toShort()
+        Types.INT.identification -> 0
+        Types.FLOAT.identification -> 0.0F
+        Types.DOUBLE.identification -> 0.0
+        Types.LONG.identification -> 0L
+        else -> null
+    }
 }
 
 private fun cachePropertyInfo(implementation: KClass<*>) {

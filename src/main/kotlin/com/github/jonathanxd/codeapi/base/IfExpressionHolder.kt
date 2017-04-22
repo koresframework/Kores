@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.IfGroup
 import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
@@ -37,6 +38,21 @@ interface IfExpressionHolder : CodePart {
 
     /**
      * If expressions and operations
+     *
+     * Expressions can be: [IfExpr] or [IfGroup] (both only before and/or after [Operators.OR] and [Operators.AND]),
+     * [Operators.AND] (only after a [IfExpr]/[IfGroup], followed by other [IfExpr] or [IfGroup])
+     * and [Operators.OR] (only after a [IfExpr]/[IfGroup] and followed by other [IfExpr] or [IfGroup]).
+     *
+     * Example of valid and invalid expressions:
+     *
+     * [IfExpr] [Operators.OR] [IfExpr] = Valid
+     * [IfExpr] [Operators.AND] [IfExpr] = Valid
+     * [IfExpr] [IfExpr] = Invalid
+     * [Operators.OR] [IfExpr] = Invalid
+     * [Operators.OR] [IfGroup] = Invalid
+     * [IfExpr] [Operators.AND] = Invalid
+     * [IfExpr] [IfGroup] = Invalid
+     * [IfExpr] [Operators.AND] [IfGroup] = Valid
      */
     val expressions: List<CodePart>
 

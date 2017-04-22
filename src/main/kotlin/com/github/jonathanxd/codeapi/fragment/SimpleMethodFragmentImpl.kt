@@ -65,7 +65,7 @@ data class SimpleMethodFragmentImpl(override val declaringType: TypeDeclaration,
             comments = Comments.Absent
     )
 
-    override val invokeType: InvokeType = if (scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.INVOKE_VIRTUAL
+    override val invokeType: InvokeType = if (scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.get(declaringType)
     override val localization: Type = declaringType
     override val target: CodePart = if (scope == Scope.STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS
     override val invokeDynamic: InvokeDynamic? = null

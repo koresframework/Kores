@@ -103,5 +103,10 @@ interface Link : Comment {
          * See [T.target]
          */
         fun withTarget(value: LinkTarget): S
+
+        companion object {
+            fun builder(): Builder<Link, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Link): Builder<Link, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
     }
 }

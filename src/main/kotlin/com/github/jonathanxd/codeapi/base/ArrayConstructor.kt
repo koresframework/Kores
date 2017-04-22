@@ -118,7 +118,7 @@ interface ArrayConstructor : ArgumentHolder, Typed {
         /**
          * See [T.dimensions]
          */
-        fun withDimensions(vararg values: CodePart): S
+        fun withDimensions(vararg values: CodePart): S = withDimensions(values.toList())
 
         companion object {
             fun builder(): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider().invoke()

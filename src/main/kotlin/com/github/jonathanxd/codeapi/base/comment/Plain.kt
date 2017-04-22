@@ -49,5 +49,10 @@ interface Plain : Comment {
          */
         fun withText(value: String): S
 
+        companion object {
+            fun builder(): Builder<Plain, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Plain): Builder<Plain, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
     }
 }

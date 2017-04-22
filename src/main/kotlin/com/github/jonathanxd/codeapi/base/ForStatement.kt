@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
  * For block statement
@@ -49,7 +50,9 @@ interface ForStatement : IfExpressionHolder, BodyHolder {
     val forInit: CodePart?
 
     /**
-     * For expression
+     * For expression.
+     *
+     * See [IfExpressionHolder.expressions]
      */
     val forExpression: List<CodePart>
 

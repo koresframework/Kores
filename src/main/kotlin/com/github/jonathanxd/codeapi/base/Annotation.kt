@@ -55,7 +55,7 @@ interface Annotation : Typed {
      * [Int], [Long], [Float], [Double], [String], [Type],
      * OBJECT, ARRAY, [EnumValue] or other [Annotation].
      *
-     * Key = Name of annotation key. Value = Value of annotation key
+     * Map Key = Name of annotation key. Map Value = Value of annotation key
      *
      * @return Annotation value.
      */

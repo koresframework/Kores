@@ -40,6 +40,11 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
 
     /**
      * Annotation value
+     *
+     * The Annotation value must be: [Byte], [Boolean], [Char], [Short],
+     * [Int], [Long], [Float], [Double], [String], [Type],
+     * OBJECT, ARRAY, [EnumValue] or other [Annotation].
+     *
      */
     val value: Any?
 
@@ -68,14 +73,6 @@ interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
             fun builder(defaults: AnnotationProperty): Builder<AnnotationProperty, *> = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
-
-        object Defaults {
-
-            @JvmStatic
-            fun withReturnType(builder: Builder<AnnotationProperty, *>, value: Type): Builder<AnnotationProperty, *> =
-                    builder.withType(value)
-
-        }
     }
 
 }

@@ -30,6 +30,9 @@ package com.github.jonathanxd.codeapi.common
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.IfExpressionHolder
 
+/**
+ * @property expressions Same rules of [IfExpressionHolder.expressions] applies to [expressions].
+ */
 data class IfGroup(override val expressions: List<CodePart>) : CodePart, IfExpressionHolder {
 
     override fun builder(): Builder = Builder(this)

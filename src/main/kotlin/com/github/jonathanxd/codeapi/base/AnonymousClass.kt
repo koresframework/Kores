@@ -76,11 +76,6 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
             SuperClassHolder.Builder<T, S>,
             ArgumentHolder.Builder<T, S> {
 
-/*
-        @DefaultImpl(MethodRef(value = Defaults::class, name = "self"))
-        override fun withOuterClass(value: Type?): S = self()
-*/
-
         override fun withModifiers(value: Set<CodeModifier>): S = self()
 
         override fun withModifiers(vararg values: CodeModifier): S = self()
@@ -99,6 +94,10 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
          */
         fun withConstructorBody(value: CodeSource): S
 
+        companion object {
+            fun builder(): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: AnonymousClass): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
     }
 
 }

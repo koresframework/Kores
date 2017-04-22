@@ -58,7 +58,7 @@ interface ArgumentHolder : CodePart {
         /**
          * See [T.arguments]
          */
-        fun withArguments(vararg values: CodePart): S
+        fun withArguments(vararg values: CodePart): S = withArguments(values.toList())
 
         /**
          * See [T.array]

@@ -49,6 +49,9 @@ interface FieldDefinition : Accessor, FieldBase, ValueHolder {
             FieldBase.Builder<T, S>,
             ValueHolder.Builder<T, S> {
 
+        override fun withTarget(value: CodePart): S
+        override fun withLocalization(value: Type): S
+
         companion object {
             fun builder(): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider().invoke()
             fun builder(defaults: FieldDefinition): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider().invoke(defaults)
