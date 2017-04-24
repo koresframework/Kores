@@ -34,22 +34,19 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * Return value
+ * Return value.
  */
-@Concrete
-interface Return : ValueHolder, Typed {
-    override val type: Type
-    override val value: CodePart
+data class Return(override val type: Type, override val value: CodePart) : ValueHolder, Typed {
 
-    override fun builder(): Builder<Return, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : Return, S : Builder<T, S>> :
-            ValueHolder.Builder<T, S>,
-            Typed.Builder<T, S> {
+    interface Builder :
+            ValueHolder.Builder<Return, Builder>,
+            Typed.Builder<Return, Builder> {
 
         companion object {
-            fun builder(): Builder<Return, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Return): Builder<Return, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Return): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

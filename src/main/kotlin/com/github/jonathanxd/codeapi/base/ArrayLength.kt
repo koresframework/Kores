@@ -37,27 +37,42 @@ import java.lang.reflect.Type
 /**
  * Access Array length.
  */
-interface ArrayLength : ArrayAccess, Typed {
-
-    /**
-     * Array to access length
-     */
-    override val target: CodePart
+data class ArrayLength(override val arrayType: Type, override val target: CodePart) : ArrayAccess, Typed {
 
     override val type: Type
         get() = Types.INT
 
-    override fun builder(): Builder<ArrayLength, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder<out T : ArrayLength, S : Builder<T, S>> :
-            ArrayAccess.Builder<T, S>,
-            Typed.Builder<T, S> {
+    class Builder() :
+            ArrayAccess.Builder<ArrayLength, Builder>,
+            Typed.Builder<ArrayLength, Builder> {
 
-        override fun withType(value: Type): S = self()
+        lateinit var arrayType: Type
+        lateinit var target: CodePart
+
+        constructor(defaults: ArrayLength) : this() {
+            this.arrayType = defaults.arrayType
+            this.target = defaults.target
+        }
+
+        override fun withType(value: Type): Builder = self()
+
+        override fun withArrayType(value: Type): Builder {
+            this.arrayType = value
+            return this
+        }
+
+        override fun withTarget(value: CodePart): Builder {
+            this.target = value
+            return this
+        }
+
+        override fun build(): ArrayLength = ArrayLength(this.arrayType, this.target)
 
         companion object {
-            fun builder(): Builder<ArrayLength, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ArrayLength): Builder<ArrayLength, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = Builder()
+            fun builder(defaults: ArrayLength): Builder = Builder(defaults)
         }
 
     }

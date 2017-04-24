@@ -34,23 +34,21 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * Defines the value of a local variable.
+ * Defines the value of variable of type [type] and name [name] to [value].
  */
-@Concrete
-interface VariableDefinition : Named, Typed, ValueHolder {
+data class VariableDefinition(override val type: Type,
+                              override val name: String,
+                              override val value: CodePart) : Named, Typed, ValueHolder {
 
-    override val type: Type
-    override val value: CodePart
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<VariableDefinition, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : VariableDefinition, S : Builder<T, S>> :
-            Named.Builder<T, S>,
-            Typed.Builder<T, S>,
-            ValueHolder.Builder<T, S> {
+    interface Builder :
+            Named.Builder<VariableDefinition, Builder>,
+            Typed.Builder<VariableDefinition, Builder>,
+            ValueHolder.Builder<VariableDefinition, Builder> {
         companion object {
-            fun builder(): Builder<VariableDefinition, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: VariableDefinition): Builder<VariableDefinition, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: VariableDefinition): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

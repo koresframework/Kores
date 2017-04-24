@@ -28,12 +28,7 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.Case
-import com.github.jonathanxd.codeapi.base.SwitchStatement
-import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.base.impl.CastImpl
-import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl
-import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.gen.PartProcessor
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -71,7 +66,7 @@ object SwitchTypes {
 
         private fun autoUnboxing(part: Typed, type: Type): Typed {
             if (!type.codeType.isPrimitive) {
-                return CastImpl(type, Types.INT, part)
+                return Cast(type, Types.INT, part)
             }
 
             return part
@@ -118,16 +113,14 @@ object SwitchTypes {
 
         private fun translate(aSwitch: SwitchStatement): SwitchStatement {
             return aSwitch.builder().withValue(
-                    MethodInvocationImpl(
-                            localization = Types.OBJECT,
+                    MethodInvocation(
                             invokeType = InvokeType.INVOKE_VIRTUAL,
                             target = aSwitch.value,
-                            invokeDynamic = null,
                             arguments = emptyList(),
-                            spec = MethodSpecificationImpl(
+                            spec = MethodTypeSpec(
+                                    localization = Types.OBJECT,
                                     methodName = "hashCode",
-                                    description = TypeSpec(Types.INT),
-                                    methodType = MethodType.METHOD
+                                    typeSpec = TypeSpec(Types.INT)
                             )
 
                     )
@@ -151,16 +144,14 @@ object SwitchTypes {
         private fun translate(aSwitch: SwitchStatement): SwitchStatement {
             return aSwitch.builder()
                     .withValue(
-                            MethodInvocationImpl(
-                                    localization = Types.ENUM,
+                            MethodInvocation(
                                     invokeType = InvokeType.INVOKE_VIRTUAL,
                                     target = aSwitch.value,
-                                    invokeDynamic = null,
                                     arguments = emptyList(),
-                                    spec = MethodSpecificationImpl(
+                                    spec = MethodTypeSpec(
+                                            localization = Types.ENUM,
                                             methodName = "ordinal",
-                                            description = TypeSpec(Types.INT),
-                                            methodType = MethodType.METHOD
+                                            typeSpec = TypeSpec(Types.INT)
                                     )
 
                             )

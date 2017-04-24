@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi
 
 import com.github.jonathanxd.codeapi.base.Access
-import com.github.jonathanxd.codeapi.base.impl.AccessImpl
 
 /**
  * Common default constant base values
@@ -36,15 +35,15 @@ import com.github.jonathanxd.codeapi.base.impl.AccessImpl
 object Defaults {
 
     @JvmField
-    val ACCESS_STATIC = AccessImpl(type = Access.Type.STATIC, localization = null)
+    val ACCESS_STATIC = Access(type = Access.Type.STATIC, localization = null)
 
     @JvmField
-    val ACCESS_LOCAL = AccessImpl(type = Access.Type.LOCAL, localization = null)
+    val ACCESS_LOCAL = Access(type = Access.Type.LOCAL, localization = null)
 
     @JvmField
-    val ACCESS_THIS = AccessImpl(type = Access.Type.THIS, localization = null)
+    val ACCESS_THIS = Access(type = Access.Type.THIS, localization = null)
 
     @JvmField
-    val ACCESS_SUPER = AccessImpl(type = Access.Type.SUPER, localization = null)
+    val ACCESS_SUPER = Access(type = Access.Type.SUPER, localization = null)
 
 }

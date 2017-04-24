@@ -30,21 +30,22 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
- * Access to a variable
+ * Access to a variable in local scope.
  */
-@Concrete
-interface VariableAccess : VariableBase {
+data class VariableAccess(override val name: String, override val variableType: Type) : VariableBase {
 
-    override fun builder(): Builder<VariableAccess, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : VariableAccess, S : Builder<T, S>> :
-            VariableBase.Builder<T, S> {
+    interface Builder :
+            VariableBase.Builder<VariableAccess, Builder> {
         companion object {
-            fun builder(): Builder<VariableAccess, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: VariableAccess): Builder<VariableAccess, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: VariableAccess): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

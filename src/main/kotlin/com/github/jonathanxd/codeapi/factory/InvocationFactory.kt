@@ -25,15 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base.impl
+@file:JvmName("InvocationFactory")
 
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.BodyHolder
-import com.github.jonathanxd.codeapi.base.StaticBlock
-import com.github.jonathanxd.codeapi.base.comment.Comments
+package com.github.jonathanxd.codeapi.factory
 
-data class StaticBlockImpl(override val body: CodeSource, override val comments: Comments) : StaticBlock {
-    init {
-        BodyHolder.checkBody(this)
-    }
-}
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
+import com.github.jonathanxd.codeapi.common.TypeSpec
+import java.lang.reflect.Type
+
+fun invoke(invokeType: InvokeType, localization: Type, target: CodePart, rtype: Type, name: String, ptypes: List<Type>) = MethodInvocation(
+        invokeType = invokeType,
+        target = target,
+        spec = MethodTypeSpec(
+                localization,
+                name,
+                TypeSpec(rtype, ptypes)
+        ),
+        arguments = emptyList()
+
+)

@@ -33,29 +33,24 @@ import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
- * Throw an exception
+ * Throws [partToThrow].
  */
-@Concrete
-interface ThrowException : CodePart {
+data class ThrowException(val partToThrow: CodePart) : CodePart {
 
-    /**
-     * Part to throw
-     */
-    val partToThrow: CodePart
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<ThrowException, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : ThrowException, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<ThrowException, Builder> {
 
         /**
-         * See [T.partToThrow]
+         * See [ThrowException.partToThrow]
          */
-        fun withPartToThrow(value: CodePart): S
+        fun withPartToThrow(value: CodePart): Builder
 
         companion object {
-            fun builder(): Builder<ThrowException, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ThrowException): Builder<ThrowException, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ThrowException): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

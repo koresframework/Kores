@@ -30,27 +30,37 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.base.ControlFlow.Type
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Control the flow of a statement.
+ *
+ * @property type Type of the flow control
+ * @property at Label to control flow (Note: [Type.CONTINUE] goes to Start of label and [Type.BREAK] goes to end of label).
+ * **Note**: [Type.CONTINUE] to a label may be unstable.
  */
-@Concrete
-interface ControlFlow : CodePart {
+data class ControlFlow(val type: Type, val at: Label?) : CodePart {
 
-    /**
-     * Type of the flow control
-     */
-    val type: Type
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * Label to control flow (Note: [Type.CONTINUE] goes to Start of label and [Type.BREAK] goes to end of label).
-     *
-     * **Note**: [Type.CONTINUE] to a label may be unstable.
-     */
-    val at: Label?
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<ControlFlow, Builder> {
+        /**
+         * See [ControlFlow.type]
+         */
+        fun withType(value: Type): Builder
 
-    override fun builder(): Builder<ControlFlow, *> = CodeAPI.getBuilderProvider()(this)
+        /**
+         * See [ControlFlow.at]
+         */
+        fun withAt(value: Label?): Builder
+
+        companion object {
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ControlFlow): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+        }
+
+    }
 
     enum class Type {
         /**
@@ -64,21 +74,5 @@ interface ControlFlow : CodePart {
         CONTINUE
     }
 
-    interface Builder<out T : ControlFlow, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-        /**
-         * See [T.type]
-         */
-        fun withType(value: Type): S
-
-        /**
-         * See [T.at]
-         */
-        fun withAt(value: Label?): S
-
-        companion object {
-            fun builder(): Builder<ControlFlow, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ControlFlow): Builder<ControlFlow, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
-
-    }
 }
+

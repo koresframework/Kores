@@ -31,21 +31,17 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.FieldAccess;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
-import com.github.jonathanxd.codeapi.base.MethodSpecification;
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
-import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
-import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.util.Identity;
 import com.github.jonathanxd.codeapi.util.TypeUtil;
 
@@ -60,21 +56,21 @@ public class ElementUtil {
      * Returns true if method matches the specification without checking the invocation target or
      * declaring type.
      *
-     * @param methodDeclaration Method declaration.
+     * @param methodDeclarationBase Method declaration.
      * @param specification     Method Specification.
      * @return Returns true if method matches the specification without checking the invocation
      * target or declaring type.
      */
-    public static boolean equal(MethodDeclaration methodDeclaration, MethodSpecification specification) {
-        if (methodDeclaration.getName().equals(specification.getMethodName())) {
-            TypeSpec methodDescription = specification.getDescription();
+    public static boolean equal(MethodDeclarationBase methodDeclarationBase, MethodTypeSpec specification) {
+        if (methodDeclarationBase.getName().equals(specification.getMethodName())) {
+            TypeSpec methodDescription = specification.getTypeSpec();
 
-            List<CodeParameter> parameters = methodDeclaration.getParameters();
+            List<CodeParameter> parameters = methodDeclarationBase.getParameters();
 
             List<Type> codeTypes = TypeUtil.toTypes(parameters);
 
             if (TypeUtil.equals(codeTypes, methodDescription.getParameterTypes())) {
-                return Identity.is(methodDeclaration.getReturnType(), methodDescription.getReturnType());
+                return Identity.is(methodDeclarationBase.getReturnType(), methodDescription.getReturnType());
             }
 
         }
@@ -92,9 +88,9 @@ public class ElementUtil {
                 && Identity.is(access.getVariableType(), fieldDeclaration.getType());
     }
 
-    public static MethodInvocation invoke(MethodDeclaration methodDeclaration, CodePart target, List<CodePart> arguments, TypeDeclaration type) {
-        boolean isConstructor = methodDeclaration.getName().equals("<init>");
-        boolean isStatic = methodDeclaration.getModifiers().contains(CodeModifier.STATIC);
+    public static MethodInvocationBase invoke(MethodDeclarationBase methodDeclarationBase, CodePart target, List<CodePart> arguments, TypeDeclaration type) {
+        boolean isConstructor = methodDeclarationBase.getName().equals("<init>");
+        boolean isStatic = methodDeclarationBase.getModifiers().contains(CodeModifier.STATIC);
 
         InvokeType invokeType = isStatic ? InvokeType.INVOKE_STATIC :
                 (isConstructor
@@ -104,14 +100,14 @@ public class ElementUtil {
                         : InvokeType.INVOKE_VIRTUAL));
 
 
-        TypeSpec typeSpec = new TypeSpec(methodDeclaration.getReturnType(), TypeUtil.toTypes(methodDeclaration.getParameters()));
+        TypeSpec typeSpec = new TypeSpec(methodDeclarationBase.getReturnType(), TypeUtil.toTypes(methodDeclarationBase.getParameters()));
 
-        MethodSpecificationImpl methodSpecification = new MethodSpecificationImpl(
-                isConstructor ? MethodType.CONSTRUCTOR : MethodType.METHOD,
-                methodDeclaration.getName(),
+        MethodTypeSpec methodSpecification = new MethodTypeSpec(
+                type,
+                methodDeclarationBase.getName(),
                 typeSpec);
 
-        return new MethodInvocationImpl(type, arguments, methodSpecification, invokeType, null, isConstructor ? type : target);
+        return new MethodInvocation(arguments, methodSpecification, invokeType, isConstructor ? type : target);
     }
 
     public static MethodTypeSpec getMethodSpec(Method method) {
@@ -119,11 +115,11 @@ public class ElementUtil {
                 new TypeSpec(CodeAPI.getJavaType(method.getReturnType()), CodeAPI.getJavaTypeList(method.getParameterTypes())));
     }
 
-    public static MethodTypeSpec getMethodSpec(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration) {
+    public static MethodTypeSpec getMethodSpec(TypeDeclaration typeDeclaration, MethodDeclarationBase methodDeclarationBase) {
         return new MethodTypeSpec(
                 typeDeclaration,
-                methodDeclaration.getName(),
-                new TypeSpec(methodDeclaration.getReturnType(), methodDeclaration.getParameters().stream().map(CodeParameter::getType).collect(Collectors.toList()))
+                methodDeclarationBase.getName(),
+                new TypeSpec(methodDeclarationBase.getReturnType(), methodDeclarationBase.getParameters().stream().map(CodeParameter::getType).collect(Collectors.toList()))
         );
     }
 }

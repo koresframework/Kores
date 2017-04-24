@@ -34,24 +34,24 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * Access to a variable
+ * Access a field of type [type], name [name] in type [localization] using [target] as instance (Use a [Access.Type.STATIC] to
+ * static accesses).
  */
-@Concrete
-interface FieldAccess : Accessor, Typed, Named {
+data class FieldAccess(override val localization: Type,
+                       override val target: CodePart,
+                       override val type: Type,
+                       override val name: String) : Accessor, Typed, Named {
 
-    override val type: Type
-    override val target: CodePart
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<FieldAccess, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : FieldAccess, S : Builder<T, S>> :
-            Accessor.Builder<T, S>,
-            Typed.Builder<T, S>,
-            Named.Builder<T, S> {
+    interface Builder :
+            Accessor.Builder<FieldAccess, Builder>,
+            Typed.Builder<FieldAccess, Builder>,
+            Named.Builder<FieldAccess, Builder> {
 
         companion object {
-            fun builder(): Builder<FieldAccess, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: FieldAccess): Builder<FieldAccess, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: FieldAccess): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

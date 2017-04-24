@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -178,7 +178,7 @@ fun generateToBound(codeType: CodeType): String {
 }
 
 //"<T::Ljava/lang/CharSequence;>(Ljava/util/List<TT;>;Ljava/lang/String;)TT;
-fun methodGenericSignature(methodDeclaration: MethodDeclaration): String? {
+fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
 
     val returnType = methodDeclaration.returnType
 

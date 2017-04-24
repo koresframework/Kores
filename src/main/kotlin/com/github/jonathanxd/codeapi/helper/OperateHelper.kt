@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.impl.OperateImpl
+import com.github.jonathanxd.codeapi.base.Operate
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
 
@@ -181,7 +181,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
     }
 
     private fun operate(operation: Operator.Math, value: CodePart?): OperateHelper {
-        this.part = OperateImpl(this.part!!, operation, value)
+        this.part = Operate(this.part!!, operation, value)
 
         return this
     }

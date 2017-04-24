@@ -27,59 +27,82 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.*
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Catch statement of a try block. Catch [exceptionTypes] and store caught exception in [variable].
+ * A local code execution. This code may be inlined or declared as method of current
+ * type and invoked in call site or by a lambda.
  *
- * @property exceptionTypes Exception type to catch
- * @property variable Variable to store exception
+ * @property declaration Method declaration of the code.
+ * @property scope Code scope.
+ * @property declaringType Declaring type of the local method.
+ * @property arguments Arguments to pass to code.
  */
-data class CatchStatement(val exceptionTypes: List<Type>,
-                          val variable: VariableDeclaration,
-                          override val body: CodeSource) : BodyHolder, Typed {
+data class LocalCode(val declaringType: Type,
+                     val scope: Scope,
+                     val declaration: MethodDeclarationBase,
+                     override val arguments: List<CodePart>) : MethodInvocationBase, CodeElement {
 
-    override val type: Type
-        get() = this.variable.type
+    override val invokeType: InvokeType
+        get() = if (this.scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.get(this.declaringType.codeType)
 
-    init {
-        BodyHolder.checkBody(this)
-    }
+    override val localization: Type
+        get() = this.declaringType
+
+    override val target: CodePart
+        get() = if(this.scope == Scope.STATIC) this.declaringType.codeType else Defaults.ACCESS_THIS
+
+    override val spec: MethodTypeSpec
+        get() = MethodTypeSpec(this.declaringType, this.declaration.name, this.declaration.typeSpec)
+
+    /**
+     * Parameters
+     */
+    val parameters: List<CodeParameter>
+        get() = this.declaration.parameters
+
+    /**
+     * Method description
+     */
+    val description: TypeSpec
+        get() = this.spec.typeSpec
+
+    /**
+     * Method body
+     */
+    val body: CodeSource
+        get() = this.declaration.body
 
     override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
     interface Builder :
-            BodyHolder.Builder<CatchStatement, Builder>,
-            Typed.Builder<CatchStatement, Builder> {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): Builder = self()
+            MethodInvocationBase.Builder<LocalCode, Builder> {
 
         /**
-         * See [CatchStatement.exceptionTypes]
+         * See [LocalCode.declaration]
          */
-        fun withExceptionTypes(value: List<Type>): Builder
+        fun withDeclaration(value: MethodDeclarationBase): Builder
 
         /**
-         * See [CatchStatement.variable]
+         * See [LocalCode.scope]
          */
-        fun withExceptionTypes(vararg values: Type): Builder = withExceptionTypes(values.toList())
+        fun withScope(value: Scope): Builder
 
         /**
-         * See [CatchStatement.variable]
+         * See [LocalCode.declaringType]
          */
-        fun withVariable(value: VariableDeclaration): Builder
+        fun withDeclaringType(value: Type): Builder
 
         companion object {
             fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: CatchStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(defaults: LocalCode): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
 }
-

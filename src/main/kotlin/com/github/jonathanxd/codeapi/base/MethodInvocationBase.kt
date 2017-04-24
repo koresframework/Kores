@@ -33,17 +33,26 @@ import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Invocation of a method
+ * Invokes a method.
+ */
+data class MethodInvocation(override val invokeType: InvokeType,
+                            override val target: CodePart,
+                            override val spec: MethodTypeSpec,
+                            override val arguments: List<CodePart>) : MethodInvocationBase
+
+/**
+ * Invokes a method.
  */
 @Concrete
-interface MethodInvocation : Accessor, ArgumentHolder, Typed {
+interface MethodInvocationBase : Accessor, ArgumentHolder, Typed {
 
     override val types: List<Type>
-        get() = this.spec.description.parameterTypes
+        get() = this.spec.typeSpec.parameterTypes
 
     override val array: Boolean
         get() = false
@@ -52,6 +61,7 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
      * Method localization
      */
     override val localization: Type
+        get() = this.spec.localization
 
     /**
      * Method arguments
@@ -62,26 +72,21 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
      * Method return type
      */
     override val type: Type
-        get() = this.spec.description.returnType
+        get() = this.spec.typeSpec.returnType
 
     /**
      * Specification of the method
      */
-    val spec: MethodSpecification
+    val spec: MethodTypeSpec
 
     /**
      * Type of method invocation
      */
     val invokeType: InvokeType
 
-    /**
-     * Dynamic invocation
-     */
-    val invokeDynamic: InvokeDynamic?
+    override fun builder(): Builder<MethodInvocationBase, *> = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : MethodInvocation, S : Builder<T, S>> :
+    interface Builder<out T : MethodInvocationBase, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
             ArgumentHolder.Builder<T, S>,
             Typed.Builder<T, S> {
@@ -92,13 +97,15 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
         override fun withType(value: Type): S {
             val spec = this.spec ?: throw IllegalStateException("No method description defined")
 
-            return this.withSpec(spec.builder().withDescription(spec.description.copy(returnType = value)).build())
+            return this.withSpec(spec.builder().withTypeSpec(spec.typeSpec.copy(returnType = value)).build())
         }
+
+        override fun withLocalization(value: Type): S = self()
 
         /**
          * See [T.spec]
          */
-        fun withSpec(value: MethodSpecification): S
+        fun withSpec(value: MethodTypeSpec): S
 
         /**
          * See [T.invokeType]
@@ -106,29 +113,13 @@ interface MethodInvocation : Accessor, ArgumentHolder, Typed {
         fun withInvokeType(value: InvokeType): S
 
         /**
-         * See [T.invokeDynamic]
-         */
-        fun withInvokeDynamic(value: InvokeDynamic?): S
-
-        /**
          * See [T.spec]
          */
-        val spec: MethodSpecification?
+        val spec: MethodTypeSpec?
 
         companion object {
-            fun builder(): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: MethodInvocation): Builder<MethodInvocation, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
-
-        object DefaultsImpls {
-
-            @JvmStatic
-            fun withType(builder: Builder<MethodInvocation, *>, type: Type): Builder<MethodInvocation, *> {
-
-                val spec = builder.spec ?: throw IllegalStateException("No method description defined")
-
-                return builder.withSpec(spec.builder().withDescription(spec.description.copy(returnType = type)).build())
-            }
+            fun builder(): Builder<MethodInvocationBase, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: MethodInvocationBase): Builder<MethodInvocationBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

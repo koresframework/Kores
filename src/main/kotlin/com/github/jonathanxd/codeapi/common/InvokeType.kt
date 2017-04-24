@@ -56,18 +56,7 @@ enum class InvokeType {
     /**
      * Interface method invocation.
      */
-    INVOKE_INTERFACE,
-
-    /**
-     * Invoke a method dynamically.
-     *
-     * Invoke dynamic uses a bootstrap to invoke the method. Dynamic invocations is used in lambdas
-     * for example.
-     *
-     * Dynamic invocations is a hard thing that is explained in class: {@link InvokeDynamic}.
-     */
-    INVOKE_DYNAMIC;
-
+    INVOKE_INTERFACE;
 
     /**
      * Returns true if the InvokeType is [INVOKE_STATIC].
@@ -97,14 +86,8 @@ enum class InvokeType {
      */
     fun isInterface() = this == INVOKE_INTERFACE
 
-    /**
-     * Returns true if the InvokeType is [INVOKE_DYNAMIC].
-     *
-     * @return True if the InvokeType is [INVOKE_DYNAMIC].
-     */
-    fun isDynamic() = this == INVOKE_DYNAMIC
-
     companion object {
+
         /**
          * Get InvokeType corresponding to the {@code type}, if [codeType] is null, [INVOKE_STATIC], if [CodeType.isInterface],
          * [INVOKE_INTERFACE] else [INVOKE_VIRTUAL]

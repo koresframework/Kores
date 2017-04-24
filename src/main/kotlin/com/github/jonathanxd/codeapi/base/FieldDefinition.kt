@@ -34,28 +34,30 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * Defines the value of a field or variable.
+ * Defines the value of a field of type [type], name [name] in type [localization] to [value], and use [target] as instance to access
+ * ([Access.Type.STATIC] for static accesses).
  */
-@Concrete
-interface FieldDefinition : Accessor, FieldBase, ValueHolder {
-    override val target: CodePart
-    override val type: Type
-    override val value: CodePart
+data class FieldDefinition(override val localization: Type,
+                           override val target: CodePart,
+                           override val type: Type,
+                           override val name: String,
+                           override val value: CodePart) : Accessor, FieldBase, ValueHolder {
 
-    override fun builder(): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : FieldDefinition, S : Builder<T, S>> :
-            Accessor.Builder<T, S>,
-            FieldBase.Builder<T, S>,
-            ValueHolder.Builder<T, S> {
+    interface Builder :
+            Accessor.Builder<FieldDefinition, Builder>,
+            FieldBase.Builder<FieldDefinition, Builder>,
+            ValueHolder.Builder<FieldDefinition, Builder> {
 
-        override fun withTarget(value: CodePart): S
-        override fun withLocalization(value: Type): S
+        override fun withTarget(value: CodePart): Builder
+        override fun withLocalization(value: Type): Builder
 
         companion object {
-            fun builder(): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: FieldDefinition): Builder<FieldDefinition, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: FieldDefinition): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

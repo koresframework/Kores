@@ -34,20 +34,13 @@ import java.lang.reflect.Type
 
 /**
  * Link comment: comment linking to an element or a url
+ *
+ * @property name Title/name of link (null to default)
+ * @property target Link target.
  */
-interface Link : Comment {
+data class Link(val name: String?, val target: LinkTarget) : Comment {
 
-    /**
-     * Name of the link.
-     */
-    val name: String?
-
-    /**
-     * Link target.
-     */
-    val target: LinkTarget
-
-    override fun builder(): Builder<Link, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
     /**
      * Target of the link
@@ -92,21 +85,21 @@ interface Link : Comment {
         data class URL(val url: String) : LinkTarget
     }
 
-    interface Builder<out T : Link, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Link, Builder> {
 
         /**
-         * See [T.name]
+         * See [Link.name]
          */
-        fun withName(value: String?): S
+        fun withName(value: String?): Builder
 
         /**
-         * See [T.target]
+         * See [Link.target]
          */
-        fun withTarget(value: LinkTarget): S
+        fun withTarget(value: LinkTarget): Builder
 
         companion object {
-            fun builder(): Builder<Link, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Link): Builder<Link, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Link): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
     }
 }

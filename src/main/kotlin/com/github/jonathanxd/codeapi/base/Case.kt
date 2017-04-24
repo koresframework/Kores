@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
@@ -35,8 +37,10 @@ import com.github.jonathanxd.codeapi.util.CodePartUtil
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
-@Concrete
-interface Case : ValueHolder, Typed, BodyHolder {
+/**
+ * Case statement of [SwitchStatement].
+ */
+data class Case(override val value: CodePart?, override val body: CodeSource) : ValueHolder, Typed, BodyHolder {
 
     override val type: Type
         get() = this.value?.let { CodePartUtil.getType(it) } ?: Types.INT
@@ -51,19 +55,24 @@ interface Case : ValueHolder, Typed, BodyHolder {
      */
     val isNotDefault get() = !this.isDefault
 
-    override fun builder(): Builder<Case, *> = CodeAPI.getBuilderProvider()(this)
+    init {
+        BodyHolder.checkBody(this)
+    }
 
-    interface Builder<out T : Case, S : Builder<T, S>> :
-            ValueHolder.Builder<T, S>,
-            Typed.Builder<T, S>,
-            BodyHolder.Builder<T, S> {
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-        override fun withType(value: Type): S = self()
+    interface Builder :
+            ValueHolder.Builder<Case, Builder>,
+            Typed.Builder<Case, Builder>,
+            BodyHolder.Builder<Case, Builder> {
+
+        override fun withType(value: Type): Builder = self()
 
         companion object {
-            fun builder(): Builder<Case, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Case): Builder<Case, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Case): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

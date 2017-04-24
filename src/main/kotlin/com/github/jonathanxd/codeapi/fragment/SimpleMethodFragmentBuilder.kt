@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.fragment
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.MethodFragment
+import com.github.jonathanxd.codeapi.base.LocalCode
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.builder.Builder
 import com.github.jonathanxd.codeapi.common.CodeParameter
@@ -39,36 +39,36 @@ import com.github.jonathanxd.codeapi.common.TypeSpec
 open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, SimpleMethodFragmentBuilder> {
 
     /**
-     * See [MethodFragment.declaringType]
+     * See [LocalCode.declaringType]
      */
     lateinit var declaringType: TypeDeclaration
 
     /**
-     * See [MethodFragment.scope]
+     * See [LocalCode.scope]
      */
     lateinit var scope: Scope
 
     /**
-     * See [MethodFragment.arguments]
+     * See [LocalCode.arguments]
      */
     var arguments: List<CodePart> = emptyList()
 
     /**
-     * See [MethodFragment.description]
+     * See [LocalCode.description]
      */
     lateinit var description: TypeSpec
 
     /**
-     * See [MethodFragment.parameters]
+     * See [LocalCode.parameters]
      */
     var parameters: List<CodeParameter> = emptyList()
 
     /**
-     * See [MethodFragment.body]
+     * See [LocalCode.body]
      */
     var body: CodeSource = CodeSource.empty()
 
-    constructor(defaults: MethodFragment) : this() {
+    constructor(defaults: LocalCode) : this() {
         this.declaringType = defaults.declaringType
         this.scope = defaults.scope
         this.arguments = defaults.arguments
@@ -79,7 +79,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.declaringType]
+     * See [LocalCode.declaringType]
      */
     fun withDeclaringType(value: TypeDeclaration): SimpleMethodFragmentBuilder {
         this.declaringType = value
@@ -88,7 +88,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.scope]
+     * See [LocalCode.scope]
      */
     fun withScope(value: Scope): SimpleMethodFragmentBuilder {
         this.scope = value
@@ -97,7 +97,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.arguments]
+     * See [LocalCode.arguments]
      */
     fun withArguments(value: List<CodePart>): SimpleMethodFragmentBuilder {
         this.arguments = value
@@ -106,7 +106,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.arguments]
+     * See [LocalCode.arguments]
      */
     fun withArguments(vararg values: CodePart): SimpleMethodFragmentBuilder {
         this.arguments = values.toList()
@@ -115,7 +115,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.description]
+     * See [LocalCode.description]
      */
     fun withDescription(value: TypeSpec): SimpleMethodFragmentBuilder {
         this.description = value
@@ -124,7 +124,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.parameters]
+     * See [LocalCode.parameters]
      */
     fun withParameters(value: List<CodeParameter>): SimpleMethodFragmentBuilder {
         this.parameters = value
@@ -133,7 +133,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.parameters]
+     * See [LocalCode.parameters]
      */
     fun withParameters(vararg values: CodeParameter): SimpleMethodFragmentBuilder {
         this.parameters = values.toList()
@@ -142,7 +142,7 @@ open class SimpleMethodFragmentBuilder() : Builder<SimpleMethodFragmentImpl, Sim
 
 
     /**
-     * See [MethodFragment.body]
+     * See [LocalCode.body]
      */
     fun withBody(value: CodeSource): SimpleMethodFragmentBuilder {
         this.body = value

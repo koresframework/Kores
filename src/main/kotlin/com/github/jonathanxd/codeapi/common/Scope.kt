@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.base.ModifiersHolder
 /**
  * Scope of a element.
  *
- * Commonly this scope is used by [com.github.jonathanxd.codeapi.base.MethodFragment].
+ * Commonly this scope is used by [com.github.jonathanxd.codeapi.base.LocalCode].
  */
 enum class Scope {
     /**

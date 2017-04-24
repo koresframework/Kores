@@ -65,64 +65,52 @@ import java.lang.reflect.Type
  * You could also switch objects, but make sure that the object implements [Any.hashCode]
  * and [Any.equals] methods.
  *
+ * @property value Value to switch
+ * @property switchType Type of the switch
+ * @property cases Cases statements.
  */
-@Concrete
-interface SwitchStatement : ValueHolder, Typed {
-
-    /**
-     * Value to switch
-     */
-    override val value: Typed
-
-    /**
-     * Switch types
-     */
-    val switchType: SwitchType
-
-    /**
-     * Case handlers
-     */
-    val cases: List<Case>
+data class SwitchStatement(override val value: Typed,
+                           val switchType: SwitchType,
+                           val cases: List<Case>) : ValueHolder, Typed {
 
     override val type: Type
         get() = this.value.type
 
-    override fun builder(): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : SwitchStatement, S : Builder<T, S>> :
-            ValueHolder.Builder<T, S>,
-            Typed.Builder<T, S> {
+    interface Builder:
+            ValueHolder.Builder<SwitchStatement, Builder>,
+            Typed.Builder<SwitchStatement, Builder> {
 
-        override fun withType(value: Type): S = self()
-        override fun withValue(value: CodePart?): S = this.withValue(value as Typed)
-
-        /**
-         * See [T.value]
-         */
-        fun withValue(value: Typed): S
+        override fun withType(value: Type): Builder = self()
+        override fun withValue(value: CodePart?): Builder = this.withValue(value as Typed)
 
         /**
-         * See [T.switchType]
+         * See [SwitchStatement.value]
          */
-        fun withSwitchType(value: SwitchType): S
+        fun withValue(value: Typed): Builder
 
         /**
-         * See [T.cases]
+         * See [SwitchStatement.switchType]
          */
-        fun withCases(value: List<Case>): S
+        fun withSwitchType(value: SwitchType): Builder
 
         /**
-         * See [T.cases]
+         * See [SwitchStatement.cases]
          */
-        fun withCases(vararg values: Case): S = withCases(values.toList())
+        fun withCases(value: List<Case>): Builder
+
+        /**
+         * See [SwitchStatement.cases]
+         */
+        fun withCases(vararg values: Case): Builder = withCases(values.toList())
 
         companion object {
-            fun builder(): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: SwitchStatement): Builder<SwitchStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: SwitchStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
-
 
     }
 
-}
 
+}

@@ -31,8 +31,9 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
+import com.github.jonathanxd.codeapi.base.AnnotationProperty;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
+import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
@@ -52,10 +53,10 @@ public class AnnotationTest_ {
         AnnotationDeclaration build = AnnotationDeclaration.Builder.Companion.builder()
                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyAnnotation")
-                .withProperties(CollectionsKt.listOf(new AnnotationPropertyImpl(Types.STRING, "value", Collections.emptyList(), null),
-                        new AnnotationPropertyImpl(Types.STRING, "id", Collections.emptyList(), "A"),
-                        new AnnotationPropertyImpl(Types.STRING.toArray(1), "names", Collections.emptyList(), new String[]{"A", "B"}),
-                        new AnnotationPropertyImpl(Types.INT.toArray(1), "ns", Collections.emptyList(), new int[]{1, 2})))
+                .withProperties(CollectionsKt.listOf(new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.STRING, "value", null),
+                        new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.STRING, "id", "A"),
+                        new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.STRING.toArray(1), "names", new String[]{"A", "B"}),
+                        new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.INT.toArray(1), "ns", new int[]{1, 2})))
                 .build();
 
         return Pair.of(build, CodeAPI.sourceOfParts(build));

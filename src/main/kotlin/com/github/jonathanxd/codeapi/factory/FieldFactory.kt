@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.base.impl.FieldDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.ArrayToList
@@ -74,13 +73,13 @@ fun field(annotations: Array<Annotation> = emptyArray(),
           name: String,
           value: CodePart? = null,
           comments: Comments = Comments.Absent): FieldDeclaration {
-    return FieldDeclarationImpl(
-            ArrayToList.toList(annotations),
-            value,
-            modifiers,
-            name,
-            type,
-            comments
+    return FieldDeclaration(
+            annotations = ArrayToList.toList(annotations),
+            value = value,
+            modifiers = modifiers,
+            name = name,
+            type = type,
+            comments = comments
     )
 }
 
@@ -90,13 +89,13 @@ fun field(comments: Comments,
           type: Type,
           name: String,
           value: CodePart? = null): FieldDeclaration {
-    return FieldDeclarationImpl(
-            ArrayToList.toList(annotations),
-            value,
-            modifiers,
-            name,
-            type,
-            comments
+    return FieldDeclaration(
+            annotations = ArrayToList.toList(annotations),
+            value = value,
+            modifiers = modifiers,
+            name = name,
+            type = type,
+            comments = comments
     )
 }
 

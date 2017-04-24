@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.MethodFragment
+import com.github.jonathanxd.codeapi.base.LocalCode
 import java.util.*
 
 sealed class InvokeDynamic(val methodTypeSpec: MethodTypeSpec) {
@@ -36,7 +36,7 @@ sealed class InvokeDynamic(val methodTypeSpec: MethodTypeSpec) {
         override fun toString(): String = "LambdaMethodReference[methodTypeSpec = $methodTypeSpec, expectedTypes = $expectedTypes]"
     }
 
-    class LambdaFragment(methodTypeSpec: MethodTypeSpec, expectedTypes: TypeSpec, val methodFragment: MethodFragment) : LambdaMethodReference(methodTypeSpec, expectedTypes) {
+    class LambdaFragment(methodTypeSpec: MethodTypeSpec, expectedTypes: TypeSpec, val methodFragment: LocalCode) : LambdaMethodReference(methodTypeSpec, expectedTypes) {
         override fun toString(): String = "LambdaFragment[methodTypeSpec = $methodTypeSpec, expectedTypes = $expectedTypes, methodFrament = $methodFragment]"
     }
 

@@ -36,44 +36,37 @@ import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Instance of check
+ * Checks if [part] is `instanceof` [checkType].
+ *
+ * @property part Casted part
+ * @property checkType Type to check if part value is instance.
  */
-@Concrete
-interface InstanceOfCheck : Typed {
+data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed {
 
     override val type: Type
         get() = Types.BOOLEAN
 
-    /**
-     * Part to check
-     */
-    val part: CodePart
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * Type to check
-     */
-    val checkType: Type
+    interface Builder : Typed.Builder<InstanceOfCheck, Builder> {
 
-    override fun builder(): Builder<InstanceOfCheck, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : InstanceOfCheck, S : Builder<T, S>> : Typed.Builder<T, S> {
-
-        override fun withType(value: Type): S = self()
+        override fun withType(value: Type): Builder = self()
 
         /**
          * See [T.part]
          */
-        fun withPart(value: CodePart): S
+        fun withPart(value: CodePart): Builder
 
         /**
          * See [T.checkType]
          */
-        fun withCheckType(value: Type): S
+        fun withCheckType(value: Type): Builder
 
         companion object {
-            fun builder(): Builder<InstanceOfCheck, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: InstanceOfCheck): Builder<InstanceOfCheck, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: InstanceOfCheck): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

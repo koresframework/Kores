@@ -27,83 +27,82 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
-import com.github.jonathanxd.codeapi.keyword.Keyword
-import com.github.jonathanxd.codeapi.keyword.Keywords
 import java.lang.reflect.Type as ReflectType
 
+
 /**
- * Access to a Scope.
+ * Access to a scope of a type. Example, access to static scope of [String].
+ *
+ * @property type Type of the access
+ * @property localization Localization of access.
  */
-@Concrete
-interface Access : CodePart {
+data class Access(val type: Type, val localization: ReflectType?) : CodePart {
+    override fun builder(): Builder = Builder(this)
 
-    /**
-     * Type of access
-     */
-    val type: Type
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<Access, Builder> {
 
-    /**
-     * Keyword of the access.
-     */
-    val keyword: Keyword?
-        get() = this.type.keyword
+        lateinit var type: Type
+        var localization: ReflectType? = null
 
-    /**
-     * Localization of the scope.
-     */
-    val localization: ReflectType?
+        constructor(defaults: Access) : this() {
+            this.type = defaults.type
+            this.localization = defaults.localization
+        }
 
-    override fun builder(): Builder<Access, *> = CodeAPI.getBuilderProvider()(this)
+        /**
+         * See [Access.type]
+         */
+        fun withType(type: Type): Builder {
+            this.type = type
+            return this
+        }
 
-    enum class Type(val keyword: Keyword?) {
+        /**
+         * See [Access.localization]
+         */
+        fun withLocalization(localization: ReflectType?): Builder {
+            this.localization = localization;
+            return this
+        }
+
+        override fun build() = Access(this.type, this.localization)
+
+        companion object {
+            @JvmStatic
+            fun builder() = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Access) = Builder(defaults)
+        }
+    }
+
+    enum class Type {
 
         /**
          * Access to local scope
          */
-        LOCAL(null),
+        LOCAL,
 
         /**
          * Access to static scope
          */
-        STATIC(null),
+        STATIC,
 
         /**
          * Access to this scope
          */
-        THIS(Keywords.THIS),
+        THIS,
 
         /**
          * Access to outer class scope
          */
-        OUTER(Keywords.THIS),
+        OUTER,
 
         /**
          * Access to super class scope
          */
-        SUPER(Keywords.SUPER)
+        SUPER
     }
-
-    interface Builder<out T : Access, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-
-        /**
-         * See [T.type]
-         */
-        fun withType(value: Type): S
-
-        /**
-         * See [T.localization]
-         */
-        fun withLocalization(value: ReflectType?): S
-
-        companion object {
-            fun builder(): Builder<Access, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Access): Builder<Access, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
-
-    }
-
 }
+

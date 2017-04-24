@@ -28,20 +28,25 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * While statement
+ *
+ * @property type Type of the while block (while or do-while).
  */
-@Concrete
-interface WhileStatement : IfExpressionHolder, BodyHolder {
-    /**
-     * Type of the while block
-     */
-    val type: Type
+data class WhileStatement(val type: Type,
+                          override val expressions: List<CodePart>,
+                          override val body: CodeSource) : IfExpressionHolder, BodyHolder {
 
-    override fun builder(): Builder<WhileStatement, *> = CodeAPI.getBuilderProvider()(this)
+    init {
+        BodyHolder.checkBody(this)
+    }
+
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
     enum class Type {
         /**
@@ -55,18 +60,18 @@ interface WhileStatement : IfExpressionHolder, BodyHolder {
         DO_WHILE
     }
 
-    interface Builder<out T : WhileStatement, S : Builder<T, S>> :
-            IfExpressionHolder.Builder<T, S>,
-            BodyHolder.Builder<T, S> {
+    interface Builder :
+            IfExpressionHolder.Builder<WhileStatement, Builder>,
+            BodyHolder.Builder<WhileStatement, Builder> {
 
         /**
-         * See [T.type]
+         * See [WhileStatement.type]
          */
-        fun withType(value: Type): S
+        fun withType(value: Type): Builder
 
         companion object {
-            fun builder(): Builder<WhileStatement, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: WhileStatement): Builder<WhileStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: WhileStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

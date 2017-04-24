@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
 /**
- * A body holder
+ * Holds a body. Example: method declarations, type declarations, static block, constructors...
  */
 interface BodyHolder : CodePart {
 

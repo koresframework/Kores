@@ -31,26 +31,22 @@ import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
+import java.lang.reflect.Type
 
 /**
- * Declaration of a variable
+ * Declares a variable of type [variableType] and name [name] with default value [value] (null does not
+ * mean that you declared a variable with null value, it means that you declared a variable without a default value,
+ * for null values use `Literals.NULL`).
  */
-@Concrete
-interface VariableDeclaration : VariableBase, ValueHolder {
+data class VariableDeclaration(override val variableType: Type, override val name: String, override val value: CodePart?) : VariableBase, ValueHolder {
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * Variable value
-     */
-    override val value: CodePart?
-
-    override fun builder(): Builder<VariableDeclaration, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : VariableDeclaration, S : Builder<T, S>> :
-            VariableBase.Builder<T, S>,
-            ValueHolder.Builder<T, S> {
+    interface Builder :
+            VariableBase.Builder<VariableDeclaration, Builder>,
+            ValueHolder.Builder<VariableDeclaration, Builder> {
         companion object {
-            fun builder(): Builder<VariableDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: VariableDeclaration): Builder<VariableDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: VariableDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

@@ -28,22 +28,53 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
+import java.lang.reflect.Type
 
-@Concrete
-interface ClassDeclaration : TypeDeclaration, SuperClassHolder, ImplementationHolder {
+/**
+ * Declaration of a class.
+ */
+data class ClassDeclaration(override val outerClass: Type?,
+                            override val comments: Comments,
+                            override val annotations: List<Annotation>,
+                            override val modifiers: Set<CodeModifier>,
+                            override val specifiedName: String,
+                            override val genericSignature: GenericSignature,
+                            override val superClass: Type,
+                            override val implementations: List<Type>,
+                            override val body: CodeSource) : TypeDeclaration, SuperClassHolder, ImplementationHolder {
 
-    override fun builder(): Builder<ClassDeclaration, *> = CodeAPI.getBuilderProvider()(this)
+    override val qualifiedName: String = specifiedName
+        get() = resolveQualifiedName(field, this.outerClass)
 
-    interface Builder<out T : ClassDeclaration, S : Builder<T, S>> :
-            TypeDeclaration.Builder<T, S>,
-            SuperClassHolder.Builder<T, S>,
-            ImplementationHolder.Builder<T, S> {
+    override val type: String = specifiedName
+        get() = resolveTypeName(field, this.outerClass)
+
+    init {
+        BodyHolder.checkBody(this)
+    }
+
+    override fun hashCode(): Int = this.hash()
+    override fun equals(other: Any?): Boolean = this.eq(other)
+
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+
+    interface Builder :
+            TypeDeclaration.Builder<ClassDeclaration, Builder>,
+            SuperClassHolder.Builder<ClassDeclaration, Builder>,
+            ImplementationHolder.Builder<ClassDeclaration, Builder> {
 
         companion object {
-            fun builder(): Builder<ClassDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ClassDeclaration): Builder<ClassDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ClassDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

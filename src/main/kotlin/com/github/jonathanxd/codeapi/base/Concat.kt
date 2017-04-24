@@ -32,30 +32,29 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 
-@Concrete
-interface Concat : CodePart {
+/**
+ * String concatenation. The result depends on generator, in official BytecodeGenerator a [StringBuilder] will be
+ * used to concat values (in a future patch it will be changed to use Java 9 dynamic concatenation), in official
+ * JavaSourceGenerator this will be translated into string concatenation.
+ */
+data class Concat(val concatenations: List<CodePart>) : CodePart {
 
-    /**
-     * Elements to concatenate.
-     */
-    val concatenations: List<CodePart>
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<Concat, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : Concat, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Concat, Builder> {
         /**
-         * See [T.concatenations]
+         * See [Concat.concatenations]
          */
-        fun withConcatenations(value: List<CodePart>): S
+        fun withConcatenations(value: List<CodePart>): Builder
 
         /**
-         * See [T.concatenations]
+         * See [Concat.concatenations]
          */
-        fun withConcatenations(vararg values: CodePart): S = withConcatenations(values.toList())
+        fun withConcatenations(vararg values: CodePart): Builder = withConcatenations(values.toList())
 
         companion object {
-            fun builder(): Builder<Concat, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Concat): Builder<Concat, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Concat): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

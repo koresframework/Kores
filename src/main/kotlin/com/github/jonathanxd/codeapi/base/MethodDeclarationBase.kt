@@ -30,25 +30,50 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeRoot
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.common.CodeParameter
+import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.generic.GenericSignature
 import java.lang.reflect.Type
 
 /**
  * Method declaration
  */
+data class MethodDeclaration(override val comments: Comments,
+                             override val annotations: List<Annotation>,
+                             override val modifiers: Set<CodeModifier>,
+                             override val genericSignature: GenericSignature,
+                             override val returnType: Type,
+                             override val name: String,
+                             override val parameters: List<CodeParameter>,
+                             override val body: CodeSource) : MethodDeclarationBase {
+    init {
+        BodyHolder.checkBody(this)
+    }
+}
+
+/**
+ * Method declaration
+ */
 @Concrete
-interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
+interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
 
     override val type: Type
         get() = this.returnType
 
     override val returnType: Type
 
-    override fun builder(): Builder<MethodDeclaration, *> = CodeAPI.getBuilderProvider()(this)
+    val typeSpec: TypeSpec
+        get() = TypeSpec(this.returnType, this.parameters.map(CodeParameter::type))
 
-    interface Builder<out T : MethodDeclaration, S : Builder<T, S>> :
+    override fun builder(): Builder<MethodDeclarationBase, *> = CodeAPI.getBuilderProvider()(this)
+
+    interface Builder<out T : MethodDeclarationBase, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
             ModifiersHolder.Builder<T, S>,
             ReturnTypeHolder.Builder<T, S>,
@@ -62,8 +87,8 @@ interface MethodDeclaration : CodeRoot, CodeElement, ModifiersHolder, ReturnType
         override fun withType(value: Type): S = this.withReturnType(value)
 
         companion object {
-            fun builder(): Builder<MethodDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: MethodDeclaration): Builder<MethodDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder<MethodDeclarationBase, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: MethodDeclarationBase): Builder<MethodDeclarationBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

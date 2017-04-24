@@ -28,8 +28,9 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
@@ -37,8 +38,13 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
-@Concrete
-interface StaticBlock : ConstructorDeclaration {
+/**
+ * Static block (aka class constructors/class initializers).
+ */
+data class StaticBlock(override val comments: Comments, override val body: CodeSource) : MethodDeclarationBase {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
     override val name: String
         get() = Constants.NAME
@@ -58,23 +64,23 @@ interface StaticBlock : ConstructorDeclaration {
     override val modifiers: Set<CodeModifier>
         get() = Constants.MODIFIERS
 
-    override fun builder(): Builder<StaticBlock, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : StaticBlock, S : Builder<T, S>> : ConstructorDeclaration.Builder<T, S> {
+    interface Builder : MethodDeclarationBase.Builder<StaticBlock, Builder> {
 
-        override fun withName(value: String): S = self()
-        override fun withAnnotations(value: List<Annotation>): S = self()
-        override fun withAnnotations(vararg values: Annotation): S = self()
-        override fun withParameters(value: List<CodeParameter>): S = self()
-        override fun withParameters(vararg values: CodeParameter): S = self()
-        override fun withReturnType(value: Type): S = self()
-        override fun withModifiers(value: Set<CodeModifier>): S = self()
-        override fun withModifiers(vararg values: CodeModifier): S = self()
-        override fun withGenericSignature(value: GenericSignature): S = self()
+        override fun withName(value: String): Builder = self()
+        override fun withAnnotations(value: List<Annotation>): Builder = self()
+        override fun withAnnotations(vararg values: Annotation): Builder = self()
+        override fun withParameters(value: List<CodeParameter>): Builder = self()
+        override fun withParameters(vararg values: CodeParameter): Builder = self()
+        override fun withReturnType(value: Type): Builder = self()
+        override fun withModifiers(value: Set<CodeModifier>): Builder = self()
+        override fun withModifiers(vararg values: CodeModifier): Builder = self()
+        override fun withGenericSignature(value: GenericSignature): Builder = self()
 
         companion object {
-            fun builder(): Builder<StaticBlock, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: StaticBlock): Builder<StaticBlock, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: StaticBlock): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

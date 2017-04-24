@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Concat
-import com.github.jonathanxd.codeapi.base.impl.ConcatImpl
 import com.github.jonathanxd.codeapi.literal.Literals
 import java.util.*
 
@@ -48,7 +47,7 @@ class ConcatHelper private constructor() {
     }
 
     fun build(): Concat {
-        return ConcatImpl(this.concatenations)
+        return Concat(this.concatenations)
     }
 
     companion object {

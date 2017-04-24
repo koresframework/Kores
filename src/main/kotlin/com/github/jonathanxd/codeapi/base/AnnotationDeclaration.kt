@@ -28,39 +28,131 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
+import java.lang.reflect.Type
 
 /**
- * Annotation declaration
+ * Annotation declaration.
+ *
+ * @property properties Properties of annotation declaration.
  */
-@Concrete
-interface AnnotationDeclaration : TypeDeclaration {
+data class AnnotationDeclaration(override val comments: Comments,
+                                 override val outerClass: Type?,
+                                 override val annotations: List<Annotation>,
+                                 override val modifiers: Set<CodeModifier>,
+                                 override val specifiedName: String,
+                                 override val genericSignature: GenericSignature,
+                                 val properties: List<AnnotationProperty>,
+                                 override val body: CodeSource) : TypeDeclaration {
 
-    /**
-     * Annotation properties
-     */
-    val properties: List<AnnotationProperty>
+    override val qualifiedName: String = specifiedName
+        get() = resolveQualifiedName(field, this.outerClass)
+
+    override val type: String = specifiedName
+        get() = resolveTypeName(field, this.outerClass)
 
     override val isInterface: Boolean
         get() = true
 
-    override fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider()(this)
+    init {
+        BodyHolder.checkBody(this)
+    }
 
-    interface Builder<out T : AnnotationDeclaration, S : Builder<T, S>> : TypeDeclaration.Builder<T, S> {
-        /**
-         * See [T.properties]
-         */
-        fun withProperties(value: List<AnnotationProperty>): S
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+
+    override fun hashCode(): Int = this.hash()
+    override fun equals(other: Any?): Boolean = this.eq(other)
+
+    class Builder() : TypeDeclaration.Builder<AnnotationDeclaration, Builder> {
+
+        var outerClass: Type? = null
+        lateinit var specifiedName: String
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+        var modifiers: Set<CodeModifier> = emptySet()
+        var genericSignature: GenericSignature = GenericSignature.empty()
+        var properties: List<AnnotationProperty> = emptyList()
+
+        constructor(defaults: AnnotationDeclaration) : this() {
+            this.outerClass = defaults.outerClass
+            this.specifiedName = defaults.specifiedName
+            this.comments = defaults.comments
+            this.annotations = defaults.annotations
+            this.body = defaults.body
+            this.modifiers = defaults.modifiers
+            this.genericSignature = defaults.genericSignature
+            this.properties = defaults.properties
+        }
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
+        override fun withGenericSignature(value: GenericSignature): Builder {
+            this.genericSignature = value
+            return this
+        }
+
+        override fun withSpecifiedName(value: String): Builder {
+            this.specifiedName = value
+            return this
+        }
+
+        override fun withOuterClass(value: Type?): Builder {
+            this.outerClass = value
+            return this
+        }
 
         /**
-         * See [T.properties]
+         * See [AnnotationDeclaration.properties]
          */
-        fun withProperties(vararg values: AnnotationProperty): S = withProperties(values.toList())
+        fun withProperties(value: List<AnnotationProperty>): Builder {
+            this.properties = value
+            return this
+        }
+
+        /**
+         * See [AnnotationDeclaration.properties]
+         */
+        fun withProperties(vararg values: AnnotationProperty): Builder = withProperties(values.toList())
+
+
+        override fun build() = AnnotationDeclaration(this.comments, this.outerClass, this.annotations, this.modifiers,
+                this.specifiedName, this.genericSignature, this.properties, this.body)
 
         companion object {
-            fun builder(): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: AnnotationDeclaration): Builder<AnnotationDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: AnnotationDeclaration): Builder = Builder(defaults)
         }
+
     }
+
 }

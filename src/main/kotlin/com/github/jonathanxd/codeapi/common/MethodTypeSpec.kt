@@ -51,7 +51,6 @@ data class MethodTypeSpec(val localization: Type, val methodName: String, val ty
         return if (this.methodName == other.methodName && this.typeSpec == other.typeSpec) 0 else 1
     }
 
-
     class Builder() : Typed.Builder<MethodTypeSpec, Builder> {
         lateinit var localization: Type
         lateinit var methodName: String

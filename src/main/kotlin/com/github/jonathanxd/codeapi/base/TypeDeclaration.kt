@@ -72,7 +72,9 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
             Annotable.Builder<T, S>,
             CommentHolder.Builder<T, S> {
 
-        override fun withQualifiedName(value: String): S
+        override fun withQualifiedName(value: String): S = this.withSpecifiedName(value)
+
+        fun withSpecifiedName(value: String): S
 
         fun withOuterClass(value: Type?): S
     }

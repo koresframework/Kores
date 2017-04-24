@@ -28,85 +28,72 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
-import com.github.jonathanxd.codeapi.common.CodeParameter
-import com.github.jonathanxd.codeapi.common.Scope
-import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * A fragment of a method declaration. This method may be inlined or declared as method of current
- * type.
+ * Try-catch-finally statement
+ */
+data class TryStatement(override val body: CodeSource, override val catchStatements: List<CatchStatement>, override val finallyStatement: CodeSource) : TryStatementBase {
+    init {
+        BodyHolder.checkBody(this)
+    }
+}
+
+/**
+ * Try-catch-finally statement
  */
 @Concrete
-interface MethodFragment : MethodInvocation, CodeElement {
+interface TryStatementBase : BodyHolder, Typed {
 
-    /**
-     * Fragment method declaration
-     */
-    val declaration: MethodDeclaration
-
-    /**
-     * Fragment scope
-     */
-    val scope: Scope
-
-    /**
-     * Declaring type of the fragment.
-     */
-    val declaringType: TypeDeclaration
-
-    /**
-     * Parameters
-     */
-    val parameters: List<CodeParameter>
-        get() = this.declaration.parameters
-
-    /**
-     * Method description
-     */
-    val description: TypeSpec
-        get() = this.spec.description
-
-    /**
-     * Method body
-     */
-    val body: CodeSource
-        get() = this.declaration.body
-
-    override fun builder(): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : MethodFragment, S : Builder<T, S>> :
-            MethodInvocation.Builder<T, S> {
-
-        override fun withType(value: Type): S {
-            val spec = this.spec ?: throw IllegalStateException("No method description defined")
-
-            return this.withSpec(spec.builder().withDescription(spec.description.copy(returnType = value)).build())
+    override val type: Type
+        get() {
+            if (catchStatements.isEmpty() || catchStatements.size > 1)
+                return Types.THROWABLE
+            else
+                return catchStatements.first().variable.type
         }
 
-        /**
-         * See [T.declaration]
-         */
-        fun withDeclaration(value: MethodDeclaration): S
+    /**
+     * Exception handler statements
+     */
+    val catchStatements: List<CatchStatement>
+
+    /**
+     * Finally block statement
+     */
+    val finallyStatement: CodeSource
+
+    override fun builder(): Builder<TryStatementBase, *> = CodeAPI.getBuilderProvider()(this)
+
+    interface Builder<out T : TryStatementBase, S : Builder<T, S>> :
+            BodyHolder.Builder<T, S>,
+            Typed.Builder<T, S> {
+
+        override fun withType(value: Type): S = self()
 
         /**
-         * See [T.scope]
+         * See [T.catchStatements]
          */
-        fun withScope(value: Scope): S
+        fun withCatchStatements(value: List<CatchStatement>): S
 
         /**
-         * See [T.declaringType]
+         * See [T.catchStatements]
          */
-        fun withDeclaringType(value: TypeDeclaration): S
+        fun withCatchStatements(vararg values: CatchStatement): S = withCatchStatements(values.toList())
+
+        /**
+         * See [T.finallyStatement]
+         */
+        fun withFinallyStatement(value: CodeSource): S
 
         companion object {
-            fun builder(): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: MethodFragment): Builder<MethodFragment, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder<TryStatementBase, *> = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: TryStatementBase): Builder<TryStatementBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

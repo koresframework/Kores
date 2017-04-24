@@ -27,22 +27,26 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.build
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.util.CodePartUtil
 import com.github.jonathanxd.codeapi.util.Stack
 import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Constructor of array type.
+ * Constructs an array of type [arrayType] with dimensions [dimensions].
  */
-@Concrete
-interface ArrayConstructor : ArgumentHolder, Typed {
+data class ArrayConstructor(val arrayType: Type,
+                            val dimensions: List<CodePart>,
+                            override val arguments: List<CodePart>) : ArgumentHolder, Typed {
+
+    override val type: Type
+        get() = this.arrayType
+
+    override val array: Boolean
+        get() = true
 
     override val types: List<Type>
         get() = ArrayList<Type>(this.arguments.size).apply {
@@ -50,16 +54,6 @@ interface ArrayConstructor : ArgumentHolder, Typed {
                 add(arrayType.codeType.arrayComponent)
             }
         }
-
-    /**
-     * Type of the array.
-     */
-    val arrayType: Type
-
-    /**
-     * Array dimensions
-     */
-    val dimensions: List<CodePart>
 
     /**
      * Array values
@@ -86,45 +80,63 @@ interface ArrayConstructor : ArgumentHolder, Typed {
             return arrayStores
         }
 
-    override val type: Type
-        get() = this.arrayType
+    override fun builder(): Builder = Builder()
 
-    override val array: Boolean
-        get() = true
+    class Builder() :
+            ArgumentHolder.Builder<ArrayConstructor, Builder>,
+            Typed.Builder<ArrayConstructor, Builder> {
 
-    override fun builder(): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider()(this)
+        lateinit var arrayType: Type
+        var dimensions: List<CodePart> = emptyList()
+        var arguments: List<CodePart> = emptyList()
 
-    interface Builder<out T : ArrayConstructor, S : Builder<T, S>> :
-            ArgumentHolder.Builder<T, S>,
-            Typed.Builder<T, S> {
+        constructor(defaults: ArrayConstructor) : this() {
+            this.arrayType = defaults.arrayType
+            this.dimensions = defaults.dimensions
+            this.arguments = defaults.arguments
+        }
 
-        override fun withType(value: Type): S = this.withArrayType(value)
+        override fun withType(value: Type): Builder = this.withArrayType(value)
 
         @Suppress("UNCHECKED_CAST")
-        override fun withArray(value: Boolean): S {
-            return this as S
+        override fun withArray(value: Boolean): Builder = self()
+
+        /**
+         * See [ArrayConstructor.arrayType]
+         */
+        fun withArrayType(value: Type): Builder {
+            this.arrayType = value
+            return this
         }
 
         /**
-         * See [T.arrayType]
+         * See [ArrayConstructor.dimensions]
          */
-        fun withArrayType(value: Type): S
+        fun withDimensions(value: List<CodePart>): Builder {
+            this.dimensions = value
+            return this
+        }
 
         /**
-         * See [T.dimensions]
+         * See [ArrayConstructor.dimensions]
          */
-        fun withDimensions(value: List<CodePart>): S
+        fun withDimensions(vararg values: CodePart): Builder = withDimensions(values.toList())
 
-        /**
-         * See [T.dimensions]
-         */
-        fun withDimensions(vararg values: CodePart): S = withDimensions(values.toList())
+        override fun withArguments(value: List<CodePart>): Builder {
+            this.arguments = value
+            return this
+        }
+
+        override fun build(): ArrayConstructor = ArrayConstructor(this.arrayType, this.dimensions, this.arguments)
 
         companion object {
-            fun builder(): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ArrayConstructor): Builder<ArrayConstructor, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: ArrayConstructor): Builder = Builder(defaults)
         }
 
-
     }
+
 }

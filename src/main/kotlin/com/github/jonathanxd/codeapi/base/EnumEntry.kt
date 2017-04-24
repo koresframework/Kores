@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.TypeSpec
@@ -36,10 +37,18 @@ import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Enumeration entry
+ * Enumeration entry.
+ *
+ * @property constructorSpec Enum constructor specification. Null for default enum constructor.
+ * @property arguments Enum constructor arguments
  */
-@Concrete
-interface EnumEntry : ArgumentHolder, Named, BodyHolder {
+data class EnumEntry(override val name: String,
+                     val constructorSpec: TypeSpec?,
+                     override val arguments: List<CodePart>,
+                     override val body: CodeSource) : ArgumentHolder, Named, BodyHolder {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
@@ -47,33 +56,23 @@ interface EnumEntry : ArgumentHolder, Named, BodyHolder {
     override val array: Boolean
         get() = false
 
-    /**
-     * Enum constructor specification. Null for default enum constructor.
-     */
-    val constructorSpec: TypeSpec?
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * Enum constructor arguments
-     */
-    override val arguments: List<CodePart>
+    interface Builder :
+            ArgumentHolder.Builder<EnumEntry, Builder>,
+            Named.Builder<EnumEntry, Builder>,
+            BodyHolder.Builder<EnumEntry, Builder> {
 
-    override fun builder(): Builder<EnumEntry, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : EnumEntry, S : Builder<T, S>> :
-            ArgumentHolder.Builder<T, S>,
-            Named.Builder<T, S>,
-            BodyHolder.Builder<T, S> {
-
-        override fun withArray(value: Boolean): S = self()
+        override fun withArray(value: Boolean): Builder = self()
 
         /**
-         * See [T.constructorSpec]
+         * See [EnumEntry.constructorSpec]
          */
-        fun withConstructorSpec(value: TypeSpec?): S
+        fun withConstructorSpec(value: TypeSpec?): Builder
 
         companion object {
-            fun builder(): Builder<EnumEntry, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: EnumEntry): Builder<EnumEntry, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: EnumEntry): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

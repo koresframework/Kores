@@ -33,10 +33,18 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * Enum value
+ * Enum value.
+ *
+ * This class **must not** be used to access enum entries, to access
+ * enum entries uses static field access.
+ *
+ * @property enumType Type of enum
+ * @property enumEntry Entry of enum.
+ * @property ordinal Ordinal value of enum.
  */
-@Concrete
-interface EnumValue : Named, Typed {
+data class EnumValue(val enumType: Type,
+                     val enumEntry: String,
+                     val ordinal: Int) : Named, Typed {
 
     override val name: String
         get() = this.enumEntry
@@ -44,49 +52,35 @@ interface EnumValue : Named, Typed {
     override val type: Type
         get() = this.enumType
 
-    /**
-     * The enum type.
-     */
-    val enumType: Type
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * The enum entry.
-     */
-    val enumEntry: String
+    interface Builder :
+            Named.Builder<EnumValue, Builder>,
+            Typed.Builder<EnumValue, Builder> {
 
-    /**
-     * Enum ordinal value.
-     */
-    val ordinal: Int
-
-    override fun builder(): Builder<EnumValue, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : EnumValue, S : Builder<T, S>> :
-            Named.Builder<T, S>,
-            Typed.Builder<T, S> {
-
-        override fun withName(value: String): S = this.withEnumEntry(value)
-        override fun withType(value: Type): S = this.withEnumType(value)
+        override fun withName(value: String): Builder = this.withEnumEntry(value)
+        override fun withType(value: Type): Builder = this.withEnumType(value)
 
         /**
-         * See [T.enumType]
+         * See [EnumValue.enumType]
          */
-        fun withEnumType(value: Type): S
+        fun withEnumType(value: Type): Builder
 
         /**
-         * See [T.enumEntry]
+         * See [EnumValue.enumEntry]
          */
-        fun withEnumEntry(value: String): S
+        fun withEnumEntry(value: String): Builder
 
         /**
-         * See [T.ordinal]
+         * See [EnumValue.ordinal]
          */
-        fun withOrdinal(value: Int): S
+        fun withOrdinal(value: Int): Builder
 
         companion object {
-            fun builder(): Builder<EnumValue, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: EnumValue): Builder<EnumValue, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: EnumValue): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

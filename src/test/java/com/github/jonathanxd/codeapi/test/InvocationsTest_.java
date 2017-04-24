@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodInvocation;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
@@ -182,10 +182,10 @@ public class InvocationsTest_ {
         return Pair.of(codeClass, codeSource);
     }
 
-    public static MethodDeclaration makeCM2(TypeDeclaration typeDeclaration) {
+    public static MethodDeclarationBase makeCM2(TypeDeclaration typeDeclaration) {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclaration codeMethod = MethodDeclaration.Builder.Companion.builder()
+        MethodDeclarationBase codeMethod = MethodDeclarationBase.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("check")
                 .withReturnType(Types.BOOLEAN)
@@ -210,7 +210,7 @@ public class InvocationsTest_ {
                 VariableFactory.variable(CodeAPI.getJavaType(Greeter.class), "greeter", CodeAPI.invokeConstructor(CodeAPI.getJavaType(WorldGreeter.class)))
         );
 
-        MethodInvocation greetingInvoke = CodeAPI.invoke(
+        MethodInvocationBase greetingInvoke = CodeAPI.invoke(
                 InvokeType.INVOKE_INTERFACE, Greeter.class, CodeAPI.accessLocalVariable(Greeter.class, "greeter"),
                 "hello",
                 CodeAPI.typeSpec(Types.STRING),
@@ -230,7 +230,7 @@ public class InvocationsTest_ {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        MethodInvocation dynamicSupplierGet = CodeAPI.Specific.invokeDynamicFragment(
+        MethodInvocationBase dynamicSupplierGet = CodeAPI.Specific.invokeDynamicFragment(
                 new InvokeDynamic.LambdaFragment(
                         new MethodTypeSpec(supplierType, "get", CodeAPI.typeSpec(Types.OBJECT)),
                         CodeAPI.typeSpec(Types.STRING),
@@ -273,7 +273,7 @@ public class InvocationsTest_ {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        MethodInvocation dynamicGet = CodeAPI.invokeDynamic(
+        MethodInvocationBase dynamicGet = CodeAPI.invokeDynamic(
                 new InvokeDynamic.LambdaMethodReference(
                         new MethodTypeSpec(supplierType, "get", CodeAPI.typeSpec(Types.OBJECT)),
                         new TypeSpec(Types.STRING)),
@@ -303,14 +303,14 @@ public class InvocationsTest_ {
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap ->")));
 
-        MethodInvocation methodInvocation = CodeAPI.Specific.invokeDynamic(
+        MethodInvocationBase methodInvocationBase = CodeAPI.Specific.invokeDynamic(
                 new InvokeDynamic.Bootstrap(BOOTSTRAP_SPEC, InvokeType.INVOKE_STATIC, new Object[0]),
                 CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(InvocationsTest_.class), CodeAPI.accessStatic(),
                         "helloWorld",
                         CodeAPI.typeSpec(Types.VOID, Types.STRING),
                         singletonList(Literals.STRING("World"))));
 
-        methodSource.add(methodInvocation);
+        methodSource.add(methodInvocationBase);
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap <-")));
 

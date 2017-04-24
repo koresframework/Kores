@@ -30,9 +30,10 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodePart
 
 /**
- * An element that can be annotated.
+ * An part that hold annotations.
  */
 interface Annotable : CodePart {
+
     /**
      * Annotations
      */

@@ -55,14 +55,16 @@ import com.github.jonathanxd.codeapi.base.InstanceOfCheck;
 import com.github.jonathanxd.codeapi.base.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.base.Label;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodFragment;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
+import com.github.jonathanxd.codeapi.base.LocalCode;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
-import com.github.jonathanxd.codeapi.base.MethodSpecification;
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
 import com.github.jonathanxd.codeapi.base.Operate;
 import com.github.jonathanxd.codeapi.base.Return;
 import com.github.jonathanxd.codeapi.base.SwitchStatement;
 import com.github.jonathanxd.codeapi.base.ThrowException;
 import com.github.jonathanxd.codeapi.base.TryStatement;
+import com.github.jonathanxd.codeapi.base.TryStatementBase;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.Typed;
@@ -72,38 +74,6 @@ import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDefinition;
 import com.github.jonathanxd.codeapi.base.WhileStatement;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
-import com.github.jonathanxd.codeapi.base.impl.AnnotationImpl;
-import com.github.jonathanxd.codeapi.base.impl.AnnotationPropertyImpl;
-import com.github.jonathanxd.codeapi.base.impl.ArrayConstructorImpl;
-import com.github.jonathanxd.codeapi.base.impl.ArrayLengthImpl;
-import com.github.jonathanxd.codeapi.base.impl.ArrayLoadImpl;
-import com.github.jonathanxd.codeapi.base.impl.ArrayStoreImpl;
-import com.github.jonathanxd.codeapi.base.impl.CaseImpl;
-import com.github.jonathanxd.codeapi.base.impl.CastImpl;
-import com.github.jonathanxd.codeapi.base.impl.CatchStatementImpl;
-import com.github.jonathanxd.codeapi.base.impl.ControlFlowImpl;
-import com.github.jonathanxd.codeapi.base.impl.EnumEntryImpl;
-import com.github.jonathanxd.codeapi.base.impl.EnumValueImpl;
-import com.github.jonathanxd.codeapi.base.impl.FieldAccessImpl;
-import com.github.jonathanxd.codeapi.base.impl.FieldDefinitionImpl;
-import com.github.jonathanxd.codeapi.base.impl.ForEachStatementImpl;
-import com.github.jonathanxd.codeapi.base.impl.ForStatementImpl;
-import com.github.jonathanxd.codeapi.base.impl.IfExprImpl;
-import com.github.jonathanxd.codeapi.base.impl.IfStatementImpl;
-import com.github.jonathanxd.codeapi.base.impl.InstanceOfCheckImpl;
-import com.github.jonathanxd.codeapi.base.impl.LabelImpl;
-import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl;
-import com.github.jonathanxd.codeapi.base.impl.MethodInvocationImpl;
-import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
-import com.github.jonathanxd.codeapi.base.impl.OperateImpl;
-import com.github.jonathanxd.codeapi.base.impl.ReturnImpl;
-import com.github.jonathanxd.codeapi.base.impl.SwitchStatementImpl;
-import com.github.jonathanxd.codeapi.base.impl.ThrowExceptionImpl;
-import com.github.jonathanxd.codeapi.base.impl.TryStatementImpl;
-import com.github.jonathanxd.codeapi.base.impl.TryWithResourcesImpl;
-import com.github.jonathanxd.codeapi.base.impl.VariableAccessImpl;
-import com.github.jonathanxd.codeapi.base.impl.VariableDefinitionImpl;
-import com.github.jonathanxd.codeapi.base.impl.WhileStatementImpl;
 import com.github.jonathanxd.codeapi.builder.BuilderProvider;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -111,9 +81,7 @@ import com.github.jonathanxd.codeapi.common.IfGroup;
 import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
-import com.github.jonathanxd.codeapi.common.IterationTypes;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
-import com.github.jonathanxd.codeapi.common.MethodType;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchType;
@@ -180,7 +148,7 @@ public final class CodeAPI {
     //          Annotations
     // =========================================================
 
-    public static AnnotationDeclaration.Builder<AnnotationDeclaration, ?> annotationBuilder() {
+    public static AnnotationDeclaration.Builder annotationBuilder() {
         return AnnotationDeclaration.Builder.Companion.builder();
     }
 
@@ -246,7 +214,7 @@ public final class CodeAPI {
                                                         String name,
                                                         Object value) {
 
-        return new AnnotationPropertyImpl(type, name, annotationList, value);
+        return new AnnotationProperty(Comments.Absent.INSTANCE, annotationList, type, name, value);
     }
 
     // =========================================================
@@ -338,7 +306,7 @@ public final class CodeAPI {
     // Factory
 
     private static EnumEntry enumEntry__factory(String name, CodeSource body, TypeSpec spec, List<CodePart> arguments) {
-        return new EnumEntryImpl(spec, arguments, name, body);
+        return new EnumEntry(spec, arguments, name, body);
     }
 
     // =========================================================
@@ -346,12 +314,12 @@ public final class CodeAPI {
     // =========================================================
 
     /**
-     * Create a {@link MethodDeclaration.Builder}.
+     * Create a {@link MethodDeclarationBase.Builder}.
      *
-     * @return New {@link MethodDeclaration.Builder}.
+     * @return New {@link MethodDeclarationBase.Builder}.
      */
-    public static MethodDeclaration.Builder<MethodDeclaration, ?> methodBuilder() {
-        return MethodDeclaration.Builder.Companion.builder();
+    public static MethodDeclarationBase.Builder<MethodDeclarationBase, ?> methodBuilder() {
+        return MethodDeclarationBase.Builder.Companion.builder();
     }
 
     // =========================================================
@@ -363,7 +331,7 @@ public final class CodeAPI {
      *
      * @return New {@link ConstructorDeclaration.Builder}.
      */
-    public static ConstructorDeclaration.Builder<ConstructorDeclaration, ?> constructorBuilder() {
+    public static ConstructorDeclaration.Builder constructorBuilder() {
         return ConstructorDeclaration.Builder.Companion.builder();
     }
 
@@ -383,7 +351,7 @@ public final class CodeAPI {
     // Factory
 
     private static ArrayConstructor arrayConstruct__factory(Type arrayType, CodePart[] dimensions, List<CodePart> arguments) {
-        return new ArrayConstructorImpl(arguments, arrayType, ArrayToList.toList(dimensions));
+        return new ArrayConstructor(arrayType, ArrayToList.toList(dimensions), arguments);
     }
 
     // =========================================================
@@ -405,15 +373,15 @@ public final class CodeAPI {
     // Factory
 
     private static ArrayLength getArrayLength__factory(Typed access) {
-        return new ArrayLengthImpl(access.getType(), access);
+        return new ArrayLength(access.getType(), access);
     }
 
     private static ArrayLoad getArrayValue__factory(CodePart index, Typed access, Type valueType) {
-        return new ArrayLoadImpl(index, access, valueType, access.getType());
+        return new ArrayLoad(access.getType(), access, index, valueType);
     }
 
     private static ArrayStore setArrayValue__factory(CodePart index, Typed access, Typed value) {
-        return new ArrayStoreImpl(index, access, value.getType(), value, access.getType());
+        return new ArrayStore(access.getType(), index, access, value.getType(), value);
     }
 
 
@@ -442,23 +410,23 @@ public final class CodeAPI {
     // =========================================================
 
     public static Return returnVoid() {
-        return new ReturnImpl(Void.INSTANCE.getType(), Void.INSTANCE);
+        return new Return(Void.INSTANCE.getType(), Void.INSTANCE);
     }
 
     public static Return returnValue(Type valueType, CodePart value) {
-        return new ReturnImpl(valueType, value);
+        return new Return(valueType, value);
     }
 
     public static Return returnLocalVariable(Type fieldType, String fieldName) {
-        return new ReturnImpl(fieldType, CodeAPI.accessLocalVariable(fieldType, fieldName));
+        return new Return(fieldType, CodeAPI.accessLocalVariable(fieldType, fieldName));
     }
 
     public static Return returnThisField(Type fieldType, String fieldName) {
-        return new ReturnImpl(fieldType, CodeAPI.accessThisField(fieldType, fieldName));
+        return new Return(fieldType, CodeAPI.accessThisField(fieldType, fieldName));
     }
 
     public static Return returnStaticField(Type localization, Type fieldType, String fieldName) {
-        return new ReturnImpl(fieldType, CodeAPI.accessStaticField(localization, fieldType, fieldName));
+        return new Return(fieldType, CodeAPI.accessStaticField(localization, fieldType, fieldName));
     }
 
     // =========================================================
@@ -491,7 +459,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current class.
      */
-    public static MethodInvocation invokeThisConstructor(TypeSpec constructorSpec, List<CodePart> arguments) {
+    public static MethodInvocationBase invokeThisConstructor(TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeThisConstructor__factory(constructorSpec, arguments);
     }
 
@@ -502,7 +470,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current class.
      */
-    public static MethodInvocation invokeSuperConstructor(TypeSpec constructorSpec, List<CodePart> arguments) {
+    public static MethodInvocationBase invokeSuperConstructor(TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeSuperConstructor__factory(Alias.SUPER.INSTANCE, constructorSpec, arguments);
     }
 
@@ -514,7 +482,7 @@ public final class CodeAPI {
      * @param arguments       Constructor Arguments.
      * @return Invocation of super constructor of current type declaration.
      */
-    public static MethodInvocation invokeSuperConstructor(Type superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
+    public static MethodInvocationBase invokeSuperConstructor(Type superClass, TypeSpec constructorSpec, List<CodePart> arguments) {
         return invokeSuperConstructor__factory(superClass, constructorSpec, arguments);
     }
 
@@ -524,7 +492,7 @@ public final class CodeAPI {
      * @param type Type to invoke constructor.
      * @return Invocation of constructor of {@code type}.
      */
-    public static MethodInvocation invokeConstructor(Type type) {
+    public static MethodInvocationBase invokeConstructor(Type type) {
         return invokeConstructor__factory(type, constructorTypeSpec(new Type[0]), Collections.emptyList());
     }
 
@@ -536,7 +504,7 @@ public final class CodeAPI {
      * @param arguments Arguments to pass to constructor.
      * @return Invocation of constructor of {@code type} with provided arguments.
      */
-    public static MethodInvocation invokeConstructor(Type type, TypeSpec spec, List<CodePart> arguments) {
+    public static MethodInvocationBase invokeConstructor(Type type, TypeSpec spec, List<CodePart> arguments) {
         return invokeConstructor__factory(type, spec, arguments);
     }
 
@@ -549,9 +517,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(Type localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, localization, CodeTypes.getCodeType(localization), arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeStatic(Type localization, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, CodeTypes.getCodeType(localization), arguments,
+                spec__factory(localization, methodName, methodDescription));
     }
 
     /**
@@ -562,9 +530,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of static method.
      */
-    public static MethodInvocation invokeStatic(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_STATIC, Alias.THIS.INSTANCE, CodeAPI.accessStatic(), arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeStatic(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_STATIC, CodeAPI.accessStatic(), arguments,
+                spec__factory(Alias.THIS.INSTANCE, methodName, methodDescription));
     }
 
     /**
@@ -577,9 +545,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, localization, target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeVirtual(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, target, arguments,
+                spec__factory(localization, methodName, methodDescription));
     }
 
     /**
@@ -590,9 +558,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of instance method.
      */
-    public static MethodInvocation invokeVirtual(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeVirtual(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_VIRTUAL, CodeAPI.accessThis(), arguments,
+                spec__factory(Alias.THIS.INSTANCE, methodName, methodDescription));
     }
 
     /**
@@ -603,9 +571,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeInterface(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, CodeAPI.accessThis(), arguments,
+                spec__factory(Alias.THIS.INSTANCE, methodName, methodDescription));
     }
 
     /**
@@ -618,9 +586,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of interface method.
      */
-    public static MethodInvocation invokeInterface(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_INTERFACE, localization, target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeInterface(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_INTERFACE, target, arguments,
+                spec__factory(localization, methodName, methodDescription));
     }
 
     /**
@@ -638,9 +606,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_SPECIAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeSpecial(String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, CodeAPI.accessThis(), arguments,
+                spec__factory(Alias.THIS.INSTANCE, methodName, methodDescription));
     }
 
     /**
@@ -660,9 +628,9 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of special method.
      */
-    public static MethodInvocation invokeSpecial(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(InvokeType.INVOKE_SPECIAL, localization, target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invokeSpecial(Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(InvokeType.INVOKE_SPECIAL, target, arguments,
+                spec__factory(localization, methodName, methodDescription));
     }
 
 
@@ -677,20 +645,21 @@ public final class CodeAPI {
      * @param arguments         Method arguments.
      * @return Invocation of a method.
      */
-    public static MethodInvocation invoke(InvokeType invokeType, Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
-        return invoke__factory(invokeType, localization, target, arguments,
-                spec__factory(methodName, methodDescription, MethodType.METHOD));
+    public static MethodInvocationBase invoke(InvokeType invokeType, Type localization, CodePart target, String methodName, TypeSpec methodDescription, List<CodePart> arguments) {
+        return invoke__factory(invokeType, target, arguments,
+                spec__factory(localization, methodName, methodDescription));
     }
 
     /**
      * Invoke a method dynamically.
      *
      * @param invokeDynamic    Invoke dynamic instance.
-     * @param methodInvocation Method to invoke dynamically.
+     * @param methodInvocationBase Method to invoke dynamically.
      * @return Dynamic invocation.
      */
-    public static MethodInvocation invokeDynamic(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
-        return invokeDynamic__factory(invokeDynamic, methodInvocation);
+    @Deprecated
+    public static MethodInvocationBase invokeDynamic(InvokeDynamic invokeDynamic, MethodInvocationBase methodInvocationBase) {
+        return invokeDynamic__factory(invokeDynamic, methodInvocationBase);
     }
 
     /**
@@ -698,66 +667,67 @@ public final class CodeAPI {
      *
      * @param fragment Method to invoke.
      * @return Dynamic invocation.
-     * @see MethodFragment
+     * @see LocalCode
      */
-    public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment fragment) {
+    @Deprecated
+    public static MethodInvocationBase invokeDynamicFragment(InvokeDynamic.LambdaFragment fragment) {
         return invokeDynamic__factory(fragment);
     }
 
-    public static MethodInvocation invokeFieldGetter(InvokeType invokeType, Type localization, CodePart target, Type fieldType, String fieldName) {
-        return invoke__factory(invokeType, localization, target, Collections.emptyList(),
-                spec__factory("get".concat(StringsKt.capitalize(fieldName)), new TypeSpec(fieldType), MethodType.METHOD));
+    public static MethodInvocationBase invokeFieldGetter(InvokeType invokeType, Type localization, CodePart target, Type fieldType, String fieldName) {
+        return invoke__factory(invokeType, target, Collections.emptyList(),
+                spec__factory(localization, "get".concat(StringsKt.capitalize(fieldName)), new TypeSpec(fieldType)));
     }
 
-    public static MethodInvocation invokeFieldSetter(InvokeType invokeType, Type localization, CodePart target, Type fieldType, String fieldName, CodePart value) {
-        return invoke__factory(invokeType, localization, target, CollectionsKt.listOf(value),
-                spec__factory("set".concat(StringsKt.capitalize(fieldName)), typeSpec(Types.VOID, fieldType), MethodType.METHOD));
+    public static MethodInvocationBase invokeFieldSetter(InvokeType invokeType, Type localization, CodePart target, Type fieldType, String fieldName, CodePart value) {
+        return invoke__factory(invokeType, target, CollectionsKt.listOf(value),
+                spec__factory(localization, "set".concat(StringsKt.capitalize(fieldName)), typeSpec(Types.VOID, fieldType)));
     }
 
     // Factory
 
-    private static MethodSpecification spec__factory(String methodName, TypeSpec methodDescription, MethodType methodType) {
-        return new MethodSpecificationImpl(methodType, methodName, methodDescription);
+    private static MethodTypeSpec spec__factory(Type localization, String methodName, TypeSpec methodDescription) {
+        return new MethodTypeSpec(localization, methodName, methodDescription);
     }
 
-    private static MethodInvocation invoke__factory(InvokeType invokeType, Type localization, CodePart target, List<CodePart> arguments, MethodSpecification methodSpecification) {
-        return new MethodInvocationImpl(localization, arguments, methodSpecification, invokeType, null, target);
+    private static MethodInvocationBase invoke__factory(InvokeType invokeType, CodePart target, List<CodePart> arguments, MethodTypeSpec methodSpecification) {
+        return new MethodInvocation(invokeType, target, methodSpecification, arguments);
     }
 
-    private static MethodInvocation invokeDynamic__factory(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
-        MethodSpecification spec = methodInvocation.getSpec();
+    private static MethodInvocationBase invokeDynamic__factory(InvokeDynamic invokeDynamic, MethodInvocationBase methodInvocationBase) {
+        MethodTypeSpec spec = methodInvocationBase.getSpec();
 
-        MethodSpecification newSpec = new MethodSpecificationImpl(spec.getMethodType().toDynamic(), spec.getMethodName(), spec.getDescription());
+        MethodTypeSpec newSpec = spec;
 
-        return new MethodInvocationImpl(methodInvocation.getLocalization(), methodInvocation.getArguments(), newSpec, methodInvocation.getInvokeType(), invokeDynamic, methodInvocation.getTarget());
+        return new MethodInvocation(methodInvocationBase.getInvokeType(), methodInvocationBase.getTarget(), newSpec, methodInvocationBase.getArguments());
     }
 
-    private static MethodInvocation invokeDynamic__factory(InvokeDynamic.LambdaFragment fragment) {
-        MethodFragment methodFragment = fragment.getMethodFragment();
+    private static MethodInvocationBase invokeDynamic__factory(InvokeDynamic.LambdaFragment fragment) {
+        LocalCode localCode = fragment.getMethodFragment();
 
-        MethodSpecification spec = methodFragment.getSpec();
+        MethodTypeSpec spec = localCode.getSpec();
 
 
-        MethodSpecification newSpec = new MethodSpecificationImpl(spec.getMethodType(), spec.getMethodName(), spec.getDescription());
+        MethodTypeSpec newSpec = spec;
 
-        return new MethodInvocationImpl(methodFragment.getLocalization(),
-                methodFragment.getArguments(),
+        return new MethodInvocation(
+                localCode.getInvokeType(),
+                //fragment,
+                localCode.getTarget(),
                 newSpec,
-                methodFragment.getInvokeType(),
-                fragment,
-                methodFragment.getTarget());
+                localCode.getArguments());
     }
 
-    private static MethodInvocation invokeConstructor__factory(Type type, TypeSpec spec, List<CodePart> arguments) {
-        return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.CONSTRUCTOR, "<init>", spec), InvokeType.INVOKE_SPECIAL, null, CodeTypes.getCodeType(type));
+    private static MethodInvocationBase invokeConstructor__factory(Type type, TypeSpec spec, List<CodePart> arguments) {
+        return new MethodInvocation(InvokeType.INVOKE_SPECIAL, CodeTypes.getCodeType(type), new MethodTypeSpec(type, "<init>", spec), arguments);
     }
 
-    private static MethodInvocation invokeSuperConstructor__factory(Type type, TypeSpec constructorSpec, List<CodePart> arguments) {
-        return new MethodInvocationImpl(type, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessSuper());
+    private static MethodInvocationBase invokeSuperConstructor__factory(Type type, TypeSpec constructorSpec, List<CodePart> arguments) {
+        return new MethodInvocation(InvokeType.INVOKE_SPECIAL, CodeAPI.accessSuper(), new MethodTypeSpec(type, "<.init>", constructorSpec), arguments);
     }
 
-    private static MethodInvocation invokeThisConstructor__factory(TypeSpec constructorSpec, List<CodePart> arguments) {
-        return new MethodInvocationImpl(Alias.THIS.INSTANCE, arguments, new MethodSpecificationImpl(MethodType.SUPER_CONSTRUCTOR, "<init>", constructorSpec), InvokeType.INVOKE_SPECIAL, null, CodeAPI.accessThis());
+    private static MethodInvocationBase invokeThisConstructor__factory(TypeSpec constructorSpec, List<CodePart> arguments) {
+        return new MethodInvocation(InvokeType.INVOKE_SPECIAL, CodeAPI.accessThis(), new MethodTypeSpec(Alias.THIS.INSTANCE, "<.init>", constructorSpec), arguments);
     }
 
     // =========================================================
@@ -848,11 +818,11 @@ public final class CodeAPI {
 
     // Factory
     private static FieldAccess accessField__Factory(Type localization, CodePart at, Type type, String name) {
-        return new FieldAccessImpl(name, type, at, localization);
+        return new FieldAccess(localization, at, type, name);
     }
 
     private static VariableAccess accessVariable__Factory(Type type, String name) {
-        return new VariableAccessImpl(name, type);
+        return new VariableAccess(name, type);
     }
 
     // =========================================================
@@ -890,11 +860,11 @@ public final class CodeAPI {
 
     // Factory
     private static FieldDefinition setField__Factory(Type localization, CodePart at, Type type, String name, CodePart value) {
-        return new FieldDefinitionImpl(type, value, name, at, localization);
+        return new FieldDefinition(localization, at, type, name, value);
     }
 
     private static VariableDefinition setVariable__Factory(Type type, String name, CodePart value) {
-        return new VariableDefinitionImpl(type, name, value);
+        return new VariableDefinition(type, name, value);
     }
 
     // =========================================================
@@ -1014,7 +984,7 @@ public final class CodeAPI {
 
     // Factory
     private static Operate factory__operate(CodePart part, Operator.Math operation, CodePart value) {
-        return new OperateImpl(part, operation, value);
+        return new Operate(part, operation, value);
     }
 
     // =========================================================
@@ -1028,7 +998,7 @@ public final class CodeAPI {
     // Factory
 
     private static ThrowException throwException__Factory(CodePart partToThrow) {
-        return new ThrowExceptionImpl(partToThrow);
+        return new ThrowException(partToThrow);
     }
 
     // =========================================================
@@ -1129,7 +1099,7 @@ public final class CodeAPI {
      * @return Annotation
      */
     private static Annotation annotation__Factory(boolean isVisible, Type annotationType, Map<String, Object> values) {
-        return new AnnotationImpl(isVisible, annotationType, values);
+        return new Annotation(annotationType, values, isVisible);
     }
 
     // =========================================================
@@ -1162,7 +1132,7 @@ public final class CodeAPI {
     // Factory
 
     private static EnumValue enumValue__factory(Type enumType, String entry, int ordinal) {
-        return new EnumValueImpl(enumType, entry, ordinal);
+        return new EnumValue(enumType, entry, ordinal);
     }
 
     // =========================================================
@@ -1247,7 +1217,7 @@ public final class CodeAPI {
 
     // Factory
     private static Cast cast__Factory(Type fromType, Type toType, CodePart partToCast) {
-        return new CastImpl(fromType, toType, partToCast);
+        return new Cast(fromType, toType, partToCast);
     }
 
     // =========================================================
@@ -1303,7 +1273,7 @@ public final class CodeAPI {
 
     // Factory
     private static IfStatement ifStatement__Factory(List<CodePart> check, CodeSource body, CodeSource elseStatement) {
-        return new IfStatementImpl(check, body, elseStatement);
+        return new IfStatement(check, body, elseStatement);
     }
 
     // =========================================================
@@ -1317,7 +1287,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static IfExpr checkNotNull(CodePart part) {
-        return new IfExprImpl(part, Operators.NOT_EQUAL_TO, Literals.NULL);
+        return new IfExpr(part, Operators.NOT_EQUAL_TO, Literals.NULL);
     }
 
     /**
@@ -1327,7 +1297,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static IfExpr checkNull(CodePart part) {
-        return new IfExprImpl(part, Operators.EQUAL_TO, Literals.NULL);
+        return new IfExpr(part, Operators.EQUAL_TO, Literals.NULL);
     }
 
     /**
@@ -1337,7 +1307,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static IfExpr checkTrue(CodePart part) {
-        return new IfExprImpl(part, Operators.EQUAL_TO, Literals.TRUE);
+        return new IfExpr(part, Operators.EQUAL_TO, Literals.TRUE);
     }
 
     /**
@@ -1347,7 +1317,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static IfExpr checkFalse(CodePart part) {
-        return new IfExprImpl(part, Operators.EQUAL_TO, Literals.FALSE);
+        return new IfExpr(part, Operators.EQUAL_TO, Literals.FALSE);
     }
 
     /**
@@ -1359,7 +1329,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static IfExpr check(CodePart part1, Operator.Conditional operator, CodePart part2) {
-        return new IfExprImpl(part1, operator, part2);
+        return new IfExpr(part1, operator, part2);
     }
 
     public static IfExpressionHelper expressionHelper() {
@@ -1378,7 +1348,7 @@ public final class CodeAPI {
      * @return new label.
      */
     public static Label label(String name, CodeSource body) {
-        return new LabelImpl(name, body);
+        return new Label(name, body);
     }
 
     // =========================================================
@@ -1425,11 +1395,11 @@ public final class CodeAPI {
 
     // Factory
     private static ControlFlow break__Factory(Label label) {
-        return new ControlFlowImpl(ControlFlow.Type.BREAK, label);
+        return new ControlFlow(ControlFlow.Type.BREAK, label);
     }
 
     private static ControlFlow continue__Factory(Label label) {
-        return new ControlFlowImpl(ControlFlow.Type.CONTINUE, label);
+        return new ControlFlow(ControlFlow.Type.CONTINUE, label);
     }
 
     // =========================================================
@@ -1444,7 +1414,7 @@ public final class CodeAPI {
      * @return The verification part.
      */
     public static InstanceOfCheck isInstanceOf(CodePart part, Type type) {
-        return new InstanceOfCheckImpl(part, type);
+        return new InstanceOfCheck(part, type);
     }
 
     // =========================================================
@@ -1459,7 +1429,7 @@ public final class CodeAPI {
      * @param finallySource   Finally statement.
      * @return Try-Catch-Finally statement.
      */
-    public static TryStatement tryStatement(CodeSource toSurround, List<CatchStatement> catchStatements, CodeSource finallySource) {
+    public static TryStatementBase tryStatement(CodeSource toSurround, List<CatchStatement> catchStatements, CodeSource finallySource) {
         return tryStatement__Factory(toSurround, catchStatements, finallySource);
     }
 
@@ -1471,7 +1441,7 @@ public final class CodeAPI {
      * @param finallySource  Finally statement.
      * @return Try-Catch-Finally statement.
      */
-    public static TryStatement tryStatement(CodeSource toSurround, CatchStatement catchStatement, CodeSource finallySource) {
+    public static TryStatementBase tryStatement(CodeSource toSurround, CatchStatement catchStatement, CodeSource finallySource) {
         return tryStatement__Factory(toSurround, Collections.singletonList(catchStatement), finallySource);
     }
 
@@ -1482,7 +1452,7 @@ public final class CodeAPI {
      * @param catchStatements Catch statements.
      * @return Try-Catch statement.
      */
-    public static TryStatement tryStatement(CodeSource toSurround, List<CatchStatement> catchStatements) {
+    public static TryStatementBase tryStatement(CodeSource toSurround, List<CatchStatement> catchStatements) {
         return tryStatement__Factory(toSurround, catchStatements, emptySource());
     }
 
@@ -1500,7 +1470,7 @@ public final class CodeAPI {
     // Factory
     private static TryStatement tryStatement__Factory(CodeSource toSurround, List<CatchStatement> catchStatements, CodeSource finallySource) {
 
-        return new TryStatementImpl(toSurround, catchStatements, finallySource);
+        return new TryStatement(toSurround, catchStatements, finallySource);
     }
 
     // =========================================================
@@ -1533,7 +1503,7 @@ public final class CodeAPI {
 
     // Factory
     private static CatchStatement catchStatement__Factory(List<Type> exceptionTypes, VariableDeclaration exceptionVariable, CodeSource body) {
-        return new CatchStatementImpl(exceptionTypes, body, exceptionVariable);
+        return new CatchStatement(exceptionTypes, exceptionVariable, body);
     }
 
     // =========================================================
@@ -1617,7 +1587,7 @@ public final class CodeAPI {
 
     // Factory
     private static TryWithResources tryWithResources__Factory(VariableDeclaration variable, CodeSource toSurround, List<CatchStatement> catchStatements, CodeSource finallySource) {
-        return new TryWithResourcesImpl(variable, catchStatements, finallySource, toSurround);
+        return new TryWithResources(variable, catchStatements, finallySource, toSurround);
     }
 
     // =========================================================
@@ -1630,7 +1600,7 @@ public final class CodeAPI {
 
     // Factory
     private static WhileStatement whileStatement__Factory(List<CodePart> check, CodeSource source) {
-        return new WhileStatementImpl(WhileStatement.Type.WHILE, check, source);
+        return new WhileStatement(WhileStatement.Type.WHILE, check, source);
     }
 
     // =========================================================
@@ -1650,7 +1620,7 @@ public final class CodeAPI {
 
     // Factory
     private static WhileStatement doWhileStatement__Factory(CodeSource source, List<CodePart> check) {
-        return new WhileStatementImpl(WhileStatement.Type.DO_WHILE, check, source);
+        return new WhileStatement(WhileStatement.Type.DO_WHILE, check, source);
     }
 
     // =========================================================
@@ -1672,7 +1642,7 @@ public final class CodeAPI {
 
     // Factory
     private static ForStatement forStatement__Factory(CodePart initialization, List<CodePart> condition, CodePart update, CodeSource body) {
-        return new ForStatementImpl(initialization, condition, update, body);
+        return new ForStatement(initialization, condition, update, body);
     }
 
     // =========================================================
@@ -1687,7 +1657,7 @@ public final class CodeAPI {
      * }</pre>
      *
      * @param variable      Variable to store values.
-     * @param iterationType Iteration type (constants: {@link IterationTypes}).
+     * @param iterationType Iteration type.
      * @param expression    Expression.
      * @param body          For each statement.
      * @return ForEach statement.
@@ -1709,7 +1679,7 @@ public final class CodeAPI {
      * @return ForEach statement iterating an array.
      */
     public static ForEachStatement forEachArray(VariableDeclaration variable, CodePart expression, CodeSource body) {
-        return forEachStatement__Factory(variable, IterationTypes.ARRAY, expression, body);
+        return forEachStatement__Factory(variable, IterationType.ARRAY, expression, body);
     }
 
     /**
@@ -1725,12 +1695,12 @@ public final class CodeAPI {
      * @return ForEach statement iterating an iterable element.
      */
     public static ForEachStatement forEachIterable(VariableDeclaration variable, CodePart expression, CodeSource body) {
-        return forEachStatement__Factory(variable, IterationTypes.ITERABLE_ELEMENT, expression, body);
+        return forEachStatement__Factory(variable, IterationType.ITERABLE_ELEMENT, expression, body);
     }
 
     // Factory
     private static ForEachStatement forEachStatement__Factory(VariableDeclaration variable, IterationType iterationType, CodePart expression, CodeSource body) {
-        return new ForEachStatementImpl(variable, iterationType, expression, body);
+        return new ForEachStatement(variable, iterationType, expression, body);
     }
 
     // =========================================================
@@ -1783,7 +1753,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragment(TypeDeclaration typeDeclaration, Scope scope, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    public static LocalCode fragment(TypeDeclaration typeDeclaration, Scope scope, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, scope, returnType, parameters, arguments, body);
     }
 
@@ -1797,7 +1767,7 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentStatic(TypeDeclaration typeDeclaration, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    public static LocalCode fragmentStatic(TypeDeclaration typeDeclaration, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.STATIC, returnType, parameters, arguments, body);
     }
 
@@ -1811,12 +1781,12 @@ public final class CodeAPI {
      * @param body            Body of method.
      * @return Method fragment.
      */
-    public static MethodFragment fragmentInstance(TypeDeclaration typeDeclaration, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    public static LocalCode fragmentInstance(TypeDeclaration typeDeclaration, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
         return fragment__factory(typeDeclaration, Scope.INSTANCE, returnType, parameters, arguments, body);
     }
 
     // Factory
-    private static MethodFragment fragment__factory(TypeDeclaration typeDeclaration, Scope scope, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
+    private static LocalCode fragment__factory(TypeDeclaration typeDeclaration, Scope scope, Type returnType, CodeParameter[] parameters, CodePart[] arguments, CodeSource body) {
 
         List<CodeParameter> parameterList = ArrayToList.toList(parameters);
 
@@ -1860,11 +1830,11 @@ public final class CodeAPI {
 
     // Factory
     private static SwitchStatement switch__factory(SwitchType switchType, Typed value, List<Case> caseList) {
-        return new SwitchStatementImpl(value, switchType, caseList);
+        return new SwitchStatement(value, switchType, caseList);
     }
 
     private static Case case__factory(Typed value, CodeSource body) {
-        return new CaseImpl(value, body);
+        return new Case(value, body);
     }
 
 
@@ -1872,7 +1842,7 @@ public final class CodeAPI {
     //          Bridge Method
     // =========================================================
 
-    public static MethodDeclaration bridgeMethod(TypeDeclaration owner, MethodDeclaration current, MethodTypeSpec methodSpec) {
+    public static MethodDeclarationBase bridgeMethod(TypeDeclaration owner, MethodDeclarationBase current, MethodTypeSpec methodSpec) {
         List<Type> parameterTypes = methodSpec.getTypeSpec().getParameterTypes();
         List<CodeParameter> currentParameters = current.getParameters();
 
@@ -1918,13 +1888,14 @@ public final class CodeAPI {
 
         codeModifiers.add(CodeModifier.BRIDGE);
 
-        return new MethodDeclarationImpl(codeParameters, methodSpec.getMethodName(),
+        return new MethodDeclaration(Comments.Absent.INSTANCE,
                 Collections.emptyList(),
-                CodeAPI.sourceOfParts(toAdd),
-                currentReturnType,
                 codeModifiers,
                 GenericSignature.empty(),
-                Comments.Absent.INSTANCE);
+                currentReturnType,
+                methodSpec.getMethodName(),
+                codeParameters,
+                CodeAPI.sourceOfParts(toAdd));
     }
 
     // =========================================================
@@ -2230,11 +2201,11 @@ public final class CodeAPI {
          * Invoke dynamic method.
          *
          * @param invokeDynamic    Dynamic invocation specification.
-         * @param methodInvocation Method to invoke dynamically.
+         * @param methodInvocationBase Method to invoke dynamically.
          * @return Dynamic invocation.
          */
-        public static MethodInvocation invokeDynamic(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
-            return Specific.invokeDynamic__factory(invokeDynamic, methodInvocation);
+        public static MethodInvocationBase invokeDynamic(InvokeDynamic invokeDynamic, MethodInvocationBase methodInvocationBase) {
+            return Specific.invokeDynamic__factory(invokeDynamic, methodInvocationBase);
         }
 
         /**
@@ -2243,16 +2214,16 @@ public final class CodeAPI {
          * @param fragment Lambda Fragment.
          * @return Invocation of lambda fragment.
          */
-        public static MethodInvocation invokeDynamicFragment(InvokeDynamic.LambdaFragment fragment) {
+        public static MethodInvocationBase invokeDynamicFragment(InvokeDynamic.LambdaFragment fragment) {
             return Specific.invokeDynamic__factory(fragment);
         }
 
         // Factory
-        private static MethodInvocation invokeDynamic__factory(InvokeDynamic invokeDynamic, MethodInvocation methodInvocation) {
-            return CodeAPI.invokeDynamic(invokeDynamic, methodInvocation);
+        private static MethodInvocationBase invokeDynamic__factory(InvokeDynamic invokeDynamic, MethodInvocationBase methodInvocationBase) {
+            return CodeAPI.invokeDynamic(invokeDynamic, methodInvocationBase);
         }
 
-        private static MethodInvocation invokeDynamic__factory(InvokeDynamic.LambdaFragment fragment) {
+        private static MethodInvocationBase invokeDynamic__factory(InvokeDynamic.LambdaFragment fragment) {
             return CodeAPI.invokeDynamicFragment(fragment);
         }
 
@@ -2300,12 +2271,12 @@ public final class CodeAPI {
          *
          * @param methodTypeSpec Method specification ({@link InvokeDynamic}).
          * @param expectedTypes  Expected types.
-         * @param methodFragment Fragment to invoke.
+         * @param localCode Fragment to invoke.
          * @return Lambda Method Reference specification.
          * @see InvokeDynamic
          */
-        public static InvokeDynamic.LambdaFragment code(MethodTypeSpec methodTypeSpec, TypeSpec expectedTypes, MethodFragment methodFragment) {
-            return new InvokeDynamic.LambdaFragment(methodTypeSpec, expectedTypes, methodFragment);
+        public static InvokeDynamic.LambdaFragment code(MethodTypeSpec methodTypeSpec, TypeSpec expectedTypes, LocalCode localCode) {
+            return new InvokeDynamic.LambdaFragment(methodTypeSpec, expectedTypes, localCode);
         }
 
     }

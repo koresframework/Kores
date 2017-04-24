@@ -33,54 +33,44 @@ import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
+
 /**
- * Part casting
+ * Value cast. Cast [castedPart] of type [originalType] (null if unknown) to [targetType]. Official
+ * BytecodeGenerator uses the [originalType] to auto-box and auto-unbox the value.
+ *
+ * @property originalType Origin type
+ * @property targetType Target type
+ * @property castedPart Part to cast
  */
-@Concrete
-interface Cast : Typed {
-
-    /**
-     * Original type
-     */
-    val originalType: Type?
-
-    /**
-     * Target type
-     */
-    val targetType: Type
-
-    /**
-     * Part to cast
-     */
-    val castedPart: CodePart
+data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodePart) : Typed {
 
     override val type: Type
         get() = this.targetType
 
-    override fun builder(): Builder<Cast, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : Cast, S : Builder<T, S>> : Typed.Builder<T, S> {
+    interface Builder : Typed.Builder<Cast, Builder> {
 
-        override fun withType(value: Type): S = this.withTargetType(value)
-
-        /**
-         * See [T.originalType]
-         */
-        fun withOriginalType(value: Type?): S
+        override fun withType(value: Type): Builder = this.withTargetType(value)
 
         /**
-         * See [T.targetType]
+         * See [Cast.originalType]
          */
-        fun withTargetType(value: Type): S
+        fun withOriginalType(value: Type?): Builder
 
         /**
-         * See [T.castedPart]
+         * See [Cast.targetType]
          */
-        fun withCastedPart(value: CodePart): S
+        fun withTargetType(value: Type): Builder
+
+        /**
+         * See [Cast.castedPart]
+         */
+        fun withCastedPart(value: CodePart): Builder
 
         companion object {
-            fun builder(): Builder<Cast, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Cast): Builder<Cast, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Cast): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.base.impl.ConstructorDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -91,13 +90,13 @@ fun constructor(annotations: Array<Annotation> = emptyArray(),
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty(),
                 comments: Comments = Comments.Absent): ConstructorDeclaration {
-    return ConstructorDeclarationImpl(
-            ArrayToList.toList(parameters),
-            ArrayToList.toList(annotations),
-            source,
-            modifiers,
-            signature,
-            comments
+    return ConstructorDeclaration(
+            parameters = ArrayToList.toList(parameters),
+            annotations = ArrayToList.toList(annotations),
+            body = source,
+            modifiers = modifiers,
+            genericSignature = signature,
+            comments = comments
     )
 }
 
@@ -107,12 +106,12 @@ fun constructor(comments: Comments,
                 modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
-    return ConstructorDeclarationImpl(
-            ArrayToList.toList(parameters),
-            ArrayToList.toList(annotations),
-            source,
-            modifiers,
-            signature,
-            comments
+    return ConstructorDeclaration(
+            parameters = ArrayToList.toList(parameters),
+            annotations = ArrayToList.toList(annotations),
+            body = source,
+            modifiers = modifiers,
+            genericSignature = signature,
+            comments = comments
     )
 }

@@ -34,7 +34,7 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * Access an array.
+ * Access to an array.
  */
 @Concrete
 interface ArrayAccess : CodePart {

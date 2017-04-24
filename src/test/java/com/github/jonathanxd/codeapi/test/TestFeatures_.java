@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -66,10 +66,10 @@ public class TestFeatures_ {
                 singletonList(toPrint));
     }
 
-    public static MethodDeclaration makeCM() {
+    public static MethodDeclarationBase makeCM() {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclaration codeMethod = MethodDeclaration.Builder.Companion.builder()
+        MethodDeclarationBase codeMethod = MethodDeclarationBase.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("printIt")
                 .withParameters(new CodeParameter(Types.OBJECT, "n"))
@@ -155,10 +155,10 @@ public class TestFeatures_ {
         return Pair.of(codeClass, codeSource);
     }
 
-    public static MethodDeclaration makeCM2() {
+    public static MethodDeclarationBase makeCM2() {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclaration codeMethod = MethodDeclaration.Builder.Companion.builder()
+        MethodDeclarationBase codeMethod = MethodDeclarationBase.Builder.Companion.builder()
                 .withName("check")
                 .withModifiers(CodeModifier.PUBLIC)
                 .withParameters(new CodeParameter(Types.INT, "x"))

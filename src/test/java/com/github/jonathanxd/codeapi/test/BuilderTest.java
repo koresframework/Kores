@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Defaults;
+import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.Access;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
@@ -58,17 +59,17 @@ import com.github.jonathanxd.codeapi.base.IfExpr;
 import com.github.jonathanxd.codeapi.base.IfStatement;
 import com.github.jonathanxd.codeapi.base.InstanceOfCheck;
 import com.github.jonathanxd.codeapi.base.InterfaceDeclaration;
+import com.github.jonathanxd.codeapi.base.InvokeDynamicBase;
 import com.github.jonathanxd.codeapi.base.Label;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodFragment;
-import com.github.jonathanxd.codeapi.base.MethodInvocation;
-import com.github.jonathanxd.codeapi.base.MethodSpecification;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
+import com.github.jonathanxd.codeapi.base.LocalCode;
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
 import com.github.jonathanxd.codeapi.base.Operate;
 import com.github.jonathanxd.codeapi.base.Return;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
 import com.github.jonathanxd.codeapi.base.SwitchStatement;
 import com.github.jonathanxd.codeapi.base.ThrowException;
-import com.github.jonathanxd.codeapi.base.TryStatement;
+import com.github.jonathanxd.codeapi.base.TryStatementBase;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
@@ -78,19 +79,17 @@ import com.github.jonathanxd.codeapi.base.comment.Code;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.comment.Link;
 import com.github.jonathanxd.codeapi.base.comment.Plain;
-import com.github.jonathanxd.codeapi.base.impl.CaseImpl;
-import com.github.jonathanxd.codeapi.base.impl.MethodSpecificationImpl;
-import com.github.jonathanxd.codeapi.base.impl.comment.LinkImpl;
-import com.github.jonathanxd.codeapi.base.impl.comment.PlainImpl;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
-import com.github.jonathanxd.codeapi.common.IterationTypes;
-import com.github.jonathanxd.codeapi.common.MethodType;
+import com.github.jonathanxd.codeapi.common.IterationType;
+import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.SwitchTypes;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
+import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -106,6 +105,7 @@ import org.junit.Test;
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Tests proxy builder generator
@@ -262,7 +262,7 @@ public class BuilderTest {
     @Test
     public void commentsBuilderTest() {
         Comments.Builder.Companion.builder()
-                .withComments(new PlainImpl("Read api "), new LinkImpl("doc", new Link.LinkTarget.URL("https://example/docs")))
+                .withComments(new Plain("Read api "), new Link("doc", new Link.LinkTarget.URL("https://example/docs")))
                 .withType(Comments.Type.DOCUMENTATION)
                 .build();
     }
@@ -352,7 +352,7 @@ public class BuilderTest {
                         .withName("s")
                         .build())
                 .withIterableElement(CodeAPI.accessLocalVariable(Generic.type(List.class).of(String.class), "myList"))
-                .withIterationType(IterationTypes.ITERABLE_ELEMENT)
+                .withIterationType(IterationType.ITERABLE_ELEMENT)
                 .build();
     }
 
@@ -422,7 +422,7 @@ public class BuilderTest {
 
     @Test
     public void methodDeclarationBuilderTest() {
-        MethodDeclaration.Builder.Companion.builder()
+        MethodDeclarationBase.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
                 .withName("call")
                 .withReturnType(Void.TYPE)
@@ -432,19 +432,18 @@ public class BuilderTest {
 
     @Test
     public void methodFragmentBuilderTest() {
-        MethodFragment.Builder.Companion.builder()
+        LocalCode.Builder.Companion.builder()
                 .withDeclaration(
-                        MethodDeclaration.Builder.Companion.builder()
+                        MethodDeclarationBase.Builder.Companion.builder()
                                 .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
                                 .withName("fragment$call")
                                 .withReturnType(Void.TYPE)
                                 .withParameters()
                                 .build()
                 )
-                .withSpec(new MethodSpecificationImpl(MethodType.METHOD, "fragment$call", new TypeSpec(Void.TYPE)))
+                .withSpec(new MethodTypeSpec(Alias.THIS.INSTANCE, "fragment$call", new TypeSpec(Void.TYPE)))
                 .withTarget(Defaults.ACCESS_THIS)
-                .withLocalization(Alias.THIS.INSTANCE)
-                .withDeclaringType(ClassDeclaration.Builder.Companion.builder().withQualifiedName("com.e").build()) // will be removed
+                .withDeclaringType(ClassDeclaration.Builder.Companion.builder().withQualifiedName("com.x").build()) // will be removed
                 .withInvokeType(InvokeType.INVOKE_VIRTUAL)
                 .withScope(Scope.INSTANCE)
                 .build();
@@ -452,20 +451,11 @@ public class BuilderTest {
 
     @Test
     public void methodInvocationBuilderTest() {
-        MethodInvocation.Builder.Companion.builder()
+        MethodInvocationBase.Builder.Companion.builder()
                 .withLocalization(Alias.THIS.INSTANCE)
                 .withTarget(Defaults.ACCESS_THIS)
                 .withInvokeType(InvokeType.INVOKE_VIRTUAL)
-                .withSpec(new MethodSpecificationImpl(MethodType.METHOD, "hi", new TypeSpec(Void.TYPE)))
-                .build();
-    }
-
-    @Test
-    public void methodSpecificationBuilderTest() {
-        MethodSpecification.Builder.Companion.builder()
-                .withMethodType(MethodType.METHOD)
-                .withDescription(new TypeSpec(Void.TYPE))
-                .withMethodName("a")
+                .withSpec(new MethodTypeSpec(Alias.THIS.INSTANCE, "hi", new TypeSpec(Void.TYPE)))
                 .build();
     }
 
@@ -506,9 +496,9 @@ public class BuilderTest {
                 .withSwitchType(SwitchTypes.NUMERIC)
                 .withValue(CodeAPI.accessLocalVariable(Integer.TYPE, "a"))
                 .withCases(
-                        new CaseImpl(Literals.INT(1), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 1")))),
-                        new CaseImpl(Literals.INT(90), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 90")))),
-                        new CaseImpl(null, CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a != 1 && a != 90"))))
+                        new Case(Literals.INT(1), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 1")))),
+                        new Case(Literals.INT(90), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 90")))),
+                        new Case(null, CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a != 1 && a != 90"))))
                 )
                 .build();
     }
@@ -522,7 +512,7 @@ public class BuilderTest {
 
     @Test
     public void tryStatementBuilderTest() {
-        TryStatement.Builder.Companion.builder().build();
+        TryStatementBase.Builder.Companion.builder().build();
     }
 
     @Test
@@ -571,6 +561,50 @@ public class BuilderTest {
                 .withType(WhileStatement.Type.DO_WHILE)
                 .withExpressions(CodeAPI.check(CodeAPI.accessLocalVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
                 .withBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("a"))))
+                .build();
+    }
+
+    // Since 4.0.0
+    @Test
+    public void invokeDynamicBuilderTest() {
+        InvokeDynamicBase.Builder.Companion.builder()
+                .withType(Void.TYPE)
+                .withInvocation(CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(InvocationsTest_.class), CodeAPI.accessStatic(),
+                        "helloWorld",
+                        CodeAPI.typeSpec(Void.TYPE, String.class),
+                        Collections.singletonList(Literals.STRING("World"))))
+                .withBootstrap(new MethodInvokeSpec(InvokeType.INVOKE_STATIC, InvocationsTest_.BOOTSTRAP_SPEC))
+                .build();
+    }
+
+    @Test
+    public void invokeLambdaRefBuilderTest() {
+        InvokeDynamicBase.LambdaMethodRefBase.Builder.Companion.builder()
+                .withBaseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
+                .withExpectedTypes(new TypeSpec(String.class))
+                .withInvocation(CodeAPI.invoke(
+                        InvokeType.INVOKE_INTERFACE, Greeter.class, CodeAPI.accessLocalVariable(Greeter.class, "greeter"),
+                        "hello",
+                        CodeAPI.typeSpec(String.class),
+                        Collections.emptyList()))
+                .build();
+    }
+
+    @Test
+    public void invokeLambdaFuncBuilderTest() {
+        InvokeDynamicBase.LambdaLocalMethodBase.Builder.Companion.builder()
+                .withBaseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
+                .withExpectedTypes(new TypeSpec(String.class))
+                .withLocalMethod(SimpleMethodFragmentBuilder.builder()
+                        .withDeclaringType(ClassDeclaration.Builder.Companion.builder().withQualifiedName("com.x").build())
+                        .withScope(Scope.STATIC)
+                        .withDescription(new TypeSpec(Types.STRING))
+                        .withBody(
+                                CodeAPI.source(
+                                        CodeAPI.returnValue(Types.STRING, Literals.STRING("CodeAPI"))
+                                )
+                        )
+                        .build())
                 .build();
     }
 }

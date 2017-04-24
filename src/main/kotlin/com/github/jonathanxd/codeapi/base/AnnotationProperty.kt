@@ -27,52 +27,87 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.base.comment.CommentHolder
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import java.lang.reflect.Type
 
 /**
- * An annotation property
+ * Annotation property, this is part of [AnnotationDeclaration].
+ *
+ * @property defaultValue Annotation default value, must be: [Byte], [Boolean], [Char], [Short],
+ * [Int], [Long], [Float], [Double], [String], [Type],
+ * OBJECT, ARRAY, [EnumValue] or other [Annotation].
  */
-@Concrete
-interface AnnotationProperty : Named, Typed, Annotable, ReturnTypeHolder {
-
-    /**
-     * Annotation value
-     *
-     * The Annotation value must be: [Byte], [Boolean], [Char], [Short],
-     * [Int], [Long], [Float], [Double], [String], [Type],
-     * OBJECT, ARRAY, [EnumValue] or other [Annotation].
-     *
-     */
-    val value: Any?
-
+data class AnnotationProperty(override val comments: Comments,
+                              override val annotations: List<Annotation>,
+                              override val type: Type,
+                              override val name: String,
+                              val defaultValue: Any?) : Named, Typed, Annotable, ReturnTypeHolder, CommentHolder {
     override val returnType: Type
         get() = this.type
 
-    override val type: Type
+    override fun builder(): Builder = Builder(this)
 
-    override fun builder(): Builder<AnnotationProperty, *> = CodeAPI.getBuilderProvider()(this)
+    class Builder() :
+            Named.Builder<AnnotationProperty, Builder>,
+            Typed.Builder<AnnotationProperty, Builder>,
+            Annotable.Builder<AnnotationProperty, Builder>,
+            ReturnTypeHolder.Builder<AnnotationProperty, Builder>,
+            CommentHolder.Builder<AnnotationProperty, Builder> {
 
-    interface Builder<out T : AnnotationProperty, S : Builder<T, S>> :
-            Named.Builder<T, S>,
-            Typed.Builder<T, S>,
-            Annotable.Builder<T, S>,
-            ReturnTypeHolder.Builder<T, S> {
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        lateinit var name: String
+        lateinit var type: Type
+        var value: Any? = null
 
-        override fun withReturnType(value: Type): S = this.withType(value)
+        constructor(defaults: AnnotationProperty) : this() {
+            this.annotations = defaults.annotations
+            this.name = defaults.name
+            this.type = defaults.type
+            this.value = defaults.defaultValue
+        }
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withReturnType(value: Type): Builder = this.withType(value)
 
         /**
-         * See [T.value]
+         * See [AnnotationProperty.defaultValue]
          */
-        fun withValue(value: Any?): S
+        fun withValue(value: Any?): Builder {
+            this.value = value
+            return this
+        }
+
+        override fun build(): AnnotationProperty = AnnotationProperty(this.comments, this.annotations, this.type, this.name, this.value)
+
 
         companion object {
-            fun builder(): Builder<AnnotationProperty, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: AnnotationProperty): Builder<AnnotationProperty, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: AnnotationProperty): Builder = Builder(defaults)
         }
 
     }
-
 }

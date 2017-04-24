@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
-import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase
 import com.github.jonathanxd.codeapi.base.ModifiersHolder
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.common.CodeModifier
@@ -44,7 +44,7 @@ object MemberInfosUtil {
     fun createMemberInfos(typeDeclaration: TypeDeclaration): MemberInfos {
         val body = typeDeclaration.body
 
-        val elements = SourceInspect.find { codePart -> codePart is MethodDeclaration || codePart is FieldDeclaration || codePart is TypeDeclaration }
+        val elements = SourceInspect.find { codePart -> codePart is MethodDeclarationBase || codePart is FieldDeclaration || codePart is TypeDeclaration }
                 .include { bodied -> bodied is CodeSource }
                 .mapTo { codePart -> codePart as CodeElement }
                 .inspect(body)

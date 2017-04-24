@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.util.Alias
@@ -39,10 +40,14 @@ import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Field declaration
+ * Declaration of a field.
  */
-@Concrete
-interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable, CommentHolder {
+data class FieldDeclaration(override val comments: Comments,
+                            override val annotations: List<Annotation>,
+                            override val modifiers: Set<CodeModifier>,
+                            override val type: Type,
+                            override val name: String,
+                            override val value: CodePart?) : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable, CommentHolder {
 
     override val localization: Type
         get() = Alias.THIS
@@ -51,25 +56,24 @@ interface FieldDeclaration : CodeElement, FieldBase, Named, Typed, ValueHolder, 
         get() = if (this.modifiers.contains(CodeModifier.STATIC)) CodeAPI.accessStatic() else CodeAPI.accessThis()
 
 
-    override fun builder(): Builder<FieldDeclaration, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : FieldDeclaration, S : Builder<T, S>> :
-            FieldBase.Builder<T, S>,
-            Named.Builder<T, S>,
-            Typed.Builder<T, S>,
-            ValueHolder.Builder<T, S>,
-            ModifiersHolder.Builder<T, S>,
-            Annotable.Builder<T, S>,
-            CommentHolder.Builder<T, S> {
+    interface Builder :
+            FieldBase.Builder<FieldDeclaration, Builder>,
+            Named.Builder<FieldDeclaration, Builder>,
+            Typed.Builder<FieldDeclaration, Builder>,
+            ValueHolder.Builder<FieldDeclaration, Builder>,
+            ModifiersHolder.Builder<FieldDeclaration, Builder>,
+            Annotable.Builder<FieldDeclaration, Builder>,
+            CommentHolder.Builder<FieldDeclaration, Builder> {
 
-        override fun withLocalization(value: Type): S = self()
-        override fun withTarget(value: CodePart): S = self()
+        override fun withLocalization(value: Type): Builder = self()
+        override fun withTarget(value: CodePart): Builder = self()
 
         companion object {
-            fun builder(): Builder<FieldDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: FieldDeclaration): Builder<FieldDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: FieldDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
-
 
     }
 }

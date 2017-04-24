@@ -30,6 +30,9 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
+/**
+ * Hold arguments.
+ */
 interface ArgumentHolder : CodePart {
 
     /**

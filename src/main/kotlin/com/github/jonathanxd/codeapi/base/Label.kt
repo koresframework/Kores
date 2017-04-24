@@ -28,24 +28,27 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Label.
  */
-@Concrete
-interface Label : BodyHolder, Named {
+data class Label(override val name: String, override val body: CodeSource) : BodyHolder, Named {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
-    override fun builder(): Builder<Label, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : Label, S : Builder<T, S>> :
-            BodyHolder.Builder<T, S>,
-            Named.Builder<T, S> {
+    interface Builder :
+            BodyHolder.Builder<Label, Builder>,
+            Named.Builder<Label, Builder> {
 
         companion object {
-            fun builder(): Builder<Label, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Label): Builder<Label, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Label): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

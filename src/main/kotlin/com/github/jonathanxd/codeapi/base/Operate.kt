@@ -38,52 +38,40 @@ import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Mathematical operation.
+ * Operate a value and return result of operation.
+ *
+ * @property target Target part to operate.
+ * @property operation Operation.
  */
-@Concrete
-interface Operate : ValueHolder, Typed {
-
-    /**
-     * Target part to operate.
-     */
-    val target: CodePart
-
-    /**
-     * Operation to apply.
-     */
-    val operation: Operator.Math
-
-    /**
-     * Value to apply operation (some operations doesn't require any value).
-     */
-    override val value: CodePart?
+data class Operate(val target: CodePart,
+                   val operation: Operator.Math,
+                   override val value: CodePart?) : ValueHolder, Typed {
 
     override val type: CodeType
         get() = CodePartUtil.getType(this.target)
 
-    override fun builder(): Builder<Operate, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : Operate, S : Builder<T, S>> :
-            ValueHolder.Builder<T, S>,
-            Typed.Builder<T, S> {
+    interface Builder :
+            ValueHolder.Builder<Operate, Builder>,
+            Typed.Builder<Operate, Builder> {
 
-        override fun withType(value: Type): S = self()
-
-        /**
-         * See [T.target]
-         */
-        fun withTarget(value: CodePart?): S
+        override fun withType(value: Type): Builder = self()
 
         /**
-         * See [T.operation]
+         * See [Operate.target]
          */
-        fun withOperation(value: Operator.Math): S
+        fun withTarget(value: CodePart?): Builder
+
+        /**
+         * See [Operate.operation]
+         */
+        fun withOperation(value: Operator.Math): Builder
 
         companion object {
-            fun builder(): Builder<Operate, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Operate): Builder<Operate, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Operate): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
-
 
     }
 

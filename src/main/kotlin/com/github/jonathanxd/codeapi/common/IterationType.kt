@@ -27,11 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.ForEachStatement
 import com.github.jonathanxd.codeapi.base.ForStatement
-import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
 import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 
 /**
@@ -41,21 +37,9 @@ import com.github.jonathanxd.codeapi.sugar.SugarSyntax
  *
  * This sugar syntax generates a [ForStatement].
  */
-interface IterationType : PartProcessor, SugarSyntax<ForEachStatement, CodeSource> {
+enum class IterationType  {
 
-    override fun createGenerator(sugarEnvironment: SugarEnvironment): Generator
+    ARRAY,
+    ITERABLE_ELEMENT
 
-
-    /**
-     * This generator creates the elements required to construct a [ForStatement].
-     *
-     * ```
-     * for(createInitialization; createCondition; createUpdate) declareBody
-     * ```
-     */
-
-    interface Generator : com.github.jonathanxd.codeapi.sugar.Generator<ForEachStatement, CodeSource> {
-
-        override fun generate(t: ForEachStatement, processor: PartProcessor): CodeSource
-    }
 }

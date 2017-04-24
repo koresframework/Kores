@@ -28,32 +28,37 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Try-with-resources
+ *
+ * @property variable Variable to try-with-resources (value must be [AutoCloseable])
  */
-@Concrete
-interface TryWithResources : TryStatement {
+data class TryWithResources(val variable: VariableDeclaration,
+                            override val catchStatements: List<CatchStatement>,
+                            override val finallyStatement: CodeSource,
+                            override val body: CodeSource) : TryStatementBase {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
-    /**
-     * Variable of Try-with-resources (value must be [AutoCloseable])
-     */
-    val variable: VariableDeclaration
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<TryWithResources, *> = CodeAPI.getBuilderProvider()(this)
+    interface Builder : TryStatementBase.Builder<TryWithResources, Builder> {
 
-    interface Builder<out T : TryWithResources, S : Builder<T, S>> : TryStatement.Builder<T, S> {
         /**
-         * See [T.variable]
+         * See [TryWithResources.variable]
          */
-        fun withVariable(value: VariableDeclaration): S
+        fun withVariable(value: VariableDeclaration): Builder
 
         companion object {
-            fun builder(): Builder<TryWithResources, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: TryWithResources): Builder<TryWithResources, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: TryWithResources): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
 }
+

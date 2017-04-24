@@ -33,15 +33,11 @@ import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Code comment
+ *
+ * @property code Code Node
  */
-interface Code : Comment {
-
-    /**
-     * Code node.
-     */
-    val code: CodeNode
-
-    override fun builder(): Builder<Code, *> = CodeAPI.getBuilderProvider()(this)
+data class Code(val code: CodeNode) : Comment {
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
     /**
      * Node of the code.
@@ -64,16 +60,16 @@ interface Code : Comment {
 
     }
 
-    interface Builder<out T : Code, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Code, Builder> {
 
         /**
-         * See [T.code]
+         * See [Code.code]
          */
-        fun withCode(value: CodeNode): S
+        fun withCode(value: CodeNode): Builder
 
         companion object {
-            fun builder(): Builder<Code, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Code): Builder<Code, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Code): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
     }
 

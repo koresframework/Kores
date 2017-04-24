@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.helper
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.impl.IfExprImpl
+import com.github.jonathanxd.codeapi.base.IfExpr
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
 
@@ -39,12 +39,12 @@ class IfExpressionHelper private constructor() {
     private val list = mutableListOf<CodePart>()
 
     fun check(part1: CodePart, operation: Operator.Conditional, part2: CodePart): IfExpressionHelper {
-        this.list.add(IfExprImpl(part1, operation, part2))
+        this.list.add(IfExpr(part1, operation, part2))
         return this
     }
 
     fun checkRefEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
-        this.list.add(IfExprImpl(part1, Operators.EQUAL_TO, part2))
+        this.list.add(IfExpr(part1, Operators.EQUAL_TO, part2))
         return this
     }
 

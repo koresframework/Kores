@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.IterationType
@@ -36,49 +37,42 @@ import com.github.jonathanxd.codeapi.common.IterationType
 /**
  * For each statement.
  *
+ * For each statement behavior depends on [IterationType]. For Source generation [iterationType] is useless,
+ * but for bytecode generation it is useful because `foreach` is translated to a [ForStatement], and arrays
+ * requires a special treatment to access length and values.
+ *
+ * @property variable Variable to store each element
+ * @property iterationType Type of the iteration
+ * @property iterableElement Element to iterate
  * @see IterationType
  */
-@Concrete
-interface ForEachStatement : BodyHolder {
+data class ForEachStatement(val variable: VariableDeclaration, val iterationType: IterationType, val iterableElement: CodePart, override val body: CodeSource) : BodyHolder {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
-    /**
-     * Variable to store each element
-     */
-    val variable: VariableDeclaration
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * Type of the iteration
-     */
-    val iterationType: IterationType
-
-    /**
-     * Element to iterate
-     */
-    val iterableElement: CodePart
-
-    override fun builder(): Builder<ForEachStatement, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : ForEachStatement, S : Builder<T, S>> : BodyHolder.Builder<T, S> {
+    interface Builder : BodyHolder.Builder<ForEachStatement, Builder> {
         /**
-         * See [T.variable]
+         * See [ForEachStatement.variable]
          */
-        fun withVariable(value: VariableDeclaration): S
+        fun withVariable(value: VariableDeclaration): Builder
 
         /**
-         * See [T.iterationType]
+         * See [ForEachStatement.iterationType]
          */
-        fun withIterationType(value: IterationType): S
+        fun withIterationType(value: IterationType): Builder
 
         /**
-         * See [T.iterableElement]
+         * See [ForEachStatement.iterableElement]
          */
-        fun withIterableElement(value: CodePart): S
+        fun withIterableElement(value: CodePart): Builder
 
         companion object {
-            fun builder(): Builder<ForEachStatement, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ForEachStatement): Builder<ForEachStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ForEachStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
-
 }

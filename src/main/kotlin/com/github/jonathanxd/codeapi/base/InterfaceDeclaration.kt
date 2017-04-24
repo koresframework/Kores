@@ -28,26 +28,55 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
+import com.github.jonathanxd.iutils.string.ToStringHelper
+import java.lang.reflect.Type
 
 /**
- * Interface declaration
+ * Interface declaration.
  */
-@Concrete
-interface InterfaceDeclaration : TypeDeclaration, ImplementationHolder {
+data class InterfaceDeclaration(override val outerClass: Type?,
+                                override val comments: Comments,
+                                override val annotations: List<Annotation>,
+                                override val modifiers: Set<CodeModifier>,
+                                override val specifiedName: String,
+                                override val genericSignature: GenericSignature,
+                                override val implementations: List<Type>,
+                                override val body: CodeSource) : TypeDeclaration, ImplementationHolder {
 
     override val isInterface: Boolean
         get() = true
 
-    override fun builder(): Builder<InterfaceDeclaration, *> = CodeAPI.getBuilderProvider()(this)
+    override val qualifiedName: String = specifiedName
+        get() = resolveQualifiedName(field, this.outerClass)
 
-    interface Builder<out T : InterfaceDeclaration, S : Builder<T, S>> :
-            TypeDeclaration.Builder<T, S>,
-            ImplementationHolder.Builder<T, S> {
+    override val type: String = specifiedName
+        get() = resolveTypeName(field, this.outerClass)
+
+    init {
+        BodyHolder.checkBody(this)
+    }
+
+    override fun hashCode(): Int = this.hash()
+    override fun equals(other: Any?): Boolean = this.eq(other)
+
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+
+    interface Builder:
+            TypeDeclaration.Builder<InterfaceDeclaration, Builder>,
+            ImplementationHolder.Builder<InterfaceDeclaration, Builder> {
         companion object {
-            fun builder(): Builder<InterfaceDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: InterfaceDeclaration): Builder<InterfaceDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: InterfaceDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
     }
 }

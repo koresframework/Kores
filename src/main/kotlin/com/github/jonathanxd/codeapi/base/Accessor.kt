@@ -31,7 +31,8 @@ import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 /**
- * Accessor of an element
+ * Accessor of an element. Example: field access/definition, method invocation
+ * and executable code.
  */
 interface Accessor : CodePart {
 

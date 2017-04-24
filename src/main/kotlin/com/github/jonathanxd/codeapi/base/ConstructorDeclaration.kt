@@ -28,17 +28,31 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.common.CodeParameter
+import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
+
 /**
- * Constructor declaration
+ * Instance constructor declaration.
  */
-@Concrete
-interface ConstructorDeclaration : MethodDeclaration {
+data class ConstructorDeclaration(override val comments: Comments,
+                                  override val annotations: List<Annotation>,
+                                  override val parameters: List<CodeParameter>,
+                                  override val modifiers: Set<CodeModifier>,
+                                  override val genericSignature: GenericSignature,
+                                  override val body: CodeSource) : MethodDeclarationBase {
+
+    init {
+        BodyHolder.checkBody(this)
+    }
 
     override val name: String
         get() = "<init>"
@@ -46,17 +60,19 @@ interface ConstructorDeclaration : MethodDeclaration {
     override val returnType: Type
         get() = Types.VOID
 
-    override fun builder(): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : ConstructorDeclaration, S : Builder<T, S>> : MethodDeclaration.Builder<T, S> {
+    interface Builder : MethodDeclarationBase.Builder<ConstructorDeclaration, Builder> {
 
-        override fun withName(value: String): S = self()
-        override fun withReturnType(value: Type): S = self()
+        override fun withName(value: String): Builder = self()
+        override fun withReturnType(value: Type): Builder = self()
 
         companion object {
-            fun builder(): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ConstructorDeclaration): Builder<ConstructorDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ConstructorDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }
+

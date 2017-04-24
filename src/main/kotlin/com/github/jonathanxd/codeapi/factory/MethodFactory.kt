@@ -33,8 +33,8 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.base.impl.MethodDeclarationImpl
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -51,7 +51,7 @@ fun method(genericSignature: GenericSignature = GenericSignature.empty(),
            name: String,
            returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclarationBase {
 
     // Select correct method
     return method(
@@ -69,7 +69,7 @@ fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclarationBase {
 
     // Select correct method
     return method(
@@ -85,7 +85,7 @@ fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: Type = Types.VOID,
-           source: CodeSource = CodeSource.empty()): MethodDeclaration {
+           source: CodeSource = CodeSource.empty()): MethodDeclarationBase {
 
     // Select correct method
     return method(
@@ -108,15 +108,15 @@ fun method(annotations: Array<Annotation> = emptyArray(),
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty(),
            comments: Comments = Comments.Absent): MethodDeclaration {
-    return MethodDeclarationImpl(
-            ArrayToList.toList(parameters),
-            name,
-            ArrayToList.toList(annotations),
-            source,
-            returnType,
-            modifiers,
-            genericSignature,
-            comments
+    return MethodDeclaration(
+            parameters = ArrayToList.toList(parameters),
+            name = name,
+            annotations = ArrayToList.toList(annotations),
+            body = source,
+            returnType = returnType,
+            modifiers = modifiers,
+            genericSignature = genericSignature,
+            comments = comments
     )
 }
 
@@ -128,15 +128,15 @@ fun method(comments: Comments,
            returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty()): MethodDeclaration {
-    return MethodDeclarationImpl(
-            ArrayToList.toList(parameters),
-            name,
-            ArrayToList.toList(annotations),
-            source,
-            returnType,
-            modifiers,
-            genericSignature,
-            comments
+    return MethodDeclaration(
+            parameters = ArrayToList.toList(parameters),
+            name = name,
+            annotations = ArrayToList.toList(annotations),
+            body = source,
+            returnType = returnType,
+            modifiers = modifiers,
+            genericSignature = genericSignature,
+            comments = comments
     )
 }
 

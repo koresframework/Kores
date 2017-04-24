@@ -28,26 +28,57 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
+import java.lang.reflect.Type
+
 
 /**
- * Enum declaration
+ * Enum declaration.
  */
-@Concrete
-interface EnumDeclaration : TypeDeclaration, ImplementationHolder, EntryHolder {
+data class EnumDeclaration(override val outerClass: Type?,
+                           override val comments: Comments,
+                           override val annotations: List<Annotation>,
+                           override val modifiers: Set<CodeModifier>,
+                           override val specifiedName: String,
+                           override val genericSignature: GenericSignature,
+                           override val implementations: List<Type>,
+                           override val entries: List<EnumEntry>,
+                           override val body: CodeSource) : TypeDeclaration, ImplementationHolder, EntryHolder {
 
-    override fun builder(): Builder<EnumDeclaration, *> = CodeAPI.getBuilderProvider()(this)
 
-    interface Builder<out T : EnumDeclaration, S : Builder<T, S>> :
-            TypeDeclaration.Builder<T, S>,
-            ImplementationHolder.Builder<T, S>,
-            EntryHolder.Builder<T, S> {
+    override val qualifiedName: String = specifiedName
+        get() = resolveQualifiedName(field, this.outerClass)
+
+    override val type: String = specifiedName
+        get() = resolveTypeName(field, this.outerClass)
+
+    init {
+        BodyHolder.checkBody(this)
+    }
+
+    override fun hashCode(): Int = this.hash()
+    override fun equals(other: Any?): Boolean = this.eq(other)
+
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+
+    interface Builder :
+            TypeDeclaration.Builder<EnumDeclaration, Builder>,
+            ImplementationHolder.Builder<EnumDeclaration, Builder>,
+            EntryHolder.Builder<EnumDeclaration, Builder> {
 
         companion object {
-            fun builder(): Builder<EnumDeclaration, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: EnumDeclaration): Builder<EnumDeclaration, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: EnumDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

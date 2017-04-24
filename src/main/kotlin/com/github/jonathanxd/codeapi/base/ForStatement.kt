@@ -29,73 +29,65 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
- * For block statement
+ * For statement.
  *
  * for(forInit; forExpression; forUpdate)
+ *
+ * @property forInit For initialization
+ * @property forExpression For expression. See [IfExpressionHolder.expressions].
+ * @property forUpdate For update
  */
-@Concrete
-interface ForStatement : IfExpressionHolder, BodyHolder {
+data class ForStatement(val forInit: CodePart?,
+                        val forExpression: List<CodePart>,
+                        val forUpdate: CodePart?,
+                        override val body: CodeSource) : IfExpressionHolder, BodyHolder {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
     override val expressions: List<CodePart>
         get() = this.forExpression
 
-    /**
-     * For initialization
-     */
-    val forInit: CodePart?
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * For expression.
-     *
-     * See [IfExpressionHolder.expressions]
-     */
-    val forExpression: List<CodePart>
+    interface Builder :
+            IfExpressionHolder.Builder<ForStatement, Builder>,
+            BodyHolder.Builder<ForStatement, Builder> {
 
-    /**
-     * For update
-     */
-    val forUpdate: CodePart?
+        override fun withExpressions(value: List<CodePart>): Builder = this.withForExpression(value)
 
-    override fun builder(): Builder<ForStatement, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : ForStatement, S : Builder<T, S>> :
-            IfExpressionHolder.Builder<T, S>,
-            BodyHolder.Builder<T, S> {
-
-        override fun withExpressions(value: List<CodePart>): S = this.withForExpression(value)
-
-        override fun withExpressions(vararg values: CodePart): S = this.withForExpression(values.toList())
+        override fun withExpressions(vararg values: CodePart): Builder = this.withForExpression(values.toList())
 
         /**
-         * See [T.forInit]
+         * See [ForStatement.forInit]
          */
-        fun withForInit(value: CodePart?): S
+        fun withForInit(value: CodePart?): Builder
 
         /**
-         * See [T.forExpression]
+         * See [ForStatement.forExpression]
          */
-        fun withForExpression(value: List<CodePart>): S
+        fun withForExpression(value: List<CodePart>): Builder
 
         /**
-         * See [T.forExpression]
+         * See [ForStatement.forExpression]
          */
-        fun withForExpression(vararg values: CodePart): S = withForExpression(values.toList())
+        fun withForExpression(vararg values: CodePart): Builder = withForExpression(values.toList())
 
         /**
-         * See [T.forUpdate]
+         * See [ForStatement.forUpdate]
          */
-        fun withForUpdate(value: CodePart?): S
+        fun withForUpdate(value: CodePart?): Builder
 
         companion object {
-            fun builder(): Builder<ForStatement, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ForStatement): Builder<ForStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ForStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
-
 }

@@ -34,51 +34,40 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operator
 
 /**
- * If expression.
+ * Condition evaluation.
  *
+ * @property expr1 First expression
+ * @property operation Operation
+ * @property expr2 Second expression
  * @see IfStatement
  */
-@Concrete
-interface IfExpr : CodePart {
+data class IfExpr(val expr1: CodePart,
+                  val operation: Operator.Conditional,
+                  val expr2: CodePart) : CodePart {
 
-    /**
-     * First expression
-     */
-    val expr1: CodePart
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    /**
-     * Operation
-     */
-    val operation: Operator.Conditional
-
-    /**
-     * Second expression
-     */
-    val expr2: CodePart
-
-    override fun builder(): Builder<IfExpr, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : IfExpr, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-        /**
-         * See [T.expr1]
-         */
-        fun withExpr1(value: CodePart): S
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<IfExpr, Builder> {
 
         /**
-         * See [T.operation]
+         * See [IfExpr.expr1]
          */
-        fun withOperation(value: Operator.Conditional): S
+        fun withExpr1(value: CodePart): Builder
 
         /**
-         * See [T.expr2]
+         * See [IfExpr.operation]
          */
-        fun withExpr2(value: CodePart): S
+        fun withOperation(value: Operator.Conditional): Builder
+
+        /**
+         * See [IfExpr.expr2]
+         */
+        fun withExpr2(value: CodePart): Builder
 
         companion object {
-            fun builder(): Builder<IfExpr, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: IfExpr): Builder<IfExpr, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: IfExpr): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
-
 }

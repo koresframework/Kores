@@ -33,44 +33,43 @@ import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
-@Concrete
-interface ArrayLoad : ArrayAccess, Typed {
-
-    /**
-     * Index of the value in array
-     */
-    val index: CodePart
-
-    /**
-     * Type of the value
-     */
-    val valueType: Type
+/**
+ *
+ * Loads a value of type [valueType] at [index] from array [target] of type [arrayType].
+ *
+ * @property index Index to access
+ * @property valueType Type of value
+ */
+data class ArrayLoad(override val arrayType: Type,
+                     override val target: CodePart,
+                     val index: CodePart,
+                     val valueType: Type) : ArrayAccess, Typed {
 
     override val type: Type
         get() = this.valueType
 
-    override fun builder(): Builder<ArrayLoad, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
 
-    interface Builder<out T : ArrayLoad, S : Builder<T, S>> :
-            ArrayAccess.Builder<T, S>,
-            Typed.Builder<T, S> {
+    interface Builder :
+            ArrayAccess.Builder<ArrayLoad, Builder>,
+            Typed.Builder<ArrayLoad, Builder> {
 
-        override fun withType(value: Type): S = this.withValueType(value)
-
-        /**
-         * See [T.index]
-         */
-        fun withIndex(value: CodePart): S
+        override fun withType(value: Type): Builder = this.withValueType(value)
 
         /**
-         * See [T.valueType]
+         * See [ArrayLoad.index]
          */
-        fun withValueType(value: Type): S
+        fun withIndex(value: CodePart): Builder
+
+        /**
+         * See [ArrayLoad.valueType]
+         */
+        fun withValueType(value: Type): Builder
 
         companion object {
-            fun builder(): Builder<ArrayLoad, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ArrayLoad): Builder<ArrayLoad, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ArrayLoad): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

@@ -30,26 +30,26 @@ package com.github.jonathanxd.codeapi.helper
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import java.io.PrintStream
 
 object Predefined {
     @JvmStatic
-    fun toString(part: CodePart): MethodInvocation {
+    fun toString(part: CodePart): MethodInvocationBase {
         return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
     }
 
     @JvmStatic
-    fun intToString(part: CodePart): MethodInvocation {
+    fun intToString(part: CodePart): MethodInvocationBase {
         return CodeAPI.invokeStatic(String::class.java, "valueOf",
                 TypeSpec(Types.STRING, listOf(Types.INT)),
                 listOf(part))
     }
 
     @JvmStatic
-    fun invokePrintln(vararg arguments: CodePart): MethodInvocation {
+    fun invokePrintln(vararg arguments: CodePart): MethodInvocationBase {
 
         val arg: CodePart = if (arguments.size == 1) {
             arguments.single()
@@ -73,7 +73,7 @@ object Predefined {
     }
 
     @JvmStatic
-    fun invokePrintlnStr(part: CodePart): MethodInvocation {
+    fun invokePrintlnStr(part: CodePart): MethodInvocationBase {
         return CodeAPI.invokeVirtual(
                 PrintStream::class.java,
                 CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),

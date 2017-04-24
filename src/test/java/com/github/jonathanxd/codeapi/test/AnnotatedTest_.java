@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
@@ -80,7 +80,7 @@ public class AnnotatedTest_ {
                 )
                 .withQualifiedName("test.AnnotatedTestClass")
                 .withBody(sourceOfParts(
-                        MethodDeclaration.Builder.Companion.builder()
+                        MethodDeclarationBase.Builder.Companion.builder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
                                 .withAnnotations(listOf(visibleAnnotation(plainCodeType)))
                                 .withGenericSignature(GenericSignature.empty())

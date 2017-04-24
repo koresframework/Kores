@@ -33,57 +33,52 @@ import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
-/**
- * Store a value in array.
- */
-@Concrete
-interface ArrayStore : ArrayAccess, ValueHolder {
 
-    /**
-     * Index in array to store the value
-     */
-    val index: CodePart
+/**
+ * Store a [value][valueToStore] of type [valueType] in array [target] of type [arrayType] at [index].
+ *
+ * @property index Index to access
+ * @property valueType Type of value to store
+ * @property valueToStore Value to store
+ */
+data class ArrayStore(override val arrayType: Type,
+                      override val target: CodePart,
+                      val index: CodePart,
+                      val valueType: Type,
+                      val valueToStore: CodePart) : ArrayAccess, ValueHolder {
 
     override val value: CodePart?
         get() = this.valueToStore
 
-    /**
-     * Type of the value
-     */
-    val valueType: Type
 
-    /**
-     * Value to store in array
-     */
-    val valueToStore: CodePart
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<ArrayStore, *> = CodeAPI.getBuilderProvider()(this)
+    interface Builder :
+            ArrayAccess.Builder<ArrayStore, Builder>,
+            ValueHolder.Builder<ArrayStore, Builder> {
 
-    interface Builder<out T : ArrayStore, S : Builder<T, S>> :
-            ArrayAccess.Builder<T, S>,
-            ValueHolder.Builder<T, S> {
-
-        override fun withValue(value: CodePart?): S = this.withValueToStore(value!!)
+        override fun withValue(value: CodePart?): Builder = this.withValueToStore(value!!)
 
         /**
-         * See [T.index]
+         * See [ArrayStore.index]
          */
-        fun withIndex(value: CodePart): S
+        fun withIndex(value: CodePart): Builder
 
         /**
-         * See [T.valueType]
+         * See [ArrayStore.valueType]
          */
-        fun withValueType(value: Type): S
+        fun withValueType(value: Type): Builder
 
         /**
-         * See [T.valueToStore]
+         * See [ArrayStore.valueToStore]
          */
-        fun withValueToStore(value: CodePart): S
+        fun withValueToStore(value: CodePart): Builder
 
         companion object {
-            fun builder(): Builder<ArrayStore, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ArrayStore): Builder<ArrayStore, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: ArrayStore): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
+
 }

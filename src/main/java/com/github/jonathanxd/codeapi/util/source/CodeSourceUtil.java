@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.base.BodyHolder;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.Named;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
@@ -290,10 +290,10 @@ public class CodeSourceUtil {
      * @return A new unique name.
      */
     public static String getNewMethodName(String name, CodeSource source) {
-        List<MethodDeclaration> inspect = SourceInspect.find(codePart -> codePart instanceof MethodDeclaration)
+        List<MethodDeclarationBase> inspect = SourceInspect.find(codePart -> codePart instanceof MethodDeclarationBase)
                 .includeSource(true)
                 .include(bodied -> bodied instanceof CodeSource)
-                .mapTo(codePart -> (MethodDeclaration) codePart)
+                .mapTo(codePart -> (MethodDeclarationBase) codePart)
                 .inspect(source);
 
         while (CodeSourceUtil.contains(name, inspect))

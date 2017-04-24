@@ -27,20 +27,36 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type
 
-@Concrete
-interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
+/**
+ * Anonymous class, in Bytecode, anonymous class can have implementations,
+ * in other languages it depends on specification. (Official Java generator may comment implementations).
+ */
+data class AnonymousClass(override val comments: Comments,
+                          override val outerClass: Type?,
+                          override val annotations: List<Annotation>,
+                          override val specifiedName: String,
+                          override val superClass: Type,
+                          override val implementations: List<Type>,
+                          val constructorSpec: TypeSpec,
+                          override val arguments: List<CodePart>,
+                          val constructorBody: CodeSource,
+                          override val body: CodeSource) : TypeDeclaration, SuperClassHolder, ArgumentHolder, ImplementationHolder {
+
+    override val qualifiedName: String = specifiedName
+        get() = resolveQualifiedName(field, this.outerClass)
+
+    override val type: String = specifiedName
+        get() = resolveTypeName(field, this.outerClass)
 
     override val array: Boolean
         get() = false
@@ -54,50 +70,124 @@ interface AnonymousClass : TypeDeclaration, SuperClassHolder, ArgumentHolder {
     override val genericSignature: GenericSignature
         get() = GenericSignature.empty()
 
-    /**
-     * Specification of constructor to invoke.
-     */
-    val constructorSpec: TypeSpec
 
-    /**
-     * Arguments to pass to [constructor][constructorSpec].
-     */
-    override val arguments: List<CodePart>
-
-    /**
-     * Constructor body of anonymous class
-     */
-    val constructorBody: CodeSource
-
-    override fun builder(): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : AnonymousClass, S : Builder<T, S>> :
-            TypeDeclaration.Builder<T, S>,
-            SuperClassHolder.Builder<T, S>,
-            ArgumentHolder.Builder<T, S> {
-
-        override fun withModifiers(value: Set<CodeModifier>): S = self()
-
-        override fun withModifiers(vararg values: CodeModifier): S = self()
-
-        override fun withArray(value: Boolean): S = self()
-
-        override fun withGenericSignature(value: GenericSignature): S = self()
-
-        /**
-         * See [T.constructorSpec]
-         */
-        fun withConstructorSpec(value: TypeSpec): S
-
-        /**
-         * See [T.constructorBody]
-         */
-        fun withConstructorBody(value: CodeSource): S
-
-        companion object {
-            fun builder(): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: AnonymousClass): Builder<AnonymousClass, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
+    init {
+        BodyHolder.checkBody(this)
     }
 
+    override fun hashCode(): Int = this.hash()
+    override fun equals(other: Any?): Boolean = this.eq(other)
+
+    override fun builder(): Builder = Builder()
+
+    class Builder() :
+            TypeDeclaration.Builder<AnonymousClass, Builder>,
+            SuperClassHolder.Builder<AnonymousClass, Builder>,
+            ArgumentHolder.Builder<AnonymousClass, Builder>,
+            ImplementationHolder.Builder<AnonymousClass, Builder> {
+
+        var comments: Comments = Comments.Absent
+        var outerClass: Type? = null
+        var annotations: List<Annotation> = emptyList()
+        lateinit var specifiedName: String
+        var superClass: Type = Types.OBJECT
+        var implementations: List<Type> = emptyList()
+        lateinit var constructorSpec: TypeSpec
+        var arguments: List<CodePart> = emptyList()
+        lateinit var constructorBody: CodeSource
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: AnonymousClass) : this() {
+            this.comments = defaults.comments
+            this.outerClass = defaults.outerClass
+            this.annotations = defaults.annotations
+            this.specifiedName = defaults.specifiedName
+            this.superClass = defaults.superClass
+            this.implementations = defaults.implementations
+            this.constructorSpec = defaults.constructorSpec
+            this.arguments = defaults.arguments
+            this.constructorBody = defaults.constructorBody
+            this.body = body
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder = self()
+        override fun withModifiers(vararg values: CodeModifier): Builder = self()
+        override fun withArray(value: Boolean): Builder = self()
+        override fun withGenericSignature(value: GenericSignature): Builder = self()
+
+        override fun withOuterClass(value: Type?): Builder {
+            this.outerClass = value
+            return this
+        }
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withSuperClass(value: Type?): Builder {
+            this.superClass = value!!
+            return this
+        }
+
+        override fun withImplementations(value: List<Type>): Builder {
+            this.implementations = value
+            return this
+        }
+
+        override fun withArguments(value: List<CodePart>): Builder {
+            this.arguments = value
+            return this
+        }
+
+        override fun withSpecifiedName(value: String): Builder {
+            this.specifiedName = value
+            return this
+        }
+
+        /**
+         * See [AnonymousClass.constructorSpec]
+         */
+        fun withConstructorSpec(value: TypeSpec): Builder {
+            this.constructorSpec = value
+            return this
+        }
+
+        /**
+         * See [AnonymousClass.constructorBody]
+         */
+        fun withConstructorBody(value: CodeSource): Builder {
+            this.constructorBody = value
+            return this
+        }
+
+        override fun build(): AnonymousClass = AnonymousClass(
+                this.comments,
+                this.outerClass,
+                this.annotations,
+                this.specifiedName,
+                this.superClass,
+                this.implementations,
+                this.constructorSpec,
+                this.arguments,
+                this.constructorBody,
+                this.body
+        )
+
+
+        companion object {
+            fun builder(): Builder = Builder()
+            fun builder(defaults: AnonymousClass): Builder = Builder(defaults)
+        }
+    }
 }

@@ -28,38 +28,36 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
- * A if statement.
+ * If statement.
  *
- *
+ * @property elseStatement Else statement
  * @see IfExpr
  */
-@Concrete
-interface IfStatement : IfExpressionHolder, BodyHolder {
+data class IfStatement(override val expressions: List<CodePart>, override val body: CodeSource, val elseStatement: CodeSource) : IfExpressionHolder, BodyHolder {
+    init {
+        BodyHolder.checkBody(this)
+    }
 
-    /**
-     * Else block source
-     */
-    val elseStatement: CodeSource
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
-    override fun builder(): Builder<IfStatement, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : IfStatement, S : Builder<T, S>> :
-            IfExpressionHolder.Builder<T, S>,
-            BodyHolder.Builder<T, S> {
+    interface Builder :
+            IfExpressionHolder.Builder<IfStatement, Builder>,
+            BodyHolder.Builder<IfStatement, Builder> {
 
         /**
          * See [T.elseStatement]
          */
-        fun withElseStatement(value: CodeSource): S
+        fun withElseStatement(value: CodeSource): Builder
 
         companion object {
-            fun builder(): Builder<IfStatement, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: IfStatement): Builder<IfStatement, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: IfStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }

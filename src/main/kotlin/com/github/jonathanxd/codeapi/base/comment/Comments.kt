@@ -33,18 +33,11 @@ import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Hold a list of comments.
+ *
+ * @property comments Comment list
+ * @property type Type of comments entry.
  */
-interface Comments : CodePart {
-
-    /**
-     * Comments
-     */
-    val comments: List<Comment>
-
-    /**
-     * Type of this comments node.
-     */
-    val type: Type
+data class Comments(val comments: List<Comment>, val type: Type) : CodePart {
 
     /**
      * Returns true if this [Comments] instance is [Absent]. Absent comment is not the same as
@@ -58,7 +51,7 @@ interface Comments : CodePart {
      */
     fun isNotAbsent() = this !== Absent
 
-    override fun builder(): Builder<Comments, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
 
     /**
      * Comment type
@@ -75,36 +68,35 @@ interface Comments : CodePart {
         DOCUMENTATION
     }
 
-    interface Builder<out T : Comments, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Comments, Builder> {
 
         /**
-         * See [T.comments]
+         * See [Comments.comments]
          */
-        fun withComments(value: List<Comment>): S
+        fun withComments(value: List<Comment>): Builder
 
         /**
-         * See [T.comments]
+         * See [Comments.comments]
          */
-        fun withComments(vararg values: Comment): S = withComments(values.toList())
+        fun withComments(vararg values: Comment): Builder = this.withComments(values.toList())
 
         /**
-         * See [T.type]
+         * See [Comments.type]
          */
-        fun withType(value: Type): S
+        fun withType(value: Type): Builder
 
         companion object {
-            fun builder(): Builder<Comments, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Comments): Builder<Comments, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
+            fun builder(defaults: Comments): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
         }
 
     }
 
-    /**
-     * Absent comments. Absent comment should not be generated.
-     */
-    object Absent : Comments {
-        override val comments: List<Comment> = emptyList()
-        override val type: Type = Type.COMMENT
+    companion object {
+        /**
+         * Absent comments. Absent comment should not be generated.
+         */
+        @JvmField
+        val Absent = Comments(emptyList(), Type.COMMENT)
     }
 }
-

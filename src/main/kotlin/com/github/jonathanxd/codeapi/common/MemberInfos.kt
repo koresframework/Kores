@@ -46,8 +46,8 @@ class MemberInfos(val declaration: TypeDeclaration) {
         return this.getMemberInfoList().firstOrNull(memberInfoPredicate)
     }
 
-    fun find(methodSpecification: MethodSpecification): MemberInfo? {
-        return this.find { memberInfo -> memberInfo.memberInstance is MethodDeclaration && ElementUtil.equal(memberInfo.memberInstance, methodSpecification) }
+    fun find(methodSpecification: MethodTypeSpec): MemberInfo? {
+        return this.find { memberInfo -> memberInfo.memberInstance is MethodDeclarationBase && ElementUtil.equal(memberInfo.memberInstance, methodSpecification) }
     }
 
     fun find(access: VariableAccess): MemberInfo? {

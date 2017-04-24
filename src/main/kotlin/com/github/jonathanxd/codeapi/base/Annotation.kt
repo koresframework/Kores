@@ -33,51 +33,62 @@ import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
- * An annotation.
+ * An annotation, an annotation is composed by a pair of property name and property value.
+ *
+ * @property visible True if this annotation is visible at runtime (may not affect all generators).
+ * @property type Type of annotation.
+ * @property values Map of annotation values (key is the property of annotation),
+ * the Annotation value must be: [Byte], [Boolean], [Char], [Short],
+ * [Int], [Long], [Float], [Double], [String], [Type], OBJECT, ARRAY,
+ * [EnumValue] or other [Annotation].
  */
-@Concrete
-interface Annotation : Typed {
+data class Annotation(override val type: Type, val values: Map<String, Any>, val visible: Boolean) : Typed {
+    override fun builder(): Builder = Builder(this)
 
-    /**
-     * Annotation type
-     */
-    override val type: Type
+    class Builder() : Typed.Builder<Annotation, Builder> {
 
-    /**
-     * True if is visible at runtime (Only affects bytecode generation).
-     */
-    val visible: Boolean
+        lateinit var type: Type
+        var values: Map<String, Any> = emptyMap()
+        var visible: Boolean = false
 
-    /**
-     * Annotation values.
-     *
-     * The Annotation value must be: [Byte], [Boolean], [Char], [Short],
-     * [Int], [Long], [Float], [Double], [String], [Type],
-     * OBJECT, ARRAY, [EnumValue] or other [Annotation].
-     *
-     * Map Key = Name of annotation key. Map Value = Value of annotation key
-     *
-     * @return Annotation value.
-     */
-    val values: Map<String, Any>
-
-    override fun builder(): Builder<Annotation, *> = CodeAPI.getBuilderProvider()(this)
-
-    interface Builder<out T : Annotation, S : Builder<T, S>> : Typed.Builder<T, S> {
+        constructor(defaults: Annotation): this() {
+            this.type = defaults.type
+            this.values = defaults.values
+            this.visible = defaults.visible
+        }
 
         /**
-         * See [T.visible]
+         * See [Annotation.type]
          */
-        fun withVisible(value: Boolean): S
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
 
         /**
-         * See [T.values]
+         * See [Annotation.values]
          */
-        fun withValues(value: Map<String, Any>): S
+        fun withValues(value: Map<String, Any>): Builder {
+            this.values = value
+            return this
+        }
+
+        /**
+         * See [Annotation.visible]
+         */
+        fun withVisible(value: Boolean): Builder {
+            this.visible = value
+            return this
+        }
+
+        override fun build(): Annotation = Annotation(type, values, visible)
 
         companion object {
-            fun builder(): Builder<Annotation, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Annotation): Builder<Annotation, *> = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Annotation): Builder = Builder(defaults)
         }
 
     }

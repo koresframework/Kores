@@ -32,7 +32,7 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
@@ -77,7 +77,7 @@ public class CommentClassTest_ {
                                 .withType(Types.STRING)
                                 .withValue(Literals.STRING("field"))
                                 .build(),
-                        MethodDeclaration.Builder.Companion.builder()
+                        MethodDeclarationBase.Builder.Companion.builder()
                                 .withComments(
                                         CommentsFactory.documentation(
                                                 CommentsFactory.plain("Print "),

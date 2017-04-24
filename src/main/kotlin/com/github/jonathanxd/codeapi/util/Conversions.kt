@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.base.FieldAccess
-import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase
 import com.github.jonathanxd.codeapi.builder.build
 import com.github.jonathanxd.codeapi.common.*
 import java.lang.reflect.Field
@@ -61,33 +61,33 @@ val List<Parameter>.codeParameters: List<CodeParameter>
     get() = this.map { CodeParameter(it.type.codeType, it.name) }
 
 /**
- * Create [MethodInvocation] from [MethodTypeSpec]
+ * Create [MethodInvocationBase] from [MethodTypeSpec]
  *
  * @param invokeType Type of invocation.
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodePart, arguments: List<CodePart>): MethodInvocation =
+fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodePart, arguments: List<CodePart>): MethodInvocationBase =
         CodeAPI.invoke(invokeType, this.localization, target, this.methodName, this.typeSpec, arguments)
 
 
 /**
- * Create [MethodInvocation] from [MethodInvokeSpec]
+ * Create [MethodInvocationBase] from [MethodInvokeSpec]
  *
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun MethodInvokeSpec.toInvocation(target: CodePart, arguments: List<CodePart>): MethodInvocation =
+fun MethodInvokeSpec.toInvocation(target: CodePart, arguments: List<CodePart>): MethodInvocationBase =
         CodeAPI.invoke(this.invokeType, this.methodTypeSpec.localization, target, this.methodTypeSpec.methodName, this.methodTypeSpec.typeSpec, arguments)
 
 /**
- * Create [MethodInvocation] from [Method]
+ * Create [MethodInvocationBase] from [Method]
  *
  * @param invokeType Type of invocation, if null, CodeAPI will try to infer the invocation type.
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun Method.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>): MethodInvocation =
+fun Method.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>): MethodInvocationBase =
         CodeAPI.invoke(invokeType ?: this.invokeType, this.declaringClass.codeType, target, this.name, TypeSpec(this.returnType.codeType, this.parameterTypes.map { it.codeType }), arguments)
 
 /**
@@ -97,7 +97,7 @@ fun Method.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: Li
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>, elements: Elements): MethodInvocation =
+fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>, elements: Elements): MethodInvocationBase =
         CodeAPI.invoke(invokeType ?: this.invokeType, (this.enclosingElement as TypeElement).getCodeType(elements), target, this.simpleName.toString(), TypeSpec(this.returnType.getCodeType(elements), this.parameters.map { it.asType().getCodeType(elements) }), arguments)
 
 
