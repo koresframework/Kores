@@ -30,73 +30,31 @@ package com.github.jonathanxd.codeapi.gen
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.common.Data
-import com.github.jonathanxd.codeapi.sugar.SugarSyntax
 import com.github.jonathanxd.iutils.option.Options
 
 /**
- * Represents a source generator that output element of type [OUT]
- *
- * @param OUT Output element type.
+ * Represents a generator of [R] from [CodePart].
  */
-interface CodeGenerator<out OUT> : PartProcessor {
+interface CodeGenerator<out R> : PartProcessor {
 
     /**
-     * Generate object of type [OUT] from [CodeSource].
-     *
-     * @param source Source of parts.
-     * @return Generated object.
-     */
-    fun gen(source: CodeSource): OUT {
-        return this.gen(source, Data(), null)
-    }
-
-    /**
-     * Generate object of type [OUT] from [CodePart].
-     *
-     * @param part Part to generate.
-     * @return Generated object.
-     */
-    fun gen(part: CodePart): OUT {
-        return this.gen(CodeSource.fromVarArgs(part), Data(), null)
-    }
-
-    /**
-     * Generate object of type [OUT] from [CodePart].
-     *
-     * @param part       Part to generate.
-     * @param data       MapData instance to be used to store information.
-     * @param additional Additional object
-     * @return Generated object.
-     */
-    fun gen(part: CodePart, data: Data, additional: Any?): OUT {
-        return this.gen(CodeSource.fromVarArgs(part), data, additional)
-    }
-
-    /**
-     * Generate object of type [OUT] from [CodeSource].
-     *
-     * @param source Source of parts.
-     * @param data       MapData instance to be used to store information.
-     * @param additional Additional object
-     * @return Generated object.
-     */
-    fun gen(source: CodeSource, data: Data, additional: Any?): OUT
-
-    /**
-     * Register a sugar syntax. The generation of [T] will be delegated into [Sugar Syntax Generator][SugarSyntax.createGenerator].
-     *
-     * @param type        Type
-     * @param sugarSyntax Sugar syntax.
-     * @param <T>         Type of supported input part.
-     * @param <R>         Type of output part.
-     * @return Old [SugarSyntax] registered to `type`.
-     */
-    fun <T : CodePart, R : CodePart> registerSugarSyntax(type: Class<T>, sugarSyntax: SugarSyntax<T, R>): SugarSyntax<*, *>?
-
-    /**
-     * Gets the [Options] instance.
-     *
-     * @return [Options] instance.
+     * Options of generator
      */
     val options: Options
+
+    /**
+     * Process [part] and returns a value of type [R].
+     */
+    fun process(part: CodePart) = this.process(part, createData())
+
+    /**
+     * Process [part] with [data] and returns a value of type [R].
+     */
+    fun process(part: CodePart, data: Data): R
+
+    /**
+     * Creates [Data] object.
+     */
+    fun createData(): Data
+
 }

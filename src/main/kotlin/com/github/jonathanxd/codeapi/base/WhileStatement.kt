@@ -27,16 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * While statement
  *
  * @property type Type of the while block (while or do-while).
+ * @property expressions Expression to check to start and/or continue the loop.
+ * @property body Code to execute.
  */
 data class WhileStatement(val type: Type,
                           override val expressions: List<CodePart>,
@@ -46,33 +45,62 @@ data class WhileStatement(val type: Type,
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    enum class Type {
-        /**
-         * While statement
-         */
-        WHILE,
-
-        /**
-         * Do-while statement
-         */
-        DO_WHILE
-    }
-
-    interface Builder :
+    class Builder() :
             IfExpressionHolder.Builder<WhileStatement, Builder>,
             BodyHolder.Builder<WhileStatement, Builder> {
+
+        lateinit var type: Type
+        var expressions: List<CodePart> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: WhileStatement) : this() {
+            this.type = defaults.type
+            this.expressions = defaults.expressions
+            this.body = defaults.body
+        }
 
         /**
          * See [WhileStatement.type]
          */
-        fun withType(value: Type): Builder
+        fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withExpressions(value: List<CodePart>): Builder {
+            this.expressions = value
+            return this
+        }
+
+        override fun build(): WhileStatement = WhileStatement(this.type, this.expressions, this.body)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: WhileStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: WhileStatement): Builder = Builder(defaults)
         }
 
     }
+
+    enum class Type {
+        /**
+         * While statement. First check expressions and then run the code if expressions succeeded.
+         */
+        WHILE,
+
+        /**
+         * Do-while statement. Run the code and then check expressions, if succeed continue the loop.
+         */
+        DO_WHILE
+    }
+
 }

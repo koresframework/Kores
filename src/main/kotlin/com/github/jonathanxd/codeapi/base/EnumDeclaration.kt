@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.eq
@@ -67,16 +65,88 @@ data class EnumDeclaration(override val outerClass: Type?,
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
-            TypeDeclaration.Builder<EnumDeclaration, Builder>,
+    class Builder() : TypeDeclaration.Builder<EnumDeclaration, Builder>,
             ImplementationHolder.Builder<EnumDeclaration, Builder>,
             EntryHolder.Builder<EnumDeclaration, Builder> {
 
+        var outerClass: Type? = null
+        lateinit var specifiedName: String
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+        var modifiers: Set<CodeModifier> = emptySet()
+        var genericSignature: GenericSignature = GenericSignature.empty()
+        var implementations: List<Type> = emptyList()
+        var entries: List<EnumEntry> = emptyList()
+
+        constructor(defaults: EnumDeclaration) : this() {
+            this.outerClass = defaults.outerClass
+            this.specifiedName = defaults.specifiedName
+            this.comments = defaults.comments
+            this.annotations = defaults.annotations
+            this.body = defaults.body
+            this.modifiers = defaults.modifiers
+            this.genericSignature = defaults.genericSignature
+            this.implementations = defaults.implementations
+            this.entries = defaults.entries
+        }
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
+        override fun withGenericSignature(value: GenericSignature): Builder {
+            this.genericSignature = value
+            return this
+        }
+
+        override fun withSpecifiedName(value: String): Builder {
+            this.specifiedName = value
+            return this
+        }
+
+        override fun withOuterClass(value: Type?): Builder {
+            this.outerClass = value
+            return this
+        }
+
+        override fun withImplementations(value: List<Type>): Builder {
+            this.implementations = value
+            return this
+        }
+
+        override fun withEntries(value: List<EnumEntry>): Builder {
+            this.entries = value
+            return this
+        }
+
+        override fun build() = EnumDeclaration(this.outerClass, this.comments, this.annotations, this.modifiers,
+                this.specifiedName, this.genericSignature, this.implementations, this.entries, this.body)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: EnumDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: EnumDeclaration): Builder = Builder(defaults)
         }
 
     }

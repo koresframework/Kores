@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Defaults;
 import com.github.jonathanxd.codeapi.Types;
@@ -59,17 +58,17 @@ import com.github.jonathanxd.codeapi.base.IfExpr;
 import com.github.jonathanxd.codeapi.base.IfStatement;
 import com.github.jonathanxd.codeapi.base.InstanceOfCheck;
 import com.github.jonathanxd.codeapi.base.InterfaceDeclaration;
-import com.github.jonathanxd.codeapi.base.InvokeDynamicBase;
+import com.github.jonathanxd.codeapi.base.InvokeDynamic;
 import com.github.jonathanxd.codeapi.base.Label;
-import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.LocalCode;
-import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.Operate;
 import com.github.jonathanxd.codeapi.base.Return;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
 import com.github.jonathanxd.codeapi.base.SwitchStatement;
 import com.github.jonathanxd.codeapi.base.ThrowException;
-import com.github.jonathanxd.codeapi.base.TryStatementBase;
+import com.github.jonathanxd.codeapi.base.TryStatement;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
@@ -80,16 +79,15 @@ import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.comment.Link;
 import com.github.jonathanxd.codeapi.base.comment.Plain;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.common.IterationType;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
-import com.github.jonathanxd.codeapi.common.Scope;
-import com.github.jonathanxd.codeapi.common.SwitchTypes;
+import com.github.jonathanxd.codeapi.common.SwitchType;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
-import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -98,6 +96,7 @@ import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.Alias;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.map.MapUtils;
 
 import org.junit.Test;
@@ -118,7 +117,6 @@ public class BuilderTest {
                 .withType(Access.Type.LOCAL)
                 .withLocalization(Class.class)
                 .build();
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -186,7 +184,7 @@ public class BuilderTest {
     public void arrayLengthBuilderTest() {
         ArrayLength.Builder.Companion.builder()
                 .withArrayType(String[].class)
-                .withTarget(CodeAPI.accessLocalVariable(String.class, "array"))
+                .withTarget(Factories.accessVariable(String.class, "array"))
                 .build();
     }
 
@@ -194,7 +192,7 @@ public class BuilderTest {
     public void arrayLoadBuilderTest() {
         ArrayLoad.Builder.Companion.builder()
                 .withArrayType(String[].class)
-                .withTarget(CodeAPI.accessLocalVariable(String.class, "array"))
+                .withTarget(Factories.accessVariable(String.class, "array"))
                 .withIndex(Literals.INT(0))
                 .withValueType(String.class)
                 .build();
@@ -204,7 +202,7 @@ public class BuilderTest {
     public void arrayStoreBuilderTest() {
         ArrayStore.Builder.Companion.builder()
                 .withArrayType(String[].class)
-                .withTarget(CodeAPI.accessLocalVariable(String.class, "array"))
+                .withTarget(Factories.accessVariable(String.class, "array"))
                 .withIndex(Literals.INT(0))
                 .withValueType(String.class)
                 .withValueToStore(Literals.STRING("Hello world"))
@@ -216,7 +214,7 @@ public class BuilderTest {
         Case.Builder.Companion.builder()
                 .withValue(Literals.INT(9))
                 .withType(Integer.TYPE)
-                .withBody(CodeAPI.source(
+                .withBody(CodeSource.fromVarArgs(
                         Predefined.invokePrintlnStr(Literals.STRING("Hello from CodeAPI"))
                 ))
                 .build();
@@ -227,7 +225,7 @@ public class BuilderTest {
         Cast.Builder.Companion.builder()
                 .withOriginalType(Object.class)
                 .withTargetType(Integer.class)
-                .withCastedPart(CodeAPI.accessLocalVariable(Object.class, "in"))
+                .withCastedPart(Factories.accessVariable(Object.class, "in"))
                 .build();
     }
 
@@ -278,7 +276,7 @@ public class BuilderTest {
     public void constructorDeclarationBuilderTest() {
         ConstructorDeclaration.Builder.Companion.builder()
                 .withName("x")
-                .withParameters(new CodeParameter(String.class, "x"))
+                .withParameters(Factories.parameter(String.class, "x"))
                 .build();
     }
 
@@ -351,7 +349,7 @@ public class BuilderTest {
                         .withVariableType(String.class)
                         .withName("s")
                         .build())
-                .withIterableElement(CodeAPI.accessLocalVariable(Generic.type(List.class).of(String.class), "myList"))
+                .withIterableElement(Factories.accessVariable(Generic.type(List.class).of(String.class), "myList"))
                 .withIterationType(IterationType.ITERABLE_ELEMENT)
                 .build();
     }
@@ -360,8 +358,8 @@ public class BuilderTest {
     public void forStatementBuilderTest() {
         ForStatement.Builder.Companion.builder()
                 .withForInit(VariableFactory.variable(Integer.TYPE, "i", Literals.INT(0)))
-                .withForExpression(CodeAPI.check(CodeAPI.accessLocalVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(100)))
-                .withForUpdate(CodeAPI.operateAndAssign(Integer.TYPE, "i", Operators.ADD, Literals.INT(1)))
+                .withForExpression(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(100)))
+                .withForUpdate(Factories.operateAndAssign(Integer.TYPE, "i", Operators.ADD, Literals.INT(1)))
                 .withBody(CodeSource.fromVarArgs(
                         Predefined.invokePrintln(ConcatHelper.builder("Number: ")
                                 .concat(VariableFactory.variable(Integer.TYPE, "i"))
@@ -374,7 +372,7 @@ public class BuilderTest {
     @Test
     public void ifExprBuilderTest() {
         IfExpr.Builder.Companion.builder()
-                .withExpr1(CodeAPI.accessLocalVariable(Integer.TYPE, "i"))
+                .withExpr1(Factories.accessVariable(Integer.TYPE, "i"))
                 .withOperation(Operators.LESS_THAN)
                 .withExpr2(Literals.INT(5))
                 .build();
@@ -383,7 +381,7 @@ public class BuilderTest {
     @Test
     public void ifStatementBuilderTest() {
         IfStatement.Builder.Companion.builder()
-                .withExpressions(CodeAPI.check(CodeAPI.accessLocalVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
+                .withExpressions(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
                 .withBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("< 70"))))
                 .withElseStatement(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING(">= 70"))))
                 .build();
@@ -393,7 +391,7 @@ public class BuilderTest {
     public void instanceOfBuilderTest() {
         InstanceOfCheck.Builder.Companion.builder()
                 .withCheckType(String.class)
-                .withPart(CodeAPI.accessLocalVariable(String.class, "a"))
+                .withPart(Factories.accessVariable(String.class, "a"))
                 .build();
     }
 
@@ -422,7 +420,7 @@ public class BuilderTest {
 
     @Test
     public void methodDeclarationBuilderTest() {
-        MethodDeclarationBase.Builder.Companion.builder()
+        MethodDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
                 .withName("call")
                 .withReturnType(Void.TYPE)
@@ -432,26 +430,23 @@ public class BuilderTest {
 
     @Test
     public void methodFragmentBuilderTest() {
-        LocalCode.Builder.Companion.builder()
+        LocalCode.Builder.builder()
+                .withDeclaringType(ClassDeclaration.Builder.builder().withQualifiedName("com.x").build()) // will be removed
                 .withDeclaration(
-                        MethodDeclarationBase.Builder.Companion.builder()
+                        MethodDeclaration.Builder.Companion.builder()
                                 .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
                                 .withName("fragment$call")
                                 .withReturnType(Void.TYPE)
                                 .withParameters()
                                 .build()
                 )
-                .withSpec(new MethodTypeSpec(Alias.THIS.INSTANCE, "fragment$call", new TypeSpec(Void.TYPE)))
-                .withTarget(Defaults.ACCESS_THIS)
-                .withDeclaringType(ClassDeclaration.Builder.Companion.builder().withQualifiedName("com.x").build()) // will be removed
                 .withInvokeType(InvokeType.INVOKE_VIRTUAL)
-                .withScope(Scope.INSTANCE)
                 .build();
     }
 
     @Test
     public void methodInvocationBuilderTest() {
-        MethodInvocationBase.Builder.Companion.builder()
+        MethodInvocation.Builder.Companion.builder()
                 .withLocalization(Alias.THIS.INSTANCE)
                 .withTarget(Defaults.ACCESS_THIS)
                 .withInvokeType(InvokeType.INVOKE_VIRTUAL)
@@ -463,7 +458,7 @@ public class BuilderTest {
     public void operateBuilderTest() {
         Operate.Builder.Companion.builder()
                 .withOperation(Operators.MULTIPLY)
-                .withTarget(CodeAPI.accessLocalVariable(Integer.TYPE, "a"))
+                .withTarget(Factories.accessVariable(Integer.TYPE, "a"))
                 .withValue(Literals.INT(9))
                 .build();
     }
@@ -493,8 +488,8 @@ public class BuilderTest {
     @Test
     public void switchStatementBuilderTest() {
         SwitchStatement.Builder.Companion.builder()
-                .withSwitchType(SwitchTypes.NUMERIC)
-                .withValue(CodeAPI.accessLocalVariable(Integer.TYPE, "a"))
+                .withSwitchType(SwitchType.NUMERIC)
+                .withValue(Factories.accessVariable(Integer.TYPE, "a"))
                 .withCases(
                         new Case(Literals.INT(1), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 1")))),
                         new Case(Literals.INT(90), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 90")))),
@@ -506,13 +501,13 @@ public class BuilderTest {
     @Test
     public void throwExceptionBuilderTest() {
         ThrowException.Builder.Companion.builder()
-                .withPartToThrow(CodeAPI.invokeConstructor(NullPointerException.class))
+                .withPartToThrow(InvocationFactory.invokeConstructor(NullPointerException.class))
                 .build();
     }
 
     @Test
     public void tryStatementBuilderTest() {
-        TryStatementBase.Builder.Companion.builder().build();
+        TryStatement.Builder.Companion.builder().build();
     }
 
     @Test
@@ -522,7 +517,7 @@ public class BuilderTest {
                         .withName("mi")
                         .withVariableType(TryWithResourcesTest_.Trm.class)
                         .withValue(
-                                CodeAPI.invokeVirtual(TryWithResourcesTest_.Trm.class, CodeAPI.accessLocalVariable(TryWithResourcesTest_.Trm.class, "mi"), "read", new TypeSpec(Void.TYPE), Collections.emptyList())
+                                InvocationFactory.invokeVirtual(TryWithResourcesTest_.Trm.class, Factories.accessVariable(TryWithResourcesTest_.Trm.class, "mi"), "read", new TypeSpec(Void.TYPE), Collections.emptyList())
                         )
                         .build()
                 )
@@ -559,7 +554,7 @@ public class BuilderTest {
     public void whileStatementBuilderTest() {
         WhileStatement.Builder.Companion.builder()
                 .withType(WhileStatement.Type.DO_WHILE)
-                .withExpressions(CodeAPI.check(CodeAPI.accessLocalVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
+                .withExpressions(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
                 .withBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("a"))))
                 .build();
     }
@@ -567,11 +562,11 @@ public class BuilderTest {
     // Since 4.0.0
     @Test
     public void invokeDynamicBuilderTest() {
-        InvokeDynamicBase.Builder.Companion.builder()
+        InvokeDynamic.Builder.Companion.builder()
                 .withType(Void.TYPE)
-                .withInvocation(CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(InvocationsTest_.class), CodeAPI.accessStatic(),
+                .withInvocation(InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(InvocationsTest_.class), Factories.accessStatic(),
                         "helloWorld",
-                        CodeAPI.typeSpec(Void.TYPE, String.class),
+                        Factories.typeSpec(Void.TYPE, String.class),
                         Collections.singletonList(Literals.STRING("World"))))
                 .withBootstrap(new MethodInvokeSpec(InvokeType.INVOKE_STATIC, InvocationsTest_.BOOTSTRAP_SPEC))
                 .build();
@@ -579,32 +574,33 @@ public class BuilderTest {
 
     @Test
     public void invokeLambdaRefBuilderTest() {
-        InvokeDynamicBase.LambdaMethodRefBase.Builder.Companion.builder()
+        InvokeDynamic.LambdaMethodRef.Builder.Companion.builder()
                 .withBaseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
                 .withExpectedTypes(new TypeSpec(String.class))
-                .withInvocation(CodeAPI.invoke(
-                        InvokeType.INVOKE_INTERFACE, Greeter.class, CodeAPI.accessLocalVariable(Greeter.class, "greeter"),
+                .withInvocation(InvocationFactory.invoke(
+                        InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
                         "hello",
-                        CodeAPI.typeSpec(String.class),
+                        Factories.typeSpec(String.class),
                         Collections.emptyList()))
                 .build();
     }
 
     @Test
     public void invokeLambdaFuncBuilderTest() {
-        InvokeDynamicBase.LambdaLocalMethodBase.Builder.Companion.builder()
+        InvokeDynamic.LambdaLocalCode.Builder.Companion.builder()
                 .withBaseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
                 .withExpectedTypes(new TypeSpec(String.class))
-                .withLocalMethod(SimpleMethodFragmentBuilder.builder()
+                .withLocalCode(LocalCode.Builder.builder()
                         .withDeclaringType(ClassDeclaration.Builder.Companion.builder().withQualifiedName("com.x").build())
-                        .withScope(Scope.STATIC)
-                        .withDescription(new TypeSpec(Types.STRING))
-                        .withBody(
-                                CodeAPI.source(
-                                        CodeAPI.returnValue(Types.STRING, Literals.STRING("CodeAPI"))
-                                )
-                        )
+                        .withDeclaration(MethodDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .withName("$$lambda$1")
+                                .withReturnType(Types.STRING)
+                                .withBody(CodeSource.fromVarArgs(
+                                        Factories.returnValue(Types.STRING, Literals.STRING("CodeAPI"))
+                                ))
+                                .build())
                         .build())
-                .build();
+        .build();
     }
 }

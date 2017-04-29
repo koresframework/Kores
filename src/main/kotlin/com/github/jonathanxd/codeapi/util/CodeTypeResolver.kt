@@ -25,32 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.common.TypeSpec;
-import com.github.jonathanxd.iutils.description.Description;
-import com.github.jonathanxd.iutils.description.DescriptionUtil;
+import com.github.jonathanxd.codeapi.type.CodeType
+import java.util.function.Function
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+abstract class CodeTypeResolver : (String) -> CodeType, Function<String, CodeType> /* Java compatibility */ {
 
-public class DescriptionHelper {
+    override fun apply(t: String): CodeType = this.invoke(t)
 
-    public static TypeSpec toTypeSpec(Description description, TypeResolver resolver) {
-        String returnType = description.getType();
-        String[] parameterTypes = description.getParameterTypes();
+    override fun invoke(p1: String): CodeType {
+        if (p1.endsWith("[]")) {
+            val index = p1.indexOf("[]")
+            val without = p1.substring(0..index)
+            val dimension = p1.substring(index).replace("]", "")
+            return this.resolve("${dimension}L$without;")
+        }
 
-        return new TypeSpec(
-                resolver.resolveUnknown(returnType),
-                Arrays.stream(parameterTypes).map(resolver::resolveUnknown).collect(Collectors.toList())
-        );
+        return this.resolve(p1)
     }
 
-    public static TypeSpec toTypeSpec(String desc, TypeResolver resolver) {
-        String[] parameterTypes = DescriptionUtil.getParameterTypes(desc);
+    protected abstract fun resolve(t: String): CodeType
 
-        String returnType = DescriptionUtil.getType(desc);
+    companion object {
+        fun fromJavaFunction(func: Function<String, CodeType>): CodeTypeResolver = WrappedCodeTypeResolver(func)
+        fun fromKtFunction(func: (String) -> CodeType): CodeTypeResolver = WrappedCodeTypeResolver0(func)
+    }
 
-        return new TypeSpec(resolver.resolveUnknown(returnType), Arrays.stream(parameterTypes).map(resolver::resolveUnknown).collect(Collectors.toList()));
+    // Backward compatible
+    private class WrappedCodeTypeResolver(val func: Function<String, CodeType>) : CodeTypeResolver() {
+        override fun resolve(t: String): CodeType = func.apply(t)
+    }
+
+    // Backward compatible
+    private class WrappedCodeTypeResolver0(val func: (String) -> CodeType) : CodeTypeResolver() {
+        override fun resolve(t: String): CodeType = func(t)
     }
 }
+

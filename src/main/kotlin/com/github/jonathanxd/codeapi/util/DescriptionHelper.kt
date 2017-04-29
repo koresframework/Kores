@@ -25,32 +25,39 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.base.LocalCode
-import java.util.*
+import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.iutils.description.Description
+import com.github.jonathanxd.iutils.description.DescriptionUtil
 
-sealed class InvokeDynamic(val methodTypeSpec: MethodTypeSpec) {
+/**
+ * Description utilities
+ */
+object DescriptionHelper {
 
-    open class LambdaMethodReference(methodTypeSpec: MethodTypeSpec, val expectedTypes: TypeSpec) : InvokeDynamic(methodTypeSpec) {
-        override fun toString(): String = "LambdaMethodReference[methodTypeSpec = $methodTypeSpec, expectedTypes = $expectedTypes]"
-    }
+    /**
+     * Resolve types of [description] using [resolver] and convert to [TypeSpec]
+     */
+    fun toTypeSpec(description: Description, resolver: TypeResolver): TypeSpec {
+        val returnType = description.type
+        val parameterTypes = description.parameterTypes
 
-    class LambdaFragment(methodTypeSpec: MethodTypeSpec, expectedTypes: TypeSpec, val methodFragment: LocalCode) : LambdaMethodReference(methodTypeSpec, expectedTypes) {
-        override fun toString(): String = "LambdaFragment[methodTypeSpec = $methodTypeSpec, expectedTypes = $expectedTypes, methodFrament = $methodFragment]"
+        return TypeSpec(
+                resolver.resolveUnknown(returnType),
+                parameterTypes.map { resolver.resolveUnknown(it) })
+
     }
 
     /**
-     * Invoke Bootstrap methods with bootstrap method parameters
-     *
-     * @param methodTypeSpec      Bootstrap method specification
-     * @param invokeType          Type
-     * @param arguments           Bootstrap method Arguments, must be an [String], [Int],
-     *                            [Long], [Float], [Double], [CodeType],
-     *                            or [MethodInvokeSpec].
+     * Resolve types of [desc] using [resolver] and convert to [TypeSpec]
      */
-    class Bootstrap(methodTypeSpec: MethodTypeSpec, val invokeType: InvokeType, val arguments: Array<Any>) : InvokeDynamic(methodTypeSpec) {
-        override fun toString(): String = "Bootstrap[methodTypeSpec = $methodTypeSpec, invokeType = $invokeType, arguments = ${Arrays.toString(this.arguments)}]"
+    fun toTypeSpec(desc: String, resolver: TypeResolver): TypeSpec {
+        val parameterTypes = DescriptionUtil.getParameterTypes(desc)
+
+        val returnType = DescriptionUtil.getType(desc)
+
+        return TypeSpec(resolver.resolveUnknown(returnType), parameterTypes.map { resolver.resolveUnknown(it) })
     }
 
 }

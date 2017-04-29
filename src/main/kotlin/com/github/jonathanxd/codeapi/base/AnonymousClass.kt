@@ -78,7 +78,7 @@ data class AnonymousClass(override val comments: Comments,
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
 
-    override fun builder(): Builder = Builder()
+    override fun builder(): Builder = Builder(this)
 
     class Builder() :
             TypeDeclaration.Builder<AnonymousClass, Builder>,
@@ -186,7 +186,10 @@ data class AnonymousClass(override val comments: Comments,
 
 
         companion object {
+            @JvmStatic
             fun builder(): Builder = Builder()
+
+            @JvmStatic
             fun builder(defaults: AnonymousClass): Builder = Builder(defaults)
         }
     }

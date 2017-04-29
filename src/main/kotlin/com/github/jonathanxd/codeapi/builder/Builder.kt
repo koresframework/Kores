@@ -56,5 +56,3 @@ inline fun <T, S: Builder<T, S>> S.build(func: S.() -> Unit): T {
     func(this)
     return build()
 }
-
-

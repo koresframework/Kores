@@ -32,14 +32,19 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.codeapi.type.GenericType
 import java.lang.reflect.Type
 
-private fun resolveInnerName(qualifiedName: String, outer: Type?, isInternal: Boolean): String {
+/**
+ * Resolves the inner name based on [qualifiedName] and [outer] type.
+ *
+ * @param isTypeName True to return type name, false to return qualified name.
+ */
+private fun resolveInnerName(qualifiedName: String, outer: Type?, isTypeName: Boolean): String {
     if (outer != null) {
         outer.codeType.let { outer ->
             val packageName = outer.packageName
 
             // Prevent duplication of the name
             if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
-                if (isInternal) {
+                if (isTypeName) {
                     return getTypeNameStr(qualifiedName, outer)
                 } else {
                     return getQualifiedNameStr(qualifiedName, outer)
@@ -52,22 +57,37 @@ private fun resolveInnerName(qualifiedName: String, outer: Type?, isInternal: Bo
 
 }
 
+/**
+ * Resolves the type name based on [qualifiedName] and [outer] type.
+ */
 fun resolveTypeName(qualifiedName: String, outer: Type?): String {
     return resolveInnerName(qualifiedName, outer, true)
 }
 
+/**
+ * Resolves the qualified name based on [qualifiedName] and [outer] type.
+ */
 fun resolveQualifiedName(qualifiedName: String, outer: Type?): String {
     return resolveInnerName(qualifiedName, outer, false)
 }
 
+/**
+ * Create qualified name from [qualified] and [outer] name.
+ */
 private fun getQualifiedNameStr(qualified: String, outer: Type): String {
     return outer.codeType.canonicalName + "." + qualified
 }
 
+/**
+ * Create type name from [qualified] and [outer] name.
+ */
 private fun getTypeNameStr(qualified: String, outer: Type): String {
     return outer.codeType.type + "$" + qualified
 }
 
+/**
+ * Convert [type] name to JVM spec name.
+ */
 fun codeTypeToJvmName(type: Type): String {
     return type.codeType.let { type ->
         if (type.isPrimitive)
@@ -77,10 +97,18 @@ fun codeTypeToJvmName(type: Type): String {
     }
 }
 
+/**
+ * Convert primitive [type] name to JVM spec name.
+ */
 fun primitiveCodeTypeToJvmName(type: Type): String {
     return type.codeType.javaSpecName
 }
 
+/**
+ * Convert [type] [name][typeStr] to type description.
+ *
+ * @param typeStr String to transform in type description (sould be [type] name).
+ */
 @JvmOverloads
 fun codeTypeToTypeDesc(type: Type, typeStr: String = type.codeType.type): String {
 
@@ -106,7 +134,10 @@ fun codeTypeToTypeDesc(type: Type, typeStr: String = type.codeType.type): String
     return sb.toString() + name
 }
 
-fun toName(type: Type): String {
+/**
+ * Converts [type] to type descriptor.
+ */
+fun toDescriptor(type: Type): String {
     val codeType = type.codeType
 
     if (codeType is GenericType) {

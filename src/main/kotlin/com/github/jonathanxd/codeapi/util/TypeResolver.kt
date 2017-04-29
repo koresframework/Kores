@@ -27,39 +27,90 @@
  */
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
-import java.util.function.Function
 
-abstract class CodeTypeResolver : (String) -> CodeType, Function<String, CodeType> /* Java compatibility */ {
+/**
+ * Resolves a class name which may vary to a [CodeType] and cache the resolved type.
+ */
+@FunctionalInterface
+interface TypeResolver {
 
-    override fun apply(t: String): CodeType = this.invoke(t)
+    /**
+     * Resolves type with [name] to a [CodeType]. If [isInterface] is `true`, and resolved
+     * type is cached as non-interface, then the type should be replaced with one that is marked as interface.
+     */
+    fun resolve(name: String, isInterface: Boolean): CodeType
 
-    override fun invoke(p1: String): CodeType {
-        if (p1.endsWith("[]")) {
-            val index = p1.indexOf("[]")
-            val without = p1.substring(0..index)
-            val dimension = p1.substring(index).replace("]", "")
-            return this.resolve("${dimension}L$without;")
-        }
-
-        return this.resolve(p1)
-    }
-
-    protected abstract fun resolve(t: String): CodeType
-
-    companion object {
-        fun fromJavaFunction(func: Function<String, CodeType>): CodeTypeResolver = WrappedCodeTypeResolver(func)
-        fun fromKtFunction(func: (String) -> CodeType): CodeTypeResolver = WrappedCodeTypeResolver0(func)
-    }
-
-    // Backward compatible
-    private class WrappedCodeTypeResolver(val func: Function<String, CodeType>) : CodeTypeResolver() {
-        override fun resolve(t: String): CodeType = func.apply(t)
-    }
-
-    // Backward compatible
-    private class WrappedCodeTypeResolver0(val func: (String) -> CodeType) : CodeTypeResolver() {
-        override fun resolve(t: String): CodeType = func(t)
-    }
 }
 
+/**
+ * Resolve type as unknown, same as [resolveClass]
+ */
+fun TypeResolver.resolveUnknown(name: String): CodeType {
+    return this.resolve(name, false)
+}
+
+/**
+ * Resolve type as interface.
+ */
+fun TypeResolver.resolveInterface(name: String): CodeType {
+    return this.resolve(name, true)
+}
+
+/**
+ * Resolve type as class.
+ */
+fun TypeResolver.resolveClass(name: String): CodeType {
+    return this.resolve(name, false)
+}
+
+/**
+ * Simple type resolver
+ */
+class SimpleResolver(private val wrapped: TypeResolver, private val resolveLoadedClasses: Boolean) : TypeResolver {
+
+    override fun resolve(name: String, isInterface: Boolean): CodeType {
+        var name = name
+        if (name == Types.BYTE.javaSpecName) {
+            return Types.BYTE
+        } else if (name == Types.SHORT.javaSpecName) {
+            return Types.SHORT
+        } else if (name == Types.INT.javaSpecName) {
+            return Types.INT
+        } else if (name == Types.FLOAT.javaSpecName) {
+            return Types.FLOAT
+        } else if (name == Types.DOUBLE.javaSpecName) {
+            return Types.DOUBLE
+        } else if (name == Types.LONG.javaSpecName) {
+            return Types.LONG
+        } else if (name == Types.CHAR.javaSpecName) {
+            return Types.CHAR
+        } else if (name == Types.STRING.javaSpecName) {
+            return Types.STRING
+        } else if (name == Types.BOOLEAN.javaSpecName) {
+            return Types.BOOLEAN
+        } else if (name == Types.VOID.javaSpecName) {
+            return Types.VOID
+        }
+
+        name = name.replace('/', '.')
+
+        if (name.startsWith("L") && name.endsWith(";")) {
+            name = name.substring(1, name.length - 1)
+        }
+
+        if (this.resolveLoadedClasses) {
+            try {
+                val aClass = Class.forName(name)
+
+                if (aClass != null)
+                    return aClass.codeType
+            } catch (ignored: Throwable) {
+            }
+
+        }
+
+        return this.wrapped.resolve(name, isInterface)
+    }
+}

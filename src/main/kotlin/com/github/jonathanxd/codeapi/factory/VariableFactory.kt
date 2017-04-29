@@ -30,8 +30,11 @@
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.VariableAccess
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
+import com.github.jonathanxd.codeapi.base.VariableDefinition
 import java.lang.reflect.Type
 
 fun variable(type: Type, name: String, value: CodePart?): VariableDeclaration = VariableDeclaration(value = value, name = name, variableType = type)
 fun variable(type: Type, name: String): VariableDeclaration = VariableDeclaration(value = null, name = name, variableType = type)
+

@@ -35,11 +35,9 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.base.impl.*
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.lang.reflect.Type
 import java.util.*
@@ -128,9 +126,9 @@ fun aClass(outerClass: Type? = null,
            comments: Comments = Comments.Absent): ClassDeclaration {
     return ClassDeclaration(
             superClass = superType,
-            implementations = ArrayToList.toList(implementations),
+            implementations = implementations.toList(),
             specifiedName = qualifiedName,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             body = source,
             modifiers = modifiers,
             genericSignature = signature,
@@ -150,9 +148,9 @@ fun aClass(outerClass: Type? = null,
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
     return ClassDeclaration(
             superClass = superType,
-            implementations = ArrayToList.toList(implementations),
+            implementations = implementations.toList(),
             specifiedName = qualifiedName,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             body = source,
             modifiers = modifiers,
             genericSignature = signature,
@@ -239,11 +237,11 @@ fun anInterface(outerClass: Type? = null,
                 comments: Comments = Comments.Absent): InterfaceDeclaration {
     return InterfaceDeclaration(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             modifiers = modifiers,
             genericSignature = signature,
             specifiedName = qualifiedName,
-            implementations = ArrayToList.toList(superInterfaces),
+            implementations = superInterfaces.toList(),
             body = source,
             comments = comments
     )
@@ -259,11 +257,11 @@ fun anInterface(outerClass: Type? = null,
                 source: CodeSource = CodeSource.empty()): InterfaceDeclaration {
     return InterfaceDeclaration(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             modifiers = modifiers,
             genericSignature = signature,
             specifiedName = qualifiedName,
-            implementations = ArrayToList.toList(superInterfaces),
+            implementations = superInterfaces.toList(),
             comments = comments,
             body = source
     )
@@ -324,11 +322,11 @@ fun anAnnotation(outerClass: Type? = null,
                  comments: Comments = Comments.Absent): AnnotationDeclaration {
     return AnnotationDeclaration(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             modifiers = modifiers,
             genericSignature = signature,
             specifiedName = qualifiedName,
-            properties = ArrayToList.toList(properties),
+            properties = properties.toList(),
             body = source,
             comments = comments
     )
@@ -344,11 +342,11 @@ fun anAnnotation(outerClass: Type? = null,
                  source: CodeSource = CodeSource.empty()): AnnotationDeclaration {
     return AnnotationDeclaration(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             modifiers = modifiers,
             genericSignature = signature,
             specifiedName = qualifiedName,
-            properties = ArrayToList.toList(properties),
+            properties = properties.toList(),
             comments = comments,
             body = source
     )
@@ -428,12 +426,12 @@ fun anEnum(outerClass: Type? = null,
            comments: Comments = Comments.Absent): EnumDeclaration {
     return EnumDeclaration(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             modifiers = modifiers,
             genericSignature = signature,
             specifiedName = qualifiedName,
-            implementations = ArrayToList.toList(implementations),
-            entries = ArrayToList.toList(entries),
+            implementations = implementations.toList(),
+            entries = entries.toList(),
             body = source,
             comments = comments
     )
@@ -450,12 +448,12 @@ fun anEnum(outerClass: Type? = null,
            source: CodeSource = CodeSource.empty()): EnumDeclaration {
     return EnumDeclaration(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             modifiers = modifiers,
             genericSignature = signature,
             specifiedName = qualifiedName,
-            implementations = ArrayToList.toList(implementations),
-            entries = ArrayToList.toList(entries),
+            implementations = implementations.toList(),
+            entries = entries.toList(),
             comments = comments,
             body = source
     )
@@ -530,14 +528,15 @@ fun anonymousClass(outerClass: Type,
                    comments: Comments = Comments.Absent): AnonymousClass {
     return AnonymousClass(
             outerClass = outerClass,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             comments = comments,
             superClass = superType,
             specifiedName = qualifiedName,
             body = source,
             constructorSpec = constructorSpec,
-            arguments = ArrayToList.toList(arguments),
-            constructorBody = constructorBody
+            arguments = arguments.toList(),
+            constructorBody = constructorBody,
+            implementations = emptyList()
     )
 }
 

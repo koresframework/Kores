@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Code comment
@@ -37,7 +35,7 @@ import com.github.jonathanxd.codeapi.builder.invoke
  * @property code Code Node
  */
 data class Code(val code: CodeNode) : Comment {
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
     /**
      * Node of the code.
@@ -60,17 +58,32 @@ data class Code(val code: CodeNode) : Comment {
 
     }
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Code, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<Code, Builder> {
+
+        lateinit var code: CodeNode
+
+        constructor(defaults: Code) : this() {
+            this.code = defaults.code
+        }
 
         /**
          * See [Code.code]
          */
-        fun withCode(value: CodeNode): Builder
+        fun withCode(value: CodeNode): Builder {
+            this.code = value
+            return this
+        }
+
+        override fun build(): Code = Code(this.code)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Code): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Code): Builder = Builder(defaults)
         }
+
     }
 
 }

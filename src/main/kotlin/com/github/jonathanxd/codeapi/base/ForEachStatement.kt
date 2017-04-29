@@ -27,11 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.IterationType
 
 /**
@@ -51,27 +48,58 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : BodyHolder.Builder<ForEachStatement, Builder> {
+    class Builder() : BodyHolder.Builder<ForEachStatement, Builder> {
+
+        lateinit var variable: VariableDeclaration
+        lateinit var iterationType: IterationType
+        lateinit var iterableElement: CodePart
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: ForEachStatement) : this() {
+            this.variable = defaults.variable
+            this.iterationType = defaults.iterationType
+            this.iterableElement = defaults.iterableElement
+        }
+
         /**
          * See [ForEachStatement.variable]
          */
-        fun withVariable(value: VariableDeclaration): Builder
+        fun withVariable(value: VariableDeclaration): Builder {
+            this.variable = value
+            return this
+        }
 
         /**
          * See [ForEachStatement.iterationType]
          */
-        fun withIterationType(value: IterationType): Builder
+        fun withIterationType(value: IterationType): Builder {
+            this.iterationType = value
+            return this
+        }
 
         /**
          * See [ForEachStatement.iterableElement]
          */
-        fun withIterableElement(value: CodePart): Builder
+        fun withIterableElement(value: CodePart): Builder {
+            this.iterableElement = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun build(): ForEachStatement = ForEachStatement(this.variable, this.iterationType, this.iterableElement, this.body)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ForEachStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: ForEachStatement): Builder = Builder(defaults)
         }
 
     }

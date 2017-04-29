@@ -33,17 +33,19 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.MethodInvocationBase
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.factory.*
 import java.io.PrintStream
 
 object Predefined {
     @JvmStatic
     fun toString(part: CodePart): MethodInvocationBase {
-        return CodeAPI.invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
+        return invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
     }
 
     @JvmStatic
     fun intToString(part: CodePart): MethodInvocationBase {
-        return CodeAPI.invokeStatic(String::class.java, "valueOf",
+        return invokeStatic(String::class.java,
+                "valueOf",
                 TypeSpec(Types.STRING, listOf(Types.INT)),
                 listOf(part))
     }
@@ -67,18 +69,18 @@ object Predefined {
             helper.build()
         }
 
-        return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
-                CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
+        return invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
+                accessStaticField(System::class.java, PrintStream::class.java, "out"),
                 "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), listOf(arg))
     }
 
     @JvmStatic
     fun invokePrintlnStr(part: CodePart): MethodInvocationBase {
-        return CodeAPI.invokeVirtual(
+        return invokeVirtual(
                 PrintStream::class.java,
-                CodeAPI.accessStaticField(System::class.java, PrintStream::class.java, "out"),
+                accessStaticField(System::class.java, PrintStream::class.java, "out"),
                 "println",
-                CodeAPI.typeSpec(Types.VOID, Types.STRING),
+                typeSpec(Types.VOID, Types.STRING),
                 listOf(part))
     }
 }

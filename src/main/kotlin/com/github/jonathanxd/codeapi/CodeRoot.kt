@@ -41,7 +41,7 @@ interface CodeRoot : CodeElement, BodyHolder {
     val elements: List<CodeElement>
         get() = this.body.let {
             SourceInspect
-                    .find { it is CodeElement }
+                    .builder { it is CodeElement }
                     .include { it is CodeSource }
                     .includeSource(true)
                     .mapTo { it as CodeElement }

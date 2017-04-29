@@ -27,10 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.helper
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.IfExpr
+import com.github.jonathanxd.codeapi.factory.invokeVirtual
+import com.github.jonathanxd.codeapi.factory.typeSpec
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
 
@@ -50,29 +51,29 @@ class IfExpressionHelper private constructor() {
 
     fun checkObjectEqual(part1: CodePart, part2: CodePart): IfExpressionHelper {
         return this.checkTrue(
-                CodeAPI.invokeVirtual(Any::class.java, part1, "equals",
-                        CodeAPI.typeSpec(Types.BOOLEAN, Types.OBJECT),
+                invokeVirtual(Any::class.java, part1, "equals",
+                        typeSpec(Types.BOOLEAN, Types.OBJECT),
                         listOf(part2))
         )
     }
 
     fun checkNotNull(part1: CodePart): IfExpressionHelper {
-        this.list.add(CodeAPI.checkNotNull(part1))
+        this.list.add(com.github.jonathanxd.codeapi.factory.checkNotNull(part1))
         return this
     }
 
     fun checkNull(part1: CodePart): IfExpressionHelper {
-        this.list.add(CodeAPI.checkNull(part1))
+        this.list.add(com.github.jonathanxd.codeapi.factory.checkNull(part1))
         return this
     }
 
     fun checkTrue(part1: CodePart): IfExpressionHelper {
-        this.list.add(CodeAPI.checkTrue(part1))
+        this.list.add(com.github.jonathanxd.codeapi.factory.checkTrue(part1))
         return this
     }
 
     fun checkFalse(part1: CodePart): IfExpressionHelper {
-        this.list.add(CodeAPI.checkFalse(part1))
+        this.list.add(com.github.jonathanxd.codeapi.factory.checkFalse(part1))
         return this
     }
 

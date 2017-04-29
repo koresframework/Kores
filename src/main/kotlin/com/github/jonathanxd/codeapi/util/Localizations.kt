@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
 /**
  * Aliases, only use alias in supported contexts.
  *
- * Example of supported contexts: Method Invocation Target, Field Access Target.
+ * Example of supported contexts: Method Invocation Target, Field Access Target, Local code declaring type.
  */
 sealed class Alias {
     /**
@@ -43,7 +43,7 @@ sealed class Alias {
      *
      * **Must be manually handled.**
      */
-    object THIS : Alias(), CodeType by CodeAPI.getJavaType(THIS::class.java) {
+    object THIS : Alias(), CodeType by THIS::class.codeType {
         override fun hashCode(): Int = super.hashCode()
         override fun equals(other: Any?): Boolean = other == THIS
     }
@@ -53,7 +53,7 @@ sealed class Alias {
      *
      * **Must be manually handled.**
      */
-    object SUPER : Alias(), CodeType by CodeAPI.getJavaType(SUPER::class.java) {
+    object SUPER : Alias(), CodeType by SUPER::class.codeType {
         override fun hashCode(): Int = super.hashCode()
         override fun equals(other: Any?): Boolean = other == THIS
     }
@@ -65,7 +65,7 @@ sealed class Alias {
      *
      * @param n Index of implementation interfaces
      */
-    data class INTERFACE(val n: Int) : Alias(), CodeType by CodeAPI.getJavaType(INTERFACE::class.java) {
+    data class INTERFACE(val n: Int) : Alias(), CodeType by INTERFACE::class.codeType {
         override val type: String = "${INTERFACE::class.java.canonicalName}($n)"
         override val canonicalName: String = type
 

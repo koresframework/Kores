@@ -27,23 +27,82 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
-import com.github.jonathanxd.codeapi.common.InvokeDynamic
 import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
+import com.github.jonathanxd.codeapi.common.New
+import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
  * Invokes a method.
+ *
+ * @property target Target of the invocation (Access to static context for static methods), for instance constructors,
+ * you must to pass a [New] instance, for super constructor or this constructors you must to pass either an [Alias] or an
+ * [Access] to `this` context.
+ *
  */
 data class MethodInvocation(override val invokeType: InvokeType,
                             override val target: CodePart,
                             override val spec: MethodTypeSpec,
-                            override val arguments: List<CodePart>) : MethodInvocationBase
+                            override val arguments: List<CodePart>) : MethodInvocationBase {
+
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() : MethodInvocationBase.Builder<MethodInvocation, Builder> {
+
+        lateinit var invokeType: InvokeType
+        lateinit var target: CodePart
+        lateinit var spec: MethodTypeSpec
+        var arguments: List<CodePart> = emptyList()
+
+        constructor(defaults: MethodInvocation) : this() {
+            this.invokeType = defaults.invokeType
+            this.target = defaults.target
+            this.spec = defaults.spec
+            this.arguments = defaults.arguments
+        }
+
+        override fun withInvokeType(value: InvokeType): Builder {
+            this.invokeType = value
+            return this
+        }
+
+        override fun withTarget(value: CodePart): Builder {
+            this.target = value
+            return this
+        }
+
+        override fun withSpec(value: MethodTypeSpec): Builder {
+            this.spec = value
+            return this
+        }
+
+        override fun withArguments(value: List<CodePart>): Builder {
+            this.arguments = value
+            return this
+        }
+
+        override fun withType(value: Type): Builder {
+            this.spec = this.spec.builder().withType(value).build()
+            return this
+        }
+
+        override fun build(): MethodInvocation = MethodInvocation(this.invokeType, this.target, this.spec, this.arguments)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: MethodInvocation): Builder = Builder(defaults)
+        }
+
+    }
+
+}
 
 /**
  * Invokes a method.
@@ -84,7 +143,7 @@ interface MethodInvocationBase : Accessor, ArgumentHolder, Typed {
      */
     val invokeType: InvokeType
 
-    override fun builder(): Builder<MethodInvocationBase, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder<MethodInvocationBase, *>
 
     interface Builder<out T : MethodInvocationBase, S : Builder<T, S>> :
             Accessor.Builder<T, S>,
@@ -92,13 +151,6 @@ interface MethodInvocationBase : Accessor, ArgumentHolder, Typed {
             Typed.Builder<T, S> {
 
         override fun withArray(value: Boolean): S = self()
-
-        @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): S {
-            val spec = this.spec ?: throw IllegalStateException("No method description defined")
-
-            return this.withSpec(spec.builder().withTypeSpec(spec.typeSpec.copy(returnType = value)).build())
-        }
 
         override fun withLocalization(value: Type): S = self()
 
@@ -111,16 +163,6 @@ interface MethodInvocationBase : Accessor, ArgumentHolder, Typed {
          * See [T.invokeType]
          */
         fun withInvokeType(value: InvokeType): S
-
-        /**
-         * See [T.spec]
-         */
-        val spec: MethodTypeSpec?
-
-        companion object {
-            fun builder(): Builder<MethodInvocationBase, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: MethodInvocationBase): Builder<MethodInvocationBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
 
     }
 

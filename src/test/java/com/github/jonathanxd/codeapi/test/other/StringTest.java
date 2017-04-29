@@ -34,6 +34,8 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.util.ToString;
 
 import org.junit.Test;
@@ -54,7 +56,7 @@ public class StringTest {
                 .build();
 
         source.add(
-                CodeAPI.invokeVirtual(typeDeclaration, CodeAPI.accessThis(), "aa",
+                InvocationFactory.invokeVirtual(typeDeclaration, Factories.accessThis(), "aa",
                         new TypeSpec(Types.VOID, Collections.emptyList()),
                         Collections.emptyList())
         );

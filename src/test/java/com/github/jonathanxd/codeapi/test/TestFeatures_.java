@@ -35,16 +35,20 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -59,39 +63,40 @@ import static java.util.Collections.singletonList;
 @SuppressWarnings("Duplicates")
 public class TestFeatures_ {
     public static CodePart invokePrintln(CodePart toPrint) {
-        return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(PrintStream.class),
-                CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
+        return InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
+                Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
-                CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
+                Factories.typeSpec(Types.VOID, Types.OBJECT),
                 singletonList(toPrint));
     }
 
     public static MethodDeclarationBase makeCM() {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclarationBase codeMethod = MethodDeclarationBase.Builder.Companion.builder()
+        MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("printIt")
-                .withParameters(new CodeParameter(Types.OBJECT, "n"))
+                .withParameters(Factories.parameter(Types.OBJECT, "n"))
                 .withReturnType(Types.VOID)
                 .withBody(methodSource)
                 .build();
 
-        methodSource.add(CodeAPI.ifStatement(
-                CodeAPI.checkNotNull(CodeAPI.accessLocalVariable(Object.class, "n")),
-                CodeAPI.source(invokePrintln(Literals.STRING("Hello :D")))
+        methodSource.add(Factories.ifStatement(
+                Factories.checkNotNull(Factories.accessVariable(Object.class, "n")),
+                CodeSource.fromVarArgs(invokePrintln(Literals.STRING("Hello :D"))),
+                CodeSource.empty()
                 )
         );
 
         methodSource.add(VariableFactory.variable(Types.STRING, "dingdong", Literals.STRING("DingDong")));
 
-        methodSource.add(Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "dingdong")));
+        methodSource.add(Predefined.invokePrintln(Factories.accessVariable(String.class, "dingdong")));
 
-        methodSource.add(CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                CodeAPI.accessStaticField(System.class, PrintStream.class, "out"),
+        methodSource.add(InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
+                Factories.accessStaticField(System.class, PrintStream.class, "out"),
                 "println",
-                CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
-                singletonList(CodeAPI.accessLocalVariable(Types.OBJECT, "n"))));
+                Factories.typeSpec(Types.VOID, Types.OBJECT),
+                singletonList(Factories.accessVariable(Types.OBJECT, "n"))));
 
 
         return codeMethod;
@@ -127,22 +132,22 @@ public class TestFeatures_ {
         clSource.add(codeField);
         clSource.add(codeField2);
 
-        CodePart invokeTest = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(PrintStream.class),
-                CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
+        CodePart invokeTest = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
+                Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
-                CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
+                Factories.typeSpec(Types.VOID, Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Hello")));
 
-        CodePart invokeTest2 = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, codeClass,
-                CodeAPI.accessThis(),
+        CodePart invokeTest2 = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, codeClass,
+                Factories.accessThis(),
                 "printIt",
-                CodeAPI.typeSpec(Types.VOID, Types.OBJECT),
+                Factories.typeSpec(Types.VOID, Types.OBJECT),
 
                 Collections.singletonList(Literals.STRING("Oi")));
 
         ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeAPI.source(invokeTest, invokeTest2))
+                .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
                 .build();
 
         clSource.add(codeConstructor);
@@ -158,29 +163,29 @@ public class TestFeatures_ {
     public static MethodDeclarationBase makeCM2() {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclarationBase codeMethod = MethodDeclarationBase.Builder.Companion.builder()
+        MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
                 .withName("check")
                 .withModifiers(CodeModifier.PUBLIC)
-                .withParameters(new CodeParameter(Types.INT, "x"))
+                .withParameters(Factories.parameter(Types.INT, "x"))
                 .withReturnType(Types.BOOLEAN)
                 .withBody(methodSource)
                 .build();
 
-        methodSource.add(CodeAPI.ifStatement(
-                CodeAPI.ifExprs(
-                        CodeAPI.check(CodeAPI.accessLocalVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(9)),
+        methodSource.add(Factories.ifStatement(
+                Factories.ifExprs(
+                        Factories.check(Factories.accessVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(9)),
                         Operators.OR,
-                        CodeAPI.check(CodeAPI.accessLocalVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(7))
+                        Factories.check(Factories.accessVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(7))
                 ),
-                CodeAPI.source(
-                        CodeAPI.returnValue(Types.INT, Literals.INT(0))
+                CodeSource.fromVarArgs(
+                        Factories.returnValue(Types.INT, Literals.INT(0))
                 )));
 
         methodSource.add(Predefined.invokePrintln(
-                CodeAPI.accessLocalVariable(Types.INT, "x")
+                Factories.accessVariable(Types.INT, "x")
         ));
 
-        methodSource.add(CodeAPI.returnValue(Types.INT, Literals.INT(1)));
+        methodSource.add(Factories.returnValue(Types.INT, Literals.INT(1)));
 
         return codeMethod;
     }

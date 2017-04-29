@@ -27,23 +27,23 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
-import com.github.jonathanxd.codeapi.util.CodePartUtil
+import com.github.jonathanxd.codeapi.util.getPartType
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
  * Case statement of [SwitchStatement].
+ *
+ * @property value Value to check if operating element matches, null for `default` case.
+ * @property body Body of case statement.
  */
 data class Case(override val value: CodePart?, override val body: CodeSource) : ValueHolder, Typed, BodyHolder {
 
     override val type: Type
-        get() = this.value?.let { CodePartUtil.getType(it) } ?: Types.INT
+        get() = this.value?.getPartType() ?: Types.INT
 
     /**
      * Is case default
@@ -59,20 +59,50 @@ data class Case(override val value: CodePart?, override val body: CodeSource) : 
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             ValueHolder.Builder<Case, Builder>,
             Typed.Builder<Case, Builder>,
             BodyHolder.Builder<Case, Builder> {
 
+        var value: CodePart? = null
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: Case) : this() {
+            this.value = defaults.value
+            this.body = defaults.body
+        }
+
         override fun withType(value: Type): Builder = self()
 
+        /**
+         * Sets the case statement as `default` case (same as `withValue(null)`).
+         */
+        fun setDefault(): Builder {
+            this.value = null
+            return this
+        }
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun build(): Case = Case(this.value, this.body)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Case): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Case): Builder = Builder(defaults)
         }
 
     }
-
 }

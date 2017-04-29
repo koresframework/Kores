@@ -27,75 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.Case
-import com.github.jonathanxd.codeapi.base.SwitchStatement
-import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.gen.PartProcessor
-import com.github.jonathanxd.codeapi.sugar.Generator
-import com.github.jonathanxd.codeapi.sugar.SugarEnvironment
-import com.github.jonathanxd.codeapi.sugar.SugarSyntax
-import com.github.jonathanxd.codeapi.util.`is`
-
 /**
- * Transformation applier, this Switch object must be transformed into an INT.
+ * Switch types
  */
-interface SwitchType : PartProcessor, SugarSyntax<SwitchStatement, SwitchStatement> {
+enum class SwitchType {
+    NUMERIC,
+    OBJECT,
+    STRING,
+    ENUM
 
-    val isUnique: Boolean
-        get() = false
-
-    override fun createGenerator(sugarEnvironment: SugarEnvironment): Generator<SwitchStatement, SwitchStatement> {
-        return this.createGenerator()
-    }
-
-    fun createGenerator(): SwitchGenerator
-
-    /**
-     * This generator will not be called if the [SwitchType] is [SwitchTypes.NUMERIC].
-     */
-    abstract class SwitchGenerator : Generator<SwitchStatement, SwitchStatement> {
-
-        /**
-         * Translate switch to integer.
-         *
-         * @param aSwitch Switch
-         * @return Translated switch.
-         */
-        open fun translateSwitch(aSwitch: SwitchStatement): SwitchStatement {
-            return aSwitch
-        }
-
-        /**
-         * Translate case to integer.
-         *
-         * @param aCase Case.
-         * @return Translated case.
-         */
-        open fun translateCase(aCase: Case, aSwitch: SwitchStatement): Case {
-            return aCase
-        }
-
-        override fun generate(t: SwitchStatement, processor: PartProcessor): SwitchStatement {
-            val caseList = t.cases.map { aCase -> if (aCase.isDefault) aCase else this.checkType(this.translateCase(aCase, t)) }
-
-            val translatedSwitch = this.checkType(this.translateSwitch(t))
-
-            val switchStmt = SwitchStatement(
-                    value = translatedSwitch.value,
-                    cases = caseList,
-                    switchType = SwitchTypes.NUMERIC
-            )
-
-            return switchStmt
-        }
-
-        private fun <R : Typed> checkType(typed: R): R {
-            if (!typed.type.`is`(Types.INT)) {
-                throw IllegalArgumentException("Translated switch is not a numeric switch!")
-            }
-
-            return typed
-        }
-    }
 }

@@ -27,13 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operator
+import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.CodePartUtil
+import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.util.getPartType
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
@@ -42,35 +41,64 @@ import java.lang.reflect.Type
  *
  * @property target Target part to operate.
  * @property operation Operation.
+ * @property value Second argument of the operation. Some operations may not require a second argument, some can
+ * behave different without them, example, if a second argument is provided for [Operators.SUBTRACT], the operation
+ * will be `target-value`, otherwise the operation will be `-target` (or negative).
  */
 data class Operate(val target: CodePart,
                    val operation: Operator.Math,
                    override val value: CodePart?) : ValueHolder, Typed {
 
     override val type: CodeType
-        get() = CodePartUtil.getType(this.target)
+        get() = this.target.getPartType().codeType
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             ValueHolder.Builder<Operate, Builder>,
             Typed.Builder<Operate, Builder> {
+
+        lateinit var target: CodePart
+        lateinit var operation: Operator.Math
+        var value: CodePart? = null
+
+        constructor(defaults: Operate) : this() {
+            this.target = defaults.target
+            this.operation = defaults.operation
+            this.value = defaults.value
+        }
 
         override fun withType(value: Type): Builder = self()
 
         /**
          * See [Operate.target]
          */
-        fun withTarget(value: CodePart?): Builder
+        fun withTarget(value: CodePart): Builder {
+            this.target = value
+            return this
+        }
 
         /**
          * See [Operate.operation]
          */
-        fun withOperation(value: Operator.Math): Builder
+        fun withOperation(value: Operator.Math): Builder {
+            this.operation = value
+            return this
+        }
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value
+            return this
+        }
+
+        override fun build(): Operate = Operate(this.target, this.operation, this.value)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Operate): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Operate): Builder = Builder(defaults)
         }
 
     }

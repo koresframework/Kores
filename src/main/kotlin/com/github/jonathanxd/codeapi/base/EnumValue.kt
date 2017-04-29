@@ -27,9 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
@@ -40,7 +37,8 @@ import java.lang.reflect.Type
  *
  * @property enumType Type of enum
  * @property enumEntry Entry of enum.
- * @property ordinal Ordinal value of enum.
+ * @property ordinal Ordinal value of enum. (If -1 is provided, CodeAPI will
+ * try to statically resolve the ordinal value).
  */
 data class EnumValue(val enumType: Type,
                      val enumEntry: String,
@@ -52,11 +50,21 @@ data class EnumValue(val enumType: Type,
     override val type: Type
         get() = this.enumType
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             Named.Builder<EnumValue, Builder>,
             Typed.Builder<EnumValue, Builder> {
+
+        lateinit var enumType: Type
+        lateinit var enumEntry: String
+        var ordinal: Int = -1
+
+        constructor(defaults: EnumValue) : this() {
+            this.enumType = defaults.enumType
+            this.enumEntry = defaults.enumEntry
+            this.ordinal = defaults.ordinal
+        }
 
         override fun withName(value: String): Builder = this.withEnumEntry(value)
         override fun withType(value: Type): Builder = this.withEnumType(value)
@@ -64,21 +72,35 @@ data class EnumValue(val enumType: Type,
         /**
          * See [EnumValue.enumType]
          */
-        fun withEnumType(value: Type): Builder
+        fun withEnumType(value: Type): Builder {
+            this.enumType = value
+            return this
+        }
 
         /**
          * See [EnumValue.enumEntry]
          */
-        fun withEnumEntry(value: String): Builder
+        fun withEnumEntry(value: String): Builder {
+            this.enumEntry = value
+            return this
+        }
 
         /**
          * See [EnumValue.ordinal]
          */
-        fun withOrdinal(value: Int): Builder
+        fun withOrdinal(value: Int): Builder {
+            this.ordinal = value
+            return this
+        }
+
+        override fun build(): EnumValue = EnumValue(this.enumType, this.enumEntry, this.ordinal)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: EnumValue): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: EnumValue): Builder = Builder(defaults)
         }
 
     }

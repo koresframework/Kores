@@ -36,7 +36,6 @@ import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.util.*
 
@@ -91,8 +90,8 @@ fun constructor(annotations: Array<Annotation> = emptyArray(),
                 source: CodeSource = CodeSource.empty(),
                 comments: Comments = Comments.Absent): ConstructorDeclaration {
     return ConstructorDeclaration(
-            parameters = ArrayToList.toList(parameters),
-            annotations = ArrayToList.toList(annotations),
+            parameters = parameters.toList(),
+            annotations = annotations.toList(),
             body = source,
             modifiers = modifiers,
             genericSignature = signature,
@@ -107,8 +106,8 @@ fun constructor(comments: Comments,
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
     return ConstructorDeclaration(
-            parameters = ArrayToList.toList(parameters),
-            annotations = ArrayToList.toList(annotations),
+            parameters = parameters.toList(),
+            annotations = annotations.toList(),
             body = source,
             modifiers = modifiers,
             genericSignature = signature,

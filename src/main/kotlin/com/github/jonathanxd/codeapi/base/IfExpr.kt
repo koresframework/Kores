@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.operator.Operator
 
 /**
@@ -45,28 +42,53 @@ data class IfExpr(val expr1: CodePart,
                   val operation: Operator.Conditional,
                   val expr2: CodePart) : CodePart {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<IfExpr, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<IfExpr, Builder> {
+
+        lateinit var expr1: CodePart
+        lateinit var operation: Operator.Conditional
+        lateinit var expr2: CodePart
+
+        constructor(defaults: IfExpr) : this() {
+            this.expr1 = defaults.expr1
+            this.operation = defaults.operation
+            this.expr2 = defaults.expr2
+        }
 
         /**
          * See [IfExpr.expr1]
          */
-        fun withExpr1(value: CodePart): Builder
+        fun withExpr1(value: CodePart): Builder {
+            this.expr1 = value
+            return this
+        }
 
         /**
          * See [IfExpr.operation]
          */
-        fun withOperation(value: Operator.Conditional): Builder
+        fun withOperation(value: Operator.Conditional): Builder {
+            this.operation = value
+            return this
+        }
 
         /**
          * See [IfExpr.expr2]
          */
-        fun withExpr2(value: CodePart): Builder
+        fun withExpr2(value: CodePart): Builder {
+            this.expr2 = value
+            return this
+        }
+
+
+        override fun build(): IfExpr = IfExpr(this.expr1, this.operation, this.expr2)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: IfExpr): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: IfExpr): Builder = Builder(defaults)
         }
 
     }

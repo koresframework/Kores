@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
@@ -42,16 +39,53 @@ data class FieldAccess(override val localization: Type,
                        override val type: Type,
                        override val name: String) : Accessor, Typed, Named {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             Accessor.Builder<FieldAccess, Builder>,
             Typed.Builder<FieldAccess, Builder>,
             Named.Builder<FieldAccess, Builder> {
 
+        lateinit var localization: Type
+        lateinit var target: CodePart
+        lateinit var type: Type
+        lateinit var name: String
+
+        constructor(defaults: FieldAccess) : this() {
+            this.localization = defaults.localization
+            this.target = defaults.target
+            this.type = defaults.type
+            this.name = defaults.name
+        }
+
+        override fun withLocalization(value: Type): Builder {
+            this.localization = value
+            return this
+        }
+
+        override fun withTarget(value: CodePart): Builder {
+            this.target = value
+            return this
+        }
+
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun build(): FieldAccess = FieldAccess(this.localization, this.target, this.type, this.name)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: FieldAccess): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: FieldAccess): Builder = Builder(defaults)
         }
 
     }

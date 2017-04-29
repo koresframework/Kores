@@ -27,19 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.factory.CommentsFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -53,7 +55,7 @@ public class CommentClassTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        MethodTypeSpec indexOfMethodSpec = new MethodTypeSpec(Types.STRING, "indexOf", CodeAPI.typeSpec(Types.INT, Types.INT, Types.INT));
+        MethodTypeSpec indexOfMethodSpec = new MethodTypeSpec(Types.STRING, "indexOf", Factories.typeSpec(Types.INT, Types.INT, Types.INT));
 
         /*
          * Comment test class. {@link String#indexOf(int, int) Test Method Link}
@@ -69,7 +71,7 @@ public class CommentClassTest_ {
                 .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyClass")
                 .withSuperClass(Types.OBJECT)
-                .withBody(CodeAPI.sourceOfParts(
+                .withBody(CodeSource.fromVarArgs(
                         FieldDeclaration.Builder.Companion.builder()
                                 .withComments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
                                 .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
@@ -77,29 +79,29 @@ public class CommentClassTest_ {
                                 .withType(Types.STRING)
                                 .withValue(Literals.STRING("field"))
                                 .build(),
-                        MethodDeclarationBase.Builder.Companion.builder()
+                        MethodDeclaration.Builder.builder()
                                 .withComments(
                                         CommentsFactory.documentation(
                                                 CommentsFactory.plain("Print "),
                                                 CommentsFactory.linkField("'fieldi' value", "com.MyClass", "fieldi", Types.STRING),
                                                 CommentsFactory.plain(" to "),
-                                                CommentsFactory.linkField("java.lang.System", "out", CodeAPI.getJavaType(PrintStream.class)),
+                                                CommentsFactory.linkField("java.lang.System", "out", CodeTypes.getCodeType(PrintStream.class)),
                                                 CommentsFactory.plain(".")
                                         )
                                 )
                                 .withModifiers(CodeModifier.PUBLIC)
                                 .withReturnType(Types.VOID)
                                 .withName("printFieldi")
-                                .withBody(CodeAPI.sourceOfParts(
+                                .withBody(CodeSource.fromVarArgs(
                                         CommentsFactory.comments(CommentsFactory.plain("Prints 'fieldi' value")),
-                                        Predefined.invokePrintlnStr(CodeAPI.accessThisField(Types.STRING, "fieldi"))
+                                        Predefined.invokePrintlnStr(Factories.accessThisField(Types.STRING, "fieldi"))
                                 ))
                                 .build()
                 ))
                 .build();
 
 
-        return Pair.of(myCl, CodeAPI.sourceOfParts(myCl));
+        return Pair.of(myCl, CodeSource.fromVarArgs(myCl));
     }
 
     @Test

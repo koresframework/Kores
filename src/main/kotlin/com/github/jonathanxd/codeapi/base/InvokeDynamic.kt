@@ -27,14 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
-import com.github.jonathanxd.codeapi.common.InvokeType
-import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
-import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.invoke.CallSite
@@ -74,7 +69,7 @@ interface InvokeDynamicBase : Typed {
      */
     val args: List<Any>
 
-    override fun builder(): Builder<InvokeDynamicBase, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder<InvokeDynamicBase, *>
 
     interface Builder<out T : InvokeDynamicBase, S : Builder<T, S>> :
             Typed.Builder<T, S> {
@@ -98,11 +93,6 @@ interface InvokeDynamicBase : Typed {
          * See [T.args]
          */
         fun withArgs(vararg values: Any): S = withArgs(values.toList())
-
-        companion object {
-            fun builder(): Builder<InvokeDynamicBase, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: InvokeDynamicBase): Builder<InvokeDynamicBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
     }
 
     /**
@@ -142,7 +132,7 @@ interface InvokeDynamicBase : Typed {
          */
         val expectedTypes: TypeSpec
 
-        override fun builder(): Builder<LambdaMethodRefBase, *> = CodeAPI.getBuilderProvider()(this)
+        override fun builder(): Builder<LambdaMethodRefBase, *>
 
         interface Builder<out T : LambdaMethodRefBase, S : Builder<T, S>> :
                 InvokeDynamicBase.Builder<T, S> {
@@ -161,11 +151,6 @@ interface InvokeDynamicBase : Typed {
              */
             fun withExpectedTypes(value: TypeSpec): S
 
-            companion object {
-                fun builder(): Builder<LambdaMethodRefBase, *> = CodeAPI.getBuilderProvider().invoke()
-                fun builder(defaults: LambdaMethodRefBase): Builder<LambdaMethodRefBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-            }
-
         }
     }
 
@@ -173,23 +158,35 @@ interface InvokeDynamicBase : Typed {
      * Invocation of lambda function.
      */
     @Concrete
-    interface LambdaLocalMethodBase : LambdaMethodRefBase {
+    interface LambdaLocalCodeBase : LambdaMethodRefBase, ArgumentHolder {
 
         override val expectedTypes: TypeSpec
-            get() = this.localMethod.description
+            get() = this.localCode.description
 
-        override val invocation: MethodInvocationBase
-            get() = this.localMethod
+        override val invocation: MethodInvocation
+            get() = this.localCode.createInvocation(arguments)
+
+        override val array: Boolean
+            get() = false
+
+        override val types: List<Type>
+            get() = this.localCode.parameters.map(CodeParameter::type)
 
         /**
-         * Method to invoke
+         * Local method to invoke
          */
-        val localMethod: LocalCode
+        val localCode: LocalCode
 
-        override fun builder(): Builder<LambdaLocalMethodBase, *> = CodeAPI.getBuilderProvider()(this)
+        /**
+         * Argument to capture from current context and pass to [localCode]
+         */
+        override val arguments: List<CodePart>
 
-        interface Builder<out T : LambdaLocalMethodBase, S : Builder<T, S>> :
-                LambdaMethodRefBase.Builder<T, S> {
+        override fun builder(): Builder<LambdaLocalCodeBase, *>
+
+        interface Builder<out T : LambdaLocalCodeBase, S : Builder<T, S>> :
+                LambdaMethodRefBase.Builder<T, S>,
+                ArgumentHolder.Builder<T, S> {
 
             override fun withType(value: Type): S = self()
             override fun withBootstrap(value: MethodInvokeSpec): S = self()
@@ -198,14 +195,9 @@ interface InvokeDynamicBase : Typed {
             override fun withInvocation(value: MethodInvocationBase): S = self()
 
             /**
-             * See [T.localMethod]
+             * See [T.localCode]
              */
-            fun withLocalMethod(value: LocalCode): S
-
-            companion object {
-                fun builder(): Builder<LambdaLocalMethodBase, *> = CodeAPI.getBuilderProvider().invoke()
-                fun builder(defaults: LambdaLocalMethodBase): Builder<LambdaLocalMethodBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-            }
+            fun withLocalCode(value: LocalCode): S
 
         }
     }
@@ -214,8 +206,148 @@ interface InvokeDynamicBase : Typed {
 
 data class InvokeDynamic(override val type: Type, override val bootstrap: MethodInvokeSpec, override val invocation: MethodInvocationBase, override val args: List<Any>) : InvokeDynamicBase {
 
-    data class LambdaMethodRef(override val invocation: MethodInvocationBase, override val baseSam: MethodTypeSpec, override val expectedTypes: TypeSpec) : InvokeDynamicBase.LambdaMethodRefBase
+    override fun builder(): InvokeDynamic.Builder = InvokeDynamic.Builder(this)
 
-    data class LambdaLocalMethod(override val baseSam: MethodTypeSpec, override val localMethod: LocalCode) : InvokeDynamicBase.LambdaLocalMethodBase
+    class Builder() :
+            InvokeDynamicBase.Builder<InvokeDynamic, Builder> {
+
+        lateinit var type: Type
+        lateinit var bootstrap: MethodInvokeSpec
+        lateinit var invocation: MethodInvocationBase
+        var args: List<Any> = emptyList()
+
+        constructor(defaults: InvokeDynamic) : this() {
+            this.type = defaults.type
+            this.bootstrap = defaults.bootstrap
+            this.invocation = defaults.invocation
+            this.args = defaults.args
+        }
+
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withBootstrap(value: MethodInvokeSpec): Builder {
+            this.bootstrap = value
+            return this
+        }
+
+        override fun withInvocation(value: MethodInvocationBase): Builder {
+            this.invocation = value
+            return this
+        }
+
+        override fun withArgs(value: List<Any>): Builder {
+            this.args = value
+            return this
+        }
+
+        override fun build(): InvokeDynamic = InvokeDynamic(this.type, this.bootstrap, this.invocation, this.args)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: InvokeDynamic): Builder = Builder(defaults)
+        }
+
+    }
+
+    data class LambdaMethodRef(override val invocation: MethodInvocationBase, override val baseSam: MethodTypeSpec, override val expectedTypes: TypeSpec) : InvokeDynamicBase.LambdaMethodRefBase {
+
+        override fun builder(): LambdaMethodRef.Builder = LambdaMethodRef.Builder(this)
+
+        class Builder() :
+                InvokeDynamicBase.LambdaMethodRefBase.Builder<LambdaMethodRef, Builder> {
+
+            lateinit var invocation: MethodInvocationBase
+            lateinit var baseSam: MethodTypeSpec
+            lateinit var expectedTypes: TypeSpec
+
+            constructor(defaults: LambdaMethodRef) : this() {
+                this.invocation = defaults.invocation
+                this.baseSam = defaults.baseSam
+                this.expectedTypes = defaults.expectedTypes
+            }
+
+            override fun withInvocation(value: MethodInvocationBase): Builder {
+                this.invocation = value
+                return this
+            }
+
+            override fun withBaseSam(value: MethodTypeSpec): Builder {
+                this.baseSam = value
+                return this
+            }
+
+            override fun withExpectedTypes(value: TypeSpec): Builder {
+                this.expectedTypes = value
+                return this
+            }
+
+            override fun build(): LambdaMethodRef = LambdaMethodRef(this.invocation, this.baseSam, this.expectedTypes)
+
+            companion object {
+                @JvmStatic
+                fun builder(): Builder = Builder()
+
+                @JvmStatic
+                fun builder(defaults: LambdaMethodRef): Builder = Builder(defaults)
+            }
+
+        }
+    }
+
+    data class LambdaLocalCode(override val baseSam: MethodTypeSpec, override val localCode: LocalCode, override val arguments: List<CodePart>) : InvokeDynamicBase.LambdaLocalCodeBase {
+
+        override val invocation: MethodInvocation = this.localCode.createInvocation(this.arguments)
+        override val types: List<Type> = this.localCode.parameters.map(CodeParameter::type)
+
+        override fun builder(): LambdaLocalCode.Builder = LambdaLocalCode.Builder(this)
+
+        class Builder() :
+                InvokeDynamicBase.LambdaLocalCodeBase.Builder<LambdaLocalCode, Builder> {
+
+            lateinit var baseSam: MethodTypeSpec
+            lateinit var localCode: LocalCode
+            var arguments: List<CodePart> = emptyList()
+
+            constructor(defaults: LambdaLocalCode) : this() {
+                this.baseSam = defaults.baseSam
+                this.localCode = defaults.localCode
+                this.arguments = defaults.arguments
+            }
+
+            override fun withBaseSam(value: MethodTypeSpec): Builder {
+                this.baseSam = value
+                return this
+            }
+
+            override fun withLocalCode(value: LocalCode): Builder {
+                this.localCode = value
+                return this
+            }
+
+            override fun withArray(value: Boolean): Builder = self()
+
+            override fun withArguments(value: List<CodePart>): Builder {
+                this.arguments = value
+                return this
+            }
+
+            override fun build(): LambdaLocalCode = LambdaLocalCode(this.baseSam, this.localCode, this.arguments)
+
+            companion object {
+                @JvmStatic
+                fun builder(): Builder = Builder()
+
+                @JvmStatic
+                fun builder(defaults: LambdaLocalCode): Builder = Builder(defaults)
+            }
+
+        }
+    }
 
 }

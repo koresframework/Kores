@@ -27,9 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.builder.invoke
-
 /**
  * Plain comment (like texts)
  *
@@ -37,21 +34,34 @@ import com.github.jonathanxd.codeapi.builder.invoke
  */
 data class Plain(val text: String) : Comment {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Plain, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<Plain, Builder> {
+
+        lateinit var text: String
+
+        constructor(defaults: Plain) : this() {
+            this.text = defaults.text
+        }
 
         /**
-         * See [Comment.text]
+         * See [Plain.text]
          */
-        fun withText(value: String): Builder
+        fun withText(value: String): Builder {
+            this.text = value
+            return this
+        }
+
+        override fun build(): Plain = Plain(this.text)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Plain): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Plain): Builder = Builder(defaults)
         }
 
     }
-
 
 }

@@ -27,11 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.literal
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.NullType
+import com.github.jonathanxd.codeapi.util.codeType
 
 /**
  * [Literals][Literal] constants.
@@ -155,7 +155,7 @@ object Literals {
     // StringLiteral
     @JvmStatic
     fun STRING(s: String): Literal {
-        return QuotedStringLiteral(s)
+        return StringLiteral(s)
     }
 
     // Array
@@ -167,7 +167,7 @@ object Literals {
     // Class Literal
     @JvmStatic
     fun CLASS(aClass: Class<*>): Literal {
-        return CLASS(CodeAPI.getJavaType(aClass))
+        return CLASS(aClass.codeType)
     }
 
     @JvmStatic
@@ -181,7 +181,7 @@ object Literals {
     @GenerateTo(Literal::class)
     class ClassLiteral internal constructor(type: CodeType) : Literal(type, type.canonicalName, TYPE) {
         companion object {
-            private val TYPE = CodeAPI.getJavaType(CodeType::class.java)
+            private val TYPE = CodeType::class.codeType
         }
 
     }
@@ -189,7 +189,7 @@ object Literals {
     @GenerateTo(Literal::class)
     class ByteLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
-            private val TYPE = CodeAPI.getJavaType(Integer.TYPE)
+            private val TYPE = java.lang.Byte.TYPE.codeType
         }
 
     }
@@ -198,7 +198,7 @@ object Literals {
     class ShortLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(Integer.TYPE)
+            private val TYPE = java.lang.Short.TYPE.codeType
         }
 
     }
@@ -206,7 +206,7 @@ object Literals {
     @GenerateTo(Literal::class)
     class IntLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
-            private val TYPE = CodeAPI.getJavaType(Integer.TYPE)
+            private val TYPE = java.lang.Integer.TYPE.codeType
         }
 
     }
@@ -215,7 +215,7 @@ object Literals {
     class BoolLiteral internal constructor(value: Boolean) : Literal(value.toString(), TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(java.lang.Boolean.TYPE)
+            private val TYPE = java.lang.Boolean.TYPE.codeType
         }
 
     }
@@ -224,7 +224,7 @@ object Literals {
     class LongLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(java.lang.Long.TYPE)
+            private val TYPE = java.lang.Long.TYPE.codeType
         }
 
     }
@@ -234,7 +234,7 @@ object Literals {
     class FloatLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(java.lang.Float.TYPE)
+            private val TYPE = java.lang.Float.TYPE.codeType
         }
 
     }
@@ -243,7 +243,7 @@ object Literals {
     class DoubleLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(java.lang.Double.TYPE)
+            private val TYPE = java.lang.Double.TYPE.codeType
         }
 
     }
@@ -252,16 +252,16 @@ object Literals {
     class CharLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(Character.TYPE)
+            private val TYPE = java.lang.Character.TYPE.codeType
         }
 
     }
 
     @GenerateTo(Literal::class)
-    class QuotedStringLiteral internal constructor(val original: String) : Literal('"' + original + '"', TYPE) {
+    class StringLiteral internal constructor(val original: String) : Literal('"' + original + '"', TYPE) {
         companion object {
 
-            private val TYPE = CodeAPI.getJavaType(String::class.java)
+            private val TYPE = String::class.codeType
         }
     }
 }

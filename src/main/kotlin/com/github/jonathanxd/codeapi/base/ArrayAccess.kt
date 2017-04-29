@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
@@ -61,11 +59,6 @@ interface ArrayAccess : CodePart {
          * See [T.arrayType]
          */
         fun withArrayType(value: Type): S
-
-        companion object {
-            fun builder(): Builder<ArrayAccess, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ArrayAccess): Builder<ArrayAccess, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
 
     }
 

@@ -27,18 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
  * Catch statement of a try block. Catch [exceptionTypes] and store caught exception in [variable].
  *
- * @property exceptionTypes Exception type to catch
- * @property variable Variable to store exception
+ * @property exceptionTypes Exception types to catch.
+ * @property variable Variable to store exception.
+ * @property body Body of exception handler.
  */
 data class CatchStatement(val exceptionTypes: List<Type>,
                           val variable: VariableDeclaration,
@@ -51,11 +49,21 @@ data class CatchStatement(val exceptionTypes: List<Type>,
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             BodyHolder.Builder<CatchStatement, Builder>,
             Typed.Builder<CatchStatement, Builder> {
+
+        var exceptionTypes: List<Type> = emptyList()
+        lateinit var variable: VariableDeclaration
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: CatchStatement) : this() {
+            this.exceptionTypes = defaults.exceptionTypes
+            this.variable = defaults.variable
+            this.body = defaults.body
+        }
 
         @Suppress("UNCHECKED_CAST")
         override fun withType(value: Type): Builder = self()
@@ -63,21 +71,37 @@ data class CatchStatement(val exceptionTypes: List<Type>,
         /**
          * See [CatchStatement.exceptionTypes]
          */
-        fun withExceptionTypes(value: List<Type>): Builder
+        fun withExceptionTypes(value: List<Type>): Builder {
+            this.exceptionTypes = value
+            return this
+        }
 
         /**
          * See [CatchStatement.variable]
          */
-        fun withExceptionTypes(vararg values: Type): Builder = withExceptionTypes(values.toList())
+        fun withExceptionTypes(vararg values: Type): Builder = this.withExceptionTypes(values.toList())
 
         /**
          * See [CatchStatement.variable]
          */
-        fun withVariable(value: VariableDeclaration): Builder
+        fun withVariable(value: VariableDeclaration): Builder {
+            this.variable = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun build(): CatchStatement = CatchStatement(this.exceptionTypes, this.variable, this.body)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: CatchStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: CatchStatement): Builder = Builder(defaults)
         }
 
     }

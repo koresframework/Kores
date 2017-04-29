@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.SwitchType
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
@@ -76,11 +73,21 @@ data class SwitchStatement(override val value: Typed,
     override val type: Type
         get() = this.value.type
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder:
+    class Builder() :
             ValueHolder.Builder<SwitchStatement, Builder>,
             Typed.Builder<SwitchStatement, Builder> {
+
+        lateinit var value: Typed
+        lateinit var switchType: SwitchType
+        var cases: List<Case> = emptyList()
+
+        constructor(defaults: SwitchStatement) : this() {
+            this.value = defaults.value
+            this.switchType = defaults.switchType
+            this.cases = defaults.cases
+        }
 
         override fun withType(value: Type): Builder = self()
         override fun withValue(value: CodePart?): Builder = this.withValue(value as Typed)
@@ -88,29 +95,42 @@ data class SwitchStatement(override val value: Typed,
         /**
          * See [SwitchStatement.value]
          */
-        fun withValue(value: Typed): Builder
+        fun withValue(value: Typed): Builder {
+            this.value = value
+            return this
+        }
 
         /**
          * See [SwitchStatement.switchType]
          */
-        fun withSwitchType(value: SwitchType): Builder
+        fun withSwitchType(value: SwitchType): Builder {
+            this.switchType = value
+            return this
+        }
 
         /**
          * See [SwitchStatement.cases]
          */
-        fun withCases(value: List<Case>): Builder
+        fun withCases(value: List<Case>): Builder {
+            this.cases = value
+            return this
+        }
 
         /**
          * See [SwitchStatement.cases]
          */
         fun withCases(vararg values: Case): Builder = withCases(values.toList())
 
+        override fun build(): SwitchStatement = SwitchStatement(this.value, this.switchType, this.cases)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: SwitchStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: SwitchStatement): Builder = Builder(defaults)
         }
 
     }
-
 
 }

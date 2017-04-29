@@ -27,11 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.type.GenericType;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
@@ -42,7 +45,7 @@ public class GenericToTypeVarTest {
 
     @Test
     public void genericToTypeVar() {
-        Generic generic = Generic.Companion.type(CodeAPI.getJavaType(MyClass.class))
+        Generic generic = Generic.Companion.type(CodeTypes.getCodeType(MyClass.class))
                 .of(Types.INTEGER_WRAPPER)
                 .of(Generic.Companion.type("T"))
                 .of(Types.STRING);
@@ -50,6 +53,15 @@ public class GenericToTypeVarTest {
         TypeVariable<?>[] typeVariables = TypeVarUtil.fillTypeVars(MyClass.class, generic);
 
         print(typeVariables);
+
+    }
+
+    @Test
+    public void typeVarToGeneric() {
+        TypeVariable<Class<MyClass>>[] typeParameters = MyClass.class.getTypeParameters();
+        GenericType type = (GenericType) TypeVarUtil.getType(typeParameters, "V", Generic.type(MyClass.class).of(Integer.class).of(Generic.type("T")).of(String.class));
+
+        Assert.assertEquals("T", type.toString());
     }
 
     public void print(TypeVariable<?>[] typeVariables) {
@@ -58,8 +70,9 @@ public class GenericToTypeVarTest {
             Type[] bounds = typeVariable.getBounds();
 
             if (bounds.length > 0) {
-                System.out.println("Bounds = ");
+                System.out.println("Bounds = {");
                 Arrays.stream(bounds).forEach(this::print);
+                System.out.println("}");
             }
 
             System.out.println("===========================================");

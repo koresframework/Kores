@@ -27,28 +27,35 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.Annotable
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.base.Named
-import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
 import java.lang.reflect.Type
 
-data class CodeParameter @JvmOverloads constructor(override val type: Type, override val name: String, override val annotations: List<Annotation> = emptyList()) : Typed, Named, Annotable {
+data class CodeParameter(override val annotations: List<Annotation>, override val modifiers: Set<CodeModifier>, override val type: Type, override val name: String) : Typed, Named, Annotable, ModifiersHolder {
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
             Named.Builder<CodeParameter, Builder>,
             Typed.Builder<CodeParameter, Builder>,
-            Annotable.Builder<CodeParameter, Builder> {
+            Annotable.Builder<CodeParameter, Builder>,
+    ModifiersHolder.Builder<CodeParameter, Builder> {
 
+        var modifiers: Set<CodeModifier> = emptySet()
+        var annotations: List<Annotation> = emptyList()
         lateinit var name: String
         lateinit var type: Type
-        var annotations: List<Annotation> = emptyList()
 
         constructor(defaults: CodeParameter) : this() {
+            this.modifiers = defaults.modifiers
+            this.annotations = defaults.annotations
             this.name = defaults.name
             this.type = defaults.type
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = modifiers
+            return this
         }
 
         override fun withName(value: String): Builder {
@@ -71,7 +78,7 @@ data class CodeParameter @JvmOverloads constructor(override val type: Type, over
             return this
         }
 
-        override fun build(): CodeParameter = CodeParameter(this.type, this.name, this.annotations)
+        override fun build(): CodeParameter = CodeParameter(this.annotations, this.modifiers, this.type, this.name)
 
     }
 }

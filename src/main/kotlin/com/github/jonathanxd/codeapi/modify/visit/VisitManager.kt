@@ -80,7 +80,7 @@ open class VisitManager<T : CodePart> {
         return visitor.visit(part, data, this) as T
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "DEPRECATION") // May be removed in the future, at any time.
     protected open fun <U : CodePart> getVisitor(type: Class<*>): PartVisitor<U> {
         return GenToUtil.get(type, this.visitors) as PartVisitor<U>
     }

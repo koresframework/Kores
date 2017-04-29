@@ -27,11 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
@@ -46,25 +43,45 @@ data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed {
     override val type: Type
         get() = Types.BOOLEAN
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : Typed.Builder<InstanceOfCheck, Builder> {
+    class Builder() :
+            Typed.Builder<InstanceOfCheck, Builder> {
+
+        lateinit var part: CodePart
+        lateinit var checkType: Type
+
+        constructor(defaults: InstanceOfCheck) : this() {
+            this.part = defaults.part
+            this.checkType = defaults.checkType
+        }
 
         override fun withType(value: Type): Builder = self()
 
         /**
-         * See [T.part]
+         * See [InstanceOfCheck.part]
          */
-        fun withPart(value: CodePart): Builder
+        fun withPart(value: CodePart): Builder {
+            this.part = value
+            return this
+        }
 
         /**
-         * See [T.checkType]
+         * See [InstanceOfCheck.checkType]
          */
-        fun withCheckType(value: Type): Builder
+        fun withCheckType(value: Type): Builder {
+            this.checkType = value
+            return this
+        }
+
+        override fun build(): InstanceOfCheck = InstanceOfCheck(this.part, this.checkType)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: InstanceOfCheck): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: InstanceOfCheck): Builder = Builder(defaults)
         }
 
     }

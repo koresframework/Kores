@@ -35,6 +35,8 @@ import com.github.jonathanxd.codeapi.base.AnnotationProperty;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.util.TypeResolver;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -53,13 +55,15 @@ public class AnnotationTest_ {
         AnnotationDeclaration build = AnnotationDeclaration.Builder.Companion.builder()
                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyAnnotation")
-                .withProperties(CollectionsKt.listOf(new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.STRING, "value", null),
-                        new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.STRING, "id", "A"),
-                        new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.STRING.toArray(1), "names", new String[]{"A", "B"}),
-                        new AnnotationProperty(Comments.Absent.INSTANCE, Collections.emptyList(), Types.INT.toArray(1), "ns", new int[]{1, 2})))
+                .withProperties(CollectionsKt.listOf(
+                        new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING, "value", null),
+                        new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING, "id", "A"),
+                        new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING.toArray(1), "names", new String[]{"A", "B"}),
+                        Factories.annotationProperty(Types.INT.toArray(1), "ns", new int[]{1, 2})
+                ))
                 .build();
 
-        return Pair.of(build, CodeAPI.sourceOfParts(build));
+        return Pair.of(build, CodeSource.fromVarArgs(build));
     }
 
     @Test

@@ -37,6 +37,8 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -64,13 +66,13 @@ public class AnonymousClassTest_ {
         body.add(ClassFactory.anonymousClass(predefinedTest.classDeclaration,
                 "AnonymousGreeter",
                 CodeTypes.getCodeType(Greeter2.class),
-                CodeAPI.constructorTypeSpec(String.class),
+                Factories.constructorTypeSpec(String.class),
                 new CodePart[]{Literals.STRING("[AnonymousClass]")},
-                CodeAPI.sourceOfParts(Predefined.invokePrintlnStr(Literals.STRING("Created!"))),
-                CodeAPI.sourceOfParts(
-                        MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "greet", Types.VOID, new CodeParameter[0], CodeAPI.sourceOfParts(
+                CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("Created!"))),
+                CodeSource.fromVarArgs(
+                        MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "greet", Types.VOID, new CodeParameter[0], CodeSource.fromVarArgs(
                                 Predefined.invokePrintlnStr(
-                                        ConcatHelper.builder(CodeAPI.invokeFieldGetter(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, CodeAPI.accessThis(), Types.STRING, "prefix"))
+                                        ConcatHelper.builder(Factories.invokeFieldGetter(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, Factories.accessThis(), Types.STRING, "prefix"))
                                                 .concat(" Hello world")
                                                 .build()
                                 )

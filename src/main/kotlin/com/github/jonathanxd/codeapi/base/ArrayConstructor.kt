@@ -29,14 +29,19 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.literal.Literals
-import com.github.jonathanxd.codeapi.util.CodePartUtil
-import com.github.jonathanxd.codeapi.util.Stack
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type
 
 /**
- * Constructs an array of type [arrayType] with dimensions [dimensions].
+ * Constructs an array of type [arrayType] with dimensions [dimensions]. Example:
+ *
+ * `new ArrayConstructor(String.class, listOf(Literals.INT(5)), emptyList()) = new String[5]`
+ * `new ArrayConstructor(String.class, listOf(Literals.INT(5), Literals.INT(9)), emptyList()) = new String[5][9]`
+ * ```
+ * new ArrayConstructor(String.class, listOf(Literals.INT(3)), listOf(Literals.STRING("A"), Literals.STRING("B"), Literals.STRING("C"))) =
+ *
+ * new String[] {"A", "B", "C"}
+ * ```
  */
 data class ArrayConstructor(val arrayType: Type,
                             val dimensions: List<CodePart>,
@@ -71,7 +76,7 @@ data class ArrayConstructor(val arrayType: Type,
                                 .withArrayType(this@ArrayConstructor.arrayType)//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                                 .withTarget(Stack)
                                 .withIndex(Literals.INT(i))
-                                .withValueType(CodePartUtil.getType(argument))
+                                .withValueType(argument.getPartType())
                                 .withValueToStore(argument)
                                 .build()
                 )
@@ -80,7 +85,7 @@ data class ArrayConstructor(val arrayType: Type,
             return arrayStores
         }
 
-    override fun builder(): Builder = Builder()
+    override fun builder(): Builder = Builder(this)
 
     class Builder() :
             ArgumentHolder.Builder<ArrayConstructor, Builder>,

@@ -30,11 +30,11 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.factory.accessStatic
+import com.github.jonathanxd.codeapi.factory.accessThis
 import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
@@ -53,12 +53,12 @@ data class FieldDeclaration(override val comments: Comments,
         get() = Alias.THIS
 
     override val target: CodePart
-        get() = if (this.modifiers.contains(CodeModifier.STATIC)) CodeAPI.accessStatic() else CodeAPI.accessThis()
+        get() = if (this.modifiers.contains(CodeModifier.STATIC)) accessStatic() else accessThis()
 
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             FieldBase.Builder<FieldDeclaration, Builder>,
             Named.Builder<FieldDeclaration, Builder>,
             Typed.Builder<FieldDeclaration, Builder>,
@@ -67,12 +67,63 @@ data class FieldDeclaration(override val comments: Comments,
             Annotable.Builder<FieldDeclaration, Builder>,
             CommentHolder.Builder<FieldDeclaration, Builder> {
 
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        var modifiers: Set<CodeModifier> = emptySet()
+        lateinit var type: Type
+        lateinit var name: String
+        var value: CodePart? = null
+
+        constructor(defaults: FieldDeclaration) : this() {
+            this.comments = defaults.comments
+            this.annotations = defaults.annotations
+            this.modifiers = defaults.modifiers
+            this.type = defaults.type
+            this.name = defaults.name
+            this.value = defaults.value
+        }
+
         override fun withLocalization(value: Type): Builder = self()
         override fun withTarget(value: CodePart): Builder = self()
 
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value
+            return this
+        }
+
+        override fun build(): FieldDeclaration = FieldDeclaration(this.comments, this.annotations, this.modifiers, this.type, this.name, this.value)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: FieldDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: FieldDeclaration): Builder = Builder(defaults)
         }
 
     }

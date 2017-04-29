@@ -34,8 +34,6 @@ import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.lang.reflect.Type
 import java.util.*
@@ -74,7 +72,7 @@ fun field(annotations: Array<Annotation> = emptyArray(),
           value: CodePart? = null,
           comments: Comments = Comments.Absent): FieldDeclaration {
     return FieldDeclaration(
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             value = value,
             modifiers = modifiers,
             name = name,
@@ -90,7 +88,7 @@ fun field(comments: Comments,
           name: String,
           value: CodePart? = null): FieldDeclaration {
     return FieldDeclaration(
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             value = value,
             modifiers = modifiers,
             name = name,
@@ -98,4 +96,3 @@ fun field(comments: Comments,
             comments = comments
     )
 }
-

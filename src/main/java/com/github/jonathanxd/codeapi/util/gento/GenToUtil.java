@@ -32,6 +32,10 @@ import com.github.jonathanxd.codeapi.annotation.GenerateTo;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Generator helper (legacy), may be removed at any time, does not use that.
+ */
+@Deprecated
 public class GenToUtil {
 
     private static <V> V getExactAndPut(Class<?> cl, Class<?> base, Map<Class<?>, V> map) {

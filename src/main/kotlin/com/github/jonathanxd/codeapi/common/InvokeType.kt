@@ -35,13 +35,10 @@ import com.github.jonathanxd.codeapi.type.CodeType
  * is used to invoke interface methods in `interface`s, a special opcode is required for methods declared
  * in `interface` because JVM needs to resolve the position of the method in the method table. [INVOKE_STATIC] is used
  * for invocation of static methods, does not matter where it is declared or if it is private. [INVOKE_SPECIAL] is used to invoke
- * constructors and for private methods, for private methods,
+ * constructors, super constructors and for private methods, for private methods,
  * [INVOKE_SPECIAL] is required because [INVOKE_VIRTUAL] will always call the method of `current class`, which
  * is bad for private methods, because class inheritance can hide the private method and can cause a unexpected
- * behavior. In JVM [INVOKE_SPECIAL] instruction is used to invoke super class constructor, but it behaves different
- * for instance construction (read [INVOKE_SUPER] for more information)
- * because of this, [INVOKE_SUPER] was introduced to achieve the super constructor invocation
- * and this constructor invocation.
+ * behavior.
  *
  */
 enum class InvokeType {
@@ -61,26 +58,9 @@ enum class InvokeType {
      *
      * - Constructor methods.
      * - Private methods.
+     * - Super constructor invocation. (or this constructor invocation).
      */
     INVOKE_SPECIAL,
-
-    /**
-     * Special invocation.
-     *
-     * Invoke super/this class constructor. This is a special
-     * invocation type, this does not exists in JVM bytecode but
-     * the [INVOKE_SPECIAL] behaves different for super constructor invocation and
-     * this constructor invocation.
-     *
-     * In JVM, to construct a instance, we need to visit `new` instruction, that allocates a instance of object with default initial
-     * values, and then, we need to call the constructor using `invokespecial`. But to call `super` and `this` constructor,
-     * we need to pass a `uninitialized_this` to the `invokespecial` calling the initialization constructor of super class or of the
-     * current class. There is not way to differ a normal constructor invocation from a super constructor invocation because both
-     * have the same specification, in older versions we used a class called `MethodType` to specify the type of the method, but now
-     * we use a special invocation because it is better. But remember, there is not opcode called `invokesuper` in the JVM,
-     * in BytecodeGenerator this will be converted to a `invokespecial` but in a **special** way.
-     */
-    INVOKE_SUPER,
 
     /**
      * Interface method invocation.

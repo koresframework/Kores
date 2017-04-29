@@ -27,10 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -48,28 +46,61 @@ data class ArrayLoad(override val arrayType: Type,
     override val type: Type
         get() = this.valueType
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
 
-    interface Builder :
+    class Builder() :
             ArrayAccess.Builder<ArrayLoad, Builder>,
             Typed.Builder<ArrayLoad, Builder> {
 
-        override fun withType(value: Type): Builder = this.withValueType(value)
+        lateinit var arrayType: Type
+        lateinit var target: CodePart
+        lateinit var index: CodePart
+        lateinit var valueType: Type
+
+        constructor(defaults: ArrayLoad) : this() {
+            this.arrayType = defaults.arrayType
+            this.target = defaults.target
+            this.index = defaults.index
+            this.valueType = defaults.valueType
+        }
+
+        override fun withType(value: Type): Builder = self()
+
+        override fun withArrayType(value: Type): Builder {
+            this.arrayType = value
+            return this
+        }
+
+        override fun withTarget(value: CodePart): Builder {
+            this.target = value
+            return this
+        }
 
         /**
          * See [ArrayLoad.index]
          */
-        fun withIndex(value: CodePart): Builder
+        fun withIndex(value: CodePart): Builder {
+            this.index = value
+            return this
+        }
 
         /**
          * See [ArrayLoad.valueType]
          */
-        fun withValueType(value: Type): Builder
+        fun withValueType(value: Type): Builder {
+            this.valueType = value
+            return this
+        }
+
+        override fun build(): ArrayLoad = ArrayLoad(this.arrayType, this.target, this.index, this.valueType)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ArrayLoad): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: ArrayLoad): Builder = Builder(defaults)
         }
 
     }

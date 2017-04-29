@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 
@@ -47,30 +44,55 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
     override val type: Type
         get() = this.targetType
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : Typed.Builder<Cast, Builder> {
+    class Builder() :
+            Typed.Builder<Cast, Builder> {
+
+        var originalType: Type? = null
+        lateinit var targetType: Type
+        lateinit var castedPart: CodePart
+
+        constructor(defaults: Cast) : this() {
+            this.originalType = defaults.originalType
+            this.targetType = defaults.targetType
+            this.castedPart = defaults.castedPart
+        }
 
         override fun withType(value: Type): Builder = this.withTargetType(value)
 
         /**
          * See [Cast.originalType]
          */
-        fun withOriginalType(value: Type?): Builder
+        fun withOriginalType(value: Type?): Builder {
+            this.originalType = value
+            return this
+        }
 
         /**
          * See [Cast.targetType]
          */
-        fun withTargetType(value: Type): Builder
+        fun withTargetType(value: Type): Builder {
+            this.targetType = value
+            return this
+        }
 
         /**
          * See [Cast.castedPart]
          */
-        fun withCastedPart(value: CodePart): Builder
+        fun withCastedPart(value: CodePart): Builder {
+            this.castedPart = value
+            return this
+        }
+
+        override fun build(): Cast = Cast(this.originalType, this.targetType, this.castedPart)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Cast): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Cast): Builder = Builder(defaults)
         }
 
     }

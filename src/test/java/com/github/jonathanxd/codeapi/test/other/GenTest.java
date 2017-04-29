@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
@@ -113,8 +112,8 @@ public class GenTest {
 
         Assert.assertTrue(returnCodeType.is(codeType));
         Assert.assertTrue(returnCodeType.is(
-                Generic.type(CodeAPI.getJavaType(Map.class)).of(Types.STRING).of(Generic.type(Generic.type(CodeAPI.getJavaType(List.class))).of(
-                        Generic.wildcard().super$(Generic.type(CodeAPI.getJavaType(Map.class)).of(Types.INTEGER_WRAPPER, Types.STRING))
+                Generic.type(CodeTypes.getCodeType(Map.class)).of(Types.STRING).of(Generic.type(Generic.type(CodeTypes.getCodeType(List.class))).of(
+                        Generic.wildcard().super$(Generic.type(CodeTypes.getCodeType(Map.class)).of(Types.INTEGER_WRAPPER, Types.STRING))
                 ))
         ));
 

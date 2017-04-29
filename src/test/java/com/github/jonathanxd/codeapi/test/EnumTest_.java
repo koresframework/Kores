@@ -31,8 +31,10 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.EnumDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
@@ -53,26 +55,26 @@ public class EnumTest_ {
                 .withImplementations(CollectionsKt.listOf(CodeTypes.getCodeType(MyItf.class)))
                 .withQualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
                 .withEntries(
-                        CodeAPI.enumEntry("A", CodeAPI.sourceOfParts(
-                                CodeAPI.methodBuilder()
+                        Factories.enumEntry("A", CodeSource.fromVarArgs(
+                                MethodDeclaration.Builder.builder()
                                         .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
-                                        .withAnnotations(CodeAPI.overrideAnnotation())
+                                        .withAnnotations(Factories.overrideAnnotation())
                                         .withReturnType(Types.VOID)
                                         .withName("v")
-                                        .withBody(CodeAPI.sourceOfParts(
+                                        .withBody(CodeSource.fromVarArgs(
                                                 Predefined.invokePrintln(Literals.STRING("A"))
                                         ))
                                         .build()
 
                         )),
-                        CodeAPI.enumEntry("B",
-                                CodeAPI.sourceOfParts(
-                                        CodeAPI.methodBuilder()
+                        Factories.enumEntry("B",
+                                CodeSource.fromVarArgs(
+                                        MethodDeclaration.Builder.builder()
                                                 .withModifiers(CodeModifier.PUBLIC)
-                                                .withAnnotations(CodeAPI.overrideAnnotation())
+                                                .withAnnotations(Factories.overrideAnnotation())
                                                 .withReturnType(Types.VOID)
                                                 .withName("v")
-                                                .withBody(CodeAPI.sourceOfParts(
+                                                .withBody(CodeSource.fromVarArgs(
                                                         Predefined.invokePrintln(Literals.STRING("B"))
                                                 ))
                                                 .build()
@@ -81,7 +83,7 @@ public class EnumTest_ {
                 )//
                 .build();
 
-        return Pair.of(codeEnum, CodeAPI.sourceOfParts(codeEnum));
+        return Pair.of(codeEnum, CodeSource.fromPart(codeEnum));
     }
 
     @Test

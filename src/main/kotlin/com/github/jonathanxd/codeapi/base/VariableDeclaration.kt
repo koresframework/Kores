@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
@@ -38,15 +35,46 @@ import java.lang.reflect.Type
  * mean that you declared a variable with null value, it means that you declared a variable without a default value,
  * for null values use `Literals.NULL`).
  */
-data class VariableDeclaration(override val variableType: Type, override val name: String, override val value: CodePart?) : VariableBase, ValueHolder {
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+data class VariableDeclaration(override val variableType: Type, override val name: String, override val value: CodePart?) : VariableBase, ValueHolder, Typed {
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             VariableBase.Builder<VariableDeclaration, Builder>,
             ValueHolder.Builder<VariableDeclaration, Builder> {
+
+        lateinit var name: String
+        lateinit var variableType: Type
+        var value: CodePart? = null
+
+        constructor(defaults: VariableDeclaration) : this() {
+            this.name = defaults.name
+            this.variableType = defaults.variableType
+            this.value = defaults.value
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withVariableType(value: Type): Builder {
+            this.variableType = value
+            return this
+        }
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value
+            return this
+        }
+
+        override fun build(): VariableDeclaration = VariableDeclaration(this.variableType, this.name, this.value)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: VariableDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: VariableDeclaration): Builder = Builder(defaults)
         }
 
     }

@@ -35,24 +35,28 @@ import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.InvokeDynamic;
+import com.github.jonathanxd.codeapi.base.LocalCode;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeDynamic;
 import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
-import com.github.jonathanxd.codeapi.common.Scope;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.factory.DynamicInvocationFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
-import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -77,9 +81,9 @@ public class InvocationsTest_ {
     public static final InvocationsTest_ INSTANCE = new InvocationsTest_();
     public static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
     public static final MethodTypeSpec BOOTSTRAP_SPEC = new MethodTypeSpec(
-            CodeAPI.getJavaType(InvocationsTest_.class),
+            CodeTypes.getCodeType(InvocationsTest_.class),
             "myBootstrap",
-            CodeAPI.typeSpec(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Object[].class)
+            Factories.typeSpec(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Object[].class)
     );
 
     public static final MethodHandle FALLBACK;
@@ -96,10 +100,10 @@ public class InvocationsTest_ {
     }
 
     public static CodePart invokePrintln(CodePart toPrint) {
-        return CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(PrintStream.class),
-                CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
+        return InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
+                Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
-                CodeAPI.voidTypeSpec(Types.OBJECT),
+                Factories.voidTypeSpec(Types.OBJECT),
                 Collections.singletonList(toPrint));
     }
 
@@ -156,20 +160,20 @@ public class InvocationsTest_ {
         clSource.add(codeField);
         clSource.add(codeField2);
 
-        CodePart invokeTest = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(PrintStream.class),
-                CodeAPI.accessStaticField(CodeAPI.getJavaType(System.class), CodeAPI.getJavaType(PrintStream.class), "out"),
+        CodePart invokeTest = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
+                Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
-                CodeAPI.voidTypeSpec(Types.OBJECT),
+                Factories.voidTypeSpec(Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Hello")));
 
-        CodePart invokeTest2 = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, codeClass, CodeAPI.accessThis(),
+        CodePart invokeTest2 = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, codeClass, Factories.accessThis(),
                 "printIt",
-                CodeAPI.voidTypeSpec(Types.OBJECT),
+                Factories.voidTypeSpec(Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Oi")));
 
         ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeAPI.source(invokeTest, invokeTest2))
+                .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
                 .build();
 
         clSource.add(codeConstructor);
@@ -185,20 +189,20 @@ public class InvocationsTest_ {
     public static MethodDeclarationBase makeCM2(TypeDeclaration typeDeclaration) {
         MutableCodeSource methodSource = new MutableCodeSource();
 
-        MethodDeclarationBase codeMethod = MethodDeclarationBase.Builder.Companion.builder()
+        MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("check")
                 .withReturnType(Types.BOOLEAN)
-                .withParameters(new CodeParameter(Types.INT, "x"))
+                .withParameters(Factories.parameter(Types.INT, "x"))
                 .withBody(methodSource)
                 .build();
 
         // Invoke BMP
 
         methodSource.add(
-                CodeAPI.invoke(InvokeType.INVOKE_STATIC, InvocationsTest_.class, CodeAPI.accessStatic(),
+                InvocationFactory.invoke(InvokeType.INVOKE_STATIC, InvocationsTest_.class, Factories.accessStatic(),
                         "bmp",
-                        CodeAPI.voidTypeSpec(String.class, String.class),
+                        Factories.voidTypeSpec(String.class, String.class),
                         Arrays.asList(Literals.STRING("xy"), Literals.STRING("yz"))
                 )
         );
@@ -207,55 +211,41 @@ public class InvocationsTest_ {
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Interface ->")));
 
         methodSource.add(
-                VariableFactory.variable(CodeAPI.getJavaType(Greeter.class), "greeter", CodeAPI.invokeConstructor(CodeAPI.getJavaType(WorldGreeter.class)))
+                VariableFactory.variable(CodeTypes.getCodeType(Greeter.class), "greeter", InvocationFactory.invokeConstructor(CodeTypes.getCodeType(WorldGreeter.class)))
         );
 
-        MethodInvocationBase greetingInvoke = CodeAPI.invoke(
-                InvokeType.INVOKE_INTERFACE, Greeter.class, CodeAPI.accessLocalVariable(Greeter.class, "greeter"),
+        MethodInvocationBase greetingInvoke = InvocationFactory.invoke(
+                InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
                 "hello",
-                CodeAPI.typeSpec(Types.STRING),
+                Factories.typeSpec(Types.STRING),
                 emptyList());
 
         VariableDeclaration greetingVar = VariableFactory.variable(Types.STRING, "greetingVar", greetingInvoke);
 
         methodSource.add(greetingVar);
 
-        methodSource.add(Predefined.invokePrintln(CodeAPI.accessLocalVariable(greetingVar)));
+        methodSource.add(Predefined.invokePrintln(Factories.accessVariable(greetingVar)));
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Interface <-")));
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic ->")));
 
-        CodeType supplierType = CodeAPI.getJavaType(Supplier.class);
+        CodeType supplierType = CodeTypes.getCodeType(Supplier.class);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        MethodInvocationBase dynamicSupplierGet = CodeAPI.Specific.invokeDynamicFragment(
-                new InvokeDynamic.LambdaFragment(
-                        new MethodTypeSpec(supplierType, "get", CodeAPI.typeSpec(Types.OBJECT)),
-                        CodeAPI.typeSpec(Types.STRING),
-                        SimpleMethodFragmentBuilder.builder()
-                                .withDeclaringType(typeDeclaration)
-                                .withScope(Scope.STATIC)
-                                .withDescription(new TypeSpec(Types.STRING))
-                                .withBody(
-                                        CodeAPI.source(
-                                                CodeAPI.returnValue(Types.STRING, Literals.STRING("BRB"))
-                                        )
-                                )
-                                .build()
-                )
+        InvokeDynamic.LambdaLocalCode dynamicSupplierGet = DynamicInvocationFactory.invokeDynamicLambdaCode(
+                new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
+                new LocalCode(typeDeclaration, MethodDeclaration.Builder.builder()
+                        .withModifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
+                        .withName("$$lambda$0")
+                        .withReturnType(Types.STRING)
+                        .withBody(CodeSource.fromVarArgs(
+                                Factories.returnValue(Types.STRING, Literals.STRING("BRB"))
+                        ))
+                        .build()),
+                emptyList()
         );
-        //
-        /*MethodInvocation dynamicSupplierGet = Helper.invokeDynamicFragment(InvokeDynamic.invokeDynamicLambdaFragment(
-                new FullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),
-                new TypeSpec(PredefinedTypes.STRING),
-                new MethodFragmentImpl(
-                        typeDeclaration, Scope.STATIC, PredefinedTypes.STRING,
-                        new CodeParameter[]{},
-                        new CodeArgument[]{},
-                        Helper.sourceOf(Helper.returnValue(PredefinedTypes.STRING, Literals.STRING("BRB")))
-                )));*/
 
         VariableDeclaration supplierField = VariableFactory.variable(supplierType, "supplier2", dynamicSupplierGet);
 
@@ -263,8 +253,8 @@ public class InvocationsTest_ {
 
         methodSource.add(Predefined.invokePrintln(
 
-                CodeAPI.cast(Types.OBJECT, Types.STRING,
-                        CodeAPI.invokeInterface(supplierType, CodeAPI.accessLocalVariable(supplierField), "get",
+                Factories.cast(Types.OBJECT, Types.STRING,
+                        InvocationFactory.invokeInterface(supplierType, Factories.accessVariable(supplierField), "get",
                                 new TypeSpec(Types.OBJECT),
                                 emptyList())
                 )
@@ -273,20 +263,19 @@ public class InvocationsTest_ {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        MethodInvocationBase dynamicGet = CodeAPI.invokeDynamic(
-                new InvokeDynamic.LambdaMethodReference(
-                        new MethodTypeSpec(supplierType, "get", CodeAPI.typeSpec(Types.OBJECT)),
-                        new TypeSpec(Types.STRING)),
-                greetingInvoke);
+        InvokeDynamic.LambdaMethodRef dynamicGet = DynamicInvocationFactory.invokeDynamicLambda(
+                greetingInvoke,
+                new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
+                new TypeSpec(Types.STRING));
 
         VariableDeclaration supplierVar = VariableFactory.variable(supplierType, "supplier", dynamicGet);
 
         methodSource.add(supplierVar);
 
-        CodePart castedGet = CodeAPI.cast(Types.OBJECT, Types.STRING,
-                CodeAPI.invokeInterface(
+        CodePart castedGet = Factories.cast(Types.OBJECT, Types.STRING,
+                InvocationFactory.invokeInterface(
                         supplierType,
-                        CodeAPI.accessLocalVariable(supplierVar),
+                        Factories.accessVariable(supplierVar),
                         "get",
                         new TypeSpec(Types.OBJECT),
                         emptyList()
@@ -297,38 +286,42 @@ public class InvocationsTest_ {
 
         methodSource.add(var2);
 
-        methodSource.add(Predefined.invokePrintln(CodeAPI.accessLocalVariable(var2)));
+        methodSource.add(Predefined.invokePrintln(Factories.accessVariable(var2)));
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic <-")));
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap ->")));
 
-        MethodInvocationBase methodInvocationBase = CodeAPI.Specific.invokeDynamic(
-                new InvokeDynamic.Bootstrap(BOOTSTRAP_SPEC, InvokeType.INVOKE_STATIC, new Object[0]),
-                CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL, CodeAPI.getJavaType(InvocationsTest_.class), CodeAPI.accessStatic(),
+        InvokeDynamic bootstrapInvocation = DynamicInvocationFactory.invokeDynamic(
+                Types.VOID,
+                new MethodInvokeSpec(InvokeType.INVOKE_STATIC, BOOTSTRAP_SPEC),
+                InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(InvocationsTest_.class), Factories.accessStatic(),
                         "helloWorld",
-                        CodeAPI.typeSpec(Types.VOID, Types.STRING),
-                        singletonList(Literals.STRING("World"))));
+                        Factories.typeSpec(Types.VOID, Types.STRING),
+                        singletonList(Literals.STRING("World"))),
+                emptyList()
+        );
 
-        methodSource.add(methodInvocationBase);
+
+        methodSource.add(bootstrapInvocation);
 
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap <-")));
 
-        methodSource.add(CodeAPI.ifStatement(
-                CodeAPI.ifExprs(
-                        CodeAPI.check(CodeAPI.accessLocalVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(9)),
+        methodSource.add(Factories.ifStatement(
+                Factories.ifExprs(
+                        Factories.check(Factories.accessVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(9)),
                         Operators.OR,
-                        CodeAPI.check(CodeAPI.accessLocalVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(7))
+                        Factories.check(Factories.accessVariable(Types.INT, "x"), Operators.EQUAL_TO, Literals.INT(7))
                 ),
-                CodeAPI.source(
-                        CodeAPI.returnValue(Types.INT, Literals.INT(0))
+                CodeSource.fromVarArgs(
+                        Factories.returnValue(Types.INT, Literals.INT(0))
                 )));
 
         methodSource.add(Predefined.invokePrintln(
-                CodeAPI.accessLocalVariable(Types.INT, "x")
+                Factories.accessVariable(Types.INT, "x")
         ));
 
-        methodSource.add(CodeAPI.returnValue(Types.INT, Literals.INT(1)));
+        methodSource.add(Factories.returnValue(Types.INT, Literals.INT(1)));
 
         return codeMethod;
     }

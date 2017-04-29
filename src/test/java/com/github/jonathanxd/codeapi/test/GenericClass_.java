@@ -41,11 +41,13 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -55,21 +57,21 @@ public class GenericClass_ {
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
         TypeDeclaration typeDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.Generic", GenericSignature.create(Generic.type("T").extends$(
-                Generic.type(CodeAPI.getJavaType(List.class)).of("T")
-        )), Types.OBJECT, new CodeType[]{Generic.type(CodeAPI.getJavaType(List.class)).of("T")}, CodeAPI.sourceOfParts(
+                Generic.type(CodeTypes.getCodeType(List.class)).of("T")
+        )), Types.OBJECT, new CodeType[]{Generic.type(CodeTypes.getCodeType(List.class)).of("T")}, CodeSource.fromVarArgs(
                 MethodFactory.method(
                         GenericSignature.create(Generic.type("T").extends$(
                                 Generic.type(Types.LIST).of("T")
                         )),
                         EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC),
-                        "test", Types.VOID, new CodeParameter[]{new CodeParameter(Generic.type("T"), "val")},
-                        CodeAPI.sourceOfParts(
+                        "test", Types.VOID, new CodeParameter[]{new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type("T"), "val")},
+                        CodeSource.fromVarArgs(
                                 VariableFactory.variable(Generic.type("T"), "fieldi", Literals.NULL)
                         )),
                 FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), Generic.type("T"), "test", null)
         ));
 
-        return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
+        return Pair.of(typeDeclaration, CodeSource.fromVarArgs(typeDeclaration));
     }
 
     @Test

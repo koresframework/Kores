@@ -27,18 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.resolveQualifiedName
 import com.github.jonathanxd.codeapi.util.resolveTypeName
-import com.github.jonathanxd.iutils.string.ToStringHelper
 import java.lang.reflect.Type
 
 /**
@@ -69,14 +65,81 @@ data class InterfaceDeclaration(override val outerClass: Type?,
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder:
-            TypeDeclaration.Builder<InterfaceDeclaration, Builder>,
+    class Builder() : TypeDeclaration.Builder<InterfaceDeclaration, Builder>,
             ImplementationHolder.Builder<InterfaceDeclaration, Builder> {
-        companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: InterfaceDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+
+        var outerClass: Type? = null
+        lateinit var specifiedName: String
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+        var modifiers: Set<CodeModifier> = emptySet()
+        var genericSignature: GenericSignature = GenericSignature.empty()
+        var implementations: List<Type> = emptyList()
+
+        constructor(defaults: InterfaceDeclaration) : this() {
+            this.outerClass = defaults.outerClass
+            this.specifiedName = defaults.specifiedName
+            this.comments = defaults.comments
+            this.annotations = defaults.annotations
+            this.body = defaults.body
+            this.modifiers = defaults.modifiers
+            this.genericSignature = defaults.genericSignature
+            this.implementations = defaults.implementations
         }
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
+        override fun withGenericSignature(value: GenericSignature): Builder {
+            this.genericSignature = value
+            return this
+        }
+
+        override fun withSpecifiedName(value: String): Builder {
+            this.specifiedName = value
+            return this
+        }
+
+        override fun withOuterClass(value: Type?): Builder {
+            this.outerClass = value
+            return this
+        }
+
+        override fun withImplementations(value: List<Type>): Builder {
+            this.implementations = value
+            return this
+        }
+
+        override fun build() = InterfaceDeclaration(this.outerClass, this.comments, this.annotations, this.modifiers,
+                this.specifiedName, this.genericSignature, this.implementations, this.body)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: InterfaceDeclaration): Builder = Builder(defaults)
+        }
+
     }
 }

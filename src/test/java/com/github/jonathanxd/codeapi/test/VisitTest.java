@@ -47,7 +47,7 @@ public class VisitTest {
         codeClassVisitManager.register(ClassDeclaration.class, (codePart, data, visitManager) -> codePart.builder().withQualifiedName("com.XYZ").build());
 
 
-        ClassDeclaration myClass = CodeAPI.aClassBuilder()
+        ClassDeclaration myClass = ClassDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.ABC")
                 .withSuperClass(Types.OBJECT)

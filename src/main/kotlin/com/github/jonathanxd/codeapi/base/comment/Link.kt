@@ -27,8 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import java.lang.reflect.Type
 
@@ -40,7 +38,7 @@ import java.lang.reflect.Type
  */
 data class Link(val name: String?, val target: LinkTarget) : Comment {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
     /**
      * Target of the link
@@ -85,21 +83,41 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
         data class URL(val url: String) : LinkTarget
     }
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Link, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<Link, Builder> {
+
+        var name: String? = null
+        lateinit var target: LinkTarget
+
+        constructor(defaults: Link) : this() {
+            this.name = defaults.name
+            this.target = defaults.target
+        }
 
         /**
          * See [Link.name]
          */
-        fun withName(value: String?): Builder
+        fun withName(value: String?): Builder {
+            this.name = value
+            return this
+        }
 
         /**
          * See [Link.target]
          */
-        fun withTarget(value: LinkTarget): Builder
+        fun withTarget(value: LinkTarget): Builder {
+            this.target = value
+            return this
+        }
+
+        override fun build(): Link = Link(this.name, this.target)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Link): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Link): Builder = Builder(defaults)
         }
+
     }
 }

@@ -36,6 +36,8 @@ import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -65,21 +67,21 @@ public class LocalClassTest_ {
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
-                CodeAPI.sourceOfParts(
-                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "greet", Types.VOID, CodeAPI.sourceOfParts(
+                CodeSource.fromVarArgs(
+                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "greet", Types.VOID, CodeSource.fromVarArgs(
                         Predefined.invokePrintlnStr(Literals.STRING("Hello"))
                 ))
         ));
 
-        source.addAll(CodeAPI.sourceOfParts(
+        source.addAll(CodeSource.fromVarArgs(
 
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeAPI.sourceOfParts(
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeSource.fromVarArgs(
                         local,
-                        CodeAPI.invokeVirtual(
+                        InvocationFactory.invokeVirtual(
                                 local,
-                                CodeAPI.invokeConstructor(local),
+                                InvocationFactory.invokeConstructor(local),
                                 "greet",
-                                CodeAPI.constructorTypeSpec(),
+                                Factories.constructorTypeSpec(),
                                 Collections.emptyList()
                         )
                 ))
@@ -87,7 +89,7 @@ public class LocalClassTest_ {
 
 
 
-        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
+        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
     }
 
     @Test

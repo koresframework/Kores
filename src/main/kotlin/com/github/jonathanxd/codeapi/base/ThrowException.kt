@@ -27,30 +27,40 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Throws [partToThrow].
  */
 data class ThrowException(val partToThrow: CodePart) : CodePart {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<ThrowException, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<ThrowException, Builder> {
+
+        lateinit var partToThrow: CodePart
+
+        constructor(defaults: ThrowException) : this() {
+            this.partToThrow = defaults.partToThrow
+        }
 
         /**
          * See [ThrowException.partToThrow]
          */
-        fun withPartToThrow(value: CodePart): Builder
+        fun withPartToThrow(value: CodePart): Builder {
+            this.partToThrow = value
+            return this
+        }
+
+        override fun build(): ThrowException = ThrowException(this.partToThrow)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ThrowException): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: ThrowException): Builder = Builder(defaults)
         }
 
     }
-
 }

@@ -27,11 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.ControlFlow.Type
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Control the flow of a statement.
@@ -42,22 +39,42 @@ import com.github.jonathanxd.codeapi.builder.invoke
  */
 data class ControlFlow(val type: Type, val at: Label?) : CodePart {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<ControlFlow, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<ControlFlow, Builder> {
+
+        lateinit var type: Type
+        var at: Label? = null
+
+        constructor(defaults: ControlFlow) : this() {
+            this.type = defaults.type
+            this.at = defaults.at
+        }
+
         /**
          * See [ControlFlow.type]
          */
-        fun withType(value: Type): Builder
+        fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
 
         /**
          * See [ControlFlow.at]
          */
-        fun withAt(value: Label?): Builder
+        fun withAt(value: Label?): Builder {
+            this.at = value
+            return this
+        }
+
+        override fun build(): ControlFlow = ControlFlow(this.type, this.at)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ControlFlow): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: ControlFlow): Builder = Builder(defaults)
         }
 
     }

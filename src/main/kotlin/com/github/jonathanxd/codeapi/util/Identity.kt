@@ -127,19 +127,7 @@ private fun Array<out GenericType.Bound>.nonStrictEq(others: Array<out GenericTy
  * Default equals algorithm for [GenericType]
  */
 fun GenericType.eq(other: Any?): Boolean {
-
-    if (other is GenericType) {
-
-        return this.isWildcard == other.isWildcard
-                && this.isType == other.isType
-                && this.name == other.name
-                && Arrays.deepEquals(this.bounds, other.bounds)
-
-    } else if (other is CodeType) {
-        return this.isType && this.bounds.isEmpty() && this.identification == other.identification
-    } else {
-        return false
-    }
+    return if(other is CodeType) this.identification == other.identification else false
 }
 
 /**
@@ -161,10 +149,10 @@ fun GenericType.hash(): Int {
  * Default to string conversion for [GenericType].
  *
  * This method convert [GenericType] to a Java Source representation of the [GenericType],
- * see the algorithm of translation [here][GenericTypeUtil.toSourceString].
+ * see the algorithm of translation [here][toSourceString].
  */
 fun GenericType.toStr(): String {
-    return GenericTypeUtil.toSourceString(this)
+    return toSourceString(this)
 }
 
 /**

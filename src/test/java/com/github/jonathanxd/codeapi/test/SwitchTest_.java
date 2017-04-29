@@ -31,66 +31,71 @@ import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
+
+import java.util.Arrays;
 
 public class SwitchTest_ {
 
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        ClassDeclaration classDeclaration = CodeAPI.aClassBuilder()
+        ClassDeclaration classDeclaration = ClassDeclaration.Builder.builder()
                 .withQualifiedName("com.SwitchTestClass")
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeAPI.sourceOfParts(
+                .withBody(CodeSource.fromVarArgs(
 
-                        CodeAPI.constructorBuilder()
+                        ConstructorDeclaration.Builder.builder()
                                 .withModifiers(CodeModifier.PUBLIC)
                                 .withParameters(
-                                        CodeAPI.parameter(int.class, "number"),
-                                        CodeAPI.parameter(int.class, "number2"),
-                                        CodeAPI.parameter(TestEnum.class, "testEnum"),
-                                        CodeAPI.parameter(String.class, "str"),
-                                        CodeAPI.parameter(Object.class, "o")
+                                        Factories.parameter(int.class, "number"),
+                                        Factories.parameter(int.class, "number2"),
+                                        Factories.parameter(TestEnum.class, "testEnum"),
+                                        Factories.parameter(String.class, "str"),
+                                        Factories.parameter(Object.class, "o")
                                 )
                                 .withBody(
-                                        CodeAPI.sourceOfParts(
-                                                CodeAPI.switchInt(CodeAPI.accessLocalVariable(int.class, "number"),
-                                                        CodeAPI.aCase(Literals.INT(1), CodeAPI.sourceOfParts(print("1"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(Literals.INT(3), CodeAPI.sourceOfParts(print("3"))),
-                                                        CodeAPI.aCase(Literals.INT(5), CodeAPI.sourceOfParts(print("5"), CodeAPI.aBreak())),
-                                                        CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("default")))),
+                                        CodeSource.fromVarArgs(
+                                                Factories.switchInt(Factories.accessVariable(int.class, "number"), Arrays.asList(
+                                                        Factories.caseStatement(Literals.INT(1), CodeSource.fromVarArgs(print("1"), Factories.breakFlow())),
+                                                        Factories.caseStatement(Literals.INT(3), CodeSource.fromVarArgs(print("3"))),
+                                                        Factories.caseStatement(Literals.INT(5), CodeSource.fromVarArgs(print("5"), Factories.breakFlow())),
+                                                        Factories.defaultCase(CodeSource.fromVarArgs(print("default"))))),
 
                                                 // Larger int
-                                                CodeAPI.switchInt(CodeAPI.accessLocalVariable(int.class, "number2"),
-                                                        CodeAPI.aCase(Literals.INT(1), CodeAPI.sourceOfParts(print("1"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(Literals.INT(10), CodeAPI.sourceOfParts(print("10"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(Literals.INT(100), CodeAPI.sourceOfParts(print("100"), CodeAPI.aBreak())),
-                                                        CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("default")))),
+                                                Factories.switchInt(Factories.accessVariable(int.class, "number2"), Arrays.asList(
+                                                        Factories.caseStatement(Literals.INT(1), CodeSource.fromVarArgs(print("1"), Factories.breakFlow())),
+                                                        Factories.caseStatement(Literals.INT(10), CodeSource.fromVarArgs(print("10"), Factories.breakFlow())),
+                                                        Factories.caseStatement(Literals.INT(100), CodeSource.fromVarArgs(print("100"), Factories.breakFlow())),
+                                                        Factories.defaultCase(CodeSource.fromVarArgs(print("default"))))),
 
                                                 // Enum
-                                                CodeAPI.switchEnum(CodeAPI.accessLocalVariable(TestEnum.class, "testEnum"),
-                                                        CodeAPI.aCase(CodeAPI.enumValue(CodeAPI.getJavaType(TestEnum.class), "A"), CodeAPI.sourceOfParts(print("A"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(CodeAPI.enumValue(CodeAPI.getJavaType(TestEnum.class), "B"), CodeAPI.sourceOfParts(print("B"))),
-                                                        CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("B or default")))),
+                                                Factories.switchEnum(Factories.accessVariable(TestEnum.class, "testEnum"), Arrays.asList(
+                                                        Factories.caseStatement(Factories.enumValue(CodeTypes.getCodeType(TestEnum.class), "A"), CodeSource.fromVarArgs(print("A"), Factories.breakFlow())),
+                                                        Factories.caseStatement(Factories.enumValue(CodeTypes.getCodeType(TestEnum.class), "B"), CodeSource.fromVarArgs(print("B"))),
+                                                        Factories.defaultCase(CodeSource.fromVarArgs(print("B or default"))))),
 
                                                 // String
-                                                CodeAPI.switchString(CodeAPI.accessLocalVariable(String.class, "str"),
-                                                        CodeAPI.aCase(Literals.STRING("AHEAD"), CodeAPI.sourceOfParts(print("AHEAD"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(Literals.STRING("XM"), CodeAPI.sourceOfParts(print("XM"), CodeAPI.aBreak())),
-                                                        CodeAPI.aCase(Literals.STRING("AH"), CodeAPI.sourceOfParts(print("AH"), CodeAPI.aBreak())),
-                                                        CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("default")))),
+                                                Factories.switchString(Factories.accessVariable(String.class, "str"), Arrays.asList(
+                                                        Factories.caseStatement(Literals.STRING("AHEAD"), CodeSource.fromVarArgs(print("AHEAD"), Factories.breakFlow())),
+                                                        Factories.caseStatement(Literals.STRING("XM"), CodeSource.fromVarArgs(print("XM"), Factories.breakFlow())),
+                                                        Factories.caseStatement(Literals.STRING("AH"), CodeSource.fromVarArgs(print("AH"), Factories.breakFlow())),
+                                                        Factories.defaultCase(CodeSource.fromVarArgs(print("default"))))),
 
                                                 // Object
-                                                CodeAPI.switchString(CodeAPI.accessLocalVariable(Object.class, "o"),
-                                                        CodeAPI.aCase(Literals.INT(0), CodeAPI.sourceOfParts(print("Zero"), CodeAPI.aBreak())),
-                                                        CodeAPI.caseDefault(CodeAPI.sourceOfParts(print("default"))))
+                                                Factories.switchString(Factories.accessVariable(Object.class, "o"), Arrays.asList(
+                                                        Factories.caseStatement(Literals.INT(0), CodeSource.fromVarArgs(print("Zero"), Factories.breakFlow())),
+                                                        Factories.defaultCase(CodeSource.fromVarArgs(print("default")))))
 
                                         )
                                 )
@@ -100,7 +105,7 @@ public class SwitchTest_ {
                 .build();
 
 
-        return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
+        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
     }
 
     @Test

@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Label.
@@ -40,15 +37,38 @@ data class Label(override val name: String, override val body: CodeSource) : Bod
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             BodyHolder.Builder<Label, Builder>,
             Named.Builder<Label, Builder> {
 
+        lateinit var name: String
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: Label) : this() {
+            this.name = defaults.name
+            this.body = defaults.body
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun build(): Label = Label(this.name, this.body)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Label): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Label): Builder = Builder(defaults)
         }
 
     }

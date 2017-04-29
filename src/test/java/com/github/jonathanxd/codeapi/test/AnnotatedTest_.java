@@ -27,33 +27,31 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.Modifiers;
 import com.github.jonathanxd.iutils.annotation.Named;
+import com.github.jonathanxd.iutils.map.MapUtils;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 
 import kotlin.collections.SetsKt;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.enumValue;
-import static com.github.jonathanxd.codeapi.CodeAPI.getJavaType;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static com.github.jonathanxd.codeapi.CodeAPI.values;
-import static com.github.jonathanxd.codeapi.CodeAPI.visibleAnnotation;
 import static kotlin.collections.CollectionsKt.listOf;
 
 public class AnnotatedTest_ {
@@ -72,28 +70,28 @@ public class AnnotatedTest_ {
                 .withModifiers(Modifiers.fromJavaModifiers(Modifier.PUBLIC))
                 .withGenericSignature(GenericSignature.empty())
                 .withAnnotations(listOf(
-                        visibleAnnotation(Simple.class,
-                                values("value", new Object[]{
-                                        enumValue(MyEnum.class, "A"), enumValue(MyEnum.class, "B"), enumValue(MyEnum.class, "C")
+                        Factories.visibleAnnotation(Simple.class,
+                                MapUtils.mapOf("value", new Object[]{
+                                        Factories.enumValue(MyEnum.class, "A"), Factories.enumValue(MyEnum.class, "B"), Factories.enumValue(MyEnum.class, "C")
                                 })
                         ))
                 )
                 .withQualifiedName("test.AnnotatedTestClass")
-                .withBody(sourceOfParts(
-                        MethodDeclarationBase.Builder.Companion.builder()
+                .withBody(CodeSource.fromVarArgs(
+                        MethodDeclaration.Builder.builder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                                .withAnnotations(listOf(visibleAnnotation(plainCodeType)))
+                                .withAnnotations(listOf(Factories.visibleAnnotation(plainCodeType)))
                                 .withGenericSignature(GenericSignature.empty())
                                 .withName("polymorphic")
                                 .withReturnType(Types.OBJECT)
-                                .withParameters(listOf(new CodeParameter(Types.OBJECT, "first", listOf(visibleAnnotation(getJavaType(Deprecated.class))))))
-                                .withBody(sourceOfParts(CodeAPI.returnValue(Types.OBJECT, Literals.NULL)))
+                                .withParameters(listOf(new CodeParameter(listOf(Factories.deprecatedAnnotation()), Collections.emptySet(), Types.OBJECT, "first")))
+                                .withBody(CodeSource.fromVarArgs(Factories.returnValue(Types.OBJECT, Literals.NULL)))
                                 .build(),
                         FieldDeclaration.Builder.Companion.builder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                                .withAnnotations(listOf(visibleAnnotation(Simple.class,
-                                        values("value", new Object[]{
-                                                enumValue(MyEnum.class, "A")
+                                .withAnnotations(listOf(Factories.visibleAnnotation(Simple.class,
+                                        MapUtils.mapOf("value", new Object[]{
+                                                Factories.enumValue(MyEnum.class, "A")
                                         }))))
                                 .withType(Types.STRING)
                                 .withName("field")
@@ -102,7 +100,7 @@ public class AnnotatedTest_ {
                 ))
                 .build();
 
-        return Pair.of(typeDeclaration, sourceOfParts(typeDeclaration));
+        return Pair.of(typeDeclaration, CodeSource.fromVarArgs(typeDeclaration));
     }
 
     public enum MyEnum {

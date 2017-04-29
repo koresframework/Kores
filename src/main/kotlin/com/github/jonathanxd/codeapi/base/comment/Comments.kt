@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Hold a list of comments.
@@ -51,7 +49,7 @@ data class Comments(val comments: List<Comment>, val type: Type) : CodePart {
      */
     fun isNotAbsent() = this !== Absent
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
     /**
      * Comment type
@@ -68,12 +66,23 @@ data class Comments(val comments: List<Comment>, val type: Type) : CodePart {
         DOCUMENTATION
     }
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Comments, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<Comments, Builder> {
+
+        var comments: List<Comment> = emptyList()
+        lateinit var type: Type
+
+        constructor(defaults: Comments) : this() {
+            this.comments = defaults.comments
+            this.type = defaults.type
+        }
 
         /**
          * See [Comments.comments]
          */
-        fun withComments(value: List<Comment>): Builder
+        fun withComments(value: List<Comment>): Builder {
+            this.comments = value
+            return this
+        }
 
         /**
          * See [Comments.comments]
@@ -83,14 +92,23 @@ data class Comments(val comments: List<Comment>, val type: Type) : CodePart {
         /**
          * See [Comments.type]
          */
-        fun withType(value: Type): Builder
+        fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun build(): Comments = Comments(this.comments, this.type)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Comments): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Comments): Builder = Builder(defaults)
         }
 
     }
+
 
     companion object {
         /**

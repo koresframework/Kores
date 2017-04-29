@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.OperateHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.iutils.annotation.Named;
@@ -50,14 +51,14 @@ public class OperateTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.OperateTest", CodeAPI.source(
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), new CodeParameter[]{CodeAPI.parameter(int.class, "num")}, CodeAPI.source(
+        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.OperateTest", CodeSource.fromVarArgs(
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), new CodeParameter[]{Factories.parameter(int.class, "num")}, CodeSource.fromVarArgs(
                         Predefined.invokePrintlnStr(
                                 Predefined.intToString(
                                         OperateHelper.builder(INT(9))
-                                                .plus(CodeAPI.accessLocalVariable(int.class, "num"))
+                                                .plus(Factories.accessVariable(int.class, "num"))
                                                 .plus(
-                                                        OperateHelper.builder(CodeAPI.accessLocalVariable(int.class, "num"))
+                                                        OperateHelper.builder(Factories.accessVariable(int.class, "num"))
                                                                 .multiply(INT(2))
                                                                 .build()
                                                 )
@@ -78,7 +79,7 @@ public class OperateTest_ {
                 ))
         ));
 
-        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
+        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
     }
 
     @Test

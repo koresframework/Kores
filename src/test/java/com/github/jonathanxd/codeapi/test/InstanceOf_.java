@@ -36,6 +36,8 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.common.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -48,16 +50,6 @@ import org.junit.Test;
 
 import java.util.EnumSet;
 
-import static com.github.jonathanxd.codeapi.CodeAPI.accessLocalVariable;
-import static com.github.jonathanxd.codeapi.CodeAPI.check;
-import static com.github.jonathanxd.codeapi.CodeAPI.checkFalse;
-import static com.github.jonathanxd.codeapi.CodeAPI.checkTrue;
-import static com.github.jonathanxd.codeapi.CodeAPI.ifExprs;
-import static com.github.jonathanxd.codeapi.CodeAPI.ifStatement;
-import static com.github.jonathanxd.codeapi.CodeAPI.invokeConstructor;
-import static com.github.jonathanxd.codeapi.CodeAPI.isInstanceOf;
-import static com.github.jonathanxd.codeapi.CodeAPI.parameter;
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
 import static com.github.jonathanxd.codeapi.literal.Literals.STRING;
 import static kotlin.collections.CollectionsKt.listOf;
 
@@ -65,26 +57,26 @@ public class InstanceOf_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        VariableAccess paramAccess = accessLocalVariable(Object.class, "param");
+        VariableAccess paramAccess = Factories.accessVariable(Object.class, "param");
 
-        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.InstanceOf", sourceOfParts(
-                MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID, new CodeParameter[]{parameter(Object.class, "param")},
-                        sourceOfParts(
-                                ifStatement(ifExprs(checkTrue(isInstanceOf(paramAccess, String.class))),
-                                        sourceOfParts(
+        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.InstanceOf", CodeSource.fromVarArgs(
+                MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID, new CodeParameter[]{Factories.parameter(Object.class, "param")},
+                        CodeSource.fromVarArgs(
+                                Factories.ifStatement(Factories.ifExprs(Factories.checkTrue(Factories.isInstanceOf(paramAccess, String.class))),
+                                        CodeSource.fromVarArgs(
                                                 Predefined.invokePrintln(STRING("Object is String!"))
                                         ),
-                                        sourceOfParts(
+                                        CodeSource.fromVarArgs(
                                                 Predefined.invokePrintln(STRING("Object is not String!"))
                                         )),
-                                VariableFactory.variable(Types.BOOLEAN, "b", isInstanceOf(paramAccess, String.class)),
-                                VariableFactory.variable(Types.BOOLEAN, "b2", checkFalse(accessLocalVariable(Types.BOOLEAN, "b"))),
-                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INT)), listOf(Literals.INT(9)))),
-                                VariableFactory.variable(Types.BOOLEAN, "b9", check(accessLocalVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
+                                VariableFactory.variable(Types.BOOLEAN, "b", Factories.isInstanceOf(paramAccess, String.class)),
+                                VariableFactory.variable(Types.BOOLEAN, "b2", Factories.checkFalse(Factories.accessVariable(Types.BOOLEAN, "b"))),
+                                VariableFactory.variable(Types.INTEGER_WRAPPER, "ab", InvocationFactory.invokeConstructor(Types.INTEGER_WRAPPER, new TypeSpec(Types.VOID, listOf(Types.INT)), listOf(Literals.INT(9)))),
+                                VariableFactory.variable(Types.BOOLEAN, "b9", Factories.ifExpr(Factories.accessVariable(Types.INTEGER_WRAPPER, "ab"), Operators.EQUAL_TO, Literals.INT(9)))
                         ))
         ));
 
-        return Pair.of(codeClass, sourceOfParts(codeClass));
+        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
     }
 
     @Test

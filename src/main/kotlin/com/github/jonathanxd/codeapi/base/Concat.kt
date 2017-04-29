@@ -27,34 +27,55 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.util.self
+import java.lang.reflect.Type
 
 /**
  * String concatenation. The result depends on generator, in official BytecodeGenerator a [StringBuilder] will be
  * used to concat values (in a future patch it will be changed to use Java 9 dynamic concatenation), in official
  * JavaSourceGenerator this will be translated into string concatenation.
  */
-data class Concat(val concatenations: List<CodePart>) : CodePart {
+data class Concat(val concatenations: List<CodePart>) : CodePart, Typed {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override val type: Type
+        get() = Types.STRING
 
-    interface Builder : com.github.jonathanxd.codeapi.builder.Builder<Concat, Builder> {
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() :
+            Typed.Builder<Concat, Builder> {
+
+        var concatenations: List<CodePart> = emptyList()
+
+        constructor(defaults: Concat) : this() {
+            this.concatenations = defaults.concatenations
+        }
+
+        override fun withType(value: Type): Builder = self()
+
         /**
          * See [Concat.concatenations]
          */
-        fun withConcatenations(value: List<CodePart>): Builder
+        fun withConcatenations(value: List<CodePart>): Builder {
+            this.concatenations = value
+            return this
+        }
 
         /**
          * See [Concat.concatenations]
          */
-        fun withConcatenations(vararg values: CodePart): Builder = withConcatenations(values.toList())
+        fun withConcatenations(vararg values: CodePart): Builder = this.withConcatenations(values.toList())
+
+        override fun build(): Concat = Concat(this.concatenations)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Concat): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Concat): Builder = Builder(defaults)
         }
 
     }

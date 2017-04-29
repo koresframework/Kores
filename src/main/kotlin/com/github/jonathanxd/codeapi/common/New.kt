@@ -25,23 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.sugar
+package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodePart
+import java.lang.reflect.Type
 
 /**
- * In CodeAPI, [SugarSyntax] could have different implementations, these implementations
- * changes how a [CodePart] ([T]) is generated without creating a new [ ] and registering that.
- *
- * @param T   Input CodePart
- * @param E   Output CodePart
+ * Represents the construction of type, used to invoke constructor methods. (not `super` constructor or `this` constructor).
  */
-interface SugarSyntax<in T : CodePart, out E : CodePart> {
+data class New(val localization: Type) : CodePart {
 
-    /**
-     * Create a generator for this [SugarSyntax].
-     *
-     * @return new [Generator].
-     */
-    fun createGenerator(sugarEnvironment: SugarEnvironment): Generator<T, E>
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<New, Builder> {
+        lateinit var localization: Type
+
+        constructor(defaults: New) : this() {
+            this.localization = defaults.localization
+        }
+
+        /**
+         * See [New.localization]
+         */
+        fun withLocalization(value: Type): Builder {
+            this.localization = value
+            return this
+        }
+
+        override fun build(): New = New(this.localization)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: New): Builder = Builder(defaults)
+        }
+    }
 }

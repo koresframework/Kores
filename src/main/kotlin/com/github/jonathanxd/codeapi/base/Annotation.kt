@@ -27,10 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
+
+typealias CodeAnnotation = Annotation
 
 /**
  * An annotation, an annotation is composed by a pair of property name and property value.
@@ -51,7 +50,7 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
         var values: Map<String, Any> = emptyMap()
         var visible: Boolean = false
 
-        constructor(defaults: Annotation): this() {
+        constructor(defaults: Annotation) : this() {
             this.type = defaults.type
             this.values = defaults.values
             this.visible = defaults.visible

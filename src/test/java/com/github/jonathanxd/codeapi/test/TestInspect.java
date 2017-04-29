@@ -44,8 +44,8 @@ public class TestInspect {
     public void inspect() {
         CodeSource source = GenericClass_.$().getSecond();
 
-        List<FieldDeclaration> inspect = SourceInspect
-                .find(codePart -> codePart instanceof FieldDeclaration)
+        List<FieldDeclaration> inspect = SourceInspect.Companion
+                .builder(codePart -> codePart instanceof FieldDeclaration)
                 .include(bodied -> bodied instanceof StaticBlock || bodied instanceof ClassDeclaration)
                 .includeSource(true)
                 .mapTo(codePart -> (FieldDeclaration) codePart)

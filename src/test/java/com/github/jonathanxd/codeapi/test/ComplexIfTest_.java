@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
@@ -45,6 +46,7 @@ import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.EnumSet;
 
 public class ComplexIfTest_ {
@@ -53,46 +55,46 @@ public class ComplexIfTest_ {
 
         MutableCodeSource source = new MutableCodeSource();
 
-        TypeDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.ComplexIf", CodeAPI.source(
+        TypeDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.ComplexIf", CodeSource.fromVarArgs(
                 ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC),
                         new CodeParameter[]{
-                                new CodeParameter(Types.BOOLEAN, "h"),
-                                new CodeParameter(Types.BOOLEAN, "x"),
-                                new CodeParameter(Types.BOOLEAN, "y"),
-                                new CodeParameter(Types.BOOLEAN, "z")
+                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "h"),
+                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "x"),
+                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "y"),
+                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "z")
                         },
-                        CodeAPI.sourceOfParts(
-                                VariableFactory.variable(Types.BOOLEAN, "a", CodeAPI.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5))),
+                        CodeSource.fromVarArgs(
+                                VariableFactory.variable(Types.BOOLEAN, "a", Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5))),
                                 VariableFactory.variable(Types.STRING, "b",
-                                        CodeAPI.ifStatement(
-                                                CodeAPI.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
-                                                CodeAPI.source(Literals.STRING("9 < 5")),
-                                                CodeAPI.source(Literals.STRING("9 >= 5"))
+                                        Factories.ifStatement(
+                                                Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
+                                                CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
+                                                CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
                                         )
                                 ),
                                 VariableFactory.variable(Types.STRING, "b",
-                                        CodeAPI.ifStatement(
-                                                CodeAPI.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
-                                                CodeAPI.source(Literals.STRING("9 < 5")),
-                                                CodeAPI.source(Literals.STRING("9 >= 5"))
+                                        Factories.ifStatement(
+                                                Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
+                                                CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
+                                                CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
                                         )
                                 ),
 
-                                CodeAPI.ifStatement(
-                                        CodeAPI.ifExprs(
-                                                CodeAPI.accessLocalVariable(Types.BOOLEAN, "h"),
+                                Factories.ifStatement(
+                                        Factories.ifExprs(
+                                                Factories.accessVariable(Types.BOOLEAN, "h"),
                                                 Operators.AND,
-                                                CodeAPI.accessLocalVariable(Types.BOOLEAN, "x"),
+                                                Factories.accessVariable(Types.BOOLEAN, "x"),
                                                 Operators.AND,
-                                                CodeAPI.ifExprs(CodeAPI.accessLocalVariable(Types.BOOLEAN, "y"), Operators.OR, CodeAPI.accessLocalVariable(Types.BOOLEAN, "z"))),
-                                        CodeAPI.source(Predefined.invokePrintlnStr(Literals.STRING("true"))),
-                                        CodeAPI.source(Predefined.invokePrintlnStr(Literals.STRING("false")))
+                                                Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "y"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "z"))),
+                                        CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("true"))),
+                                        CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("false")))
                                 )
 
                         ))
         ));
 
-        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
+        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
     }
 
     @Test

@@ -27,15 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.base.ForStatement
-import com.github.jonathanxd.codeapi.sugar.SugarSyntax
-
 /**
  * Iteration type used to generate bytecode and source code iterations.
- *
- * [IterationType] is a [SugarSyntax].
- *
- * This sugar syntax generates a [ForStatement].
  */
 enum class IterationType  {
 

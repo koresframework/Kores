@@ -27,11 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -64,23 +62,47 @@ data class StaticBlock(override val comments: Comments, override val body: CodeS
     override val modifiers: Set<CodeModifier>
         get() = Constants.MODIFIERS
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : MethodDeclarationBase.Builder<StaticBlock, Builder> {
+    class Builder() : MethodDeclarationBase.Builder<StaticBlock, Builder> {
+
+        var comments: Comments = Comments.Absent
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: StaticBlock) : this() {
+            this.comments = defaults.comments
+            this.body = defaults.body
+        }
 
         override fun withName(value: String): Builder = self()
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
         override fun withAnnotations(value: List<Annotation>): Builder = self()
-        override fun withAnnotations(vararg values: Annotation): Builder = self()
-        override fun withParameters(value: List<CodeParameter>): Builder = self()
-        override fun withParameters(vararg values: CodeParameter): Builder = self()
-        override fun withReturnType(value: Type): Builder = self()
         override fun withModifiers(value: Set<CodeModifier>): Builder = self()
-        override fun withModifiers(vararg values: CodeModifier): Builder = self()
+
+        override fun withReturnType(value: Type): Builder = self()
+
+        override fun withParameters(value: List<CodeParameter>): Builder = self()
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
         override fun withGenericSignature(value: GenericSignature): Builder = self()
 
+        override fun build(): StaticBlock = StaticBlock(this.comments, this.body)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: StaticBlock): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: StaticBlock): Builder = Builder(defaults)
         }
 
     }

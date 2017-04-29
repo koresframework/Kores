@@ -25,11 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen
+@file:JvmName("DynamicInvocationFactory")
+
+package com.github.jonathanxd.codeapi.factory
+
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.InvokeDynamic
+import com.github.jonathanxd.codeapi.base.LocalCode
+import com.github.jonathanxd.codeapi.base.MethodInvocationBase
+import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
+import com.github.jonathanxd.codeapi.common.TypeSpec
+import java.lang.reflect.Type
 
 /**
- * Appender of array of [T]
- *
- * @param T Type
+ * @see InvokeDynamic
  */
-abstract class ArrayAppender<T> : Appender<Array<out T>>()
+fun invokeDynamic(type: Type, bootstrap: MethodInvokeSpec, invocation: MethodInvocationBase, args: List<Any>): InvokeDynamic =
+        InvokeDynamic(type, bootstrap, invocation, args)
+
+/**
+ * @see InvokeDynamic
+ */
+fun invokeDynamicLambda(invocation: MethodInvocationBase, baseSam: MethodTypeSpec, expectedTypes: TypeSpec): InvokeDynamic.LambdaMethodRef =
+        InvokeDynamic.LambdaMethodRef(invocation, baseSam, expectedTypes)
+
+/**
+ * @see InvokeDynamic
+ */
+fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, localCode: LocalCode, arguments: List<CodePart>): InvokeDynamic.LambdaLocalCode =
+        InvokeDynamic.LambdaLocalCode(baseSam, localCode, arguments)

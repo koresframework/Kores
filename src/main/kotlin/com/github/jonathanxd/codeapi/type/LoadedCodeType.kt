@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.type.Primitive
 
 /**
@@ -78,7 +79,7 @@ interface LoadedCodeType<T> : CodeType {
             val box = Primitive.box(loadedType)
 
             if (box != null) {
-                return CodeAPI.getJavaType(box)
+                return box.codeType
             }
 
             return null
@@ -89,7 +90,7 @@ interface LoadedCodeType<T> : CodeType {
             val unbox = Primitive.unbox(loadedType)
 
             if (unbox != null) {
-                return CodeAPI.getJavaType(unbox)
+                return unbox.codeType
             }
 
             return null

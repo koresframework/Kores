@@ -27,11 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * If statement.
@@ -44,20 +41,48 @@ data class IfStatement(override val expressions: List<CodePart>, override val bo
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             IfExpressionHolder.Builder<IfStatement, Builder>,
             BodyHolder.Builder<IfStatement, Builder> {
 
+        var expressions: List<CodePart> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+        var elseStatement: CodeSource = CodeSource.empty()
+
+        constructor(defaults: IfStatement) : this() {
+            this.expressions = defaults.expressions
+            this.body = defaults.body
+            this.elseStatement = defaults.elseStatement
+        }
+
         /**
-         * See [T.elseStatement]
+         * See [IfStatement.elseStatement]
          */
-        fun withElseStatement(value: CodeSource): Builder
+        fun withElseStatement(value: CodeSource): Builder {
+            this.elseStatement = value
+            return this
+        }
+
+        override fun withExpressions(value: List<CodePart>): Builder {
+            this.expressions = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun build(): IfStatement = IfStatement(this.expressions, this.body, this.elseStatement)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: IfStatement): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: IfStatement): Builder = Builder(defaults)
         }
 
     }

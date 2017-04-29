@@ -25,41 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.gen.value
+package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.Data
-import com.github.jonathanxd.codeapi.gen.Appender
+import com.github.jonathanxd.codeapi.factory.cast
+import java.lang.reflect.Type
 
 /**
- * Value.
+ * Create a casted argument list. This function casts [passed] to types of [expected].
  *
- * A value is a holder of information.
- *
- * Values can have different behaviors, a value process the provided information and generate the
- * [TARGET] object directly or indirectly.
- *
- * @param T        Type of value.
- * @param TARGET   Target object type.
- * @param C        Generator type.
+ * @param expected Expected arguments.
+ * @param passed   Provided arguments
+ * @return List with casted arguments.
  */
-interface Value<out T, TARGET, in C> {
+fun createCasted(expected: List<Type>, passed: List<CodePart>): List<CodePart> {
 
-    /**
-     * Gets the value.
-     *
-     * @return Value.
-     */
-    val value: T
-
-    /**
-     * Apply the information.
-     *
-     * @param value          Current value.
-     * @param generator      Generator.
-     * @param appender       Appender.
-     * @param codeSourceData Data of the source.
-     * @param data           Data of the processing environment.
-     */
-    fun apply(value: CodePart, generator: C, appender: Appender<TARGET>, codeSourceData: CodeSourceData, data: Data)
+    return List(passed.size) {
+        cast(passed[it].getPartTypeOrNull(), expected[it], passed[it])
+    }
 }

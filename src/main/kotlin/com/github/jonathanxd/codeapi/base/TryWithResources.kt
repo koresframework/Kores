@@ -27,36 +27,70 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 
 /**
  * Try-with-resources
  *
- * @property variable Variable to try-with-resources (value must be [AutoCloseable])
+ * @property variable Variable to try-with-resources (value must be [AutoCloseable]).
+ * @property body Body of try-with-resources
+ * @property catchStatements Catch clauses/Exception handlers
+ * @property finallyStatement Finally statement (in bytecode generator the finally statement is inlined).
  */
 data class TryWithResources(val variable: VariableDeclaration,
+                            override val body: CodeSource,
                             override val catchStatements: List<CatchStatement>,
-                            override val finallyStatement: CodeSource,
-                            override val body: CodeSource) : TryStatementBase {
+                            override val finallyStatement: CodeSource) : TryStatementBase {
     init {
         BodyHolder.checkBody(this)
     }
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : TryStatementBase.Builder<TryWithResources, Builder> {
+    class Builder() : TryStatementBase.Builder<TryWithResources, Builder> {
+
+        lateinit var variable: VariableDeclaration
+        var body: CodeSource = CodeSource.empty()
+        var catchStatements: List<CatchStatement> = emptyList()
+        var finallyStatement: CodeSource = CodeSource.empty()
+
+        constructor(defaults: TryWithResources) : this() {
+            this.body = defaults.body
+            this.catchStatements = defaults.catchStatements
+            this.finallyStatement = defaults.finallyStatement
+        }
 
         /**
          * See [TryWithResources.variable]
          */
-        fun withVariable(value: VariableDeclaration): Builder
+        fun withVariable(value: VariableDeclaration): Builder {
+            this.variable = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withCatchStatements(value: List<CatchStatement>): Builder {
+            this.catchStatements = value
+            return this
+        }
+
+        override fun withFinallyStatement(value: CodeSource): Builder {
+            this.finallyStatement = value
+            return this
+        }
+
+        override fun build(): TryWithResources = TryWithResources(this.variable, this.body, this.catchStatements, this.finallyStatement)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: TryWithResources): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: TryWithResources): Builder = Builder(defaults)
         }
 
     }

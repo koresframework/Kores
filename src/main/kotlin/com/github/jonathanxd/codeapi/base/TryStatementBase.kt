@@ -27,20 +27,63 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Try-catch-finally statement
+ * Try-catch-finally statement.
+ *
+ * @property body Body of try statement
+ * @property catchStatements Catch clauses/exception handlers.
+ * @property finallyStatement Finally block (Obs: for bytecode generation, finally blocks is always inlined).
  */
 data class TryStatement(override val body: CodeSource, override val catchStatements: List<CatchStatement>, override val finallyStatement: CodeSource) : TryStatementBase {
     init {
         BodyHolder.checkBody(this)
+    }
+
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() : TryStatementBase.Builder<TryStatement, Builder> {
+
+        var body: CodeSource = CodeSource.empty()
+        var catchStatements: List<CatchStatement> = emptyList()
+        var finallyStatement: CodeSource = CodeSource.empty()
+
+        constructor(defaults: TryStatement) : this() {
+            this.body = defaults.body
+            this.catchStatements = defaults.catchStatements
+            this.finallyStatement = defaults.finallyStatement
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withCatchStatements(value: List<CatchStatement>): Builder {
+            this.catchStatements = value
+            return this
+        }
+
+        override fun withFinallyStatement(value: CodeSource): Builder {
+            this.finallyStatement = value
+            return this
+        }
+
+        override fun build(): TryStatement = TryStatement(this.body, this.catchStatements, this.finallyStatement)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: TryStatement): Builder = Builder(defaults)
+        }
+
     }
 }
 
@@ -68,7 +111,7 @@ interface TryStatementBase : BodyHolder, Typed {
      */
     val finallyStatement: CodeSource
 
-    override fun builder(): Builder<TryStatementBase, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder<TryStatementBase, *>
 
     interface Builder<out T : TryStatementBase, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
@@ -90,11 +133,6 @@ interface TryStatementBase : BodyHolder, Typed {
          * See [T.finallyStatement]
          */
         fun withFinallyStatement(value: CodeSource): S
-
-        companion object {
-            fun builder(): Builder<TryStatementBase, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: TryStatementBase): Builder<TryStatementBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
 
     }
 

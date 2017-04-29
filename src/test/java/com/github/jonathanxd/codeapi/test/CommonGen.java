@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
@@ -37,22 +36,23 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
-import com.github.jonathanxd.codeapi.util.ArrayToList;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 
-import kotlin.collections.CollectionsKt;
-
 import static com.github.jonathanxd.codeapi.literal.Literals.INT;
 import static com.github.jonathanxd.codeapi.literal.Literals.STRING;
+import static kotlin.collections.CollectionsKt.*;
 
 public class CommonGen {
 
@@ -75,7 +75,7 @@ public class CommonGen {
                 INT(1)
         };
 
-        LoadedCodeType<String[][]> stringArrayType = CodeAPI.getJavaType(String[][].class);
+        LoadedCodeType<String[][]> stringArrayType = CodeTypes.getCodeType(String[][].class);
 
         TypeDeclaration typeDeclaration = ClassFactory.aClass(null,
                 new Annotation[0],
@@ -84,46 +84,48 @@ public class CommonGen {
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
-                CodeAPI.sourceOfParts(
+                CodeSource.fromVarArgs(
                         ConstructorFactory.constructor(new Annotation[0], GenericSignature.empty(), EnumSet.of(CodeModifier.PUBLIC),
                                 new CodeParameter[0],
-                                CodeAPI.sourceOfParts(
+                                CodeSource.fromVarArgs(
                                         VariableFactory.variable(stringArrayType,
                                                 "array",
-                                                CodeAPI.arrayConstruct(stringArrayType, new CodePart[]{INT(2), INT(5)},
-                                                        CollectionsKt.listOf(
-                                                                CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values)),
-                                                                CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(5)}, ArrayToList.toList(values2))
+                                                Factories.createArray(stringArrayType, listOf(INT(2), INT(5)),
+                                                        listOf(
+                                                                Factories.createArray(Types.STRING.toArray(1), listOf(INT(5)), Arrays.asList(values)),
+                                                                Factories.createArray(Types.STRING.toArray(1), listOf(INT(5)), Arrays.asList(values2))
                                                         )
                                                 )),
 
                                         VariableFactory.variable(Types.STRING.toArray(1),
                                                 "array2",
-                                                CodeAPI.arrayConstruct(Types.STRING.toArray(1), new CodePart[]{INT(0)}, Collections.emptyList())
+                                                Factories.createArray(Types.STRING.toArray(1), listOf(INT(0)), Collections.emptyList())
                                         ),
 
                                         VariableFactory.variable(Types.OBJECT.toArray(1),
                                                 "array3",
-                                                CodeAPI.arrayConstruct(Types.OBJECT.toArray(1), new CodePart[]{INT(1)}, ArrayToList.toList(values3))
+                                                Factories.createArray(Types.OBJECT.toArray(1), listOf(INT(1)), Arrays.asList(values3))
                                         ),
 
                                         Predefined.invokePrintln(
-                                                CodeAPI.getArrayValue(Types.STRING.toArray(1),
-                                                        CodeAPI.getArrayValue(Types.STRING.toArray(2),
-                                                                CodeAPI.accessLocalVariable(
+                                                Factories.accessArrayValue(Types.STRING.toArray(1),
+                                                        Factories.accessArrayValue(Types.STRING.toArray(2),
+                                                                Factories.accessVariable(
                                                                         Types.STRING.toArray(2),
                                                                         "array"
                                                                 ),
-                                                                INT(0)
+                                                                INT(0),
+                                                                Types.STRING.toArray(1)
                                                         ),
-                                                        INT(0)))
+                                                        INT(0),
+                                                        Types.STRING))
 
 
                                 ))
                 ));
 
 
-        return CodeAPI.sourceOfParts(typeDeclaration);
+        return CodeSource.fromVarArgs(typeDeclaration);
     }
 
     @Test

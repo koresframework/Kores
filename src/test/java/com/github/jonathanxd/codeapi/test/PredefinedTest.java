@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeAPI;
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
@@ -63,7 +64,7 @@ public final class PredefinedTest {
         ClassDeclaration classDeclaration = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName(name)
-                .withBody(CodeAPI.source(constructorDeclaration, staticBlock).toMutable())
+                .withBody(CodeSource.fromVarArgs(constructorDeclaration, staticBlock).toMutable())
                 .build();
 
         return new PredefinedTest(classDeclaration, constructorDeclaration, staticBlock);

@@ -38,8 +38,6 @@ import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.ArrayToList
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.lang.reflect.Type
 import java.util.*
@@ -109,9 +107,9 @@ fun method(annotations: Array<Annotation> = emptyArray(),
            source: CodeSource = CodeSource.empty(),
            comments: Comments = Comments.Absent): MethodDeclaration {
     return MethodDeclaration(
-            parameters = ArrayToList.toList(parameters),
+            parameters = parameters.toList(),
             name = name,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             body = source,
             returnType = returnType,
             modifiers = modifiers,
@@ -129,9 +127,9 @@ fun method(comments: Comments,
            parameters: Array<CodeParameter> = emptyArray(),
            source: CodeSource = CodeSource.empty()): MethodDeclaration {
     return MethodDeclaration(
-            parameters = ArrayToList.toList(parameters),
+            parameters = parameters.toList(),
             name = name,
-            annotations = ArrayToList.toList(annotations),
+            annotations = annotations.toList(),
             body = source,
             returnType = returnType,
             modifiers = modifiers,

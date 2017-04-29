@@ -27,23 +27,43 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
  * Access to a variable in local scope.
  */
-data class VariableAccess(override val name: String, override val variableType: Type) : VariableBase {
+data class VariableAccess(override val variableType: Type, override val name: String) : VariableBase {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
-            VariableBase.Builder<VariableAccess, Builder> {
+    class Builder() : VariableBase.Builder<VariableAccess, Builder> {
+
+        lateinit var name: String
+        lateinit var variableType: Type
+
+        constructor(defaults: VariableAccess) : this() {
+            this.name = defaults.name
+            this.variableType = defaults.variableType
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withVariableType(value: Type): Builder {
+            this.variableType = value
+            return this
+        }
+
+        override fun build(): VariableAccess = VariableAccess(this.variableType, this.name)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: VariableAccess): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: VariableAccess): Builder = Builder(defaults)
         }
 
     }

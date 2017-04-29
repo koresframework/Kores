@@ -25,19 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util.source;
+@file:JvmName("LocalCodeFactory")
+
+package com.github.jonathanxd.codeapi.factory
+
+import com.github.jonathanxd.codeapi.base.LocalCode
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
- * Location to insert element.
+ * @see LocalCode
  */
-public enum Location {
-    /**
-     * Insert before.
-     */
-    BEFORE,
+fun localCode(declaringType: Type, invokeType: InvokeType, declaration: MethodDeclaration): LocalCode =
+        LocalCode(declaringType, invokeType, declaration)
 
-    /**
-     * Insert after.
-     */
-    AFTER
-}
+/**
+ * @see LocalCode
+ */
+fun localCode(declaringType: CodeType, declaration: MethodDeclaration): LocalCode =
+        LocalCode(declaringType, declaration)

@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.base.*
-import com.github.jonathanxd.codeapi.util.element.ElementUtil
+import com.github.jonathanxd.codeapi.util.MemberInfosUtil
 import java.util.*
 
 /**
@@ -47,15 +47,11 @@ class MemberInfos(val declaration: TypeDeclaration) {
     }
 
     fun find(methodSpecification: MethodTypeSpec): MemberInfo? {
-        return this.find { memberInfo -> memberInfo.memberInstance is MethodDeclarationBase && ElementUtil.equal(memberInfo.memberInstance, methodSpecification) }
-    }
-
-    fun find(access: VariableAccess): MemberInfo? {
-        return this.find { memberInfo -> memberInfo.memberInstance is VariableDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
+        return this.find { memberInfo -> memberInfo.memberInstance is MethodDeclarationBase && MemberInfosUtil.equal(memberInfo.memberInstance, methodSpecification) }
     }
 
     fun find(access: FieldAccess): MemberInfo? {
-        return this.find { memberInfo -> memberInfo.memberInstance is FieldDeclaration && ElementUtil.equal(memberInfo.memberInstance, access) }
+        return this.find { memberInfo -> memberInfo.memberInstance is FieldDeclaration && MemberInfosUtil.equal(memberInfo.memberInstance, access) }
     }
 
     fun getMemberInfoList(): List<MemberInfo> {

@@ -27,39 +27,52 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.*
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
+import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.common.*
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.Alias
 import java.lang.reflect.Type
 
 /**
- * A local code execution. This code may be inlined or declared as method of current
- * type and invoked in call site or by a lambda.
+ * A local code (or local method). This code may be inlined or declared as method of current
+ * type or translated to a lambda (for [InvokeDynamic.LambdaLocalCode]).
  *
+ * @property declaringType Declaring type of [declaration] ([Alias] is supported)
+ * @property invokeType Invocation type (static, virtual or interface) this depends on where [declaration]
+ * is declared and which are the modifiers, if [declaration] is a instance method and declared in
+ * an interface, this must be [InvokeType.INVOKE_INTERFACE], if [declaration] is `static`, this must be
+ * [InvokeType.INVOKE_STATIC] does not matter if is declared in an interface or a class, if is not `static`
+ * and is declared in a `class`, this must be [InvokeType.INVOKE_VIRTUAL]. Read [InvokeType] for more information.
  * @property declaration Method declaration of the code.
- * @property scope Code scope.
- * @property declaringType Declaring type of the local method.
- * @property arguments Arguments to pass to code.
  */
 data class LocalCode(val declaringType: Type,
-                     val scope: Scope,
-                     val declaration: MethodDeclarationBase,
-                     override val arguments: List<CodePart>) : MethodInvocationBase, CodeElement {
+                     val invokeType: InvokeType,
+                     val declaration: MethodDeclaration) : CodeElement, CodePart {
 
-    override val invokeType: InvokeType
-        get() = if (this.scope == Scope.STATIC) InvokeType.INVOKE_STATIC else InvokeType.get(this.declaringType.codeType)
+    /**
+     * Local code execution constructor, this constructor resolves [invokeType] based on [declaration] and
+     * [declaringType].
+     */
+    constructor(declaringType: CodeType, declaration: MethodDeclaration) :
+            this(declaringType,
+                    if (declaration.modifiers.contains(CodeModifier.STATIC)) InvokeType.INVOKE_STATIC
+                    else if (declaration.modifiers.contains(CodeModifier.PRIVATE)) InvokeType.INVOKE_VIRTUAL
+                    else if (declaringType.isInterface) InvokeType.INVOKE_INTERFACE
+                    else InvokeType.INVOKE_VIRTUAL,
+                    declaration)
 
-    override val localization: Type
-        get() = this.declaringType
-
-    override val target: CodePart
-        get() = if(this.scope == Scope.STATIC) this.declaringType.codeType else Defaults.ACCESS_THIS
-
-    override val spec: MethodTypeSpec
-        get() = MethodTypeSpec(this.declaringType, this.declaration.name, this.declaration.typeSpec)
+    /**
+     * Creates a invocation of this [LocalCode] with [arguments].
+     */
+    fun createInvocation(arguments: List<CodePart>): MethodInvocation {
+        return MethodInvocation(invokeType = invokeType,
+                target = if (this.invokeType == InvokeType.INVOKE_STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS,
+                arguments = arguments,
+                spec = MethodTypeSpec(this.declaringType, this.declaration.name, this.declaration.typeSpec))
+    }
 
     /**
      * Parameters
@@ -70,8 +83,7 @@ data class LocalCode(val declaringType: Type,
     /**
      * Method description
      */
-    val description: TypeSpec
-        get() = this.spec.typeSpec
+    val description: TypeSpec = TypeSpec(this.declaration.returnType, this.declaration.parameters.map(CodeParameter::type))
 
     /**
      * Method body
@@ -79,29 +91,57 @@ data class LocalCode(val declaringType: Type,
     val body: CodeSource
         get() = this.declaration.body
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
-            MethodInvocationBase.Builder<LocalCode, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<LocalCode, Builder> {
+
+        lateinit var declaringType: Type
+        var invokeType: InvokeType? = null
+        lateinit var declaration: MethodDeclaration
+
+        constructor(defaults: LocalCode) : this() {
+            this.declaringType = defaults.declaringType
+            this.invokeType = defaults.invokeType
+            this.declaration = defaults.declaration
+        }
+
+        /**
+         * See [LocalCode.invokeType]
+         */
+        fun withInvokeType(value: InvokeType): Builder {
+            this.invokeType = value
+
+            return this
+        }
 
         /**
          * See [LocalCode.declaration]
          */
-        fun withDeclaration(value: MethodDeclarationBase): Builder
-
-        /**
-         * See [LocalCode.scope]
-         */
-        fun withScope(value: Scope): Builder
+        fun withDeclaration(value: MethodDeclaration): Builder {
+            this.declaration = value
+            return this
+        }
 
         /**
          * See [LocalCode.declaringType]
          */
-        fun withDeclaringType(value: Type): Builder
+        fun withDeclaringType(value: Type): Builder {
+            this.declaringType = value
+            return this
+        }
+
+        override fun build(): LocalCode {
+            return (this.declaringType as? CodeType)?.let {
+                LocalCode(it, this.declaration)
+            } ?: LocalCode(this.declaringType, this.invokeType!!, this.declaration)
+        }
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: LocalCode): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: LocalCode): Builder = Builder(defaults)
         }
 
     }

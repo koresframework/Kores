@@ -27,11 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
@@ -56,23 +53,59 @@ data class EnumEntry(override val name: String,
     override val array: Boolean
         get() = false
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             ArgumentHolder.Builder<EnumEntry, Builder>,
             Named.Builder<EnumEntry, Builder>,
             BodyHolder.Builder<EnumEntry, Builder> {
+
+        lateinit var name: String
+        var constructorSpec: TypeSpec? = null
+        var arguments: List<CodePart> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: EnumEntry) : this() {
+            this.name = defaults.name
+            this.constructorSpec = defaults.constructorSpec
+            this.arguments = defaults.arguments
+            this.body = defaults.body
+        }
 
         override fun withArray(value: Boolean): Builder = self()
 
         /**
          * See [EnumEntry.constructorSpec]
          */
-        fun withConstructorSpec(value: TypeSpec?): Builder
+        fun withConstructorSpec(value: TypeSpec?): Builder {
+            this.constructorSpec = value
+            return this
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withArguments(value: List<CodePart>): Builder {
+            this.arguments = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+
+        override fun build(): EnumEntry = EnumEntry(this.name, this.constructorSpec, this.arguments, this.body)
 
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: EnumEntry): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: EnumEntry): Builder = Builder(defaults)
         }
 
     }

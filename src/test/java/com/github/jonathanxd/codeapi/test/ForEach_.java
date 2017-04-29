@@ -37,6 +37,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -48,6 +49,7 @@ import com.github.jonathanxd.iutils.object.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.EnumSet;
 
 public class ForEach_ {
@@ -66,24 +68,24 @@ public class ForEach_ {
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
-                CodeAPI.source(
+                CodeSource.fromVarArgs(
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
                                 EnumSet.of(CodeModifier.PUBLIC),
-                                new CodeParameter[]{new CodeParameter(Generic.type(Types.LIST).of(Types.STRING), "strList")},
-                                CodeAPI.source(
-                                        CodeAPI.forEachIterable(VariableFactory.variable(Types.STRING, "str"),
-                                                CodeAPI.accessLocalVariable(
+                                new CodeParameter[]{new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type(Types.LIST).of(Types.STRING), "strList")},
+                                CodeSource.fromVarArgs(
+                                        Factories.forEachIterable(VariableFactory.variable(Types.STRING, "str"),
+                                                Factories.accessVariable(
                                                         Generic.type(Types.LIST).of(Types.STRING),
                                                         "strList"),
-                                                CodeAPI.source(
-                                                        Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "str"))
+                                                CodeSource.fromVarArgs(
+                                                        Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
                                                 ))
                                 ))
                 ));
 
-        return Pair.of(classDeclaration, CodeAPI.sourceOfParts(classDeclaration));
+        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
     }
 
     @Test

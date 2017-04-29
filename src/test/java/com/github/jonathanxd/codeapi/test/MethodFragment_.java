@@ -32,14 +32,16 @@ import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.LocalCode;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.Scope;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.common.InvokeType;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
-import com.github.jonathanxd.codeapi.fragment.SimpleMethodFragmentBuilder;
+import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.Generic;
@@ -48,10 +50,8 @@ import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.EnumSet;
-
-import static com.github.jonathanxd.codeapi.CodeAPI.sourceOfParts;
-import static kotlin.collections.CollectionsKt.listOf;
 
 public class MethodFragment_ {
 
@@ -59,28 +59,41 @@ public class MethodFragment_ {
 
         MutableCodeSource source = new MutableCodeSource();
 
-        ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.MethodFragment", sourceOfParts(
+        ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.MethodFragment", CodeSource.fromVarArgs(
                 MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID,
                         source),
                 FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), Generic.type("T"), "test")
         ));
 
-        source.add(
-                Predefined.invokePrintln(
-                        SimpleMethodFragmentBuilder.builder()
-                                .withDeclaringType(classDeclaration)
-                                .withScope(Scope.STATIC)
-                                .withDescription(new TypeSpec(Types.STRING, listOf(Types.STRING)))
-                                .withParameters(CodeAPI.parameter(String.class, "input"))
-                                .withArguments(Literals.STRING("BOB"))
-                                .withBody(CodeAPI.sourceOfParts(
-                                        CodeAPI.returnValue(Types.STRING, CodeAPI.accessLocalVariable(String.class, "input"))
+        LocalCode build = LocalCode.Builder.builder()
+                .withDeclaringType(classDeclaration)
+                .withInvokeType(InvokeType.INVOKE_SPECIAL)
+                .withDeclaration(
+                        MethodDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
+                                .withReturnType(String.class)
+                                .withParameters(Factories.parameter(String.class, "input"))
+                                .withName("sameMod")
+                                .withBody(CodeSource.fromVarArgs(
+                                        Factories.returnValue(String.class,
+                                                ConcatHelper.builder("[")
+                                                        .concat(Factories.accessVariable(String.class, "input"))
+                                                        .concat("]")
+                                                        .build()
+                                        )
                                 ))
                                 .build()
                 )
+                .build();
+
+        source.add(
+                Predefined.invokePrintln(
+                        build,
+                        build.createInvocation(Collections.singletonList(Literals.STRING("Hello")))
+                )
         );
 
-        return Pair.of(classDeclaration, sourceOfParts(classDeclaration));
+        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
     }
 
     @Test

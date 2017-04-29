@@ -29,17 +29,16 @@
 
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.Generic
-import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import java.lang.reflect.*
 import kotlin.reflect.KClass
 
-val <T> Class<T>.codeType: CodeType
-    get() = CodeAPI.getJavaType(this)
+val <T> Class<T>.codeType: LoadedCodeType<T>
+    get() = getJavaType(this)
 
 val <T : Any> KClass<T>.codeType: CodeType
     get() = this.java.codeType
@@ -93,10 +92,10 @@ fun Class<*>.getCodeTypeFromTypeParameters(): CodeType {
 
 fun Type.getType(isParameterized: Boolean = false): CodeType {
 
-    if(this is CodeType)
+    if (this is CodeType)
         return this
 
-    if(cache.containsKey(this))
+    if (cache.containsKey(this))
         return cache[this]!!
 
     return when (this) {
@@ -213,3 +212,87 @@ fun GenericType.applyType(typeName: String, type: CodeType): GenericType {
     return this
 }
 
+// Loaded types
+
+/**
+ * Cache [CodeType] instance of [Class]
+ */
+private val loadedCache = WeakValueHashMap<Class<*>, CodeType>()
+
+/**
+ * Gets the cached [LoadedCodeType] for [aClass] or create a instance of [LoadedCodeType]
+ * if no one is cached.
+ */
+@Suppress("UNCHECKED_CAST")
+private fun <T> getJavaType(aClass: Class<T>): LoadedCodeType<T> {
+
+    if (aClass.isArray)
+        return getJavaType0(aClass)
+
+    if (loadedCache.containsKey(aClass)) {
+        val codeType = loadedCache[aClass]
+
+        if (codeType != null && codeType is LoadedCodeType<*>)
+            return codeType as LoadedCodeType<T>
+    }
+
+    val javaType = JavaType(aClass)
+
+    loadedCache.put(aClass, javaType)
+
+    return javaType
+
+}
+
+/**
+ * Gets the cached [LoadedCodeType] for [aClass] or create a instance of [LoadedCodeType]
+ * if no one is cached. (treat arrays).
+ */
+@Suppress("UNCHECKED_CAST")
+private fun <T> getJavaType0(aClass: Class<T>): LoadedCodeType<T> {
+
+    if (loadedCache.containsKey(aClass)) {
+        val codeType = loadedCache[aClass]
+
+        if (codeType != null && codeType is LoadedCodeType<*>)
+            return codeType as LoadedCodeType<T>
+    }
+
+    var type: LoadedCodeType<T> = JavaType(aClass)
+
+    if (aClass.isArray) {
+        var component: Class<*> = aClass
+
+        var dimensions = 0
+
+        do {
+            ++dimensions
+            component = component.componentType
+        } while (component.isArray)
+
+        type = JavaType(component as Class<T>).toLoadedArray(aClass, dimensions)
+    }
+
+    loadedCache.put(aClass, type)
+
+    return type
+
+}
+
+/**
+ * Returns the [Type] of [CodePart] or `null` if [CodePart] is not instance of [Typed].
+ */
+fun CodePart.getPartTypeOrNull(): Type? = (this as? Typed)?.type?.let {
+    if (it.`is`(NullType)) Types.OBJECT else it
+}
+
+/**
+ * Returns the [Type] of [CodePart] or throws [IllegalStateException] if [CodePart] is not instance of [Typed]
+ */
+fun CodePart.getPartType(): Type = this.getPartTypeOrNull() ?: throw IllegalStateException("Cannot get type of part '$this'.")
+
+
+/**
+ * Compares this list of [Type] with [input type list][list]
+ */
+fun List<Type>.`is`(list: List<Type>) = if (this.size != list.size) false else this.indices.all { this[it].`is`(list[it]) }

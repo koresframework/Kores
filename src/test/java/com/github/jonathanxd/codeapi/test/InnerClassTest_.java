@@ -37,12 +37,15 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
+import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
@@ -67,45 +70,45 @@ public class InnerClassTest_ {
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
-                CodeAPI.source(
+                CodeSource.fromVarArgs(
                         FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), codeClass, "a",
-                                CodeAPI.invokeConstructor(codeClass, CodeAPI.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello")))),
-                        MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeAPI.source(
+                                InvocationFactory.invokeConstructor(codeClass, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello")))),
+                        MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeSource.fromVarArgs(
                                 Predefined.invokePrintln(
-                                        CodeAPI.accessField(codeClass, CodeAPI.accessOuter(codeClass), Types.STRING, "field")
+                                        Factories.accessField(codeClass, Factories.accessOuter(codeClass), Types.STRING, "field")
                                 ),
-                                CodeAPI.invokeVirtual(codeClass, CodeAPI.accessOuter(codeClass), "mm", CodeAPI.typeSpec(Types.VOID), Collections.emptyList()),
-                                CodeAPI.returnValue(String.class, Literals.STRING("A"))
+                                InvocationFactory.invokeVirtual(codeClass, Factories.accessOuter(codeClass), "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
+                                Factories.returnValue(String.class, Literals.STRING("A"))
                         ))
                 ));
 
-        source.addAll(CodeAPI.sourceOfParts(
+        source.addAll(CodeSource.fromVarArgs(
                 FieldFactory.field(EnumSet.of(CodeModifier.PRIVATE),
-                        CodeAPI.getJavaType(String.class),
+                        CodeTypes.getCodeType(String.class),
                         "field",
                         Literals.STRING("XSD")),
 
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeAPI.sourceOfParts(
-                        CodeAPI.invokeVirtual(
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeSource.fromVarArgs(
+                        InvocationFactory.invokeVirtual(
                                 inner,
-                                CodeAPI.invokeConstructor(inner),
+                                InvocationFactory.invokeConstructor(inner),
                                 "call",
-                                CodeAPI.typeSpec(String.class),
+                                Factories.typeSpec(String.class),
                                 Collections.emptyList()
                         )
                 )),
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PRIVATE), new CodeParameter[]{CodeAPI.parameter(String.class, "str")},
-                        CodeAPI.source(
-                                Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "str"))
+                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PRIVATE), new CodeParameter[]{Factories.parameter(String.class, "str")},
+                        CodeSource.fromVarArgs(
+                                Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
                         )),
-                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "mm", Types.VOID, CodeAPI.sourceOfParts(
+                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "mm", Types.VOID, CodeSource.fromVarArgs(
                         Predefined.invokePrintln(Literals.STRING("A"))
                 )),
                 inner
         ));
 
 
-        return Pair.of(codeClass, CodeAPI.sourceOfParts(codeClass));
+        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
     }
 
     @Test

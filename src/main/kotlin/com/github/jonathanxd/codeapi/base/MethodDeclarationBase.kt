@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.common.TypeSpec
@@ -55,6 +53,86 @@ data class MethodDeclaration(override val comments: Comments,
     init {
         BodyHolder.checkBody(this)
     }
+
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() : MethodDeclarationBase.Builder<MethodDeclaration, Builder> {
+
+        // vars
+
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        var modifiers: Set<CodeModifier> = emptySet()
+        var genericSignature: GenericSignature = GenericSignature.empty()
+        lateinit var returnType: Type
+        lateinit var name: String
+        var parameters: List<CodeParameter> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: MethodDeclaration) : this() {
+            this.comments = defaults.comments
+            this.annotations = defaults.annotations
+            this.modifiers = defaults.modifiers
+            this.genericSignature = defaults.genericSignature
+            this.returnType = defaults.returnType
+            this.name = defaults.name
+            this.parameters = defaults.parameters
+            this.body = defaults.body
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
+        override fun withReturnType(value: Type): Builder {
+            this.returnType = value
+            return this
+        }
+
+        override fun withParameters(value: List<CodeParameter>): Builder {
+            this.parameters = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withGenericSignature(value: GenericSignature): Builder {
+            this.genericSignature = value
+            return this
+        }
+
+        override fun build(): MethodDeclaration = MethodDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature,
+                this.returnType, this.name, this.parameters, this.body)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: MethodDeclaration): Builder = Builder(defaults)
+        }
+
+    }
+
 }
 
 /**
@@ -71,7 +149,7 @@ interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, Return
     val typeSpec: TypeSpec
         get() = TypeSpec(this.returnType, this.parameters.map(CodeParameter::type))
 
-    override fun builder(): Builder<MethodDeclarationBase, *> = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder<MethodDeclarationBase, *>
 
     interface Builder<out T : MethodDeclarationBase, S : Builder<T, S>> :
             BodyHolder.Builder<T, S>,
@@ -85,11 +163,6 @@ interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, Return
             CommentHolder.Builder<T, S> {
 
         override fun withType(value: Type): S = this.withReturnType(value)
-
-        companion object {
-            fun builder(): Builder<MethodDeclarationBase, *> = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: MethodDeclarationBase): Builder<MethodDeclarationBase, *> = CodeAPI.getBuilderProvider().invoke(defaults)
-        }
 
     }
 }

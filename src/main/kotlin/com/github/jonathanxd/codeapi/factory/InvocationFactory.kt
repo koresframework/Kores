@@ -30,20 +30,62 @@
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.Defaults
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.common.InvokeType
-import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.common.*
+import com.github.jonathanxd.codeapi.util.Alias
 import java.lang.reflect.Type
 
-fun invoke(invokeType: InvokeType, localization: Type, target: CodePart, rtype: Type, name: String, ptypes: List<Type>) = MethodInvocation(
-        invokeType = invokeType,
-        target = target,
-        spec = MethodTypeSpec(
-                localization,
-                name,
-                TypeSpec(rtype, ptypes)
-        ),
-        arguments = emptyList()
+/**
+ * Invoke a method with signature [spec] and [name] of class [localization] using instance [target] with
+ * [arguments].
+ *
+ * @see InvokeType
+ * @see MethodInvocation
+ */
+fun invoke(invokeType: InvokeType, localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+        MethodInvocation(
+                invokeType = invokeType,
+                target = target,
+                spec = MethodTypeSpec(
+                        localization,
+                        name,
+                        spec
+                ),
+                arguments = arguments
 
-)
+        )
+
+fun invokeVirtual(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)
+
+fun invokeInterface(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_INTERFACE, localization, target, name, spec, arguments)
+
+fun invokeSpecial(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_SPECIAL, localization, target, name, spec, arguments)
+
+fun invokeConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_SPECIAL, localization, New(localization), CONSTRUCTOR, spec, arguments)
+
+fun invokeConstructor(localization: Type) =
+        invokeConstructor(localization, TypeSpec(Types.VOID, emptyList()), emptyList())
+
+fun invokeSuperConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_SPECIAL, localization, Alias.SUPER, CONSTRUCTOR, spec, arguments)
+
+fun invokeSuperConstructor(spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_SPECIAL, Alias.SUPER, Alias.SUPER, CONSTRUCTOR, spec, arguments)
+
+fun invokeThisConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_SPECIAL, localization, Defaults.ACCESS_THIS, CONSTRUCTOR, spec, arguments)
+
+fun invokeThisConstructor(spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_SPECIAL, Alias.THIS, Defaults.ACCESS_THIS, CONSTRUCTOR, spec, arguments)
+
+fun invokeStatic(localization: Type, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_STATIC, localization, Defaults.ACCESS_STATIC, name, spec, arguments)
+
+fun invokeStatic(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+        invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)

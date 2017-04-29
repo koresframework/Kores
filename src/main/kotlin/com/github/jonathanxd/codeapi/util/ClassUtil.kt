@@ -25,24 +25,52 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util;
+@file:JvmName("ClassUtil")
+package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.type.CodeType;
+import java.util.ArrayList
+import java.util.LinkedHashSet
 
-@FunctionalInterface
-public interface TypeResolver {
-    default CodeType resolveUnknown(String name) {
-        return this.resolve(name, false);
+private fun getAllInterfaces(base: Class<*>): List<Class<*>> {
+
+    val classes = ArrayList<Class<*>>()
+
+    val interfaces = base.interfaces
+
+    for (anInterface in interfaces) {
+        classes.add(anInterface)
+
+        classes.addAll(getAllInterfaces(anInterface))
     }
 
-    default CodeType resolveInterface(String name) {
-        return this.resolve(name, true);
+    return classes
+}
+
+/**
+ * Internal undocumented.
+ */
+fun getAllSubclasses(base: Class<*>): Collection<Class<*>> {
+
+    val classes = LinkedHashSet<Class<*>>()
+
+    val superClass = base.superclass
+
+    val nextActions = ArrayList<() -> Unit>()
+
+    if (superClass != null && superClass != Any::class.java) {
+        classes.add(superClass)
+        nextActions.add { classes.addAll(getAllSubclasses(superClass)) }
     }
 
-    default CodeType resolveClass(String name) {
-        return this.resolve(name, false);
+    val interfaces = base.interfaces
+
+    for (anInterface in interfaces) {
+        classes.add(anInterface)
+
+        nextActions.add { classes.addAll(getAllInterfaces(anInterface)) }
     }
 
-    CodeType resolve(String name, boolean isInterface);
+    nextActions.forEach { it() }
 
+    return classes
 }

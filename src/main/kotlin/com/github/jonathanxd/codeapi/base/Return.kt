@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
@@ -38,15 +35,38 @@ import java.lang.reflect.Type
  */
 data class Return(override val type: Type, override val value: CodePart) : ValueHolder, Typed {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             ValueHolder.Builder<Return, Builder>,
             Typed.Builder<Return, Builder> {
 
+        lateinit var type: Type
+        lateinit var value: CodePart
+
+        constructor(defaults: Return) : this() {
+            this.type = defaults.type
+            this.value = defaults.value
+        }
+
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value!!
+            return this
+        }
+
+        override fun build(): Return = Return(this.type, this.value)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: Return): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Return): Builder = Builder(defaults)
         }
 
     }

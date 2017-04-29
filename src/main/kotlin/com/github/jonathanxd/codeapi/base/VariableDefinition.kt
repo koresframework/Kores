@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.builder.invoke
 import java.lang.reflect.Type
 
 /**
@@ -40,15 +37,46 @@ data class VariableDefinition(override val type: Type,
                               override val name: String,
                               override val value: CodePart) : Named, Typed, ValueHolder {
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder :
+    class Builder() :
             Named.Builder<VariableDefinition, Builder>,
             Typed.Builder<VariableDefinition, Builder>,
             ValueHolder.Builder<VariableDefinition, Builder> {
+
+        lateinit var name: String
+        lateinit var type: Type
+        lateinit var value: CodePart
+
+        constructor(defaults: VariableDefinition) : this() {
+            this.name = defaults.name
+            this.type = defaults.type
+            this.value = defaults.value
+        }
+
+        override fun withName(value: String): Builder {
+            this.name = value
+            return this
+        }
+
+        override fun withType(value: Type): Builder {
+            this.type = value
+            return this
+        }
+
+        override fun withValue(value: CodePart?): Builder {
+            this.value = value!!
+            return this
+        }
+
+        override fun build(): VariableDefinition = VariableDefinition(this.type, this.name, this.value)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: VariableDefinition): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: VariableDefinition): Builder = Builder(defaults)
         }
 
     }

@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class TypeResolverTest {
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.BaseX")
                 .withSuperClass(Types.OBJECT)
-                .withImplementations(CodeAPI.getJavaType(BaseExt.class))
+                .withImplementations(CodeTypes.getCodeType(BaseExt.class))
                 .build();
 
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
@@ -57,9 +58,9 @@ public class TypeResolverTest {
 
         CodeTypeResolver<?> defaultResolver = typeDeclaration.getDefaultResolver();
 
-        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeAPI.getJavaType(Base.class), typeDeclaration));
-        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeAPI.getJavaType(BaseExt.class), typeDeclaration));
-        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeAPI.getJavaType(Base.class), CodeAPI.getJavaType(BaseExt.class)));
+        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), typeDeclaration));
+        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(BaseExt.class), typeDeclaration));
+        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), CodeTypes.getCodeType(BaseExt.class)));
         Assert.assertTrue(defaultResolver.isAssignableFrom(basex, typeDeclaration));
     }
 

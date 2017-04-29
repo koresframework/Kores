@@ -29,13 +29,8 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.base.FieldDeclaration
-import com.github.jonathanxd.codeapi.base.MethodDeclarationBase
-import com.github.jonathanxd.codeapi.base.ModifiersHolder
-import com.github.jonathanxd.codeapi.base.TypeDeclaration
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.common.MemberInfo
-import com.github.jonathanxd.codeapi.common.MemberInfos
+import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
 
 object MemberInfosUtil {
@@ -44,7 +39,7 @@ object MemberInfosUtil {
     fun createMemberInfos(typeDeclaration: TypeDeclaration): MemberInfos {
         val body = typeDeclaration.body
 
-        val elements = SourceInspect.find { codePart -> codePart is MethodDeclarationBase || codePart is FieldDeclaration || codePart is TypeDeclaration }
+        val elements = SourceInspect.builder { codePart -> codePart is MethodDeclarationBase || codePart is FieldDeclaration || codePart is TypeDeclaration }
                 .include { bodied -> bodied is CodeSource }
                 .mapTo { codePart -> codePart as CodeElement }
                 .inspect(body)
@@ -61,4 +56,36 @@ object MemberInfosUtil {
 
         return memberInfos
     }
+
+    /**
+     * Returns true if [methodDeclarationBase] equals [specification] without comparing
+     * declaring class and modifiers.
+     *
+     * @param methodDeclarationBase Declaration.
+     * @param specification Specification.
+     * @return True if [methodDeclarationBase] matches [specification].
+     */
+    fun equal(methodDeclarationBase: MethodDeclarationBase, specification: MethodTypeSpec): Boolean {
+        if (methodDeclarationBase.name == specification.methodName) {
+            val (returnType, parameterTypes) = specification.typeSpec
+
+            val parameters = methodDeclarationBase.parameters
+
+            val codeTypes = parameters.map(CodeParameter::type)
+
+            if (codeTypes.`is`(parameterTypes)) {
+                return methodDeclarationBase.returnType.`is`(returnType)
+            }
+
+        }
+
+        return false
+    }
+
+    /**
+     * Returns true if [fieldDeclaration] is equal to [access] without comparing declaring class and modifiers.
+     */
+    fun equal(fieldDeclaration: FieldDeclaration, access: FieldAccess): Boolean =
+        access.name == fieldDeclaration.name && access.type.`is`(fieldDeclaration.type)
+
 }

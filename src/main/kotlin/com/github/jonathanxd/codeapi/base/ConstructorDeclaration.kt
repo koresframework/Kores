@@ -27,12 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.builder.invoke
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -45,9 +42,9 @@ import java.lang.reflect.Type
  */
 data class ConstructorDeclaration(override val comments: Comments,
                                   override val annotations: List<Annotation>,
-                                  override val parameters: List<CodeParameter>,
                                   override val modifiers: Set<CodeModifier>,
                                   override val genericSignature: GenericSignature,
+                                  override val parameters: List<CodeParameter>,
                                   override val body: CodeSource) : MethodDeclarationBase {
 
     init {
@@ -60,16 +57,68 @@ data class ConstructorDeclaration(override val comments: Comments,
     override val returnType: Type
         get() = Types.VOID
 
-    override fun builder(): Builder = CodeAPI.getBuilderProvider()(this)
+    override fun builder(): Builder = Builder(this)
 
-    interface Builder : MethodDeclarationBase.Builder<ConstructorDeclaration, Builder> {
+    class Builder() : MethodDeclarationBase.Builder<ConstructorDeclaration, Builder> {
+
+        var comments: Comments = Comments.Absent
+        var annotations: List<Annotation> = emptyList()
+        var modifiers: Set<CodeModifier> = emptySet()
+        var genericSignature: GenericSignature = GenericSignature.empty()
+        var parameters: List<CodeParameter> = emptyList()
+        var body: CodeSource = CodeSource.empty()
+
+        constructor(defaults: ConstructorDeclaration) : this() {
+            this.comments = defaults.comments
+            this.annotations = defaults.annotations
+            this.modifiers = defaults.modifiers
+            this.genericSignature = defaults.genericSignature
+            this.parameters = defaults.parameters
+            this.body = defaults.body
+        }
 
         override fun withName(value: String): Builder = self()
+
+        override fun withComments(value: Comments): Builder {
+            this.comments = value
+            return this
+        }
+
+        override fun withAnnotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
+
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
         override fun withReturnType(value: Type): Builder = self()
 
+        override fun withParameters(value: List<CodeParameter>): Builder {
+            this.parameters = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun withGenericSignature(value: GenericSignature): Builder {
+            this.genericSignature = value
+            return this
+        }
+
+        override fun build(): ConstructorDeclaration = ConstructorDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature, this.parameters, this.body)
+
         companion object {
-            fun builder(): Builder = CodeAPI.getBuilderProvider().invoke()
-            fun builder(defaults: ConstructorDeclaration): Builder = CodeAPI.getBuilderProvider().invoke(defaults)
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: ConstructorDeclaration): Builder = Builder(defaults)
         }
 
     }

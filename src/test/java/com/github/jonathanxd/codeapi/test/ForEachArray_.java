@@ -36,6 +36,7 @@ import com.github.jonathanxd.codeapi.common.CodeModifier;
 import com.github.jonathanxd.codeapi.common.CodeParameter;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
@@ -61,24 +62,24 @@ public class ForEachArray_ {
                 GenericSignature.empty(),
                 Types.OBJECT,
                 new CodeType[0],
-                CodeAPI.sourceOfParts(
+                CodeSource.fromVarArgs(
                         FieldFactory.field(new Annotation[0], EnumSet.of(CodeModifier.PUBLIC, CodeModifier.STATIC), Types.STRING, "stra", Literals.STRING("XA")),
                         ConstructorFactory.constructor(
                                 new Annotation[0],
                                 GenericSignature.empty(),
                                 EnumSet.of(CodeModifier.PUBLIC),
-                                new CodeParameter[]{new CodeParameter(Types.STRING.toArray(1), "strArray")},
-                                CodeAPI.sourceOfParts(
-                                        VariableFactory.variable(Types.STRING, "v", CodeAPI.accessStaticField(String.class, "stra")),
-                                        CodeAPI.forEachArray(VariableFactory.variable(Types.STRING, "str"),
-                                                CodeAPI.accessLocalVariable(Types.STRING.toArray(1), "strArray"),
-                                                CodeAPI.source(
-                                                        Predefined.invokePrintln(CodeAPI.accessLocalVariable(String.class, "str"))
+                                new CodeParameter[]{Factories.parameter(Types.STRING.toArray(1), "strArray")},
+                                CodeSource.fromVarArgs(
+                                        VariableFactory.variable(Types.STRING, "v", Factories.accessStaticField(String.class, "stra")),
+                                        Factories.forEachArray(VariableFactory.variable(Types.STRING, "str"),
+                                                Factories.accessVariable(Types.STRING.toArray(1), "strArray"),
+                                                CodeSource.fromVarArgs(
+                                                        Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
                                                 ))
                                 ))
                 ));
 
-        return Pair.of(typeDeclaration, CodeAPI.sourceOfParts(typeDeclaration));
+        return Pair.of(typeDeclaration, CodeSource.fromVarArgs(typeDeclaration));
     }
 
     @Test
