@@ -25,16 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.sugar
+package com.github.jonathanxd.codeapi.util
 
 /**
- * Sugar environment.
+ * Parent utility.
  */
-interface SugarEnvironment {
-
-    /**
-     * Create a new variable name from a base name.
-     */
-    fun getVariableName(base: String): String
-
-}
+data class Parent<out V, O>(val value: V, val owner: O, val parent: Parent<*, O>?)

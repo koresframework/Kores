@@ -28,20 +28,26 @@
 package com.github.jonathanxd.codeapi.sugar
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.gen.PartProcessor
+import com.github.jonathanxd.codeapi.processor.CodeProcessor
+import com.github.jonathanxd.codeapi.processor.Processor
+import com.github.jonathanxd.iutils.data.Data
 
 /**
- * Sugar syntax generator.
+ * Sugar syntax processor. CodeAPI provides a way to register a sugar syntax processor, a sugar
+ * syntax processor transforms a value of type [T] into a [CodePart].
  */
-interface Generator<in T : CodePart, out R : CodePart> : PartProcessor {
+abstract class SugarSyntaxProcessor<in T> : Processor<T> {
 
     /**
-     * Generate the sugar syntax.
+     * Process [t] and transforms in [CodePart].
      *
-     * @param t         Sugar syntax instance.
-     * @param processor Source part processor
-     * @return Generated sugar syntax.
+     * This class should only convert [t] to [CodePart] and should not call [CodeProcessor.process]. This class
+     * is intended only for simple conversions, if you need complex conversions you need to write a [Processor].
      */
-    fun generate(t: T, processor: PartProcessor): R
+    abstract fun process(t: T, codeProcessor: CodeProcessor<*>): CodePart
 
+
+    override fun process(part: T, data: Data, codeProcessor: CodeProcessor<*>) {
+        codeProcessor.process(this.process(part, codeProcessor), data)
+    }
 }

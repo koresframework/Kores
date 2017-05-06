@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.modify.visit
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.Data
 import com.github.jonathanxd.codeapi.util.gento.GenToUtil
+import com.github.jonathanxd.iutils.data.Data
 import java.util.*
 
 /**
