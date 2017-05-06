@@ -33,8 +33,10 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
+import com.github.jonathanxd.iutils.string.ToStringHelper
 import java.lang.reflect.Type
-import java.util.*
+import java.util.Arrays
+import java.util.Objects
 
 /**
  * Non-strict generic equality check, only works for generic types.
@@ -127,7 +129,7 @@ private fun Array<out GenericType.Bound>.nonStrictEq(others: Array<out GenericTy
  * Default equals algorithm for [GenericType]
  */
 fun GenericType.eq(other: Any?): Boolean {
-    return if(other is CodeType) this.identification == other.identification else false
+    return if (other is CodeType) this.identification == other.identification else false
 }
 
 /**
@@ -161,27 +163,27 @@ fun GenericType.toStr(): String {
  *
  * **This method is not recommended for object comparison.**
  */
-fun GenericType.toComponentString(): String {
-    return ToStringBuilder.builder(this::class.java)
-            .add("name", this.name)
-            .add("isWildcard", this.isWildcard)
-            .add(if (this.isType) "codeType" else "inferredType", this.codeType)
-            .add("isType", this.isWildcard)
-            .add("bounds", this.bounds.map { it.toComponentString() })
-            .toString()
-}
+fun GenericType.toComponentString(): String =
+        ToStringHelper.defaultHelper(this::class.java.simpleName)
+                .add("name", this.name)
+                .add("isWildcard", this.isWildcard)
+                .add(if (this.isType) "codeType" else "inferredType", this.codeType)
+                .add("isType", this.isWildcard)
+                .add("bounds", this.bounds.map { it.toComponentString() })
+                .toString()
+
 
 /**
  * Creates a string representation of components of [GenericType.Bound].
  *
  * **This method is not recommended for object comparison.**
  */
-fun GenericType.Bound.toComponentString(): String {
-    return ToStringBuilder.builder(this::class.java)
-            .add("sign", this.sign)
-            .add("type", this.type)
-            .toString()
-}
+fun GenericType.Bound.toComponentString(): String =
+        ToStringHelper.defaultHelper(this::class.java.simpleName)
+                .add("sign", this.sign)
+                .add("type", this.type)
+                .toString()
+
 
 /**
  * Default hash algorithm.

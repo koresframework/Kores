@@ -29,7 +29,7 @@
 
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.base.CodeModifier
 import java.lang.reflect.Member
 import java.lang.reflect.Modifier
 

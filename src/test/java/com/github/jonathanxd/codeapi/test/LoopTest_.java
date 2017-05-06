@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
@@ -35,8 +34,8 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -56,9 +55,9 @@ public class LoopTest_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        MutableCodeSource codeSource = new MutableCodeSource();
+        MutableCodeSource codeSource = MutableCodeSource.create();
 
-        MutableCodeSource clSource = new MutableCodeSource();
+        MutableCodeSource clSource = MutableCodeSource.create();
 
         ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)

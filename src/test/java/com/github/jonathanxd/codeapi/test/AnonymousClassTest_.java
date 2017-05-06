@@ -27,18 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.CodeParameter;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;

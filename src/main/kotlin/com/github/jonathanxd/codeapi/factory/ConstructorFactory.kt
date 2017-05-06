@@ -33,8 +33,8 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.common.CodeParameter
+import com.github.jonathanxd.codeapi.base.CodeModifier
+import com.github.jonathanxd.codeapi.base.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.util.*

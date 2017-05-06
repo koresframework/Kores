@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash

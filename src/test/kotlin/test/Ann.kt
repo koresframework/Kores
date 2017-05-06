@@ -25,15 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package test
 
-/**
- * Switch types
- */
-enum class SwitchType {
-    NUMERIC,
-    OBJECT,
-    STRING,
-    ENUM
-
-}
+@Target(AnnotationTarget.CLASS)
+annotation class Ann(val name: String)

@@ -27,14 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;

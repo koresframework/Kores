@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.SwitchType
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
@@ -36,30 +35,7 @@ import java.lang.reflect.Type
  * Switch statement, this switch can switch numeric values and object values (like Enum, String or other
  * objects).
  *
- * If the [SwitchType.isUnique] returns false, the CodeAPI will automatically generate a
- * [Any.equals] verification.
- *
- * For example, if you switch a String like that:
- *
- * ```java
- * switch(str) {
- *     case "A": println(": A");
- *     case "B": println(": B");
- * }
- * ```
- *
- * CodeAPI will convert it to:
- *
- * ```java
- * switch(str) {
- *     case "A": if(str.equals("A")) println(": A");
- *     case "B": if(str.equals("B")) println(": B");
- * }
- * ```
- *
- * CodeAPI will not generate two "switches" like Javac do.
- *
- * You could also switch objects, but make sure that the object implements [Any.hashCode]
+ * You could switch objects, but make sure that the object implements [Any.hashCode]
  * and [Any.equals] methods.
  *
  * @property value Value to switch
@@ -133,4 +109,14 @@ data class SwitchStatement(override val value: Typed,
 
     }
 
+}
+
+/**
+ * Switch types
+ */
+enum class SwitchType {
+    NUMERIC,
+    OBJECT,
+    STRING,
+    ENUM
 }

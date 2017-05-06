@@ -27,15 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.toStr
 
 /**
- * Common implementation of [CodeType] arrays.
+ * Common implementation of [CodeType] for arrays.
  */
-@GenerateTo(CodeType::class)
 internal open class CodeTypeArray(val component: CodeType, override val arrayDimension: Int) : CodeType {
 
     override val type: String

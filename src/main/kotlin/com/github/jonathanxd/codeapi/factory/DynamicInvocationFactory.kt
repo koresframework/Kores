@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.base.LocalCode
 import com.github.jonathanxd.codeapi.base.MethodInvocationBase
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.base.TypeSpec
 import java.lang.reflect.Type
 
 /**

@@ -25,14 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.util.codeType
 import java.lang.reflect.Type
-import java.util.*
+import java.util.Objects
 
+/**
+ * Type Signature representation.
+ *
+ * @property returnType Type of the return.
+ * @property parameterTypes Type of parameters
+ */
 data class TypeSpec @JvmOverloads constructor(val returnType: Type, val parameterTypes: List<Type> = emptyList()) : Typed, Comparable<TypeSpec> {
 
     override val type: Type

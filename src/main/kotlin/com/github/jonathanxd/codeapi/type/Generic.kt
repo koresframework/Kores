@@ -28,14 +28,13 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.GenericType.Bound
 import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.toStr
 import com.github.jonathanxd.iutils.array.ArrayUtils
-import java.util.*
+import java.util.Arrays
 
 
 /**
@@ -57,7 +56,6 @@ import java.util.*
  *
  * **Attention: All calls of the methods of [Generic] class creates a copy of the `bound` array (except the first call), if you mind performance use the [GenericTypeBuilder]**
  */
-@GenerateTo(GenericType::class)
 class Generic private constructor(name: String?, codeType: CodeType?, bounds: Array<Bound>) : GenericType {
 
     /**

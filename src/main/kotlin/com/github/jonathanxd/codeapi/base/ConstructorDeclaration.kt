@@ -30,8 +30,6 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type

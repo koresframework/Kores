@@ -31,7 +31,7 @@ package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.base.LocalCode
 import com.github.jonathanxd.codeapi.base.MethodDeclaration
-import com.github.jonathanxd.codeapi.common.InvokeType
+import com.github.jonathanxd.codeapi.base.InvokeType
 import com.github.jonathanxd.codeapi.type.CodeType
 import java.lang.reflect.Type
 

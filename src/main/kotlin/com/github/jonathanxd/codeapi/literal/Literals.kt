@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.literal
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.NullType
 import com.github.jonathanxd.codeapi.util.codeType
@@ -175,10 +174,8 @@ object Literals {
         return ClassLiteral(aClass)
     }
 
-    @GenerateTo(Literal::class)
     private class SimpleLiteral internal constructor(name: String, dataType: CodeType) : Literal(name, name, dataType)
 
-    @GenerateTo(Literal::class)
     class ClassLiteral internal constructor(type: CodeType) : Literal(type, type.canonicalName, TYPE) {
         companion object {
             private val TYPE = CodeType::class.codeType
@@ -186,7 +183,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class ByteLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
             private val TYPE = java.lang.Byte.TYPE.codeType
@@ -194,7 +190,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class ShortLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
@@ -203,7 +198,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class IntLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
             private val TYPE = java.lang.Integer.TYPE.codeType
@@ -211,7 +205,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class BoolLiteral internal constructor(value: Boolean) : Literal(value.toString(), TYPE) {
         companion object {
 
@@ -220,7 +213,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class LongLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
@@ -230,7 +222,6 @@ object Literals {
     }
 
 
-    @GenerateTo(Literal::class)
     class FloatLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
@@ -239,7 +230,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class DoubleLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
@@ -248,7 +238,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class CharLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
 
@@ -257,7 +246,6 @@ object Literals {
 
     }
 
-    @GenerateTo(Literal::class)
     class StringLiteral internal constructor(val original: String) : Literal('"' + original + '"', TYPE) {
         companion object {
 

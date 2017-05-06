@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.iutils.description.Description
 import com.github.jonathanxd.iutils.description.DescriptionUtil
 

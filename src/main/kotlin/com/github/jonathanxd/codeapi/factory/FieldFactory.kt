@@ -33,7 +33,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.FieldDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
+import com.github.jonathanxd.codeapi.base.CodeModifier
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.lang.reflect.Type
 import java.util.*

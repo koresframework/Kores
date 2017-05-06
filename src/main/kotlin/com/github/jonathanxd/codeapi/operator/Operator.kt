@@ -28,20 +28,18 @@
 package com.github.jonathanxd.codeapi.operator
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.base.Named
-import com.github.jonathanxd.codeapi.util.ToStringBuilder
+import com.github.jonathanxd.iutils.string.ToStringHelper
 
 /**
  * Operator.
  *
  * Example of operators: Increment, Decrement, Less_than, etc...
  */
-@GenerateTo(Named::class)
 sealed class Operator(override val name: String) : CodePart, Named {
 
     override fun toString(): String {
-        return ToStringBuilder.builder(this::class.java)
+        return return ToStringHelper.defaultHelper(this::class.java.simpleName)
                 .add("name", this.name)
                 .toString()
     }

@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.base.BodyHolder
 import java.lang.reflect.Modifier
 import java.util.*
 
-
 /**
  * Create a String representation of the part of this [CodePart]
  *

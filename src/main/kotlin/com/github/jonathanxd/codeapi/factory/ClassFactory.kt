@@ -35,8 +35,8 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.base.CodeModifier
+import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.emptyEnumSet
 import java.lang.reflect.Type

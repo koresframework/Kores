@@ -27,13 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 
 /**
  * Predefined test template, a class with a constructor.
@@ -54,11 +53,11 @@ public final class PredefinedTest {
 
         ConstructorDeclaration constructorDeclaration = ConstructorDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(new MutableCodeSource())
+                .withBody(MutableCodeSource.create())
                 .build();
 
         StaticBlock staticBlock = StaticBlock.Builder.Companion.builder()
-                .withBody(new MutableCodeSource())
+                .withBody(MutableCodeSource.create())
                 .build();
 
         ClassDeclaration classDeclaration = ClassDeclaration.Builder.Companion.builder()

@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
@@ -90,7 +89,6 @@ data class TryStatement(override val body: CodeSource, override val catchStateme
 /**
  * Try-catch-finally statement
  */
-@Concrete
 interface TryStatementBase : BodyHolder, Typed {
 
     override val type: Type

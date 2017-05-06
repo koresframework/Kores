@@ -34,6 +34,7 @@ import com.github.jonathanxd.codeapi.processor.CodeValidator;
 import com.github.jonathanxd.codeapi.processor.ValidationMessage;
 import com.github.jonathanxd.codeapi.processor.Validator;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.iutils.data.Data;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +53,7 @@ public class MyValidator implements CodeValidator {
 
     @NotNull
     @Override
-    public <P> List<ValidationMessage> validate(@NotNull Class<? extends P> type, @NotNull P part) {
+    public <P> List<ValidationMessage> validate(@NotNull Class<? extends P> type, @NotNull P part, @NotNull Data data) {
 
         List<ValidationMessage> messages = new ArrayList<>();
 
@@ -76,7 +77,13 @@ public class MyValidator implements CodeValidator {
 
     @NotNull
     @Override
-    public List<ValidationMessage> validate(@NotNull Object part) {
-        return CodeValidator.DefaultImpls.validate(this, part);
+    public List<ValidationMessage> validate(@NotNull Object part, @NotNull Data data) {
+        return CodeValidator.DefaultImpls.validate(this, part, data);
+    }
+
+    @NotNull
+    @Override
+    public Data createData() {
+        return new Data();
     }
 }

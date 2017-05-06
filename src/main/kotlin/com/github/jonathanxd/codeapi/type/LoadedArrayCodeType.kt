@@ -27,16 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 
 /**
- * A [CodeTypeArray] that are loaded by JVM.
+ * A [CodeTypeArray] of a [loadedType].
  *
- * @param <T> Type of the Class.
+ * @param T Type of the Class.
  */
-@GenerateTo(CodeType::class)
 internal class LoadedArrayCodeType<T>(override val loadedType: Class<T>, component: LoadedCodeType<*>, dimensions: Int) : CodeTypeArray(component, dimensions), LoadedCodeType<T> {
 
     override val isVirtual: Boolean

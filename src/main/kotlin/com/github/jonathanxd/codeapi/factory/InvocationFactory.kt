@@ -32,7 +32,10 @@ package com.github.jonathanxd.codeapi.factory
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.InvokeType
 import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.New
+import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.util.Alias
 import java.lang.reflect.Type

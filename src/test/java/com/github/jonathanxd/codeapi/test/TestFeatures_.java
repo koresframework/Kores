@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
@@ -38,9 +37,8 @@ import com.github.jonathanxd.codeapi.base.FieldDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.CodeParameter;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
@@ -71,7 +69,7 @@ public class TestFeatures_ {
     }
 
     public static MethodDeclarationBase makeCM() {
-        MutableCodeSource methodSource = new MutableCodeSource();
+        MutableCodeSource methodSource = MutableCodeSource.create();
 
         MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
@@ -104,9 +102,9 @@ public class TestFeatures_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        MutableCodeSource codeSource = new MutableCodeSource();
+        MutableCodeSource codeSource = MutableCodeSource.create();
 
-        MutableCodeSource clSource = new MutableCodeSource();
+        MutableCodeSource clSource = MutableCodeSource.create();
 
         ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
@@ -161,7 +159,7 @@ public class TestFeatures_ {
     }
 
     public static MethodDeclarationBase makeCM2() {
-        MutableCodeSource methodSource = new MutableCodeSource();
+        MutableCodeSource methodSource = MutableCodeSource.create();
 
         MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
                 .withName("check")

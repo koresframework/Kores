@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.JavaType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
@@ -86,7 +85,6 @@ object Types {
     @JvmField val CODE_TYPE: LoadedCodeType<CodeType> = PredefinedType(CodeType::class.java)
     @JvmField val CODE_PART: LoadedCodeType<CodePart> = PredefinedType(CodePart::class.java)
 
-    @GenerateTo(CodeType::class)
     private class PredefinedType<T> internal constructor(tClass: Class<T>) : JavaType<T>(tClass)
 
 }

@@ -31,8 +31,6 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type

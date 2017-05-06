@@ -27,14 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 
 /**
  * Plain string code type.
  */
-@GenerateTo(CodeType::class)
 open class PlainCodeType @JvmOverloads constructor(override val type: String,
                                                    override val isInterface: Boolean = false,
                                                    val superclass_: () -> CodeType? = { throw IllegalStateException("No super class provider") },

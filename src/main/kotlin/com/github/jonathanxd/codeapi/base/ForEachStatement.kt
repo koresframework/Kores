@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.common.IterationType
 
 /**
  * For each statement.
@@ -103,4 +102,14 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
         }
 
     }
+}
+
+/**
+ * Iteration type used to generate bytecode and source code iterations.
+ */
+enum class IterationType  {
+
+    ARRAY,
+    ITERABLE_ELEMENT
+
 }

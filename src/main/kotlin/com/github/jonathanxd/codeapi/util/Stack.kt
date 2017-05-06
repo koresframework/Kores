@@ -28,11 +28,9 @@
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
 import com.github.jonathanxd.codeapi.literal.Literal
 
 /**
  * Use JVM Stack value (is supported by `BytecodeGenerators`).
  */
-@GenerateTo(Literal::class)
 object Stack : Literal("stack", Types.OBJECT)

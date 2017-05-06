@@ -25,9 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.annotation
+package test
 
-/**
- * Default utility class (only reference)
- */
-object Default
+@Ann(name = "AnnotatedClass")
+class Annotated

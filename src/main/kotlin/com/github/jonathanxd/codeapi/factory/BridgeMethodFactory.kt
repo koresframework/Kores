@@ -28,13 +28,11 @@
 @file:JvmName("BridgeMethodFactory")
 package com.github.jonathanxd.codeapi.factory
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.base.MethodDeclaration
-import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.generic.GenericSignature

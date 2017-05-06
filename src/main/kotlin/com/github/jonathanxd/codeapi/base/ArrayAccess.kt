@@ -28,13 +28,11 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import java.lang.reflect.Type
 
 /**
  * Access to an array.
  */
-@Concrete
 interface ArrayAccess : CodePart {
 
     /**

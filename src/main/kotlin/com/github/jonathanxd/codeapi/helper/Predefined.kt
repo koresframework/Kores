@@ -25,62 +25,69 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
+@file:JvmName("Predefined")
+
 package com.github.jonathanxd.codeapi.helper
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.InvokeType
 import com.github.jonathanxd.codeapi.base.MethodInvocationBase
-import com.github.jonathanxd.codeapi.common.InvokeType
-import com.github.jonathanxd.codeapi.common.TypeSpec
+import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.factory.*
 import java.io.PrintStream
 
-object Predefined {
-    @JvmStatic
-    fun toString(part: CodePart): MethodInvocationBase {
-        return invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
-    }
+/**
+ * Invokes `Any.toString` on [part].
+ */
+fun toString(part: CodePart): MethodInvocationBase {
+    return invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
+}
 
-    @JvmStatic
-    fun intToString(part: CodePart): MethodInvocationBase {
-        return invokeStatic(String::class.java,
-                "valueOf",
-                TypeSpec(Types.STRING, listOf(Types.INT)),
-                listOf(part))
-    }
+/**
+ * Invokes `String.valueOf(int)` on [part].
+ */
+fun intToString(part: CodePart): MethodInvocationBase {
+    return invokeStatic(String::class.java,
+            "valueOf",
+            TypeSpec(Types.STRING, listOf(Types.INT)),
+            listOf(part))
+}
 
-    @JvmStatic
-    fun invokePrintln(vararg arguments: CodePart): MethodInvocationBase {
+/**
+ * Invokes `System.out.println(Any)` with concatenation of [arguments].
+ */
+fun invokePrintln(vararg arguments: CodePart): MethodInvocationBase {
 
-        val arg: CodePart = if (arguments.size == 1) {
-            arguments.single()
-        } else {
-            val helper = ConcatHelper.builder()
-            val iter = arguments.iterator()
+    val arg: CodePart = if (arguments.size == 1) {
+        arguments.single()
+    } else {
+        val helper = ConcatHelper.builder()
+        val iter = arguments.iterator()
 
-            while (iter.hasNext()) {
-                helper.concat(iter.next())
+        while (iter.hasNext()) {
+            helper.concat(iter.next())
 
-                if (iter.hasNext())
-                    helper.concat(" ")
-            }
-
-            helper.build()
+            if (iter.hasNext())
+                helper.concat(" ")
         }
 
-        return invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
-                accessStaticField(System::class.java, PrintStream::class.java, "out"),
-                "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), listOf(arg))
+        helper.build()
     }
 
-    @JvmStatic
-    fun invokePrintlnStr(part: CodePart): MethodInvocationBase {
-        return invokeVirtual(
-                PrintStream::class.java,
-                accessStaticField(System::class.java, PrintStream::class.java, "out"),
-                "println",
-                typeSpec(Types.VOID, Types.STRING),
-                listOf(part))
-    }
+    return invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
+            accessStaticField(System::class.java, PrintStream::class.java, "out"),
+            "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), listOf(arg))
+}
+
+/**
+ * Invokes `System.out.println(String)` with [part] as argument.
+ */
+fun invokePrintlnStr(part: CodePart): MethodInvocationBase {
+    return invokeVirtual(
+            PrintStream::class.java,
+            accessStaticField(System::class.java, PrintStream::class.java, "out"),
+            "println",
+            typeSpec(Types.VOID, Types.STRING),
+            listOf(part))
 }

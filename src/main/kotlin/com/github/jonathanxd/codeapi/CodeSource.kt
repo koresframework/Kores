@@ -27,196 +27,226 @@
  */
 package com.github.jonathanxd.codeapi
 
-import java.util.*
+import java.util.Spliterator
 import java.util.function.Consumer
 import java.util.stream.Stream
-import java.util.stream.StreamSupport
 
-open class CodeSource private constructor(private val parts: Array<CodePart> = emptyArray()) : Iterable<CodePart>, CodePart {
+/**
+ * Abstract [CodePart] iterable.
+ *
+ * @see ArrayCodeSource
+ * @see MutableCodeSource
+ */
+abstract class CodeSource : Iterable<CodePart>, CodePart {
 
-    protected constructor() : this(emptyArray())
+    /**
+     * Size of source.
+     */
+    abstract val size: Int
 
-    open val size: Int get() = this.parts.size
+    /**
+     * True if is empty, false otherwise.
+     */
+    val isEmpty: Boolean get() = this.size == 0
 
-    open val isEmpty: Boolean get() = this.parts.isEmpty()
+    /**
+     * True if is not empty, false otherwise.
+     */
+    val isNotEmpty: Boolean get() = !this.isEmpty
 
-    open val isNotEmpty: Boolean get() = !this.isEmpty
+    /**
+     * Gets element at index [index].
+     *
+     * @throws IndexOutOfBoundsException If the [index] is either negative or greater than [size].
+     */
+    operator fun get(index: Int): CodePart {
+        if (index < 0 || index >= this.size)
+            throw IndexOutOfBoundsException("Index: $index. Size: $size")
 
-    open operator fun get(index: Int): CodePart {
-        if (index >= this.parts.size)
-            throw IndexOutOfBoundsException("Index: " + index + ". Size: " + this.parts.size + ".")
-
-        return this.parts[index]
+        return this.getAtIndex(index)
     }
 
-    open operator fun contains(o: Any): Boolean {
-        return this.parts.any { Companion.equals(it, o) }
-    }
+    /**
+     * Gets element at index [index]. This method should only be called if the index
+     * is in the bounds.
+     */
+    abstract protected fun getAtIndex(index: Int): CodePart
 
-    open operator fun plus(other: CodePart): CodeSource {
-        return CodeSource.fromIterable(this.toList() + other)
-    }
+    /**
+     * Returns true if this [CodeSource] contains [o].
+     */
+    abstract operator fun contains(o: Any): Boolean
 
-    open operator fun minus(other: CodePart): CodeSource {
-        return CodeSource.fromIterable(this.toList() - other)
-    }
-
-    open operator fun plus(other: Iterable<CodePart>): CodeSource {
-        return CodeSource.fromIterable(this.toList() + other)
-    }
-
-    open operator fun minus(other: Iterable<CodePart>): CodeSource {
-        return CodeSource.fromIterable(this.toArray().filterNot { it in other })
-    }
-
+    /**
+     * Returns true if this [CodeSource] contains all elements of [c].
+     */
     open fun containsAll(c: Collection<*>): Boolean {
-        return c.any { this.contains(it) }
+        return c.all { this.contains(it) }
     }
 
-    open fun indexOf(o: Any): Int = this.parts.indices.firstOrNull { Companion.equals(this.parts[it], o) } ?: -1
+    /**
+     * Adds [other] to this [CodeSource].
+     */
+    abstract operator fun plus(other: CodePart): CodeSource
 
-    open fun lastIndexOf(o: Any): Int = this.parts.indices.reversed().firstOrNull { Companion.equals(this.parts[it], o) } ?: -1
+    /**
+     * Removes [other] from this [CodeSource].
+     */
+    abstract operator fun minus(other: CodePart): CodeSource
 
-    override fun forEach(action: Consumer<in CodePart>) {
-        for (part in this.parts) {
-            action.accept(part)
-        }
-    }
+    /**
+     * Adds all [CodePart] of [other] to this [CodeSource]
+     */
+    abstract operator fun plus(other: Iterable<CodePart>): CodeSource
 
-    open fun toArray(): Array<CodePart> = this.parts.clone()
+    /**
+     * Removes all [CodePart] of [other] from this [CodeSource]
+     */
+    abstract operator fun minus(other: Iterable<CodePart>): CodeSource
 
-    open fun <T> toArray(a: Array<T>): Array<T> = Arrays.copyOf(this.parts, this.parts.size, a::class.java)
+    /**
+     * Returns the index of [o] in this [CodeSource].
+     */
+    abstract fun indexOf(o: Any): Int
 
-    override fun spliterator(): Spliterator<CodePart> = Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
+    /**
+     * Returns the last index of [o] in this [CodeSource].
+     */
+    abstract fun lastIndexOf(o: Any): Int
 
-    override fun iterator(): Iterator<CodePart> = Iterat()
+    /**
+     * For each all elements of this [CodeSource].
+     */
+    abstract override fun forEach(action: Consumer<in CodePart>)
 
-    open fun subSource(fromIndex: Int, toIndex: Int): CodeSource = CodeSource(Arrays.copyOfRange(this.parts, fromIndex, toIndex))
+    /**
+     * Creates an array of [CodePart] of all elements of this [CodeSource].
+     */
+    abstract fun toArray(): Array<CodePart>
 
-    open fun toImmutable(): CodeSource = CodeSource(this.parts.clone())
+    /**
+     * Creates an array of [T] of all elements of this [CodeSource].
+     */
+    abstract fun <T : CodePart> toArray(a: Array<T>): Array<T>
 
-    open fun toMutable(): MutableCodeSource = MutableCodeSource(this)
+    /**
+     * Creates a [Spliterator] from elements of this [CodeSource].
+     */
+    abstract override fun spliterator(): Spliterator<CodePart>
 
-    open fun listIterator(): ListIterator<CodePart> = this.listIterator(0)
+    /**
+     * Creates an [Iterator] that iterates elements of this [CodeSource].
+     */
+    abstract override fun iterator(): Iterator<CodePart>
 
-    open fun listIterator(index: Int): ListIterator<CodePart> = ListIterat(index)
+    /**
+     * Creates a view of this [CodeSource] from index [fromIndex] to index [toIndex],
+     * changes to this [CodeSource] is reflected in current [CodeSource].
+     */
+    abstract fun subSource(fromIndex: Int, toIndex: Int): CodeSource
 
-    open fun stream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), false)
+    /**
+     * Creates a immutable [CodeSource] with elements of this [CodeSource].
+     */
+    open fun toImmutable(): CodeSource = ArrayCodeSource(this.toArray())
 
-    open fun parallelStream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), true)
+    /**
+     * Creates a mutable [CodeSource] with elements of this [CodeSource].
+     */
+    open fun toMutable(): MutableCodeSource = ListCodeSource(this)
+
+    /**
+     * Creates a [ListIterator] that iterates this [CodeSource].
+     */
+    abstract fun listIterator(): ListIterator<CodePart>
+
+    /**
+     * Creates a [ListIterator] that iterates this [CodeSource] and starts at [index].
+     */
+    abstract fun listIterator(index: Int): ListIterator<CodePart>
+
+    /**
+     * Creates a [Stream] of this [CodeSource].
+     */
+    abstract fun stream(): Stream<CodePart>
+
+    /**
+     * Creates a parallel [Stream] of this [CodeSource] (which may or may not be parallel).
+     */
+    abstract fun parallelStream(): Stream<CodePart>
 
     override fun toString(): String = if (this.isEmpty) "CodeSource[]" else "CodeSource[...]"
 
-    private inner class Iterat : Iterator<CodePart> {
-
-        private var index = 0
-
-        override fun hasNext(): Boolean {
-            return this.index < this@CodeSource.size
-        }
-
-        override fun next(): CodePart {
-            if (!this.hasNext())
-                throw java.util.NoSuchElementException()
-
-            return this@CodeSource[this.index++]
-        }
-    }
-
-    private inner class ListIterat internal constructor(index: Int) : ListIterator<CodePart> {
-
-        private var index = 0
-
-        init {
-            this.index = index
-        }
-
-        override fun hasNext(): Boolean {
-            return this.index < this@CodeSource.size
-        }
-
-        override fun next(): CodePart {
-            if (!this.hasNext())
-                throw java.util.NoSuchElementException()
-
-            return this@CodeSource[this.index++]
-        }
-
-        override fun hasPrevious(): Boolean {
-            return this.index - 1 >= 0
-        }
-
-        override fun previous(): CodePart {
-
-            if (!this.hasPrevious())
-                throw java.util.NoSuchElementException()
-
-            return this@CodeSource[--this.index]
-        }
-
-        override fun nextIndex(): Int {
-            return this.index
-        }
-
-        override fun previousIndex(): Int {
-            return this.index - 1
-        }
-
-    }
-
-    inline fun CodeSource(size: Int, init: (index: Int) -> CodePart): CodeSource = fromIterable(List(size, init))
-
-
+    /**
+     * Factory methods to create immutable [CodeSource].
+     */
     companion object {
         private val EMPTY = emptyArray<CodePart>()
-        private val EMPTY_CODE_SOURCE = CodeSource(EMPTY)
+        private val EMPTY_CODE_SOURCE = ArrayCodeSource(EMPTY)
 
+        /**
+         * Returns a empty immutable [CodeSource].
+         */
         @JvmStatic
         fun empty(): CodeSource {
             return CodeSource.EMPTY_CODE_SOURCE
         }
 
+        /**
+         * Creates a immutable [CodeSource] with all elements of [parts].
+         */
         @JvmStatic
         fun fromArray(parts: Array<CodePart>): CodeSource {
-            return CodeSource(parts)
+            return ArrayCodeSource(parts.clone())
         }
 
+        /**
+         * Creates a immutable [CodeSource] with a single [part].
+         */
         @JvmStatic
         fun fromPart(part: CodePart): CodeSource {
-            return CodeSource(arrayOf(part))
+            return ArrayCodeSource(arrayOf(part))
         }
 
+        /**
+         * Creates a immutable [CodeSource] with all elements of vararg [parts].
+         */
         @JvmStatic
         fun fromVarArgs(vararg parts: CodePart): CodeSource {
-            return CodeSource(Array(parts.size, { parts[it] }))
+            return ArrayCodeSource(Array(parts.size, { parts[it] }))
         }
 
+        /**
+         * Creates a immutable [CodeSource] from elements of [iterable].
+         */
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromIterable(iterable: Iterable<CodePart>): CodeSource {
             if (iterable is Collection<CodePart>)
-                return CodeSource(iterable.toTypedArray())
+                return ArrayCodeSource(iterable.toTypedArray())
 
-            return CodeSource(iterable.toList().toTypedArray())
+            return ArrayCodeSource(iterable.toList().toTypedArray())
         }
 
+        /**
+         * Creates a immutable [CodeSource] from elements of generic [iterable].
+         */
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromGenericIterable(iterable: Iterable<*>): CodeSource {
             if (iterable is Collection<*>)
-                return CodeSource((iterable as Collection<CodePart>).toTypedArray())
+                return ArrayCodeSource((iterable as Collection<CodePart>).toTypedArray())
 
-            return CodeSource((iterable as Iterable<CodePart>).toList().toTypedArray())
+            return ArrayCodeSource((iterable as Iterable<CodePart>).toList().toTypedArray())
         }
 
+        /**
+         * Creates a immutable [CodeSource] with all elements of [CodeSources][CodeSource] of [iterable].
+         */
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromCodeSourceIterable(iterable: Iterable<CodeSource>): CodeSource {
-            return CodeSource(iterable.flatMap { it }.toTypedArray())
-        }
-
-        private fun equals(a: Any?, b: Any?): Boolean {
-            return a == null && b == null || a === b || a != null && b != null && a == b
+            return ArrayCodeSource(iterable.flatMap { it }.toTypedArray())
         }
 
     }

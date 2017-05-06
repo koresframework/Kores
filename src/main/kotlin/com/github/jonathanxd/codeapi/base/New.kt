@@ -25,12 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.annotation
+package com.github.jonathanxd.codeapi.base
+
+import com.github.jonathanxd.codeapi.CodePart
+import java.lang.reflect.Type
 
 /**
- * All base class that have a concrete implementation (and builder) should be annotated with this.
- *
- * This class helps to we find classes that need to have the implementation and builder method
+ * Represents the construction of type, used to invoke constructor methods. (not `super` constructor or `this` constructor).
  */
-@Target(AnnotationTarget.CLASS)
-annotation class Concrete
+data class New(val localization: Type) : CodePart {
+
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<New, Builder> {
+        lateinit var localization: Type
+
+        constructor(defaults: New) : this() {
+            this.localization = defaults.localization
+        }
+
+        /**
+         * See [New.localization]
+         */
+        fun withLocalization(value: Type): Builder {
+            this.localization = value
+            return this
+        }
+
+        override fun build(): New = New(this.localization)
+
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: New): Builder = Builder(defaults)
+        }
+    }
+}

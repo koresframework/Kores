@@ -32,6 +32,9 @@ import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.toStr
 
+/**
+ * Generic type implementation.
+ */
 class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: Array<GenericType.Bound>) : GenericType {
 
     override val name: String

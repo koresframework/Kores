@@ -32,6 +32,9 @@ import com.github.jonathanxd.codeapi.base.Operate
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
 
+/**
+ * Operator helper.
+ */
 class OperateHelper private constructor(private var part: CodePart?) {
 
     /**

@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.codeapi.base.InvokeType
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.type.CodeType
 import java.lang.reflect.Type
 
 data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed, Comparable<MethodInvokeSpec> {

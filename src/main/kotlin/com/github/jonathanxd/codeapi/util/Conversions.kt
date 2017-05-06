@@ -29,8 +29,7 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Defaults
-import com.github.jonathanxd.codeapi.base.FieldAccess
-import com.github.jonathanxd.codeapi.base.MethodInvocationBase
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.factory.accessStatic
 import com.github.jonathanxd.codeapi.factory.accessVariable

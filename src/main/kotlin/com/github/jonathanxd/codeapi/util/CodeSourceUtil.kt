@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.ListCodeSource
 import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
@@ -160,7 +161,7 @@ fun insertBefore(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source:
  */
 fun visit(codeSource: CodeSource, consumer: (CodePart, Location, MutableCodeSource) -> Unit): MutableCodeSource {
 
-    val returnSource = MutableCodeSource()
+    val returnSource = ListCodeSource()
 
     for (codePart in codeSource) {
         consumeIfExists(codePart, { codePart0 -> consumer(codePart0, Location.BEFORE, returnSource) })

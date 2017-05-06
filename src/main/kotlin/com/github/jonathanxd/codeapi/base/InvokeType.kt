@@ -25,7 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.type.CodeType
 

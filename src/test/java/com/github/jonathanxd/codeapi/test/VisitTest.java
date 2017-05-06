@@ -27,12 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.modify.visit.VisitManager;
 
 import org.junit.Assert;
@@ -51,7 +50,7 @@ public class VisitTest {
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.ABC")
                 .withSuperClass(Types.OBJECT)
-                .withBody(new MutableCodeSource())
+                .withBody(MutableCodeSource.create())
                 .build();
 
         TypeDeclaration visit = codeClassVisitManager.visit(myClass);

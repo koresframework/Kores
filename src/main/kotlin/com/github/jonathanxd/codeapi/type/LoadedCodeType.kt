@@ -27,14 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.type.Primitive
 
 /**
- * A [CodeType] that are loaded by JVM.
+ * A [CodeType] backing to a loaded [Class] ([loadedType]).
  *
- * @param T  Type of the Class.
+ * @param T Type of the Class.
  */
 interface LoadedCodeType<T> : CodeType {
 

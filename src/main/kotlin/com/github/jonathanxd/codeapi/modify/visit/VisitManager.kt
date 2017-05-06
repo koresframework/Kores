@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.modify.visit
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.util.gento.GenToUtil
 import com.github.jonathanxd.iutils.data.Data
 import java.util.*
 
@@ -39,8 +38,7 @@ import java.util.*
  * that isn't accessible from the implementation, if you want to control the register behavior
  * override these methods.
  *
- * The [getVisitor] method is always called to find a registered visitor, the default implementation
- * tries to determine the visitor calling [GenToUtil.get] method with [CodePart class][CodePart] and [visitors] as argument.
+ * The [getVisitor] method is always called to find a registered visitor.
  */
 open class VisitManager<T : CodePart> {
 
@@ -80,8 +78,8 @@ open class VisitManager<T : CodePart> {
         return visitor.visit(part, data, this) as T
     }
 
-    @Suppress("UNCHECKED_CAST", "DEPRECATION") // May be removed in the future, at any time.
+    @Suppress("UNCHECKED_CAST")
     protected open fun <U : CodePart> getVisitor(type: Class<*>): PartVisitor<U> {
-        return GenToUtil.get(type, this.visitors) as PartVisitor<U>
+        return this.visitors[type] as PartVisitor<U>
     }
 }

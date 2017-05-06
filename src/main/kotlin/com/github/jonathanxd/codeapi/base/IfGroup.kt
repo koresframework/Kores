@@ -25,11 +25,39 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.base.TypeDeclaration
-import com.github.jonathanxd.codeapi.util.MemberInfosUtil
+import com.github.jonathanxd.codeapi.CodePart
 
-data class InnerType(val originalDeclaration: TypeDeclaration, var adaptedDeclaration: TypeDeclaration) {
-    val memberInfos: MemberInfos = MemberInfosUtil.createMemberInfos(this.adaptedDeclaration)
+/**
+ * Group of if expressions.
+ *
+ * @property expressions Same rules of [IfExpressionHolder.expressions] applies to [expressions].
+ */
+data class IfGroup(override val expressions: List<CodePart>) : CodePart, IfExpressionHolder {
+
+    override fun builder(): Builder = Builder(this)
+
+    class Builder() : IfExpressionHolder.Builder<IfGroup, Builder> {
+
+        var expressions: List<CodePart> = emptyList()
+
+        constructor(defaults: IfGroup) : this() {
+            this.expressions = defaults.expressions
+        }
+
+        override fun withExpressions(value: List<CodePart>): Builder {
+            this.expressions = value
+            return this
+        }
+
+        override fun withExpressions(vararg values: CodePart): Builder {
+            this.expressions = values.toList()
+            return this
+        }
+
+        override fun build(): IfGroup = IfGroup(this.expressions)
+
+    }
+
 }

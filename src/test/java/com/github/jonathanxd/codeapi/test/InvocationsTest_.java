@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
@@ -42,11 +41,11 @@ import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.DynamicInvocationFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
@@ -133,8 +132,8 @@ public class InvocationsTest_ {
     }
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        MutableCodeSource codeSource = new MutableCodeSource();
-        MutableCodeSource clSource = new MutableCodeSource();
+        MutableCodeSource codeSource = MutableCodeSource.create();
+        MutableCodeSource clSource = MutableCodeSource.create();
 
         ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
@@ -187,7 +186,7 @@ public class InvocationsTest_ {
     }
 
     public static MethodDeclarationBase makeCM2(TypeDeclaration typeDeclaration) {
-        MutableCodeSource methodSource = new MutableCodeSource();
+        MutableCodeSource methodSource = MutableCodeSource.create();
 
         MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)

@@ -25,11 +25,8 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.base.*
-import com.github.jonathanxd.codeapi.base.Annotation
-import com.github.jonathanxd.codeapi.type.CodeType
 import java.lang.reflect.Type
 
 data class CodeParameter(override val annotations: List<Annotation>, override val modifiers: Set<CodeModifier>, override val type: Type, override val name: String) : Typed, Named, Annotable, ModifiersHolder {
@@ -39,7 +36,7 @@ data class CodeParameter(override val annotations: List<Annotation>, override va
             Named.Builder<CodeParameter, Builder>,
             Typed.Builder<CodeParameter, Builder>,
             Annotable.Builder<CodeParameter, Builder>,
-    ModifiersHolder.Builder<CodeParameter, Builder> {
+            ModifiersHolder.Builder<CodeParameter, Builder> {
 
         var modifiers: Set<CodeModifier> = emptySet()
         var annotations: List<Annotation> = emptyList()

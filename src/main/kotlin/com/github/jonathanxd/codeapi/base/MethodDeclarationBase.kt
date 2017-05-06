@@ -30,12 +30,8 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
-import com.github.jonathanxd.codeapi.common.CodeParameter
-import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import java.lang.reflect.Type
 
@@ -138,7 +134,6 @@ data class MethodDeclaration(override val comments: Comments,
 /**
  * Method declaration
  */
-@Concrete
 interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
 
     override val type: Type

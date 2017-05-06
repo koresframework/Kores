@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.common.TypeSpec
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 

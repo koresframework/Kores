@@ -28,10 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
-import com.github.jonathanxd.codeapi.common.InvokeType
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.common.New
 import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
@@ -107,7 +104,6 @@ data class MethodInvocation(override val invokeType: InvokeType,
 /**
  * Invokes a method.
  */
-@Concrete
 interface MethodInvocationBase : Accessor, ArgumentHolder, Typed {
 
     override val types: List<Type>

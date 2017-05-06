@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
@@ -35,8 +34,8 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.LocalCode;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.InvokeType;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.FieldFactory;
@@ -57,7 +56,7 @@ public class MethodFragment_ {
 
     public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
 
-        MutableCodeSource source = new MutableCodeSource();
+        MutableCodeSource source = MutableCodeSource.create();
 
         ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.MethodFragment", CodeSource.fromVarArgs(
                 MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID,

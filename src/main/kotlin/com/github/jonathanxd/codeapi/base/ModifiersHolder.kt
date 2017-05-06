@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.CodeModifier
 
 /**
  * A element that have modifiers.

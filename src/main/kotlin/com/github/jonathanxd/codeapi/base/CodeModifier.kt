@@ -25,11 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.common
+package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.common.ModifierType.*
+import com.github.jonathanxd.codeapi.base.ModifierType.*
 
+/**
+ * Modifiers enum.
+ *
+ * @property modifierType Type of modifier.
+ * @property expr Modifier name.
+ */
 enum class CodeModifier(val modifierType: ModifierType, expr_: String? = null) : CodePart {
 
     PUBLIC(VISIBILITY), PROTECTED(VISIBILITY), PRIVATE(VISIBILITY), PACKAGE_PRIVATE(VISIBILITY, ""),
@@ -43,5 +49,43 @@ enum class CodeModifier(val modifierType: ModifierType, expr_: String? = null) :
     ENUM(OTHER), MANDATED(OTHER);
 
     val expr: String = expr_ ?: this.name.toLowerCase()
+
+}
+
+/**
+ * Modifier type enum.
+ */
+enum class ModifierType {
+
+    /**
+     * - No Visibility Modifiers
+     *
+     * - Public, Protected Private
+     */
+    VISIBILITY,
+
+    /**
+     * - Synchronized
+     *
+     * - Volatile
+     */
+    CONCURRENCY,
+
+    /**
+     * - Transient
+     */
+    SERIALIZATION,
+
+    /**
+     * - Default
+     *
+     * - Abstract
+     */
+    ABSTRACTION,
+
+    /**
+     * - Other Modifiers like: Static, Final
+     */
+    OTHER
 
 }

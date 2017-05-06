@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.annotation.Concrete
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
@@ -45,7 +44,6 @@ import java.util.function.Supplier
  * Note: this class does not extends [MethodInvocationBase] because it is not
  * a normal invocation.
  */
-@Concrete
 interface InvokeDynamicBase : Typed {
 
     /**
@@ -98,7 +96,6 @@ interface InvokeDynamicBase : Typed {
     /**
      * Dynamic invocation of lambda method reference.
      */
-    @Concrete
     interface LambdaMethodRefBase : InvokeDynamicBase {
 
         override val type: Type
@@ -157,7 +154,6 @@ interface InvokeDynamicBase : Typed {
     /**
      * Invocation of lambda function.
      */
-    @Concrete
     interface LambdaLocalCodeBase : LambdaMethodRefBase, ArgumentHolder {
 
         override val expectedTypes: TypeSpec

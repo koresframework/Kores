@@ -27,12 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.factory.accessStatic
 import com.github.jonathanxd.codeapi.factory.accessThis
 import com.github.jonathanxd.codeapi.util.Alias

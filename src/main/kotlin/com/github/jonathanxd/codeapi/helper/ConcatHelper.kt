@@ -32,31 +32,49 @@ import com.github.jonathanxd.codeapi.base.Concat
 import com.github.jonathanxd.codeapi.literal.Literals
 import java.util.*
 
+/**
+ * Concatenation helper.
+ */
 class ConcatHelper private constructor() {
 
     private val concatenations = ArrayList<CodePart>()
 
+    /**
+     * Concatenate [codePart].
+     */
     fun concat(codePart: CodePart): ConcatHelper {
         this.concatenations.add(codePart)
         return this
     }
 
+    /**
+     * Concatenate [str].
+     */
     fun concat(str: String): ConcatHelper {
         this.concatenations.add(Literals.STRING(str))
         return this
     }
 
+    /**
+     * Builds [Concat] instance with concatenations.
+     */
     fun build(): Concat {
         return Concat(this.concatenations)
     }
 
     companion object {
 
+        /**
+         * Creates a [ConcatHelper] instance.
+         */
         @JvmStatic
         fun builder(): ConcatHelper {
             return ConcatHelper()
         }
 
+        /**
+         * Creates a [ConcatHelper] instance and concatenate [part].
+         */
         @JvmStatic
         fun builder(part: CodePart): ConcatHelper {
             val concatHelper = ConcatHelper()
@@ -64,6 +82,9 @@ class ConcatHelper private constructor() {
             return concatHelper.concat(part)
         }
 
+        /**
+         * Creates a [ConcatHelper] instance and concatenate [str].
+         */
         @JvmStatic
         fun builder(str: String): ConcatHelper {
             val concatHelper = ConcatHelper()

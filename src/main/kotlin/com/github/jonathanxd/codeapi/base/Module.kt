@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.common.CodeModifier
 import java.lang.reflect.Type
 
 /**

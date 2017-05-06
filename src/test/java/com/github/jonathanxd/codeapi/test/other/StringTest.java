@@ -27,13 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
-import com.github.jonathanxd.codeapi.CodeAPI;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.common.CodeModifier;
-import com.github.jonathanxd.codeapi.common.TypeSpec;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.util.ToString;
@@ -46,7 +45,7 @@ public class StringTest {
     @Test
     public void test() {
 
-        MutableCodeSource source = new MutableCodeSource();
+        MutableCodeSource source = MutableCodeSource.create();
 
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)

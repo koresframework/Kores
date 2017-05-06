@@ -27,106 +27,62 @@
  */
 package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.annotation.GenerateTo
-import java.util.*
+import java.util.ArrayList
+import java.util.Comparator
+import java.util.Spliterator
 import java.util.function.Consumer
 import java.util.function.Predicate
 import java.util.function.UnaryOperator
 import java.util.stream.Stream
 
 /**
- * A mutable [CodeSource] backing to a [ArrayList].
+ * A mutable [CodeSource] backing to a [ArrayList] instead of to an [Array].
  */
-@GenerateTo(CodeSource::class)
-class MutableCodeSource : CodeSource, Cloneable {
+abstract class MutableCodeSource : CodeSource(), Cloneable {
 
-    private val backingList: BackingArrayList
+    /**
+     * Removes all [CodePart] that matches [filter].
+     */
+    abstract fun removeIf(filter: Predicate<in CodePart>): Boolean
 
-    constructor() : super() {
-        this.backingList = BackingArrayList()
-    }
+    /**
+     * Replaces each element with element returned by [operator].
+     */
+    abstract fun replaceAll(operator: UnaryOperator<CodePart>)
 
-    constructor(iterable: Iterable<CodePart>) : super() {
-        this.backingList = BackingArrayList(iterable)
-    }
+    /**
+     * Sorts this [MutableCodeSource] using [Comparator] [c].
+     */
+    abstract fun sort(c: Comparator<in CodePart>)
 
-    constructor(a: Array<CodePart>) : super() {
-        this.backingList = BackingArrayList(a)
-    }
+    /**
+     * Trim backing list to [size].
+     */
+    abstract fun trimToSize()
 
-    override val size: Int
-        get() = this.backingList.size
+    /**
+     * Ensure backing list capacity.
+     */
+    abstract fun ensureCapacity(minCapacity: Int)
 
-    override val isEmpty: Boolean
-        get() = this.backingList.isEmpty()
+    /**
+     * Adds [codePart] to list.
+     */
+    abstract fun add(codePart: CodePart): Boolean
 
-    override val isNotEmpty: Boolean
-        get() = !this.isEmpty
+    /**
+     * Removes [o] from list.
+     */
+    abstract fun remove(o: Any): Boolean
 
-    override operator fun plus(other: CodePart): MutableCodeSource {
-        return MutableCodeSource(this.backingList + other)
-    }
+    /**
+     * Adds all [CodePart] of [c] into this list.
+     */
+    abstract fun addAll(c: Collection<CodePart>): Boolean
 
-    override operator fun minus(other: CodePart): MutableCodeSource {
-        return MutableCodeSource(this.backingList - other)
-    }
-
-    override operator fun plus(other: Iterable<CodePart>): MutableCodeSource {
-        return MutableCodeSource(this.backingList + other)
-    }
-
-    override operator fun minus(other: Iterable<CodePart>): MutableCodeSource {
-        return MutableCodeSource(this.backingList - other)
-    }
-
-    operator fun plusAssign(other: Iterable<CodePart>) {
-        this.addAll(other)
-    }
-
-    operator fun minusAssign(other: Iterable<CodePart>) {
-        this.removeAll(other)
-    }
-
-    operator fun plusAssign(other: CodePart) {
-        this.add(other)
-    }
-
-    operator fun minusAssign(other: CodePart) {
-        this.remove(other)
-    }
-
-    override fun contains(o: Any): Boolean {
-        return this.backingList.contains(o)
-    }
-
-    override fun iterator(): Iterator<CodePart> {
-        return this.backingList.iterator()
-    }
-
-    override fun toArray(): Array<CodePart> {
-        return this.backingList.toTypedArray()
-    }
-
-    override fun <T> toArray(a: Array<T>): Array<T> {
-        return this.backingList.toArray(a)
-    }
-
-    fun add(codePart: CodePart): Boolean {
-        return this.backingList.add(codePart)
-    }
-
-    fun remove(o: Any): Boolean {
-        return this.backingList.remove(o)
-    }
-
-    override fun containsAll(c: Collection<*>): Boolean {
-        return this.backingList.containsAll(c)
-    }
-
-    fun addAll(c: Collection<CodePart>): Boolean {
-        return this.backingList.addAll(c)
-    }
-
+    /**
+     * Adds all [CodePart] of [c] into this list.
+     */
     fun addAll(c: Iterable<CodePart>): Boolean {
         var any = false
 
@@ -137,164 +93,84 @@ class MutableCodeSource : CodeSource, Cloneable {
         return any
     }
 
-    fun addAll(index: Int, c: Collection<CodePart>): Boolean {
-        return this.backingList.addAll(index, c)
-    }
+    /**
+     * Adds all [CodePart] of [c] into this list at [index].
+     */
+    abstract fun addAll(index: Int, c: Collection<CodePart>): Boolean
 
-    fun addAll(index: Int, c: Iterable<CodePart>): Boolean {
-        return this.addAll(index, c.toList())
-    }
+    /**
+     * Adds all [CodePart] of [c] into this list at [index].
+     */
+    abstract fun addAll(index: Int, c: Iterable<CodePart>): Boolean
 
-    fun removeAll(c: Collection<*>): Boolean {
-        return this.backingList.removeAll(c)
-    }
+    /**
+     * Removes all elements which is present in [c] from this list.
+     */
+    abstract fun removeAll(c: Collection<*>): Boolean
 
-    fun retainAll(c: Collection<*>): Boolean {
-        return this.backingList.retainAll(c)
-    }
+    /**
+     * Retains all elements which is present in [c] in this list.
+     */
+    abstract fun retainAll(c: Collection<*>): Boolean
 
-    fun removeAll(c: Iterable<CodePart>): Boolean {
-        return this.backingList.removeAll(c)
-    }
+    /**
+     * Removes all elements which is present in [c] from this list.
+     */
+    abstract fun removeAll(c: Iterable<CodePart>): Boolean
 
-    fun retainAll(c: Iterable<CodePart>): Boolean {
-        return this.backingList.retainAll(c)
-    }
+    /**
+     * Retains all elements which is present in [c] in this list.
+     */
+    abstract fun retainAll(c: Iterable<CodePart>): Boolean
 
-    fun clear() {
-        this.backingList.clear()
-    }
+    /**
+     * Clears this list.
+     */
+    abstract fun clear()
 
-    override fun get(index: Int): CodePart {
-        return this.backingList[index]
-    }
+    /**
+     * Adds [element] at [index].
+     */
+    abstract fun add(index: Int, element: CodePart)
 
-    operator fun set(index: Int, element: CodePart): CodePart {
-        return this.backingList.set(index, element)
-    }
+    /**
+     * Sets element at [index] to [element].
+     */
+    abstract operator fun set(index: Int, element: CodePart): CodePart
 
-    fun add(index: Int, element: CodePart) {
-        this.backingList.add(index, element)
-    }
+    /**
+     * Removes [CodePart] which is at [index]. And returns removed element.
+     */
+    abstract fun remove(index: Int): CodePart
 
-    fun remove(index: Int): CodePart {
-        return this.backingList.removeAt(index)
-    }
+    /**
+     * Adds all elements of [other] to this list.
+     */
+    abstract operator fun plusAssign(other: Iterable<CodePart>)
 
-    override fun indexOf(o: Any): Int {
-        return this.backingList.indexOf(o)
-    }
+    /**
+     * Removes all elements of [other] from this list.
+     */
+    abstract operator fun minusAssign(other: Iterable<CodePart>)
 
-    override fun lastIndexOf(o: Any): Int {
-        return this.backingList.lastIndexOf(o)
-    }
+    /**
+     * Adds [other] to this list.
+     */
+    abstract operator fun plusAssign(other: CodePart)
 
-    override fun listIterator(): ListIterator<CodePart> {
-        return this.backingList.listIterator()
-    }
-
-    override fun listIterator(index: Int): ListIterator<CodePart> {
-        return this.backingList.listIterator(index)
-    }
-
-    fun subList(fromIndex: Int, toIndex: Int): List<CodePart> {
-        return this.backingList.subList(fromIndex, toIndex)
-    }
-
-    protected fun removeRange(fromIndex: Int, toIndex: Int) {
-        this.backingList.removeRange(fromIndex, toIndex)
-    }
-
-    fun removeIf(filter: Predicate<in CodePart>): Boolean {
-        return this.backingList.removeIf(filter)
-    }
-
-    fun replaceAll(operator: UnaryOperator<CodePart>) {
-        this.backingList.replaceAll(operator)
-    }
-
-    fun sort(c: Comparator<in CodePart>) {
-        this.backingList.sortedWith(c)
-    }
-
-    fun trimToSize() {
-        this.backingList.trimToSize()
-    }
-
-    fun ensureCapacity(minCapacity: Int) {
-        this.backingList.ensureCapacity(minCapacity)
-    }
-
-    override fun clone(): Any {
-        return this.backingList.clone()
-    }
-
-    override fun forEach(action: Consumer<in CodePart>) {
-        this.backingList.forEach(action)
-    }
-
-    override fun spliterator(): Spliterator<CodePart> {
-        return this.backingList.spliterator()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return this.backingList == other
-    }
-
-    override fun hashCode(): Int {
-        return this.backingList.hashCode()
-    }
+    /**
+     * Removes [other] from this list.
+     */
+    abstract operator fun minusAssign(other: CodePart)
 
     override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
-    override fun stream(): Stream<CodePart> {
-        return this.backingList.stream()
+    companion object {
+
+        /**
+         * Create a [MutableCodeSource].
+         */
+        @JvmStatic
+        fun create(): MutableCodeSource = ListCodeSource()
     }
-
-    override fun parallelStream(): Stream<CodePart> {
-        return this.backingList.parallelStream()
-    }
-
-    override fun toImmutable(): CodeSource {
-        return CodeSource.fromArray(this.toArray())
-    }
-
-    override fun toMutable(): MutableCodeSource {
-        return MutableCodeSource(this)
-    }
-
-
-    /**
-     * Exposes [removeRange]
-     */
-    private class BackingArrayList : ArrayList<CodePart> {
-        constructor() : super()
-
-        constructor(c: Iterable<CodePart>?) : super() {
-
-            if (c != null)
-                for (part in c) {
-                    this.add(part)
-                }
-
-        }
-
-        constructor(a: Array<CodePart>?) {
-            if (a != null)
-                for (part in a) {
-                    this.add(part)
-                }
-        }
-
-        public override fun removeRange(fromIndex: Int, toIndex: Int) {
-            super.removeRange(fromIndex, toIndex)
-        }
-    }
-
-    inline fun MutableCodeSource(size: Int, init: (index: Int) -> CodePart): MutableCodeSource =
-            MutableCodeSource().let {
-                for (i in 0..size - 1) it += init(i)
-                return@let it
-            }
-
 }
