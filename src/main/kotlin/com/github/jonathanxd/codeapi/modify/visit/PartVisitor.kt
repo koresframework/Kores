@@ -27,12 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.modify.visit
 
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.iutils.data.Data
 
 /**
  * Visitor that transforms part [U].
  */
-interface PartVisitor<U : CodePart> {
+interface PartVisitor<U : Any> {
+
+    /**
+     * Visits part of type [U].
+     */
     fun visit(codePart: U, data: Data, visitManager: VisitManager<*>): U
 }

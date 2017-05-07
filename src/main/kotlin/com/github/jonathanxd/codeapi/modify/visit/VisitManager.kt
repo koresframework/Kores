@@ -27,9 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.modify.visit
 
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.iutils.data.Data
-import java.util.*
+import java.util.Collections
+import java.util.HashMap
 
 /**
  * Manager of visitor of part [T].
@@ -40,46 +40,78 @@ import java.util.*
  *
  * The [getVisitor] method is always called to find a registered visitor.
  */
-open class VisitManager<T : CodePart> {
+open class VisitManager<T : Any> {
 
+    /**
+     * Registered visitors.
+     */
     private val partVisitorMap = HashMap<Class<*>, PartVisitor<*>>()
+
+    /**
+     * Unmodifiable view of registered visitors.
+     */
     val visitors = Collections.unmodifiableMap(this.partVisitorMap)
 
-    open fun <U : CodePart> register(type: Class<U>, visitor: PartVisitor<U>) {
+    /**
+     * Registers visitor of [type].
+     */
+    open fun <U : Any> register(type: Class<U>, visitor: PartVisitor<U>) {
         this.partVisitorMap.put(type, visitor)
     }
 
-    open fun <U : CodePart> registerSuper(type: Class<U>, visitor: PartVisitor<in U>) {
+    /**
+     * Registers a visitor of [type]. (super variance).
+     */
+    open fun <U : Any> registerSuper(type: Class<U>, visitor: PartVisitor<in U>) {
         this.partVisitorMap.put(type, visitor)
     }
 
+    /**
+     * Register a generic visitor of [type].
+     */
     open fun registerGeneric(type: Class<*>, visitor: PartVisitor<*>) {
         this.partVisitorMap.put(type, visitor)
     }
 
+    /**
+     * Visits [part]
+     */
     @Suppress("UNCHECKED_CAST")
-    fun <U : CodePart> visit(part: U, data: Data): U {
-        return this.getVisitor<CodePart>(part::class.java).visit(part, data, this) as U
+    fun <U : Any> visit(part: U, data: Data): U {
+        return this.getNonNullVisitor<U>(part::class.java).visit(part, data, this)
     }
 
+    /**
+     * Visits [part] of [type].
+     */
     @Suppress("UNCHECKED_CAST")
-    fun <U : CodePart> visit(type: Class<U>, part: U, data: Data): U {
-        return this.getVisitor<CodePart>(type).visit(part, data, this) as U
+    fun <U : Any> visit(type: Class<U>, part: U, data: Data): U {
+        return this.getNonNullVisitor<U>(type).visit(part, data, this)
     }
 
+    /**
+     * Visits [part].
+     */
     @Suppress("UNCHECKED_CAST")
     fun visit(part: T): T {
         val aClass = part::class.java
 
         val data = Data()
 
-        val visitor = this.getVisitor<CodePart>(aClass)
+        val visitor = this.getNonNullVisitor<T>(aClass)
 
-        return visitor.visit(part, data, this) as T
+        return visitor.visit(part, data, this)
     }
 
+    private fun <U : Any> getNonNullVisitor(type: Class<*>): PartVisitor<U> {
+        return this.getVisitor<U>(type) ?: throw IllegalArgumentException("Required visitor of '$type' not registered!")
+    }
+
+    /**
+     * Gets the visitor of [type].
+     */
     @Suppress("UNCHECKED_CAST")
-    protected open fun <U : CodePart> getVisitor(type: Class<*>): PartVisitor<U> {
-        return this.visitors[type] as PartVisitor<U>
+    protected open fun <U : Any> getVisitor(type: Class<*>): PartVisitor<U>? {
+        return this.visitors[type] as? PartVisitor<U>
     }
 }

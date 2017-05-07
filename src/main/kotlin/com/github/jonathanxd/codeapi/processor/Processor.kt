@@ -36,7 +36,7 @@ import java.lang.reflect.Type
 /**
  * CodeProcessor transforms [Any] into [R].
  *
- * Supported types depends on implementation..
+ * Supported types depends on implementation.
  */
 interface CodeProcessor<out R> {
 
