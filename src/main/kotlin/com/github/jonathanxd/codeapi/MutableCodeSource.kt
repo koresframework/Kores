@@ -29,11 +29,8 @@ package com.github.jonathanxd.codeapi
 
 import java.util.ArrayList
 import java.util.Comparator
-import java.util.Spliterator
-import java.util.function.Consumer
 import java.util.function.Predicate
 import java.util.function.UnaryOperator
-import java.util.stream.Stream
 
 /**
  * A mutable [CodeSource] backing to a [ArrayList] instead of to an [Array].
@@ -54,16 +51,6 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
      * Sorts this [MutableCodeSource] using [Comparator] [c].
      */
     abstract fun sort(c: Comparator<in CodePart>)
-
-    /**
-     * Trim backing list to [size].
-     */
-    abstract fun trimToSize()
-
-    /**
-     * Ensure backing list capacity.
-     */
-    abstract fun ensureCapacity(minCapacity: Int)
 
     /**
      * Adds [codePart] to list.
@@ -172,5 +159,18 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
          */
         @JvmStatic
         fun create(): MutableCodeSource = ListCodeSource()
+
+        /**
+         * Create a [MutableCodeSource] from a copy of [list].
+         */
+        @JvmStatic
+        fun create(list: List<CodePart>): MutableCodeSource = ListCodeSource(list.toMutableList())
+
+        /**
+         * Create a [MutableCodeSource] delegating to [list].
+         */
+        @JvmStatic
+        fun createFromOriginal(list: MutableList<CodePart>): MutableCodeSource = ListCodeSource(list)
+
     }
 }

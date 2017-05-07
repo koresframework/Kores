@@ -32,7 +32,7 @@ package com.github.jonathanxd.codeapi.helper
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.InvokeType
-import com.github.jonathanxd.codeapi.base.MethodInvocationBase
+import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.factory.*
 import java.io.PrintStream
@@ -40,14 +40,14 @@ import java.io.PrintStream
 /**
  * Invokes `Any.toString` on [part].
  */
-fun toString(part: CodePart): MethodInvocationBase {
+fun toString(part: CodePart): MethodInvocation {
     return invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
 }
 
 /**
  * Invokes `String.valueOf(int)` on [part].
  */
-fun intToString(part: CodePart): MethodInvocationBase {
+fun intToString(part: CodePart): MethodInvocation {
     return invokeStatic(String::class.java,
             "valueOf",
             TypeSpec(Types.STRING, listOf(Types.INT)),
@@ -57,7 +57,7 @@ fun intToString(part: CodePart): MethodInvocationBase {
 /**
  * Invokes `System.out.println(Any)` with concatenation of [arguments].
  */
-fun invokePrintln(vararg arguments: CodePart): MethodInvocationBase {
+fun invokePrintln(vararg arguments: CodePart): MethodInvocation {
 
     val arg: CodePart = if (arguments.size == 1) {
         arguments.single()
@@ -83,7 +83,7 @@ fun invokePrintln(vararg arguments: CodePart): MethodInvocationBase {
 /**
  * Invokes `System.out.println(String)` with [part] as argument.
  */
-fun invokePrintlnStr(part: CodePart): MethodInvocationBase {
+fun invokePrintlnStr(part: CodePart): MethodInvocation {
     return invokeVirtual(
             PrintStream::class.java,
             accessStaticField(System::class.java, PrintStream::class.java, "out"),

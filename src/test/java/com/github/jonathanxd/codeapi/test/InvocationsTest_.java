@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.base.InvokeDynamic;
 import com.github.jonathanxd.codeapi.base.LocalCode;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
-import com.github.jonathanxd.codeapi.base.MethodInvocationBase;
+import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
@@ -213,7 +213,7 @@ public class InvocationsTest_ {
                 VariableFactory.variable(CodeTypes.getCodeType(Greeter.class), "greeter", InvocationFactory.invokeConstructor(CodeTypes.getCodeType(WorldGreeter.class)))
         );
 
-        MethodInvocationBase greetingInvoke = InvocationFactory.invoke(
+        MethodInvocation greetingInvoke = InvocationFactory.invoke(
                 InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
                 "hello",
                 Factories.typeSpec(Types.STRING),

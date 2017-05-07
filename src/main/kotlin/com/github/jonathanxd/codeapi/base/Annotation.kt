@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import java.lang.reflect.Type
 
-typealias CodeAnnotation = Annotation
+public typealias CodeAnnotation = Annotation
 
 /**
  * An annotation, an annotation is composed by a pair of property name and property value.

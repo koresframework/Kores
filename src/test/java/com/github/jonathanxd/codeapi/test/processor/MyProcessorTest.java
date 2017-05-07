@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.builder.Builder;
+import com.github.jonathanxd.codeapi.exception.ValidationException;
 import com.github.jonathanxd.codeapi.literal.Literals;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +55,7 @@ public class MyProcessorTest {
         Assert.assertEquals("java.lang.String name = \"CodeAPI\"", process);
     }
 
-    @Test
+    @Test(expected = ValidationException.class)
     public void testValidation() {
         MyProcessor myProcessor = new MyProcessor();
 

@@ -82,8 +82,6 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
 
     override fun toArray(): Array<CodePart> = this.parts.clone()
 
-    override fun <T: CodePart> toArray(a: Array<T>): Array<T> = Arrays.copyOf(this.parts, this.parts.size, a::class.java)
-
     override fun spliterator(): Spliterator<CodePart> = Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
 
     override fun iterator(): Iterator<CodePart> = Iterat()

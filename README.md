@@ -9,6 +9,30 @@ Class structure representation.
 [BytecodeReader](https://github.com/JonathanxD/CodeAPI-BytecodeReader)
 
 
-# 4.0.0
+# Systems
 
-The 4.0.0 development is stopped until Kotlin Team fixes the issue with IntelliJ Plugin that causes Kotlin compiler to crash when using annotation processors.
+CodeAPI-Base module has 8 systems which may be interdependent:
+
+- Structure (aka `base`)
+  - Structure of the code, like classes, methods, fields, variable assignment, etc.
+ 
+- Builder
+  - Builder of instances, like structure instances and common classes instances.
+  
+- Factory
+  - Factory of instances, like structure instances and common classes instances.
+  
+- Conversion
+  - Conversions between types, from/to CodeAPI type to/from other types.
+  
+- Inspection (only `inspect` package)
+  - Inspection of `CodeSource` and elements inside `BodyHolder`s.
+  
+- Generator
+  - Generator from CodeAPI types to other types.
+  
+- Validator
+  - CodeAPI types structure validator.
+  
+- Misc
+  - Miscellaneous: cover all other systems, it includes `utility classes`, `modify.visit package`, `helper` classes, etc...

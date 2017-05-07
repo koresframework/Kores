@@ -41,7 +41,7 @@ import java.util.function.Supplier
 /**
  * A dynamic invocation of a method.
  *
- * Note: this class does not extends [MethodInvocationBase] because it is not
+ * Note: this class does not extends [MethodInvocation] because it is not
  * a normal invocation.
  */
 interface InvokeDynamicBase : Typed {
@@ -59,7 +59,7 @@ interface InvokeDynamicBase : Typed {
     /**
      * Invocation to handle dynamically.
      */
-    val invocation: MethodInvocationBase
+    val invocation: MethodInvocation
 
     /**
      * Bootstrap method Arguments, must be an [String], [Int],
@@ -80,7 +80,7 @@ interface InvokeDynamicBase : Typed {
         /**
          * See [T.invocation]
          */
-        fun withInvocation(value: MethodInvocationBase): S
+        fun withInvocation(value: MethodInvocation): S
 
         /**
          * See [T.args]
@@ -188,7 +188,7 @@ interface InvokeDynamicBase : Typed {
             override fun withBootstrap(value: MethodInvokeSpec): S = self()
             override fun withArgs(value: List<Any>): S = self()
             override fun withExpectedTypes(value: TypeSpec): S = self()
-            override fun withInvocation(value: MethodInvocationBase): S = self()
+            override fun withInvocation(value: MethodInvocation): S = self()
 
             /**
              * See [T.localCode]
@@ -200,7 +200,7 @@ interface InvokeDynamicBase : Typed {
 
 }
 
-data class InvokeDynamic(override val type: Type, override val bootstrap: MethodInvokeSpec, override val invocation: MethodInvocationBase, override val args: List<Any>) : InvokeDynamicBase {
+data class InvokeDynamic(override val type: Type, override val bootstrap: MethodInvokeSpec, override val invocation: MethodInvocation, override val args: List<Any>) : InvokeDynamicBase {
 
     override fun builder(): InvokeDynamic.Builder = InvokeDynamic.Builder(this)
 
@@ -209,7 +209,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
 
         lateinit var type: Type
         lateinit var bootstrap: MethodInvokeSpec
-        lateinit var invocation: MethodInvocationBase
+        lateinit var invocation: MethodInvocation
         var args: List<Any> = emptyList()
 
         constructor(defaults: InvokeDynamic) : this() {
@@ -229,7 +229,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
             return this
         }
 
-        override fun withInvocation(value: MethodInvocationBase): Builder {
+        override fun withInvocation(value: MethodInvocation): Builder {
             this.invocation = value
             return this
         }
@@ -251,14 +251,14 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
 
     }
 
-    data class LambdaMethodRef(override val invocation: MethodInvocationBase, override val baseSam: MethodTypeSpec, override val expectedTypes: TypeSpec) : InvokeDynamicBase.LambdaMethodRefBase {
+    data class LambdaMethodRef(override val invocation: MethodInvocation, override val baseSam: MethodTypeSpec, override val expectedTypes: TypeSpec) : InvokeDynamicBase.LambdaMethodRefBase {
 
         override fun builder(): LambdaMethodRef.Builder = LambdaMethodRef.Builder(this)
 
         class Builder() :
                 InvokeDynamicBase.LambdaMethodRefBase.Builder<LambdaMethodRef, Builder> {
 
-            lateinit var invocation: MethodInvocationBase
+            lateinit var invocation: MethodInvocation
             lateinit var baseSam: MethodTypeSpec
             lateinit var expectedTypes: TypeSpec
 
@@ -268,7 +268,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
                 this.expectedTypes = defaults.expectedTypes
             }
 
-            override fun withInvocation(value: MethodInvocationBase): Builder {
+            override fun withInvocation(value: MethodInvocation): Builder {
                 this.invocation = value
                 return this
             }

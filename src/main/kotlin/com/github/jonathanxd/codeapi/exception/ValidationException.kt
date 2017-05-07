@@ -27,9 +27,27 @@
  */
 package com.github.jonathanxd.codeapi.exception
 
-class ProcessingException(message: String, cause: Throwable) : RuntimeException(message, cause) {
-    init {
-        stackTrace = arrayOf<StackTraceElement>()
-    }
+import com.github.jonathanxd.codeapi.processor.ValidationMessage
 
+/**
+ * Occurs when validation fails.
+ */
+class ValidationException : RuntimeException {
+
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(cause: Throwable) : super(cause)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+    constructor(message: String, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean) :
+            super(message, cause, enableSuppression, writableStackTrace)
+
+    constructor(message: ValidationMessage) : this(message.toMessage())
+    constructor(message: ValidationMessage, cause: Throwable) : this(message.toMessage(), cause)
+    constructor(message: ValidationMessage, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean) :
+            super(message.toMessage(), cause, enableSuppression, writableStackTrace)
+
+    companion object {
+        private fun ValidationMessage.toMessage(): String =
+                "ValidationMessage[${this.type.name}]: ${this.message}"
+    }
 }

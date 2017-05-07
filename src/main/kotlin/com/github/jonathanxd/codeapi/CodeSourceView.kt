@@ -104,15 +104,6 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
             this.toList().toTypedArray()
 
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : CodePart> toArray(a: Array<T>): Array<T> =
-            this.toList().let {
-                it.forEachIndexed { index, codePart ->
-                    a[index] = codePart as T
-                }
-                return@let a
-            }
-
     override fun spliterator(): Spliterator<CodePart> =
             Spliterators.spliteratorUnknownSize(this.listIterator(), Spliterator.ORDERED)
 
@@ -222,14 +213,6 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         array.forEachIndexed { index, codePart ->
             this[index] = codePart
         }
-    }
-
-    override fun trimToSize() {
-        this.asMutable.trimToSize()
-    }
-
-    override fun ensureCapacity(minCapacity: Int) {
-        this.asMutable.ensureCapacity((this.asMutable.size - this.size) + minCapacity)
     }
 
     override fun add(codePart: CodePart): Boolean {

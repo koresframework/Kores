@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.test.processor;
 
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
+import com.github.jonathanxd.codeapi.exception.ValidationException;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.processor.CodeProcessor;
 import com.github.jonathanxd.codeapi.processor.CodeValidator;
@@ -103,10 +104,10 @@ public class MyProcessor implements CodeProcessor<String> {
         List<ValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData());
 
         if(ValidatorKt.hasError(validate)) {
-            RuntimeException e = null;
+            ValidationException e = null;
 
             for (ValidationMessage validationMessage : validate) {
-                RuntimeException ex = new IllegalArgumentException("ValidationMessage["+validationMessage.getType().name()+"]: "+validationMessage.getMessage());
+                ValidationException ex = new ValidationException(validationMessage);
 
                 if(e == null)
                     e = ex;
@@ -115,7 +116,7 @@ public class MyProcessor implements CodeProcessor<String> {
             }
 
             if(e != null)
-                throw new RuntimeException("Validation failed!", e);
+                throw new ValidationException("Validation failed!", e);
         }
 
 

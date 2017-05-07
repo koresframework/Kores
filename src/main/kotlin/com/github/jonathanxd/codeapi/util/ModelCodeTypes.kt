@@ -54,7 +54,7 @@ fun TypeMirror.toCodeType(isParameterized: Boolean, elements: Elements): CodeTyp
             }.toTypedArray()
 
     return when (this) {
-        is PrimitiveType -> when (this.kind) {
+        is NoType, is PrimitiveType -> when (this.kind) {
             TypeKind.BOOLEAN -> Types.BOOLEAN
             TypeKind.BYTE -> Types.BYTE
             TypeKind.SHORT -> Types.SHORT

@@ -125,11 +125,6 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
     abstract fun toArray(): Array<CodePart>
 
     /**
-     * Creates an array of [T] of all elements of this [CodeSource].
-     */
-    abstract fun <T : CodePart> toArray(a: Array<T>): Array<T>
-
-    /**
      * Creates a [Spliterator] from elements of this [CodeSource].
      */
     abstract override fun spliterator(): Spliterator<CodePart>

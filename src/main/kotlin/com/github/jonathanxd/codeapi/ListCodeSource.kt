@@ -38,21 +38,13 @@ import java.util.stream.Stream
 /**
  * A [MutableCodeSource] backing to a [ArrayList].
  */
-class ListCodeSource() : MutableCodeSource(), Cloneable {
+class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCodeSource(), Cloneable {
 
-    private val backingList: ArrayList<CodePart> = ArrayList()
+    constructor() : this(mutableListOf())
 
-    constructor(list: List<CodePart>) : this() {
-        this.backingList.addAll(list)
-    }
+    constructor(iterable: Iterable<CodePart>) : this(iterable.toMutableList())
 
-    constructor(iterable: Iterable<CodePart>) : this() {
-        this.backingList.addAll(iterable)
-    }
-
-    constructor(a: Array<CodePart>) : this() {
-        this.backingList.addAll(a)
-    }
+    constructor(a: Array<CodePart>) : this(a.toMutableList())
 
     override val size: Int
         get() = this.backingList.size
@@ -67,14 +59,6 @@ class ListCodeSource() : MutableCodeSource(), Cloneable {
 
     override fun sort(c: Comparator<in CodePart>) {
         this.backingList.sortedWith(c)
-    }
-
-    override fun trimToSize() {
-        this.backingList.trimToSize()
-    }
-
-    override fun ensureCapacity(minCapacity: Int) {
-        this.backingList.ensureCapacity(minCapacity)
     }
 
     override fun add(codePart: CodePart): Boolean {
@@ -172,10 +156,6 @@ class ListCodeSource() : MutableCodeSource(), Cloneable {
         return this.backingList.toTypedArray()
     }
 
-    override fun <T : CodePart> toArray(a: Array<T>): Array<T> {
-        return this.backingList.toArray(a)
-    }
-
     override fun containsAll(c: Collection<*>): Boolean {
         return this.backingList.containsAll(c)
     }
@@ -205,7 +185,7 @@ class ListCodeSource() : MutableCodeSource(), Cloneable {
     }
 
     override fun clone(): Any {
-        return this.backingList.clone()
+        return ListCodeSource(this.backingList)
     }
 
     override fun forEach(action: Consumer<in CodePart>) {
@@ -242,11 +222,7 @@ class ListCodeSource() : MutableCodeSource(), Cloneable {
         return ListCodeSource(this)
     }
 
-
     inline fun ListCodeSource(size: Int, init: (index: Int) -> CodePart): ListCodeSource =
-            ListCodeSource().let {
-                for (i in 0..size - 1) it += init(i)
-                return@let it
-            }
+            ListCodeSource(MutableList(size, init))
 
 }

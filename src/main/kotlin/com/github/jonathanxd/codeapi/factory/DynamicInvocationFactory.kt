@@ -32,7 +32,7 @@ package com.github.jonathanxd.codeapi.factory
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.InvokeDynamic
 import com.github.jonathanxd.codeapi.base.LocalCode
-import com.github.jonathanxd.codeapi.base.MethodInvocationBase
+import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.base.TypeSpec
@@ -41,13 +41,13 @@ import java.lang.reflect.Type
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamic(type: Type, bootstrap: MethodInvokeSpec, invocation: MethodInvocationBase, args: List<Any>): InvokeDynamic =
+fun invokeDynamic(type: Type, bootstrap: MethodInvokeSpec, invocation: MethodInvocation, args: List<Any>): InvokeDynamic =
         InvokeDynamic(type, bootstrap, invocation, args)
 
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamicLambda(invocation: MethodInvocationBase, baseSam: MethodTypeSpec, expectedTypes: TypeSpec): InvokeDynamic.LambdaMethodRef =
+fun invokeDynamicLambda(invocation: MethodInvocation, baseSam: MethodTypeSpec, expectedTypes: TypeSpec): InvokeDynamic.LambdaMethodRef =
         InvokeDynamic.LambdaMethodRef(invocation, baseSam, expectedTypes)
 
 /**

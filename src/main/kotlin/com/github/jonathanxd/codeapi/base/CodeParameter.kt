@@ -29,6 +29,9 @@ package com.github.jonathanxd.codeapi.base
 
 import java.lang.reflect.Type
 
+/**
+ * Parameter part.
+ */
 data class CodeParameter(override val annotations: List<Annotation>, override val modifiers: Set<CodeModifier>, override val type: Type, override val name: String) : Typed, Named, Annotable, ModifiersHolder {
     override fun builder(): Builder = Builder(this)
 

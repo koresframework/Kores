@@ -39,16 +39,36 @@ import java.lang.reflect.Type
  * @property target Target of the invocation (Access to static context for static methods), for instance constructors,
  * you must to pass a [New] instance, for super constructor or this constructors you must to pass either an [Alias] or an
  * [Access] to `this` context.
- *
  */
-data class MethodInvocation(override val invokeType: InvokeType,
+data class MethodInvocation(val invokeType: InvokeType,
                             override val target: CodePart,
-                            override val spec: MethodTypeSpec,
-                            override val arguments: List<CodePart>) : MethodInvocationBase {
+                            val spec: MethodTypeSpec,
+                            override val arguments: List<CodePart>) : Accessor, ArgumentHolder, Typed {
+
+    override val types: List<Type>
+        get() = this.spec.typeSpec.parameterTypes
+
+    override val array: Boolean
+        get() = false
+
+    /**
+     * Method localization
+     */
+    override val localization: Type
+        get() = this.spec.localization
+
+    /**
+     * Method return type
+     */
+    override val type: Type
+        get() = this.spec.typeSpec.returnType
+
 
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : MethodInvocationBase.Builder<MethodInvocation, Builder> {
+    class Builder() : Accessor.Builder<MethodInvocation, Builder>,
+            ArgumentHolder.Builder<MethodInvocation, Builder>,
+            Typed.Builder<MethodInvocation, Builder> {
 
         lateinit var invokeType: InvokeType
         lateinit var target: CodePart
@@ -62,17 +82,26 @@ data class MethodInvocation(override val invokeType: InvokeType,
             this.arguments = defaults.arguments
         }
 
-        override fun withInvokeType(value: InvokeType): Builder {
-            this.invokeType = value
-            return this
-        }
+        override fun withArray(value: Boolean): Builder = self()
+        override fun withLocalization(value: Type): Builder = self()
 
         override fun withTarget(value: CodePart): Builder {
             this.target = value
             return this
         }
 
-        override fun withSpec(value: MethodTypeSpec): Builder {
+        /**
+         * See [MethodInvocation.invokeType]
+         */
+        fun withInvokeType(value: InvokeType): Builder {
+            this.invokeType = value
+            return this
+        }
+
+        /**
+         * See [MethodInvocation.spec]
+         */
+        fun withSpec(value: MethodTypeSpec): Builder {
             this.spec = value
             return this
         }
@@ -96,69 +125,6 @@ data class MethodInvocation(override val invokeType: InvokeType,
             @JvmStatic
             fun builder(defaults: MethodInvocation): Builder = Builder(defaults)
         }
-
-    }
-
-}
-
-/**
- * Invokes a method.
- */
-interface MethodInvocationBase : Accessor, ArgumentHolder, Typed {
-
-    override val types: List<Type>
-        get() = this.spec.typeSpec.parameterTypes
-
-    override val array: Boolean
-        get() = false
-
-    /**
-     * Method localization
-     */
-    override val localization: Type
-        get() = this.spec.localization
-
-    /**
-     * Method arguments
-     */
-    override val arguments: List<CodePart>
-
-    /**
-     * Method return type
-     */
-    override val type: Type
-        get() = this.spec.typeSpec.returnType
-
-    /**
-     * Specification of the method
-     */
-    val spec: MethodTypeSpec
-
-    /**
-     * Type of method invocation
-     */
-    val invokeType: InvokeType
-
-    override fun builder(): Builder<MethodInvocationBase, *>
-
-    interface Builder<out T : MethodInvocationBase, S : Builder<T, S>> :
-            Accessor.Builder<T, S>,
-            ArgumentHolder.Builder<T, S>,
-            Typed.Builder<T, S> {
-
-        override fun withArray(value: Boolean): S = self()
-
-        override fun withLocalization(value: Type): S = self()
-
-        /**
-         * See [T.spec]
-         */
-        fun withSpec(value: MethodTypeSpec): S
-
-        /**
-         * See [T.invokeType]
-         */
-        fun withInvokeType(value: InvokeType): S
 
     }
 
