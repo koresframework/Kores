@@ -40,6 +40,9 @@ import java.util.*
 
 // Short methods
 
+/**
+ * @see FieldDeclaration
+ */
 fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
           type: Type,
           name: String): FieldDeclaration {
@@ -47,6 +50,9 @@ fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
     return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name)
 }
 
+/**
+ * @see FieldDeclaration
+ */
 fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
           type: Type,
           name: String,
@@ -55,6 +61,9 @@ fun field(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
     return field(annotations = emptyArray(), modifiers = modifiers, type = type, name = name, value = value)
 }
 
+/**
+ * @see FieldDeclaration
+ */
 fun field(type: Type,
           name: String,
           value: CodePart? = null): FieldDeclaration {
@@ -64,6 +73,9 @@ fun field(type: Type,
 
 // /Short methods
 
+/**
+ * @see FieldDeclaration
+ */
 @JvmOverloads
 fun field(annotations: Array<Annotation> = emptyArray(),
           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
@@ -81,6 +93,9 @@ fun field(annotations: Array<Annotation> = emptyArray(),
     )
 }
 
+/**
+ * @see FieldDeclaration
+ */
 fun field(comments: Comments,
           annotations: Array<Annotation> = emptyArray(),
           modifiers: EnumSet<CodeModifier> = emptyEnumSet(),

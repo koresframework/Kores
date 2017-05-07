@@ -41,6 +41,9 @@ import java.util.*
 
 // Short methods
 
+/**
+ * @see ConstructorDeclaration
+ */
 fun constructor(signature: GenericSignature = GenericSignature.empty(),
                 modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
@@ -56,6 +59,9 @@ fun constructor(signature: GenericSignature = GenericSignature.empty(),
     )
 }
 
+/**
+ * @see ConstructorDeclaration
+ */
 fun constructor(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 parameters: Array<CodeParameter> = emptyArray(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
@@ -69,6 +75,9 @@ fun constructor(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
     )
 }
 
+/**
+ * @see ConstructorDeclaration
+ */
 fun constructor(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 source: CodeSource = CodeSource.empty()): ConstructorDeclaration {
 
@@ -82,6 +91,9 @@ fun constructor(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 
 // /Short methods
 
+/**
+ * @see ConstructorDeclaration
+ */
 @JvmOverloads
 fun constructor(annotations: Array<Annotation> = emptyArray(),
                 signature: GenericSignature = GenericSignature.empty(),
@@ -99,6 +111,9 @@ fun constructor(annotations: Array<Annotation> = emptyArray(),
     )
 }
 
+/**
+ * @see ConstructorDeclaration
+ */
 fun constructor(comments: Comments,
                 annotations: Array<Annotation> = emptyArray(),
                 signature: GenericSignature = GenericSignature.empty(),

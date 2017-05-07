@@ -38,6 +38,8 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Collections;
+
 public class MyProcessorTest {
 
     @Test
@@ -45,6 +47,7 @@ public class MyProcessorTest {
         MyProcessor myProcessor = new MyProcessor();
 
         VariableDeclaration variableDeclaration = new VariableDeclaration(
+                Collections.emptySet(),
                 String.class,
                 "name",
                 Literals.STRING("CodeAPI")
@@ -60,6 +63,7 @@ public class MyProcessorTest {
         MyProcessor myProcessor = new MyProcessor();
 
         VariableDeclaration variableDeclaration = new VariableDeclaration(
+                Collections.emptySet(),
                 String.class,
                 "name",
                 new VariableAccess(String.class, "name")

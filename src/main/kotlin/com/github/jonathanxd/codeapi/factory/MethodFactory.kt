@@ -44,12 +44,15 @@ import java.util.*
 
 // Short methods
 
+/**
+ * @see MethodDeclaration
+ */
 fun method(genericSignature: GenericSignature = GenericSignature.empty(),
            modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): MethodDeclarationBase {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
     return method(
@@ -63,11 +66,14 @@ fun method(genericSignature: GenericSignature = GenericSignature.empty(),
     )
 }
 
+/**
+ * @see MethodDeclaration
+ */
 fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: Type = Types.VOID,
            parameters: Array<CodeParameter> = emptyArray(),
-           source: CodeSource = CodeSource.empty()): MethodDeclarationBase {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
     return method(
@@ -80,10 +86,13 @@ fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
     )
 }
 
+/**
+ * @see MethodDeclaration
+ */
 fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            name: String,
            returnType: Type = Types.VOID,
-           source: CodeSource = CodeSource.empty()): MethodDeclarationBase {
+           source: CodeSource = CodeSource.empty()): MethodDeclaration {
 
     // Select correct method
     return method(
@@ -97,6 +106,9 @@ fun method(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 
 // /Short methods
 
+/**
+ * @see MethodDeclaration
+ */
 @JvmOverloads
 fun method(annotations: Array<Annotation> = emptyArray(),
            genericSignature: GenericSignature = GenericSignature.empty(),
@@ -118,6 +130,9 @@ fun method(annotations: Array<Annotation> = emptyArray(),
     )
 }
 
+/**
+ * @see MethodDeclaration
+ */
 fun method(comments: Comments,
            annotations: Array<Annotation> = emptyArray(),
            genericSignature: GenericSignature = GenericSignature.empty(),

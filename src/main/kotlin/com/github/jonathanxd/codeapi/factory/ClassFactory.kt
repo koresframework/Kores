@@ -47,6 +47,10 @@ import java.util.*
 // ---------------------------------------------------------------
 
 // Short methods
+
+/**
+ * @see ClassDeclaration
+ */
 fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            source: CodeSource = CodeSource.empty()): ClassDeclaration {
@@ -59,6 +63,9 @@ fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
     )
 }
 
+/**
+ * @see ClassDeclaration
+ */
 fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            superType: Type = Types.OBJECT,
@@ -75,6 +82,9 @@ fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
     )
 }
 
+/**
+ * @see ClassDeclaration
+ */
 fun aClass(annotations: Array<Annotation> = emptyArray(),
            modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
@@ -94,6 +104,9 @@ fun aClass(annotations: Array<Annotation> = emptyArray(),
     )
 }
 
+/**
+ * @see ClassDeclaration
+ */
 fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            signature: GenericSignature = GenericSignature.empty(),
@@ -114,6 +127,9 @@ fun aClass(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 
 // /Short methods
 
+/**
+ * @see ClassDeclaration
+ */
 @JvmOverloads
 fun aClass(outerClass: Type? = null,
            annotations: Array<Annotation> = emptyArray(),
@@ -137,6 +153,9 @@ fun aClass(outerClass: Type? = null,
     )
 }
 
+/**
+ * @see ClassDeclaration
+ */
 fun aClass(outerClass: Type? = null,
            comments: Comments,
            annotations: Array<Annotation> = emptyArray(),
@@ -165,6 +184,10 @@ fun aClass(outerClass: Type? = null,
 
 
 // Short methods
+
+/**
+ * @see InterfaceDeclaration
+ */
 fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 qualifiedName: String,
                 source: CodeSource = CodeSource.empty()) =
@@ -177,6 +200,9 @@ fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
         )
 
 
+/**
+ * @see InterfaceDeclaration
+ */
 fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 qualifiedName: String,
                 superInterfaces: Array<Type> = emptyArray(),
@@ -190,7 +216,9 @@ fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 source = source
         )
 
-
+/**
+ * @see InterfaceDeclaration
+ */
 fun anInterface(annotations: Array<Annotation> = emptyArray(),
                 modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 qualifiedName: String,
@@ -207,7 +235,9 @@ fun anInterface(annotations: Array<Annotation> = emptyArray(),
                 source = source
         )
 
-
+/**
+ * @see InterfaceDeclaration
+ */
 fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 qualifiedName: String,
                 signature: GenericSignature = GenericSignature.empty(),
@@ -226,6 +256,9 @@ fun anInterface(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
 
 // /Short methods
 
+/**
+ * @see InterfaceDeclaration
+ */
 @JvmOverloads
 fun anInterface(outerClass: Type? = null,
                 annotations: Array<Annotation> = emptyArray(),
@@ -247,6 +280,9 @@ fun anInterface(outerClass: Type? = null,
     )
 }
 
+/**
+ * @see InterfaceDeclaration
+ */
 fun anInterface(outerClass: Type? = null,
                 comments: Comments,
                 annotations: Array<Annotation> = emptyArray(),
@@ -272,6 +308,10 @@ fun anInterface(outerClass: Type? = null,
 // ---------------------------------------------------------------
 
 // Short methods
+
+/**
+ * @see AnnotationDeclaration
+ */
 fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
                  properties: Array<AnnotationProperty> = emptyArray(),
@@ -285,6 +325,9 @@ fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 source = source
         )
 
+/**
+ * @see AnnotationDeclaration
+ */
 fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                  qualifiedName: String,
                  source: CodeSource = CodeSource.empty()) =
@@ -297,6 +340,9 @@ fun anAnnotation(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
                 source = source
         )
 
+/**
+ * @see AnnotationDeclaration
+ */
 fun anAnnotation(qualifiedName: String,
                  source: CodeSource = CodeSource.empty()) =
         // Select correct method
@@ -310,7 +356,9 @@ fun anAnnotation(qualifiedName: String,
 
 // /Short methods
 
-
+/**
+ * @see AnnotationDeclaration
+ */
 @JvmOverloads
 fun anAnnotation(outerClass: Type? = null,
                  annotations: Array<Annotation> = emptyArray(),
@@ -332,6 +380,9 @@ fun anAnnotation(outerClass: Type? = null,
     )
 }
 
+/**
+ * @see AnnotationDeclaration
+ */
 fun anAnnotation(outerClass: Type? = null,
                  comments: Comments,
                  annotations: Array<Annotation> = emptyArray(),
@@ -357,6 +408,10 @@ fun anAnnotation(outerClass: Type? = null,
 // ---------------------------------------------------------------
 
 // Short methods
+
+/**
+ * @see EnumDeclaration
+ */
 fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            source: CodeSource = CodeSource.empty()) =
@@ -370,6 +425,9 @@ fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
         )
 
 
+/**
+ * @see EnumDeclaration
+ */
 fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            implementations: Array<Type> = emptyArray(),
@@ -385,6 +443,9 @@ fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
         )
 
 
+/**
+ * @see EnumDeclaration
+ */
 fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
            qualifiedName: String,
            implementations: Array<Type> = emptyArray(),
@@ -401,6 +462,9 @@ fun anEnum(modifiers: EnumSet<CodeModifier> = emptyEnumSet(),
         )
 
 
+/**
+ * @see EnumDeclaration
+ */
 fun anEnum(qualifiedName: String,
            source: CodeSource = CodeSource.empty()) =
         // Select correct method
@@ -414,6 +478,9 @@ fun anEnum(qualifiedName: String,
 
 // /Short methods
 
+/**
+ * @see EnumDeclaration
+ */
 @JvmOverloads
 fun anEnum(outerClass: Type? = null,
            annotations: Array<Annotation> = emptyArray(),
@@ -437,6 +504,9 @@ fun anEnum(outerClass: Type? = null,
     )
 }
 
+/**
+ * @see EnumDeclaration
+ */
 fun anEnum(outerClass: Type? = null,
            comments: Comments,
            annotations: Array<Annotation> = emptyArray(),
@@ -465,6 +535,10 @@ fun anEnum(outerClass: Type? = null,
 // ---------------------------------------------------------------
 
 // Short methods
+
+/**
+ * @see AnonymousClass
+ */
 fun anonymousClass(outerClass: Type,
                    name: String,
                    superType: Type,
@@ -478,6 +552,9 @@ fun anonymousClass(outerClass: Type,
     )
 }
 
+/**
+ * @see AnonymousClass
+ */
 fun anonymousClass(outerClass: Type,
                    name: String,
                    superType: Type,
@@ -495,6 +572,9 @@ fun anonymousClass(outerClass: Type,
     )
 }
 
+/**
+ * @see AnonymousClass
+ */
 fun anonymousClass(outerClass: Type,
                    name: String,
                    superType: Type,
@@ -516,6 +596,9 @@ fun anonymousClass(outerClass: Type,
 
 // /Short methods
 
+/**
+ * @see AnonymousClass
+ */
 @JvmOverloads
 fun anonymousClass(outerClass: Type,
                    annotations: Array<Annotation> = emptyArray(),

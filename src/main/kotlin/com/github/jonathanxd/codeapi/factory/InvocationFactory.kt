@@ -60,35 +60,68 @@ fun invoke(invokeType: InvokeType, localization: Type, target: CodePart, name: S
 
         )
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeVirtual(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeInterface(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_INTERFACE, localization, target, name, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeSpecial(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, target, name, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, New(localization), CONSTRUCTOR, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeConstructor(localization: Type) =
         invokeConstructor(localization, TypeSpec(Types.VOID, emptyList()), emptyList())
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeSuperConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, Alias.SUPER, CONSTRUCTOR, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeSuperConstructor(spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_SPECIAL, Alias.SUPER, Alias.SUPER, CONSTRUCTOR, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeThisConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, Defaults.ACCESS_THIS, CONSTRUCTOR, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeThisConstructor(spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_SPECIAL, Alias.THIS, Defaults.ACCESS_THIS, CONSTRUCTOR, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeStatic(localization: Type, name: String, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_STATIC, localization, Defaults.ACCESS_STATIC, name, spec, arguments)
 
+/**
+ * @see MethodInvocation
+ */
 fun invokeStatic(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
         invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)

@@ -35,21 +35,27 @@ import java.lang.reflect.Type
  * mean that you declared a variable with null value, it means that you declared a variable without a default value,
  * for null values use `Literals.NULL`).
  */
-data class VariableDeclaration(override val variableType: Type, override val name: String, override val value: CodePart?) : VariableBase, ValueHolder, Typed {
+data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
+                               override val variableType: Type,
+                               override val name: String,
+                               override val value: CodePart?) : VariableBase, ValueHolder, Typed, ModifiersHolder {
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
             VariableBase.Builder<VariableDeclaration, Builder>,
-            ValueHolder.Builder<VariableDeclaration, Builder> {
+            ValueHolder.Builder<VariableDeclaration, Builder>,
+            ModifiersHolder.Builder<VariableDeclaration, Builder> {
 
         lateinit var name: String
         lateinit var variableType: Type
         var value: CodePart? = null
+        var modifiers: Set<CodeModifier> = emptySet()
 
         constructor(defaults: VariableDeclaration) : this() {
             this.name = defaults.name
             this.variableType = defaults.variableType
             this.value = defaults.value
+            this.modifiers = defaults.modifiers
         }
 
         override fun withName(value: String): Builder {
@@ -67,7 +73,12 @@ data class VariableDeclaration(override val variableType: Type, override val nam
             return this
         }
 
-        override fun build(): VariableDeclaration = VariableDeclaration(this.variableType, this.name, this.value)
+        override fun withModifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
+        }
+
+        override fun build(): VariableDeclaration = VariableDeclaration(this.modifiers, this.variableType, this.name, this.value)
 
         companion object {
             @JvmStatic

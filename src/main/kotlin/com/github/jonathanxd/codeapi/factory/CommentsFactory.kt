@@ -35,23 +35,74 @@ import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.PlainCodeType
 import java.lang.reflect.Type
 
-@JvmOverloads fun comments(type: Comments.Type = Comments.Type.COMMENT, vararg comments: Comment): Comments = Comments(comments.toList(), type)
-fun documentation(vararg comments: Comment): Comments = Comments(comments.toList(), Comments.Type.DOCUMENTATION)
+/**
+ * @see Comments
+ */
+@JvmOverloads fun comments(type: Comments.Type = Comments.Type.COMMENT, vararg comments: Comment): Comments =
+        Comments(comments.toList(), type)
 
-fun plain(text: String): Comment = Plain(text)
+/**
+ * @see Comments
+ */
+fun documentation(vararg comments: Comment): Comments =
+        Comments(comments.toList(), Comments.Type.DOCUMENTATION)
 
-fun code(plain: String): Comment = Code(Code.CodeNode.Plain(plain))
-fun code(part: CodePart): Comment = Code(Code.CodeNode.CodeRepresentation(part))
+/**
+ * @see Plain
+ */
+fun plain(text: String): Comment =
+        Plain(text)
 
-@JvmOverloads fun link(name: String? = null, url: String): Comment = Link(name, Link.LinkTarget.URL(url))
-@JvmOverloads fun link(name: String? = null, element: Link.LinkTarget.Element): Comment = Link(name, element)
+/**
+ * @see Code
+ */
+fun code(plain: String): Comment =
+        Code(Code.CodeNode.Plain(plain))
 
-@JvmOverloads fun linkClass(name: String? = null, type: Type): Comment = Link(name, Link.LinkTarget.Element.Class(type))
+/**
+ * @see Code
+ */
+fun code(part: CodePart): Comment =
+        Code(Code.CodeNode.CodeRepresentation(part))
 
-@JvmOverloads fun linkClass(name: String? = null, canonicalName: String): Comment = Link(name, Link.LinkTarget.Element.Class(PlainCodeType(canonicalName, false)))
+/**
+ * @see Link
+ */
+@JvmOverloads fun link(name: String? = null, url: String): Comment =
+        Link(name, Link.LinkTarget.URL(url))
 
-@JvmOverloads fun linkField(name: String? = null, declaringClass: Type, fieldName: String, fieldType: Type): Comment = Link(name, Link.LinkTarget.Element.Field(declaringClass, fieldName, fieldType))
+/**
+ * @see Link
+ */
+@JvmOverloads fun link(name: String? = null, element: Link.LinkTarget.Element): Comment =
+        Link(name, element)
 
-@JvmOverloads fun linkField(name: String? = null, declaringClass: String, fieldName: String, fieldType: Type): Comment = Link(name, Link.LinkTarget.Element.Field(PlainCodeType(declaringClass, false), fieldName, fieldType))
+/**
+ * @see Link
+ */
+@JvmOverloads fun linkClass(name: String? = null, type: Type): Comment =
+        Link(name, Link.LinkTarget.Element.Class(type))
 
-@JvmOverloads fun linkMethod(name: String? = null, methodSpec: MethodTypeSpec): Comment = Link(name, Link.LinkTarget.Element.Method(methodSpec))
+/**
+ * @see Link
+ */
+@JvmOverloads fun linkClass(name: String? = null, canonicalName: String): Comment =
+        Link(name, Link.LinkTarget.Element.Class(PlainCodeType(canonicalName, false)))
+
+/**
+ * @see Link
+ */
+@JvmOverloads fun linkField(name: String? = null, declaringClass: Type, fieldName: String, fieldType: Type): Comment =
+        Link(name, Link.LinkTarget.Element.Field(declaringClass, fieldName, fieldType))
+
+/**
+ * @see Link
+ */
+@JvmOverloads fun linkField(name: String? = null, declaringClass: String, fieldName: String, fieldType: Type): Comment =
+        Link(name, Link.LinkTarget.Element.Field(PlainCodeType(declaringClass, false), fieldName, fieldType))
+
+/**
+ * @see Link
+ */
+@JvmOverloads fun linkMethod(name: String? = null, methodSpec: MethodTypeSpec): Comment =
+        Link(name, Link.LinkTarget.Element.Method(methodSpec))
