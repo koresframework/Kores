@@ -28,8 +28,7 @@
 package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.util.Parent
-import com.github.jonathanxd.iutils.data.Data
+import com.github.jonathanxd.iutils.data.TypedData
 
 /**
  * Validation and Validation manager. Validates and manage custom validators.
@@ -39,12 +38,12 @@ interface CodeValidator {
     /**
      * Validates [part] of and return a list of messages.
      */
-    fun validate(part: Any, data: Data): List<ValidationMessage> = this.validate(part::class.java, part, data)
+    fun validate(part: Any, data: TypedData): List<ValidationMessage> = this.validate(part::class.java, part, data)
 
     /**
      * Validates [part] of type [type] and return a list of messages.
      */
-    fun <P> validate(type: Class<out P>, part: P, data: Data): List<ValidationMessage>
+    fun <P> validate(type: Class<out P>, part: P, data: TypedData): List<ValidationMessage>
 
     /**
      * Registers a custom [validator] of [CodePart] of [type].
@@ -52,9 +51,9 @@ interface CodeValidator {
     fun <P> registerValidator(validator: Validator<P>, type: Class<P>)
 
     /**
-     * Creates default [Data] instance.
+     * Creates default [TypedData] instance.
      */
-    fun createData(): Data = Data()
+    fun createData(): TypedData = TypedData()
 }
 
 /**
@@ -66,7 +65,7 @@ inline fun <reified P> CodeValidator.registerValidator(validator: Validator<P>) 
 /**
  * Validates [part] of type [P].
  */
-inline fun <reified P> CodeValidator.validatePart(part: P, data: Data) =
+inline fun <reified P> CodeValidator.validatePart(part: P, data: TypedData) =
         this.validate(P::class.java, part, data)
 
 /**
@@ -77,7 +76,7 @@ interface Validator<in P> {
     /**
      * Validates [part] and return a list of messages.
      */
-    fun validate(part: P, codeValidator: CodeValidator, data: Data): List<ValidationMessage>
+    fun validate(part: P, codeValidator: CodeValidator, data: TypedData): List<ValidationMessage>
 
 }
 
@@ -129,7 +128,7 @@ fun List<ValidationMessage>.hasError() = this.any { it.type == ValidationMessage
  */
 object VoidValidator : CodeValidator {
 
-    override fun <P> validate(type: Class<out P>, part: P, data: Data): List<ValidationMessage> {
+    override fun <P> validate(type: Class<out P>, part: P, data: TypedData): List<ValidationMessage> {
         return emptyList()
     }
 

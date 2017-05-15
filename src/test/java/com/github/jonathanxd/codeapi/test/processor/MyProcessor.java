@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test.processor;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.exception.ValidationException;
 import com.github.jonathanxd.codeapi.literal.Literals;
@@ -36,11 +35,9 @@ import com.github.jonathanxd.codeapi.processor.CodeValidator;
 import com.github.jonathanxd.codeapi.processor.Processor;
 import com.github.jonathanxd.codeapi.processor.ValidationMessage;
 import com.github.jonathanxd.codeapi.processor.ValidatorKt;
-import com.github.jonathanxd.codeapi.processor.VoidValidator;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntaxProcessor;
-import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.data.Data;
+import com.github.jonathanxd.iutils.data.TypedData;
 import com.github.jonathanxd.iutils.option.Options;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,8 +66,8 @@ public class MyProcessor implements CodeProcessor<String> {
 
     @NotNull
     @Override
-    public Data createData() {
-        return new Data();
+    public TypedData createData() {
+        return new TypedData();
     }
 
     @Override
@@ -94,28 +91,28 @@ public class MyProcessor implements CodeProcessor<String> {
     }
 
     @Override
-    public String process(@NotNull Object part, @NotNull Data data) {
+    public String process(@NotNull Object part, @NotNull TypedData data) {
         return (String) CodeProcessor.DefaultImpls.process(this, part, data);
     }
 
     @Override
-    public <T> String process(@NotNull Class<? extends T> type, T part, @NotNull Data data) {
+    public <T> String process(@NotNull Class<? extends T> type, T part, @NotNull TypedData data) {
 
         List<ValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData());
 
-        if(ValidatorKt.hasError(validate)) {
+        if (ValidatorKt.hasError(validate)) {
             ValidationException e = null;
 
             for (ValidationMessage validationMessage : validate) {
                 ValidationException ex = new ValidationException(validationMessage);
 
-                if(e == null)
+                if (e == null)
                     e = ex;
                 else
                     e.addSuppressed(ex);
             }
 
-            if(e != null)
+            if (e != null)
                 throw new ValidationException("Validation failed!", e);
         }
 

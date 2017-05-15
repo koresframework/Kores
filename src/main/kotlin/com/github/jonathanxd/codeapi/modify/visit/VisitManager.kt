@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.modify.visit
 
-import com.github.jonathanxd.iutils.data.Data
+import com.github.jonathanxd.iutils.data.TypedData
 import java.util.Collections
 import java.util.HashMap
 
@@ -77,7 +77,7 @@ open class VisitManager<T : Any> {
      * Visits [part]
      */
     @Suppress("UNCHECKED_CAST")
-    fun <U : Any> visit(part: U, data: Data): U {
+    fun <U : Any> visit(part: U, data: TypedData): U {
         return this.getNonNullVisitor<U>(part::class.java).visit(part, data, this)
     }
 
@@ -85,7 +85,7 @@ open class VisitManager<T : Any> {
      * Visits [part] of [type].
      */
     @Suppress("UNCHECKED_CAST")
-    fun <U : Any> visit(type: Class<U>, part: U, data: Data): U {
+    fun <U : Any> visit(type: Class<U>, part: U, data: TypedData): U {
         return this.getNonNullVisitor<U>(type).visit(part, data, this)
     }
 
@@ -96,7 +96,7 @@ open class VisitManager<T : Any> {
     fun visit(part: T): T {
         val aClass = part::class.java
 
-        val data = Data()
+        val data = TypedData()
 
         val visitor = this.getNonNullVisitor<T>(aClass)
 

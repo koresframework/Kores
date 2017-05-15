@@ -29,9 +29,8 @@ package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.sugar.SugarSyntaxProcessor
-import com.github.jonathanxd.iutils.data.Data
+import com.github.jonathanxd.iutils.data.TypedData
 import com.github.jonathanxd.iutils.option.Options
-import java.lang.reflect.Type
 
 /**
  * CodeProcessor transforms [Any] into [R].
@@ -63,17 +62,17 @@ interface CodeProcessor<out R> {
     /**
      * Process [part] with [data] and returns a value of type [R].
      */
-    fun process(part: Any, data: Data): R = this.process(part::class.java, part, data)
+    fun process(part: Any, data: TypedData): R = this.process(part::class.java, part, data)
 
     /**
      * Process [part] of type [type] with [data] and returns a value of type [R].
      */
-    fun <T> process(type: Class<out T>, part: T, data: Data): R
+    fun <T> process(type: Class<out T>, part: T, data: TypedData): R
 
     /**
-     * Creates [Data] object.
+     * Creates [TypedData] object.
      */
-    fun createData(): Data
+    fun createData(): TypedData
 
     /**
      * Registers [processor] of [CodePart] of type: [type].
@@ -94,12 +93,12 @@ interface Processor<in P> {
     /**
      * Process the [part].
      */
-    fun process(part: P, data: Data, codeProcessor: CodeProcessor<*>)
+    fun process(part: P, data: TypedData, codeProcessor: CodeProcessor<*>)
 
     /**
      * Called when the process to [part] finishes.
      */
-    fun endProcess(part: P, data: Data, codeProcessor: CodeProcessor<*>) {
+    fun endProcess(part: P, data: TypedData, codeProcessor: CodeProcessor<*>) {
 
     }
 }

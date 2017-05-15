@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.sugar
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.processor.CodeProcessor
 import com.github.jonathanxd.codeapi.processor.Processor
-import com.github.jonathanxd.iutils.data.Data
+import com.github.jonathanxd.iutils.data.TypedData
 
 /**
  * Sugar syntax processor. CodeAPI provides a way to register a sugar syntax processor, a sugar
@@ -47,7 +47,7 @@ abstract class SugarSyntaxProcessor<in T> : Processor<T> {
     abstract fun process(t: T, codeProcessor: CodeProcessor<*>): CodePart
 
 
-    override fun process(part: T, data: Data, codeProcessor: CodeProcessor<*>) {
+    override fun process(part: T, data: TypedData, codeProcessor: CodeProcessor<*>) {
         codeProcessor.process(this.process(part, codeProcessor), data)
     }
 }
