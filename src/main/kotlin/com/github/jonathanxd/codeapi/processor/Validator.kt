@@ -136,3 +136,28 @@ object VoidValidator : CodeValidator {
     }
 
 }
+
+/**
+ * Creates a error validation message.
+ */
+inline fun error(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.ERROR)
+
+/**
+ * Creates a warning validation message.
+ */
+inline fun warning(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.WARNING)
+
+/**
+ * Creates a info validation message.
+ */
+inline fun info(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.INFO)
+
+/**
+ * Creates a other validation message.
+ */
+inline fun other(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.OTHER)
+
+/**
+ * Creates a performance validation message.
+ */
+inline fun performance(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.PERFORMANCE)
