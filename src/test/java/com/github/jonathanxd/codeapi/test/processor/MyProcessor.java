@@ -98,7 +98,7 @@ public class MyProcessor implements CodeProcessor<String> {
     @Override
     public <T> String process(@NotNull Class<? extends T> type, T part, @NotNull TypedData data) {
 
-        List<ValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData());
+        List<ValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData(), null).getValidationMessages();
 
         if (ValidatorKt.hasError(validate)) {
             ValidationException e = null;

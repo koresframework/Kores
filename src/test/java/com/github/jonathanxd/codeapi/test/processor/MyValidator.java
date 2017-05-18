@@ -31,12 +31,14 @@ import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.processor.CodeValidator;
+import com.github.jonathanxd.codeapi.processor.ValidationEnvironment;
 import com.github.jonathanxd.codeapi.processor.ValidationMessage;
 import com.github.jonathanxd.codeapi.processor.Validator;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.data.TypedData;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,19 @@ public class MyValidator implements CodeValidator {
 
     @NotNull
     @Override
-    public <P> List<ValidationMessage> validate(@NotNull Class<? extends P> type, @NotNull P part, @NotNull TypedData data) {
+    public ValidationEnvironment createEnvironment(@NotNull TypedData data) {
+        return CodeValidator.DefaultImpls.createEnvironment(this, data);
+    }
+
+    @NotNull
+    @Override
+    public <P> ValidationEnvironment validate(@NotNull Class<? extends P> type,
+                                                @NotNull P part,
+                                                @NotNull TypedData data,
+                                                @Nullable ValidationEnvironment environment) {
+
+        if(environment == null)
+            environment = this.createEnvironment(data);
 
         List<ValidationMessage> messages = new ArrayList<>();
 
@@ -72,13 +86,15 @@ public class MyValidator implements CodeValidator {
             }
         }
 
-        return messages;
+        return environment;
     }
 
     @NotNull
     @Override
-    public List<ValidationMessage> validate(@NotNull Object part, @NotNull TypedData data) {
-        return CodeValidator.DefaultImpls.validate(this, part, data);
+    public ValidationEnvironment validate(@NotNull Object part,
+                                            @NotNull TypedData data,
+                                            @Nullable ValidationEnvironment environment) {
+        return CodeValidator.DefaultImpls.validate(this, part, data, environment);
     }
 
     @NotNull

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.iutils.data.TypedData
+import java.util.Collections
 
 /**
  * Validation and Validation manager. Validates and manage custom validators.
@@ -36,14 +37,15 @@ import com.github.jonathanxd.iutils.data.TypedData
 interface CodeValidator {
 
     /**
-     * Validates [part] of and return a list of messages.
+     * Validates [part] and return environment used to validate.
      */
-    fun validate(part: Any, data: TypedData): List<ValidationMessage> = this.validate(part::class.java, part, data)
+    fun validate(part: Any, data: TypedData, environment: ValidationEnvironment? = null): ValidationEnvironment
+            = this.validate(part::class.java, part, data, environment)
 
     /**
-     * Validates [part] of type [type] and return a list of messages.
+     * Validates [part] of type [type] and return environment used to validate.
      */
-    fun <P> validate(type: Class<out P>, part: P, data: TypedData): List<ValidationMessage>
+    fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment? = null): ValidationEnvironment
 
     /**
      * Registers a custom [validator] of [CodePart] of [type].
@@ -54,6 +56,11 @@ interface CodeValidator {
      * Creates default [TypedData] instance.
      */
     fun createData(): TypedData = TypedData()
+
+    /**
+     * Creates default [ValidationEnvironment]
+     */
+    fun createEnvironment(data: TypedData): ValidationEnvironment = ValidationEnvironment.Impl(data)
 }
 
 /**
@@ -76,8 +83,43 @@ interface Validator<in P> {
     /**
      * Validates [part] and return a list of messages.
      */
-    fun validate(part: P, codeValidator: CodeValidator, data: TypedData): List<ValidationMessage>
+    fun validate(part: P, data: TypedData, codeValidator: CodeValidator, environment: ValidationEnvironment): List<ValidationMessage>
 
+}
+
+/**
+ * Validation environment to index [ValidationMessages][ValidationMessage].
+ */
+interface ValidationEnvironment {
+
+    /**
+     * Data
+     */
+    val data: TypedData
+
+    /**
+     * Immutable list of indexed validation messages.
+     */
+    val validationMessages: List<ValidationMessage>
+
+    /**
+     * Adds a [ValidationMessage] to index.
+     */
+    fun addMessage(message: ValidationMessage)
+
+    /**
+     * Common implementation of [ValidationEnvironment]
+     */
+    class Impl(override val data: TypedData) : ValidationEnvironment {
+
+        private val backingList = mutableListOf<ValidationMessage>()
+        override val validationMessages: List<ValidationMessage> = Collections.unmodifiableList(this.backingList)
+
+        override fun addMessage(message: ValidationMessage) {
+            this.backingList += message
+        }
+
+    }
 }
 
 /**
@@ -128,8 +170,19 @@ fun List<ValidationMessage>.hasError() = this.any { it.type == ValidationMessage
  */
 object VoidValidator : CodeValidator {
 
-    override fun <P> validate(type: Class<out P>, part: P, data: TypedData): List<ValidationMessage> {
-        return emptyList()
+    override fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment?): ValidationEnvironment {
+        val ext = data
+        return object : ValidationEnvironment {
+            override val data: TypedData
+                get() = ext
+
+            override val validationMessages: List<ValidationMessage>
+                get() = emptyList()
+
+            override fun addMessage(message: ValidationMessage) {
+            }
+
+        }
     }
 
     override fun <P> registerValidator(validator: Validator<P>, type: Class<P>) {
