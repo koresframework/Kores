@@ -83,7 +83,7 @@ interface Validator<in P> {
     /**
      * Validates [part] and return a list of messages.
      */
-    fun validate(part: P, data: TypedData, codeValidator: CodeValidator, environment: ValidationEnvironment): List<ValidationMessage>
+    fun validate(part: P, data: TypedData, codeValidator: CodeValidator, environment: ValidationEnvironment)
 
 }
 
