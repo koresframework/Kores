@@ -221,6 +221,11 @@ data class ValidationMessage(val message: String, val type: Type) {
 fun List<ValidationMessage>.hasError() = this.any { it.type == ValidationMessage.Type.ERROR }
 
 /**
+ * Returns true if receiver has any [ValidationMessage] of [type][ValidationMessage.type] [ValidationMessage.Type.ERROR].
+ */
+fun List<ContextedValidationMessage>.hasContextedError() = this.any { it.message.type == ValidationMessage.Type.ERROR }
+
+/**
  * **Only a void implementation**, this class does not validate, does not register validators,
  * this class does nothing, literally.
  */

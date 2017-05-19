@@ -69,8 +69,6 @@ public class MyValidator implements CodeValidator {
         if(environment == null)
             environment = this.createEnvironment(data);
 
-        List<ValidationMessage> messages = new ArrayList<>();
-
         if (type == VariableDeclaration.class) {
             VariableDeclaration declaration = (VariableDeclaration) part;
 
@@ -81,7 +79,7 @@ public class MyValidator implements CodeValidator {
 
                 if (variableAccess.getName().equals(declaration.getName())
                         && CodeTypes.getCodeType(variableAccess.getVariableType()).is(CodeTypes.getCodeType(declaration.getVariableType())))
-                    messages.add(new ValidationMessage("Variable '" + variableAccess.getName() + "' is not defined!", ValidationMessage.Type.ERROR));
+                    environment.addMessage(new ValidationMessage("Variable '" + variableAccess.getName() + "' is not defined!", ValidationMessage.Type.ERROR));
 
             }
         }

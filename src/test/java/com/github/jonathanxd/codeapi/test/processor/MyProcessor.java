@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.exception.ValidationException;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.processor.CodeProcessor;
 import com.github.jonathanxd.codeapi.processor.CodeValidator;
+import com.github.jonathanxd.codeapi.processor.ContextedValidationMessage;
 import com.github.jonathanxd.codeapi.processor.Processor;
 import com.github.jonathanxd.codeapi.processor.ValidationMessage;
 import com.github.jonathanxd.codeapi.processor.ValidatorKt;
@@ -98,12 +99,12 @@ public class MyProcessor implements CodeProcessor<String> {
     @Override
     public <T> String process(@NotNull Class<? extends T> type, T part, @NotNull TypedData data) {
 
-        List<ValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData(), null).getValidationMessages();
+        List<ContextedValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData(), null).getValidationMessages();
 
-        if (ValidatorKt.hasError(validate)) {
+        if (ValidatorKt.hasContextedError(validate)) {
             ValidationException e = null;
 
-            for (ValidationMessage validationMessage : validate) {
+            for (ContextedValidationMessage validationMessage : validate) {
                 ValidationException ex = new ValidationException(validationMessage);
 
                 if (e == null)

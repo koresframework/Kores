@@ -28,6 +28,8 @@
 @file:JvmName("GenericTypeUtil")
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.MethodDeclarationBase
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -212,7 +214,21 @@ fun createCodeTypeDescriptor(codeType: CodeType): String {
 /**
  * Creates method descriptor from [methodDeclaration]
  */
-fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
+fun methodGenericSignature(methodDeclaration: MethodDeclaration): String? {
+    return methodGenericSignature(methodDeclaration as MethodDeclarationBase)
+}
+
+/**
+ * Creates method descriptor from [constructorDeclaration]
+ */
+fun methodGenericSignature(constructorDeclaration: ConstructorDeclaration): String? {
+    return methodGenericSignature(constructorDeclaration as MethodDeclarationBase)
+}
+
+/**
+ * Creates method descriptor from [methodDeclaration]
+ */
+internal fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
 
     val returnType = methodDeclaration.returnType
 
