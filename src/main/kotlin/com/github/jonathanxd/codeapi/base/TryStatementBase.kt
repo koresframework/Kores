@@ -89,7 +89,7 @@ data class TryStatement(override val body: CodeSource, override val catchStateme
 /**
  * Try-catch-finally statement
  */
-interface TryStatementBase : BodyHolder, Typed {
+internal interface TryStatementBase : BodyHolder, Typed {
 
     override val type: Type
         get() {

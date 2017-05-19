@@ -134,7 +134,7 @@ data class MethodDeclaration(override val comments: Comments,
 /**
  * Method declaration
  */
-interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
+internal interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
 
     override val type: Type
         get() = this.returnType

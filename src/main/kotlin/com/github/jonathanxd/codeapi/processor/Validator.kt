@@ -98,9 +98,14 @@ interface ValidationEnvironment {
     val data: TypedData
 
     /**
-     * Immutable list of indexed validation messages.
+     * Immutable view list of indexed contexted validation messages.
      */
-    val validationMessages: List<ValidationMessage>
+    val validationMessages: List<ContextedValidationMessage>
+
+    /**
+     * Immutable view list of current context (LIFO stack)
+     */
+    val context: List<CodePart>
 
     /**
      * Adds a [ValidationMessage] to index.
@@ -108,19 +113,70 @@ interface ValidationEnvironment {
     fun addMessage(message: ValidationMessage)
 
     /**
+     * Adds [part] to inspection context
+     */
+    fun enterInspectionOf(part: CodePart)
+
+    /**
+     * Exits the inspection of [part]. This method may throw [UnexpectedInspectionContext], if
+     * the last value of inspection context is not [Any.equals] to [part].
+     */
+    fun exitInspectionOf(part: CodePart)
+
+    /**
      * Common implementation of [ValidationEnvironment]
      */
     class Impl(override val data: TypedData) : ValidationEnvironment {
 
-        private val backingList = mutableListOf<ValidationMessage>()
-        override val validationMessages: List<ValidationMessage> = Collections.unmodifiableList(this.backingList)
+        private val inspectionContext = mutableListOf<CodePart>()
+        private val backingList = mutableListOf<ContextedValidationMessage>()
+        override val context: List<CodePart> = Collections.unmodifiableList(this.inspectionContext)
+        override val validationMessages: List<ContextedValidationMessage> = Collections.unmodifiableList(this.backingList)
 
         override fun addMessage(message: ValidationMessage) {
-            this.backingList += message
+            this.backingList += ContextedValidationMessage(message, this.context.toList())
         }
+
+        override fun enterInspectionOf(part: CodePart) {
+            this.inspectionContext.add(part)
+        }
+
+        override fun exitInspectionOf(part: CodePart) {
+
+            if(this.inspectionContext.isEmpty())
+                fail(part, {"Empty inspection context"})
+
+            this.inspectionContext.last().let { last ->
+                if (last != part)
+                fail(part, { "Mismatch context. Expected last element: $part. Found: $last, in context: ${this.inspectionContext}" })
+            }
+
+            check(this.inspectionContext.removeAt(this.inspectionContext.lastIndex) == part)
+
+        }
+
+        private inline fun fail(part: CodePart, message: () -> String): Nothing = throw UnexpectedInspectionContext("Failed to exit inspection of element $part: ${message()}.")
 
     }
 }
+
+/**
+ * Occurs when a unexpected inspection context is found.
+ */
+class UnexpectedInspectionContext : IllegalStateException {
+    constructor() : super()
+    constructor(message: String) : super(message)
+    constructor(cause: Throwable) : super(cause)
+    constructor(message: String, cause: Throwable) : super(message, cause)
+}
+
+/**
+ * Validation message with a [context].
+ *
+ * @property message Validation message
+ * @property context Message context.
+ */
+data class ContextedValidationMessage(val message: ValidationMessage, val context: List<CodePart>)
 
 /**
  * Validation message.
@@ -176,8 +232,14 @@ object VoidValidator : CodeValidator {
             override val data: TypedData
                 get() = ext
 
-            override val validationMessages: List<ValidationMessage>
-                get() = emptyList()
+            override val context: List<CodePart> = emptyList()
+            override val validationMessages: List<ContextedValidationMessage> = emptyList()
+
+            override fun enterInspectionOf(part: CodePart) {
+            }
+
+            override fun exitInspectionOf(part: CodePart) {
+            }
 
             override fun addMessage(message: ValidationMessage) {
             }
