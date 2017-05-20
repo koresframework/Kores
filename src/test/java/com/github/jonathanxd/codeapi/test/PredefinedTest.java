@@ -27,46 +27,54 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.type.TypeRef;
 
 /**
  * Predefined test template, a class with a constructor.
  */
 public final class PredefinedTest {
 
-    public final ClassDeclaration classDeclaration;
-    public final ConstructorDeclaration constructor;
-    public final StaticBlock staticBlock;
+    public final ClassDeclaration.Builder classDeclaration;
+    public final ConstructorDeclaration.Builder constructor;
+    public final StaticBlock.Builder staticBlock;
 
-    private PredefinedTest(ClassDeclaration classDeclaration, ConstructorDeclaration constructor, StaticBlock staticBlock) {
+    private PredefinedTest(ClassDeclaration.Builder classDeclaration, ConstructorDeclaration.Builder constructor, StaticBlock.Builder staticBlock) {
         this.classDeclaration = classDeclaration;
         this.constructor = constructor;
         this.staticBlock = staticBlock;
     }
 
+
+    public TypeRef getTypeRef() {
+        return new TypeRef(classDeclaration.getOuterClass(), classDeclaration.getSpecifiedName());
+    }
+
     public static PredefinedTest create(String name) {
 
-        ConstructorDeclaration constructorDeclaration = ConstructorDeclaration.Builder.Companion.builder()
+        ConstructorDeclaration.Builder constructorDeclaration = ConstructorDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(MutableCodeSource.create())
-                .build();
+                .withBody(MutableCodeSource.create());
 
-        StaticBlock staticBlock = StaticBlock.Builder.Companion.builder()
-                .withBody(MutableCodeSource.create())
-                .build();
+        StaticBlock.Builder staticBlock = StaticBlock.Builder.builder()
+                .withBody(MutableCodeSource.create());
 
-        ClassDeclaration classDeclaration = ClassDeclaration.Builder.Companion.builder()
+        ClassDeclaration.Builder classDeclaration = ClassDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName(name)
-                .withBody(CodeSource.fromVarArgs(constructorDeclaration, staticBlock).toMutable())
-                .build();
+                .withQualifiedName(name);
 
         return new PredefinedTest(classDeclaration, constructorDeclaration, staticBlock);
+    }
+
+    public ClassDeclaration build() {
+        return this.classDeclaration
+                .withStaticBlock(this.staticBlock.build())
+                .withConstructors(this.constructor.build())
+                .build();
     }
 
 }

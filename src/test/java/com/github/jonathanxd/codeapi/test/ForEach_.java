@@ -29,51 +29,34 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.CodeParameter;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 public class ForEach_ {
 
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING).hashCode(), Generic.type(Types.LIST).of(Types.STRING).hashCode());
         Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING), Generic.type(Types.LIST).of(Types.STRING));
 
-        ClassDeclaration classDeclaration = ClassFactory.aClass(
-                null,
-                new Annotation[0],
-                EnumSet.of(CodeModifier.PUBLIC),
-                "com.ForEach",
-                GenericSignature.empty(),
-                Types.OBJECT,
-                new CodeType[0],
-                CodeSource.fromVarArgs(
-                        ConstructorFactory.constructor(
-                                new Annotation[0],
-                                GenericSignature.empty(),
-                                EnumSet.of(CodeModifier.PUBLIC),
-                                new CodeParameter[]{new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type(Types.LIST).of(Types.STRING), "strList")},
-                                CodeSource.fromVarArgs(
+        return ClassDeclaration.Builder.builder()
+                .withSpecifiedName("com.ForEach")
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withParameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type(Types.LIST).of(Types.STRING), "strList"))
+                                .withBody(CodeSource.fromVarArgs(
                                         Factories.forEachIterable(VariableFactory.variable(Types.STRING, "str"),
                                                 Factories.accessVariable(
                                                         Generic.type(Types.LIST).of(Types.STRING),
@@ -81,10 +64,8 @@ public class ForEach_ {
                                                 CodeSource.fromVarArgs(
                                                         Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
                                                 ))
-                                ))
-                ));
-
-        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
+                                )).build()
+                ).build();
     }
 
     @Test

@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.generic.GenericSignature
@@ -60,7 +61,7 @@ data class MethodDeclaration(override val comments: Comments,
         var annotations: List<Annotation> = emptyList()
         var modifiers: Set<CodeModifier> = emptySet()
         var genericSignature: GenericSignature = GenericSignature.empty()
-        lateinit var returnType: Type
+        var returnType: Type = Types.VOID
         lateinit var name: String
         var parameters: List<CodeParameter> = emptyList()
         var innerTypes: List<TypeDeclaration> = emptyList()

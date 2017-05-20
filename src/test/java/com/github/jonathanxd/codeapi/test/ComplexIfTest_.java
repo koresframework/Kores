@@ -28,72 +28,63 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeParameter;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 public class ComplexIfTest_ {
     //
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
-        MutableCodeSource source = MutableCodeSource.create();
+        return ClassDeclaration.Builder.builder()
+                .withSpecifiedName("test.ComplexIf")
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withParameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "h"),
+                                        new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "x"),
+                                        new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "y"),
+                                        new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "z"))
+                                .withBody(CodeSource.fromVarArgs(
+                                        VariableFactory.variable(Types.BOOLEAN, "a", Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5))),
+                                        VariableFactory.variable(Types.STRING, "b",
+                                                Factories.ifStatement(
+                                                        Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
+                                                        CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
+                                                        CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
+                                                )
+                                        ),
+                                        VariableFactory.variable(Types.STRING, "b",
+                                                Factories.ifStatement(
+                                                        Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
+                                                        CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
+                                                        CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
+                                                )
+                                        ),
 
-        TypeDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.ComplexIf", CodeSource.fromVarArgs(
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC),
-                        new CodeParameter[]{
-                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "h"),
-                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "x"),
-                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "y"),
-                                new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "z")
-                        },
-                        CodeSource.fromVarArgs(
-                                VariableFactory.variable(Types.BOOLEAN, "a", Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5))),
-                                VariableFactory.variable(Types.STRING, "b",
                                         Factories.ifStatement(
-                                                Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
-                                                CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
-                                                CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
+                                                Factories.ifExprs(
+                                                        Factories.accessVariable(Types.BOOLEAN, "h"),
+                                                        Operators.AND,
+                                                        Factories.accessVariable(Types.BOOLEAN, "x"),
+                                                        Operators.AND,
+                                                        Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "y"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "z"))),
+                                                CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("true"))),
+                                                CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("false")))
                                         )
-                                ),
-                                VariableFactory.variable(Types.STRING, "b",
-                                        Factories.ifStatement(
-                                                Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
-                                                CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
-                                                CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
-                                        )
-                                ),
 
-                                Factories.ifStatement(
-                                        Factories.ifExprs(
-                                                Factories.accessVariable(Types.BOOLEAN, "h"),
-                                                Operators.AND,
-                                                Factories.accessVariable(Types.BOOLEAN, "x"),
-                                                Operators.AND,
-                                                Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "y"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "z"))),
-                                        CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("true"))),
-                                        CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("false")))
-                                )
-
-                        ))
-        ));
-
-        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
+                                )).build()
+                ).build();
     }
 
     @Test

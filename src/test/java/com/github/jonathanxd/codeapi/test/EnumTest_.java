@@ -29,16 +29,15 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.EnumDeclaration;
+import com.github.jonathanxd.codeapi.base.EnumEntry;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -48,14 +47,16 @@ import kotlin.collections.SetsKt;
 public class EnumTest_ {
 
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-        EnumDeclaration codeEnum = EnumDeclaration.Builder.Companion.builder()
+    public static TypeDeclaration $() {
+
+        return EnumDeclaration.Builder.Companion.builder()
                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                 .withImplementations(CollectionsKt.listOf(CodeTypes.getCodeType(MyItf.class)))
                 .withQualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
                 .withEntries(
-                        Factories.enumEntry("A", CodeSource.fromVarArgs(
-                                MethodDeclaration.Builder.builder()
+                        EnumEntry.Builder.builder()
+                                .withName("A")
+                                .withMethods(MethodDeclaration.Builder.builder()
                                         .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
                                         .withAnnotations(Factories.overrideAnnotation())
                                         .withReturnType(Types.VOID)
@@ -63,26 +64,21 @@ public class EnumTest_ {
                                         .withBody(CodeSource.fromVarArgs(
                                                 Predefined.invokePrintln(Literals.STRING("A"))
                                         ))
-                                        .build()
-
-                        )),
-                        Factories.enumEntry("B",
-                                CodeSource.fromVarArgs(
-                                        MethodDeclaration.Builder.builder()
-                                                .withModifiers(CodeModifier.PUBLIC)
-                                                .withAnnotations(Factories.overrideAnnotation())
-                                                .withReturnType(Types.VOID)
-                                                .withName("v")
-                                                .withBody(CodeSource.fromVarArgs(
-                                                        Predefined.invokePrintln(Literals.STRING("B"))
-                                                ))
-                                                .build()
-
-                                ))
-                )//
+                                        .build())
+                                .build(),
+                        EnumEntry.Builder.builder()
+                                .withName("B")
+                                .withMethods(MethodDeclaration.Builder.builder()
+                                        .withModifiers(CodeModifier.PUBLIC)
+                                        .withAnnotations(Factories.overrideAnnotation())
+                                        .withReturnType(Types.VOID)
+                                        .withName("v")
+                                        .withBody(CodeSource.fromVarArgs(
+                                                Predefined.invokePrintln(Literals.STRING("B"))
+                                        ))
+                                        .build())
+                                .build())
                 .build();
-
-        return Pair.of(codeEnum, CodeSource.fromPart(codeEnum));
     }
 
     @Test

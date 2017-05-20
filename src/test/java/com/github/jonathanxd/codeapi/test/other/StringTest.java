@@ -27,14 +27,17 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
+import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
+import com.github.jonathanxd.codeapi.util.Alias;
 import com.github.jonathanxd.codeapi.util.ToString;
 
 import org.junit.Test;
@@ -45,26 +48,26 @@ public class StringTest {
     @Test
     public void test() {
 
-        MutableCodeSource source = MutableCodeSource.create();
-
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.A")
                 .withSuperClass(Types.OBJECT)
-                .withBody(source)
+                .withMethods(
+                        MethodDeclaration.Builder.builder()
+                                .withName("test")
+                                .withBody(CodeSource.fromPart(
+                                        InvocationFactory.invokeVirtual(Alias.THIS.INSTANCE, Factories.accessThis(), "aa",
+                                                new TypeSpec(Types.VOID, Collections.emptyList()),
+                                                Collections.emptyList())
+                                ))
+                                .build()
+                )
                 .build();
-
-        source.add(
-                InvocationFactory.invokeVirtual(typeDeclaration, Factories.accessThis(), "aa",
-                        new TypeSpec(Types.VOID, Collections.emptyList()),
-                        Collections.emptyList())
-        );
-
 
         System.out.println(typeDeclaration);
         System.out.println("=== To Strings method ===");
 
-        System.out.println(ToString.toString(typeDeclaration));
+        System.out.println(ToString.toString(typeDeclaration.getMethods().get(0)));
 
         System.out.println("=== Normal To Strings method ===");
 

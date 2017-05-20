@@ -27,37 +27,35 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeInstruction;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
 import com.github.jonathanxd.codeapi.base.InvokeDynamic;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.base.LocalCode;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
 import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
-import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.factory.DynamicInvocationFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.TypeRef;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -69,7 +67,6 @@ import java.lang.invoke.MethodType;
 import java.lang.invoke.MutableCallSite;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import static java.util.Collections.emptyList;
@@ -131,64 +128,53 @@ public class InvocationsTest_ {
         throw new RuntimeException("Oops");
     }
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
         MutableCodeSource codeSource = MutableCodeSource.create();
-        MutableCodeSource clSource = MutableCodeSource.create();
 
-        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName("fullName." + InvocationsTest_.class.getSimpleName() + "_Generated")
-                .withSuperClass(Types.OBJECT)
-                .withBody(clSource)
-                .build();
+        TypeRef typeRef = new TypeRef("fullName." + InvocationsTest_.class.getSimpleName() + "_Generated");
 
-        FieldDeclaration codeField = FieldFactory.field(
-                EnumSet.of(CodeModifier.PUBLIC, CodeModifier.FINAL),
-                Types.STRING,
-                "FIELD",
-                Literals.STRING("AVD")
-        );
-
-        FieldDeclaration codeField2 = FieldFactory.field(
-                EnumSet.of(CodeModifier.PUBLIC, CodeModifier.FINAL),
-                Types.INT,
-                "n",
-                Literals.INT(15)
-        );
-
-        clSource.add(codeField);
-        clSource.add(codeField2);
-
-        CodePart invokeTest = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
+        CodeInstruction invokeTest = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
                 Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
                 Factories.voidTypeSpec(Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Hello")));
 
-        CodePart invokeTest2 = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, codeClass, Factories.accessThis(),
+        CodeInstruction invokeTest2 = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, typeRef, Factories.accessThis(),
                 "printIt",
                 Factories.voidTypeSpec(Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Oi")));
 
-        ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
+        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
+                .base(typeRef)
+                .withSuperClass(Types.OBJECT)
+                .withFields(FieldDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .withType(Types.STRING)
+                                .withName("FIELD")
+                                .withValue(Literals.STRING("AVD"))
+                                .build(),
+                        FieldDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .withType(Types.INT)
+                                .withName("n")
+                                .withValue(Literals.INT(15))
+                                .build()
+                )
+                .withConstructors(ConstructorDeclaration.Builder.Companion.builder()
+                        .withModifiers(CodeModifier.PUBLIC)
+                        .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
+                        .build())
+                .withMethods(TestFeatures_.createPrintItMethod(), makeCM2(typeRef))
                 .build();
 
-        clSource.add(codeConstructor);
-
-        clSource.add(TestFeatures_.makeCM());
-        clSource.add(makeCM2(codeClass));
-
-        codeSource.add(codeClass);
-
-        return Pair.of(codeClass, codeSource);
+        return codeClass;
     }
 
-    public static MethodDeclarationBase makeCM2(TypeDeclaration typeDeclaration) {
+    public static MethodDeclaration makeCM2(TypeRef typeDeclaration) {
         MutableCodeSource methodSource = MutableCodeSource.create();
 
-        MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
+        MethodDeclaration codeMethod = MethodDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("check")
                 .withReturnType(Types.BOOLEAN)
@@ -242,7 +228,7 @@ public class InvocationsTest_ {
                         .withBody(CodeSource.fromVarArgs(
                                 Factories.returnValue(Types.STRING, Literals.STRING("BRB"))
                         ))
-                        .build()),
+                        .build(), emptyList()),
                 emptyList()
         );
 

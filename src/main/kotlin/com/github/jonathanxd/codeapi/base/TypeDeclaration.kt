@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.TypeRef
 import java.lang.reflect.Type
 
 /**
@@ -53,7 +54,8 @@ import java.lang.reflect.Type
  * }
  * ```
  */
-interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, Annotable, CommentHolder, InnerTypesHolder {
+interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, Annotable,
+        CommentHolder, InnerTypesHolder, ElementsHolder {
 
     /**
      * Outer class (null if this type is not a inner class).
@@ -78,26 +80,6 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
         get() = this.qualifiedName
 
     /**
-     * Static block
-     */
-    val staticBlock: StaticBlock
-
-    /**
-     * Fields of the type.
-     */
-    val fields: List<FieldDeclaration>
-
-    /**
-     * Constructor declaration
-     */
-    val constructors: List<ConstructorDeclaration>
-
-    /**
-     * Methods of type
-     */
-    val methods: List<MethodDeclaration>
-
-    /**
      * Static inner types. CodeAPI 4 only supports static types, inner logic should be
      * manually implemented.
      */
@@ -111,7 +93,8 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
             GenericSignatureHolder.Builder<T, S>,
             Annotable.Builder<T, S>,
             CommentHolder.Builder<T, S>,
-            InnerTypesHolder.Builder<T, S> {
+            InnerTypesHolder.Builder<T, S>,
+            ElementsHolder.Builder<T, S> {
 
         override fun withQualifiedName(value: String): S = this.withSpecifiedName(value)
 
@@ -126,39 +109,8 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
         fun withOuterClass(value: Type?): S
 
         /**
-         * See [TypeDeclaration.staticBlock]
+         * Sets the name and outer type to values specified in [typeRef]
          */
-        fun withStaticBlock(value: StaticBlock): S
-
-        /**
-         * See [TypeDeclaration.fields]
-         */
-        fun withFields(value: List<FieldDeclaration>): S
-
-        /**
-         * See [TypeDeclaration.fields]
-         */
-        fun withFields(vararg values: FieldDeclaration): S = this.withFields(values.toList())
-
-        /**
-         * See [TypeDeclaration.constructors]
-         */
-        fun withConstructors(value: List<ConstructorDeclaration>): S
-
-        /**
-         * See [TypeDeclaration.constructors]
-         */
-        fun withConstructors(vararg values: ConstructorDeclaration): S = this.withConstructors(values.toList())
-
-        /**
-         * See [TypeDeclaration.methods]
-         */
-        fun withMethods(value: List<MethodDeclaration>): S
-
-        /**
-         * See [TypeDeclaration.methods]
-         */
-        fun withMethods(vararg values: MethodDeclaration): S = this.withMethods(values.toList())
-
+        fun base(typeRef: TypeRef): S = this.withOuterClass(typeRef.outerType).withSpecifiedName(typeRef.specifiedName)
     }
 }

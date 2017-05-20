@@ -50,7 +50,6 @@ public class VisitTest {
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("com.ABC")
                 .withSuperClass(Types.OBJECT)
-                .withBody(MutableCodeSource.create())
                 .build();
 
         TypeDeclaration visit = codeClassVisitManager.visit(myClass);

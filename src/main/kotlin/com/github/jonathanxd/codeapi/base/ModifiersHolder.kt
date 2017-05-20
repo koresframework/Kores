@@ -35,15 +35,35 @@ import com.github.jonathanxd.codeapi.CodePart
 interface ModifiersHolder : CodePart {
 
     /**
-     * Modifiers
+     * Modifiers. Empty modifier set is the same as public. For package private, an explicit
+     * [CodeModifier.PACKAGE_PRIVATE] is required.
      */
     val modifiers: Set<CodeModifier>
+
+    /**
+     * Returns true if is public.
+     */
+    val isPublic: Boolean
+        get() = this.modifiers.isEmpty() || this.modifiers.contains(CodeModifier.PUBLIC)
 
     override fun builder(): Builder<ModifiersHolder, *>
 
     interface Builder<out T : ModifiersHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [ModifiersHolder.modifiers]
+         */
         fun withModifiers(value: Set<CodeModifier>): S
 
+        /**
+         * See [ModifiersHolder.modifiers]
+         */
         fun withModifiers(vararg values: CodeModifier): S = withModifiers(values.toSet())
+
+        /**
+         * Sets modifiers to [CodeModifier.PUBLIC]. Public modifier is optional, all
+         * [ModifiersHolder] which does not provide a modifier is public by default.
+         */
+        fun withPublicModifier(): S = this.withModifiers(CodeModifier.PUBLIC)
     }
 }

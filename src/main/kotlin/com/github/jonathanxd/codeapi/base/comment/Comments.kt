@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base.comment
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 
 /**
@@ -35,7 +36,7 @@ import com.github.jonathanxd.codeapi.CodePart
  * @property comments Comment list
  * @property type Type of comments entry.
  */
-data class Comments(val comments: List<Comment>, val type: Type) : CodePart {
+data class Comments(val comments: List<Comment>, val type: Type) : CodePart, CodeInstruction {
 
     /**
      * Returns true if this [Comments] instance is [Absent]. Absent comment is not the same as

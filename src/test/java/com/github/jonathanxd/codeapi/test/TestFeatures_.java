@@ -27,25 +27,25 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
+import com.github.jonathanxd.codeapi.CodeInstruction;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclaration;
-import com.github.jonathanxd.codeapi.base.MethodDeclarationBase;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.InvokeType;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
+import com.github.jonathanxd.codeapi.util.Alias;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
@@ -54,13 +54,13 @@ import org.junit.Test;
 
 import java.io.PrintStream;
 import java.util.Collections;
-import java.util.EnumSet;
 
 import static java.util.Collections.singletonList;
 
 @SuppressWarnings("Duplicates")
 public class TestFeatures_ {
-    public static CodePart invokePrintln(CodePart toPrint) {
+
+    public static CodeInstruction invokePrintln(CodePart toPrint) {
         return InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
                 Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
@@ -68,10 +68,10 @@ public class TestFeatures_ {
                 singletonList(toPrint));
     }
 
-    public static MethodDeclarationBase makeCM() {
+    public static MethodDeclaration createPrintItMethod() {
         MutableCodeSource methodSource = MutableCodeSource.create();
 
-        MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
+        MethodDeclaration codeMethod = MethodDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("printIt")
                 .withParameters(Factories.parameter(Types.OBJECT, "n"))
@@ -104,39 +104,32 @@ public class TestFeatures_ {
 
         MutableCodeSource codeSource = MutableCodeSource.create();
 
-        MutableCodeSource clSource = MutableCodeSource.create();
-
-        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
+        ClassDeclaration.Builder codeClassBuilder = ClassDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("fullName." + TestFeatures_.class.getSimpleName())
                 .withSuperClass(Types.OBJECT)
-                .withBody(clSource)
-                .build();
+                .withFields(
+                        FieldDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .withType(Types.STRING)
+                                .withName("FIELD")
+                                .withValue(Literals.STRING("AVD"))
+                                .build(),
+                        FieldDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .withType(Types.INT)
+                                .withName("n")
+                                .withValue(Literals.INT(15))
+                                .build()
+                );
 
-        FieldDeclaration codeField = FieldFactory.field(
-                EnumSet.of(CodeModifier.PUBLIC, CodeModifier.FINAL),
-                Types.STRING,
-                "FIELD",
-                Literals.STRING("AVD")
-        );
-
-        FieldDeclaration codeField2 = FieldFactory.field(
-                EnumSet.of(CodeModifier.PUBLIC, CodeModifier.FINAL),
-                Types.INT,
-                "n",
-                Literals.INT(15)
-        );
-
-        clSource.add(codeField);
-        clSource.add(codeField2);
-
-        CodePart invokeTest = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
+        CodeInstruction invokeTest = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
                 Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
                 Factories.typeSpec(Types.VOID, Types.OBJECT),
                 Collections.singletonList(Literals.STRING("Hello")));
 
-        CodePart invokeTest2 = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, codeClass,
+        CodeInstruction invokeTest2 = InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE,
                 Factories.accessThis(),
                 "printIt",
                 Factories.typeSpec(Types.VOID, Types.OBJECT),
@@ -148,20 +141,18 @@ public class TestFeatures_ {
                 .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
                 .build();
 
-        clSource.add(codeConstructor);
 
-        clSource.add(makeCM());
-        clSource.add(makeCM2());
+        codeClassBuilder
+                .withConstructors(codeConstructor)
+                .withMethods(createPrintItMethod(), createCheckMethod());
 
-        codeSource.add(codeClass);
-
-        return Pair.of(codeClass, codeSource);
+        return Pair.of(codeClassBuilder.build(), codeSource);
     }
 
-    public static MethodDeclarationBase makeCM2() {
+    public static MethodDeclaration createCheckMethod() {
         MutableCodeSource methodSource = MutableCodeSource.create();
 
-        MethodDeclarationBase codeMethod = MethodDeclaration.Builder.builder()
+        MethodDeclaration codeMethod = MethodDeclaration.Builder.builder()
                 .withName("check")
                 .withModifiers(CodeModifier.PUBLIC)
                 .withParameters(Factories.parameter(Types.INT, "x"))

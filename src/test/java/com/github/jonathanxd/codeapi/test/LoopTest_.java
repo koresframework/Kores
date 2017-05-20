@@ -28,21 +28,18 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -53,78 +50,67 @@ import static java.util.Collections.singletonList;
 
 public class LoopTest_ {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-
-        MutableCodeSource codeSource = MutableCodeSource.create();
-
-        MutableCodeSource clSource = MutableCodeSource.create();
-
-        ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withSuperClass(Types.OBJECT)
-                .withQualifiedName("fullName." + LoopTest_.class.getSimpleName())
-                .withBody(clSource)
-                .build();
+    public static TypeDeclaration $() {
 
         VariableAccess accessX = Factories.accessVariable(Types.INT, "x");
         VariableAccess accessI = Factories.accessVariable(Types.INT, "i");
         VariableAccess accessU = Factories.accessVariable(Types.INT, "u");
 
-
-        ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
+        ClassDeclaration codeClass = ClassDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeSource.fromVarArgs(
+                .withSuperClass(Types.OBJECT)
+                .withQualifiedName("fullName." + LoopTest_.class.getSimpleName())
+                .withConstructors(ConstructorDeclaration.Builder.builder()
+                        .withModifiers(CodeModifier.PUBLIC)
+                        .withBody(CodeSource.fromVarArgs(
 
-                        variable(Types.INT, "x", Literals.INT(0)),
+                                variable(Types.INT, "x", Literals.INT(0)),
 
-                        Factories.whileStatement(
-                                Factories.ifExprs(Factories.check(accessX, Operators.LESS_THAN, Literals.INT(17))),
-                                CodeSource.fromVarArgs(
-                                        Predefined.invokePrintln(accessX),
-                                        Factories.operateAndAssign(Types.INT, "x", Operators.ADD, Literals.INT(1))
-                                )
-                        ),
+                                Factories.whileStatement(
+                                        Factories.ifExprs(Factories.check(accessX, Operators.LESS_THAN, Literals.INT(17))),
+                                        CodeSource.fromVarArgs(
+                                                Predefined.invokePrintln(accessX),
+                                                Factories.operateAndAssign(Types.INT, "x", Operators.ADD, Literals.INT(1))
+                                        )
+                                ),
 
-                        Factories.forStatement(variable(Types.INT, "i", Literals.INT(0)),
-                                Factories.ifExprs(Factories.check(accessI, Operators.LESS_THAN, Literals.INT(100))),
-                                Factories.operateAndAssign(Types.INT, "i", Operators.ADD, Literals.INT(1)),
-                                CodeSource.fromVarArgs(
-                                        Factories.ifStatement(Factories.check(accessI, Operators.EQUAL_TO, Literals.INT(5)),
-                                                CodeSource.fromVarArgs(Factories.continueFlow()),
-                                                CodeSource.empty()),
-                                        Predefined.invokePrintln(accessI)
-                                )),
+                                Factories.forStatement(variable(Types.INT, "i", Literals.INT(0)),
+                                        Factories.ifExprs(Factories.check(accessI, Operators.LESS_THAN, Literals.INT(100))),
+                                        Factories.operateAndAssign(Types.INT, "i", Operators.ADD, Literals.INT(1)),
+                                        CodeSource.fromVarArgs(
+                                                Factories.ifStatement(Factories.check(accessI, Operators.EQUAL_TO, Literals.INT(5)),
+                                                        CodeSource.fromVarArgs(Factories.continueFlow()),
+                                                        CodeSource.empty()),
+                                                Predefined.invokePrintln(accessI)
+                                        )),
 
 
-                        variable(Types.INT, "u", Literals.INT(0)),
+                                variable(Types.INT, "u", Literals.INT(0)),
 
-                        Factories.doWhileStatement(
-                                Factories.ifExprs(Factories.check(accessU, Operators.LESS_THAN, Literals.INT(5))),
-                                CodeSource.fromVarArgs(
-                                        Predefined.invokePrintln(accessU),
-                                        Factories.operateAndAssign(Types.INT, "u", Operators.ADD, Literals.INT(1)),
-                                        Factories.ifStatement(Factories.ifExprs(Factories.check(accessU, Operators.EQUAL_TO, Literals.INT(2))),
-                                                CodeSource.fromVarArgs(Factories.breakFlow()))
-                                )),
-                        // Chama um metodo Virtual (metodos de instancia) na Classe PrintStream
-                        InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
-                                // Acessa uma variavel estatica 'out' com tipo PrintStream na classe System
-                                Factories.accessStaticField(System.class, PrintStream.class, "out"),
-                                // Especificação do metodo
-                                "println",
-                                // Informa que o metodo é println, recebe String e retorna um void
-                                Factories.typeSpec(Types.VOID, Types.STRING),
-                                // Adiciona um argumento String
-                                singletonList(Literals.STRING("Hello World")))
-                ))
+                                Factories.doWhileStatement(
+                                        Factories.ifExprs(Factories.check(accessU, Operators.LESS_THAN, Literals.INT(5))),
+                                        CodeSource.fromVarArgs(
+                                                Predefined.invokePrintln(accessU),
+                                                Factories.operateAndAssign(Types.INT, "u", Operators.ADD, Literals.INT(1)),
+                                                Factories.ifStatement(Factories.ifExprs(Factories.check(accessU, Operators.EQUAL_TO, Literals.INT(2))),
+                                                        CodeSource.fromVarArgs(Factories.breakFlow()))
+                                        )),
+                                // Chama um metodo Virtual (metodos de instancia) na Classe PrintStream
+                                InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, PrintStream.class,
+                                        // Acessa uma variavel estatica 'out' com tipo PrintStream na classe System
+                                        Factories.accessStaticField(System.class, PrintStream.class, "out"),
+                                        // Especificação do metodo
+                                        "println",
+                                        // Informa que o metodo é println, recebe String e retorna um void
+                                        Factories.typeSpec(Types.VOID, Types.STRING),
+                                        // Adiciona um argumento String
+                                        singletonList(Literals.STRING("Hello World")))
+                        ))
+                        .build())
                 .build();
 
 
-        clSource.add(codeConstructor);
-
-        codeSource.add(codeClass);
-
-        return Pair.of(codeClass, codeSource);
+        return codeClass;
 
     }
 

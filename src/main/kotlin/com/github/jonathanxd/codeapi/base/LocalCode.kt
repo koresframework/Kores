@@ -47,19 +47,21 @@ import java.lang.reflect.Type
  */
 data class LocalCode(val declaringType: Type,
                      val invokeType: InvokeType,
-                     val declaration: MethodDeclaration) : CodeElement, CodePart, CodeInstruction {
+                     val declaration: MethodDeclaration,
+                     override val innerTypes: List<TypeDeclaration>) : CodeElement, CodePart, CodeInstruction, InnerTypesHolder {
 
     /**
      * Local code execution constructor, this constructor resolves [invokeType] based on [declaration] and
      * [declaringType].
      */
-    constructor(declaringType: CodeType, declaration: MethodDeclaration) :
+    constructor(declaringType: CodeType, declaration: MethodDeclaration, innerTypes: List<TypeDeclaration>) :
             this(declaringType,
                     if (declaration.modifiers.contains(CodeModifier.STATIC)) InvokeType.INVOKE_STATIC
                     else if (declaration.modifiers.contains(CodeModifier.PRIVATE)) InvokeType.INVOKE_VIRTUAL
                     else if (declaringType.isInterface) InvokeType.INVOKE_INTERFACE
                     else InvokeType.INVOKE_VIRTUAL,
-                    declaration)
+                    declaration,
+                    innerTypes)
 
     /**
      * Creates a invocation of this [LocalCode] with [arguments].
@@ -90,16 +92,19 @@ data class LocalCode(val declaringType: Type,
 
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<LocalCode, Builder> {
+    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<LocalCode, Builder>,
+    InnerTypesHolder.Builder<LocalCode, Builder> {
 
         lateinit var declaringType: Type
         var invokeType: InvokeType? = null
         lateinit var declaration: MethodDeclaration
+        var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: LocalCode) : this() {
             this.declaringType = defaults.declaringType
             this.invokeType = defaults.invokeType
             this.declaration = defaults.declaration
+            this.innerTypes = defaults.innerTypes
         }
 
         /**
@@ -129,8 +134,13 @@ data class LocalCode(val declaringType: Type,
 
         override fun build(): LocalCode {
             return (this.declaringType as? CodeType)?.let {
-                LocalCode(it, this.declaration)
-            } ?: LocalCode(this.declaringType, this.invokeType!!, this.declaration)
+                LocalCode(it, this.declaration, this.innerTypes)
+            } ?: LocalCode(this.declaringType, this.invokeType!!, this.declaration, this.innerTypes)
+        }
+
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
+            return this
         }
 
         companion object {

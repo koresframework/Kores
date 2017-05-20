@@ -52,7 +52,7 @@ import java.util.EnumSet;
 public class CommentClassTest_ {
     //
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         MethodTypeSpec indexOfMethodSpec = new MethodTypeSpec(Types.STRING, "indexOf", Factories.typeSpec(Types.INT, Types.INT, Types.INT));
 
@@ -65,42 +65,37 @@ public class CommentClassTest_ {
         );
 
 
-        TypeDeclaration myCl = ClassDeclaration.Builder.Companion.builder()
+        return ClassDeclaration.Builder.Companion.builder()
                 .withComments(comments)
                 .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
                 .withQualifiedName("com.MyClass")
                 .withSuperClass(Types.OBJECT)
-                .withBody(CodeSource.fromVarArgs(
-                        FieldDeclaration.Builder.Companion.builder()
-                                .withComments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
-                                .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
-                                .withName("fieldi")
-                                .withType(Types.STRING)
-                                .withValue(Literals.STRING("field"))
-                                .build(),
-                        MethodDeclaration.Builder.builder()
-                                .withComments(
-                                        CommentsFactory.documentation(
-                                                CommentsFactory.plain("Print "),
-                                                CommentsFactory.linkField("'fieldi' value", "com.MyClass", "fieldi", Types.STRING),
-                                                CommentsFactory.plain(" to "),
-                                                CommentsFactory.linkField("java.lang.System", "out", CodeTypes.getCodeType(PrintStream.class)),
-                                                CommentsFactory.plain(".")
-                                        )
+                .withFields(                        FieldDeclaration.Builder.Companion.builder()
+                        .withComments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
+                        .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
+                        .withName("fieldi")
+                        .withType(Types.STRING)
+                        .withValue(Literals.STRING("field"))
+                        .build())
+                .withMethods(MethodDeclaration.Builder.builder()
+                        .withComments(
+                                CommentsFactory.documentation(
+                                        CommentsFactory.plain("Print "),
+                                        CommentsFactory.linkField("'fieldi' value", "com.MyClass", "fieldi", Types.STRING),
+                                        CommentsFactory.plain(" to "),
+                                        CommentsFactory.linkField("java.lang.System", "out", CodeTypes.getCodeType(PrintStream.class)),
+                                        CommentsFactory.plain(".")
                                 )
-                                .withModifiers(CodeModifier.PUBLIC)
-                                .withReturnType(Types.VOID)
-                                .withName("printFieldi")
-                                .withBody(CodeSource.fromVarArgs(
-                                        CommentsFactory.comments(CommentsFactory.plain("Prints 'fieldi' value")),
-                                        Predefined.invokePrintlnStr(Factories.accessThisField(Types.STRING, "fieldi"))
-                                ))
-                                .build()
-                ))
+                        )
+                        .withModifiers(CodeModifier.PUBLIC)
+                        .withReturnType(Types.VOID)
+                        .withName("printFieldi")
+                        .withBody(CodeSource.fromVarArgs(
+                                CommentsFactory.comments(CommentsFactory.plain("Prints 'fieldi' value")),
+                                Predefined.invokePrintlnStr(Factories.accessThisField(Types.STRING, "fieldi"))
+                        ))
+                        .build())
                 .build();
-
-
-        return Pair.of(myCl, CodeSource.fromVarArgs(myCl));
     }
 
     @Test

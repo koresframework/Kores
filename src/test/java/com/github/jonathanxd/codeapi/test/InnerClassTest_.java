@@ -28,86 +28,92 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.Annotation;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.CodeParameter;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
-import com.github.jonathanxd.codeapi.factory.MethodFactory;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
-import com.github.jonathanxd.codeapi.type.CodeType;
-import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
+import com.github.jonathanxd.codeapi.type.TypeRef;
 
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 import kotlin.collections.CollectionsKt;
 
 public class InnerClassTest_ {
     //
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
-        MutableCodeSource source = MutableCodeSource.create();
+        TypeRef classRef = new TypeRef("test.InnerClass");
+        TypeRef innerClassRef = new TypeRef(classRef, "Inner");
 
-        TypeDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.InnerClass", source);
+        TypeDeclaration inner = ClassDeclaration.Builder.builder()
+                .withOuterClass(classRef)
+                .withSpecifiedName("Inner")
+                .withFields(
+                        FieldDeclaration.Builder.builder()
+                                .withType(classRef)
+                                .withName("a")
+                                .withValue(InvocationFactory.invokeConstructor(classRef, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello"))))
+                                .build()
+                )
+                .withMethods(
+                        MethodDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PRIVATE)
+                                .withReturnType(String.class)
+                                .withName("call")
+                                .withBody(CodeSource.fromVarArgs(
+                                        Predefined.invokePrintln(
+                                                Factories.accessField(classRef, Factories.accessOuter(classRef), Types.STRING, "field")
+                                        ),
+                                        InvocationFactory.invokeVirtual(classRef, Factories.accessOuter(classRef), "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
+                                        Factories.returnValue(String.class, Literals.STRING("A"))
+                                )).build()
+                ).build();
 
-        TypeDeclaration inner = ClassFactory.aClass(codeClass, new Annotation[0],
-                EnumSet.of(CodeModifier.PUBLIC),
-                "Inner",
-                GenericSignature.empty(),
-                Types.OBJECT,
-                new CodeType[0],
-                CodeSource.fromVarArgs(
-                        FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), codeClass, "a",
-                                InvocationFactory.invokeConstructor(codeClass, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello")))),
-                        MethodFactory.method(EnumSet.of(CodeModifier.PRIVATE), "call", Types.STRING, CodeSource.fromVarArgs(
-                                Predefined.invokePrintln(
-                                        Factories.accessField(codeClass, Factories.accessOuter(codeClass), Types.STRING, "field")
-                                ),
-                                InvocationFactory.invokeVirtual(codeClass, Factories.accessOuter(codeClass), "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
-                                Factories.returnValue(String.class, Literals.STRING("A"))
+        return ClassDeclaration.Builder.builder()
+                .base(classRef)
+                .withInnerTypes(inner)
+                .withFields(FieldDeclaration.Builder.builder()
+                        .withModifiers(CodeModifier.PRIVATE)
+                        .withType(String.class)
+                        .withName("field")
+                        .withValue(Literals.STRING("XSD"))
+                        .build())
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withBody(CodeSource.fromVarArgs(
+                                        InvocationFactory.invokeVirtual(
+                                                inner,
+                                                InvocationFactory.invokeConstructor(inner),
+                                                "call",
+                                                Factories.typeSpec(String.class),
+                                                Collections.emptyList()
+                                        )
+                                ))
+                                .build(),
+                        ConstructorDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PRIVATE)
+                                .withParameters(Factories.parameter(String.class, "str"))
+                                .withBody(CodeSource.fromVarArgs(
+                                        Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
+                                ))
+                                .build()
+                )
+                .withMethods(MethodDeclaration.Builder.builder()
+                        .withName("mm")
+                        .withBody(CodeSource.fromVarArgs(
+                                Predefined.invokePrintln(Literals.STRING("A"))
                         ))
-                ));
-
-        source.addAll(CodeSource.fromVarArgs(
-                FieldFactory.field(EnumSet.of(CodeModifier.PRIVATE),
-                        CodeTypes.getCodeType(String.class),
-                        "field",
-                        Literals.STRING("XSD")),
-
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeSource.fromVarArgs(
-                        InvocationFactory.invokeVirtual(
-                                inner,
-                                InvocationFactory.invokeConstructor(inner),
-                                "call",
-                                Factories.typeSpec(String.class),
-                                Collections.emptyList()
-                        )
-                )),
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PRIVATE), new CodeParameter[]{Factories.parameter(String.class, "str")},
-                        CodeSource.fromVarArgs(
-                                Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
-                        )),
-                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "mm", Types.VOID, CodeSource.fromVarArgs(
-                        Predefined.invokePrintln(Literals.STRING("A"))
-                )),
-                inner
-        ));
-
-
-        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
+                        .build())
+                .build();
     }
 
     @Test

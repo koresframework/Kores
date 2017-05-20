@@ -25,27 +25,23 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literal
+package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.Named
-import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
+import java.lang.reflect.Type
 
 /**
- * A JVM Literal.
- *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
+ * Reference to a type, this is only intended to be used to inform outer types.
  */
-abstract class Literal protected constructor(val value: Any, override val name: String, override val type: CodeType) : CodeInstruction, Named, Typed {
+data class TypeRef(val outerType: Type?, val specifiedName: String): CodeType {
 
-    // Compatibility
-    constructor(name: String, type: CodeType) : this(name, name, type)
+    constructor(specifiedName: String): this(null, specifiedName)
 
-    override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
+    override val canonicalName: String = specifiedName
+        get() = resolveQualifiedName(field, this.outerType)
 
-    override fun toString(): String {
-        return "${this::class.java.simpleName}[name=$name, type=$type]"
-    }
+    override val type: String = specifiedName
+        get() = resolveTypeName(field, this.outerType)
+
 }

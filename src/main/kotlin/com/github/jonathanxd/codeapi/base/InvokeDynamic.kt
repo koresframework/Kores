@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -44,7 +45,7 @@ import java.util.function.Supplier
  * Note: this class does not extends [MethodInvocation] because it is not
  * a normal invocation.
  */
-internal interface InvokeDynamicBase : Typed {
+internal interface InvokeDynamicBase : Typed, CodeInstruction {
 
     /**
      * Return type of dynamic invocation

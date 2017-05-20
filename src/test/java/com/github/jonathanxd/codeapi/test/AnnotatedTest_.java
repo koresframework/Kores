@@ -61,7 +61,7 @@ public class AnnotatedTest_ {
         $();
     }
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
 
@@ -76,7 +76,17 @@ public class AnnotatedTest_ {
                         ))
                 )
                 .withQualifiedName("test.AnnotatedTestClass")
-                .withBody(CodeSource.fromVarArgs(
+                .withFields(FieldDeclaration.Builder.Companion.builder()
+                        .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
+                        .withAnnotations(listOf(Factories.visibleAnnotation(Simple.class,
+                                MapUtils.mapOf("value", new Object[]{
+                                        Factories.enumValue(MyEnum.class, "A")
+                                }))))
+                        .withType(Types.STRING)
+                        .withName("field")
+                        .withValue(Literals.NULL)
+                        .build())
+                .withMethods(
                         MethodDeclaration.Builder.builder()
                                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
                                 .withAnnotations(listOf(Factories.visibleAnnotation(plainCodeType)))
@@ -85,21 +95,12 @@ public class AnnotatedTest_ {
                                 .withReturnType(Types.OBJECT)
                                 .withParameters(listOf(new CodeParameter(listOf(Factories.deprecatedAnnotation()), Collections.emptySet(), Types.OBJECT, "first")))
                                 .withBody(CodeSource.fromVarArgs(Factories.returnValue(Types.OBJECT, Literals.NULL)))
-                                .build(),
-                        FieldDeclaration.Builder.Companion.builder()
-                                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                                .withAnnotations(listOf(Factories.visibleAnnotation(Simple.class,
-                                        MapUtils.mapOf("value", new Object[]{
-                                                Factories.enumValue(MyEnum.class, "A")
-                                        }))))
-                                .withType(Types.STRING)
-                                .withName("field")
-                                .withValue(Literals.NULL)
                                 .build()
-                ))
+
+                )
                 .build();
 
-        return Pair.of(typeDeclaration, CodeSource.fromVarArgs(typeDeclaration));
+        return typeDeclaration;
     }
 
     public enum MyEnum {

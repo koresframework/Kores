@@ -25,27 +25,45 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.literal
+package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.Named
-import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.CodeSource
 
 /**
- * A JVM Literal.
+ * Synchronized statement. Locks resources to thread access.
  *
- * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
+ * @property instruction Part to lock access.
  */
-abstract class Literal protected constructor(val value: Any, override val name: String, override val type: CodeType) : CodeInstruction, Named, Typed {
+class Synchronized(val instruction: CodeInstruction, override val body: CodeSource): BodyHolder, CodeInstruction {
 
-    // Compatibility
-    constructor(name: String, type: CodeType) : this(name, name, type)
+    override fun builder(): Builder = Builder(this)
 
-    override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
+    class Builder() : BodyHolder.Builder<Synchronized, Builder> {
+        lateinit var instruction: CodeInstruction
+        var body: CodeSource = CodeSource.empty()
 
-    override fun toString(): String {
-        return "${this::class.java.simpleName}[name=$name, type=$type]"
+        constructor(defaults: Synchronized) : this() {
+            this.instruction = defaults.instruction
+            this.body = defaults.body
+        }
+
+        /**
+         * See [Synchronized.instruction]
+         */
+        fun withInstruction(value: CodeInstruction): Builder {
+            this.instruction = value
+            return this
+        }
+
+        override fun withBody(value: CodeSource): Builder {
+            this.body = value
+            return this
+        }
+
+        override fun build(): Synchronized =
+                Synchronized(this.instruction, this.body)
+
     }
+
 }

@@ -42,11 +42,11 @@ import java.lang.reflect.Type
 data class EnumEntry(override val name: String,
                      val constructorSpec: TypeSpec?,
                      override val arguments: List<CodePart>,
-                     val staticBlock: StaticBlock,
-                     val fields: List<FieldDeclaration>,
-                     val constructors: List<ConstructorDeclaration>,
-                     val methods: List<MethodDeclaration>,
-                     override val innerTypes: List<TypeDeclaration>) : ArgumentHolder, Named, InnerTypesHolder {
+                     override val staticBlock: StaticBlock,
+                     override val fields: List<FieldDeclaration>,
+                     override val constructors: List<ConstructorDeclaration>,
+                     override val methods: List<MethodDeclaration>,
+                     override val innerTypes: List<TypeDeclaration>) : ArgumentHolder, Named, ElementsHolder {
 
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
@@ -59,7 +59,7 @@ data class EnumEntry(override val name: String,
     class Builder() :
             ArgumentHolder.Builder<EnumEntry, Builder>,
             Named.Builder<EnumEntry, Builder>,
-            InnerTypesHolder.Builder<EnumEntry, Builder> {
+            ElementsHolder.Builder<EnumEntry, Builder> {
 
         lateinit var name: String
         var constructorSpec: TypeSpec? = null
@@ -106,22 +106,22 @@ data class EnumEntry(override val name: String,
         }
 
 
-        fun withStaticBlock(value: StaticBlock): Builder {
+        override fun withStaticBlock(value: StaticBlock): Builder {
             this.staticBlock = value
             return this
         }
 
-        fun withFields(value: List<FieldDeclaration>): Builder {
+        override fun withFields(value: List<FieldDeclaration>): Builder {
             this.fields = value
             return this
         }
 
-        fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
             this.constructors = value
             return this
         }
 
-        fun withMethods(value: List<MethodDeclaration>): Builder {
+        override fun withMethods(value: List<MethodDeclaration>): Builder {
             this.methods = value
             return this
         }

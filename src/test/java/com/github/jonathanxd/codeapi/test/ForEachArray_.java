@@ -29,46 +29,36 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.Annotation;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.CodeParameter;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
-import com.github.jonathanxd.codeapi.type.CodeType;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
-import java.util.EnumSet;
-
 public class ForEachArray_ {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
-        TypeDeclaration typeDeclaration = ClassFactory.aClass(
-                null,
-                new Annotation[0],
-                EnumSet.of(CodeModifier.PUBLIC),
-                "com.ForEach",
-                GenericSignature.empty(),
-                Types.OBJECT,
-                new CodeType[0],
-                CodeSource.fromVarArgs(
-                        FieldFactory.field(new Annotation[0], EnumSet.of(CodeModifier.PUBLIC, CodeModifier.STATIC), Types.STRING, "stra", Literals.STRING("XA")),
-                        ConstructorFactory.constructor(
-                                new Annotation[0],
-                                GenericSignature.empty(),
-                                EnumSet.of(CodeModifier.PUBLIC),
-                                new CodeParameter[]{Factories.parameter(Types.STRING.toArray(1), "strArray")},
-                                CodeSource.fromVarArgs(
+        return ClassDeclaration.Builder.builder()
+                .withModifiers(CodeModifier.PUBLIC)
+                .withSpecifiedName("com.ForEach")
+                .withFields(FieldDeclaration.Builder.builder()
+                        .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                        .withType(Types.STRING)
+                        .withName("stra")
+                        .withValue(Literals.STRING("XA"))
+                        .build())
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC)
+                                .withParameters(Factories.parameter(Types.STRING.toArray(1), "strArray"))
+                                .withBody(CodeSource.fromVarArgs(
                                         VariableFactory.variable(Types.STRING, "v", Factories.accessStaticField(String.class, "stra")),
                                         Factories.forEachArray(VariableFactory.variable(Types.STRING, "str"),
                                                 Factories.accessVariable(Types.STRING.toArray(1), "strArray"),
@@ -76,9 +66,9 @@ public class ForEachArray_ {
                                                         Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
                                                 ))
                                 ))
-                ));
-
-        return Pair.of(typeDeclaration, CodeSource.fromVarArgs(typeDeclaration));
+                                .build()
+                )
+                .build();
     }
 
     @Test

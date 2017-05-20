@@ -65,26 +65,43 @@ public class GenericToTypeVarTest {
     }
 
     public void print(TypeVariable<?>[] typeVariables) {
-        for (TypeVariable<?> typeVariable : typeVariables) {
-            System.out.println("Name = " + typeVariable.getName());
-            Type[] bounds = typeVariable.getBounds();
-
-            if (bounds.length > 0) {
-                System.out.println("Bounds = {");
-                Arrays.stream(bounds).forEach(this::print);
-                System.out.println("}");
-            }
-
-            System.out.println("===========================================");
-        }
+        print(typeVariables, 0);
     }
 
     public void print(Type type) {
-        if (type instanceof TypeVariable) {
-            print(new TypeVariable[]{(TypeVariable<?>) type});
-        } else {
-            System.out.println("Name = " + type.getTypeName());
+        print(type, 0);
+    }
+
+    public void print(TypeVariable<?>[] typeVariables, int cnt) {
+        for (TypeVariable<?> typeVariable : typeVariables) {
+            System.out.println(spaces(cnt) + "Name = " + typeVariable.getName());
+            Type[] bounds = typeVariable.getBounds();
+
+            if (bounds.length > 0) {
+                System.out.println(spaces(cnt) + "Bounds = {");
+                Arrays.stream(bounds).forEach(type -> this.print(type, cnt + 2));
+                System.out.println(spaces(cnt) + "}");
+            }
+
         }
+    }
+
+    public void print(Type type, int cnt) {
+        if (type instanceof TypeVariable) {
+            print(new TypeVariable[]{(TypeVariable<?>) type}, cnt);
+        } else {
+            System.out.println(spaces(cnt) + "Name = " + type.getTypeName());
+        }
+    }
+
+    public String spaces(int i) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i1 = 0; i1 < i; i1++) {
+            sb.append(' ');
+        }
+
+        return sb.toString();
     }
 
     public class AV<T> extends MyClass<Integer, T, String> {

@@ -29,56 +29,56 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.CodeParameter;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.OperateHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
-
-import java.util.EnumSet;
 
 import static com.github.jonathanxd.codeapi.literal.Literals.INT;
 
 public class OperateTest_ {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
-        ClassDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.OperateTest", CodeSource.fromVarArgs(
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), new CodeParameter[]{Factories.parameter(int.class, "num")}, CodeSource.fromVarArgs(
-                        Predefined.invokePrintlnStr(
-                                Predefined.intToString(
-                                        OperateHelper.builder(INT(9))
-                                                .plus(Factories.accessVariable(int.class, "num"))
-                                                .plus(
-                                                        OperateHelper.builder(Factories.accessVariable(int.class, "num"))
-                                                                .multiply(INT(2))
+        ClassDeclaration codeClass = ClassDeclaration.Builder.builder()
+                .withModifiers(CodeModifier.PUBLIC)
+                .withSpecifiedName("com.OperateTest")
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC)
+                                .withParameters(Factories.parameter(int.class, "num"))
+                                .withBody(CodeSource.fromVarArgs(
+                                        Predefined.invokePrintlnStr(
+                                                Predefined.intToString(
+                                                        OperateHelper.builder(INT(9))
+                                                                .plus(Factories.accessVariable(int.class, "num"))
+                                                                .plus(
+                                                                        OperateHelper.builder(Factories.accessVariable(int.class, "num"))
+                                                                                .multiply(INT(2))
+                                                                                .build()
+                                                                )
                                                                 .build()
                                                 )
-                                                .build()
-                                )
-                        ),
-                        Predefined.invokePrintlnStr(Predefined.intToString(
-                                OperateHelper.builder(INT(9))
-                                        .neg()
-                                        .build()
-                        )),
-                        Predefined.invokePrintlnStr(Predefined.intToString(
-                                OperateHelper.builder(INT(9))
-                                        .not(INT(10))
-                                        .build()
-                        ))
+                                        ),
+                                        Predefined.invokePrintlnStr(Predefined.intToString(
+                                                OperateHelper.builder(INT(9))
+                                                        .neg()
+                                                        .build()
+                                        )),
+                                        Predefined.invokePrintlnStr(Predefined.intToString(
+                                                OperateHelper.builder(INT(9))
+                                                        .not(INT(10))
+                                                        .build()
+                                        ))
 
-                ))
-        ));
+                                )).build()
+                ).build();
 
-        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
+        return codeClass;
     }
 
     @Test

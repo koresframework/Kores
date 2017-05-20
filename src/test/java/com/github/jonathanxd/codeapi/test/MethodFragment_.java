@@ -29,17 +29,14 @@ package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
-import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.InvokeType;
 import com.github.jonathanxd.codeapi.base.LocalCode;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.InvokeType;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.FieldFactory;
-import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
@@ -50,19 +47,27 @@ import com.github.jonathanxd.iutils.object.Pair;
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 public class MethodFragment_ {
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         MutableCodeSource source = MutableCodeSource.create();
 
-        ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "com.MethodFragment", CodeSource.fromVarArgs(
-                MethodFactory.method(EnumSet.of(CodeModifier.STATIC, CodeModifier.PUBLIC), "test", Types.VOID,
-                        source),
-                FieldFactory.field(EnumSet.of(CodeModifier.PUBLIC), Generic.type("T"), "test")
-        ));
+        ClassDeclaration classDeclaration =
+
+                ClassDeclaration.Builder.builder()
+                        .withSpecifiedName("com.MethodFragment")
+                        .withFields(FieldDeclaration.Builder.builder()
+                                .withType(Generic.type("T"))
+                                .withName("test")
+                                .build())
+                        .withMethods(MethodDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .withName("test")
+                                .withBody(source)
+                                .build())
+                        .build();
 
         LocalCode build = LocalCode.Builder.builder()
                 .withDeclaringType(classDeclaration)
@@ -92,7 +97,7 @@ public class MethodFragment_ {
                 )
         );
 
-        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
+        return classDeclaration;
     }
 
     @Test

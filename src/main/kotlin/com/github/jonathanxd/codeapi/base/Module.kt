@@ -30,7 +30,9 @@ package com.github.jonathanxd.codeapi.base
 import java.lang.reflect.Type
 
 /**
- * Reference to a module
+ * Reference to a module.
+ *
+ * At the moment, Modules does not have any.
  *
  * @property name Qualified name of module.
  */

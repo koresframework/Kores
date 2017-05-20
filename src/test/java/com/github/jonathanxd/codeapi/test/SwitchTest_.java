@@ -27,18 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeInstruction;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -47,13 +45,12 @@ import java.util.Arrays;
 public class SwitchTest_ {
 
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         ClassDeclaration classDeclaration = ClassDeclaration.Builder.builder()
                 .withQualifiedName("com.SwitchTestClass")
                 .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeSource.fromVarArgs(
-
+                .withConstructors(
                         ConstructorDeclaration.Builder.builder()
                                 .withModifiers(CodeModifier.PUBLIC)
                                 .withParameters(
@@ -100,21 +97,20 @@ public class SwitchTest_ {
                                 )
                                 .build()
 
-                ))
+                )
                 .build();
 
 
-        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
+        return classDeclaration;
+    }
+
+    private static CodeInstruction print(String str) {
+        return Predefined.invokePrintln(Literals.STRING(str));
     }
 
     @Test
     public void test() {
         $();
-    }
-
-
-    private static CodePart print(String str) {
-        return Predefined.invokePrintln(Literals.STRING(str));
     }
 
     public enum TestEnum {

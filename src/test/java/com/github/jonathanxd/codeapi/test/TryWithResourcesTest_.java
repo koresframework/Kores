@@ -30,29 +30,25 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.TypeSpec;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.type.LoadedCodeType;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 public class TryWithResourcesTest_ {
     //
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         LoadedCodeType<Trm> TRM_TYPE = CodeTypes.getCodeType(Trm.class);
 
@@ -63,15 +59,15 @@ public class TryWithResourcesTest_ {
                 )
         );
 
-
-        ClassDeclaration classDeclaration = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC),
-                "test.TryWithResourcesTestClass", CodeSource.fromVarArgs(
-                        ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeSource.fromVarArgs(
+        return ClassDeclaration.Builder.builder()
+                .withModifiers(CodeModifier.PUBLIC)
+                .withSpecifiedName("test.TryWithResourcesTestClass")
+                .withConstructors(ConstructorDeclaration.Builder.builder()
+                        .withBody(CodeSource.fromPart(
                                 tryWithResources
                         ))
-                ));
-
-        return Pair.of(classDeclaration, CodeSource.fromVarArgs(classDeclaration));
+                        .build())
+                .build();
     }
 
     @Test

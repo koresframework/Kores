@@ -27,57 +27,54 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.AnonymousClass;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.CodeParameter;
 import com.github.jonathanxd.codeapi.base.InvokeType;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.factory.MethodFactory;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.util.Alias;
-import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
-
-import java.util.EnumSet;
 
 public class AnonymousClassTest_ {
     //
 
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
         PredefinedTest predefinedTest = PredefinedTest.create("test.AnonymousClassTest");
 
+        predefinedTest.constructor.withInnerTypes(
+                AnonymousClass.Builder.builder()
+                        .withOuterClass(predefinedTest.getTypeRef())
+                        .withSpecifiedName("AnonymousGreeter")
+                        .withSuperClass(Greeter2.class)
+                        .withConstructorSpec(Factories.constructorTypeSpec(String.class))
+                        .withArguments(Literals.STRING("[AnonymousClass]"))
+                        .withConstructorBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("Created!"))))
+                        .withMethods(
+                                MethodDeclaration.Builder.builder()
+                                        .withModifiers(CodeModifier.PUBLIC)
+                                        .withName("greet")
+                                        .withReturnType(Types.VOID)
+                                        .withBody(CodeSource.fromPart(
+                                                Predefined.invokePrintlnStr(
+                                                        ConcatHelper.builder(Factories.invokeFieldGetter(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, Factories.accessThis(), Types.STRING, "prefix"))
+                                                                .concat(" Hello world")
+                                                                .build()
+                                                )
+                                        ))
+                                        .build()
+                        )
+                        .build()
+        );
 
-        MutableCodeSource body = (MutableCodeSource) predefinedTest.constructor.getBody();
-
-        // TypeSpec, arguments, CodeSource, CodeSource
-        body.add(ClassFactory.anonymousClass(predefinedTest.classDeclaration,
-                "AnonymousGreeter",
-                CodeTypes.getCodeType(Greeter2.class),
-                Factories.constructorTypeSpec(String.class),
-                new CodePart[]{Literals.STRING("[AnonymousClass]")},
-                CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("Created!"))),
-                CodeSource.fromVarArgs(
-                        MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "greet", Types.VOID, new CodeParameter[0], CodeSource.fromVarArgs(
-                                Predefined.invokePrintlnStr(
-                                        ConcatHelper.builder(Factories.invokeFieldGetter(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, Factories.accessThis(), Types.STRING, "prefix"))
-                                                .concat(" Hello world")
-                                                .build()
-                                )
-                        ))
-                )));
-
-        return Pair.of(predefinedTest.classDeclaration, predefinedTest.classDeclaration.getBody());
+        return predefinedTest.build();
     }
 
 

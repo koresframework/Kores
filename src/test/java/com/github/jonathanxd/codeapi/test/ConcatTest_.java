@@ -28,44 +28,27 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.Annotation;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.CodeParameter;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
-import com.github.jonathanxd.codeapi.type.CodeType;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
-
-import java.util.EnumSet;
 
 public class ConcatTest_ {
 
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
-        TypeDeclaration typeDeclaration = ClassFactory.aClass(null,
-                new Annotation[0],
-                EnumSet.of(CodeModifier.PUBLIC),
-                "com.ConcatTest",
-                GenericSignature.empty(),
-                Types.OBJECT,
-                new CodeType[0],
-                CodeSource.fromVarArgs(
-                        ConstructorFactory.constructor(
-                                new Annotation[0],
-                                GenericSignature.empty(),
-                                EnumSet.of(CodeModifier.PUBLIC),
-                                new CodeParameter[]{Factories.parameter(String.class, "av")},
-                                CodeSource.fromVarArgs(
+
+        return ClassDeclaration.Builder.builder()
+                .withSpecifiedName("com.ConcatTest")
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withParameters(Factories.parameter(String.class, "av"))
+                                .withBody(CodeSource.fromVarArgs(
                                         Predefined.invokePrintlnStr(ConcatHelper.builder("Hello")
                                                 .concat(" ")
                                                 .concat(Factories.accessVariable(String.class, "av"))
@@ -74,9 +57,9 @@ public class ConcatTest_ {
                                         Predefined.invokePrintlnStr(ConcatHelper.builder("A").build()),
                                         Predefined.invokePrintlnStr(ConcatHelper.builder("A").concat("B").build())
                                 ))
-                ));
-
-        return Pair.of(typeDeclaration, CodeSource.fromVarArgs(typeDeclaration));
+                                .build()
+                )
+                .build();
     }
 
     @Test

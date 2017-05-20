@@ -46,9 +46,11 @@ data class FieldDeclaration(override val comments: Comments,
                             override val modifiers: Set<CodeModifier>,
                             override val type: Type,
                             override val name: String,
+                            override val innerTypes: List<TypeDeclaration>,
                             override val value: CodePart?) :
         CodeElement, FieldBase, Named, Typed,
-        ValueHolder, ModifiersHolder, Annotable, CommentHolder, CodeInstruction {
+        ValueHolder, ModifiersHolder, Annotable, CommentHolder, CodeInstruction,
+        InnerTypesHolder {
 
     override val localization: Type
         get() = Alias.THIS
@@ -66,13 +68,15 @@ data class FieldDeclaration(override val comments: Comments,
             ValueHolder.Builder<FieldDeclaration, Builder>,
             ModifiersHolder.Builder<FieldDeclaration, Builder>,
             Annotable.Builder<FieldDeclaration, Builder>,
-            CommentHolder.Builder<FieldDeclaration, Builder> {
+            CommentHolder.Builder<FieldDeclaration, Builder>,
+            InnerTypesHolder.Builder<FieldDeclaration, Builder>{
 
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
         var modifiers: Set<CodeModifier> = emptySet()
         lateinit var type: Type
         lateinit var name: String
+        var innerTypes: List<TypeDeclaration> = emptyList()
         var value: CodePart? = null
 
         constructor(defaults: FieldDeclaration) : this() {
@@ -81,6 +85,7 @@ data class FieldDeclaration(override val comments: Comments,
             this.modifiers = defaults.modifiers
             this.type = defaults.type
             this.name = defaults.name
+            this.innerTypes = defaults.innerTypes
             this.value = defaults.value
         }
 
@@ -117,7 +122,13 @@ data class FieldDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun build(): FieldDeclaration = FieldDeclaration(this.comments, this.annotations, this.modifiers, this.type, this.name, this.value)
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
+            return this
+        }
+
+        override fun build(): FieldDeclaration = FieldDeclaration(this.comments, this.annotations,
+                this.modifiers, this.type, this.name, this.innerTypes, this.value)
 
         companion object {
             @JvmStatic

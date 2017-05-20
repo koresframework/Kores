@@ -30,65 +30,65 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.Annotation;
-import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.factory.ClassFactory;
-import com.github.jonathanxd.codeapi.factory.ConstructorFactory;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
-import com.github.jonathanxd.codeapi.factory.MethodFactory;
-import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
-import com.github.jonathanxd.codeapi.type.CodeType;
+import com.github.jonathanxd.codeapi.type.TypeRef;
 import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.EnumSet;
 
 public class LocalClassTest_ {
     //
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
-        MutableCodeSource source = MutableCodeSource.create();
+        TypeRef outerType = new TypeRef("test.LocalClass");
 
-        TypeDeclaration codeClass = ClassFactory.aClass(EnumSet.of(CodeModifier.PUBLIC), "test.LocalClass", source);
-
-        TypeDeclaration local = ClassFactory.aClass(
-                codeClass,
-                new Annotation[0],
-                EnumSet.noneOf(CodeModifier.class),
-                "Greeter",
-                GenericSignature.empty(),
-                Types.OBJECT,
-                new CodeType[0],
-                CodeSource.fromVarArgs(
-                MethodFactory.method(EnumSet.of(CodeModifier.PUBLIC), "greet", Types.VOID, CodeSource.fromVarArgs(
-                        Predefined.invokePrintlnStr(Literals.STRING("Hello"))
-                ))
-        ));
-
-        source.addAll(CodeSource.fromVarArgs(
-
-                ConstructorFactory.constructor(EnumSet.of(CodeModifier.PUBLIC), CodeSource.fromVarArgs(
-                        local,
-                        InvocationFactory.invokeVirtual(
-                                local,
-                                InvocationFactory.invokeConstructor(local),
-                                "greet",
-                                Factories.constructorTypeSpec(),
-                                Collections.emptyList()
-                        )
-                ))
-        ));
+        ClassDeclaration local = ClassDeclaration.Builder.builder()
+                .withOuterClass(outerType)
+                .withSpecifiedName("Greeter")
+                .withMethods(
+                        MethodDeclaration.Builder.builder()
+                                .withModifiers(CodeModifier.PUBLIC)
+                                .withName("greet")
+                                .withReturnType(Types.VOID)
+                                .withBody(CodeSource.fromPart(
+                                        Predefined.invokePrintlnStr(Literals.STRING("Hello"))
+                                ))
+                                .build()
+                )
+                .build();
 
 
+        TypeDeclaration type = ClassDeclaration.Builder.builder()
+                .base(outerType)
+                .withSpecifiedName(outerType.getSpecifiedName())
+                .withConstructors(ConstructorDeclaration.Builder.builder()
+                        .withInnerTypes(local)
+                        .withModifiers(CodeModifier.PUBLIC)
+                        .withBody(
+                                CodeSource.fromPart(
+                                        InvocationFactory.invokeVirtual(
+                                                local,
+                                                InvocationFactory.invokeConstructor(local),
+                                                "greet",
+                                                Factories.constructorTypeSpec(),
+                                                Collections.emptyList()
+                                        )
+                                )
+                        ).build())
+                .build();
 
-        return Pair.of(codeClass, CodeSource.fromVarArgs(codeClass));
+        return type;
     }
 
     @Test

@@ -30,7 +30,9 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.Label;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
+import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.inspect.SourceInspect;
 
 import org.junit.Assert;
@@ -42,19 +44,19 @@ public class TestInspect {
 
     @Test
     public void inspect() {
-        CodeSource source = GenericClass_.$().getSecond();
+        CodeSource source = GenericClass_.$().getMethods().get(0).getBody();
 
-        List<FieldDeclaration> inspect = SourceInspect.Companion
-                .builder(codePart -> codePart instanceof FieldDeclaration)
-                .include(bodied -> bodied instanceof StaticBlock || bodied instanceof ClassDeclaration)
+        List<VariableDeclaration> inspect = SourceInspect.Companion
+                .builder(codePart -> codePart instanceof VariableDeclaration)
+                .include(bodied -> bodied instanceof Label)
                 .includeSource(true)
-                .mapTo(codePart -> (FieldDeclaration) codePart)
+                .mapTo(codePart -> (VariableDeclaration) codePart)
                 .inspect(source);
 
         System.out.println(inspect);
 
         Assert.assertTrue(inspect.size() == 1);
-        Assert.assertEquals("test", inspect.get(0).getName());
+        Assert.assertEquals("fieldi", inspect.get(0).getName());
     }
 
 }

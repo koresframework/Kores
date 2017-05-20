@@ -27,16 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.base.AnnotationProperty;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -48,7 +45,7 @@ import kotlin.collections.SetsKt;
 public class AnnotationTest_ {
 
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
+    public static TypeDeclaration $() {
 
         AnnotationDeclaration build = AnnotationDeclaration.Builder.Companion.builder()
                 .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
@@ -61,7 +58,7 @@ public class AnnotationTest_ {
                 ))
                 .build();
 
-        return Pair.of(build, CodeSource.fromVarArgs(build));
+        return build;
     }
 
     @Test
