@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
@@ -44,7 +45,7 @@ import java.lang.reflect.Type
  */
 data class SwitchStatement(override val value: Typed,
                            val switchType: SwitchType,
-                           val cases: List<Case>) : ValueHolder, Typed {
+                           val cases: List<Case>) : ValueHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.value.type

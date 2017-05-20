@@ -48,7 +48,11 @@ data class AnonymousClass(override val comments: Comments,
                           val constructorSpec: TypeSpec,
                           override val arguments: List<CodePart>,
                           val constructorBody: CodeSource,
-                          override val body: CodeSource) : TypeDeclaration, SuperClassHolder, ArgumentHolder, ImplementationHolder {
+                          override val staticBlock: StaticBlock,
+                          override val fields: List<FieldDeclaration>,
+                          override val constructors: List<ConstructorDeclaration>,
+                          override val methods: List<MethodDeclaration>,
+                          override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder, ArgumentHolder, ImplementationHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -68,10 +72,6 @@ data class AnonymousClass(override val comments: Comments,
     override val genericSignature: GenericSignature
         get() = GenericSignature.empty()
 
-
-    init {
-        BodyHolder.checkBody(this)
-    }
 
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
@@ -93,7 +93,12 @@ data class AnonymousClass(override val comments: Comments,
         lateinit var constructorSpec: TypeSpec
         var arguments: List<CodePart> = emptyList()
         lateinit var constructorBody: CodeSource
-        var body: CodeSource = CodeSource.empty()
+
+        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+        var fields: List<FieldDeclaration> = emptyList()
+        var constructors: List<ConstructorDeclaration> = emptyList()
+        var methods: List<MethodDeclaration> = emptyList()
+        var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: AnonymousClass) : this() {
             this.comments = defaults.comments
@@ -105,7 +110,13 @@ data class AnonymousClass(override val comments: Comments,
             this.constructorSpec = defaults.constructorSpec
             this.arguments = defaults.arguments
             this.constructorBody = defaults.constructorBody
-            this.body = body
+
+            this.staticBlock = defaults.staticBlock
+            this.fields = defaults.fields
+            this.constructors = defaults.constructors
+            this.methods = defaults.methods
+            this.innerTypes = defaults.innerTypes
+
         }
 
         override fun withModifiers(value: Set<CodeModifier>): Builder = self()
@@ -128,8 +139,28 @@ data class AnonymousClass(override val comments: Comments,
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
-            this.body = value
+        override fun withStaticBlock(value: StaticBlock): Builder {
+            this.staticBlock = value
+            return this
+        }
+
+        override fun withFields(value: List<FieldDeclaration>): Builder {
+            this.fields = value
+            return this
+        }
+
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+            this.constructors = value
+            return this
+        }
+
+        override fun withMethods(value: List<MethodDeclaration>): Builder {
+            this.methods = value
+            return this
+        }
+
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
             return this
         }
 
@@ -179,7 +210,11 @@ data class AnonymousClass(override val comments: Comments,
                 this.constructorSpec,
                 this.arguments,
                 this.constructorBody,
-                this.body
+                this.staticBlock,
+                this.fields,
+                this.constructors,
+                this.methods,
+                this.innerTypes
         )
 
 

@@ -58,7 +58,7 @@ fun insertAfterOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, sou
     }, toInsert, source)
 
     if (!any.get()) {
-        result.add(toInsert)
+        result.addAll(toInsert)
     }
 
     return result
@@ -84,7 +84,7 @@ fun insertBeforeOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, so
     }, toInsert, source)
 
     if (!any.get()) {
-        result.add(toInsert)
+        result.addAll(toInsert)
     }
 
     return result
@@ -119,13 +119,10 @@ fun insertAfter(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: 
 
 /**
  * Insert element `toInsert` in `source` before element determined by `predicate`
-
+ *
  * @param predicate Predicate to determine element
- * *
  * @param toInsert  Element to insert before element determined by `predicate`
- * *
  * @param source    Source to find element and insert element `toInsert`
- * *
  * @return `source`
  */
 fun insertBefore(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {

@@ -150,19 +150,10 @@ fun arrayLength(arrayType: Type, target: CodePart): ArrayLength =
 /**
  * @see EnumEntry
  */
-@JvmOverloads
-fun enumEntry(name: String,
-              constructorSpec: TypeSpec? = null,
-              arguments: List<CodePart> = emptyList(),
-              body: CodeSource = CodeSource.empty()): EnumEntry =
-        EnumEntry(name, constructorSpec, arguments, body)
-
-/**
- * @see EnumEntry
- */
-fun enumEntry(name: String,
-              body: CodeSource): EnumEntry =
-        enumEntry(name = name, arguments = emptyList(), body = body)
+fun enumEntry(name: String): EnumEntry =
+        EnumEntry.Builder.builder()
+                .withName(name)
+                .build()
 
 /**
  * @see EnumValue

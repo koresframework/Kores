@@ -48,7 +48,11 @@ data class EnumDeclaration(override val outerClass: Type?,
                            override val genericSignature: GenericSignature,
                            override val implementations: List<Type>,
                            override val entries: List<EnumEntry>,
-                           override val body: CodeSource) : TypeDeclaration, ImplementationHolder, EntryHolder {
+                           override val staticBlock: StaticBlock,
+                           override val fields: List<FieldDeclaration>,
+                           override val constructors: List<ConstructorDeclaration>,
+                           override val methods: List<MethodDeclaration>,
+                           override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, ImplementationHolder, EntryHolder {
 
 
     override val qualifiedName: String = specifiedName
@@ -56,10 +60,6 @@ data class EnumDeclaration(override val outerClass: Type?,
 
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerClass)
-
-    init {
-        BodyHolder.checkBody(this)
-    }
 
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
@@ -74,7 +74,13 @@ data class EnumDeclaration(override val outerClass: Type?,
         lateinit var specifiedName: String
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
-        var body: CodeSource = CodeSource.empty()
+
+        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+        var fields: List<FieldDeclaration> = emptyList()
+        var constructors: List<ConstructorDeclaration> = emptyList()
+        var methods: List<MethodDeclaration> = emptyList()
+        var innerTypes: List<TypeDeclaration> = emptyList()
+
         var modifiers: Set<CodeModifier> = emptySet()
         var genericSignature: GenericSignature = GenericSignature.empty()
         var implementations: List<Type> = emptyList()
@@ -85,7 +91,13 @@ data class EnumDeclaration(override val outerClass: Type?,
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
-            this.body = defaults.body
+
+            this.staticBlock = defaults.staticBlock
+            this.fields = defaults.fields
+            this.constructors = defaults.constructors
+            this.methods = defaults.methods
+            this.innerTypes = defaults.innerTypes
+
             this.modifiers = defaults.modifiers
             this.genericSignature = defaults.genericSignature
             this.implementations = defaults.implementations
@@ -102,8 +114,28 @@ data class EnumDeclaration(override val outerClass: Type?,
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
-            this.body = value
+        override fun withStaticBlock(value: StaticBlock): Builder {
+            this.staticBlock = value
+            return this
+        }
+
+        override fun withFields(value: List<FieldDeclaration>): Builder {
+            this.fields = value
+            return this
+        }
+
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+            this.constructors = value
+            return this
+        }
+
+        override fun withMethods(value: List<MethodDeclaration>): Builder {
+            this.methods = value
+            return this
+        }
+
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
             return this
         }
 
@@ -138,7 +170,8 @@ data class EnumDeclaration(override val outerClass: Type?,
         }
 
         override fun build() = EnumDeclaration(this.outerClass, this.comments, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.implementations, this.entries, this.body)
+                this.specifiedName, this.genericSignature, this.implementations, this.entries, this.staticBlock,
+                this.fields, this.constructors, this.methods, this.innerTypes)
 
         companion object {
             @JvmStatic

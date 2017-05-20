@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
@@ -39,7 +40,7 @@ import java.lang.reflect.Type
  * @property targetType Target type
  * @property castedPart Part to cast
  */
-data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodePart) : Typed {
+data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodePart) : Typed, CodeInstruction {
 
     override val type: Type
         get() = this.targetType

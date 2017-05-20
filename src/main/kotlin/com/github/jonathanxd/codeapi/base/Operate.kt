@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
@@ -47,7 +48,7 @@ import java.lang.reflect.Type
  */
 data class Operate(val target: CodePart,
                    val operation: Operator.Math,
-                   override val value: CodePart?) : ValueHolder, Typed {
+                   override val value: CodePart?) : ValueHolder, Typed, CodeInstruction {
 
     override val type: CodeType
         get() = this.target.getPartType().codeType

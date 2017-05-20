@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
@@ -35,7 +36,7 @@ import java.lang.reflect.Type
  */
 data class VariableDefinition(override val type: Type,
                               override val name: String,
-                              override val value: CodePart) : Named, Typed, ValueHolder {
+                              override val value: CodePart) : Named, Typed, ValueHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

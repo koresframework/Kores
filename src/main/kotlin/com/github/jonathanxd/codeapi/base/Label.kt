@@ -27,12 +27,15 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
 
 /**
  * Label.
+ *
+ * Labels with empty name will be treated as a scope block.
  */
-data class Label(override val name: String, override val body: CodeSource) : BodyHolder, Named {
+data class Label(override val name: String, override val body: CodeSource) : BodyHolder, Named, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }

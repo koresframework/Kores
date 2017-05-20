@@ -32,9 +32,6 @@ import java.lang.reflect.Type
 /**
  * Enum value.
  *
- * This class **must not** be used to access enum entries, to access
- * enum entries uses static field access.
- *
  * @property enumType Type of enum
  * @property enumEntry Entry of enum.
  * @property ordinal Ordinal value of enum. (If -1 is provided, CodeAPI will

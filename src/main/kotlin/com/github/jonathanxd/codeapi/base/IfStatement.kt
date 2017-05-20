@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
@@ -36,7 +37,7 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property elseStatement Else statement
  * @see IfExpr
  */
-data class IfStatement(override val expressions: List<CodePart>, override val body: CodeSource, val elseStatement: CodeSource) : IfExpressionHolder, BodyHolder {
+data class IfStatement(override val expressions: List<CodePart>, override val body: CodeSource, val elseStatement: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }

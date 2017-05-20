@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
@@ -43,7 +44,7 @@ import com.github.jonathanxd.codeapi.CodeSource
 data class ForStatement(val forInit: CodePart?,
                         val forExpression: List<CodePart>,
                         val forUpdate: CodePart?,
-                        override val body: CodeSource) : IfExpressionHolder, BodyHolder {
+                        override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }

@@ -48,17 +48,17 @@ data class ClassDeclaration(override val outerClass: Type?,
                             override val genericSignature: GenericSignature,
                             override val superClass: Type,
                             override val implementations: List<Type>,
-                            override val body: CodeSource) : TypeDeclaration, SuperClassHolder, ImplementationHolder {
+                            override val staticBlock: StaticBlock,
+                            override val fields: List<FieldDeclaration>,
+                            override val constructors: List<ConstructorDeclaration>,
+                            override val methods: List<MethodDeclaration>,
+                            override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder, ImplementationHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
 
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerClass)
-
-    init {
-        BodyHolder.checkBody(this)
-    }
 
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
@@ -73,18 +73,30 @@ data class ClassDeclaration(override val outerClass: Type?,
         lateinit var specifiedName: String
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
-        var body: CodeSource = CodeSource.empty()
+
         var modifiers: Set<CodeModifier> = emptySet()
         var genericSignature: GenericSignature = GenericSignature.empty()
         var superClass: Type = Types.OBJECT
         var implementations: List<Type> = emptyList()
+
+        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+        var fields: List<FieldDeclaration> = emptyList()
+        var constructors: List<ConstructorDeclaration> = emptyList()
+        var methods: List<MethodDeclaration> = emptyList()
+        var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: ClassDeclaration) : this() {
             this.outerClass = defaults.outerClass
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
-            this.body = defaults.body
+
+            this.staticBlock = defaults.staticBlock
+            this.fields = defaults.fields
+            this.constructors = defaults.constructors
+            this.methods = defaults.methods
+            this.innerTypes = defaults.innerTypes
+
             this.modifiers = defaults.modifiers
             this.genericSignature = defaults.genericSignature
             this.superClass = defaults.superClass
@@ -101,8 +113,28 @@ data class ClassDeclaration(override val outerClass: Type?,
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
-            this.body = value
+        override fun withStaticBlock(value: StaticBlock): Builder {
+            this.staticBlock = value
+            return this
+        }
+
+        override fun withFields(value: List<FieldDeclaration>): Builder {
+            this.fields = value
+            return this
+        }
+
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+            this.constructors = value
+            return this
+        }
+
+        override fun withMethods(value: List<MethodDeclaration>): Builder {
+            this.methods = value
+            return this
+        }
+
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
             return this
         }
 
@@ -137,7 +169,8 @@ data class ClassDeclaration(override val outerClass: Type?,
         }
 
         override fun build() = ClassDeclaration(this.outerClass, this.comments, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.superClass, this.implementations, this.body)
+                this.specifiedName, this.genericSignature, this.superClass, this.implementations, this.staticBlock,
+                this.fields, this.constructors, this.methods, this.innerTypes)
 
         companion object {
             @JvmStatic

@@ -25,24 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-@file:JvmName("LocalCodeFactory")
+package com.github.jonathanxd.codeapi.base
 
-package com.github.jonathanxd.codeapi.factory
-
-import com.github.jonathanxd.codeapi.base.LocalCode
-import com.github.jonathanxd.codeapi.base.MethodDeclaration
-import com.github.jonathanxd.codeapi.base.InvokeType
-import com.github.jonathanxd.codeapi.type.CodeType
-import java.lang.reflect.Type
+import com.github.jonathanxd.codeapi.CodePart
 
 /**
- * @see LocalCode
+ * A holder of inner types
  */
-fun localCode(declaringType: Type, invokeType: InvokeType, declaration: MethodDeclaration): LocalCode =
-        LocalCode(declaringType, invokeType, declaration)
+interface InnerTypesHolder : CodePart {
 
-/**
- * @see LocalCode
- */
-fun localCode(declaringType: CodeType, declaration: MethodDeclaration): LocalCode =
-        LocalCode(declaringType, declaration)
+    /**
+     * Inner types
+     */
+    val innerTypes: List<TypeDeclaration>
+
+    override fun builder(): Builder<InnerTypesHolder, *>
+
+    interface Builder<out T : InnerTypesHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+
+        /**
+         * See [T.innerTypes]
+         */
+        fun withInnerTypes(value: List<TypeDeclaration>): S
+
+        /**
+         * See [T.innerTypes]
+         */
+        fun withInnerTypes(vararg values: TypeDeclaration): S = withInnerTypes(values.toList())
+    }
+}

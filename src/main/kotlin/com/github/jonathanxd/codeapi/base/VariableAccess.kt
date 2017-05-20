@@ -27,12 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import java.lang.reflect.Type
 
 /**
  * Access to a variable in local scope.
  */
-data class VariableAccess(override val variableType: Type, override val name: String) : VariableBase {
+data class VariableAccess(override val variableType: Type, override val name: String) : VariableBase, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

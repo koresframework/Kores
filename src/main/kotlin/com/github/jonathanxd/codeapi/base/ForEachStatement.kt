@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
@@ -42,7 +43,7 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property iterableElement Element to iterate
  * @see IterationType
  */
-data class ForEachStatement(val variable: VariableDeclaration, val iterationType: IterationType, val iterableElement: CodePart, override val body: CodeSource) : BodyHolder {
+data class ForEachStatement(val variable: VariableDeclaration, val iterationType: IterationType, val iterableElement: CodePart, override val body: CodeSource) : BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }

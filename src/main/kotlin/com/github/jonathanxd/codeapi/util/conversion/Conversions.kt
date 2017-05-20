@@ -27,8 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.util.conversion
 
-import com.github.jonathanxd.codeapi.*
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.Defaults
+import com.github.jonathanxd.codeapi.MutableCodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
@@ -221,7 +225,6 @@ fun <T : Any> Class<T>.toClassDeclaration(): ClassDeclaration =
                 .withQualifiedName(this.canonicalName)
                 .withSuperClass(this.superclass)
                 .withImplementations(this.interfaces.toList())
-                .withBody(MutableCodeSource.create())
                 .build()
 
 /**
@@ -232,7 +235,6 @@ fun <T : Any> Class<T>.toInterfaceDeclaration(): InterfaceDeclaration =
                 .withModifiers(fromJavaModifiers(this.modifiers))
                 .withQualifiedName(this.canonicalName)
                 .withImplementations(this.interfaces.toList())
-                .withBody(MutableCodeSource.create())
                 .build()
 
 
@@ -246,7 +248,6 @@ fun <T : Any> Class<T>.toAnnotationDeclaration(): AnnotationDeclaration =
                 .withProperties(this.declaredMethods.map {
                     AnnotationProperty(Comments.Absent, emptyList(), it.returnType.codeType, it.name, it.defaultValue)
                 })
-                .withBody(MutableCodeSource.create())
                 .build()
 
 
@@ -261,12 +262,12 @@ fun <T : Any> Class<T>.toEnumDeclaration(nameProvider: (method: Method, index: I
     val enumEntries = this.declaredFields
             .filter { it.isEnumConstant }
             .map {
-                enumEntry(it.name,
-                        if (abstractMethods.isNotEmpty())
-                            MutableCodeSource.create(abstractMethods.map { it.toMethodDeclaration { index, parameter -> nameProvider(it, index, parameter) } })
-                        else
-                            CodeSource.empty()
-                )
+                EnumEntry.Builder.builder().withName(it.name).let {
+                    if (abstractMethods.isNotEmpty())
+                        it.withMethods(abstractMethods.map { it.toMethodDeclaration { index, parameter -> nameProvider(it, index, parameter) } })
+                    else it
+                }.build()
+
             }
 
     return EnumDeclaration.Builder.builder()
@@ -274,7 +275,6 @@ fun <T : Any> Class<T>.toEnumDeclaration(nameProvider: (method: Method, index: I
             .withQualifiedName(this.canonicalName)
             .withImplementations(this.interfaces.map { it.codeType })
             .withEntries(enumEntries)
-            .withBody(MutableCodeSource.create())
             .build()
 }
 
@@ -287,7 +287,7 @@ fun <T : Enum<T>> Class<T>.toDeclaration() =
 /**
  * Creates a [AnnotationDeclaration] from receiver [Annotation] class.
  */
-fun <T : Annotation> Class<T>.toDeclaration() =
+fun Class<Annotation>.toDeclaration() =
         this.toAnnotationDeclaration()
 
 /**
@@ -319,9 +319,7 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
 
     val declaration: TypeDeclaration = this.toDeclaration()
 
-    val body = declaration.body as MutableCodeSource
-
-    list += declaration
+    val declarationBuilder = declaration.builder()
 
     if (includeSubClasses) {
         for (declaredClass in this.declaredClasses) {
@@ -339,16 +337,14 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
     }
 
     if (includeFields) {
-        for (field in this.fields) {
-            body.add(field.toFieldDeclaration())
-        }
+        declarationBuilder.withFields(this.fields.map { it.toFieldDeclaration() })
     }
 
     if (includeMethods) {
-        for (method in this.declaredMethods) {
-            if (isValidImpl(method)) body.add(method.toMethodDeclaration())
-        }
+        declarationBuilder.withMethods(this.declaredMethods.filter { isValidImpl(it) }.map { it.toMethodDeclaration() })
     }
+
+    list.add(0, declarationBuilder.build())
 
     return list
 }
@@ -363,18 +359,15 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
  */
 @Suppress("UNCHECKED_CAST")
 fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
-    val body = this.body.toMutable()
+    //val body = this.body.toMutable()
+
+    val builder = this.builder()
     val type = klass.codeType
 
-    for (method in klass.methods) {
-        if (method.isAccessibleFrom(this, true)
-                && isValidImpl(method)) {
-            body.add(method.toMethodDeclaration(type))
-        }
-    }
+    builder.withMethods(klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
+            .map { it.toMethodDeclaration(type) })
 
-    var declaration = this.builder().withBody(body).build()
-
+    var declaration = this.builder().build()
 
     if (klass.isInterface) {
         val implementer = declaration as ImplementationHolder

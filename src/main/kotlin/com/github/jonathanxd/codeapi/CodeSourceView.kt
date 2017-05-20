@@ -40,7 +40,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
     override val size: Int
         get() = start - end
 
-    override fun getAtIndex(index: Int): CodePart {
+    override fun getAtIndex(index: Int): CodeInstruction {
         return original[start + index]
     }
 
@@ -50,25 +50,25 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
     override fun containsAll(c: Collection<*>): Boolean =
             c.all { it in this }
 
-    override fun plus(other: CodePart): CodeSource {
+    override fun plus(other: CodeInstruction): CodeSource {
         val all = this.toList() + other
 
         return fromIterable(all)
     }
 
-    override fun minus(other: CodePart): CodeSource {
+    override fun minus(other: CodeInstruction): CodeSource {
         val all = this.toList() - other
 
         return fromIterable(all)
     }
 
-    override fun plus(other: Iterable<CodePart>): CodeSource {
+    override fun plus(other: Iterable<CodeInstruction>): CodeSource {
         val all = this.toList() + other
 
         return fromIterable(all)
     }
 
-    override fun minus(other: Iterable<CodePart>): CodeSource {
+    override fun minus(other: Iterable<CodeInstruction>): CodeSource {
         val all = this.toList() - other
 
         return fromIterable(all)
@@ -96,15 +96,15 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         return -1
     }
 
-    override fun forEach(action: Consumer<in CodePart>) {
+    override fun forEach(action: Consumer<in CodeInstruction>) {
         this.forEach { action.accept(it) }
     }
 
-    override fun toArray(): Array<CodePart> =
+    override fun toArray(): Array<CodeInstruction> =
             this.toList().toTypedArray()
 
 
-    override fun spliterator(): Spliterator<CodePart> =
+    override fun spliterator(): Spliterator<CodeInstruction> =
             Spliterators.spliteratorUnknownSize(this.listIterator(), Spliterator.ORDERED)
 
     override fun subSource(fromIndex: Int, toIndex: Int): CodeSource =
@@ -116,21 +116,21 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
     override fun toMutable(): MutableCodeSource =
             super.toMutable()
 
-    override fun iterator(): Iterator<CodePart> =
+    override fun iterator(): Iterator<CodeInstruction> =
             SubIterator()
 
-    override fun listIterator(): MutableListIterator<CodePart> =
+    override fun listIterator(): MutableListIterator<CodeInstruction> =
             SubIterator()
 
-    override fun listIterator(index: Int): MutableListIterator<CodePart> =
+    override fun listIterator(index: Int): MutableListIterator<CodeInstruction> =
             SubIterator(index)
 
-    override fun stream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), false)
-    override fun parallelStream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), true)
+    override fun stream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), false)
+    override fun parallelStream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), true)
 
     override fun toString(): String = if (this.isEmpty) "CodeSourceView[]" else "CodeSourceView[...]"
 
-    inner class SubIterator(var index: Int = 0) : MutableListIterator<CodePart> {
+    inner class SubIterator(var index: Int = 0) : MutableListIterator<CodeInstruction> {
 
         override fun hasNext(): Boolean =
                 this.index + 1 < this@CodeSourceView.size
@@ -138,7 +138,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         override fun hasPrevious(): Boolean =
                 this.index - 1 >= 0
 
-        override fun next(): CodePart {
+        override fun next(): CodeInstruction {
             if (!hasNext())
                 throw NoSuchElementException()
 
@@ -149,18 +149,18 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
                 this.index
 
 
-        override fun previous(): CodePart {
+        override fun previous(): CodeInstruction {
             if (!hasNext())
                 throw NoSuchElementException()
 
             return this@CodeSourceView[--this.index]
         }
 
-        override fun add(element: CodePart) {
+        override fun add(element: CodeInstruction) {
             this@CodeSourceView.add(this.index, element)
         }
 
-        override fun set(element: CodePart) {
+        override fun set(element: CodeInstruction) {
             this@CodeSourceView[this.index] = element
         }
 
@@ -180,7 +180,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         get() = (this.original as? MutableCodeSource)
                 ?: throw IllegalStateException("Invalid state, wrapped CodeSource must be mutable")
 
-    override fun removeIf(filter: Predicate<in CodePart>): Boolean {
+    override fun removeIf(filter: Predicate<in CodeInstruction>): Boolean {
         val iterator = this.listIterator()
         var any = false
 
@@ -196,7 +196,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         return any
     }
 
-    override fun replaceAll(operator: UnaryOperator<CodePart>) {
+    override fun replaceAll(operator: UnaryOperator<CodeInstruction>) {
         val iterator = this.listIterator()
 
         while (iterator.hasNext()) {
@@ -206,22 +206,22 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         }
     }
 
-    override fun sort(c: Comparator<in CodePart>) {
+    override fun sort(c: Comparator<in CodeInstruction>) {
 
         val array = this.toArray().sortedWith(c)
 
-        array.forEachIndexed { index, codePart ->
-            this[index] = codePart
+        array.forEachIndexed { index, instruction ->
+            this[index] = instruction
         }
     }
 
-    override fun add(codePart: CodePart): Boolean {
-        this.asMutable.add(this.size, codePart)
+    override fun add(instruction: CodeInstruction): Boolean {
+        this.asMutable.add(this.size, instruction)
         this.end++
         return true
     }
 
-    override operator fun set(index: Int, element: CodePart): CodePart {
+    override operator fun set(index: Int, element: CodeInstruction): CodeInstruction {
         this.checkIndex(index)
 
         return this.asMutable.set(index + this.start, element)
@@ -242,31 +242,31 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         return false
     }
 
-    override fun addAll(c: Collection<CodePart>): Boolean {
+    override fun addAll(c: Collection<CodeInstruction>): Boolean {
         var any = false
 
-        for (codePart in c) {
-            any = any or this.add(codePart)
+        for (instruction in c) {
+            any = any or this.add(instruction)
         }
 
         return any
     }
 
-    override fun addAll(index: Int, c: Collection<CodePart>): Boolean {
+    override fun addAll(index: Int, c: Collection<CodeInstruction>): Boolean {
         this.checkIndex(index)
 
-        for ((pos, codePart) in c.withIndex()) {
-            this.add(index + pos + this.start, codePart)
+        for ((pos, instruction) in c.withIndex()) {
+            this.add(index + pos + this.start, instruction)
         }
 
         return true
     }
 
-    override fun addAll(index: Int, c: Iterable<CodePart>): Boolean {
+    override fun addAll(index: Int, c: Iterable<CodeInstruction>): Boolean {
         this.checkIndex(index)
 
-        for ((pos, codePart) in c.withIndex()) {
-            this.add(index + pos + this.start, codePart)
+        for ((pos, instruction) in c.withIndex()) {
+            this.add(index + pos + this.start, instruction)
         }
 
         return true
@@ -300,7 +300,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         return changed
     }
 
-    override fun removeAll(c: Iterable<CodePart>): Boolean {
+    override fun removeAll(c: Iterable<CodeInstruction>): Boolean {
         var changed = false
 
         for (any in c) {
@@ -310,7 +310,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         return changed
     }
 
-    override fun retainAll(c: Iterable<CodePart>): Boolean {
+    override fun retainAll(c: Iterable<CodeInstruction>): Boolean {
         val iterator = this.listIterator()
         var changed = false
 
@@ -333,14 +333,14 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         }
     }
 
-    override fun add(index: Int, element: CodePart) {
+    override fun add(index: Int, element: CodeInstruction) {
         this.checkIndex(index)
 
         this.asMutable.add(index + this.start, element)
         this.end++
     }
 
-    override fun remove(index: Int): CodePart {
+    override fun remove(index: Int): CodeInstruction {
         this.checkIndex(index)
 
         val removed = this.asMutable.remove(index + this.start)
@@ -349,23 +349,23 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         return removed
     }
 
-    override fun plusAssign(other: Iterable<CodePart>) {
+    override fun plusAssign(other: Iterable<CodeInstruction>) {
         other.forEach {
             this.add(it)
         }
     }
 
-    override fun minusAssign(other: Iterable<CodePart>) {
+    override fun minusAssign(other: Iterable<CodeInstruction>) {
         other.forEach {
             this.remove(it)
         }
     }
 
-    override fun plusAssign(other: CodePart) {
+    override fun plusAssign(other: CodeInstruction) {
         this.add(other)
     }
 
-    override fun minusAssign(other: CodePart) {
+    override fun minusAssign(other: CodeInstruction) {
         this.remove(other)
     }
 

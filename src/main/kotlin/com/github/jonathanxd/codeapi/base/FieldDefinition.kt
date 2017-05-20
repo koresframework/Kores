@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
@@ -38,7 +39,7 @@ data class FieldDefinition(override val localization: Type,
                            override val target: CodePart,
                            override val type: Type,
                            override val name: String,
-                           override val value: CodePart) : Accessor, FieldBase, ValueHolder {
+                           override val value: CodePart) : Accessor, FieldBase, ValueHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

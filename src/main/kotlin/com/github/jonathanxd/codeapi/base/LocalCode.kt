@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeElement
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.Defaults
+import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.Alias
@@ -50,7 +47,7 @@ import java.lang.reflect.Type
  */
 data class LocalCode(val declaringType: Type,
                      val invokeType: InvokeType,
-                     val declaration: MethodDeclaration) : CodeElement, CodePart {
+                     val declaration: MethodDeclaration) : CodeElement, CodePart, CodeInstruction {
 
     /**
      * Local code execution constructor, this constructor resolves [invokeType] based on [declaration] and

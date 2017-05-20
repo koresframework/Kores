@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
@@ -45,7 +46,9 @@ data class FieldDeclaration(override val comments: Comments,
                             override val modifiers: Set<CodeModifier>,
                             override val type: Type,
                             override val name: String,
-                            override val value: CodePart?) : CodeElement, FieldBase, Named, Typed, ValueHolder, ModifiersHolder, Annotable, CommentHolder {
+                            override val value: CodePart?) :
+        CodeElement, FieldBase, Named, Typed,
+        ValueHolder, ModifiersHolder, Annotable, CommentHolder, CodeInstruction {
 
     override val localization: Type
         get() = Alias.THIS

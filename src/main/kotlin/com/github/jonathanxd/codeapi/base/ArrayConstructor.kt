@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.util.*
@@ -45,7 +46,7 @@ import java.lang.reflect.Type
  */
 data class ArrayConstructor(val arrayType: Type,
                             val dimensions: List<CodePart>,
-                            override val arguments: List<CodePart>) : ArgumentHolder, Typed {
+                            override val arguments: List<CodePart>) : ArgumentHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.arrayType

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.self
@@ -38,7 +39,7 @@ import java.lang.reflect.Type
  * @property part Casted part
  * @property checkType Type to check if part value is instance.
  */
-data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed {
+data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed, CodeInstruction {
 
     override val type: Type
         get() = Types.BOOLEAN

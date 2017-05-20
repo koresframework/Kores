@@ -27,12 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 
 /**
  * Throws [partToThrow].
  */
-data class ThrowException(val partToThrow: CodePart) : CodePart {
+data class ThrowException(val partToThrow: CodePart) : CodePart, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

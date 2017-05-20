@@ -27,13 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 /**
  * Return value.
  */
-data class Return(override val type: Type, override val value: CodePart) : ValueHolder, Typed {
+data class Return(override val type: Type, override val value: CodePart) : ValueHolder, Typed, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

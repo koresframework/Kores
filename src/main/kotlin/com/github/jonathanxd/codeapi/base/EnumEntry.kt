@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
@@ -41,10 +42,11 @@ import java.lang.reflect.Type
 data class EnumEntry(override val name: String,
                      val constructorSpec: TypeSpec?,
                      override val arguments: List<CodePart>,
-                     override val body: CodeSource) : ArgumentHolder, Named, BodyHolder {
-    init {
-        BodyHolder.checkBody(this)
-    }
+                     val staticBlock: StaticBlock,
+                     val fields: List<FieldDeclaration>,
+                     val constructors: List<ConstructorDeclaration>,
+                     val methods: List<MethodDeclaration>,
+                     override val innerTypes: List<TypeDeclaration>) : ArgumentHolder, Named, InnerTypesHolder {
 
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
@@ -57,18 +59,30 @@ data class EnumEntry(override val name: String,
     class Builder() :
             ArgumentHolder.Builder<EnumEntry, Builder>,
             Named.Builder<EnumEntry, Builder>,
-            BodyHolder.Builder<EnumEntry, Builder> {
+            InnerTypesHolder.Builder<EnumEntry, Builder> {
 
         lateinit var name: String
         var constructorSpec: TypeSpec? = null
         var arguments: List<CodePart> = emptyList()
-        var body: CodeSource = CodeSource.empty()
+
+        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+        var fields: List<FieldDeclaration> = emptyList()
+        var constructors: List<ConstructorDeclaration> = emptyList()
+        var methods: List<MethodDeclaration> = emptyList()
+        var innerTypes: List<TypeDeclaration> = emptyList()
+
 
         constructor(defaults: EnumEntry) : this() {
             this.name = defaults.name
             this.constructorSpec = defaults.constructorSpec
             this.arguments = defaults.arguments
-            this.body = defaults.body
+
+            this.staticBlock = defaults.staticBlock
+            this.fields = defaults.fields
+            this.constructors = defaults.constructors
+            this.methods = defaults.methods
+            this.innerTypes = defaults.innerTypes
+
         }
 
         override fun withArray(value: Boolean): Builder = self()
@@ -91,13 +105,34 @@ data class EnumEntry(override val name: String,
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
-            this.body = value
+
+        fun withStaticBlock(value: StaticBlock): Builder {
+            this.staticBlock = value
             return this
         }
 
+        fun withFields(value: List<FieldDeclaration>): Builder {
+            this.fields = value
+            return this
+        }
 
-        override fun build(): EnumEntry = EnumEntry(this.name, this.constructorSpec, this.arguments, this.body)
+        fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+            this.constructors = value
+            return this
+        }
+
+        fun withMethods(value: List<MethodDeclaration>): Builder {
+            this.methods = value
+            return this
+        }
+
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
+            return this
+        }
+
+        override fun build(): EnumEntry = EnumEntry(this.name, this.constructorSpec, this.arguments, this.staticBlock,
+                this.fields, this.constructors, this.methods, this.innerTypes)
 
         companion object {
             @JvmStatic

@@ -27,25 +27,7 @@
  */
 package com.github.jonathanxd.codeapi
 
-import com.github.jonathanxd.codeapi.base.BodyHolder
-import com.github.jonathanxd.codeapi.inspect.SourceInspect
-
 /**
- * CodeRoot is an [element][CodeElement] that contains other [Elements][CodeElement] inside.
+ * A source instruction.
  */
-interface CodeRoot : CodeElement, BodyHolder {
-
-    /**
-     * All elements inside this CodeRoot
-     */
-    val elements: List<CodeElement>
-        get() = this.body.let {
-            SourceInspect
-                    .builder { it is CodeElement }
-                    .include { it is CodeSource }
-                    .includeSource(true)
-                    .mapTo { it as CodeElement }
-                    .inspect(it)
-        }
-
-}
+interface CodeInstruction : CodePart

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
@@ -39,7 +40,7 @@ import com.github.jonathanxd.codeapi.CodeSource
  */
 data class WhileStatement(val type: Type,
                           override val expressions: List<CodePart>,
-                          override val body: CodeSource) : IfExpressionHolder, BodyHolder {
+                          override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
 
     init {
         BodyHolder.checkBody(this)

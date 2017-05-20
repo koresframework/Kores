@@ -27,13 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 /**
  * Represents the construction of type, used to invoke constructor methods. (not `super` constructor or `this` constructor).
  */
-data class New(val localization: Type) : CodePart {
+data class New(val localization: Type) : CodePart, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

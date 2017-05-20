@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
@@ -41,7 +42,7 @@ import java.lang.reflect.Type
 data class ArrayLoad(override val arrayType: Type,
                      override val target: CodePart,
                      val index: CodePart,
-                     val valueType: Type) : ArrayAccess, Typed {
+                     val valueType: Type) : ArrayAccess, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.valueType

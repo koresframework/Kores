@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.self
@@ -89,7 +90,7 @@ data class TryStatement(override val body: CodeSource, override val catchStateme
 /**
  * Try-catch-finally statement
  */
-internal interface TryStatementBase : BodyHolder, Typed {
+internal interface TryStatementBase : BodyHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() {

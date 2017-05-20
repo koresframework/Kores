@@ -28,6 +28,7 @@
 @file:JvmName("BridgeMethodFactory")
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
@@ -77,7 +78,7 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclaration, methodSpec:
 
     val invokeType = if (isStatic) InvokeType.INVOKE_STATIC else InvokeType.get(owner)
 
-    var toAdd: CodePart = invoke(invokeType,
+    var toAdd: CodeInstruction = invoke(invokeType,
             if (isStatic) owner else Alias.THIS, if (isStatic) accessStatic() else accessThis(),
             methodSpec.methodName,
             TypeSpec(currentReturnType, currentParameters.map(CodeParameter::type)),
@@ -100,5 +101,6 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclaration, methodSpec:
             currentReturnType,
             methodSpec.methodName,
             codeParameters,
+            emptyList(),
             CodeSource.fromPart(toAdd))
 }

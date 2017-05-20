@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.self
@@ -37,7 +38,7 @@ import java.lang.reflect.Type
  * used to concat values (in a future patch it will be changed to use Java 9 dynamic concatenation), in official
  * JavaSourceGenerator this will be translated into string concatenation.
  */
-data class Concat(val concatenations: List<CodePart>) : CodePart, Typed {
+data class Concat(val concatenations: List<CodePart>) : CodePart, Typed, CodeInstruction {
 
     override val type: Type
         get() = Types.STRING

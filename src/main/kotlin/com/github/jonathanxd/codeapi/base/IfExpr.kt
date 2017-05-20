@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.operator.Operator
 
@@ -40,7 +41,7 @@ import com.github.jonathanxd.codeapi.operator.Operator
  */
 data class IfExpr(val expr1: CodePart,
                   val operation: Operator.Conditional,
-                  val expr2: CodePart) : CodePart {
+                  val expr2: CodePart) : CodePart, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

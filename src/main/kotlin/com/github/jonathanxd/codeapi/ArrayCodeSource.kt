@@ -33,20 +33,20 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
 /**
- * CodeSource is an iterable of [CodeParts][CodePart].
+ * CodeSource is an iterable of [CodeInstructions][CodeInstruction].
  *
- * This class is backed by an [Array] of [CodePart].
+ * This class is backed by an [Array] of [CodeInstruction].
  *
  * @see MutableCodeSource
  */
-class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() {
+class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSource() {
 
     constructor() : this(emptyArray())
 
     override val size: Int get() = this.parts.size
 
 
-    override protected fun getAtIndex(index: Int): CodePart =
+    override protected fun getAtIndex(index: Int): CodeInstruction =
         this.parts[index]
 
 
@@ -54,19 +54,19 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
         return this.parts.any { equals(it, o) }
     }
 
-    override operator fun plus(other: CodePart): CodeSource {
+    override operator fun plus(other: CodeInstruction): CodeSource {
         return ArrayCodeSource(this.parts + other)
     }
 
-    override operator fun minus(other: CodePart): CodeSource {
+    override operator fun minus(other: CodeInstruction): CodeSource {
         return ArrayCodeSource((this.parts.toList() - other).toTypedArray())
     }
 
-    override operator fun plus(other: Iterable<CodePart>): CodeSource {
+    override operator fun plus(other: Iterable<CodeInstruction>): CodeSource {
         return ArrayCodeSource((this.toList() + other).toTypedArray())
     }
 
-    override operator fun minus(other: Iterable<CodePart>): CodeSource {
+    override operator fun minus(other: Iterable<CodeInstruction>): CodeSource {
         return ArrayCodeSource(this.parts.filter { it in other }.toTypedArray())
     }
 
@@ -74,32 +74,32 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
 
     override fun lastIndexOf(o: Any): Int = this.parts.indices.lastOrNull { Companion.equals(this.parts[it], o) } ?: -1
 
-    override fun forEach(action: Consumer<in CodePart>) {
+    override fun forEach(action: Consumer<in CodeInstruction>) {
         for (part in this.parts) {
             action.accept(part)
         }
     }
 
-    override fun toArray(): Array<CodePart> = this.parts.clone()
+    override fun toArray(): Array<CodeInstruction> = this.parts.clone()
 
-    override fun spliterator(): Spliterator<CodePart> = Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
+    override fun spliterator(): Spliterator<CodeInstruction> = Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
 
-    override fun iterator(): Iterator<CodePart> = Iterat()
+    override fun iterator(): Iterator<CodeInstruction> = Iterat()
 
     override fun subSource(fromIndex: Int, toIndex: Int): CodeSource =
             CodeSourceView(this, fromIndex, toIndex)
 
-    override fun listIterator(): ListIterator<CodePart> = this.listIterator(0)
+    override fun listIterator(): ListIterator<CodeInstruction> = this.listIterator(0)
 
-    override fun listIterator(index: Int): ListIterator<CodePart> = ListIterat(index)
+    override fun listIterator(index: Int): ListIterator<CodeInstruction> = ListIterat(index)
 
-    override fun stream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), false)
+    override fun stream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), false)
 
-    override fun parallelStream(): Stream<CodePart> = StreamSupport.stream(this.spliterator(), true)
+    override fun parallelStream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), true)
 
     override fun toString(): String = if (this.isEmpty) "CodeSource[]" else "CodeSource[...]"
 
-    private inner class Iterat : Iterator<CodePart> {
+    private inner class Iterat : Iterator<CodeInstruction> {
 
         private var index = 0
 
@@ -107,7 +107,7 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
             return this.index < this@ArrayCodeSource.size
         }
 
-        override fun next(): CodePart {
+        override fun next(): CodeInstruction {
             if (!this.hasNext())
                 throw java.util.NoSuchElementException()
 
@@ -115,7 +115,7 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
         }
     }
 
-    private inner class ListIterat internal constructor(index: Int) : ListIterator<CodePart> {
+    private inner class ListIterat internal constructor(index: Int) : ListIterator<CodeInstruction> {
 
         private var index = 0
 
@@ -127,7 +127,7 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
             return this.index < this@ArrayCodeSource.size
         }
 
-        override fun next(): CodePart {
+        override fun next(): CodeInstruction {
             if (!this.hasNext())
                 throw java.util.NoSuchElementException()
 
@@ -138,7 +138,7 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
             return this.index - 1 >= 0
         }
 
-        override fun previous(): CodePart {
+        override fun previous(): CodeInstruction {
 
             if (!this.hasPrevious())
                 throw java.util.NoSuchElementException()
@@ -156,7 +156,7 @@ class ArrayCodeSource(val parts: Array<CodePart> = emptyArray()) : CodeSource() 
 
     }
 
-    inline fun ArrayCodeSource(size: Int, init: (index: Int) -> CodePart): CodeSource = ArrayCodeSource(Array(size, { init(it) }))
+    inline fun ArrayCodeSource(size: Int, init: (index: Int) -> CodeInstruction): CodeSource = ArrayCodeSource(Array(size, { init(it) }))
 
     companion object {
 

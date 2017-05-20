@@ -52,5 +52,5 @@ fun variable(type: Type, name: String, value: CodePart?): VariableDeclaration =
  * @see VariableDeclaration
  */
 fun variable(type: Type, name: String): VariableDeclaration =
-        VariableDeclaration(modifiers = emptySet(),value = null, name = name, variableType = type)
+        VariableDeclaration(modifiers = emptySet(), value = null, name = name, variableType = type)
 

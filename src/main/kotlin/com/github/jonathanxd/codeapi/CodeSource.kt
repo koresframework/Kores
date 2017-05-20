@@ -32,12 +32,12 @@ import java.util.function.Consumer
 import java.util.stream.Stream
 
 /**
- * Abstract [CodePart] iterable.
+ * Abstract [CodeInstruction] iterable.
  *
  * @see ArrayCodeSource
  * @see MutableCodeSource
  */
-abstract class CodeSource : Iterable<CodePart>, CodePart {
+abstract class CodeSource : Iterable<CodeInstruction>, CodePart {
 
     /**
      * Size of source.
@@ -59,7 +59,7 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
      *
      * @throws IndexOutOfBoundsException If the [index] is either negative or greater than [size].
      */
-    operator fun get(index: Int): CodePart {
+    operator fun get(index: Int): CodeInstruction {
         if (index < 0 || index >= this.size)
             throw IndexOutOfBoundsException("Index: $index. Size: $size")
 
@@ -70,7 +70,7 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
      * Gets element at index [index]. This method should only be called if the index
      * is in the bounds.
      */
-    abstract protected fun getAtIndex(index: Int): CodePart
+    abstract protected fun getAtIndex(index: Int): CodeInstruction
 
     /**
      * Returns true if this [CodeSource] contains [o].
@@ -87,22 +87,22 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
     /**
      * Adds [other] to this [CodeSource].
      */
-    abstract operator fun plus(other: CodePart): CodeSource
+    abstract operator fun plus(other: CodeInstruction): CodeSource
 
     /**
      * Removes [other] from this [CodeSource].
      */
-    abstract operator fun minus(other: CodePart): CodeSource
+    abstract operator fun minus(other: CodeInstruction): CodeSource
 
     /**
-     * Adds all [CodePart] of [other] to this [CodeSource]
+     * Adds all [CodeInstruction] of [other] to this [CodeSource]
      */
-    abstract operator fun plus(other: Iterable<CodePart>): CodeSource
+    abstract operator fun plus(other: Iterable<CodeInstruction>): CodeSource
 
     /**
-     * Removes all [CodePart] of [other] from this [CodeSource]
+     * Removes all [CodeInstruction] of [other] from this [CodeSource]
      */
-    abstract operator fun minus(other: Iterable<CodePart>): CodeSource
+    abstract operator fun minus(other: Iterable<CodeInstruction>): CodeSource
 
     /**
      * Returns the index of [o] in this [CodeSource].
@@ -117,22 +117,22 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
     /**
      * For each all elements of this [CodeSource].
      */
-    abstract override fun forEach(action: Consumer<in CodePart>)
+    abstract override fun forEach(action: Consumer<in CodeInstruction>)
 
     /**
-     * Creates an array of [CodePart] of all elements of this [CodeSource].
+     * Creates an array of [CodeInstruction] of all elements of this [CodeSource].
      */
-    abstract fun toArray(): Array<CodePart>
+    abstract fun toArray(): Array<CodeInstruction>
 
     /**
      * Creates a [Spliterator] from elements of this [CodeSource].
      */
-    abstract override fun spliterator(): Spliterator<CodePart>
+    abstract override fun spliterator(): Spliterator<CodeInstruction>
 
     /**
      * Creates an [Iterator] that iterates elements of this [CodeSource].
      */
-    abstract override fun iterator(): Iterator<CodePart>
+    abstract override fun iterator(): Iterator<CodeInstruction>
 
     /**
      * Creates a view of this [CodeSource] from index [fromIndex] to index [toIndex],
@@ -153,22 +153,22 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
     /**
      * Creates a [ListIterator] that iterates this [CodeSource].
      */
-    abstract fun listIterator(): ListIterator<CodePart>
+    abstract fun listIterator(): ListIterator<CodeInstruction>
 
     /**
      * Creates a [ListIterator] that iterates this [CodeSource] and starts at [index].
      */
-    abstract fun listIterator(index: Int): ListIterator<CodePart>
+    abstract fun listIterator(index: Int): ListIterator<CodeInstruction>
 
     /**
      * Creates a [Stream] of this [CodeSource].
      */
-    abstract fun stream(): Stream<CodePart>
+    abstract fun stream(): Stream<CodeInstruction>
 
     /**
      * Creates a parallel [Stream] of this [CodeSource] (which may or may not be parallel).
      */
-    abstract fun parallelStream(): Stream<CodePart>
+    abstract fun parallelStream(): Stream<CodeInstruction>
 
     override fun toString(): String = if (this.isEmpty) "CodeSource[]" else "CodeSource[...]"
 
@@ -176,7 +176,7 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
      * Factory methods to create immutable [CodeSource].
      */
     companion object {
-        private val EMPTY = emptyArray<CodePart>()
+        private val EMPTY = emptyArray<CodeInstruction>()
         private val EMPTY_CODE_SOURCE = ArrayCodeSource(EMPTY)
 
         /**
@@ -191,7 +191,7 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
          * Creates a immutable [CodeSource] with all elements of [parts].
          */
         @JvmStatic
-        fun fromArray(parts: Array<CodePart>): CodeSource {
+        fun fromArray(parts: Array<CodeInstruction>): CodeSource {
             return ArrayCodeSource(parts.clone())
         }
 
@@ -199,7 +199,7 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
          * Creates a immutable [CodeSource] with a single [part].
          */
         @JvmStatic
-        fun fromPart(part: CodePart): CodeSource {
+        fun fromPart(part: CodeInstruction): CodeSource {
             return ArrayCodeSource(arrayOf(part))
         }
 
@@ -207,7 +207,7 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
          * Creates a immutable [CodeSource] with all elements of vararg [parts].
          */
         @JvmStatic
-        fun fromVarArgs(vararg parts: CodePart): CodeSource {
+        fun fromVarArgs(vararg parts: CodeInstruction): CodeSource {
             return ArrayCodeSource(Array(parts.size, { parts[it] }))
         }
 
@@ -216,8 +216,8 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
          */
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
-        fun fromIterable(iterable: Iterable<CodePart>): CodeSource {
-            if (iterable is Collection<CodePart>)
+        fun fromIterable(iterable: Iterable<CodeInstruction>): CodeSource {
+            if (iterable is Collection<CodeInstruction>)
                 return ArrayCodeSource(iterable.toTypedArray())
 
             return ArrayCodeSource(iterable.toList().toTypedArray())
@@ -230,9 +230,9 @@ abstract class CodeSource : Iterable<CodePart>, CodePart {
         @JvmStatic
         fun fromGenericIterable(iterable: Iterable<*>): CodeSource {
             if (iterable is Collection<*>)
-                return ArrayCodeSource((iterable as Collection<CodePart>).toTypedArray())
+                return ArrayCodeSource((iterable as Collection<CodeInstruction>).toTypedArray())
 
-            return ArrayCodeSource((iterable as Iterable<CodePart>).toList().toTypedArray())
+            return ArrayCodeSource((iterable as Iterable<CodeInstruction>).toList().toTypedArray())
         }
 
         /**

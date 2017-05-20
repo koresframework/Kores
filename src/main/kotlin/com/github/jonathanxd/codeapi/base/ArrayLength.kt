@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.self
@@ -35,7 +36,7 @@ import java.lang.reflect.Type
 /**
  * Access length of array [target] of type [arrayType].
  */
-data class ArrayLength(override val arrayType: Type, override val target: CodePart) : ArrayAccess, Typed {
+data class ArrayLength(override val arrayType: Type, override val target: CodePart) : ArrayAccess, Typed, CodeInstruction {
 
     override val type: Type
         get() = Types.INT

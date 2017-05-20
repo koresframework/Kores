@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.type.CodeType
 import java.lang.reflect.Type
@@ -37,8 +36,24 @@ import java.lang.reflect.Type
  *
  * The [qualifiedName] MUST return a qualifiedName even for the inner classes, the [qualifiedName] of
  * inner classes must be: '[outerClass qualifiedName][qualifiedName] + simpleInnerName'.
+ *
+ * For inner types, you should implement inner logic yourself, it is not hard, inner types are only
+ * classes with constructors which receives outer type as parameter and fields which stores outer instance, example:
+ *
+ * ```
+ * class A {
+ *   class B(private val outer: A) {
+ *     fun doSomething() {
+ *       outer.doSomething()
+ *     }
+ *   }
+ *
+ *   fun doSomething() {
+ *   }
+ * }
+ * ```
  */
-interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, BodyHolder, Annotable, CommentHolder {
+interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, Annotable, CommentHolder, InnerTypesHolder {
 
     /**
      * Outer class (null if this type is not a inner class).
@@ -62,20 +77,88 @@ interface TypeDeclaration : CodeRoot, ModifiersHolder, CodeType, QualifiedNamed,
     override val canonicalName: String
         get() = this.qualifiedName
 
+    /**
+     * Static block
+     */
+    val staticBlock: StaticBlock
+
+    /**
+     * Fields of the type.
+     */
+    val fields: List<FieldDeclaration>
+
+    /**
+     * Constructor declaration
+     */
+    val constructors: List<ConstructorDeclaration>
+
+    /**
+     * Methods of type
+     */
+    val methods: List<MethodDeclaration>
+
+    /**
+     * Static inner types. CodeAPI 4 only supports static types, inner logic should be
+     * manually implemented.
+     */
+    override val innerTypes: List<TypeDeclaration>
+
     override fun builder(): Builder<TypeDeclaration, *>
 
     interface Builder<out T : TypeDeclaration, S : Builder<T, S>> :
             ModifiersHolder.Builder<T, S>,
             QualifiedNamed.Builder<T, S>,
             GenericSignatureHolder.Builder<T, S>,
-            BodyHolder.Builder<T, S>,
             Annotable.Builder<T, S>,
-            CommentHolder.Builder<T, S> {
+            CommentHolder.Builder<T, S>,
+            InnerTypesHolder.Builder<T, S> {
 
         override fun withQualifiedName(value: String): S = this.withSpecifiedName(value)
 
+        /**
+         * See [TypeDeclaration.specifiedName]
+         */
         fun withSpecifiedName(value: String): S
 
+        /**
+         * See [TypeDeclaration.outerClass]
+         */
         fun withOuterClass(value: Type?): S
+
+        /**
+         * See [TypeDeclaration.staticBlock]
+         */
+        fun withStaticBlock(value: StaticBlock): S
+
+        /**
+         * See [TypeDeclaration.fields]
+         */
+        fun withFields(value: List<FieldDeclaration>): S
+
+        /**
+         * See [TypeDeclaration.fields]
+         */
+        fun withFields(vararg values: FieldDeclaration): S = this.withFields(values.toList())
+
+        /**
+         * See [TypeDeclaration.constructors]
+         */
+        fun withConstructors(value: List<ConstructorDeclaration>): S
+
+        /**
+         * See [TypeDeclaration.constructors]
+         */
+        fun withConstructors(vararg values: ConstructorDeclaration): S = this.withConstructors(values.toList())
+
+        /**
+         * See [TypeDeclaration.methods]
+         */
+        fun withMethods(value: List<MethodDeclaration>): S
+
+        /**
+         * See [TypeDeclaration.methods]
+         */
+        fun withMethods(vararg values: MethodDeclaration): S = this.withMethods(values.toList())
+
     }
 }

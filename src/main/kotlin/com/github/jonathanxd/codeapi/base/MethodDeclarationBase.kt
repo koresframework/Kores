@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeElement
-import com.github.jonathanxd.codeapi.CodeRoot
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
@@ -45,6 +44,7 @@ data class MethodDeclaration(override val comments: Comments,
                              override val returnType: Type,
                              override val name: String,
                              override val parameters: List<CodeParameter>,
+                             override val innerTypes: List<TypeDeclaration>,
                              override val body: CodeSource) : MethodDeclarationBase {
     init {
         BodyHolder.checkBody(this)
@@ -63,6 +63,7 @@ data class MethodDeclaration(override val comments: Comments,
         lateinit var returnType: Type
         lateinit var name: String
         var parameters: List<CodeParameter> = emptyList()
+        var innerTypes: List<TypeDeclaration> = emptyList()
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: MethodDeclaration) : this() {
@@ -73,6 +74,7 @@ data class MethodDeclaration(override val comments: Comments,
             this.returnType = defaults.returnType
             this.name = defaults.name
             this.parameters = defaults.parameters
+            this.innerTypes = defaults.innerTypes
             this.body = defaults.body
         }
 
@@ -106,6 +108,11 @@ data class MethodDeclaration(override val comments: Comments,
             return this
         }
 
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
+            return this
+        }
+
         override fun withBody(value: CodeSource): Builder {
             this.body = value
             return this
@@ -117,7 +124,7 @@ data class MethodDeclaration(override val comments: Comments,
         }
 
         override fun build(): MethodDeclaration = MethodDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature,
-                this.returnType, this.name, this.parameters, this.body)
+                this.returnType, this.name, this.parameters, this.innerTypes, this.body)
 
         companion object {
             @JvmStatic
@@ -134,7 +141,7 @@ data class MethodDeclaration(override val comments: Comments,
 /**
  * Method declaration
  */
-internal interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder {
+internal interface MethodDeclarationBase : CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder, BodyHolder, InnerTypesHolder {
 
     override val type: Type
         get() = this.returnType
@@ -155,7 +162,8 @@ internal interface MethodDeclarationBase : CodeRoot, CodeElement, ModifiersHolde
             Annotable.Builder<T, S>,
             Named.Builder<T, S>,
             Typed.Builder<T, S>,
-            CommentHolder.Builder<T, S> {
+            CommentHolder.Builder<T, S>,
+            InnerTypesHolder.Builder<T, S> {
 
         override fun withType(value: Type): S = this.withReturnType(value)
 

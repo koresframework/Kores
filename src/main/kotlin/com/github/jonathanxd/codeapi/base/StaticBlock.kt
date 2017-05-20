@@ -37,7 +37,9 @@ import java.lang.reflect.Type
 /**
  * Static block (aka class constructors/class initializers).
  */
-data class StaticBlock(override val comments: Comments, override val body: CodeSource) : MethodDeclarationBase {
+data class StaticBlock(override val comments: Comments,
+                       override val innerTypes: List<TypeDeclaration>,
+                       override val body: CodeSource) : MethodDeclarationBase {
     init {
         BodyHolder.checkBody(this)
     }
@@ -65,10 +67,12 @@ data class StaticBlock(override val comments: Comments, override val body: CodeS
     class Builder() : MethodDeclarationBase.Builder<StaticBlock, Builder> {
 
         var comments: Comments = Comments.Absent
+        var innerTypes: List<TypeDeclaration> = emptyList()
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: StaticBlock) : this() {
             this.comments = defaults.comments
+            this.innerTypes = defaults.innerTypes
             this.body = defaults.body
         }
 
@@ -86,6 +90,11 @@ data class StaticBlock(override val comments: Comments, override val body: CodeS
 
         override fun withParameters(value: List<CodeParameter>): Builder = self()
 
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
+            return this
+        }
+
         override fun withBody(value: CodeSource): Builder {
             this.body = value
             return this
@@ -93,7 +102,7 @@ data class StaticBlock(override val comments: Comments, override val body: CodeS
 
         override fun withGenericSignature(value: GenericSignature): Builder = self()
 
-        override fun build(): StaticBlock = StaticBlock(this.comments, this.body)
+        override fun build(): StaticBlock = StaticBlock(this.comments, this.innerTypes, this.body)
 
         companion object {
             @JvmStatic

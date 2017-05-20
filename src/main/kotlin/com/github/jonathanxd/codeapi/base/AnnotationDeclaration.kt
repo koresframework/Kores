@@ -48,7 +48,11 @@ data class AnnotationDeclaration(override val comments: Comments,
                                  override val specifiedName: String,
                                  override val genericSignature: GenericSignature,
                                  val properties: List<AnnotationProperty>,
-                                 override val body: CodeSource) : TypeDeclaration {
+                                 override val staticBlock: StaticBlock,
+                                 override val fields: List<FieldDeclaration>,
+                                 override val constructors: List<ConstructorDeclaration>,
+                                 override val methods: List<MethodDeclaration>,
+                                 override val innerTypes: List<TypeDeclaration>) : TypeDeclaration {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -58,10 +62,6 @@ data class AnnotationDeclaration(override val comments: Comments,
 
     override val isInterface: Boolean
         get() = true
-
-    init {
-        BodyHolder.checkBody(this)
-    }
 
     override fun builder(): Builder = Builder(this)
 
@@ -74,7 +74,13 @@ data class AnnotationDeclaration(override val comments: Comments,
         lateinit var specifiedName: String
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
-        var body: CodeSource = CodeSource.empty()
+
+        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+        var fields: List<FieldDeclaration> = emptyList()
+        var constructors: List<ConstructorDeclaration> = emptyList()
+        var methods: List<MethodDeclaration> = emptyList()
+        var innerTypes: List<TypeDeclaration> = emptyList()
+
         var modifiers: Set<CodeModifier> = emptySet()
         var genericSignature: GenericSignature = GenericSignature.empty()
         var properties: List<AnnotationProperty> = emptyList()
@@ -84,7 +90,13 @@ data class AnnotationDeclaration(override val comments: Comments,
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
-            this.body = defaults.body
+
+            this.staticBlock = defaults.staticBlock
+            this.fields = defaults.fields
+            this.constructors = defaults.constructors
+            this.methods = defaults.methods
+            this.innerTypes = defaults.innerTypes
+
             this.modifiers = defaults.modifiers
             this.genericSignature = defaults.genericSignature
             this.properties = defaults.properties
@@ -100,8 +112,28 @@ data class AnnotationDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
-            this.body = value
+        override fun withStaticBlock(value: StaticBlock): Builder {
+            this.staticBlock = value
+            return this
+        }
+
+        override fun withFields(value: List<FieldDeclaration>): Builder {
+            this.fields = value
+            return this
+        }
+
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+            this.constructors = value
+            return this
+        }
+
+        override fun withMethods(value: List<MethodDeclaration>): Builder {
+            this.methods = value
+            return this
+        }
+
+        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+            this.innerTypes = value
             return this
         }
 
@@ -138,9 +170,9 @@ data class AnnotationDeclaration(override val comments: Comments,
          */
         fun withProperties(vararg values: AnnotationProperty): Builder = withProperties(values.toList())
 
-
         override fun build() = AnnotationDeclaration(this.comments, this.outerClass, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.properties, this.body)
+                this.specifiedName, this.genericSignature, this.properties, this.staticBlock, this.fields,
+                this.constructors, this.methods, this.innerTypes)
 
         companion object {
             @JvmStatic

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.util.Alias
@@ -43,7 +44,7 @@ import java.lang.reflect.Type
 data class MethodInvocation(val invokeType: InvokeType,
                             override val target: CodePart,
                             val spec: MethodTypeSpec,
-                            override val arguments: List<CodePart>) : Accessor, ArgumentHolder, Typed {
+                            override val arguments: List<CodePart>) : Accessor, ArgumentHolder, Typed, CodeInstruction {
 
     override val types: List<Type>
         get() = this.spec.typeSpec.parameterTypes

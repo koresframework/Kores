@@ -38,46 +38,46 @@ import java.util.stream.Stream
 /**
  * A [MutableCodeSource] backing to a [ArrayList].
  */
-class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCodeSource(), Cloneable {
+class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : MutableCodeSource(), Cloneable {
 
     constructor() : this(mutableListOf())
 
-    constructor(iterable: Iterable<CodePart>) : this(iterable.toMutableList())
+    constructor(iterable: Iterable<CodeInstruction>) : this(iterable.toMutableList())
 
-    constructor(a: Array<CodePart>) : this(a.toMutableList())
+    constructor(a: Array<CodeInstruction>) : this(a.toMutableList())
 
     override val size: Int
         get() = this.backingList.size
 
-    override fun removeIf(filter: Predicate<in CodePart>): Boolean {
+    override fun removeIf(filter: Predicate<in CodeInstruction>): Boolean {
         return this.backingList.removeIf(filter)
     }
 
-    override fun replaceAll(operator: UnaryOperator<CodePart>) {
+    override fun replaceAll(operator: UnaryOperator<CodeInstruction>) {
         this.backingList.replaceAll(operator)
     }
 
-    override fun sort(c: Comparator<in CodePart>) {
+    override fun sort(c: Comparator<in CodeInstruction>) {
         this.backingList.sortedWith(c)
     }
 
-    override fun add(codePart: CodePart): Boolean {
-        return this.backingList.add(codePart)
+    override fun add(instruction: CodeInstruction): Boolean {
+        return this.backingList.add(instruction)
     }
 
     override fun remove(o: Any): Boolean {
         return this.backingList.remove(o)
     }
 
-    override fun addAll(c: Collection<CodePart>): Boolean {
+    override fun addAll(c: Collection<CodeInstruction>): Boolean {
         return this.backingList.addAll(c)
     }
 
-    override fun addAll(index: Int, c: Collection<CodePart>): Boolean {
+    override fun addAll(index: Int, c: Collection<CodeInstruction>): Boolean {
         return this.backingList.addAll(index, c)
     }
 
-    override fun addAll(index: Int, c: Iterable<CodePart>): Boolean {
+    override fun addAll(index: Int, c: Iterable<CodeInstruction>): Boolean {
         return this.addAll(index, c.toList())
     }
 
@@ -89,11 +89,11 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         return this.backingList.retainAll(c)
     }
 
-    override fun removeAll(c: Iterable<CodePart>): Boolean {
+    override fun removeAll(c: Iterable<CodeInstruction>): Boolean {
         return this.backingList.removeAll(c)
     }
 
-    override fun retainAll(c: Iterable<CodePart>): Boolean {
+    override fun retainAll(c: Iterable<CodeInstruction>): Boolean {
         return this.backingList.retainAll(c)
     }
 
@@ -101,46 +101,46 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         this.backingList.clear()
     }
 
-    override fun add(index: Int, element: CodePart) {
+    override fun add(index: Int, element: CodeInstruction) {
         return this.backingList.add(index, element)
     }
 
-    override fun remove(index: Int): CodePart {
+    override fun remove(index: Int): CodeInstruction {
         return this.backingList.removeAt(index)
     }
 
-    override operator fun plusAssign(other: Iterable<CodePart>) {
+    override operator fun plusAssign(other: Iterable<CodeInstruction>) {
         this.addAll(other)
     }
 
-    override operator fun minusAssign(other: Iterable<CodePart>) {
+    override operator fun minusAssign(other: Iterable<CodeInstruction>) {
         this.removeAll(other)
     }
 
-    override operator fun plusAssign(other: CodePart) {
+    override operator fun plusAssign(other: CodeInstruction) {
         this.add(other)
     }
 
-    override operator fun minusAssign(other: CodePart) {
+    override operator fun minusAssign(other: CodeInstruction) {
         this.remove(other)
     }
 
     override fun subSource(fromIndex: Int, toIndex: Int): MutableCodeSource =
             CodeSourceView(this, fromIndex, toIndex)
 
-    override operator fun plus(other: CodePart): MutableCodeSource {
+    override operator fun plus(other: CodeInstruction): MutableCodeSource {
         return ListCodeSource(this.backingList + other)
     }
 
-    override operator fun minus(other: CodePart): MutableCodeSource {
+    override operator fun minus(other: CodeInstruction): MutableCodeSource {
         return ListCodeSource(this.backingList - other)
     }
 
-    override operator fun plus(other: Iterable<CodePart>): MutableCodeSource {
+    override operator fun plus(other: Iterable<CodeInstruction>): MutableCodeSource {
         return ListCodeSource(this.backingList + other)
     }
 
-    override operator fun minus(other: Iterable<CodePart>): MutableCodeSource {
+    override operator fun minus(other: Iterable<CodeInstruction>): MutableCodeSource {
         return ListCodeSource(this.backingList - other)
     }
 
@@ -148,11 +148,11 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         return this.backingList.contains(o)
     }
 
-    override fun iterator(): Iterator<CodePart> {
+    override fun iterator(): Iterator<CodeInstruction> {
         return this.backingList.iterator()
     }
 
-    override fun toArray(): Array<CodePart> {
+    override fun toArray(): Array<CodeInstruction> {
         return this.backingList.toTypedArray()
     }
 
@@ -160,11 +160,11 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         return this.backingList.containsAll(c)
     }
 
-    override fun getAtIndex(index: Int): CodePart {
+    override fun getAtIndex(index: Int): CodeInstruction {
         return this.backingList[index]
     }
 
-    override operator fun set(index: Int, element: CodePart): CodePart {
+    override operator fun set(index: Int, element: CodeInstruction): CodeInstruction {
         return this.backingList.set(index, element)
     }
 
@@ -176,11 +176,11 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         return this.backingList.lastIndexOf(o)
     }
 
-    override fun listIterator(): ListIterator<CodePart> {
+    override fun listIterator(): ListIterator<CodeInstruction> {
         return this.backingList.listIterator()
     }
 
-    override fun listIterator(index: Int): ListIterator<CodePart> {
+    override fun listIterator(index: Int): ListIterator<CodeInstruction> {
         return this.backingList.listIterator(index)
     }
 
@@ -188,11 +188,11 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         return ListCodeSource(this.backingList)
     }
 
-    override fun forEach(action: Consumer<in CodePart>) {
+    override fun forEach(action: Consumer<in CodeInstruction>) {
         this.backingList.forEach(action)
     }
 
-    override fun spliterator(): Spliterator<CodePart> {
+    override fun spliterator(): Spliterator<CodeInstruction> {
         return this.backingList.spliterator()
     }
 
@@ -206,11 +206,11 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
 
     override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
-    override fun stream(): Stream<CodePart> {
+    override fun stream(): Stream<CodeInstruction> {
         return this.backingList.stream()
     }
 
-    override fun parallelStream(): Stream<CodePart> {
+    override fun parallelStream(): Stream<CodeInstruction> {
         return this.backingList.parallelStream()
     }
 
@@ -222,7 +222,7 @@ class ListCodeSource(private val backingList: MutableList<CodePart>) : MutableCo
         return ListCodeSource(this)
     }
 
-    inline fun ListCodeSource(size: Int, init: (index: Int) -> CodePart): ListCodeSource =
+    inline fun ListCodeSource(size: Int, init: (index: Int) -> CodeInstruction): ListCodeSource =
             ListCodeSource(MutableList(size, init))
 
 }

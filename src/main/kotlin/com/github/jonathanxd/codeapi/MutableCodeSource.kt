@@ -38,24 +38,24 @@ import java.util.function.UnaryOperator
 abstract class MutableCodeSource : CodeSource(), Cloneable {
 
     /**
-     * Removes all [CodePart] that matches [filter].
+     * Removes all [CodeInstruction]s that matches [filter].
      */
-    abstract fun removeIf(filter: Predicate<in CodePart>): Boolean
+    abstract fun removeIf(filter: Predicate<in CodeInstruction>): Boolean
 
     /**
      * Replaces each element with element returned by [operator].
      */
-    abstract fun replaceAll(operator: UnaryOperator<CodePart>)
+    abstract fun replaceAll(operator: UnaryOperator<CodeInstruction>)
 
     /**
      * Sorts this [MutableCodeSource] using [Comparator] [c].
      */
-    abstract fun sort(c: Comparator<in CodePart>)
+    abstract fun sort(c: Comparator<in CodeInstruction>)
 
     /**
-     * Adds [codePart] to list.
+     * Adds [instruction] to list.
      */
-    abstract fun add(codePart: CodePart): Boolean
+    abstract fun add(instruction: CodeInstruction): Boolean
 
     /**
      * Removes [o] from list.
@@ -63,14 +63,14 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
     abstract fun remove(o: Any): Boolean
 
     /**
-     * Adds all [CodePart] of [c] into this list.
+     * Adds all [CodeInstruction] of [c] into this list.
      */
-    abstract fun addAll(c: Collection<CodePart>): Boolean
+    abstract fun addAll(c: Collection<CodeInstruction>): Boolean
 
     /**
-     * Adds all [CodePart] of [c] into this list.
+     * Adds all [CodeInstruction] of [c] into this list.
      */
-    fun addAll(c: Iterable<CodePart>): Boolean {
+    fun addAll(c: Iterable<CodeInstruction>): Boolean {
         var any = false
 
         for (part in c) {
@@ -81,14 +81,14 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
     }
 
     /**
-     * Adds all [CodePart] of [c] into this list at [index].
+     * Adds all [CodeInstruction] of [c] into this list at [index].
      */
-    abstract fun addAll(index: Int, c: Collection<CodePart>): Boolean
+    abstract fun addAll(index: Int, c: Collection<CodeInstruction>): Boolean
 
     /**
-     * Adds all [CodePart] of [c] into this list at [index].
+     * Adds all [CodeInstruction] of [c] into this list at [index].
      */
-    abstract fun addAll(index: Int, c: Iterable<CodePart>): Boolean
+    abstract fun addAll(index: Int, c: Iterable<CodeInstruction>): Boolean
 
     /**
      * Removes all elements which is present in [c] from this list.
@@ -103,12 +103,12 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
     /**
      * Removes all elements which is present in [c] from this list.
      */
-    abstract fun removeAll(c: Iterable<CodePart>): Boolean
+    abstract fun removeAll(c: Iterable<CodeInstruction>): Boolean
 
     /**
      * Retains all elements which is present in [c] in this list.
      */
-    abstract fun retainAll(c: Iterable<CodePart>): Boolean
+    abstract fun retainAll(c: Iterable<CodeInstruction>): Boolean
 
     /**
      * Clears this list.
@@ -118,37 +118,37 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
     /**
      * Adds [element] at [index].
      */
-    abstract fun add(index: Int, element: CodePart)
+    abstract fun add(index: Int, element: CodeInstruction)
 
     /**
      * Sets element at [index] to [element].
      */
-    abstract operator fun set(index: Int, element: CodePart): CodePart
+    abstract operator fun set(index: Int, element: CodeInstruction): CodeInstruction
 
     /**
-     * Removes [CodePart] which is at [index]. And returns removed element.
+     * Removes [CodeInstruction] which is at [index]. And returns removed element.
      */
-    abstract fun remove(index: Int): CodePart
+    abstract fun remove(index: Int): CodeInstruction
 
     /**
      * Adds all elements of [other] to this list.
      */
-    abstract operator fun plusAssign(other: Iterable<CodePart>)
+    abstract operator fun plusAssign(other: Iterable<CodeInstruction>)
 
     /**
      * Removes all elements of [other] from this list.
      */
-    abstract operator fun minusAssign(other: Iterable<CodePart>)
+    abstract operator fun minusAssign(other: Iterable<CodeInstruction>)
 
     /**
      * Adds [other] to this list.
      */
-    abstract operator fun plusAssign(other: CodePart)
+    abstract operator fun plusAssign(other: CodeInstruction)
 
     /**
      * Removes [other] from this list.
      */
-    abstract operator fun minusAssign(other: CodePart)
+    abstract operator fun minusAssign(other: CodeInstruction)
 
     override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
@@ -164,13 +164,13 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
          * Create a [MutableCodeSource] from a copy of [list].
          */
         @JvmStatic
-        fun create(list: List<CodePart>): MutableCodeSource = ListCodeSource(list.toMutableList())
+        fun create(list: List<CodeInstruction>): MutableCodeSource = ListCodeSource(list.toMutableList())
 
         /**
          * Create a [MutableCodeSource] delegating to [list].
          */
         @JvmStatic
-        fun createFromOriginal(list: MutableList<CodePart>): MutableCodeSource = ListCodeSource(list)
+        fun createFromOriginal(list: MutableList<CodeInstruction>): MutableCodeSource = ListCodeSource(list)
 
     }
 }

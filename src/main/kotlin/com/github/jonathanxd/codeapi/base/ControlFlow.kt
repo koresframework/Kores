@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.ControlFlow.Type
 
@@ -37,7 +38,7 @@ import com.github.jonathanxd.codeapi.base.ControlFlow.Type
  * @property at Label to control flow (Note: [Type.CONTINUE] goes to Start of label and [Type.BREAK] goes to end of label).
  * **Note**: [Type.CONTINUE] to a label may be unstable.
  */
-data class ControlFlow(val type: Type, val at: Label?) : CodePart {
+data class ControlFlow(val type: Type, val at: Label?) : CodePart, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

@@ -50,11 +50,7 @@ const val CONSTRUCTOR = "<init>"
  */
 fun getNewInnerName(name: String, typeDeclaration: TypeDeclaration): String {
     var name = name
-    val inspect = SourceInspect.builder { codePart -> codePart is TypeDeclaration }
-            .includeSource(true)
-            .include { bodied -> bodied is CodeSource }
-            .mapTo { codePart -> codePart as TypeDeclaration }
-            .inspect(typeDeclaration.body)
+    val inspect = typeDeclaration.innerTypes
 
     while (contains(name, inspect))
         name += "$1"

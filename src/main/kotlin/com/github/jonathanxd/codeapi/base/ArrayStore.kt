@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
@@ -42,7 +43,7 @@ data class ArrayStore(override val arrayType: Type,
                       override val target: CodePart,
                       val index: CodePart,
                       val valueType: Type,
-                      val valueToStore: CodePart) : ArrayAccess, ValueHolder {
+                      val valueToStore: CodePart) : ArrayAccess, ValueHolder, CodeInstruction {
 
     override val value: CodePart?
         get() = this.valueToStore
