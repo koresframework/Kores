@@ -65,19 +65,6 @@ fun accessThis(): Access = Defaults.ACCESS_THIS
 fun accessSuper(): Access = Defaults.ACCESS_SUPER
 
 
-/**
- * Access enclosing class of current [TypeDeclaration].
-
- * Equivalent to Java `CLASS.this`.
-
- * @param localization Localization of outer class.
- * *
- * @return Access enclosing class of current [TypeDeclaration].
- */
-fun accessOuter(localization: Type): Access {
-    return Common.accessOuter(localization)
-}
-
 // Annotations
 
 /**

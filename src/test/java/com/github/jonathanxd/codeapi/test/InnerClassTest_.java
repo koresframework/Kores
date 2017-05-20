@@ -40,9 +40,11 @@ import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.TypeRef;
+import com.github.jonathanxd.codeapi.util.Alias;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import kotlin.collections.CollectionsKt;
@@ -60,8 +62,22 @@ public class InnerClassTest_ {
                 .withFields(
                         FieldDeclaration.Builder.builder()
                                 .withType(classRef)
+                                .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
+                                .withName("outer")
+                                .build(),
+                        FieldDeclaration.Builder.builder()
+                                .withType(classRef)
                                 .withName("a")
                                 .withValue(InvocationFactory.invokeConstructor(classRef, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello"))))
+                                .build()
+                )
+                .withConstructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .withParameters(Factories.parameter(classRef, "outer"))
+                                .withBody(CodeSource.fromPart(
+                                        Factories.setFieldValue(Alias.THIS.INSTANCE, Factories.accessThis(), classRef, "outer",
+                                                Factories.accessVariable(classRef, "outer"))
+                                ))
                                 .build()
                 )
                 .withMethods(
@@ -71,9 +87,11 @@ public class InnerClassTest_ {
                                 .withName("call")
                                 .withBody(CodeSource.fromVarArgs(
                                         Predefined.invokePrintln(
-                                                Factories.accessField(classRef, Factories.accessOuter(classRef), Types.STRING, "field")
+                                                Factories.accessField(classRef,
+                                                        Factories.accessThisField(classRef, "outer"),
+                                                        Types.STRING, "field")
                                         ),
-                                        InvocationFactory.invokeVirtual(classRef, Factories.accessOuter(classRef), "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
+                                        InvocationFactory.invokeVirtual(classRef, Factories.accessThisField(classRef, "outer"), "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
                                         Factories.returnValue(String.class, Literals.STRING("A"))
                                 )).build()
                 ).build();
@@ -92,7 +110,9 @@ public class InnerClassTest_ {
                                 .withBody(CodeSource.fromVarArgs(
                                         InvocationFactory.invokeVirtual(
                                                 inner,
-                                                InvocationFactory.invokeConstructor(inner),
+                                                InvocationFactory.invokeConstructor(inner,
+                                                        Factories.voidTypeSpec(classRef),
+                                                        Collections.singletonList(Factories.accessThis())),
                                                 "call",
                                                 Factories.typeSpec(String.class),
                                                 Collections.emptyList()

@@ -28,81 +28,32 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import java.lang.reflect.Type as ReflectType
 
 
 /**
- * Access to a scope of a type. Example, access to static scope of [String].
- *
- * @property type Type of the access
- * @property localization Localization of access.
+ * Access to a scope. Example, access to static scope of [String].
  */
-data class Access(val type: Type, val localization: ReflectType?) : CodePart {
-    override fun builder(): Builder = Builder(this)
+enum class Access : CodePart {
 
-    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<Access, Builder> {
+    /**
+     * Access to local scope
+     */
+    LOCAL,
 
-        lateinit var type: Type
-        var localization: ReflectType? = null
+    /**
+     * Access to static scope
+     */
+    STATIC,
 
-        constructor(defaults: Access) : this() {
-            this.type = defaults.type
-            this.localization = defaults.localization
-        }
+    /**
+     * Access to this scope
+     */
+    THIS,
 
-        /**
-         * See [Access.type]
-         */
-        fun withType(type: Type): Builder {
-            this.type = type
-            return this
-        }
+    /**
+     * Access to super class scope
+     */
+    SUPER
 
-        /**
-         * See [Access.localization]
-         */
-        fun withLocalization(localization: ReflectType?): Builder {
-            this.localization = localization;
-            return this
-        }
-
-        override fun build() = Access(this.type, this.localization)
-
-        companion object {
-            @JvmStatic
-            fun builder() = Builder()
-
-            @JvmStatic
-            fun builder(defaults: Access) = Builder(defaults)
-        }
-    }
-
-    enum class Type {
-
-        /**
-         * Access to local scope
-         */
-        LOCAL,
-
-        /**
-         * Access to static scope
-         */
-        STATIC,
-
-        /**
-         * Access to this scope
-         */
-        THIS,
-
-        /**
-         * Access to outer class scope
-         */
-        OUTER,
-
-        /**
-         * Access to super class scope
-         */
-        SUPER
-    }
 }
 

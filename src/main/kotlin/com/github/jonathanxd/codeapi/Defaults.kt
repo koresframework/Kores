@@ -35,15 +35,15 @@ import com.github.jonathanxd.codeapi.base.Access
 object Defaults {
 
     @JvmField
-    val ACCESS_STATIC = Access(type = Access.Type.STATIC, localization = null)
+    val ACCESS_STATIC = Access.STATIC
 
     @JvmField
-    val ACCESS_LOCAL = Access(type = Access.Type.LOCAL, localization = null)
+    val ACCESS_LOCAL = Access.LOCAL
 
     @JvmField
-    val ACCESS_THIS = Access(type = Access.Type.THIS, localization = null)
+    val ACCESS_THIS = Access.THIS
 
     @JvmField
-    val ACCESS_SUPER = Access(type = Access.Type.SUPER, localization = null)
+    val ACCESS_SUPER = Access.SUPER
 
 }

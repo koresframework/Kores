@@ -112,22 +112,6 @@ import java.util.function.Supplier;
 public class BuilderTest {
 
     @Test
-    public void accessBuilderTest() {
-        Access.Builder.Companion.builder()
-                .withType(Access.Type.LOCAL)
-                .withLocalization(Class.class)
-                .build();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void accessNullBuilderTest() {
-        Access.Builder.Companion.builder()
-                .withType(null)
-                .withLocalization(Class.class)
-                .build();
-    }
-
-    @Test
     public void annotationBuilderTest() {
         Annotation.Builder.Companion.builder()
                 .withType(Test.class)
