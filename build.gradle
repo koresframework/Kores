@@ -19,10 +19,3 @@ group 'com.github.jonathanxd'
 version '4.0.0'
 
 apply from: 'gradle/common.gradle'
-apply plugin: 'kotlin'
-repositories {
-    mavenCentral()
-}
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-}
