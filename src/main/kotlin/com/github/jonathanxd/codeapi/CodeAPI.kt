@@ -25,9 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi;
+package com.github.jonathanxd.codeapi
 
 /**
  * CodeAPI-Base is the base module of CodeAPI which contains base classes of CodeAPI.
  */
-public final class CodeAPI {}
+class CodeAPI
