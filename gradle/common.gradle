@@ -48,8 +48,8 @@ jar {
 }
 
 dokka {
-    outputFormat = 'javadoc'
-    outputDirectory = javadoc.destinationDir
+    outputFormat = 'gfm'
+    outputDirectory = 'docs'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

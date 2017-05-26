@@ -1,0 +1,7 @@
+[CodeAPI](../../index.md) / [com.github.jonathanxd.codeapi.util](../index.md) / [GenericTypeVariable](index.md) / [&lt;init&gt;](.)
+
+# &lt;init&gt;
+
+`GenericTypeVariable(type: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`?, wrapped: `[`TypeVariable`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/TypeVariable.html)`<out `[`GenericDeclaration`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/GenericDeclaration.html)`>?, bounds: Array<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>)`
+`GenericTypeVariable(type: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`?, wrapped: `[`TypeVariable`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/TypeVariable.html)`<out `[`GenericDeclaration`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/GenericDeclaration.html)`>?, name: String?, bounds: Array<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>)`
+`GenericTypeVariable(type: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`?, wrappedType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?, bounds: Array<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>)`
