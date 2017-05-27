@@ -29,8 +29,24 @@
 
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import java.lang.reflect.Type
+
+/**
+ * Returns java spec name of [Type]. See [CodeType.javaSpecName]
+ */
+val Type.javaSpecName get() = this.codeType.javaSpecName
+
+/**
+ * Returns binary name of [Type]. See [CodeType.binaryName]
+ */
+val Type.binaryName get() = this.codeType.javaSpecName
+
+/**
+ * Returns internal name of [Type]. See [CodeType.binaryName]
+ */
+val Type.internalName get() = this.codeType.internalName
 
 /**
  * Resolves the inner name based on [qualifiedName] and [outer] type.
@@ -85,36 +101,20 @@ private fun getTypeNameStr(qualified: String, outer: Type): String {
     return outer.codeType.type + "$" + qualified
 }
 
-/**
- * Convert [type] name to JVM spec name.
- */
-fun codeTypeToJvmName(type: Type): String {
-    return type.codeType.let { type ->
-        if (type.isPrimitive)
-            primitiveCodeTypeToJvmName(type)
-        else
-            type.javaSpecName
-    }
-}
+val Type.typeDesc get() = this.getTypeDesc()
 
 /**
- * Convert primitive [type] name to JVM spec name.
- */
-fun primitiveCodeTypeToJvmName(type: Type): String {
-    return type.codeType.javaSpecName
-}
-
-/**
- * Convert [type] [name][typeStr] to type description.
+ * Convert `this` [name][typeStr] to type description.
  *
- * @param typeStr String to transform in type description (sould be [type] name).
+ * All calls to [CodeType.javaSpecName] is delegated to this function.
+ *
+ * @param typeStr String to transform in type description (should be `this` name).
  */
-@JvmOverloads
-fun codeTypeToTypeDesc(type: Type, typeStr: String = type.codeType.type): String {
+fun Type.getTypeDesc(typeStr: String = this.codeType.type): String {
 
     val name: String
 
-    val codeType = type.codeType
+    val codeType = this.codeType
 
     if (codeType.isArray) {
         name = codeType.arrayBaseComponent.javaSpecName
@@ -137,13 +137,13 @@ fun codeTypeToTypeDesc(type: Type, typeStr: String = type.codeType.type): String
 /**
  * Convert iterable of types to string description
  */
-fun codeTypesToTypeDesc(type: Iterable<Type>): String = type.joinToString(separator = "") { codeTypeToTypeDesc(it) }
+val Iterable<Type>.typeDesc get() = this.joinToString(separator = "") { it.typeDesc }
 
 /**
- * Converts [type] to type descriptor.
+ * Converts `this` type to type descriptor.
  */
-fun toDescriptor(type: Type): String {
-    val codeType = type.codeType
+val Type.descriptor: String get() {
+    val codeType = this.codeType
 
     if (codeType is GenericType) {
 
@@ -169,7 +169,7 @@ fun toDescriptor(type: Type): String {
         }
 
     } else {
-        return fixResult(codeTypeToJvmName(codeType))
+        return fixResult(codeType.javaSpecName)
     }
 }
 
@@ -177,5 +177,5 @@ fun toDescriptor(type: Type): String {
  * Creates type description from
  */
 fun parametersTypeAndReturnToDesc(parameterTypes: Collection<Type>, returnType: Type): String {
-    return "(${codeTypesToTypeDesc(parameterTypes)})${codeTypeToTypeDesc(returnType)}"
+    return "(${parameterTypes.typeDesc})${returnType.typeDesc}"
 }

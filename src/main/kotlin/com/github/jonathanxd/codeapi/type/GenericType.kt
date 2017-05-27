@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.type
 
+import com.github.jonathanxd.codeapi.util.descriptor
 import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.toDescriptor
 import java.util.*
 
 /**
@@ -79,7 +79,7 @@ interface GenericType : CodeType {
             if (this.isType && this.bounds.isEmpty())
                 return this.javaSpecName
             else
-                return toDescriptor(this)
+                return this.descriptor
         }
 
     // CodeType Overrides

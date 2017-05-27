@@ -57,13 +57,13 @@ fun genericTypesToDescriptor(typeDeclaration: TypeDeclaration, superClass: CodeT
         if (genericRepresentation == null)
             genericRepresentation = ""
 
-        genericRepresentation += toDescriptor(superClass)
+        genericRepresentation += superClass.descriptor
     }
 
     if (types.isNotEmpty() || anyInterfaceIsGeneric) {
         val sb = StringBuilder()
 
-        implementations.forEach { codeType -> sb.append(toDescriptor(codeType)) }
+        implementations.forEach { codeType -> sb.append(codeType.descriptor) }
 
         genericRepresentation += sb.toString()
     }
@@ -163,9 +163,9 @@ fun bounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
         val boundType = bound.type
 
         if (boundType is GenericType && !boundType.isType) {
-            sb.append(if (isWildcard) bound.sign else "").append(toDescriptor(boundType))
+            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
         } else {
-            sb.append(if (isWildcard) bound.sign else "").append(toDescriptor(boundType))
+            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
         }
 
     }
@@ -189,9 +189,9 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
         val boundType = bound.type
 
         if (boundType is GenericType && !boundType.isType) {
-            sb.append(if (isWildcard) bound.sign else "").append(toDescriptor(boundType)).append(if (!isLast) ":" else "")
+            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor).append(if (!isLast) ":" else "")
         } else {
-            sb.append(if (isWildcard) bound.sign else "").append(toDescriptor(boundType)).append(if (!isLast) ":" else "")
+            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor).append(if (!isLast) ":" else "")
         }
     }
 
@@ -247,13 +247,13 @@ fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
     if (generateGenerics) {
         signatureBuilder.append('(')
 
-        methodDeclaration.parameters.stream().map { parameter -> toDescriptor(parameter.type) }.forEach { signatureBuilder.append(it) }
+        methodDeclaration.parameters.stream().map { parameter -> parameter.type.descriptor }.forEach { signatureBuilder.append(it) }
 
         signatureBuilder.append(')')
     }
 
     if (generateGenerics) {
-        signatureBuilder.append(toDescriptor(returnType))
+        signatureBuilder.append(returnType.descriptor)
     }
 
     return if (signatureBuilder.isNotEmpty()) signatureBuilder.toString() else null

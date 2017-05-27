@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.codeTypeToTypeDesc
+import com.github.jonathanxd.codeapi.util.typeDesc
 import java.lang.reflect.Type
 
 /**
@@ -104,7 +104,7 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * `path.to.A.B[]` = `[Lpath/to/A$B;`
      */
     val javaSpecName: String
-        get() = codeTypeToTypeDesc(this)
+        get() = this.typeDesc
 
     /**
      * Binary name of the class.
@@ -125,6 +125,17 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
 
             sb.toString() + "L${this.type};"
         }
+
+    /**
+     * Internal class name.
+     *
+     * [String] = `java/lang/String`
+     * `String[]` = `[Ljava/lang/String;`
+     *
+     * Obs: Should not be used for primitive types.
+     */
+    val internalName: String
+        get() = this.binaryName.replace('.', '/')
 
     /**
      * True if this [CodeType] is a primitive type.
