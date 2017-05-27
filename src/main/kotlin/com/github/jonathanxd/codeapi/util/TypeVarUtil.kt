@@ -235,6 +235,49 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
     }
 }
 
+/**
+ * Infers code type.
+ */
+fun CodeType.inferType(variables: Array<TypeVariable<*>>, classVariables: Array<TypeVariable<*>>, generic: Generic): CodeType {
+    if (this is LoadedCodeType<*> || this is Generic && this.isType && this.codeType is LoadedCodeType<*>) {
+
+        if (this is GenericType) {
+            return this.codeType
+        } else {
+            return this
+        }
+    } else {
+        val variable = toTypeVar(this as GenericType)
+
+        if (!isConflict(variables, variable)) {
+            return getType(classVariables, variable, generic)
+                    ?: throw IllegalStateException("Cannot infer type")
+        } else {
+            return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
+        }
+
+    }
+}
+
+/**
+ * Infers code type.
+ */
+fun Type.interType(variables: Array<TypeVariable<*>>, classVariables: Array<TypeVariable<*>>, generic: Generic): CodeType {
+    if (this is Class<*>) {
+        return this.codeType
+    } else {
+        val variable = this as TypeVariable<*>
+
+        if (!isConflict(variables, variable)) {
+            return getType(classVariables, variable, generic)
+                    ?: throw IllegalStateException("Cannot infer type")
+        } else {
+            return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
+        }
+
+    }
+}
+
 private class GenericJavaType internal constructor(private val type: CodeType) : Type {
 
     override fun getTypeName(): String {
