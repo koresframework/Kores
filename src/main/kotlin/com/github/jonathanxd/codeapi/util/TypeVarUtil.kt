@@ -42,7 +42,7 @@ import java.util.ArrayList
 /**
  * Resolves the [CodeType] of [variable] of [typeVariables] using types provided by [generic].
  */
-fun getType(typeVariables: Array<TypeVariable<*>>, variable: TypeVariable<*>, generic: GenericType): CodeType? {
+fun getType(typeVariables: Array<out TypeVariable<*>>, variable: TypeVariable<*>, generic: GenericType): CodeType? {
     return getType(typeVariables, variable.name, generic)
 }
 
@@ -53,7 +53,7 @@ fun getType(typeVariables: Array<TypeVariable<*>>, variable: TypeVariable<*>, ge
  * @param variable Variable name to find type
  * @param generic Generic type with types of [typeVariables]
  */
-fun getType(typeVariables: Array<TypeVariable<*>>, variable: String, generic: GenericType): CodeType? =
+fun getType(typeVariables: Array<out TypeVariable<*>>, variable: String, generic: GenericType): CodeType? =
         (0..generic.bounds.size - 1)
                 .takeWhile { it < typeVariables.size }
                 .firstOrNull { variable == typeVariables[it].name }
@@ -62,13 +62,13 @@ fun getType(typeVariables: Array<TypeVariable<*>>, variable: String, generic: Ge
 /**
  * Returns true if [typeVariables] contains a variable with same name as [typeVariable]
  */
-fun isConflict(typeVariables: Array<TypeVariable<*>>, typeVariable: TypeVariable<*>): Boolean =
+fun isConflict(typeVariables: Array<out TypeVariable<*>>, typeVariable: TypeVariable<*>): Boolean =
         typeVariables.any { it.name == typeVariable.name }
 
 /**
  * Creates a list of conflicting type variables name.
  */
-fun getTypeVarConflicts(typeVariables: Array<TypeVariable<*>>, otherTypeVariables: Array<TypeVariable<*>>): List<String> {
+fun getTypeVarConflicts(typeVariables: Array<out TypeVariable<*>>, otherTypeVariables: Array<out TypeVariable<*>>): List<String> {
 
     val conflicts = ArrayList<String>()
 
@@ -108,7 +108,7 @@ fun getTypeVars(declaration: TypeDeclaration): Array<TypeVariable<*>> {
  * Fill type variables of [theClass] using types provided by [generic]
  */
 @Suppress("UNCHECKED_CAST")
-fun fillTypeVars(theClass: Class<*>, generic: GenericType): Array<TypeVariable<*>> {
+fun fillTypeVars(theClass: Class<*>, generic: GenericType): Array<out TypeVariable<*>> {
     if (generic.isType && generic.codeType.`is`(theClass.codeType)) {
         return fillTypeVars(theClass.typeParameters as Array<TypeVariable<*>>, generic)
     }
@@ -119,7 +119,7 @@ fun fillTypeVars(theClass: Class<*>, generic: GenericType): Array<TypeVariable<*
 /**
  * Fill [typeParameters] using types provided by [generic].
  */
-fun fillTypeVars(typeParameters: Array<TypeVariable<*>>, generic: GenericType): Array<TypeVariable<*>> {
+fun fillTypeVars(typeParameters: Array<out TypeVariable<*>>, generic: GenericType): Array<TypeVariable<*>> {
     val filledTypeVars = mutableListOf<TypeVariable<*>>()
 
     val bounds = generic.bounds
@@ -143,7 +143,7 @@ fun fillTypeVars(typeParameters: Array<TypeVariable<*>>, generic: GenericType): 
 /**
  * Finds the [TypeVariable] that has name [name] and return the [CodeType] of found [TypeVariable].
  */
-fun findType(typeVariables: Array<TypeVariable<*>>?, name: String): CodeType? {
+fun findType(typeVariables: Array<out TypeVariable<*>>?, name: String): CodeType? {
     if (typeVariables == null)
         return null
 
@@ -238,7 +238,7 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
 /**
  * Infers code type.
  */
-fun CodeType.inferType(variables: Array<TypeVariable<*>>, classVariables: Array<TypeVariable<*>>, generic: Generic): CodeType {
+fun CodeType.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<out TypeVariable<*>>, generic: Generic): CodeType {
     if (this is LoadedCodeType<*> || this is Generic && this.isType && this.codeType is LoadedCodeType<*>) {
 
         if (this is GenericType) {
@@ -262,7 +262,7 @@ fun CodeType.inferType(variables: Array<TypeVariable<*>>, classVariables: Array<
 /**
  * Infers code type.
  */
-fun Type.inferType(variables: Array<TypeVariable<*>>, classVariables: Array<TypeVariable<*>>, generic: Generic): CodeType {
+fun Type.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<out TypeVariable<*>>, generic: Generic): CodeType {
     if (this is Class<*>) {
         return this.codeType
     } else {
