@@ -226,7 +226,7 @@ fun methodGenericSignature(constructorDeclaration: ConstructorDeclaration): Stri
 /**
  * Creates method descriptor from [methodDeclaration]
  */
-internal fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
+fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
 
     val returnType = methodDeclaration.returnType
 
@@ -358,7 +358,7 @@ fun toSourceString(genericType: GenericType): String {
 
     val bounds = genericType.bounds
 
-    if (bounds.size != 0) {
+    if (bounds.isNotEmpty()) {
 
         for (i in bounds.indices) {
 
