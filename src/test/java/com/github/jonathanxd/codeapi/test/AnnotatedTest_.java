@@ -56,6 +56,7 @@ import static kotlin.collections.CollectionsKt.listOf;
 public class AnnotatedTest_ {
     //
 
+
     @Test
     public void test() {
         $();

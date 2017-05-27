@@ -30,10 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
-import com.github.jonathanxd.codeapi.util.resolveQualifiedName
-import com.github.jonathanxd.codeapi.util.resolveTypeName
+import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type
 
 /**
@@ -48,11 +45,12 @@ data class AnnotationDeclaration(override val comments: Comments,
                                  override val specifiedName: String,
                                  override val genericSignature: GenericSignature,
                                  val properties: List<AnnotationProperty>,
-                                 override val staticBlock: StaticBlock,
                                  override val fields: List<FieldDeclaration>,
-                                 override val constructors: List<ConstructorDeclaration>,
-                                 override val methods: List<MethodDeclaration>,
                                  override val innerTypes: List<TypeDeclaration>) : TypeDeclaration {
+
+    override val constructors: List<ConstructorDeclaration> = emptyList()
+    override val methods: List<MethodDeclaration> = emptyList()
+    override val staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -60,8 +58,7 @@ data class AnnotationDeclaration(override val comments: Comments,
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerClass)
 
-    override val isInterface: Boolean
-        get() = true
+    override val isInterface: Boolean = true
 
     override fun builder(): Builder = Builder(this)
 
@@ -75,10 +72,7 @@ data class AnnotationDeclaration(override val comments: Comments,
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
 
-        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
         var fields: List<FieldDeclaration> = emptyList()
-        var constructors: List<ConstructorDeclaration> = emptyList()
-        var methods: List<MethodDeclaration> = emptyList()
         var innerTypes: List<TypeDeclaration> = emptyList()
 
         var modifiers: Set<CodeModifier> = emptySet()
@@ -91,10 +85,7 @@ data class AnnotationDeclaration(override val comments: Comments,
             this.comments = defaults.comments
             this.annotations = defaults.annotations
 
-            this.staticBlock = defaults.staticBlock
             this.fields = defaults.fields
-            this.constructors = defaults.constructors
-            this.methods = defaults.methods
             this.innerTypes = defaults.innerTypes
 
             this.modifiers = defaults.modifiers
@@ -112,25 +103,16 @@ data class AnnotationDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun withStaticBlock(value: StaticBlock): Builder {
-            this.staticBlock = value
-            return this
-        }
+        override fun withStaticBlock(value: StaticBlock): Builder = self()
 
         override fun withFields(value: List<FieldDeclaration>): Builder {
             this.fields = value
             return this
         }
 
-        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
-            this.constructors = value
-            return this
-        }
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder = self()
 
-        override fun withMethods(value: List<MethodDeclaration>): Builder {
-            this.methods = value
-            return this
-        }
+        override fun withMethods(value: List<MethodDeclaration>): Builder = self()
 
         override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
@@ -171,8 +153,7 @@ data class AnnotationDeclaration(override val comments: Comments,
         fun withProperties(vararg values: AnnotationProperty): Builder = withProperties(values.toList())
 
         override fun build() = AnnotationDeclaration(this.comments, this.outerClass, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.properties, this.staticBlock, this.fields,
-                this.constructors, this.methods, this.innerTypes)
+                this.specifiedName, this.genericSignature, this.properties, this.fields, this.innerTypes)
 
         companion object {
             @JvmStatic
