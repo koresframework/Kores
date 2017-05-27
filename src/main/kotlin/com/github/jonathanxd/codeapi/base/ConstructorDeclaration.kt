@@ -44,6 +44,7 @@ data class ConstructorDeclaration(override val comments: Comments,
                                   override val genericSignature: GenericSignature,
                                   override val parameters: List<CodeParameter>,
                                   override val innerTypes: List<TypeDeclaration>,
+                                  override val throws: List<Type>,
                                   override val body: CodeSource) : MethodDeclarationBase {
 
     init {
@@ -66,6 +67,7 @@ data class ConstructorDeclaration(override val comments: Comments,
         var genericSignature: GenericSignature = GenericSignature.empty()
         var parameters: List<CodeParameter> = emptyList()
         var innerTypes: List<TypeDeclaration> = emptyList()
+        var throws: List<Type> = emptyList()
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: ConstructorDeclaration) : this() {
@@ -75,6 +77,7 @@ data class ConstructorDeclaration(override val comments: Comments,
             this.genericSignature = defaults.genericSignature
             this.parameters = defaults.parameters
             this.innerTypes = defaults.innerTypes
+            this.throws = defaults.throws
             this.body = defaults.body
         }
 
@@ -107,6 +110,11 @@ data class ConstructorDeclaration(override val comments: Comments,
             return this
         }
 
+        override fun withThrows(value: List<Type>): Builder {
+            this.throws = value
+            return this
+        }
+
         override fun withBody(value: CodeSource): Builder {
             this.body = value
             return this
@@ -117,7 +125,8 @@ data class ConstructorDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun build(): ConstructorDeclaration = ConstructorDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature, this.parameters, this.innerTypes, this.body)
+
+        override fun build(): ConstructorDeclaration = ConstructorDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature, this.parameters, this.innerTypes, this.throws, this.body)
 
         companion object {
             @JvmStatic

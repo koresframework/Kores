@@ -102,5 +102,6 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodS
             methodSpec.methodName,
             codeParameters,
             emptyList(),
+            emptyList(),
             CodeSource.fromPart(toAdd))
 }
