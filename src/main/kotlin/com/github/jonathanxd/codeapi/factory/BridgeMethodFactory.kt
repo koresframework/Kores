@@ -50,7 +50,7 @@ import java.util.*
  * @param current Method to bridge.
  * @param methodSpec Specification of the erased method to bridge.
  */
-fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclaration, methodSpec: MethodTypeSpec): MethodDeclaration {
+fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodSpec: MethodTypeSpec): MethodDeclaration {
     val parameterTypes = methodSpec.typeSpec.parameterTypes
     val currentParameters = current.parameters
 
