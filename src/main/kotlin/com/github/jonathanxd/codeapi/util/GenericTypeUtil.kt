@@ -28,10 +28,7 @@
 @file:JvmName("GenericTypeUtil")
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
-import com.github.jonathanxd.codeapi.base.MethodDeclaration
-import com.github.jonathanxd.codeapi.base.MethodDeclarationBase
-import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
@@ -39,6 +36,7 @@ import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.PlainCodeType
 import com.github.jonathanxd.iutils.condition.Conditions
 import com.github.jonathanxd.iutils.type.TypeUtil
+import java.lang.reflect.Type
 import java.util.*
 import java.util.regex.Pattern
 
@@ -260,6 +258,47 @@ internal fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): S
 
     return if (signatureBuilder.isNotEmpty()) signatureBuilder.toString() else null
 
+}
+
+/**
+ * Infer bound of generic types using types specified in [signature holder][holder]
+ * and in [type declaration][owner] and returns the string representing the description.
+ */
+fun parametersAndReturnToInferredDesc(owner: Lazy<TypeDeclaration>,
+                                      holder: GenericSignatureHolder,
+                                      codeParameters: Collection<CodeParameter>,
+                                      returnType: Type): String {
+
+    val infer = inferParametersAndReturn(owner, holder, codeParameters, returnType)
+
+    return parametersTypeAndReturnToDesc(infer.parameterTypes, infer.returnType)
+}
+
+/**
+ * Infer bound of generic types using types specified in [signature holder][holder]
+ * and in [type declaration][owner] and returns inferred types.
+ *
+ * This class uses lazy owner because depending on method signature, the [TypeDeclaration] is not required.
+ */
+fun inferParametersAndReturn(owner: Lazy<TypeDeclaration>,
+                                      holder: GenericSignatureHolder,
+                                      codeParameters: Collection<CodeParameter>,
+                                      returnType: Type): TypeSpec {
+
+    val genericSign by lazy {
+        owner.value.genericSignature
+    }
+    val methodGenericSign = holder.genericSignature
+    val parameterTypes = codeParameters.map { it.type }
+
+    fun infer(codeType: java.lang.reflect.Type): CodeType =
+            if (codeType is GenericType && !codeType.isType) {
+                find(methodGenericSign, codeType.name) ?: find(genericSign, codeType.name) ?: codeType.codeType
+            } else {
+                codeType.codeType
+            }
+
+    return TypeSpec(infer(returnType), parameterTypes.map(::infer))
 }
 
 /**

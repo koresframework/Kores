@@ -135,6 +135,11 @@ fun codeTypeToTypeDesc(type: Type, typeStr: String = type.codeType.type): String
 }
 
 /**
+ * Convert iterable of types to string description
+ */
+fun codeTypesToTypeDesc(type: Iterable<Type>): String = type.joinToString(separator = "") { codeTypeToTypeDesc(it) }
+
+/**
  * Converts [type] to type descriptor.
  */
 fun toDescriptor(type: Type): String {
@@ -168,3 +173,9 @@ fun toDescriptor(type: Type): String {
     }
 }
 
+/**
+ * Creates type description from
+ */
+fun parametersTypeAndReturnToDesc(parameterTypes: Collection<Type>, returnType: Type): String {
+    return "(${codeTypesToTypeDesc(parameterTypes)})${codeTypeToTypeDesc(returnType)}"
+}
