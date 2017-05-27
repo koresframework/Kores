@@ -262,7 +262,7 @@ fun CodeType.inferType(variables: Array<TypeVariable<*>>, classVariables: Array<
 /**
  * Infers code type.
  */
-fun Type.interType(variables: Array<TypeVariable<*>>, classVariables: Array<TypeVariable<*>>, generic: Generic): CodeType {
+fun Type.inferType(variables: Array<TypeVariable<*>>, classVariables: Array<TypeVariable<*>>, generic: Generic): CodeType {
     if (this is Class<*>) {
         return this.codeType
     } else {
