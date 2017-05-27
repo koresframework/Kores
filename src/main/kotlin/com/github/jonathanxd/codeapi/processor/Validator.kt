@@ -104,6 +104,8 @@ interface ValidationEnvironment {
 
     /**
      * Immutable view list of current context (LIFO stack)
+     *
+     * ATM we will not use IUtils context...
      */
     val context: List<Any>
 
