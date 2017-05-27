@@ -154,7 +154,7 @@ fun GenericType.hash(): Int {
  * see the algorithm of translation [here][toSourceString].
  */
 fun GenericType.toStr(): String {
-    return toSourceString(this)
+    return this.toSourceString()
 }
 
 /**

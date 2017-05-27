@@ -49,7 +49,7 @@ fun genericTypesToDescriptor(typeDeclaration: TypeDeclaration, superClass: CodeT
     var genericRepresentation: String? = null
 
     if (types.isNotEmpty()) {
-        genericRepresentation = genericTypesToDescriptor(types)
+        genericRepresentation = types.genericTypesToDescriptor()
     }
 
     if (types.isNotEmpty() || superClassIsGeneric || anyInterfaceIsGeneric) {
@@ -72,37 +72,35 @@ fun genericTypesToDescriptor(typeDeclaration: TypeDeclaration, superClass: CodeT
 }
 
 /**
- * Create a type descriptor from [signature]
+ * Create a type descriptor from receiver signature
  */
-fun genericSignatureToDescriptor(signature: GenericSignature): String {
-    val types = signature.types
+fun GenericSignature.genericSignatureToDescriptor(): String {
+    val types = this.types
 
     if (types.size == 1 && types[0].isType)
-        return genericTypeToDescriptor(types[0])
+        return types[0].genericTypeToDescriptor()
     else
-        return genericTypesToDescriptor(types)
+        return types.genericTypesToDescriptor()
 }
 
 /**
  * Create a type descriptor from [generics]
  */
-fun genericTypesToDescriptor(generics: Array<out GenericType>): String {
+fun Array<out GenericType>.genericTypesToDescriptor(): String {
     val sj = StringJoiner(";")
 
-    for (generic in generics) {
-        sj.add(genericTypeDescriptor_plain(generic))
+    for (generic in this) {
+        sj.add(generic.genericTypeDescriptor_plain())
     }
 
     return "<" + fixResult(sj.toString()) + ">"
 }
 
 /**
- * Create a type descriptor from [generic]
+ * Create a type descriptor from receiver type.
  */
-fun genericTypeToDescriptor(generic: GenericType): String {
-    return "<" + fixResult(genericTypeDescriptor_plain(generic)) + ">"
-
-}
+fun GenericType.genericTypeToDescriptor(): String =
+    "<${fixResult(this.genericTypeDescriptor_plain())}>"
 
 /**
  * Fixes some descriptor inconsistencies present in [str] (why this exists... I bet that I've wrote a bad algorithm :D)
@@ -133,12 +131,12 @@ fun fixResult(str: String): String {
 /**
  * Create a type descriptor from [generic]
  */
-private fun genericTypeDescriptor_plain(generic: GenericType): String {
-    val name = generic.name
+private fun GenericType.genericTypeDescriptor_plain(): String {
+    val name = this.name
 
     var gen2 = false
-    if (generic.bounds.isNotEmpty()) {
-        val codeTypeBound = generic.bounds[0]
+    if (this.bounds.isNotEmpty()) {
+        val codeTypeBound = this.bounds[0]
 
         val type = codeTypeBound.type
 
@@ -147,7 +145,7 @@ private fun genericTypeDescriptor_plain(generic: GenericType): String {
         }
     }
 
-    return name + (if (!generic.isType) ":" else "") + (if (gen2) ":" else "") + boundToDescriptorPlain(generic.isWildcard, generic.bounds)
+    return name + (if (!this.isType) ":" else "") + (if (gen2) ":" else "") + boundToDescriptorPlain(this.isWildcard, this.bounds)
 
 }
 
@@ -201,53 +199,39 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
 /**
  * Creates [CodeType] type descriptor
  */
-fun createCodeTypeDescriptor(codeType: CodeType): String {
-    if (codeType is GenericType) {
-        return genericTypeToDescriptor(codeType)
+fun CodeType.createCodeTypeDescriptor(): String {
+    if (this is GenericType) {
+        return this.genericTypeToDescriptor()
     } else {
-        return codeType.javaSpecName
+        return this.javaSpecName
     }
 }
 
 /**
- * Creates method descriptor from [methodDeclaration]
+ * Creates method descriptor from receiver
  */
-fun methodGenericSignature(methodDeclaration: MethodDeclaration): String? {
-    return methodGenericSignature(methodDeclaration as MethodDeclarationBase)
-}
+fun MethodDeclarationBase.methodGenericSignature(): String? {
 
-/**
- * Creates method descriptor from [constructorDeclaration]
- */
-fun methodGenericSignature(constructorDeclaration: ConstructorDeclaration): String? {
-    return methodGenericSignature(constructorDeclaration as MethodDeclarationBase)
-}
-
-/**
- * Creates method descriptor from [methodDeclaration]
- */
-fun methodGenericSignature(methodDeclaration: MethodDeclarationBase): String? {
-
-    val returnType = methodDeclaration.returnType
+    val returnType = this.returnType
 
     val signatureBuilder = StringBuilder()
 
-    val methodSignature = methodDeclaration.genericSignature
+    val methodSignature = this.genericSignature
 
 
     val generateGenerics = methodSignature.isNotEmpty
-            || methodDeclaration.parameters.stream().anyMatch { parameter -> parameter.type is GenericType }
+            || this.parameters.stream().anyMatch { parameter -> parameter.type is GenericType }
             || returnType is GenericType
 
 
     if (generateGenerics && methodSignature.isNotEmpty) {
-        signatureBuilder.append(genericTypesToDescriptor(methodSignature.types))
+        signatureBuilder.append(methodSignature.types.genericTypesToDescriptor())
     }
 
     if (generateGenerics) {
         signatureBuilder.append('(')
 
-        methodDeclaration.parameters.stream().map { parameter -> parameter.type.descriptor }.forEach { signatureBuilder.append(it) }
+        this.parameters.stream().map { parameter -> parameter.type.descriptor }.forEach { signatureBuilder.append(it) }
 
         signatureBuilder.append(')')
     }
@@ -312,21 +296,18 @@ private val TYPE_VAR_REGEX = Pattern.compile("(([A-Za-z0-9_?]*) (extends|super) 
 
 /**
  * Convert generic signature to string.
- *
- * @param genericSignature Generic signature.
- * @return Generic signature string.
  */
-fun toSourceString(genericSignature: GenericSignature): String {
+fun GenericSignature.toSourceString(): String {
     val sb = StringBuilder()
 
-    val types = genericSignature.types
+    val types = this.types
 
     for (i in types.indices) {
         val hasNext = i + 1 < types.size
 
         val genericType = types[i]
 
-        sb.append(toSourceString(genericType))
+        sb.append(genericType.toSourceString())
 
         if (hasNext)
             sb.append(",")
@@ -337,26 +318,23 @@ fun toSourceString(genericSignature: GenericSignature): String {
 
 /**
  * Convert generic type to string.
- *
- * @param genericType Generic type.
- * @return Generic type string.
  */
-fun toSourceString(genericType: GenericType): String {
+fun GenericType.toSourceString(): String {
 
     val sb = StringBuilder()
 
-    if (genericType.isType) {
-        sb.append(genericType.canonicalName)
+    if (this.isType) {
+        sb.append(this.canonicalName)
     } else {
-        if (!genericType.isWildcard) {
-            sb.append(genericType.name)
+        if (!this.isWildcard) {
+            sb.append(this.name)
         } else {
             sb.append("?")
         }
     }
 
 
-    val bounds = genericType.bounds
+    val bounds = this.bounds
 
     if (bounds.isNotEmpty()) {
 
@@ -381,7 +359,7 @@ fun toSourceString(genericType: GenericType): String {
             val type = bound.type
 
             if (type is GenericType) {
-                sb.append(toSourceString(type))
+                sb.append(type.toSourceString())
             } else {
                 sb.append(type.canonicalName)
             }
