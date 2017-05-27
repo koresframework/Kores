@@ -220,5 +220,3 @@ fun <T> LoadedCodeType<T>.eq(obj: Any?) =
                 this.loadedType == obj.loadedType
             else
                 (this as CodeType).eq(obj)
-
-fun Type.`is`(another: Type) = this.codeType.`is`(another.codeType)

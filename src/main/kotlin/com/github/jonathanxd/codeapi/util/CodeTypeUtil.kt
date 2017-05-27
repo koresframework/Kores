@@ -34,21 +34,6 @@ import com.github.jonathanxd.codeapi.type.GenericType
 import java.lang.reflect.Type
 
 /**
- * Returns java spec name of [Type]. See [CodeType.javaSpecName]
- */
-val Type.javaSpecName get() = this.codeType.javaSpecName
-
-/**
- * Returns binary name of [Type]. See [CodeType.binaryName]
- */
-val Type.binaryName get() = this.codeType.javaSpecName
-
-/**
- * Returns internal name of [Type]. See [CodeType.binaryName]
- */
-val Type.internalName get() = this.codeType.internalName
-
-/**
  * Resolves the inner name based on [qualifiedName] and [outer] type.
  *
  * @param isTypeName True to return type name, false to return qualified name.
