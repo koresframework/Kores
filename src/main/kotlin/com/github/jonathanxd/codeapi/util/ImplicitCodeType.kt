@@ -134,7 +134,7 @@ fun Type.toArray(dimensions: Int): CodeType = this.codeType.toArray(dimensions)
 /**
  * See [CodeType.is]
  */
-fun Type.`is`(another: Type?): Boolean = another != null && this.`is`(another.codeType)
+fun Type.`is`(another: Type?): Boolean = another != null && this.codeType.`is`(another.codeType)
 
 /**
  * See [CodeType.compareTo]
