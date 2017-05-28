@@ -80,5 +80,12 @@ data class CodeParameter(override val annotations: List<Annotation>, override va
 
         override fun build(): CodeParameter = CodeParameter(this.annotations, this.modifiers, this.type, this.name)
 
+        companion object {
+            @JvmStatic
+            fun builder() = CodeParameter.Builder()
+
+            @JvmStatic
+            fun builder(defaults: CodeParameter) = CodeParameter.Builder(defaults)
+        }
     }
 }

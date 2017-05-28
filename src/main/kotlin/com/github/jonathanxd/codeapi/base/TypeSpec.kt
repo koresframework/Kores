@@ -103,6 +103,14 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
 
         override fun build(): TypeSpec = TypeSpec(returnType, parameterTypes)
 
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: TypeSpec): Builder = Builder(defaults)
+        }
+
     }
 
 }

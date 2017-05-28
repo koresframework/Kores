@@ -64,6 +64,14 @@ class Synchronized(val instruction: CodeInstruction, override val body: CodeSour
         override fun build(): Synchronized =
                 Synchronized(this.instruction, this.body)
 
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: Synchronized): Builder = Builder(defaults)
+        }
+
     }
 
 }

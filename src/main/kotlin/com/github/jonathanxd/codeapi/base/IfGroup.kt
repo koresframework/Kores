@@ -59,6 +59,13 @@ data class IfGroup(override val expressions: List<CodeInstruction>) : CodePart, 
 
         override fun build(): IfGroup = IfGroup(this.expressions)
 
+        companion object {
+            @JvmStatic
+            fun builder(): Builder = Builder()
+
+            @JvmStatic
+            fun builder(defaults: IfGroup): Builder = Builder(defaults)
+        }
     }
 
 }
