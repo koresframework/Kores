@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.ArrayCodeSource
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.*
@@ -86,4 +87,6 @@ fun varDef() = VariableDefinition.Builder.builder()
 fun whileStm() = WhileStatement.Builder.builder()
 
 fun source(ins: CodeInstruction) = CodeSource.fromPart(ins)
-fun source(ins: CodeInstruction, vararg other: CodeInstruction) = CodeSource.fromVarArgs(ins, *other)
+fun source(ins: CodeInstruction, vararg other: CodeInstruction) = ArrayCodeSource(
+        Array(other.size + 1, { if(it == 0) ins else other[it - 1]})
+)
