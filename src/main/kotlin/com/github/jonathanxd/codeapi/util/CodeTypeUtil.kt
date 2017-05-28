@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import java.lang.reflect.Type
@@ -123,6 +124,11 @@ fun Type.getTypeDesc(typeStr: String = this.codeType.type): String {
  * Convert iterable of types to string description
  */
 val Iterable<Type>.typeDesc get() = this.joinToString(separator = "") { it.typeDesc }
+
+/**
+ * Convert [TypeSpec] string description
+ */
+val TypeSpec.typeDesc get() = "(${this.parameterTypes.typeDesc})${this.returnType.typeDesc}"
 
 /**
  * Converts `this` type to type descriptor.
