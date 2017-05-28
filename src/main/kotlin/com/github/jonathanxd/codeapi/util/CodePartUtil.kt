@@ -26,10 +26,13 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("CodePartUtil")
+
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.type.NullType
 import java.lang.reflect.Type
 
 /**
@@ -42,4 +45,15 @@ val CodePart.isPrimitive: Boolean
  * Gets the type of [CodePart]
  */
 val CodePart.type: Type
-    get() = (this as? Typed)?.type ?: throw IllegalArgumentException("Cannot infer type of part '$this'!")
+    get() = this.typeOrNull ?: throw IllegalArgumentException("Cannot infer type of part '$this'!")
+
+
+/**
+ * Gets the type of [CodePart] or null if receiver is not a [Typed] instance.
+ */
+val CodePart.typeOrNull: Type?
+    get() = (this as? Typed)?.type?.let {
+        if (it.`is`(NullType))
+            Types.OBJECT
+        else it
+    }

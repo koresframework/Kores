@@ -280,19 +280,6 @@ private fun <T> getJavaType0(aClass: Class<T>): LoadedCodeType<T> {
 }
 
 /**
- * Returns the [Type] of [CodePart] or `null` if [CodePart] is not instance of [Typed].
- */
-fun CodePart.getPartTypeOrNull(): Type? = (this as? Typed)?.type?.let {
-    if (it.`is`(NullType)) Types.OBJECT else it
-}
-
-/**
- * Returns the [Type] of [CodePart] or throws [IllegalStateException] if [CodePart] is not instance of [Typed]
- */
-fun CodePart.getPartType(): Type = this.getPartTypeOrNull() ?: throw IllegalStateException("Cannot get type of part '$this'.")
-
-
-/**
  * Compares this list of [Type] with [input type list][list]
  */
 fun List<Type>.`is`(list: List<Type>) = if (this.size != list.size) false else this.indices.all { this[it].`is`(list[it]) }
