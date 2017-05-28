@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.*
 
 // Builders
@@ -82,3 +84,6 @@ fun varAccess() = VariableAccess.Builder.builder()
 fun varDec() = VariableDeclaration.Builder.builder()
 fun varDef() = VariableDefinition.Builder.builder()
 fun whileStm() = WhileStatement.Builder.builder()
+
+fun source(ins: CodeInstruction) = CodeSource.fromPart(ins)
+fun source(ins: CodeInstruction, vararg other: CodeInstruction) = CodeSource.fromVarArgs(ins, *other)
