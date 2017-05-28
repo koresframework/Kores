@@ -52,7 +52,7 @@ import kotlin.reflect.jvm.jvmErasure
 /**
  * Convert parameter list to a list of access to these parameters.
  */
-val List<CodeParameter>.access: List<CodePart>
+val List<CodeParameter>.access: List<CodeInstruction>
     get() = this.map { it.access }
 
 /**
@@ -70,7 +70,7 @@ val Parameter.codeParameter: CodeParameter
 /**
  * Convert [CodeParameter] to variable access
  */
-val CodeParameter.access: CodePart
+val CodeParameter.access: CodeInstruction
     get() = accessVariable(this.type, this.name)
 
 /**
