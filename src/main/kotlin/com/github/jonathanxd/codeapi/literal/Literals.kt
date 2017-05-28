@@ -48,56 +48,6 @@ object Literals {
     @JvmField
     val FALSE: Literal = BoolLiteral(false)
 
-    @JvmStatic
-    fun isPrimitive(codePart1: CodePart, codePart2: CodePart): Boolean {
-        return codePart1 is Literal && codePart2 is Literal && isPrimitive(codePart1, codePart2)
-    }
-
-    /**
-     * Return true if [literal1] and [literal2] is primitive.
-     *
-     * @param literal1 Literal 1.
-     * @param literal2 Literal 2.
-     * @return True if [literal1] and [literal2] is primitive.
-     */
-    @JvmStatic
-    fun isPrimitive(literal1: Literal, literal2: Literal): Boolean {
-        return (literal1 is IntLiteral
-                || literal1 is FloatLiteral
-                || literal1 is DoubleLiteral
-                || literal1 is CharLiteral
-                || literal1 is LongLiteral
-                || literal1 is BoolLiteral
-                || literal1 is ShortLiteral
-                || literal1 is ByteLiteral)
-                && (literal2 is IntLiteral
-                || literal2 is FloatLiteral
-                || literal2 is DoubleLiteral
-                || literal2 is CharLiteral
-                || literal2 is LongLiteral
-                || literal2 is BoolLiteral
-                || literal2 is ShortLiteral
-                || literal2 is ByteLiteral)
-    }
-
-    /**
-     * Return true if [literal] is primitive
-     *
-     * @param literal Literal
-     * @return True if [literal] is primitive.
-     */
-    @JvmStatic
-    fun isPrimitive(literal: Literal): Boolean {
-        return literal is IntLiteral
-                || literal is FloatLiteral
-                || literal is DoubleLiteral
-                || literal is CharLiteral
-                || literal is LongLiteral
-                || literal is BoolLiteral
-                || literal is ByteLiteral
-                || literal is ShortLiteral
-    }
-
     // Numeric Literals
 
     // ByteLiteral
