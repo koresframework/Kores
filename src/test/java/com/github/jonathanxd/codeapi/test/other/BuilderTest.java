@@ -27,7 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.test.other;
 
+import com.github.jonathanxd.codeapi.base.InvokeType;
+import com.github.jonathanxd.codeapi.base.MethodInvocation;
+import com.github.jonathanxd.codeapi.builder.BuilderKt;
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.literal.Literals;
+
 import org.junit.Test;
+
+import java.io.PrintStream;
+import java.util.Collections;
+
+import kotlin.Unit;
 
 public class BuilderTest {
 
@@ -35,20 +47,16 @@ public class BuilderTest {
     public void test() {
 
 
-/*
-        MethodInvocation invocation = InvocationBuilder.invocation(it -> {
+        MethodInvocation invocation = BuilderKt.build(MethodInvocation.Builder.builder(), it -> {
             it.setInvokeType(InvokeType.INVOKE_VIRTUAL);
-            it.setLocalization(PrintStream.class);
-            it.setTarget(CodeAPI.accessStaticField(System.class, PrintStream.class, "out"));
-            it.setMethodName("println");
-            it.setSpec(CodeAPI.typeSpec(Void.TYPE, String.class));
-            it.setArguments(CodeAPI.argument(Literals.STRING("Hello")));
+            it.setSpec(new MethodTypeSpec(PrintStream.class, "println", Factories.typeSpec(Void.TYPE, String.class)));
+            it.setTarget(Factories.accessStaticField(System.class, PrintStream.class, "out"));
+            it.setArguments(Collections.singletonList(Literals.STRING("Hello")));
 
             return Unit.INSTANCE;
         });
 
         System.out.println(invocation);
-*/
     }
 
 }

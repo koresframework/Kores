@@ -100,9 +100,7 @@ public class TestFeatures_ {
         return codeMethod;
     }
 
-    public static Pair<@Named("Main class") TypeDeclaration, @Named("Source") CodeSource> $() {
-
-        MutableCodeSource codeSource = MutableCodeSource.create();
+    public static TypeDeclaration $() {
 
         ClassDeclaration.Builder codeClassBuilder = ClassDeclaration.Builder.builder()
                 .withModifiers(CodeModifier.PUBLIC)
@@ -146,7 +144,7 @@ public class TestFeatures_ {
                 .withConstructors(codeConstructor)
                 .withMethods(createPrintItMethod(), createCheckMethod());
 
-        return Pair.of(codeClassBuilder.build(), codeSource);
+        return codeClassBuilder.build();
     }
 
     public static MethodDeclaration createCheckMethod() {
