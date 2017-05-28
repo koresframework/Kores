@@ -45,7 +45,7 @@ import java.util.function.Supplier
  * Note: this class does not extends [MethodInvocation] because it is not
  * a normal invocation.
  */
-internal interface InvokeDynamicBase : Typed, CodeInstruction {
+interface InvokeDynamicBase : Typed, CodeInstruction {
 
     /**
      * Return type of dynamic invocation
