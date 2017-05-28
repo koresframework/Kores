@@ -40,12 +40,12 @@ import java.lang.reflect.Type
  * @property valueToStore Value to store
  */
 data class ArrayStore(override val arrayType: Type,
-                      override val target: CodePart,
-                      val index: CodePart,
+                      override val target: CodeInstruction,
+                      val index: CodeInstruction,
                       val valueType: Type,
-                      val valueToStore: CodePart) : ArrayAccess, ValueHolder, CodeInstruction {
+                      val valueToStore: CodeInstruction) : ArrayAccess, ValueHolder, CodeInstruction {
 
-    override val value: CodePart?
+    override val value: CodeInstruction
         get() = this.valueToStore
 
 
@@ -56,10 +56,10 @@ data class ArrayStore(override val arrayType: Type,
             ValueHolder.Builder<ArrayStore, Builder> {
 
         lateinit var arrayType: Type
-        lateinit var target: CodePart
-        lateinit var index: CodePart
+        lateinit var target: CodeInstruction
+        lateinit var index: CodeInstruction
         lateinit var valueType: Type
-        lateinit var valueToStore: CodePart
+        lateinit var valueToStore: CodeInstruction
 
         constructor(defaults: ArrayStore) : this() {
             this.arrayType = defaults.arrayType
@@ -69,14 +69,14 @@ data class ArrayStore(override val arrayType: Type,
             this.valueToStore = defaults.valueToStore
         }
 
-        override fun withValue(value: CodePart?): Builder = this.withValueToStore(value!!)
+        override fun withValue(value: CodeInstruction): Builder = this.withValueToStore(value)
 
         override fun withArrayType(value: Type): Builder {
             this.arrayType = value
             return this
         }
 
-        override fun withTarget(value: CodePart): Builder {
+        override fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -84,7 +84,7 @@ data class ArrayStore(override val arrayType: Type,
         /**
          * See [ArrayStore.index]
          */
-        fun withIndex(value: CodePart): Builder {
+        fun withIndex(value: CodeInstruction): Builder {
             this.index = value
             return this
         }
@@ -100,7 +100,7 @@ data class ArrayStore(override val arrayType: Type,
         /**
          * See [ArrayStore.valueToStore]
          */
-        fun withValueToStore(value: CodePart): Builder {
+        fun withValueToStore(value: CodeInstruction): Builder {
             this.valueToStore = value
             return this
         }

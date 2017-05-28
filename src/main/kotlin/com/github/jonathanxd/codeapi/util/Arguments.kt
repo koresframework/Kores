@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.factory.cast
 import java.lang.reflect.Type
 
@@ -38,9 +38,8 @@ import java.lang.reflect.Type
  * @param passed   Provided arguments
  * @return List with casted arguments.
  */
-fun createCasted(expected: List<Type>, passed: List<CodePart>): List<CodePart> {
-
+fun createCasted(expected: List<Type>, passed: List<CodeInstruction>): List<CodeInstruction> {
     return List(passed.size) {
-        cast(passed[it].getPartTypeOrNull(), expected[it], passed[it])
+        cast(passed[it].typeOrNull, expected[it], passed[it])
     }
 }

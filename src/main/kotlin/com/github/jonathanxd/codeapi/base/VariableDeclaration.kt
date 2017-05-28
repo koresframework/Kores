@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import java.lang.reflect.Type
 
 /**
@@ -39,7 +40,7 @@ import java.lang.reflect.Type
 data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
                                override val variableType: Type,
                                override val name: String,
-                               override val value: CodePart?) : VariableBase, ValueHolder, Typed, ModifiersHolder, CodeInstruction {
+                               override val value: CodeInstruction) : VariableBase, ValueHolder, Typed, ModifiersHolder, CodeInstruction {
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -49,7 +50,7 @@ data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
 
         lateinit var name: String
         lateinit var variableType: Type
-        var value: CodePart? = null
+        var value: CodeInstruction = CodeNothing
         var modifiers: Set<CodeModifier> = emptySet()
 
         constructor(defaults: VariableDeclaration) : this() {
@@ -69,7 +70,7 @@ data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
+        override fun withValue(value: CodeInstruction): Builder {
             this.value = value
             return this
         }
@@ -78,6 +79,11 @@ data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
             this.modifiers = value
             return this
         }
+
+        /**
+         * Removes value definition.
+         */
+        fun withoutValue(): Builder = this.withValue(CodeNothing)
 
         override fun build(): VariableDeclaration = VariableDeclaration(this.modifiers, this.variableType, this.name, this.value)
 

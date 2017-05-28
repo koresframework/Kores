@@ -28,32 +28,28 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 
 /**
- * Throws [partToThrow].
+ * Throws [value].
  */
-data class ThrowException(val partToThrow: CodePart) : CodePart, CodeInstruction {
+data class ThrowException(override val value: CodeInstruction) : CodeInstruction, ValueHolder {
 
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.github.jonathanxd.codeapi.builder.Builder<ThrowException, Builder> {
+    class Builder() : ValueHolder.Builder<ThrowException, Builder> {
 
-        lateinit var partToThrow: CodePart
+        lateinit var value: CodeInstruction
 
         constructor(defaults: ThrowException) : this() {
-            this.partToThrow = defaults.partToThrow
+            this.value = defaults.value
         }
 
-        /**
-         * See [ThrowException.partToThrow]
-         */
-        fun withPartToThrow(value: CodePart): Builder {
-            this.partToThrow = value
+        override fun withValue(value: CodeInstruction): Builder {
+            this.value = value
             return this
         }
 
-        override fun build(): ThrowException = ThrowException(this.partToThrow)
+        override fun build(): ThrowException = ThrowException(this.value)
 
         companion object {
             @JvmStatic

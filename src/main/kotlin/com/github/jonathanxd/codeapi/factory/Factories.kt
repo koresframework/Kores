@@ -111,25 +111,25 @@ fun annotationProperty(comments: Comments = Comments.Absent, annotations: List<A
 /**
  * @see ArrayConstructor
  */
-fun createArray(arrayType: Type, dimensions: List<CodePart>, arguments: List<CodePart>): ArrayConstructor =
+fun createArray(arrayType: Type, dimensions: List<CodeInstruction>, arguments: List<CodeInstruction>): ArrayConstructor =
         ArrayConstructor(arrayType, dimensions, arguments)
 
 /**
  * @see ArrayStore
  */
-fun setArrayValue(arrayType: Type, target: CodePart, index: CodePart, valueType: Type, valueToStore: CodePart): ArrayStore =
+fun setArrayValue(arrayType: Type, target: CodeInstruction, index: CodeInstruction, valueType: Type, valueToStore: CodeInstruction): ArrayStore =
         ArrayStore(arrayType, target, index, valueType, valueToStore)
 
 /**
  * @see ArrayLoad
  */
-fun accessArrayValue(arrayType: Type, target: CodePart, index: CodePart, valueType: Type): ArrayLoad =
+fun accessArrayValue(arrayType: Type, target: CodeInstruction, index: CodeInstruction, valueType: Type): ArrayLoad =
         ArrayLoad(arrayType, target, index, valueType)
 
 /**
  * @see ArrayLength
  */
-fun arrayLength(arrayType: Type, target: CodePart): ArrayLength =
+fun arrayLength(arrayType: Type, target: CodeInstruction): ArrayLength =
         ArrayLength(arrayType, target)
 
 // Enum
@@ -168,7 +168,7 @@ fun accessVariable(variable: VariableBase): VariableAccess =
 /**
  * @see VariableDefinition
  */
-fun setVariableValue(type: Type, name: String, value: CodePart): VariableDefinition =
+fun setVariableValue(type: Type, name: String, value: CodeInstruction): VariableDefinition =
         VariableDefinition(type, name, value)
 
 // Field
@@ -176,7 +176,7 @@ fun setVariableValue(type: Type, name: String, value: CodePart): VariableDefinit
 /**
  * @see FieldAccess
  */
-fun accessField(localization: Type, target: CodePart, type: Type, name: String): FieldAccess =
+fun accessField(localization: Type, target: CodeInstruction, type: Type, name: String): FieldAccess =
         FieldAccess(localization, target, type, name)
 
 /**
@@ -195,7 +195,7 @@ fun accessStaticField(localization: Type = Alias.THIS, type: Type, name: String)
 /**
  * @see FieldDefinition
  */
-fun setFieldValue(localization: Type, target: CodePart, type: Type, name: String, value: CodePart): FieldDefinition =
+fun setFieldValue(localization: Type, target: CodeInstruction, type: Type, name: String, value: CodeInstruction): FieldDefinition =
         FieldDefinition(localization, target, type, name, value)
 
 /**
@@ -207,7 +207,7 @@ fun setFieldValue(localization: Type, target: CodePart, type: Type, name: String
  * @param type Type of field.
  * @param name Name of field.
  */
-fun invokeFieldGetter(invokeType: InvokeType, localization: Type, target: CodePart, type: Type, name: String): MethodInvocation =
+fun invokeFieldGetter(invokeType: InvokeType, localization: Type, target: CodeInstruction, type: Type, name: String): MethodInvocation =
         invoke(invokeType, localization, target, "get${name.capitalize()}", TypeSpec(type), emptyList())
 
 /**
@@ -220,7 +220,7 @@ fun invokeFieldGetter(invokeType: InvokeType, localization: Type, target: CodePa
  * @param name Name of field.
  * @param value Value to pass to setter
  */
-fun invokeFieldSetter(invokeType: InvokeType, localization: Type, target: CodePart, type: Type, name: String, value: CodePart): MethodInvocation =
+fun invokeFieldSetter(invokeType: InvokeType, localization: Type, target: CodeInstruction, type: Type, name: String, value: CodeInstruction): MethodInvocation =
         invoke(invokeType, localization, target, "set${name.capitalize()}", TypeSpec(Void.type, listOf(type)), listOf(value))
 
 // Return
@@ -228,7 +228,7 @@ fun invokeFieldSetter(invokeType: InvokeType, localization: Type, target: CodePa
 /**
  * @see Return
  */
-fun returnValue(type: Type, value: CodePart) = Return(type, value)
+fun returnValue(type: Type, value: CodeInstruction) = Return(type, value)
 
 /**
  * Void return (Java: `return;`)
@@ -255,7 +255,7 @@ fun finalParameter(annotations: List<Annotation> = emptyList(), type: Type, name
 /**
  * @see Operate
  */
-fun operate(target: CodePart, operation: Operator.Math, value: CodePart?): Operate =
+fun operate(target: CodeInstruction, operation: Operator.Math, value: CodeInstruction): Operate =
         Operate(target, operation, value)
 
 /**
@@ -263,7 +263,7 @@ fun operate(target: CodePart, operation: Operator.Math, value: CodePart?): Opera
  *
  * @see Operate
  */
-fun operateAndAssign(variable: VariableBase, operation: Operator.Math, value: CodePart): VariableDefinition =
+fun operateAndAssign(variable: VariableBase, operation: Operator.Math, value: CodeInstruction): VariableDefinition =
         setVariableValue(variable.variableType, variable.name, operate(accessVariable(variable.variableType, variable.name), operation, value))
 
 /**
@@ -271,7 +271,7 @@ fun operateAndAssign(variable: VariableBase, operation: Operator.Math, value: Co
  *
  * @see Operate
  */
-fun operateAndAssign(type: Type, name: String, operation: Operator.Math, value: CodePart): VariableDefinition =
+fun operateAndAssign(type: Type, name: String, operation: Operator.Math, value: CodeInstruction): VariableDefinition =
         setVariableValue(type, name, operate(accessVariable(type, name), operation, value))
 
 /**
@@ -279,7 +279,7 @@ fun operateAndAssign(type: Type, name: String, operation: Operator.Math, value: 
  *
  * @see Operate
  */
-fun operateAndAssign(field: FieldBase, operation: Operator.Math, value: CodePart): FieldDefinition =
+fun operateAndAssign(field: FieldBase, operation: Operator.Math, value: CodeInstruction): FieldDefinition =
         setFieldValue(field.localization, field.target, field.type, field.name, operate(accessField(field.localization, field.target, field.type, field.name), operation, value))
 
 /**
@@ -287,7 +287,7 @@ fun operateAndAssign(field: FieldBase, operation: Operator.Math, value: CodePart
  *
  * @see Operate
  */
-fun operateAndAssign(localization: Type, target: CodePart, type: Type, name: String, operation: Operator.Math, value: CodePart): FieldDefinition =
+fun operateAndAssign(localization: Type, target: CodeInstruction, type: Type, name: String, operation: Operator.Math, value: CodeInstruction): FieldDefinition =
         setFieldValue(localization, target, type, name, operate(accessField(localization, target, type, name), operation, value))
 
 // Throw
@@ -295,7 +295,7 @@ fun operateAndAssign(localization: Type, target: CodePart, type: Type, name: Str
 /**
  * @see ThrowException
  */
-fun throwException(part: CodePart) = ThrowException(part)
+fun throwException(part: CodeInstruction) = ThrowException(part)
 
 
 // Cast
@@ -303,7 +303,7 @@ fun throwException(part: CodePart) = ThrowException(part)
 /**
  * @see Cast
  */
-fun cast(from: Type?, to: Type, part: CodePart): Cast =
+fun cast(from: Type?, to: Type, part: CodeInstruction): Cast =
         Cast(from, to, part)
 
 // IfExpr
@@ -311,14 +311,14 @@ fun cast(from: Type?, to: Type, part: CodePart): Cast =
 /**
  * @see IfExpr
  */
-fun ifExpr(expr1: CodePart, operation: Operator.Conditional, expr2: CodePart): IfExpr =
+fun ifExpr(expr1: CodeInstruction, operation: Operator.Conditional, expr2: CodeInstruction): IfExpr =
         IfExpr(expr1, operation, expr2)
 
 
 /**
  * @see IfExpr
  */
-fun check(expr1: CodePart, operation: Operator.Conditional, expr2: CodePart): IfExpr =
+fun check(expr1: CodeInstruction, operation: Operator.Conditional, expr2: CodeInstruction): IfExpr =
         ifExpr(expr1, operation, expr2)
 
 /**
@@ -331,17 +331,17 @@ fun check(expr1: CodePart, operation: Operator.Conditional, expr2: CodePart): If
  * @return Sequence of if expressions.
  * @throws IllegalArgumentException If an element is not of a valid type.
  */
-fun ifExprs(vararg objects: Any): List<CodePart> {
-    val list = ArrayList<CodePart>()
+fun ifExprs(vararg objects: Any): List<CodeInstruction> {
+    val list = ArrayList<CodeInstruction>()
 
     for (any in objects) {
         if (any is IfExpr || any is Operator || any is IfGroup) {
-            list.add(any as CodePart)
-        } else if (any is CodePart) {
+            list.add(any as CodeInstruction)
+        } else if (any is CodeInstruction) {
             list.add(checkTrue(any))
         } else if (any is List<*>) {
             @Suppress("UNCHECKED_CAST")
-            val other = any as List<CodePart>
+            val other = any as List<CodeInstruction>
             list.add(IfGroup(other))
         } else {
             throw IllegalArgumentException("Illegal input object: '$any'.")
@@ -354,22 +354,22 @@ fun ifExprs(vararg objects: Any): List<CodePart> {
 /**
  * [IfExpr] that checks if [part] is not `null`
  */
-fun checkNotNull(part: CodePart) = ifExpr(part, Operators.NOT_EQUAL_TO, Literals.NULL)
+fun checkNotNull(part: CodeInstruction) = ifExpr(part, Operators.NOT_EQUAL_TO, Literals.NULL)
 
 /**
  * [IfExpr] that checks if [part] is `null`
  */
-fun checkNull(part: CodePart) = ifExpr(part, Operators.EQUAL_TO, Literals.NULL)
+fun checkNull(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals.NULL)
 
 /**
  * [IfExpr] that checks if [part] is `true`
  */
-fun checkTrue(part: CodePart) = ifExpr(part, Operators.EQUAL_TO, Literals.TRUE)
+fun checkTrue(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals.TRUE)
 
 /**
  * [IfExpr] that checks if [part] is `false`
  */
-fun checkFalse(part: CodePart) = ifExpr(part, Operators.EQUAL_TO, Literals.FALSE)
+fun checkFalse(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals.FALSE)
 
 // IfStatement
 
@@ -377,7 +377,7 @@ fun checkFalse(part: CodePart) = ifExpr(part, Operators.EQUAL_TO, Literals.FALSE
  * @see IfStatement
  */
 @JvmOverloads
-fun ifStatement(expressions: List<CodePart>, body: CodeSource, elseStatement: CodeSource = CodeSource.empty()): IfStatement =
+fun ifStatement(expressions: List<CodeInstruction>, body: CodeSource, elseStatement: CodeSource = CodeSource.empty()): IfStatement =
         IfStatement(expressions, body, elseStatement)
 
 /**
@@ -433,7 +433,7 @@ fun continueFlow(at: Label? = null) = controlFlow(ControlFlow.Type.CONTINUE, at)
  *
  * @see InstanceOfCheck
  */
-fun isInstanceOf(part: CodePart, type: Type): InstanceOfCheck = InstanceOfCheck(part, type)
+fun isInstanceOf(part: CodeInstruction, type: Type): InstanceOfCheck = InstanceOfCheck(part, type)
 
 // TryStatement
 
@@ -473,13 +473,13 @@ fun tryWithResources(variable: VariableDeclaration, body: CodeSource, catchState
  * @see [WhileStatement]
  */
 @JvmOverloads
-fun whileStatement(type: WhileStatement.Type = WhileStatement.Type.WHILE, expressions: List<CodePart>, body: CodeSource): WhileStatement =
+fun whileStatement(type: WhileStatement.Type = WhileStatement.Type.WHILE, expressions: List<CodeInstruction>, body: CodeSource): WhileStatement =
         WhileStatement(type, expressions, body)
 
 /**
  * @see [WhileStatement]
  */
-fun doWhileStatement(expressions: List<CodePart>, body: CodeSource): WhileStatement =
+fun doWhileStatement(expressions: List<CodeInstruction>, body: CodeSource): WhileStatement =
         WhileStatement(WhileStatement.Type.DO_WHILE, expressions, body)
 
 // ForStatement
@@ -487,13 +487,13 @@ fun doWhileStatement(expressions: List<CodePart>, body: CodeSource): WhileStatem
 /**
  * @see ForStatement
  */
-fun forStatement(forInit: CodePart?, forExpression: List<CodePart>, forUpdate: CodePart?, body: CodeSource): ForStatement =
+fun forStatement(forInit: CodeInstruction, forExpression: List<CodeInstruction>, forUpdate: CodeInstruction, body: CodeSource): ForStatement =
         ForStatement(forInit, forExpression, forUpdate, body)
 
 /**
  * @see ForStatement
  */
-fun forStatement(forInit: CodePart?, forExpression: IfExpr, forUpdate: CodePart?, body: CodeSource): ForStatement =
+fun forStatement(forInit: CodeInstruction, forExpression: IfExpr, forUpdate: CodeInstruction, body: CodeSource): ForStatement =
         forStatement(forInit, listOf(forExpression), forUpdate, body)
 
 // ForEachStatement
@@ -525,44 +525,44 @@ fun forEachArray(variable: VariableDeclaration, iterableElement: CodePart, body:
 /**
  * @see SwitchStatement
  */
-fun switchStatement(value: Typed, switchType: SwitchType, cases: List<Case>): SwitchStatement =
+fun switchStatement(value: CodeInstruction, switchType: SwitchType, cases: List<Case>): SwitchStatement =
         SwitchStatement(value, switchType, cases)
 
 /**
  * @see SwitchStatement
  */
-fun switchInt(value: Typed, cases: List<Case>): SwitchStatement =
+fun switchInt(value: CodeInstruction, cases: List<Case>): SwitchStatement =
         switchStatement(value, SwitchType.NUMERIC, cases)
 
 /**
  * @see SwitchStatement
  */
-fun switchString(value: Typed, cases: List<Case>): SwitchStatement =
+fun switchString(value: CodeInstruction, cases: List<Case>): SwitchStatement =
         switchStatement(value, SwitchType.STRING, cases)
 
 /**
  * @see SwitchStatement
  */
-fun switchObject(value: Typed, cases: List<Case>): SwitchStatement =
+fun switchObject(value: CodeInstruction, cases: List<Case>): SwitchStatement =
         switchStatement(value, SwitchType.OBJECT, cases)
 
 /**
  * @see SwitchStatement
  */
-fun switchEnum(value: Typed, cases: List<Case>): SwitchStatement =
+fun switchEnum(value: CodeInstruction, cases: List<Case>): SwitchStatement =
         switchStatement(value, SwitchType.ENUM, cases)
 
 /**
  * @see Case
  */
-fun caseStatement(value: CodePart?, body: CodeSource): Case =
+fun caseStatement(value: CodeInstruction, body: CodeSource): Case =
         Case(value, body)
 
 /**
  * @see Case
  */
 fun defaultCase(body: CodeSource): Case =
-        caseStatement(null, body)
+        caseStatement(CodeNothing, body)
 
 
 // PlainCodeType

@@ -29,55 +29,45 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * String concatenation. The result depends on generator, in official BytecodeGenerator a [StringBuilder] will be
- * used to concat values (in a future patch it will be changed to use Java 9 dynamic concatenation), in official
- * JavaSourceGenerator this will be translated into string concatenation.
+ * Hold arguments.
  */
-data class Concat(val concatenations: List<CodeInstruction>) : CodePart, Typed, CodeInstruction {
+interface ArgumentsHolder : CodePart {
 
-    override val type: Type
-        get() = Types.STRING
+    /**
+     * Expected types of each argument
+     */
+    val types: List<Type>
 
-    override fun builder(): Builder = Builder(this)
+    /**
+     * Argument list
+     */
+    val arguments: List<CodeInstruction>
 
-    class Builder() :
-            Typed.Builder<Concat, Builder> {
+    /**
+     * Array arguments
+     */
+    val array: Boolean
 
-        var concatenations: List<CodeInstruction> = emptyList()
+    override fun builder(): Builder<ArgumentsHolder, *>
 
-        constructor(defaults: Concat) : this() {
-            this.concatenations = defaults.concatenations
-        }
-
-        override fun withType(value: Type): Builder = self()
+    interface Builder<out T : ArgumentsHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        /**
+         * See [T.arguments]
+         */
+        fun withArguments(value: List<CodeInstruction>): S
 
         /**
-         * See [Concat.concatenations]
+         * See [T.arguments]
          */
-        fun withConcatenations(value: List<CodeInstruction>): Builder {
-            this.concatenations = value
-            return this
-        }
+        fun withArguments(vararg values: CodeInstruction): S = withArguments(values.toList())
 
         /**
-         * See [Concat.concatenations]
+         * See [T.array]
          */
-        fun withConcatenations(vararg values: CodeInstruction): Builder = this.withConcatenations(values.toList())
-
-        override fun build(): Concat = Concat(this.concatenations)
-
-        companion object {
-            @JvmStatic
-            fun builder(): Builder = Builder()
-
-            @JvmStatic
-            fun builder(defaults: Concat): Builder = Builder(defaults)
-        }
-
+        fun withArray(value: Boolean): S
     }
+
 }

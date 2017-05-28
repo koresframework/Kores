@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import java.lang.reflect.Type
 
 /**
@@ -39,7 +40,7 @@ import java.lang.reflect.Type
  */
 data class EnumValue(val enumType: Type,
                      val enumEntry: String,
-                     val ordinal: Int) : Named, Typed {
+                     val ordinal: Int) : Named, Typed, CodeInstruction {
 
     override val name: String
         get() = this.enumEntry

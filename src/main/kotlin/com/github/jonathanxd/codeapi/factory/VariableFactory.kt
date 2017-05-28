@@ -29,28 +29,30 @@
 
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.CodeModifier
 import com.github.jonathanxd.codeapi.base.VariableAccess
 import com.github.jonathanxd.codeapi.base.VariableDeclaration
 import com.github.jonathanxd.codeapi.base.VariableDefinition
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import java.lang.reflect.Type
 
 /**
  * @see VariableDeclaration
  */
-fun variable(modifiers: Set<CodeModifier>, type: Type, name: String, value: CodePart?): VariableDeclaration =
+fun variable(modifiers: Set<CodeModifier>, type: Type, name: String, value: CodeInstruction): VariableDeclaration =
         VariableDeclaration(modifiers = modifiers, value = value, name = name, variableType = type)
 
 /**
  * @see VariableDeclaration
  */
-fun variable(type: Type, name: String, value: CodePart?): VariableDeclaration =
+fun variable(type: Type, name: String, value: CodeInstruction): VariableDeclaration =
         VariableDeclaration(modifiers = emptySet(), value = value, name = name, variableType = type)
 
 /**
  * @see VariableDeclaration
  */
 fun variable(type: Type, name: String): VariableDeclaration =
-        VariableDeclaration(modifiers = emptySet(), value = null, name = name, variableType = type)
+        VariableDeclaration(modifiers = emptySet(), value = CodeNothing, name = name, variableType = type)
 

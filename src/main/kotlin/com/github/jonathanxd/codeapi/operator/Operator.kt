@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.operator
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.iutils.string.ToStringHelper
 
@@ -36,10 +36,10 @@ import com.github.jonathanxd.iutils.string.ToStringHelper
  *
  * Example of operators: Increment, Decrement, Less_than, etc...
  */
-sealed class Operator(override val name: String) : CodePart, Named {
+sealed class Operator(override val name: String) : CodeInstruction, Named {
 
     override fun toString(): String {
-        return return ToStringHelper.defaultHelper(this::class.java.simpleName)
+        return ToStringHelper.defaultHelper(this::class.java.simpleName)
                 .add("name", this.name)
                 .toString()
     }

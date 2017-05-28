@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.type.CodeType
 
 /**
@@ -36,7 +37,8 @@ import com.github.jonathanxd.codeapi.type.CodeType
  *
  * Example of supported contexts: Method Invocation Target, Field Access Target, Local code declaring type.
  */
-sealed class Alias {
+sealed class Alias : CodeInstruction {
+
     /**
      * Current class localization.
      *

@@ -39,7 +39,7 @@ import java.lang.reflect.Type
  * @property part Casted part
  * @property checkType Type to check if part value is instance.
  */
-data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed, CodeInstruction {
+data class InstanceOfCheck(val part: CodeInstruction, val checkType: Type) : Typed, CodeInstruction {
 
     override val type: Type
         get() = Types.BOOLEAN
@@ -49,7 +49,7 @@ data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed, Cod
     class Builder() :
             Typed.Builder<InstanceOfCheck, Builder> {
 
-        lateinit var part: CodePart
+        lateinit var part: CodeInstruction
         lateinit var checkType: Type
 
         constructor(defaults: InstanceOfCheck) : this() {
@@ -62,7 +62,7 @@ data class InstanceOfCheck(val part: CodePart, val checkType: Type) : Typed, Cod
         /**
          * See [InstanceOfCheck.part]
          */
-        fun withPart(value: CodePart): Builder {
+        fun withPart(value: CodeInstruction): Builder {
             this.part = value
             return this
         }

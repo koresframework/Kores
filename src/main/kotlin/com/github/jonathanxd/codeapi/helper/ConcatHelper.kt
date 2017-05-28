@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.helper
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Concat
 import com.github.jonathanxd.codeapi.literal.Literals
@@ -37,12 +38,12 @@ import java.util.*
  */
 class ConcatHelper private constructor() {
 
-    private val concatenations = ArrayList<CodePart>()
+    private val concatenations = ArrayList<CodeInstruction>()
 
     /**
      * Concatenate [codePart].
      */
-    fun concat(codePart: CodePart): ConcatHelper {
+    fun concat(codePart: CodeInstruction): ConcatHelper {
         this.concatenations.add(codePart)
         return this
     }
@@ -76,7 +77,7 @@ class ConcatHelper private constructor() {
          * Creates a [ConcatHelper] instance and concatenate [part].
          */
         @JvmStatic
-        fun builder(part: CodePart): ConcatHelper {
+        fun builder(part: CodeInstruction): ConcatHelper {
             val concatHelper = ConcatHelper()
 
             return concatHelper.concat(part)

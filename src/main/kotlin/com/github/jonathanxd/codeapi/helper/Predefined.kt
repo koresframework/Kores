@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.helper
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.InvokeType
@@ -38,28 +39,28 @@ import com.github.jonathanxd.codeapi.factory.*
 import java.io.PrintStream
 
 /**
- * Invokes `Any.toString` on [part].
+ * Invokes `Any.toString` on receiver.
  */
-fun toString(part: CodePart): MethodInvocation {
-    return invokeVirtual(Any::class.java, part, "toString", TypeSpec(Types.STRING), emptyList())
+fun CodeInstruction.invokeToString(): MethodInvocation {
+    return invokeVirtual(Any::class.java, this, "toString", TypeSpec(Types.STRING), emptyList())
 }
 
 /**
- * Invokes `String.valueOf(int)` on [part].
+ * Invokes `String.valueOf(int)` on receiver.
  */
-fun intToString(part: CodePart): MethodInvocation {
+fun CodeInstruction.invokeIntToString(): MethodInvocation {
     return invokeStatic(String::class.java,
             "valueOf",
             TypeSpec(Types.STRING, listOf(Types.INT)),
-            listOf(part))
+            listOf(this))
 }
 
 /**
  * Invokes `System.out.println(Any)` with concatenation of [arguments].
  */
-fun invokePrintln(vararg arguments: CodePart): MethodInvocation {
+fun invokePrintln(vararg arguments: CodeInstruction): MethodInvocation {
 
-    val arg: CodePart = if (arguments.size == 1) {
+    val arg: CodeInstruction = if (arguments.size == 1) {
         arguments.single()
     } else {
         val helper = ConcatHelper.builder()
@@ -83,7 +84,7 @@ fun invokePrintln(vararg arguments: CodePart): MethodInvocation {
 /**
  * Invokes `System.out.println(String)` with [part] as argument.
  */
-fun invokePrintlnStr(part: CodePart): MethodInvocation {
+fun invokePrintlnStr(part: CodeInstruction): MethodInvocation {
     return invokeVirtual(
             PrintStream::class.java,
             accessStaticField(System::class.java, PrintStream::class.java, "out"),

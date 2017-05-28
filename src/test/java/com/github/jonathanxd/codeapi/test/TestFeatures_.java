@@ -60,7 +60,7 @@ import static java.util.Collections.singletonList;
 @SuppressWarnings("Duplicates")
 public class TestFeatures_ {
 
-    public static CodeInstruction invokePrintln(CodePart toPrint) {
+    public static CodeInstruction invokePrintln(CodeInstruction toPrint) {
         return InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
                 Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",

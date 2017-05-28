@@ -95,7 +95,7 @@ public class InvocationsTest_ {
         }
     }
 
-    public static CodePart invokePrintln(CodePart toPrint) {
+    public static CodePart invokePrintln(CodeInstruction toPrint) {
         return InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(PrintStream.class),
                 Factories.accessStaticField(CodeTypes.getCodeType(System.class), CodeTypes.getCodeType(PrintStream.class), "out"),
                 "println",
@@ -257,7 +257,7 @@ public class InvocationsTest_ {
 
         methodSource.add(supplierVar);
 
-        CodePart castedGet = Factories.cast(Types.OBJECT, Types.STRING,
+        CodeInstruction castedGet = Factories.cast(Types.OBJECT, Types.STRING,
                 InvocationFactory.invokeInterface(
                         supplierType,
                         Factories.accessVariable(supplierVar),

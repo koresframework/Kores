@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
@@ -41,11 +42,11 @@ import java.lang.reflect.Type
  */
 data class EnumEntry(override val name: String,
                      val constructorSpec: TypeSpec?,
-                     override val arguments: List<CodePart>,
+                     override val arguments: List<CodeInstruction>,
                      override val staticBlock: StaticBlock,
                      override val fields: List<FieldDeclaration>,
                      override val methods: List<MethodDeclaration>,
-                     override val innerTypes: List<TypeDeclaration>) : ArgumentHolder, Named, ElementsHolder {
+                     override val innerTypes: List<TypeDeclaration>) : ArgumentsHolder, Named, ElementsHolder {
 
     override val constructors: List<ConstructorDeclaration> = emptyList()
 
@@ -58,13 +59,13 @@ data class EnumEntry(override val name: String,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ArgumentHolder.Builder<EnumEntry, Builder>,
+            ArgumentsHolder.Builder<EnumEntry, Builder>,
             Named.Builder<EnumEntry, Builder>,
             ElementsHolder.Builder<EnumEntry, Builder> {
 
         lateinit var name: String
         var constructorSpec: TypeSpec? = null
-        var arguments: List<CodePart> = emptyList()
+        var arguments: List<CodeInstruction> = emptyList()
 
         var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
         var fields: List<FieldDeclaration> = emptyList()
@@ -98,7 +99,7 @@ data class EnumEntry(override val name: String,
             return this
         }
 
-        override fun withArguments(value: List<CodePart>): Builder {
+        override fun withArguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }

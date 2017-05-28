@@ -27,15 +27,21 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Void instance for void returns
+ * To avoid confusion with java void.
  */
-object Void : Typed {
+typealias CodeVoid = Void
+
+/**
+ * Void instance for void returns and void values.
+ */
+object Void : CodeInstruction, Typed {
 
     override val type: Type
         get() = Types.VOID
@@ -44,12 +50,9 @@ object Void : Typed {
 
     object Builder : Typed.Builder<Void, Builder> {
 
-        override fun withType(value: Type): Builder {
-            return this
-        }
+        override fun withType(value: Type): Builder = self()
 
         override fun build(): Void = Void
-
     }
 
 }

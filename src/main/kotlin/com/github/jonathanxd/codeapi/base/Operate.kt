@@ -29,12 +29,11 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.getPartType
 import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
 
 /**
@@ -42,16 +41,20 @@ import java.lang.reflect.Type
  *
  * @property target Target part to operate.
  * @property operation Operation.
- * @property value Second argument of the operation. Some operations may not require a second argument, some can
- * behave different without them, example, if a second argument is provided for [Operators.SUBTRACT], the operation
- * will be `target-value`, otherwise the operation will be `-target` (or negative).
+ * @property value Second argument of the operation, may be [CodeNothing].
+ * Some operations may not require a second argument and some can behave different without them,
+ * example, if a second argument is provided for [Operators.SUBTRACT], the operation
+ * will be `target-value`, otherwise, if [CodeNothing] is provided, the operation will be `-target` (or negative target).
  */
-data class Operate(val target: CodePart,
+data class Operate(val target: CodeInstruction,
                    val operation: Operator.Math,
-                   override val value: CodePart?) : ValueHolder, Typed, CodeInstruction {
+                   override val value: CodeInstruction) : ValueHolder, Typed, CodeInstruction {
 
-    override val type: CodeType
-        get() = this.target.getPartType().codeType
+    override val type: Type
+        get() = this.target.type
+
+    val hasSecondArg: Boolean
+        get() = this.value != CodeNothing
 
     override fun builder(): Builder = Builder(this)
 
@@ -59,9 +62,9 @@ data class Operate(val target: CodePart,
             ValueHolder.Builder<Operate, Builder>,
             Typed.Builder<Operate, Builder> {
 
-        lateinit var target: CodePart
+        lateinit var target: CodeInstruction
         lateinit var operation: Operator.Math
-        var value: CodePart? = null
+        var value: CodeInstruction = CodeNothing
 
         constructor(defaults: Operate) : this() {
             this.target = defaults.target
@@ -74,7 +77,7 @@ data class Operate(val target: CodePart,
         /**
          * See [Operate.target]
          */
-        fun withTarget(value: CodePart): Builder {
+        fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -87,7 +90,7 @@ data class Operate(val target: CodePart,
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
+        override fun withValue(value: CodeInstruction): Builder {
             this.value = value
             return this
         }

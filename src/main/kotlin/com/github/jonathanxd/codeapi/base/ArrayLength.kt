@@ -36,7 +36,7 @@ import java.lang.reflect.Type
 /**
  * Access length of array [target] of type [arrayType].
  */
-data class ArrayLength(override val arrayType: Type, override val target: CodePart) : ArrayAccess, Typed, CodeInstruction {
+data class ArrayLength(override val arrayType: Type, override val target: CodeInstruction) : ArrayAccess, Typed, CodeInstruction {
 
     override val type: Type
         get() = Types.INT
@@ -48,7 +48,7 @@ data class ArrayLength(override val arrayType: Type, override val target: CodePa
             Typed.Builder<ArrayLength, Builder> {
 
         lateinit var arrayType: Type
-        lateinit var target: CodePart
+        lateinit var target: CodeInstruction
 
         constructor(defaults: ArrayLength) : this() {
             this.arrayType = defaults.arrayType
@@ -62,7 +62,7 @@ data class ArrayLength(override val arrayType: Type, override val target: CodePa
             return this
         }
 
-        override fun withTarget(value: CodePart): Builder {
+        override fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }

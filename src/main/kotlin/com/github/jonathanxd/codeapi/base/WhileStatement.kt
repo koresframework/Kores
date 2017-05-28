@@ -39,7 +39,7 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property body Code to execute.
  */
 data class WhileStatement(val type: Type,
-                          override val expressions: List<CodePart>,
+                          override val expressions: List<CodeInstruction>,
                           override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
 
     init {
@@ -53,7 +53,7 @@ data class WhileStatement(val type: Type,
             BodyHolder.Builder<WhileStatement, Builder> {
 
         lateinit var type: Type
-        var expressions: List<CodePart> = emptyList()
+        var expressions: List<CodeInstruction> = emptyList()
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: WhileStatement) : this() {
@@ -75,7 +75,7 @@ data class WhileStatement(val type: Type,
             return this
         }
 
-        override fun withExpressions(value: List<CodePart>): Builder {
+        override fun withExpressions(value: List<CodeInstruction>): Builder {
             this.expressions = value
             return this
         }

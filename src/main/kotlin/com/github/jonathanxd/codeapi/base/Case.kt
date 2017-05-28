@@ -27,11 +27,12 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.getPartType
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
 
 /**
@@ -40,15 +41,15 @@ import java.lang.reflect.Type
  * @property value Value to check if operating element matches, null for `default` case.
  * @property body Body of case statement.
  */
-data class Case(override val value: CodePart?, override val body: CodeSource) : ValueHolder, Typed, BodyHolder {
+data class Case(override val value: CodeInstruction, override val body: CodeSource) : ValueHolder, Typed, BodyHolder {
 
     override val type: Type
-        get() = this.value?.getPartType() ?: Types.INT
+        get() = this.value.let { if(it == CodeNothing) Types.INT else it.type }
 
     /**
      * Is case default
      */
-    val isDefault get() = this.value == null
+    val isDefault get() = this.value == CodeNothing
 
     /**
      * Is not case default
@@ -66,7 +67,7 @@ data class Case(override val value: CodePart?, override val body: CodeSource) : 
             Typed.Builder<Case, Builder>,
             BodyHolder.Builder<Case, Builder> {
 
-        var value: CodePart? = null
+        var value: CodeInstruction = CodeNothing
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: Case) : this() {
@@ -77,14 +78,14 @@ data class Case(override val value: CodePart?, override val body: CodeSource) : 
         override fun withType(value: Type): Builder = self()
 
         /**
-         * Sets the case statement as `default` case (same as `withValue(null)`).
+         * Sets the case statement as `default` case (same as `withValue(Void)`).
          */
         fun setDefault(): Builder {
-            this.value = null
+            this.value = CodeNothing
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
+        override fun withValue(value: CodeInstruction): Builder {
             this.value = value
             return this
         }

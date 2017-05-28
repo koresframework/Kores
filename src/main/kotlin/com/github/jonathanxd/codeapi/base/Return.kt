@@ -34,7 +34,7 @@ import java.lang.reflect.Type
 /**
  * Return value.
  */
-data class Return(override val type: Type, override val value: CodePart) : ValueHolder, Typed, CodeInstruction {
+data class Return(override val type: Type, override val value: CodeInstruction) : ValueHolder, Typed, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
@@ -43,7 +43,7 @@ data class Return(override val type: Type, override val value: CodePart) : Value
             Typed.Builder<Return, Builder> {
 
         lateinit var type: Type
-        lateinit var value: CodePart
+        lateinit var value: CodeInstruction
 
         constructor(defaults: Return) : this() {
             this.type = defaults.type
@@ -55,8 +55,8 @@ data class Return(override val type: Type, override val value: CodePart) : Value
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
-            this.value = value!!
+        override fun withValue(value: CodeInstruction): Builder {
+            this.value = value
             return this
         }
 

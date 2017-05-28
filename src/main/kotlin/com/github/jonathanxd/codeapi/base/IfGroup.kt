@@ -35,24 +35,24 @@ import com.github.jonathanxd.codeapi.CodePart
  *
  * @property expressions Same rules of [IfExpressionHolder.expressions] applies to [expressions].
  */
-data class IfGroup(override val expressions: List<CodePart>) : CodePart, IfExpressionHolder, CodeInstruction {
+data class IfGroup(override val expressions: List<CodeInstruction>) : CodePart, IfExpressionHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() : IfExpressionHolder.Builder<IfGroup, Builder> {
 
-        var expressions: List<CodePart> = emptyList()
+        var expressions: List<CodeInstruction> = emptyList()
 
         constructor(defaults: IfGroup) : this() {
             this.expressions = defaults.expressions
         }
 
-        override fun withExpressions(value: List<CodePart>): Builder {
+        override fun withExpressions(value: List<CodeInstruction>): Builder {
             this.expressions = value
             return this
         }
 
-        override fun withExpressions(vararg values: CodePart): Builder {
+        override fun withExpressions(vararg values: CodeInstruction): Builder {
             this.expressions = values.toList()
             return this
         }

@@ -36,7 +36,7 @@ import java.lang.reflect.Type
  * static accesses).
  */
 data class FieldAccess(override val localization: Type,
-                       override val target: CodePart,
+                       override val target: CodeInstruction,
                        override val type: Type,
                        override val name: String) : Accessor, Typed, Named, CodeInstruction {
 
@@ -48,7 +48,7 @@ data class FieldAccess(override val localization: Type,
             Named.Builder<FieldAccess, Builder> {
 
         lateinit var localization: Type
-        lateinit var target: CodePart
+        lateinit var target: CodeInstruction
         lateinit var type: Type
         lateinit var name: String
 
@@ -64,7 +64,7 @@ data class FieldAccess(override val localization: Type,
             return this
         }
 
-        override fun withTarget(value: CodePart): Builder {
+        override fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.operator.Operators
 
@@ -53,7 +54,7 @@ interface IfExpressionHolder : CodePart {
      * [IfExpr] [IfGroup] = Invalid
      * [IfExpr] [Operators.AND] [IfGroup] = Valid
      */
-    val expressions: List<CodePart>
+    val expressions: List<CodeInstruction>
 
     override fun builder(): Builder<IfExpressionHolder, *>
 
@@ -61,16 +62,16 @@ interface IfExpressionHolder : CodePart {
         /**
          * See [T.expressions]
          */
-        fun withExpressions(value: List<CodePart>): S
+        fun withExpressions(value: List<CodeInstruction>): S
 
         /**
          * See [T.expressions]
          */
-        fun withExpressions(vararg values: CodePart): S = withExpressions(values.toList())
+        fun withExpressions(vararg values: CodeInstruction): S = withExpressions(values.toList())
     }
 
     companion object {
-        fun check(part: CodePart) {
+        fun check(part: CodeInstruction) {
             if (!(part is IfExpr || part === Operators.AND || part === Operators.OR)) {
                 throw IllegalArgumentException("Accept only IfExpr and Operators AND & OR. Current: " + part)
             }

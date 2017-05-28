@@ -40,8 +40,8 @@ import java.lang.reflect.Type
  * @property valueType Type of value
  */
 data class ArrayLoad(override val arrayType: Type,
-                     override val target: CodePart,
-                     val index: CodePart,
+                     override val target: CodeInstruction,
+                     val index: CodeInstruction,
                      val valueType: Type) : ArrayAccess, Typed, CodeInstruction {
 
     override val type: Type
@@ -55,8 +55,8 @@ data class ArrayLoad(override val arrayType: Type,
             Typed.Builder<ArrayLoad, Builder> {
 
         lateinit var arrayType: Type
-        lateinit var target: CodePart
-        lateinit var index: CodePart
+        lateinit var target: CodeInstruction
+        lateinit var index: CodeInstruction
         lateinit var valueType: Type
 
         constructor(defaults: ArrayLoad) : this() {
@@ -73,7 +73,7 @@ data class ArrayLoad(override val arrayType: Type,
             return this
         }
 
-        override fun withTarget(value: CodePart): Builder {
+        override fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -81,7 +81,7 @@ data class ArrayLoad(override val arrayType: Type,
         /**
          * See [ArrayLoad.index]
          */
-        fun withIndex(value: CodePart): Builder {
+        fun withIndex(value: CodeInstruction): Builder {
             this.index = value
             return this
         }

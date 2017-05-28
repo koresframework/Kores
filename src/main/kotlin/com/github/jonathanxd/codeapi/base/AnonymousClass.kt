@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
@@ -46,13 +47,13 @@ data class AnonymousClass(override val comments: Comments,
                           override val superClass: Type,
                           override val implementations: List<Type>,
                           val constructorSpec: TypeSpec,
-                          override val arguments: List<CodePart>,
+                          override val arguments: List<CodeInstruction>,
                           val constructorBody: CodeSource,
                           override val staticBlock: StaticBlock,
                           override val fields: List<FieldDeclaration>,
                           override val constructors: List<ConstructorDeclaration>,
                           override val methods: List<MethodDeclaration>,
-                          override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder, ArgumentHolder, ImplementationHolder {
+                          override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder, ArgumentsHolder, ImplementationHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -81,7 +82,7 @@ data class AnonymousClass(override val comments: Comments,
     class Builder() :
             TypeDeclaration.Builder<AnonymousClass, Builder>,
             SuperClassHolder.Builder<AnonymousClass, Builder>,
-            ArgumentHolder.Builder<AnonymousClass, Builder>,
+            ArgumentsHolder.Builder<AnonymousClass, Builder>,
             ImplementationHolder.Builder<AnonymousClass, Builder> {
 
         var comments: Comments = Comments.Absent
@@ -91,7 +92,7 @@ data class AnonymousClass(override val comments: Comments,
         var superClass: Type = Types.OBJECT
         var implementations: List<Type> = emptyList()
         lateinit var constructorSpec: TypeSpec
-        var arguments: List<CodePart> = emptyList()
+        var arguments: List<CodeInstruction> = emptyList()
         lateinit var constructorBody: CodeSource
 
         var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
@@ -174,7 +175,7 @@ data class AnonymousClass(override val comments: Comments,
             return this
         }
 
-        override fun withArguments(value: List<CodePart>): Builder {
+        override fun withArguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }

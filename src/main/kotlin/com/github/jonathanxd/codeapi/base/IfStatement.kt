@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property elseStatement Else statement
  * @see IfExpr
  */
-data class IfStatement(override val expressions: List<CodePart>, override val body: CodeSource, val elseStatement: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
+data class IfStatement(override val expressions: List<CodeInstruction>, override val body: CodeSource, val elseStatement: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
@@ -48,7 +48,7 @@ data class IfStatement(override val expressions: List<CodePart>, override val bo
             IfExpressionHolder.Builder<IfStatement, Builder>,
             BodyHolder.Builder<IfStatement, Builder> {
 
-        var expressions: List<CodePart> = emptyList()
+        var expressions: List<CodeInstruction> = emptyList()
         var body: CodeSource = CodeSource.empty()
         var elseStatement: CodeSource = CodeSource.empty()
 
@@ -66,7 +66,7 @@ data class IfStatement(override val expressions: List<CodePart>, override val bo
             return this
         }
 
-        override fun withExpressions(value: List<CodePart>): Builder {
+        override fun withExpressions(value: List<CodeInstruction>): Builder {
             this.expressions = value
             return this
         }

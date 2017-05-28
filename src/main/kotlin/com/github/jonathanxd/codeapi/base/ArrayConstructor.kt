@@ -28,9 +28,11 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.Stack
 import com.github.jonathanxd.codeapi.literal.Literals
-import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
 
 /**
@@ -45,8 +47,8 @@ import java.lang.reflect.Type
  * ```
  */
 data class ArrayConstructor(val arrayType: Type,
-                            val dimensions: List<CodePart>,
-                            override val arguments: List<CodePart>) : ArgumentHolder, Typed, CodeInstruction {
+                            val dimensions: List<CodeInstruction>,
+                            override val arguments: List<CodeInstruction>) : ArgumentsHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.arrayType
@@ -77,7 +79,7 @@ data class ArrayConstructor(val arrayType: Type,
                                 .withArrayType(this@ArrayConstructor.arrayType)//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
                                 .withTarget(Stack)
                                 .withIndex(Literals.INT(i))
-                                .withValueType(argument.getPartType())
+                                .withValueType(argument.type)
                                 .withValueToStore(argument)
                                 .build()
                 )
@@ -89,12 +91,12 @@ data class ArrayConstructor(val arrayType: Type,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ArgumentHolder.Builder<ArrayConstructor, Builder>,
+            ArgumentsHolder.Builder<ArrayConstructor, Builder>,
             Typed.Builder<ArrayConstructor, Builder> {
 
         lateinit var arrayType: Type
-        var dimensions: List<CodePart> = emptyList()
-        var arguments: List<CodePart> = emptyList()
+        var dimensions: List<CodeInstruction> = emptyList()
+        var arguments: List<CodeInstruction> = emptyList()
 
         constructor(defaults: ArrayConstructor) : this() {
             this.arrayType = defaults.arrayType
@@ -118,7 +120,7 @@ data class ArrayConstructor(val arrayType: Type,
         /**
          * See [ArrayConstructor.dimensions]
          */
-        fun withDimensions(value: List<CodePart>): Builder {
+        fun withDimensions(value: List<CodeInstruction>): Builder {
             this.dimensions = value
             return this
         }
@@ -126,9 +128,9 @@ data class ArrayConstructor(val arrayType: Type,
         /**
          * See [ArrayConstructor.dimensions]
          */
-        fun withDimensions(vararg values: CodePart): Builder = withDimensions(values.toList())
+        fun withDimensions(vararg values: CodeInstruction): Builder = withDimensions(values.toList())
 
-        override fun withArguments(value: List<CodePart>): Builder {
+        override fun withArguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }

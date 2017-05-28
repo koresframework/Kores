@@ -27,7 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.CodePart;
+import com.github.jonathanxd.codeapi.CodeInstruction;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
@@ -54,19 +54,19 @@ public class CommonGen {
     public static final String name = CommonGen.class.getCanonicalName() + "_Generated";
 
     public static TypeDeclaration gen() {
-        CodePart[] values = {
+        CodeInstruction[] values = {
                 STRING("A"), STRING("B"),
                 STRING("C"), STRING("D"),
                 STRING("E")
         };
 
-        CodePart[] values2 = {
+        CodeInstruction[] values2 = {
                 STRING("F"), STRING("G"),
                 STRING("H"), STRING("I"),
                 STRING("J")
         };
 
-        CodePart[] values3 = {
+        CodeInstruction[] values3 = {
                 INT(1)
         };
 

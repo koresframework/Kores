@@ -42,9 +42,9 @@ import java.lang.reflect.Type
  * [Access] to `this` context.
  */
 data class MethodInvocation(val invokeType: InvokeType,
-                            override val target: CodePart,
+                            override val target: CodeInstruction,
                             val spec: MethodTypeSpec,
-                            override val arguments: List<CodePart>) : Accessor, ArgumentHolder, Typed, CodeInstruction {
+                            override val arguments: List<CodeInstruction>) : Accessor, ArgumentsHolder, Typed, CodeInstruction {
 
     override val types: List<Type>
         get() = this.spec.typeSpec.parameterTypes
@@ -68,13 +68,13 @@ data class MethodInvocation(val invokeType: InvokeType,
     override fun builder(): Builder = Builder(this)
 
     class Builder() : Accessor.Builder<MethodInvocation, Builder>,
-            ArgumentHolder.Builder<MethodInvocation, Builder>,
+            ArgumentsHolder.Builder<MethodInvocation, Builder>,
             Typed.Builder<MethodInvocation, Builder> {
 
         lateinit var invokeType: InvokeType
-        lateinit var target: CodePart
+        lateinit var target: CodeInstruction
         lateinit var spec: MethodTypeSpec
-        var arguments: List<CodePart> = emptyList()
+        var arguments: List<CodeInstruction> = emptyList()
 
         constructor(defaults: MethodInvocation) : this() {
             this.invokeType = defaults.invokeType
@@ -86,7 +86,7 @@ data class MethodInvocation(val invokeType: InvokeType,
         override fun withArray(value: Boolean): Builder = self()
         override fun withLocalization(value: Type): Builder = self()
 
-        override fun withTarget(value: CodePart): Builder {
+        override fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -107,7 +107,7 @@ data class MethodInvocation(val invokeType: InvokeType,
             return this
         }
 
-        override fun withArguments(value: List<CodePart>): Builder {
+        override fun withArguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }

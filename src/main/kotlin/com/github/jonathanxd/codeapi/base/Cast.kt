@@ -40,7 +40,7 @@ import java.lang.reflect.Type
  * @property targetType Target type
  * @property castedPart Part to cast
  */
-data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodePart) : Typed, CodeInstruction {
+data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodeInstruction) : Typed, CodeInstruction {
 
     override val type: Type
         get() = this.targetType
@@ -52,7 +52,7 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
 
         var originalType: Type? = null
         lateinit var targetType: Type
-        lateinit var castedPart: CodePart
+        lateinit var castedPart: CodeInstruction
 
         constructor(defaults: Cast) : this() {
             this.originalType = defaults.originalType
@@ -81,7 +81,7 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
         /**
          * See [Cast.castedPart]
          */
-        fun withCastedPart(value: CodePart): Builder {
+        fun withCastedPart(value: CodeInstruction): Builder {
             this.castedPart = value
             return this
         }

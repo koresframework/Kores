@@ -27,15 +27,17 @@
  */
 package com.github.jonathanxd.codeapi.helper
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Operate
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
 
 /**
  * Operator helper.
  */
-class OperateHelper private constructor(private var part: CodePart?) {
+class OperateHelper private constructor(private var part: CodeInstruction?) {
 
     /**
      * Plus (+).
@@ -43,7 +45,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to add.
      * @return This.
      */
-    operator fun plus(value: CodePart): OperateHelper {
+    operator fun plus(value: CodeInstruction): OperateHelper {
         val operation = Operators.ADD
 
         return this.operate(operation, value)
@@ -55,7 +57,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to divide.
      * @return This.
      */
-    fun subtract(value: CodePart): OperateHelper {
+    fun subtract(value: CodeInstruction): OperateHelper {
         val operation = Operators.SUBTRACT
 
         return this.operate(operation, value)
@@ -67,7 +69,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to divide.
      * @return This.
      */
-    fun multiply(value: CodePart): OperateHelper {
+    fun multiply(value: CodeInstruction): OperateHelper {
         val operation = Operators.MULTIPLY
 
         return this.operate(operation, value)
@@ -79,7 +81,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to divide.
      * @return This.
      */
-    fun divide(value: CodePart): OperateHelper {
+    fun divide(value: CodeInstruction): OperateHelper {
         val operation = Operators.DIVISION
 
         return this.operate(operation, value)
@@ -91,7 +93,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to remainder.
      * @return This.
      */
-    fun remainder(value: CodePart): OperateHelper {
+    fun remainder(value: CodeInstruction): OperateHelper {
         val operation = Operators.REMAINDER
 
         return this.operate(operation, value)
@@ -105,7 +107,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
     fun neg(): OperateHelper {
         val operation = Operators.SUBTRACT
 
-        return this.operate(operation, null)
+        return this.operate(operation, CodeNothing)
     }
 
     // &
@@ -115,7 +117,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to operate.
      * @return This.
      */
-    fun or(value: CodePart): OperateHelper {
+    fun or(value: CodeInstruction): OperateHelper {
         val operation = Operators.BITWISE_INCLUSIVE_OR
 
         return this.operate(operation, value)
@@ -128,7 +130,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to operate.
      * @return This.
      */
-    fun xor(value: CodePart): OperateHelper {
+    fun xor(value: CodeInstruction): OperateHelper {
         val operation = Operators.BITWISE_EXCLUSIVE_OR
 
         return this.operate(operation, value)
@@ -141,7 +143,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to operate.
      * @return This.
      */
-    fun not(value: CodePart): OperateHelper {
+    fun not(value: CodeInstruction): OperateHelper {
         val operation = Operators.UNARY_BITWISE_COMPLEMENT
 
         return this.operate(operation, value)
@@ -154,7 +156,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to operate.
      * @return This.
      */
-    fun shiftRight(value: CodePart): OperateHelper {
+    fun shiftRight(value: CodeInstruction): OperateHelper {
         val operation = Operators.SIGNED_RIGHT_SHIFT
         return this.operate(operation, value)
     }
@@ -165,7 +167,7 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to operate.
      * @return This.
      */
-    fun logicalShiftRight(value: CodePart): OperateHelper {
+    fun logicalShiftRight(value: CodeInstruction): OperateHelper {
         val operation = Operators.UNSIGNED_RIGHT_SHIFT
 
         return this.operate(operation, value)
@@ -177,26 +179,26 @@ class OperateHelper private constructor(private var part: CodePart?) {
      * @param value 2nd value to operate.
      * @return This.
      */
-    fun leftShift(value: CodePart): OperateHelper {
+    fun leftShift(value: CodeInstruction): OperateHelper {
         val operation = Operators.SIGNED_LEFT_SHIFT
 
         return this.operate(operation, value)
     }
 
-    private fun operate(operation: Operator.Math, value: CodePart?): OperateHelper {
+    private fun operate(operation: Operator.Math, value: CodeInstruction): OperateHelper {
         this.part = Operate(this.part!!, operation, value)
 
         return this
     }
 
-    fun build(): CodePart {
+    fun build(): CodeInstruction {
         return this.part!!
     }
 
     companion object {
 
         @JvmStatic
-        fun builder(part: CodePart): OperateHelper {
+        fun builder(part: CodeInstruction): OperateHelper {
             return OperateHelper(part)
         }
     }

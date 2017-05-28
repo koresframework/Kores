@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.util.conversion
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.Defaults
-import com.github.jonathanxd.codeapi.MutableCodeSource
-import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
@@ -128,7 +125,7 @@ val ExecutableElement.invokeType: InvokeType
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodePart, arguments: List<CodePart>): MethodInvocation =
+fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation =
         invoke(invokeType, this.localization, target, this.methodName, this.typeSpec, arguments)
 
 
@@ -138,7 +135,7 @@ fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodePart, argume
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun MethodInvokeSpec.toInvocation(target: CodePart, arguments: List<CodePart>): MethodInvocation =
+fun MethodInvokeSpec.toInvocation(target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation =
         invoke(this.invokeType, this.methodTypeSpec.localization, target, this.methodTypeSpec.methodName, this.methodTypeSpec.typeSpec, arguments)
 
 /**
@@ -148,7 +145,7 @@ fun MethodInvokeSpec.toInvocation(target: CodePart, arguments: List<CodePart>): 
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun Executable.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>): MethodInvocation =
+fun Executable.toInvocation(invokeType: InvokeType?, target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation =
         com.github.jonathanxd.codeapi.factory.invoke(invokeType ?: this.invokeType, this.declaringClass.codeType, target, this.name, this.typeSpec, arguments)
 
 /**
@@ -180,7 +177,7 @@ fun ExecutableElement.getMethodInvokeSpec(elements: Elements): MethodInvokeSpec 
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, arguments: List<CodePart>, elements: Elements): MethodInvocation =
+fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodeInstruction, arguments: List<CodeInstruction>, elements: Elements): MethodInvocation =
         MethodInvocation(invokeType = invokeType ?: this.invokeType,
                 target = target,
                 spec = this.getMethodTypeSpec(elements),
@@ -193,11 +190,10 @@ fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodePart, ar
  *
  * @param target Target of the field access, null (or static access) for static access.
  */
-fun Field.toAccess(target: CodePart?): FieldAccess =
+fun Field.toAccess(target: CodeInstruction?): FieldAccess =
         FieldAccess.Builder.builder()
                 .withLocalization(this.declaringClass.codeType)
                 .withTarget(target ?: accessStatic())
-                .withTarget(this.type.codeType)
                 .withName(this.name)
                 .build()
 
@@ -206,7 +202,7 @@ fun Field.toAccess(target: CodePart?): FieldAccess =
  *
  * @param target Target of the field access, null (or static access) for static access.
  */
-fun VariableElement.toAccess(target: CodePart?, elements: Elements): FieldAccess =
+fun VariableElement.toAccess(target: CodeInstruction?, elements: Elements): FieldAccess =
         FieldAccess.Builder.builder()
                 .withLocalization((this.enclosingElement as TypeElement).getCodeType(elements))
                 .withTarget(target ?: accessStatic())
@@ -400,7 +396,7 @@ fun Field.toFieldDeclaration(): FieldDeclaration =
  * @param target Target
  * @return [VariableAccess] to this [Field]
  */
-fun Field.createAccess(target: CodePart?): FieldAccess =
+fun Field.createAccess(target: CodeInstruction?): FieldAccess =
         accessField(
                 this.declaringClass.codeType,
                 target ?: Defaults.ACCESS_STATIC,
@@ -456,7 +452,7 @@ fun Method.toMethodDeclaration(superClass: Type, nameProvider: (index: Int, para
                                         Defaults.ACCESS_THIS,
                                         this.name,
                                         typeSpec(this.returnType, this.parameterTypes.toList()),
-                                        this.codeParameters.map { it.toCodeArgument() }
+                                        this.codeParameters.map { it.toVariableAccess() }
                                 )))
                 )
         ).build()
@@ -490,7 +486,7 @@ fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int,
  * @return [ConstructorDeclaration] structure from [Constructor] calling super constructor with [arguments].
  */
 @JvmOverloads
-fun <T : Any> Constructor<T>.toConstructorDeclaration(arguments: List<CodePart>, nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
+fun <T : Any> Constructor<T>.toConstructorDeclaration(arguments: List<CodeInstruction>, nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
         this.toConstructorDeclaration(nameProvider).builder().withBody(
                 MutableCodeSource.create(
                         listOf(
@@ -508,11 +504,11 @@ fun KParameter.toCodeParameter(): CodeParameter = parameter(type = this.type.jvm
 
 fun Parameter.toCodeParameter(): CodeParameter = parameter(type = this.type.codeType, name = this.name)
 
-fun KParameter.toCodeArgument(): CodePart = accessVariable(this.type.jvmErasure.codeType, this.name ?: "parameter_$index")
+fun KParameter.toVariableAccess() = accessVariable(this.type.jvmErasure.codeType, this.name ?: "parameter_$index")
 
-fun Parameter.toCodeArgument(): CodePart = accessVariable(this.type.codeType, this.name)
+fun Parameter.toVariableAccess() = accessVariable(this.type.codeType, this.name)
 
-fun CodeParameter.toCodeArgument(): CodePart = accessVariable(this.type, this.name)
+fun CodeParameter.toVariableAccess()= accessVariable(this.type, this.name)
 
 // Any
 

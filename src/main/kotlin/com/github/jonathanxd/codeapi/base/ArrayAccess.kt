@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
@@ -38,7 +39,7 @@ interface ArrayAccess : CodePart {
     /**
      * Target array to access
      */
-    val target: CodePart
+    val target: CodeInstruction
 
     /**
      * Array type
@@ -51,7 +52,7 @@ interface ArrayAccess : CodePart {
         /**
          * See [T.target]
          */
-        fun withTarget(value: CodePart): S
+        fun withTarget(value: CodeInstruction): S
 
         /**
          * See [T.arrayType]

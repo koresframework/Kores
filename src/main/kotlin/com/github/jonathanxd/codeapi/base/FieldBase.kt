@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
@@ -43,7 +44,7 @@ interface FieldBase : Named, Typed {
     /**
      * Target of the access
      */
-    val target: CodePart
+    val target: CodeInstruction
 
     override val type: Type
 
@@ -61,7 +62,7 @@ interface FieldBase : Named, Typed {
         /**
          * See [T.target]
          */
-        fun withTarget(value: CodePart): S
+        fun withTarget(value: CodeInstruction): S
 
     }
 }

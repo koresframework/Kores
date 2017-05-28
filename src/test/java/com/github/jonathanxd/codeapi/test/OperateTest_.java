@@ -53,7 +53,7 @@ public class OperateTest_ {
                                 .withParameters(Factories.parameter(int.class, "num"))
                                 .withBody(CodeSource.fromVarArgs(
                                         Predefined.invokePrintlnStr(
-                                                Predefined.intToString(
+                                                Predefined.invokeIntToString(
                                                         OperateHelper.builder(INT(9))
                                                                 .plus(Factories.accessVariable(int.class, "num"))
                                                                 .plus(
@@ -64,12 +64,12 @@ public class OperateTest_ {
                                                                 .build()
                                                 )
                                         ),
-                                        Predefined.invokePrintlnStr(Predefined.intToString(
+                                        Predefined.invokePrintlnStr(Predefined.invokeIntToString(
                                                 OperateHelper.builder(INT(9))
                                                         .neg()
                                                         .build()
                                         )),
-                                        Predefined.invokePrintlnStr(Predefined.intToString(
+                                        Predefined.invokePrintlnStr(Predefined.invokeIntToString(
                                                 OperateHelper.builder(INT(9))
                                                         .not(INT(10))
                                                         .build()

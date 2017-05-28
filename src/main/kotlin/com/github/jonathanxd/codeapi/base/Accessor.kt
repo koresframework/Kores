@@ -27,19 +27,19 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeInstruction
 import java.lang.reflect.Type
 
 /**
  * Accessor of an element. Example: field access/definition, method invocation
  * and executable code.
  */
-interface Accessor : CodePart {
+interface Accessor : CodeInstruction {
 
     /**
      * Access target
      */
-    val target: CodePart
+    val target: CodeInstruction
 
     /**
      * Access localization
@@ -53,7 +53,7 @@ interface Accessor : CodePart {
         /**
          * See [T.target]
          */
-        fun withTarget(value: CodePart): S
+        fun withTarget(value: CodeInstruction): S
 
         /**
          * See [T.localization]

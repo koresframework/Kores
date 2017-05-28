@@ -61,8 +61,8 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodS
 
     val return_ = !currentReturnType.codeType.`is`(Types.VOID)
 
-    val codeParameters = ArrayList<CodeParameter>()
-    val codeArguments = ArrayList<CodePart>()
+    val codeParameters = mutableListOf<CodeParameter>()
+    val codeArguments = mutableListOf<CodeInstruction>()
 
     for (i in currentParameters.indices) {
         val (_, _, currentType, name) = currentParameters[i]

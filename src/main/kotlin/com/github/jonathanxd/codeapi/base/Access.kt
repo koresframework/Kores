@@ -27,13 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeInstruction
 
 
 /**
  * Access to a scope. Example, access to static scope of [String].
  */
-enum class Access : CodePart {
+enum class Access : CodeInstruction {
 
     /**
      * Access to local scope

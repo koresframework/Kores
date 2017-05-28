@@ -25,48 +25,35 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
+package com.github.jonathanxd.codeapi.common
 
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
- * Hold arguments.
+ * To avoid confusion with kotlin nothing
  */
-interface ArgumentHolder : CodePart {
+typealias CodeNothing = Nothing
 
-    /**
-     * Expected types of each argument
-     */
-    val types: List<Type>
+/**
+ * Nothing for values (some parts may not support nothing as value).
+ */
+object Nothing : CodeInstruction, Typed {
 
-    /**
-     * Argument list
-     */
-    val arguments: List<CodePart>
+    override val type: Type
+        get() = Nothing::class.java.codeType
 
-    /**
-     * Array arguments
-     */
-    val array: Boolean
+    override fun builder(): Builder = Builder
 
-    override fun builder(): Builder<ArgumentHolder, *>
+    object Builder : Typed.Builder<Nothing, Builder> {
 
-    interface Builder<out T : ArgumentHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-        /**
-         * See [T.arguments]
-         */
-        fun withArguments(value: List<CodePart>): S
+        override fun withType(value: Type): Builder = self()
 
-        /**
-         * See [T.arguments]
-         */
-        fun withArguments(vararg values: CodePart): S = withArguments(values.toList())
-
-        /**
-         * See [T.array]
-         */
-        fun withArray(value: Boolean): S
+        override fun build(): Nothing = Nothing
     }
 
 }

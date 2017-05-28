@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.Types
@@ -47,7 +48,7 @@ import java.lang.reflect.Type
  * @see InvokeType
  * @see MethodInvocation
  */
-fun invoke(invokeType: InvokeType, localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+fun invoke(invokeType: InvokeType, localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         MethodInvocation(
                 invokeType = invokeType,
                 target = target,
@@ -63,25 +64,25 @@ fun invoke(invokeType: InvokeType, localization: Type, target: CodePart, name: S
 /**
  * @see MethodInvocation
  */
-fun invokeVirtual(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeVirtual(localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeInterface(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeInterface(localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_INTERFACE, localization, target, name, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeSpecial(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeSpecial(localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, target, name, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeConstructor(localization: Type, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, New(localization), CONSTRUCTOR, spec, arguments)
 
 /**
@@ -93,35 +94,35 @@ fun invokeConstructor(localization: Type) =
 /**
  * @see MethodInvocation
  */
-fun invokeSuperConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeSuperConstructor(localization: Type, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, Alias.SUPER, CONSTRUCTOR, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeSuperConstructor(spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeSuperConstructor(spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, Alias.SUPER, Alias.SUPER, CONSTRUCTOR, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeThisConstructor(localization: Type, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeThisConstructor(localization: Type, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, Defaults.ACCESS_THIS, CONSTRUCTOR, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeThisConstructor(spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeThisConstructor(spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, Alias.THIS, Defaults.ACCESS_THIS, CONSTRUCTOR, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeStatic(localization: Type, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeStatic(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_STATIC, localization, Defaults.ACCESS_STATIC, name, spec, arguments)
 
 /**
  * @see MethodInvocation
  */
-fun invokeStatic(localization: Type, target: CodePart, name: String, spec: TypeSpec, arguments: List<CodePart>) =
+fun invokeStatic(localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)

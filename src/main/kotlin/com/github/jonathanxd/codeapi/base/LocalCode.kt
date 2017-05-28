@@ -66,7 +66,7 @@ data class LocalCode(val declaringType: Type,
     /**
      * Creates a invocation of this [LocalCode] with [arguments].
      */
-    fun createInvocation(arguments: List<CodePart>): MethodInvocation {
+    fun createInvocation(arguments: List<CodeInstruction>): MethodInvocation {
         return MethodInvocation(invokeType = invokeType,
                 target = if (this.invokeType == InvokeType.INVOKE_STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS,
                 arguments = arguments,

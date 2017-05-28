@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 
 /**
@@ -37,7 +38,7 @@ interface ValueHolder : CodePart {
     /**
      * Value
      */
-    val value: CodePart?
+    val value: CodeInstruction
 
     override fun builder(): Builder<ValueHolder, *>
 
@@ -46,7 +47,7 @@ interface ValueHolder : CodePart {
         /**
          * See [T.value]
          */
-        fun withValue(value: CodePart?): S
+        fun withValue(value: CodeInstruction): S
 
     }
 }

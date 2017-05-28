@@ -485,7 +485,7 @@ public class BuilderTest {
     @Test
     public void throwExceptionBuilderTest() {
         ThrowException.Builder.Companion.builder()
-                .withPartToThrow(InvocationFactory.invokeConstructor(NullPointerException.class))
+                .withValue(InvocationFactory.invokeConstructor(NullPointerException.class))
                 .build();
     }
 

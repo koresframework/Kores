@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.factory
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.InvokeDynamic
 import com.github.jonathanxd.codeapi.base.LocalCode
@@ -53,5 +54,5 @@ fun invokeDynamicLambda(invocation: MethodInvocation, baseSam: MethodTypeSpec, e
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, localCode: LocalCode, arguments: List<CodePart>): InvokeDynamic.LambdaLocalCode =
+fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, localCode: LocalCode, arguments: List<CodeInstruction>): InvokeDynamic.LambdaLocalCode =
         InvokeDynamic.LambdaLocalCode(baseSam, localCode, arguments)

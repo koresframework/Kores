@@ -39,17 +39,17 @@ import com.github.jonathanxd.codeapi.operator.Operator
  * @property expr2 Second expression
  * @see IfStatement
  */
-data class IfExpr(val expr1: CodePart,
+data class IfExpr(val expr1: CodeInstruction,
                   val operation: Operator.Conditional,
-                  val expr2: CodePart) : CodePart, CodeInstruction {
+                  val expr2: CodeInstruction) : CodePart, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() : com.github.jonathanxd.codeapi.builder.Builder<IfExpr, Builder> {
 
-        lateinit var expr1: CodePart
+        lateinit var expr1: CodeInstruction
         lateinit var operation: Operator.Conditional
-        lateinit var expr2: CodePart
+        lateinit var expr2: CodeInstruction
 
         constructor(defaults: IfExpr) : this() {
             this.expr1 = defaults.expr1
@@ -60,7 +60,7 @@ data class IfExpr(val expr1: CodePart,
         /**
          * See [IfExpr.expr1]
          */
-        fun withExpr1(value: CodePart): Builder {
+        fun withExpr1(value: CodeInstruction): Builder {
             this.expr1 = value
             return this
         }
@@ -76,7 +76,7 @@ data class IfExpr(val expr1: CodePart,
         /**
          * See [IfExpr.expr2]
          */
-        fun withExpr2(value: CodePart): Builder {
+        fun withExpr2(value: CodeInstruction): Builder {
             this.expr2 = value
             return this
         }

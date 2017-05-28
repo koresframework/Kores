@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.factory.accessStatic
 import com.github.jonathanxd.codeapi.factory.accessThis
 import com.github.jonathanxd.codeapi.util.Alias
@@ -47,7 +48,7 @@ data class FieldDeclaration(override val comments: Comments,
                             override val type: Type,
                             override val name: String,
                             override val innerTypes: List<TypeDeclaration>,
-                            override val value: CodePart?) :
+                            override val value: CodeInstruction) :
         CodeElement, FieldBase, Named, Typed,
         ValueHolder, ModifiersHolder, Annotable, CommentHolder, CodeInstruction,
         InnerTypesHolder {
@@ -55,7 +56,7 @@ data class FieldDeclaration(override val comments: Comments,
     override val localization: Type
         get() = Alias.THIS
 
-    override val target: CodePart
+    override val target: CodeInstruction
         get() = if (this.modifiers.contains(CodeModifier.STATIC)) accessStatic() else accessThis()
 
 
@@ -77,7 +78,7 @@ data class FieldDeclaration(override val comments: Comments,
         lateinit var type: Type
         lateinit var name: String
         var innerTypes: List<TypeDeclaration> = emptyList()
-        var value: CodePart? = null
+        var value: CodeInstruction = CodeNothing
 
         constructor(defaults: FieldDeclaration) : this() {
             this.comments = defaults.comments
@@ -90,7 +91,7 @@ data class FieldDeclaration(override val comments: Comments,
         }
 
         override fun withLocalization(value: Type): Builder = self()
-        override fun withTarget(value: CodePart): Builder = self()
+        override fun withTarget(value: CodeInstruction): Builder = self()
 
         override fun withComments(value: Comments): Builder {
             this.comments = value
@@ -117,10 +118,15 @@ data class FieldDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
+        override fun withValue(value: CodeInstruction): Builder {
             this.value = value
             return this
         }
+
+        /**
+         * Removes value definition
+         */
+        fun withoutValue(): Builder = this.withValue(CodeNothing)
 
         override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value

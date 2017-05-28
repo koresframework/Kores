@@ -36,10 +36,10 @@ import java.lang.reflect.Type
  * ([Access.Type.STATIC] for static accesses).
  */
 data class FieldDefinition(override val localization: Type,
-                           override val target: CodePart,
+                           override val target: CodeInstruction,
                            override val type: Type,
                            override val name: String,
-                           override val value: CodePart) : Accessor, FieldBase, ValueHolder, CodeInstruction {
+                           override val value: CodeInstruction) : Accessor, FieldBase, ValueHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
@@ -49,10 +49,10 @@ data class FieldDefinition(override val localization: Type,
             ValueHolder.Builder<FieldDefinition, Builder> {
 
         lateinit var localization: Type
-        lateinit var target: CodePart
+        lateinit var target: CodeInstruction
         lateinit var type: Type
         lateinit var name: String
-        lateinit var value: CodePart
+        lateinit var value: CodeInstruction
 
         constructor(defaults: FieldDefinition) : this() {
             this.localization = defaults.localization
@@ -67,7 +67,7 @@ data class FieldDefinition(override val localization: Type,
             return this
         }
 
-        override fun withTarget(value: CodePart): Builder {
+        override fun withTarget(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -82,8 +82,8 @@ data class FieldDefinition(override val localization: Type,
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
-            this.value = value!!
+        override fun withValue(value: CodeInstruction): Builder {
+            this.value = value
             return this
         }
 

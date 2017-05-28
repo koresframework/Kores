@@ -36,7 +36,7 @@ import java.lang.reflect.Type
  */
 data class VariableDefinition(override val type: Type,
                               override val name: String,
-                              override val value: CodePart) : Named, Typed, ValueHolder, CodeInstruction {
+                              override val value: CodeInstruction) : Named, Typed, ValueHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
@@ -47,7 +47,7 @@ data class VariableDefinition(override val type: Type,
 
         lateinit var name: String
         lateinit var type: Type
-        lateinit var value: CodePart
+        lateinit var value: CodeInstruction
 
         constructor(defaults: VariableDefinition) : this() {
             this.name = defaults.name
@@ -65,8 +65,8 @@ data class VariableDefinition(override val type: Type,
             return this
         }
 
-        override fun withValue(value: CodePart?): Builder {
-            this.value = value!!
+        override fun withValue(value: CodeInstruction): Builder {
+            this.value = value
             return this
         }
 

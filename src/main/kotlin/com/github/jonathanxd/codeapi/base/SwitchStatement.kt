@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
 
 /**
@@ -43,7 +44,7 @@ import java.lang.reflect.Type
  * @property switchType Type of the switch
  * @property cases Cases statements.
  */
-data class SwitchStatement(override val value: Typed,
+data class SwitchStatement(override val value: CodeInstruction,
                            val switchType: SwitchType,
                            val cases: List<Case>) : ValueHolder, Typed, CodeInstruction {
 
@@ -56,7 +57,7 @@ data class SwitchStatement(override val value: Typed,
             ValueHolder.Builder<SwitchStatement, Builder>,
             Typed.Builder<SwitchStatement, Builder> {
 
-        lateinit var value: Typed
+        lateinit var value: CodeInstruction
         lateinit var switchType: SwitchType
         var cases: List<Case> = emptyList()
 
@@ -67,12 +68,11 @@ data class SwitchStatement(override val value: Typed,
         }
 
         override fun withType(value: Type): Builder = self()
-        override fun withValue(value: CodePart?): Builder = this.withValue(value as Typed)
 
         /**
          * See [SwitchStatement.value]
          */
-        fun withValue(value: Typed): Builder {
+        override fun withValue(value: CodeInstruction): Builder {
             this.value = value
             return this
         }

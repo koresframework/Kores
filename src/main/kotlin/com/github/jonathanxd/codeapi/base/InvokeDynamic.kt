@@ -155,7 +155,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
     /**
      * Invocation of lambda function.
      */
-    interface LambdaLocalCodeBase : LambdaMethodRefBase, ArgumentHolder {
+    interface LambdaLocalCodeBase : LambdaMethodRefBase, ArgumentsHolder {
 
         override val expectedTypes: TypeSpec
             get() = this.localCode.description
@@ -177,13 +177,13 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         /**
          * Argument to capture from current context and pass to [localCode]
          */
-        override val arguments: List<CodePart>
+        override val arguments: List<CodeInstruction>
 
         override fun builder(): Builder<LambdaLocalCodeBase, *>
 
         interface Builder<out T : LambdaLocalCodeBase, S : Builder<T, S>> :
                 LambdaMethodRefBase.Builder<T, S>,
-                ArgumentHolder.Builder<T, S> {
+                ArgumentsHolder.Builder<T, S> {
 
             override fun withType(value: Type): S = self()
             override fun withBootstrap(value: MethodInvokeSpec): S = self()
@@ -297,7 +297,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
         }
     }
 
-    data class LambdaLocalCode(override val baseSam: MethodTypeSpec, override val localCode: LocalCode, override val arguments: List<CodePart>) : InvokeDynamicBase.LambdaLocalCodeBase {
+    data class LambdaLocalCode(override val baseSam: MethodTypeSpec, override val localCode: LocalCode, override val arguments: List<CodeInstruction>) : InvokeDynamicBase.LambdaLocalCodeBase {
 
         override val invocation: MethodInvocation = this.localCode.createInvocation(this.arguments)
         override val types: List<Type> = this.localCode.parameters.map(CodeParameter::type)
@@ -309,7 +309,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
 
             lateinit var baseSam: MethodTypeSpec
             lateinit var localCode: LocalCode
-            var arguments: List<CodePart> = emptyList()
+            var arguments: List<CodeInstruction> = emptyList()
 
             constructor(defaults: LambdaLocalCode) : this() {
                 this.baseSam = defaults.baseSam
@@ -329,7 +329,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
 
             override fun withArray(value: Boolean): Builder = self()
 
-            override fun withArguments(value: List<CodePart>): Builder {
+            override fun withArguments(value: List<CodeInstruction>): Builder {
                 this.arguments = value
                 return this
             }

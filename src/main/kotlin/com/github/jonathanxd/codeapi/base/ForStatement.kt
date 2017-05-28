@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.common.CodeNothing
 
 /**
  * For statement.
@@ -41,15 +42,15 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property forUpdate For update. (ex: `i++`)
  * @property body Body of for statement (ex: `println(i)`).
  */
-data class ForStatement(val forInit: CodePart?,
-                        val forExpression: List<CodePart>,
-                        val forUpdate: CodePart?,
+data class ForStatement(val forInit: CodeInstruction,
+                        val forExpression: List<CodeInstruction>,
+                        val forUpdate: CodeInstruction,
                         override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
 
-    override val expressions: List<CodePart>
+    override val expressions: List<CodeInstruction>
         get() = this.forExpression
 
     override fun builder(): Builder = Builder(this)
@@ -58,9 +59,9 @@ data class ForStatement(val forInit: CodePart?,
             IfExpressionHolder.Builder<ForStatement, Builder>,
             BodyHolder.Builder<ForStatement, Builder> {
 
-        var forInit: CodePart? = null
-        var forExpression: List<CodePart> = emptyList()
-        var forUpdate: CodePart? = null
+        var forInit: CodeInstruction = CodeNothing
+        var forExpression: List<CodeInstruction> = emptyList()
+        var forUpdate: CodeInstruction = CodeNothing
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: ForStatement) : this() {
@@ -69,14 +70,14 @@ data class ForStatement(val forInit: CodePart?,
             this.forUpdate = defaults.forUpdate
         }
 
-        override fun withExpressions(value: List<CodePart>): Builder = this.withForExpression(value)
+        override fun withExpressions(value: List<CodeInstruction>): Builder = this.withForExpression(value)
 
-        override fun withExpressions(vararg values: CodePart): Builder = this.withForExpression(values.toList())
+        override fun withExpressions(vararg values: CodeInstruction): Builder = this.withForExpression(values.toList())
 
         /**
          * See [ForStatement.forInit]
          */
-        fun withForInit(value: CodePart?): Builder {
+        fun withForInit(value: CodeInstruction): Builder {
             this.forInit = value
             return this
         }
@@ -84,7 +85,7 @@ data class ForStatement(val forInit: CodePart?,
         /**
          * See [ForStatement.forExpression]
          */
-        fun withForExpression(value: List<CodePart>): Builder {
+        fun withForExpression(value: List<CodeInstruction>): Builder {
             this.forExpression = value
             return this
         }
@@ -92,12 +93,12 @@ data class ForStatement(val forInit: CodePart?,
         /**
          * See [ForStatement.forExpression]
          */
-        fun withForExpression(vararg values: CodePart): Builder = withForExpression(values.toList())
+        fun withForExpression(vararg values: CodeInstruction): Builder = withForExpression(values.toList())
 
         /**
          * See [ForStatement.forUpdate]
          */
-        fun withForUpdate(value: CodePart?): Builder {
+        fun withForUpdate(value: CodeInstruction): Builder {
             this.forUpdate = value
             return this
         }
