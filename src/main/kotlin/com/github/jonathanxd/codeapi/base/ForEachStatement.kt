@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 
 /**
  * For each statement.
@@ -107,10 +108,39 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
 
 /**
  * Iteration type used to generate bytecode and source code iterations.
+ *
+ * @property iteratorMethodSpec Specification of iterator method.
+ * @property hasNextName Name of method which returns true if has next elements.
+ * @property nextMethodSpec Specification of method which returns the next element.
  */
-enum class IterationType  {
+data class IterationType(val iteratorMethodSpec: MethodTypeSpec,
+                         val hasNextName: String,
+                         val nextMethodSpec: MethodTypeSpec) {
 
-    ARRAY,
-    ITERABLE_ELEMENT
+    companion object {
+
+        private val NOTHING_SPEC = MethodTypeSpec(Nothing::class.java, "", TypeSpec(Nothing::class.java))
+
+        /**
+         * Foreach on array. Requires special handling.
+         */
+        @JvmField
+        val ARRAY = IterationType(NOTHING_SPEC, "", NOTHING_SPEC)
+
+        /**
+         * Foreach on an element which extends iterable
+         */
+        @JvmField
+        val ITERABLE_ELEMENT = IterationType(
+                MethodTypeSpec(localization = Iterable::class.java,
+                        methodName = "iterator",
+                        typeSpec = TypeSpec(Iterator::class.java)),
+                "hasNext",
+                MethodTypeSpec(localization = Iterator::class.java,
+                        methodName = "next",
+                        typeSpec = TypeSpec(Any::class.java)))
+
+    }
+
 
 }
