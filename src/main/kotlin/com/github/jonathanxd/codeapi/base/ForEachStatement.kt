@@ -44,7 +44,7 @@ import com.github.jonathanxd.codeapi.common.MethodTypeSpec
  * @property iterableElement Element to iterate
  * @see IterationType
  */
-data class ForEachStatement(val variable: VariableDeclaration, val iterationType: IterationType, val iterableElement: CodePart, override val body: CodeSource) : BodyHolder, CodeInstruction {
+data class ForEachStatement(val variable: VariableDeclaration, val iterationType: IterationType, val iterableElement: CodeInstruction, override val body: CodeSource) : BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
@@ -55,7 +55,7 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
 
         lateinit var variable: VariableDeclaration
         lateinit var iterationType: IterationType
-        lateinit var iterableElement: CodePart
+        lateinit var iterableElement: CodeInstruction
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: ForEachStatement) : this() {
@@ -83,7 +83,7 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
         /**
          * See [ForEachStatement.iterableElement]
          */
-        fun withIterableElement(value: CodePart): Builder {
+        fun withIterableElement(value: CodeInstruction): Builder {
             this.iterableElement = value
             return this
         }

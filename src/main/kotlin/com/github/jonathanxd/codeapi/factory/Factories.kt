@@ -501,7 +501,7 @@ fun forStatement(forInit: CodeInstruction, forExpression: IfExpr, forUpdate: Cod
 /**
  * @see ForEachStatement
  */
-fun forEachStatement(variable: VariableDeclaration, iterationType: IterationType, iterableElement: CodePart, body: CodeSource): ForEachStatement =
+fun forEachStatement(variable: VariableDeclaration, iterationType: IterationType, iterableElement: CodeInstruction, body: CodeSource): ForEachStatement =
         ForEachStatement(variable, iterationType, iterableElement, body)
 
 /**
@@ -509,7 +509,7 @@ fun forEachStatement(variable: VariableDeclaration, iterationType: IterationType
  *
  * @see ForEachStatement
  */
-fun forEachIterable(variable: VariableDeclaration, iterableElement: CodePart, body: CodeSource): ForEachStatement =
+fun forEachIterable(variable: VariableDeclaration, iterableElement: CodeInstruction, body: CodeSource): ForEachStatement =
         forEachStatement(variable, IterationType.ITERABLE_ELEMENT, iterableElement, body)
 
 /**
@@ -517,7 +517,7 @@ fun forEachIterable(variable: VariableDeclaration, iterableElement: CodePart, bo
  *
  * @see ForEachStatement
  */
-fun forEachArray(variable: VariableDeclaration, iterableElement: CodePart, body: CodeSource): ForEachStatement =
+fun forEachArray(variable: VariableDeclaration, iterableElement: CodeInstruction, body: CodeSource): ForEachStatement =
         forEachStatement(variable, IterationType.ARRAY, iterableElement, body)
 
 // Switch & Case
