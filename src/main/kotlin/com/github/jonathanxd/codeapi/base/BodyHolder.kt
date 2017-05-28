@@ -47,7 +47,7 @@ interface BodyHolder : CodePart {
         /**
          * See [T.body]
          */
-        fun withBody(value: CodeSource): S //default: empty
+        fun body(value: CodeSource): S //default: empty
     }
 
     companion object {

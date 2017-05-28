@@ -46,19 +46,19 @@ public class ForEachArray_ {
     public static TypeDeclaration $() {
 
         return ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withSpecifiedName("com.ForEach")
-                .withFields(FieldDeclaration.Builder.builder()
-                        .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                        .withType(Types.STRING)
-                        .withName("stra")
-                        .withValue(Literals.STRING("XA"))
+                .modifiers(CodeModifier.PUBLIC)
+                .specifiedName("com.ForEach")
+                .fields(FieldDeclaration.Builder.builder()
+                        .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                        .type(Types.STRING)
+                        .name("stra")
+                        .value(Literals.STRING("XA"))
                         .build())
-                .withConstructors(
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC)
-                                .withParameters(Factories.parameter(Types.STRING.toArray(1), "strArray"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .modifiers(CodeModifier.PUBLIC)
+                                .parameters(Factories.parameter(Types.STRING.toArray(1), "strArray"))
+                                .body(CodeSource.fromVarArgs(
                                         VariableFactory.variable(Types.STRING, "v", Factories.accessStaticField(String.class, "stra")),
                                         Factories.forEachArray(VariableFactory.variable(Types.STRING, "str"),
                                                 Factories.accessVariable(Types.STRING.toArray(1), "strArray"),

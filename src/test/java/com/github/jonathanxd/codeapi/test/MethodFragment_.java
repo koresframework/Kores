@@ -41,8 +41,6 @@ import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.Generic;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -57,28 +55,28 @@ public class MethodFragment_ {
         ClassDeclaration classDeclaration =
 
                 ClassDeclaration.Builder.builder()
-                        .withSpecifiedName("com.MethodFragment")
-                        .withFields(FieldDeclaration.Builder.builder()
-                                .withType(Generic.type("T"))
-                                .withName("test")
+                        .specifiedName("com.MethodFragment")
+                        .fields(FieldDeclaration.Builder.builder()
+                                .type(Generic.type("T"))
+                                .name("test")
                                 .build())
-                        .withMethods(MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                                .withName("test")
-                                .withBody(source)
+                        .methods(MethodDeclaration.Builder.builder()
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .name("test")
+                                .body(source)
                                 .build())
                         .build();
 
         LocalCode build = LocalCode.Builder.builder()
-                .withDeclaringType(classDeclaration)
-                .withInvokeType(InvokeType.INVOKE_SPECIAL)
-                .withDeclaration(
+                .declaringType(classDeclaration)
+                .invokeType(InvokeType.INVOKE_SPECIAL)
+                .declaration(
                         MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
-                                .withReturnType(String.class)
-                                .withParameters(Factories.parameter(String.class, "input"))
-                                .withName("sameMod")
-                                .withBody(CodeSource.fromVarArgs(
+                                .modifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
+                                .returnType(String.class)
+                                .parameters(Factories.parameter(String.class, "input"))
+                                .name("sameMod")
+                                .body(CodeSource.fromVarArgs(
                                         Factories.returnValue(String.class,
                                                 ConcatHelper.builder("[")
                                                         .concat(Factories.accessVariable(String.class, "input"))

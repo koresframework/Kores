@@ -44,7 +44,6 @@ import com.github.jonathanxd.codeapi.util.Alias;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import kotlin.collections.CollectionsKt;
@@ -57,35 +56,35 @@ public class InnerClassTest_ {
         TypeRef innerClassRef = new TypeRef(classRef, "Inner");
 
         TypeDeclaration inner = ClassDeclaration.Builder.builder()
-                .withOuterClass(classRef)
-                .withSpecifiedName("Inner")
-                .withFields(
+                .outerClass(classRef)
+                .specifiedName("Inner")
+                .fields(
                         FieldDeclaration.Builder.builder()
-                                .withType(classRef)
-                                .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
-                                .withName("outer")
+                                .type(classRef)
+                                .modifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
+                                .name("outer")
                                 .build(),
                         FieldDeclaration.Builder.builder()
-                                .withType(classRef)
-                                .withName("a")
-                                .withValue(InvocationFactory.invokeConstructor(classRef, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello"))))
+                                .type(classRef)
+                                .name("a")
+                                .value(InvocationFactory.invokeConstructor(classRef, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello"))))
                                 .build()
                 )
-                .withConstructors(
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withParameters(Factories.parameter(classRef, "outer"))
-                                .withBody(CodeSource.fromPart(
+                                .parameters(Factories.parameter(classRef, "outer"))
+                                .body(CodeSource.fromPart(
                                         Factories.setFieldValue(Alias.THIS.INSTANCE, Factories.accessThis(), classRef, "outer",
                                                 Factories.accessVariable(classRef, "outer"))
                                 ))
                                 .build()
                 )
-                .withMethods(
+                .methods(
                         MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PRIVATE)
-                                .withReturnType(String.class)
-                                .withName("call")
-                                .withBody(CodeSource.fromVarArgs(
+                                .modifiers(CodeModifier.PRIVATE)
+                                .returnType(String.class)
+                                .name("call")
+                                .body(CodeSource.fromVarArgs(
                                         Predefined.invokePrintln(
                                                 Factories.accessField(classRef,
                                                         Factories.accessThisField(classRef, "outer"),
@@ -98,16 +97,16 @@ public class InnerClassTest_ {
 
         return ClassDeclaration.Builder.builder()
                 .base(classRef)
-                .withInnerTypes(inner)
-                .withFields(FieldDeclaration.Builder.builder()
-                        .withModifiers(CodeModifier.PRIVATE)
-                        .withType(String.class)
-                        .withName("field")
-                        .withValue(Literals.STRING("XSD"))
+                .innerTypes(inner)
+                .fields(FieldDeclaration.Builder.builder()
+                        .modifiers(CodeModifier.PRIVATE)
+                        .type(String.class)
+                        .name("field")
+                        .value(Literals.STRING("XSD"))
                         .build())
-                .withConstructors(
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withBody(CodeSource.fromVarArgs(
+                                .body(CodeSource.fromVarArgs(
                                         InvocationFactory.invokeVirtual(
                                                 inner,
                                                 InvocationFactory.invokeConstructor(inner,
@@ -120,16 +119,16 @@ public class InnerClassTest_ {
                                 ))
                                 .build(),
                         ConstructorDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PRIVATE)
-                                .withParameters(Factories.parameter(String.class, "str"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .modifiers(CodeModifier.PRIVATE)
+                                .parameters(Factories.parameter(String.class, "str"))
+                                .body(CodeSource.fromVarArgs(
                                         Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
                                 ))
                                 .build()
                 )
-                .withMethods(MethodDeclaration.Builder.builder()
-                        .withName("mm")
-                        .withBody(CodeSource.fromVarArgs(
+                .methods(MethodDeclaration.Builder.builder()
+                        .name("mm")
+                        .body(CodeSource.fromVarArgs(
                                 Predefined.invokePrintln(Literals.STRING("A"))
                         ))
                         .build())

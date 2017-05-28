@@ -47,6 +47,6 @@ interface GenericSignatureHolder : CodePart {
         /**
          * See [T.genericSignature]
          */
-        fun withGenericSignature(value: GenericSignature): S //default: empty
+        fun genericSignature(value: GenericSignature): S //default: empty
     }
 }

@@ -46,11 +46,11 @@ interface Annotable : CodePart {
         /**
          * See [T.annotations]
          */
-        fun withAnnotations(value: List<Annotation>): S
+        fun annotations(value: List<Annotation>): S
 
         /**
          * See [T.annotations]
          */
-        fun withAnnotations(vararg values: Annotation): S = withAnnotations(values.toList())
+        fun annotations(vararg values: Annotation): S = annotations(values.toList())
     }
 }

@@ -52,11 +52,11 @@ public class ForEach_ {
         Assert.assertEquals(Generic.type(Types.LIST).of(Types.STRING), Generic.type(Types.LIST).of(Types.STRING));
 
         return ClassDeclaration.Builder.builder()
-                .withSpecifiedName("com.ForEach")
-                .withConstructors(
+                .specifiedName("com.ForEach")
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withParameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type(Types.LIST).of(Types.STRING), "strList"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .parameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type(Types.LIST).of(Types.STRING), "strList"))
+                                .body(CodeSource.fromVarArgs(
                                         Factories.forEachIterable(VariableFactory.variable(Types.STRING, "str"),
                                                 Factories.accessVariable(
                                                         Generic.type(Types.LIST).of(Types.STRING),

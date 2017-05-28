@@ -65,17 +65,17 @@ data class WhileStatement(val type: Type,
         /**
          * See [WhileStatement.type]
          */
-        fun withType(value: Type): Builder {
+        fun type(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }
 
-        override fun withExpressions(value: List<CodeInstruction>): Builder {
+        override fun expressions(value: List<CodeInstruction>): Builder {
             this.expressions = value
             return this
         }

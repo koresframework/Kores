@@ -44,11 +44,11 @@ public class ConcatTest_ {
 
 
         return ClassDeclaration.Builder.builder()
-                .withSpecifiedName("com.ConcatTest")
-                .withConstructors(
+                .specifiedName("com.ConcatTest")
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withParameters(Factories.parameter(String.class, "av"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .parameters(Factories.parameter(String.class, "av"))
+                                .body(CodeSource.fromVarArgs(
                                         Predefined.invokePrintlnStr(ConcatHelper.builder("Hello")
                                                 .concat(" ")
                                                 .concat(Factories.accessVariable(String.class, "av"))

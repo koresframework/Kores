@@ -53,11 +53,11 @@ interface Accessor : CodeInstruction {
         /**
          * See [T.target]
          */
-        fun withTarget(value: CodeInstruction): S
+        fun target(value: CodeInstruction): S
 
         /**
          * See [T.localization]
          */
-        fun withLocalization(value: Type): S
+        fun localization(value: Type): S
     }
 }

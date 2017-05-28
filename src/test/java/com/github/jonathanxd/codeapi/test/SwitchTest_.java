@@ -48,19 +48,19 @@ public class SwitchTest_ {
     public static TypeDeclaration $() {
 
         ClassDeclaration classDeclaration = ClassDeclaration.Builder.builder()
-                .withQualifiedName("com.SwitchTestClass")
-                .withModifiers(CodeModifier.PUBLIC)
-                .withConstructors(
+                .qualifiedName("com.SwitchTestClass")
+                .modifiers(CodeModifier.PUBLIC)
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC)
-                                .withParameters(
+                                .modifiers(CodeModifier.PUBLIC)
+                                .parameters(
                                         Factories.parameter(int.class, "number"),
                                         Factories.parameter(int.class, "number2"),
                                         Factories.parameter(TestEnum.class, "testEnum"),
                                         Factories.parameter(String.class, "str"),
                                         Factories.parameter(Object.class, "o")
                                 )
-                                .withBody(
+                                .body(
                                         CodeSource.fromVarArgs(
                                                 Factories.switchInt(Factories.accessVariable(int.class, "number"), Arrays.asList(
                                                         Factories.caseStatement(Literals.INT(1), CodeSource.fromVarArgs(print("1"), Factories.breakFlow())),

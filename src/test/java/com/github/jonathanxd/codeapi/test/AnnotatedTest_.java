@@ -40,9 +40,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.Modifiers;
-import com.github.jonathanxd.iutils.annotation.Named;
 import com.github.jonathanxd.iutils.map.MapUtils;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -67,35 +65,35 @@ public class AnnotatedTest_ {
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
 
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(Modifiers.fromJavaModifiers(Modifier.PUBLIC))
-                .withGenericSignature(GenericSignature.empty())
-                .withAnnotations(listOf(
+                .modifiers(Modifiers.fromJavaModifiers(Modifier.PUBLIC))
+                .genericSignature(GenericSignature.empty())
+                .annotations(listOf(
                         Factories.visibleAnnotation(Simple.class,
                                 MapUtils.mapOf("value", new Object[]{
                                         Factories.enumValue(MyEnum.class, "A"), Factories.enumValue(MyEnum.class, "B"), Factories.enumValue(MyEnum.class, "C")
                                 })
                         ))
                 )
-                .withQualifiedName("test.AnnotatedTestClass")
-                .withFields(FieldDeclaration.Builder.Companion.builder()
-                        .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                        .withAnnotations(listOf(Factories.visibleAnnotation(Simple.class,
+                .qualifiedName("test.AnnotatedTestClass")
+                .fields(FieldDeclaration.Builder.Companion.builder()
+                        .modifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
+                        .annotations(listOf(Factories.visibleAnnotation(Simple.class,
                                 MapUtils.mapOf("value", new Object[]{
                                         Factories.enumValue(MyEnum.class, "A")
                                 }))))
-                        .withType(Types.STRING)
-                        .withName("field")
-                        .withValue(Literals.NULL)
+                        .type(Types.STRING)
+                        .name("field")
+                        .value(Literals.NULL)
                         .build())
-                .withMethods(
+                .methods(
                         MethodDeclaration.Builder.builder()
-                                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                                .withAnnotations(listOf(Factories.visibleAnnotation(plainCodeType)))
-                                .withGenericSignature(GenericSignature.empty())
-                                .withName("polymorphic")
-                                .withReturnType(Types.OBJECT)
-                                .withParameters(listOf(new CodeParameter(listOf(Factories.deprecatedAnnotation()), Collections.emptySet(), Types.OBJECT, "first")))
-                                .withBody(CodeSource.fromVarArgs(Factories.returnValue(Types.OBJECT, Literals.NULL)))
+                                .modifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
+                                .annotations(listOf(Factories.visibleAnnotation(plainCodeType)))
+                                .genericSignature(GenericSignature.empty())
+                                .name("polymorphic")
+                                .returnType(Types.OBJECT)
+                                .parameters(listOf(new CodeParameter(listOf(Factories.deprecatedAnnotation()), Collections.emptySet(), Types.OBJECT, "first")))
+                                .body(CodeSource.fromVarArgs(Factories.returnValue(Types.OBJECT, Literals.NULL)))
                                 .build()
 
                 )

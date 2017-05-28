@@ -42,6 +42,6 @@ interface Named : CodePart {
     override fun builder(): Builder<Named, *>
 
     interface Builder<out T : Named, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-        fun withName(value: String): S
+        fun name(value: String): S
     }
 }

@@ -60,7 +60,7 @@ data class IfExpr(val expr1: CodeInstruction,
         /**
          * See [IfExpr.expr1]
          */
-        fun withExpr1(value: CodeInstruction): Builder {
+        fun expr1(value: CodeInstruction): Builder {
             this.expr1 = value
             return this
         }
@@ -68,7 +68,7 @@ data class IfExpr(val expr1: CodeInstruction,
         /**
          * See [IfExpr.operation]
          */
-        fun withOperation(value: Operator.Conditional): Builder {
+        fun operation(value: Operator.Conditional): Builder {
             this.operation = value
             return this
         }
@@ -76,7 +76,7 @@ data class IfExpr(val expr1: CodeInstruction,
         /**
          * See [IfExpr.expr2]
          */
-        fun withExpr2(value: CodeInstruction): Builder {
+        fun expr2(value: CodeInstruction): Builder {
             this.expr2 = value
             return this
         }

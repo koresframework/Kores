@@ -47,7 +47,7 @@ interface ValueHolder : CodePart {
         /**
          * See [T.value]
          */
-        fun withValue(value: CodeInstruction): S
+        fun value(value: CodeInstruction): S
 
     }
 }

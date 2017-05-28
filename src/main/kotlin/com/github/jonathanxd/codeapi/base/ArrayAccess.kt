@@ -52,12 +52,12 @@ interface ArrayAccess : CodePart {
         /**
          * See [T.target]
          */
-        fun withTarget(value: CodeInstruction): S
+        fun target(value: CodeInstruction): S
 
         /**
          * See [T.arrayType]
          */
-        fun withArrayType(value: Type): S
+        fun arrayType(value: Type): S
 
     }
 

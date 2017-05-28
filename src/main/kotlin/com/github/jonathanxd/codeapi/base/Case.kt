@@ -75,22 +75,22 @@ data class Case(override val value: CodeInstruction, override val body: CodeSour
             this.body = defaults.body
         }
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         /**
          * Sets the case statement as `default` case (same as `withValue(Void)`).
          */
-        fun setDefault(): Builder {
+        fun defaultCase(): Builder {
             this.value = CodeNothing
             return this
         }
 
-        override fun withValue(value: CodeInstruction): Builder {
+        override fun value(value: CodeInstruction): Builder {
             this.value = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

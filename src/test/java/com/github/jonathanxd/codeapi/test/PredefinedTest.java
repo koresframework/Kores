@@ -57,23 +57,23 @@ public final class PredefinedTest {
     public static PredefinedTest create(String name) {
 
         ConstructorDeclaration.Builder constructorDeclaration = ConstructorDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withBody(MutableCodeSource.create());
+                .modifiers(CodeModifier.PUBLIC)
+                .body(MutableCodeSource.create());
 
         StaticBlock.Builder staticBlock = StaticBlock.Builder.builder()
-                .withBody(MutableCodeSource.create());
+                .body(MutableCodeSource.create());
 
         ClassDeclaration.Builder classDeclaration = ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName(name);
+                .modifiers(CodeModifier.PUBLIC)
+                .qualifiedName(name);
 
         return new PredefinedTest(classDeclaration, constructorDeclaration, staticBlock);
     }
 
     public ClassDeclaration build() {
         return this.classDeclaration
-                .withStaticBlock(this.staticBlock.build())
-                .withConstructors(this.constructor.build())
+                .staticBlock(this.staticBlock.build())
+                .constructors(this.constructor.build())
                 .build();
     }
 

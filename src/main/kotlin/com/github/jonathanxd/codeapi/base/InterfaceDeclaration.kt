@@ -96,57 +96,57 @@ data class InterfaceDeclaration(override val outerClass: Type?,
             this.implementations = defaults.implementations
         }
 
-        override fun withComments(value: Comments): Builder {
+        override fun comments(value: Comments): Builder {
             this.comments = value
             return this
         }
 
-        override fun withAnnotations(value: List<Annotation>): Builder {
+        override fun annotations(value: List<Annotation>): Builder {
             this.annotations = value
             return this
         }
 
 
-        override fun withStaticBlock(value: StaticBlock): Builder = self()
+        override fun staticBlock(value: StaticBlock): Builder = self()
 
-        override fun withFields(value: List<FieldDeclaration>): Builder {
+        override fun fields(value: List<FieldDeclaration>): Builder {
             this.fields = value
             return this
         }
 
-        override fun withConstructors(value: List<ConstructorDeclaration>): Builder = self()
+        override fun constructors(value: List<ConstructorDeclaration>): Builder = self()
 
-        override fun withMethods(value: List<MethodDeclaration>): Builder {
+        override fun methods(value: List<MethodDeclaration>): Builder {
             this.methods = value
             return this
         }
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }
 
-        override fun withModifiers(value: Set<CodeModifier>): Builder {
+        override fun modifiers(value: Set<CodeModifier>): Builder {
             this.modifiers = value
             return this
         }
 
-        override fun withGenericSignature(value: GenericSignature): Builder {
+        override fun genericSignature(value: GenericSignature): Builder {
             this.genericSignature = value
             return this
         }
 
-        override fun withSpecifiedName(value: String): Builder {
+        override fun specifiedName(value: String): Builder {
             this.specifiedName = value
             return this
         }
 
-        override fun withOuterClass(value: Type?): Builder {
+        override fun outerClass(value: Type?): Builder {
             this.outerClass = value
             return this
         }
 
-        override fun withImplementations(value: List<Type>): Builder {
+        override fun implementations(value: List<Type>): Builder {
             this.implementations = value
             return this
         }

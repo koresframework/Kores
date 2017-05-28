@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.common.CodeNothing
 
@@ -70,14 +69,14 @@ data class ForStatement(val forInit: CodeInstruction,
             this.forUpdate = defaults.forUpdate
         }
 
-        override fun withExpressions(value: List<CodeInstruction>): Builder = this.withForExpression(value)
+        override fun expressions(value: List<CodeInstruction>): Builder = this.forExpression(value)
 
-        override fun withExpressions(vararg values: CodeInstruction): Builder = this.withForExpression(values.toList())
+        override fun expressions(vararg values: CodeInstruction): Builder = this.forExpression(values.toList())
 
         /**
          * See [ForStatement.forInit]
          */
-        fun withForInit(value: CodeInstruction): Builder {
+        fun forInit(value: CodeInstruction): Builder {
             this.forInit = value
             return this
         }
@@ -85,7 +84,7 @@ data class ForStatement(val forInit: CodeInstruction,
         /**
          * See [ForStatement.forExpression]
          */
-        fun withForExpression(value: List<CodeInstruction>): Builder {
+        fun forExpression(value: List<CodeInstruction>): Builder {
             this.forExpression = value
             return this
         }
@@ -93,17 +92,17 @@ data class ForStatement(val forInit: CodeInstruction,
         /**
          * See [ForStatement.forExpression]
          */
-        fun withForExpression(vararg values: CodeInstruction): Builder = withForExpression(values.toList())
+        fun forExpression(vararg values: CodeInstruction): Builder = forExpression(values.toList())
 
         /**
          * See [ForStatement.forUpdate]
          */
-        fun withForUpdate(value: CodeInstruction): Builder {
+        fun forUpdate(value: CodeInstruction): Builder {
             this.forUpdate = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

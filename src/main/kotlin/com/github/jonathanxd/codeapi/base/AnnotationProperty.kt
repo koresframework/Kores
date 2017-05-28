@@ -59,46 +59,47 @@ data class AnnotationProperty(override val comments: Comments,
         var annotations: List<Annotation> = emptyList()
         lateinit var name: String
         lateinit var type: Type
-        var value: Any? = null
+        var defaultValue: Any? = null
 
         constructor(defaults: AnnotationProperty) : this() {
             this.annotations = defaults.annotations
             this.name = defaults.name
             this.type = defaults.type
-            this.value = defaults.defaultValue
+            this.defaultValue = defaults.defaultValue
         }
 
-        override fun withComments(value: Comments): Builder {
+        override fun comments(value: Comments): Builder {
             this.comments = value
             return this
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withAnnotations(value: List<Annotation>): Builder {
+        override fun annotations(value: List<Annotation>): Builder {
             this.annotations = value
             return this
         }
 
-        override fun withReturnType(value: Type): Builder = this.withType(value)
+        override fun returnType(value: Type): Builder = this.type(value)
 
         /**
          * See [AnnotationProperty.defaultValue]
          */
-        fun withValue(value: Any?): Builder {
-            this.value = value
+        fun defaultValue(value: Any?): Builder {
+            this.defaultValue = value
             return this
         }
 
-        override fun build(): AnnotationProperty = AnnotationProperty(this.comments, this.annotations, this.type, this.name, this.value)
+        override fun build(): AnnotationProperty = AnnotationProperty(this.comments, this.annotations,
+                this.type, this.name, this.defaultValue)
 
 
         companion object {

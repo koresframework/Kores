@@ -50,7 +50,7 @@ object Void : CodeInstruction, Typed {
 
     object Builder : Typed.Builder<Void, Builder> {
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         override fun build(): Void = Void
     }

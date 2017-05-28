@@ -66,12 +66,12 @@ data class CatchStatement(val exceptionTypes: List<Type>,
         }
 
         @Suppress("UNCHECKED_CAST")
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         /**
          * See [CatchStatement.exceptionTypes]
          */
-        fun withExceptionTypes(value: List<Type>): Builder {
+        fun exceptionTypes(value: List<Type>): Builder {
             this.exceptionTypes = value
             return this
         }
@@ -79,17 +79,17 @@ data class CatchStatement(val exceptionTypes: List<Type>,
         /**
          * See [CatchStatement.variable]
          */
-        fun withExceptionTypes(vararg values: Type): Builder = this.withExceptionTypes(values.toList())
+        fun exceptionTypes(vararg values: Type): Builder = this.exceptionTypes(values.toList())
 
         /**
          * See [CatchStatement.variable]
          */
-        fun withVariable(value: VariableDeclaration): Builder {
+        fun variable(value: VariableDeclaration): Builder {
             this.variable = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

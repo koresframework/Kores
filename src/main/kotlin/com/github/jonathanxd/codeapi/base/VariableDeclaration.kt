@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import java.lang.reflect.Type
 
@@ -60,22 +59,22 @@ data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
             this.modifiers = defaults.modifiers
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withVariableType(value: Type): Builder {
+        override fun variableType(value: Type): Builder {
             this.variableType = value
             return this
         }
 
-        override fun withValue(value: CodeInstruction): Builder {
+        override fun value(value: CodeInstruction): Builder {
             this.value = value
             return this
         }
 
-        override fun withModifiers(value: Set<CodeModifier>): Builder {
+        override fun modifiers(value: Set<CodeModifier>): Builder {
             this.modifiers = value
             return this
         }
@@ -83,7 +82,7 @@ data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
         /**
          * Removes value definition.
          */
-        fun withoutValue(): Builder = this.withValue(CodeNothing)
+        fun withoutValue(): Builder = this.value(CodeNothing)
 
         override fun build(): VariableDeclaration = VariableDeclaration(this.modifiers, this.variableType, this.name, this.value)
 

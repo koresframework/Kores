@@ -54,13 +54,13 @@ public class InstanceOf_ {
         VariableAccess paramAccess = Factories.accessVariable(Object.class, "param");
 
         return ClassDeclaration.Builder.builder()
-                .withName("test.InstanceOf")
-                .withMethods(
+                .name("test.InstanceOf")
+                .methods(
                         MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                                .withName("test")
-                                .withParameters(Factories.parameter(Object.class, "param"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .name("test")
+                                .parameters(Factories.parameter(Object.class, "param"))
+                                .body(CodeSource.fromVarArgs(
                                         Factories.ifStatement(Factories.ifExprs(Factories.checkTrue(Factories.isInstanceOf(paramAccess, String.class))),
                                                 CodeSource.fromVarArgs(
                                                         Predefined.invokePrintln(STRING("Object is String!"))

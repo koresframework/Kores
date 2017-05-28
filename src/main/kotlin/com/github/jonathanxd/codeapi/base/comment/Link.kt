@@ -96,7 +96,7 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
         /**
          * See [Link.name]
          */
-        fun withName(value: String?): Builder {
+        fun name(value: String?): Builder {
             this.name = value
             return this
         }
@@ -104,7 +104,7 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
         /**
          * See [Link.target]
          */
-        fun withTarget(value: LinkTarget): Builder {
+        fun target(value: LinkTarget): Builder {
             this.target = value
             return this
         }

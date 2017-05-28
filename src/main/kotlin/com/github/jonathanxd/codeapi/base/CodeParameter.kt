@@ -53,27 +53,27 @@ data class CodeParameter(override val annotations: List<Annotation>, override va
             this.type = defaults.type
         }
 
-        override fun withModifiers(value: Set<CodeModifier>): Builder {
+        override fun modifiers(value: Set<CodeModifier>): Builder {
             this.modifiers = modifiers
             return this
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withAnnotations(value: List<Annotation>): Builder {
+        override fun annotations(value: List<Annotation>): Builder {
             this.annotations = value
             return this
         }
 
-        override fun withAnnotations(vararg values: Annotation): Builder {
+        override fun annotations(vararg values: Annotation): Builder {
             this.annotations = values.toList()
             return this
         }

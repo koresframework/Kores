@@ -54,52 +54,52 @@ interface ElementsHolder : InnerTypesHolder {
         /**
          * See [TypeDeclaration.staticBlock]
          */
-        fun withStaticBlock(value: StaticBlock): S
+        fun staticBlock(value: StaticBlock): S
 
         /**
          * See [TypeDeclaration.fields]
          */
-        fun withFields(value: List<FieldDeclaration>): S
+        fun fields(value: List<FieldDeclaration>): S
 
         /**
          * See [TypeDeclaration.fields]
          */
-        fun withFields(vararg values: FieldDeclaration): S = this.withFields(values.toList())
+        fun fields(vararg values: FieldDeclaration): S = this.fields(values.toList())
 
         /**
          * See [TypeDeclaration.fields]
          */
-        fun withFields(value: FieldDeclaration): S = this.withFields(listOf(value))
+        fun fields(value: FieldDeclaration): S = this.fields(listOf(value))
 
         /**
          * See [TypeDeclaration.constructors]
          */
-        fun withConstructors(value: List<ConstructorDeclaration>): S
+        fun constructors(value: List<ConstructorDeclaration>): S
 
         /**
          * See [TypeDeclaration.constructors]
          */
-        fun withConstructors(vararg values: ConstructorDeclaration): S = this.withConstructors(values.toList())
+        fun constructors(vararg values: ConstructorDeclaration): S = this.constructors(values.toList())
 
         /**
          * See [TypeDeclaration.constructors]
          */
-        fun withConstructors(value: ConstructorDeclaration): S = this.withConstructors(listOf(value))
+        fun constructors(value: ConstructorDeclaration): S = this.constructors(listOf(value))
 
         /**
          * See [TypeDeclaration.methods]
          */
-        fun withMethods(value: List<MethodDeclaration>): S
+        fun methods(value: List<MethodDeclaration>): S
 
         /**
          * See [TypeDeclaration.methods]
          */
-        fun withMethods(vararg values: MethodDeclaration): S = this.withMethods(values.toList())
+        fun methods(vararg values: MethodDeclaration): S = this.methods(values.toList())
 
         /**
          * See [TypeDeclaration.methods]
          */
-        fun withMethods(value: MethodDeclaration): S = this.withMethods(listOf(value))
+        fun methods(value: MethodDeclaration): S = this.methods(listOf(value))
 
     }
 

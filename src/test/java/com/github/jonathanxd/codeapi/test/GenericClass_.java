@@ -40,8 +40,6 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -54,25 +52,25 @@ public class GenericClass_ {
     public static TypeDeclaration $() {
 
         return ClassDeclaration.Builder.builder()
-                .withSpecifiedName("com.Generic")
-                .withGenericSignature(GenericSignature.create(Generic.type("T").extends$(
+                .specifiedName("com.Generic")
+                .genericSignature(GenericSignature.create(Generic.type("T").extends$(
                         Generic.type(CodeTypes.getCodeType(List.class)).of("T")
                 )))
-                .withImplementations(Generic.type(CodeTypes.getCodeType(List.class)).of("T"))
-                .withFields(FieldDeclaration.Builder.builder()
-                        .withType(Generic.type("T"))
-                        .withName("test")
+                .implementations(Generic.type(CodeTypes.getCodeType(List.class)).of("T"))
+                .fields(FieldDeclaration.Builder.builder()
+                        .type(Generic.type("T"))
+                        .name("test")
                         .build())
 
-                .withMethods(
+                .methods(
                         MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                                .withGenericSignature(GenericSignature.create(Generic.type("T").extends$(
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .genericSignature(GenericSignature.create(Generic.type("T").extends$(
                                         Generic.type(Types.LIST).of("T")
                                 )))
-                                .withName("test")
-                                .withParameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type("T"), "val"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .name("test")
+                                .parameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type("T"), "val"))
+                                .body(CodeSource.fromVarArgs(
                                         VariableFactory.variable(Generic.type("T"), "fieldi", Literals.NULL)
                                 ))
                                 .build()

@@ -46,11 +46,11 @@ interface InnerTypesHolder : CodePart {
         /**
          * See [T.innerTypes]
          */
-        fun withInnerTypes(value: List<TypeDeclaration>): S
+        fun innerTypes(value: List<TypeDeclaration>): S
 
         /**
          * See [T.innerTypes]
          */
-        fun withInnerTypes(vararg values: TypeDeclaration): S = withInnerTypes(values.toList())
+        fun innerTypes(vararg values: TypeDeclaration): S = innerTypes(values.toList())
     }
 }

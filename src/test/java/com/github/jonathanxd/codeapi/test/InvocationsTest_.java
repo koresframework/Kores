@@ -145,27 +145,27 @@ public class InvocationsTest_ {
                 Collections.singletonList(Literals.STRING("Oi")));
 
         ClassDeclaration codeClass = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
+                .modifiers(CodeModifier.PUBLIC)
                 .base(typeRef)
-                .withSuperClass(Types.OBJECT)
-                .withFields(FieldDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
-                                .withType(Types.STRING)
-                                .withName("FIELD")
-                                .withValue(Literals.STRING("AVD"))
+                .superClass(Types.OBJECT)
+                .fields(FieldDeclaration.Builder.builder()
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .type(Types.STRING)
+                                .name("FIELD")
+                                .value(Literals.STRING("AVD"))
                                 .build(),
                         FieldDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
-                                .withType(Types.INT)
-                                .withName("n")
-                                .withValue(Literals.INT(15))
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .type(Types.INT)
+                                .name("n")
+                                .value(Literals.INT(15))
                                 .build()
                 )
-                .withConstructors(ConstructorDeclaration.Builder.Companion.builder()
-                        .withModifiers(CodeModifier.PUBLIC)
-                        .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
+                .constructors(ConstructorDeclaration.Builder.Companion.builder()
+                        .modifiers(CodeModifier.PUBLIC)
+                        .body(CodeSource.fromVarArgs(invokeTest, invokeTest2))
                         .build())
-                .withMethods(TestFeatures_.createPrintItMethod(), makeCM2(typeRef))
+                .methods(TestFeatures_.createPrintItMethod(), makeCM2(typeRef))
                 .build();
 
         return codeClass;
@@ -175,11 +175,11 @@ public class InvocationsTest_ {
         MutableCodeSource methodSource = MutableCodeSource.create();
 
         MethodDeclaration codeMethod = MethodDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withName("check")
-                .withReturnType(Types.BOOLEAN)
-                .withParameters(Factories.parameter(Types.INT, "x"))
-                .withBody(methodSource)
+                .modifiers(CodeModifier.PUBLIC)
+                .name("check")
+                .returnType(Types.BOOLEAN)
+                .parameters(Factories.parameter(Types.INT, "x"))
+                .body(methodSource)
                 .build();
 
         // Invoke BMP
@@ -222,10 +222,10 @@ public class InvocationsTest_ {
         InvokeDynamic.LambdaLocalCode dynamicSupplierGet = DynamicInvocationFactory.invokeDynamicLambdaCode(
                 new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
                 new LocalCode(typeDeclaration, MethodDeclaration.Builder.builder()
-                        .withModifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
-                        .withName("$$lambda$0")
-                        .withReturnType(Types.STRING)
-                        .withBody(CodeSource.fromVarArgs(
+                        .modifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
+                        .name("$$lambda$0")
+                        .returnType(Types.STRING)
+                        .body(CodeSource.fromVarArgs(
                                 Factories.returnValue(Types.STRING, Literals.STRING("BRB"))
                         ))
                         .build(), emptyList()),

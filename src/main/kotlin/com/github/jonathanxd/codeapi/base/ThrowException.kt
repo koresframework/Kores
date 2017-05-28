@@ -44,7 +44,7 @@ data class ThrowException(override val value: CodeInstruction) : CodeInstruction
             this.value = defaults.value
         }
 
-        override fun withValue(value: CodeInstruction): Builder {
+        override fun value(value: CodeInstruction): Builder {
             this.value = value
             return this
         }

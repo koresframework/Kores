@@ -192,9 +192,9 @@ fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodeInstruct
  */
 fun Field.toAccess(target: CodeInstruction?): FieldAccess =
         FieldAccess.Builder.builder()
-                .withLocalization(this.declaringClass.codeType)
-                .withTarget(target ?: accessStatic())
-                .withName(this.name)
+                .localization(this.declaringClass.codeType)
+                .target(target ?: accessStatic())
+                .name(this.name)
                 .build()
 
 /**
@@ -204,10 +204,10 @@ fun Field.toAccess(target: CodeInstruction?): FieldAccess =
  */
 fun VariableElement.toAccess(target: CodeInstruction?, elements: Elements): FieldAccess =
         FieldAccess.Builder.builder()
-                .withLocalization((this.enclosingElement as TypeElement).getCodeType(elements))
-                .withTarget(target ?: accessStatic())
-                .withType(this.asType().getCodeType(elements))
-                .withName(this.simpleName.toString())
+                .localization((this.enclosingElement as TypeElement).getCodeType(elements))
+                .target(target ?: accessStatic())
+                .type(this.asType().getCodeType(elements))
+                .name(this.simpleName.toString())
                 .build()
 
 
@@ -217,10 +217,10 @@ fun VariableElement.toAccess(target: CodeInstruction?, elements: Elements): Fiel
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> Class<T>.toClassDeclaration(): ClassDeclaration =
         ClassDeclaration.Builder.builder()
-                .withModifiers(fromJavaModifiers(this.modifiers))
-                .withQualifiedName(this.canonicalName)
-                .withSuperClass(this.superclass)
-                .withImplementations(this.interfaces.toList())
+                .modifiers(fromJavaModifiers(this.modifiers))
+                .qualifiedName(this.canonicalName)
+                .superClass(this.superclass)
+                .implementations(this.interfaces.toList())
                 .build()
 
 /**
@@ -228,9 +228,9 @@ fun <T : Any> Class<T>.toClassDeclaration(): ClassDeclaration =
  */
 fun <T : Any> Class<T>.toInterfaceDeclaration(): InterfaceDeclaration =
         InterfaceDeclaration.Builder.builder()
-                .withModifiers(fromJavaModifiers(this.modifiers))
-                .withQualifiedName(this.canonicalName)
-                .withImplementations(this.interfaces.toList())
+                .modifiers(fromJavaModifiers(this.modifiers))
+                .qualifiedName(this.canonicalName)
+                .implementations(this.interfaces.toList())
                 .build()
 
 
@@ -239,9 +239,9 @@ fun <T : Any> Class<T>.toInterfaceDeclaration(): InterfaceDeclaration =
  */
 fun <T : Any> Class<T>.toAnnotationDeclaration(): AnnotationDeclaration =
         AnnotationDeclaration.Builder.builder()
-                .withModifiers(fromJavaModifiers(this.modifiers))
-                .withQualifiedName(this.canonicalName)
-                .withProperties(this.declaredMethods.map {
+                .modifiers(fromJavaModifiers(this.modifiers))
+                .qualifiedName(this.canonicalName)
+                .properties(this.declaredMethods.map {
                     AnnotationProperty(Comments.Absent, emptyList(), it.returnType.codeType, it.name, it.defaultValue)
                 })
                 .build()
@@ -258,19 +258,19 @@ fun <T : Any> Class<T>.toEnumDeclaration(nameProvider: (method: Method, index: I
     val enumEntries = this.declaredFields
             .filter { it.isEnumConstant }
             .map {
-                EnumEntry.Builder.builder().withName(it.name).let {
+                EnumEntry.Builder.builder().name(it.name).let {
                     if (abstractMethods.isNotEmpty())
-                        it.withMethods(abstractMethods.map { it.toMethodDeclaration { index, parameter -> nameProvider(it, index, parameter) } })
+                        it.methods(abstractMethods.map { it.toMethodDeclaration { index, parameter -> nameProvider(it, index, parameter) } })
                     else it
                 }.build()
 
             }
 
     return EnumDeclaration.Builder.builder()
-            .withModifiers(fromJavaModifiers(this.modifiers))
-            .withQualifiedName(this.canonicalName)
-            .withImplementations(this.interfaces.map { it.codeType })
-            .withEntries(enumEntries)
+            .modifiers(fromJavaModifiers(this.modifiers))
+            .qualifiedName(this.canonicalName)
+            .implementations(this.interfaces.map { it.codeType })
+            .entries(enumEntries)
             .build()
 }
 
@@ -325,7 +325,7 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
                     includeSubClasses = includeSubClasses
             )
 
-            list += extracted.first().builder().withOuterClass(declaration).build()
+            list += extracted.first().builder().outerClass(declaration).build()
 
             if (extracted.size > 1)
                 list += extracted.subList(1, extracted.size)
@@ -333,11 +333,11 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
     }
 
     if (includeFields) {
-        declarationBuilder.withFields(this.fields.map { it.toFieldDeclaration() })
+        declarationBuilder.fields(this.fields.map { it.toFieldDeclaration() })
     }
 
     if (includeMethods) {
-        declarationBuilder.withMethods(this.declaredMethods.filter { isValidImpl(it) }.map { it.toMethodDeclaration() })
+        declarationBuilder.methods(this.declaredMethods.filter { isValidImpl(it) }.map { it.toMethodDeclaration() })
     }
 
     list.add(0, declarationBuilder.build())
@@ -360,17 +360,17 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
     val builder = this.builder()
     val type = klass.codeType
 
-    builder.withMethods(klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
+    builder.methods(klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
             .map { it.toMethodDeclaration(type) })
 
     var declaration = this.builder().build()
 
     if (klass.isInterface) {
         val implementer = declaration as ImplementationHolder
-        declaration = implementer.builder().withImplementations(implementer.implementations + type).build() as TypeDeclaration
+        declaration = implementer.builder().implementations(implementer.implementations + type).build() as TypeDeclaration
     } else {
         val extender = declaration as SuperClassHolder
-        declaration = extender.builder().withSuperClass(type).build() as TypeDeclaration
+        declaration = extender.builder().superClass(type).build() as TypeDeclaration
     }
 
     return declaration as T
@@ -385,9 +385,9 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
  */
 fun Field.toFieldDeclaration(): FieldDeclaration =
         FieldDeclaration.Builder.builder()
-                .withModifiers(fromJavaModifiers(this.modifiers))
-                .withType(this.type.codeType)
-                .withName(this.name)
+                .modifiers(fromJavaModifiers(this.modifiers))
+                .type(this.type.codeType)
+                .name(this.name)
                 .build()
 
 /**
@@ -423,15 +423,15 @@ fun Field.createStaticAccess(): FieldAccess =
 @JvmOverloads
 fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): MethodDeclaration =
         MethodDeclaration.Builder.builder()
-                .withModifiers(fixModifiers(this.modifiers))
-                .withName(this.name)
-                .withReturnType(this.returnType.codeType)
-                .withParameters(this.parameters.let {
+                .modifiers(fixModifiers(this.modifiers))
+                .name(this.name)
+                .returnType(this.returnType.codeType)
+                .parameters(this.parameters.let {
                     it.mapIndexed { i, it ->
                         parameter(type = it.type, name = nameProvider(i, it))
                     }
                 })
-                .withBody(MutableCodeSource.create())
+                .body(MutableCodeSource.create())
                 .build()
 
 /**
@@ -443,7 +443,7 @@ fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) 
  */
 @JvmOverloads
 fun Method.toMethodDeclaration(superClass: Type, nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): MethodDeclaration =
-        this.toMethodDeclaration(nameProvider).builder().withBody(
+        this.toMethodDeclaration(nameProvider).builder().body(
                 MutableCodeSource.create(
                         listOf(returnValue(this.returnType,
                                 com.github.jonathanxd.codeapi.factory.invoke(
@@ -469,13 +469,13 @@ fun Method.toMethodDeclaration(superClass: Type, nameProvider: (index: Int, para
 @JvmOverloads
 fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
         ConstructorDeclaration.Builder.builder()
-                .withModifiers(fixModifiers(this.modifiers))
-                .withParameters(this.parameters.let {
+                .modifiers(fixModifiers(this.modifiers))
+                .parameters(this.parameters.let {
                     it.mapIndexed { i, it ->
                         parameter(type = it.type, name = nameProvider(i, it))
                     }
                 })
-                .withBody(MutableCodeSource.create())
+                .body(MutableCodeSource.create())
                 .build()
 
 /**
@@ -487,7 +487,7 @@ fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int,
  */
 @JvmOverloads
 fun <T : Any> Constructor<T>.toConstructorDeclaration(arguments: List<CodeInstruction>, nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
-        this.toConstructorDeclaration(nameProvider).builder().withBody(
+        this.toConstructorDeclaration(nameProvider).builder().body(
                 MutableCodeSource.create(
                         listOf(
                                 invokeSuperConstructor(

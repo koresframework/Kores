@@ -66,14 +66,14 @@ data class ArrayLoad(override val arrayType: Type,
             this.valueType = defaults.valueType
         }
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
-        override fun withArrayType(value: Type): Builder {
+        override fun arrayType(value: Type): Builder {
             this.arrayType = value
             return this
         }
 
-        override fun withTarget(value: CodeInstruction): Builder {
+        override fun target(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -81,7 +81,7 @@ data class ArrayLoad(override val arrayType: Type,
         /**
          * See [ArrayLoad.index]
          */
-        fun withIndex(value: CodeInstruction): Builder {
+        fun index(value: CodeInstruction): Builder {
             this.index = value
             return this
         }
@@ -89,7 +89,7 @@ data class ArrayLoad(override val arrayType: Type,
         /**
          * See [ArrayLoad.valueType]
          */
-        fun withValueType(value: Type): Builder {
+        fun valueType(value: Type): Builder {
             this.valueType = value
             return this
         }

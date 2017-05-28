@@ -51,7 +51,7 @@ object Nothing : CodeInstruction, Typed {
 
     object Builder : Typed.Builder<Nothing, Builder> {
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         override fun build(): Nothing = Nothing
     }

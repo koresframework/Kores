@@ -58,7 +58,7 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             this.methodTypeSpec = defaults.methodTypeSpec
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.methodTypeSpec = methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
             return this
         }

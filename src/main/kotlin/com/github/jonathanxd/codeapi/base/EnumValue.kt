@@ -64,13 +64,13 @@ data class EnumValue(val enumType: Type,
             this.ordinal = defaults.ordinal
         }
 
-        override fun withName(value: String): Builder = this.withEnumEntry(value)
-        override fun withType(value: Type): Builder = this.withEnumType(value)
+        override fun name(value: String): Builder = this.enumEntry(value)
+        override fun type(value: Type): Builder = this.enumType(value)
 
         /**
          * See [EnumValue.enumType]
          */
-        fun withEnumType(value: Type): Builder {
+        fun enumType(value: Type): Builder {
             this.enumType = value
             return this
         }
@@ -78,7 +78,7 @@ data class EnumValue(val enumType: Type,
         /**
          * See [EnumValue.enumEntry]
          */
-        fun withEnumEntry(value: String): Builder {
+        fun enumEntry(value: String): Builder {
             this.enumEntry = value
             return this
         }
@@ -86,7 +86,7 @@ data class EnumValue(val enumType: Type,
         /**
          * See [EnumValue.ordinal]
          */
-        fun withOrdinal(value: Int): Builder {
+        fun ordinal(value: Int): Builder {
             this.ordinal = value
             return this
         }

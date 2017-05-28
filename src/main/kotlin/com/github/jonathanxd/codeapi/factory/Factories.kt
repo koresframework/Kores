@@ -139,7 +139,7 @@ fun arrayLength(arrayType: Type, target: CodeInstruction): ArrayLength =
  */
 fun enumEntry(name: String): EnumEntry =
         EnumEntry.Builder.builder()
-                .withName(name)
+                .name(name)
                 .build()
 
 /**

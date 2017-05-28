@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.util.self
 import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
@@ -67,12 +66,12 @@ data class SwitchStatement(override val value: CodeInstruction,
             this.cases = defaults.cases
         }
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         /**
          * See [SwitchStatement.value]
          */
-        override fun withValue(value: CodeInstruction): Builder {
+        override fun value(value: CodeInstruction): Builder {
             this.value = value
             return this
         }
@@ -80,7 +79,7 @@ data class SwitchStatement(override val value: CodeInstruction,
         /**
          * See [SwitchStatement.switchType]
          */
-        fun withSwitchType(value: SwitchType): Builder {
+        fun switchType(value: SwitchType): Builder {
             this.switchType = value
             return this
         }
@@ -88,7 +87,7 @@ data class SwitchStatement(override val value: CodeInstruction,
         /**
          * See [SwitchStatement.cases]
          */
-        fun withCases(value: List<Case>): Builder {
+        fun cases(value: List<Case>): Builder {
             this.cases = value
             return this
         }
@@ -96,7 +95,7 @@ data class SwitchStatement(override val value: CodeInstruction,
         /**
          * See [SwitchStatement.cases]
          */
-        fun withCases(vararg values: Case): Builder = withCases(values.toList())
+        fun cases(vararg values: Case): Builder = cases(values.toList())
 
         override fun build(): SwitchStatement = SwitchStatement(this.value, this.switchType, this.cases)
 

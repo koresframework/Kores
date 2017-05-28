@@ -47,6 +47,6 @@ interface Typed : CodePart {
         /**
          * See [T.type]
          */
-        fun withType(value: Type): S
+        fun type(value: Type): S
     }
 }

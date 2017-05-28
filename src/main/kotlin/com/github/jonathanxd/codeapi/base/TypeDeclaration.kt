@@ -96,21 +96,21 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
             InnerTypesHolder.Builder<T, S>,
             ElementsHolder.Builder<T, S> {
 
-        override fun withQualifiedName(value: String): S = this.withSpecifiedName(value)
+        override fun qualifiedName(value: String): S = this.specifiedName(value)
 
         /**
          * See [TypeDeclaration.specifiedName]
          */
-        fun withSpecifiedName(value: String): S
+        fun specifiedName(value: String): S
 
         /**
          * See [TypeDeclaration.outerClass]
          */
-        fun withOuterClass(value: Type?): S
+        fun outerClass(value: Type?): S
 
         /**
          * Sets the name and outer type to values specified in [typeRef]
          */
-        fun base(typeRef: TypeRef): S = this.withOuterClass(typeRef.outerType).withSpecifiedName(typeRef.specifiedName)
+        fun base(typeRef: TypeRef): S = this.outerClass(typeRef.outerType).specifiedName(typeRef.specifiedName)
     }
 }

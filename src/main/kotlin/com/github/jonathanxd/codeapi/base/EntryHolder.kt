@@ -45,11 +45,11 @@ interface EntryHolder : CodePart {
         /**
          * See [T.entries]
          */
-        fun withEntries(value: List<EnumEntry>): S
+        fun entries(value: List<EnumEntry>): S
 
         /**
          * See [T.entries]
          */
-        fun withEntries(vararg values: EnumEntry): S = withEntries(values.toList())
+        fun entries(vararg values: EnumEntry): S = entries(values.toList())
     }
 }

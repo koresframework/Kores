@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 
@@ -69,14 +68,14 @@ data class ArrayStore(override val arrayType: Type,
             this.valueToStore = defaults.valueToStore
         }
 
-        override fun withValue(value: CodeInstruction): Builder = this.withValueToStore(value)
+        override fun value(value: CodeInstruction): Builder = this.valueToStore(value)
 
-        override fun withArrayType(value: Type): Builder {
+        override fun arrayType(value: Type): Builder {
             this.arrayType = value
             return this
         }
 
-        override fun withTarget(value: CodeInstruction): Builder {
+        override fun target(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -84,7 +83,7 @@ data class ArrayStore(override val arrayType: Type,
         /**
          * See [ArrayStore.index]
          */
-        fun withIndex(value: CodeInstruction): Builder {
+        fun index(value: CodeInstruction): Builder {
             this.index = value
             return this
         }
@@ -92,7 +91,7 @@ data class ArrayStore(override val arrayType: Type,
         /**
          * See [ArrayStore.valueType]
          */
-        fun withValueType(value: Type): Builder {
+        fun valueType(value: Type): Builder {
             this.valueType = value
             return this
         }
@@ -100,7 +99,7 @@ data class ArrayStore(override val arrayType: Type,
         /**
          * See [ArrayStore.valueToStore]
          */
-        fun withValueToStore(value: CodeInstruction): Builder {
+        fun valueToStore(value: CodeInstruction): Builder {
             this.valueToStore = value
             return this
         }

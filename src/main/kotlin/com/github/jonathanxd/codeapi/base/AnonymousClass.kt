@@ -120,67 +120,67 @@ data class AnonymousClass(override val comments: Comments,
 
         }
 
-        override fun withModifiers(value: Set<CodeModifier>): Builder = self()
-        override fun withModifiers(vararg values: CodeModifier): Builder = self()
-        override fun withArray(value: Boolean): Builder = self()
-        override fun withGenericSignature(value: GenericSignature): Builder = self()
+        override fun modifiers(value: Set<CodeModifier>): Builder = self()
+        override fun modifiers(vararg values: CodeModifier): Builder = self()
+        override fun array(value: Boolean): Builder = self()
+        override fun genericSignature(value: GenericSignature): Builder = self()
 
-        override fun withOuterClass(value: Type?): Builder {
+        override fun outerClass(value: Type?): Builder {
             this.outerClass = value
             return this
         }
 
-        override fun withComments(value: Comments): Builder {
+        override fun comments(value: Comments): Builder {
             this.comments = value
             return this
         }
 
-        override fun withAnnotations(value: List<Annotation>): Builder {
+        override fun annotations(value: List<Annotation>): Builder {
             this.annotations = value
             return this
         }
 
-        override fun withStaticBlock(value: StaticBlock): Builder {
+        override fun staticBlock(value: StaticBlock): Builder {
             this.staticBlock = value
             return this
         }
 
-        override fun withFields(value: List<FieldDeclaration>): Builder {
+        override fun fields(value: List<FieldDeclaration>): Builder {
             this.fields = value
             return this
         }
 
-        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
+        override fun constructors(value: List<ConstructorDeclaration>): Builder {
             this.constructors = value
             return this
         }
 
-        override fun withMethods(value: List<MethodDeclaration>): Builder {
+        override fun methods(value: List<MethodDeclaration>): Builder {
             this.methods = value
             return this
         }
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }
 
-        override fun withSuperClass(value: Type?): Builder {
+        override fun superClass(value: Type?): Builder {
             this.superClass = value!!
             return this
         }
 
-        override fun withImplementations(value: List<Type>): Builder {
+        override fun implementations(value: List<Type>): Builder {
             this.implementations = value
             return this
         }
 
-        override fun withArguments(value: List<CodeInstruction>): Builder {
+        override fun arguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }
 
-        override fun withSpecifiedName(value: String): Builder {
+        override fun specifiedName(value: String): Builder {
             this.specifiedName = value
             return this
         }
@@ -188,7 +188,7 @@ data class AnonymousClass(override val comments: Comments,
         /**
          * See [AnonymousClass.constructorSpec]
          */
-        fun withConstructorSpec(value: TypeSpec): Builder {
+        fun constructorSpec(value: TypeSpec): Builder {
             this.constructorSpec = value
             return this
         }
@@ -196,7 +196,7 @@ data class AnonymousClass(override val comments: Comments,
         /**
          * See [AnonymousClass.constructorBody]
          */
-        fun withConstructorBody(value: CodeSource): Builder {
+        fun constructorBody(value: CodeSource): Builder {
             this.constructorBody = value
             return this
         }

@@ -47,7 +47,7 @@ data class Plain(val text: String) : Comment {
         /**
          * See [Plain.text]
          */
-        fun withText(value: String): Builder {
+        fun text(value: String): Builder {
             this.text = value
             return this
         }

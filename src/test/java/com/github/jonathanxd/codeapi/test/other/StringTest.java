@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
@@ -49,13 +48,13 @@ public class StringTest {
     public void test() {
 
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName("com.A")
-                .withSuperClass(Types.OBJECT)
-                .withMethods(
+                .modifiers(CodeModifier.PUBLIC)
+                .qualifiedName("com.A")
+                .superClass(Types.OBJECT)
+                .methods(
                         MethodDeclaration.Builder.builder()
-                                .withName("test")
-                                .withBody(CodeSource.fromPart(
+                                .name("test")
+                                .body(CodeSource.fromPart(
                                         InvocationFactory.invokeVirtual(Alias.THIS.INSTANCE, Factories.accessThis(), "aa",
                                                 new TypeSpec(Types.VOID, Collections.emptyList()),
                                                 Collections.emptyList())

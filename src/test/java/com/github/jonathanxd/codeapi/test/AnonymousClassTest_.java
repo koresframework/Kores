@@ -49,20 +49,20 @@ public class AnonymousClassTest_ {
     public static TypeDeclaration $() {
         PredefinedTest predefinedTest = PredefinedTest.create("test.AnonymousClassTest");
 
-        predefinedTest.constructor.withInnerTypes(
+        predefinedTest.constructor.innerTypes(
                 AnonymousClass.Builder.builder()
-                        .withOuterClass(predefinedTest.getTypeRef())
-                        .withSpecifiedName("AnonymousGreeter")
-                        .withSuperClass(Greeter2.class)
-                        .withConstructorSpec(Factories.constructorTypeSpec(String.class))
-                        .withArguments(Literals.STRING("[AnonymousClass]"))
-                        .withConstructorBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("Created!"))))
-                        .withMethods(
+                        .outerClass(predefinedTest.getTypeRef())
+                        .specifiedName("AnonymousGreeter")
+                        .superClass(Greeter2.class)
+                        .constructorSpec(Factories.constructorTypeSpec(String.class))
+                        .arguments(Literals.STRING("[AnonymousClass]"))
+                        .constructorBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("Created!"))))
+                        .methods(
                                 MethodDeclaration.Builder.builder()
-                                        .withModifiers(CodeModifier.PUBLIC)
-                                        .withName("greet")
-                                        .withReturnType(Types.VOID)
-                                        .withBody(CodeSource.fromPart(
+                                        .modifiers(CodeModifier.PUBLIC)
+                                        .name("greet")
+                                        .returnType(Types.VOID)
+                                        .body(CodeSource.fromPart(
                                                 Predefined.invokePrintlnStr(
                                                         ConcatHelper.builder(Factories.invokeFieldGetter(InvokeType.INVOKE_VIRTUAL, Alias.THIS.INSTANCE, Factories.accessThis(), Types.STRING, "prefix"))
                                                                 .concat(" Hello world")

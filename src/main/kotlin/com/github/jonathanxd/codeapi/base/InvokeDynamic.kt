@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.self
@@ -76,22 +75,22 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         /**
          * See [T.bootstrap]
          */
-        fun withBootstrap(value: MethodInvokeSpec): S
+        fun bootstrap(value: MethodInvokeSpec): S
 
         /**
          * See [T.invocation]
          */
-        fun withInvocation(value: MethodInvocation): S
+        fun invocation(value: MethodInvocation): S
 
         /**
          * See [T.args]
          */
-        fun withArgs(value: List<Any>): S
+        fun args(value: List<Any>): S
 
         /**
          * See [T.args]
          */
-        fun withArgs(vararg values: Any): S = withArgs(values.toList())
+        fun args(vararg values: Any): S = args(values.toList())
     }
 
     /**
@@ -135,19 +134,19 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         interface Builder<out T : LambdaMethodRefBase, S : Builder<T, S>> :
                 InvokeDynamicBase.Builder<T, S> {
 
-            override fun withType(value: Type): S = self()
-            override fun withBootstrap(value: MethodInvokeSpec): S = self()
-            override fun withArgs(value: List<Any>): S = self()
+            override fun type(value: Type): S = self()
+            override fun bootstrap(value: MethodInvokeSpec): S = self()
+            override fun args(value: List<Any>): S = self()
 
             /**
              * See [T.baseSam]
              */
-            fun withBaseSam(value: MethodTypeSpec): S
+            fun baseSam(value: MethodTypeSpec): S
 
             /**
              * See [T.expectedTypes]
              */
-            fun withExpectedTypes(value: TypeSpec): S
+            fun expectedTypes(value: TypeSpec): S
 
         }
     }
@@ -185,16 +184,16 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
                 LambdaMethodRefBase.Builder<T, S>,
                 ArgumentsHolder.Builder<T, S> {
 
-            override fun withType(value: Type): S = self()
-            override fun withBootstrap(value: MethodInvokeSpec): S = self()
-            override fun withArgs(value: List<Any>): S = self()
-            override fun withExpectedTypes(value: TypeSpec): S = self()
-            override fun withInvocation(value: MethodInvocation): S = self()
+            override fun type(value: Type): S = self()
+            override fun bootstrap(value: MethodInvokeSpec): S = self()
+            override fun args(value: List<Any>): S = self()
+            override fun expectedTypes(value: TypeSpec): S = self()
+            override fun invocation(value: MethodInvocation): S = self()
 
             /**
              * See [T.localCode]
              */
-            fun withLocalCode(value: LocalCode): S
+            fun localCode(value: LocalCode): S
 
         }
     }
@@ -220,22 +219,22 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
             this.args = defaults.args
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withBootstrap(value: MethodInvokeSpec): Builder {
+        override fun bootstrap(value: MethodInvokeSpec): Builder {
             this.bootstrap = value
             return this
         }
 
-        override fun withInvocation(value: MethodInvocation): Builder {
+        override fun invocation(value: MethodInvocation): Builder {
             this.invocation = value
             return this
         }
 
-        override fun withArgs(value: List<Any>): Builder {
+        override fun args(value: List<Any>): Builder {
             this.args = value
             return this
         }
@@ -269,17 +268,17 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
                 this.expectedTypes = defaults.expectedTypes
             }
 
-            override fun withInvocation(value: MethodInvocation): Builder {
+            override fun invocation(value: MethodInvocation): Builder {
                 this.invocation = value
                 return this
             }
 
-            override fun withBaseSam(value: MethodTypeSpec): Builder {
+            override fun baseSam(value: MethodTypeSpec): Builder {
                 this.baseSam = value
                 return this
             }
 
-            override fun withExpectedTypes(value: TypeSpec): Builder {
+            override fun expectedTypes(value: TypeSpec): Builder {
                 this.expectedTypes = value
                 return this
             }
@@ -317,19 +316,19 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
                 this.arguments = defaults.arguments
             }
 
-            override fun withBaseSam(value: MethodTypeSpec): Builder {
+            override fun baseSam(value: MethodTypeSpec): Builder {
                 this.baseSam = value
                 return this
             }
 
-            override fun withLocalCode(value: LocalCode): Builder {
+            override fun localCode(value: LocalCode): Builder {
                 this.localCode = value
                 return this
             }
 
-            override fun withArray(value: Boolean): Builder = self()
+            override fun array(value: Boolean): Builder = self()
 
-            override fun withArguments(value: List<CodeInstruction>): Builder {
+            override fun arguments(value: List<CodeInstruction>): Builder {
                 this.arguments = value
                 return this
             }

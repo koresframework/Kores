@@ -57,12 +57,12 @@ interface FieldBase : Named, Typed {
         /**
          * See [T.localization]
          */
-        fun withLocalization(value: Type): S
+        fun localization(value: Type): S
 
         /**
          * See [T.target]
          */
-        fun withTarget(value: CodeInstruction): S
+        fun target(value: CodeInstruction): S
 
     }
 }

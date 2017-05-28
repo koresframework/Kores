@@ -54,12 +54,12 @@ data class Label(override val name: String, override val body: CodeSource) : Bod
             this.body = defaults.body
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

@@ -54,22 +54,22 @@ data class FieldRef(override val localization: Type, override val target: CodeIn
             this.target = defaults.target
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withLocalization(value: Type): Builder {
+        override fun localization(value: Type): Builder {
             this.localization = value
             return this
         }
 
-        override fun withTarget(value: CodeInstruction): Builder {
+        override fun target(value: CodeInstruction): Builder {
             this.target = value
             return this
         }

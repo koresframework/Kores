@@ -93,48 +93,48 @@ data class AnnotationDeclaration(override val comments: Comments,
             this.properties = defaults.properties
         }
 
-        override fun withComments(value: Comments): Builder {
+        override fun comments(value: Comments): Builder {
             this.comments = value
             return this
         }
 
-        override fun withAnnotations(value: List<Annotation>): Builder {
+        override fun annotations(value: List<Annotation>): Builder {
             this.annotations = value
             return this
         }
 
-        override fun withStaticBlock(value: StaticBlock): Builder = self()
+        override fun staticBlock(value: StaticBlock): Builder = self()
 
-        override fun withFields(value: List<FieldDeclaration>): Builder {
+        override fun fields(value: List<FieldDeclaration>): Builder {
             this.fields = value
             return this
         }
 
-        override fun withConstructors(value: List<ConstructorDeclaration>): Builder = self()
+        override fun constructors(value: List<ConstructorDeclaration>): Builder = self()
 
-        override fun withMethods(value: List<MethodDeclaration>): Builder = self()
+        override fun methods(value: List<MethodDeclaration>): Builder = self()
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }
 
-        override fun withModifiers(value: Set<CodeModifier>): Builder {
+        override fun modifiers(value: Set<CodeModifier>): Builder {
             this.modifiers = value
             return this
         }
 
-        override fun withGenericSignature(value: GenericSignature): Builder {
+        override fun genericSignature(value: GenericSignature): Builder {
             this.genericSignature = value
             return this
         }
 
-        override fun withSpecifiedName(value: String): Builder {
+        override fun specifiedName(value: String): Builder {
             this.specifiedName = value
             return this
         }
 
-        override fun withOuterClass(value: Type?): Builder {
+        override fun outerClass(value: Type?): Builder {
             this.outerClass = value
             return this
         }
@@ -142,7 +142,7 @@ data class AnnotationDeclaration(override val comments: Comments,
         /**
          * See [AnnotationDeclaration.properties]
          */
-        fun withProperties(value: List<AnnotationProperty>): Builder {
+        fun properties(value: List<AnnotationProperty>): Builder {
             this.properties = value
             return this
         }
@@ -150,7 +150,7 @@ data class AnnotationDeclaration(override val comments: Comments,
         /**
          * See [AnnotationDeclaration.properties]
          */
-        fun withProperties(vararg values: AnnotationProperty): Builder = withProperties(values.toList())
+        fun properties(vararg values: AnnotationProperty): Builder = properties(values.toList())
 
         override fun build() = AnnotationDeclaration(this.comments, this.outerClass, this.annotations, this.modifiers,
                 this.specifiedName, this.genericSignature, this.properties, this.fields, this.innerTypes)

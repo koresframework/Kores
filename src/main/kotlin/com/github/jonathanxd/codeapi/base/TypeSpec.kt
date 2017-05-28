@@ -81,22 +81,22 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
             this.parameterTypes = defaults.parameterTypes
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.returnType = value
             return this
         }
 
-        fun withReturnType(value: Type): Builder {
+        fun returnType(value: Type): Builder {
             this.returnType = value
             return this
         }
 
-        fun withParameterTypes(value: List<Type>): Builder {
+        fun parameterTypes(value: List<Type>): Builder {
             this.parameterTypes = value
             return this
         }
 
-        fun withParameterTypes(vararg values: Type): Builder {
+        fun parameterTypes(vararg values: Type): Builder {
             this.parameterTypes = values.toList()
             return this
         }

@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeInstruction;
-import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
@@ -47,8 +46,6 @@ import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.codeapi.util.Alias;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -72,11 +69,11 @@ public class TestFeatures_ {
         MutableCodeSource methodSource = MutableCodeSource.create();
 
         MethodDeclaration codeMethod = MethodDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withName("printIt")
-                .withParameters(Factories.parameter(Types.OBJECT, "n"))
-                .withReturnType(Types.VOID)
-                .withBody(methodSource)
+                .modifiers(CodeModifier.PUBLIC)
+                .name("printIt")
+                .parameters(Factories.parameter(Types.OBJECT, "n"))
+                .returnType(Types.VOID)
+                .body(methodSource)
                 .build();
 
         methodSource.add(Factories.ifStatement(
@@ -103,21 +100,21 @@ public class TestFeatures_ {
     public static TypeDeclaration $() {
 
         ClassDeclaration.Builder codeClassBuilder = ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName("fullName." + TestFeatures_.class.getSimpleName())
-                .withSuperClass(Types.OBJECT)
-                .withFields(
+                .modifiers(CodeModifier.PUBLIC)
+                .qualifiedName("fullName." + TestFeatures_.class.getSimpleName())
+                .superClass(Types.OBJECT)
+                .fields(
                         FieldDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
-                                .withType(Types.STRING)
-                                .withName("FIELD")
-                                .withValue(Literals.STRING("AVD"))
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .type(Types.STRING)
+                                .name("FIELD")
+                                .value(Literals.STRING("AVD"))
                                 .build(),
                         FieldDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
-                                .withType(Types.INT)
-                                .withName("n")
-                                .withValue(Literals.INT(15))
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.FINAL)
+                                .type(Types.INT)
+                                .name("n")
+                                .value(Literals.INT(15))
                                 .build()
                 );
 
@@ -135,14 +132,14 @@ public class TestFeatures_ {
                 Collections.singletonList(Literals.STRING("Oi")));
 
         ConstructorDeclaration codeConstructor = ConstructorDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withBody(CodeSource.fromVarArgs(invokeTest, invokeTest2))
+                .modifiers(CodeModifier.PUBLIC)
+                .body(CodeSource.fromVarArgs(invokeTest, invokeTest2))
                 .build();
 
 
         codeClassBuilder
-                .withConstructors(codeConstructor)
-                .withMethods(createPrintItMethod(), createCheckMethod());
+                .constructors(codeConstructor)
+                .methods(createPrintItMethod(), createCheckMethod());
 
         return codeClassBuilder.build();
     }
@@ -151,11 +148,11 @@ public class TestFeatures_ {
         MutableCodeSource methodSource = MutableCodeSource.create();
 
         MethodDeclaration codeMethod = MethodDeclaration.Builder.builder()
-                .withName("check")
-                .withModifiers(CodeModifier.PUBLIC)
-                .withParameters(Factories.parameter(Types.INT, "x"))
-                .withReturnType(Types.BOOLEAN)
-                .withBody(methodSource)
+                .name("check")
+                .modifiers(CodeModifier.PUBLIC)
+                .parameters(Factories.parameter(Types.INT, "x"))
+                .returnType(Types.BOOLEAN)
+                .body(methodSource)
                 .build();
 
         methodSource.add(Factories.ifStatement(

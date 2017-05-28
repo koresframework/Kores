@@ -48,14 +48,14 @@ public class ComplexIfTest_ {
     public static TypeDeclaration $() {
 
         return ClassDeclaration.Builder.builder()
-                .withSpecifiedName("test.ComplexIf")
-                .withConstructors(
+                .specifiedName("test.ComplexIf")
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withParameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "h"),
+                                .parameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "h"),
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "x"),
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "y"),
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "z"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .body(CodeSource.fromVarArgs(
                                         VariableFactory.variable(Types.BOOLEAN, "a", Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5))),
                                         VariableFactory.variable(Types.STRING, "b",
                                                 Factories.ifStatement(

@@ -55,7 +55,7 @@ data class ControlFlow(val type: Type, val at: Label?) : CodePart, CodeInstructi
         /**
          * See [ControlFlow.type]
          */
-        fun withType(value: Type): Builder {
+        fun type(value: Type): Builder {
             this.type = value
             return this
         }
@@ -63,7 +63,7 @@ data class ControlFlow(val type: Type, val at: Label?) : CodePart, CodeInstructi
         /**
          * See [ControlFlow.at]
          */
-        fun withAt(value: Label?): Builder {
+        fun at(value: Label?): Builder {
             this.at = value
             return this
         }

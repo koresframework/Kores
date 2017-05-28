@@ -47,6 +47,6 @@ interface ReturnTypeHolder : CodePart {
         /**
          * See [T.returnType]
          */
-        fun withReturnType(value: Type): S
+        fun returnType(value: Type): S
     }
 }

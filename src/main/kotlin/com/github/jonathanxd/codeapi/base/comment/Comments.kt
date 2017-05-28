@@ -80,7 +80,7 @@ data class Comments(val comments: List<Comment>, val type: Type) : CodePart, Cod
         /**
          * See [Comments.comments]
          */
-        fun withComments(value: List<Comment>): Builder {
+        fun comments(value: List<Comment>): Builder {
             this.comments = value
             return this
         }
@@ -88,12 +88,12 @@ data class Comments(val comments: List<Comment>, val type: Type) : CodePart, Cod
         /**
          * See [Comments.comments]
          */
-        fun withComments(vararg values: Comment): Builder = this.withComments(values.toList())
+        fun comments(vararg values: Comment): Builder = this.comments(values.toList())
 
         /**
          * See [Comments.type]
          */
-        fun withType(value: Type): Builder {
+        fun type(value: Type): Builder {
             this.type = value
             return this
         }

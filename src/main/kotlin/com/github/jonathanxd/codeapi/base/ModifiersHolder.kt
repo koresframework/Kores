@@ -53,17 +53,17 @@ interface ModifiersHolder : CodePart {
         /**
          * See [ModifiersHolder.modifiers]
          */
-        fun withModifiers(value: Set<CodeModifier>): S
+        fun modifiers(value: Set<CodeModifier>): S
 
         /**
          * See [ModifiersHolder.modifiers]
          */
-        fun withModifiers(vararg values: CodeModifier): S = withModifiers(values.toSet())
+        fun modifiers(vararg values: CodeModifier): S = modifiers(values.toSet())
 
         /**
          * Sets modifiers to [CodeModifier.PUBLIC]. Public modifier is optional, all
          * [ModifiersHolder] which does not provide a modifier is public by default.
          */
-        fun withPublicModifier(): S = this.withModifiers(CodeModifier.PUBLIC)
+        fun publicModifier(): S = this.modifiers(CodeModifier.PUBLIC)
     }
 }

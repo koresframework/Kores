@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
@@ -43,13 +42,13 @@ public class VisitTest {
     public void visitTest() {
         VisitManager<ClassDeclaration> codeClassVisitManager = new VisitManager<>();
 
-        codeClassVisitManager.register(ClassDeclaration.class, (codePart, data, visitManager) -> codePart.builder().withQualifiedName("com.XYZ").build());
+        codeClassVisitManager.register(ClassDeclaration.class, (codePart, data, visitManager) -> codePart.builder().qualifiedName("com.XYZ").build());
 
 
         ClassDeclaration myClass = ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName("com.ABC")
-                .withSuperClass(Types.OBJECT)
+                .modifiers(CodeModifier.PUBLIC)
+                .qualifiedName("com.ABC")
+                .superClass(Types.OBJECT)
                 .build();
 
         TypeDeclaration visit = codeClassVisitManager.visit(myClass);

@@ -47,6 +47,6 @@ interface SuperClassHolder : CodePart {
         /**
          * See [T.superClass]
          */
-        fun withSuperClass(value: Type?): S
+        fun superClass(value: Type?): S
     }
 }

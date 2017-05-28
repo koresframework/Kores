@@ -53,11 +53,11 @@ interface VariableBase : Named, Typed {
             Named.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: Type): S = this.withVariableType(value)
+        override fun type(value: Type): S = this.variableType(value)
 
         /**
          * See [T.variableType]
          */
-        fun withVariableType(value: Type): S
+        fun variableType(value: Type): S
     }
 }

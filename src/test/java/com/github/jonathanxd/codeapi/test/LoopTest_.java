@@ -57,12 +57,12 @@ public class LoopTest_ {
         VariableAccess accessU = Factories.accessVariable(Types.INT, "u");
 
         ClassDeclaration codeClass = ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withSuperClass(Types.OBJECT)
-                .withQualifiedName("fullName." + LoopTest_.class.getSimpleName())
-                .withConstructors(ConstructorDeclaration.Builder.builder()
-                        .withModifiers(CodeModifier.PUBLIC)
-                        .withBody(CodeSource.fromVarArgs(
+                .modifiers(CodeModifier.PUBLIC)
+                .superClass(Types.OBJECT)
+                .qualifiedName("fullName." + LoopTest_.class.getSimpleName())
+                .constructors(ConstructorDeclaration.Builder.builder()
+                        .modifiers(CodeModifier.PUBLIC)
+                        .body(CodeSource.fromVarArgs(
 
                                 variable(Types.INT, "x", Literals.INT(0)),
 

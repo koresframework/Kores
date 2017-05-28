@@ -57,12 +57,12 @@ data class InstanceOfCheck(val part: CodeInstruction, val checkType: Type) : Typ
             this.checkType = defaults.checkType
         }
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         /**
          * See [InstanceOfCheck.part]
          */
-        fun withPart(value: CodeInstruction): Builder {
+        fun part(value: CodeInstruction): Builder {
             this.part = value
             return this
         }
@@ -70,7 +70,7 @@ data class InstanceOfCheck(val part: CodeInstruction, val checkType: Type) : Typ
         /**
          * See [InstanceOfCheck.checkType]
          */
-        fun withCheckType(value: Type): Builder {
+        fun checkType(value: Type): Builder {
             this.checkType = value
             return this
         }

@@ -48,9 +48,9 @@ public class AnnotationTest_ {
     public static TypeDeclaration $() {
 
         AnnotationDeclaration build = AnnotationDeclaration.Builder.Companion.builder()
-                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
-                .withQualifiedName("com.MyAnnotation")
-                .withProperties(CollectionsKt.listOf(
+                .modifiers(SetsKt.setOf(CodeModifier.PUBLIC))
+                .qualifiedName("com.MyAnnotation")
+                .properties(CollectionsKt.listOf(
                         new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING, "value", null),
                         new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING, "id", "A"),
                         new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING.toArray(1), "names", new String[]{"A", "B"}),

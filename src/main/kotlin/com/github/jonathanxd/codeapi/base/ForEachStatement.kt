@@ -67,7 +67,7 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
         /**
          * See [ForEachStatement.variable]
          */
-        fun withVariable(value: VariableDeclaration): Builder {
+        fun variable(value: VariableDeclaration): Builder {
             this.variable = value
             return this
         }
@@ -75,7 +75,7 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
         /**
          * See [ForEachStatement.iterationType]
          */
-        fun withIterationType(value: IterationType): Builder {
+        fun iterationType(value: IterationType): Builder {
             this.iterationType = value
             return this
         }
@@ -83,12 +83,12 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
         /**
          * See [ForEachStatement.iterableElement]
          */
-        fun withIterableElement(value: CodeInstruction): Builder {
+        fun iterableElement(value: CodeInstruction): Builder {
             this.iterableElement = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

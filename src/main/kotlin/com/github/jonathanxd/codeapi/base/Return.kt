@@ -50,12 +50,12 @@ data class Return(override val type: Type, override val value: CodeInstruction) 
             this.value = defaults.value
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.type = value
             return this
         }
 
-        override fun withValue(value: CodeInstruction): Builder {
+        override fun value(value: CodeInstruction): Builder {
             this.value = value
             return this
         }

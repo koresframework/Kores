@@ -63,22 +63,22 @@ data class TryWithResources(val variable: VariableDeclaration,
         /**
          * See [TryWithResources.variable]
          */
-        fun withVariable(value: VariableDeclaration): Builder {
+        fun variable(value: VariableDeclaration): Builder {
             this.variable = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }
 
-        override fun withCatchStatements(value: List<CatchStatement>): Builder {
+        override fun catchStatements(value: List<CatchStatement>): Builder {
             this.catchStatements = value
             return this
         }
 
-        override fun withFinallyStatement(value: CodeSource): Builder {
+        override fun finallyStatement(value: CodeSource): Builder {
             this.finallyStatement = value
             return this
         }

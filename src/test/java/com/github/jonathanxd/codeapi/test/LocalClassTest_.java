@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.MutableCodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
@@ -40,8 +39,6 @@ import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.TypeRef;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -54,14 +51,14 @@ public class LocalClassTest_ {
         TypeRef outerType = new TypeRef("test.LocalClass");
 
         ClassDeclaration local = ClassDeclaration.Builder.builder()
-                .withOuterClass(outerType)
-                .withSpecifiedName("Greeter")
-                .withMethods(
+                .outerClass(outerType)
+                .specifiedName("Greeter")
+                .methods(
                         MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC)
-                                .withName("greet")
-                                .withReturnType(Types.VOID)
-                                .withBody(CodeSource.fromPart(
+                                .modifiers(CodeModifier.PUBLIC)
+                                .name("greet")
+                                .returnType(Types.VOID)
+                                .body(CodeSource.fromPart(
                                         Predefined.invokePrintlnStr(Literals.STRING("Hello"))
                                 ))
                                 .build()
@@ -71,11 +68,11 @@ public class LocalClassTest_ {
 
         TypeDeclaration type = ClassDeclaration.Builder.builder()
                 .base(outerType)
-                .withSpecifiedName(outerType.getSpecifiedName())
-                .withConstructors(ConstructorDeclaration.Builder.builder()
-                        .withInnerTypes(local)
-                        .withModifiers(CodeModifier.PUBLIC)
-                        .withBody(
+                .specifiedName(outerType.getSpecifiedName())
+                .constructors(ConstructorDeclaration.Builder.builder()
+                        .innerTypes(local)
+                        .modifiers(CodeModifier.PUBLIC)
+                        .body(
                                 CodeSource.fromPart(
                                         InvocationFactory.invokeVirtual(
                                                 local,

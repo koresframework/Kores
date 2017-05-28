@@ -41,8 +41,6 @@ import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.iutils.annotation.Named;
-import com.github.jonathanxd.iutils.object.Pair;
 
 import org.junit.Test;
 
@@ -66,19 +64,19 @@ public class CommentClassTest_ {
 
 
         return ClassDeclaration.Builder.Companion.builder()
-                .withComments(comments)
-                .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
-                .withQualifiedName("com.MyClass")
-                .withSuperClass(Types.OBJECT)
-                .withFields(                        FieldDeclaration.Builder.Companion.builder()
-                        .withComments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
-                        .withModifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
-                        .withName("fieldi")
-                        .withType(Types.STRING)
-                        .withValue(Literals.STRING("field"))
+                .comments(comments)
+                .modifiers(EnumSet.of(CodeModifier.PUBLIC))
+                .qualifiedName("com.MyClass")
+                .superClass(Types.OBJECT)
+                .fields(                        FieldDeclaration.Builder.Companion.builder()
+                        .comments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
+                        .modifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
+                        .name("fieldi")
+                        .type(Types.STRING)
+                        .value(Literals.STRING("field"))
                         .build())
-                .withMethods(MethodDeclaration.Builder.builder()
-                        .withComments(
+                .methods(MethodDeclaration.Builder.builder()
+                        .comments(
                                 CommentsFactory.documentation(
                                         CommentsFactory.plain("Print "),
                                         CommentsFactory.linkField("'fieldi' value", "com.MyClass", "fieldi", Types.STRING),
@@ -87,10 +85,10 @@ public class CommentClassTest_ {
                                         CommentsFactory.plain(".")
                                 )
                         )
-                        .withModifiers(CodeModifier.PUBLIC)
-                        .withReturnType(Types.VOID)
-                        .withName("printFieldi")
-                        .withBody(CodeSource.fromVarArgs(
+                        .modifiers(CodeModifier.PUBLIC)
+                        .returnType(Types.VOID)
+                        .name("printFieldi")
+                        .body(CodeSource.fromVarArgs(
                                 CommentsFactory.comments(CommentsFactory.plain("Prints 'fieldi' value")),
                                 Predefined.invokePrintlnStr(Factories.accessThisField(Types.STRING, "fieldi"))
                         ))

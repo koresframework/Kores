@@ -64,7 +64,7 @@ sealed class Operator(override val name: String) : CodeInstruction, Named {
             this.name = defaults.name
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }

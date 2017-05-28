@@ -47,12 +47,12 @@ data class IfGroup(override val expressions: List<CodeInstruction>) : CodePart, 
             this.expressions = defaults.expressions
         }
 
-        override fun withExpressions(value: List<CodeInstruction>): Builder {
+        override fun expressions(value: List<CodeInstruction>): Builder {
             this.expressions = value
             return this
         }
 
-        override fun withExpressions(vararg values: CodeInstruction): Builder {
+        override fun expressions(vararg values: CodeInstruction): Builder {
             this.expressions = values.toList()
             return this
         }

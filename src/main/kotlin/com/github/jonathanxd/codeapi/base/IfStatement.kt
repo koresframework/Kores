@@ -61,17 +61,17 @@ data class IfStatement(override val expressions: List<CodeInstruction>, override
         /**
          * See [IfStatement.elseStatement]
          */
-        fun withElseStatement(value: CodeSource): Builder {
+        fun elseStatement(value: CodeSource): Builder {
             this.elseStatement = value
             return this
         }
 
-        override fun withExpressions(value: List<CodeInstruction>): Builder {
+        override fun expressions(value: List<CodeInstruction>): Builder {
             this.expressions = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

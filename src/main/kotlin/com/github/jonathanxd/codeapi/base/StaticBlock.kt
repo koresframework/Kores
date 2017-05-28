@@ -79,32 +79,32 @@ data class StaticBlock(override val comments: Comments,
             this.body = defaults.body
         }
 
-        override fun withName(value: String): Builder = self()
+        override fun name(value: String): Builder = self()
 
-        override fun withComments(value: Comments): Builder {
+        override fun comments(value: Comments): Builder {
             this.comments = value
             return this
         }
 
-        override fun withThrows(value: List<Type>): Builder = self()
-        override fun withAnnotations(value: List<Annotation>): Builder = self()
-        override fun withModifiers(value: Set<CodeModifier>): Builder = self()
+        override fun throws(value: List<Type>): Builder = self()
+        override fun annotations(value: List<Annotation>): Builder = self()
+        override fun modifiers(value: Set<CodeModifier>): Builder = self()
 
-        override fun withReturnType(value: Type): Builder = self()
+        override fun returnType(value: Type): Builder = self()
 
-        override fun withParameters(value: List<CodeParameter>): Builder = self()
+        override fun parameters(value: List<CodeParameter>): Builder = self()
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }
 
-        override fun withGenericSignature(value: GenericSignature): Builder = self()
+        override fun genericSignature(value: GenericSignature): Builder = self()
 
         override fun build(): StaticBlock = StaticBlock(this.comments, this.innerTypes, this.body)
 

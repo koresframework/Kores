@@ -48,7 +48,7 @@ data class New(val localization: Type) : CodePart, CodeInstruction {
         /**
          * See [New.localization]
          */
-        fun withLocalization(value: Type): Builder {
+        fun localization(value: Type): Builder {
             this.localization = value
             return this
         }

@@ -47,7 +47,7 @@ data class ModuleReference(override val name: String) : Named {
             this.name = defaults.name
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
@@ -103,7 +103,7 @@ data class ModuleDeclaration(override val name: String,
             this.provides = defaults.provides
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
@@ -113,7 +113,7 @@ data class ModuleDeclaration(override val name: String,
         /**
          * See [ModuleDeclaration.requires]
          */
-        fun withRequires(value: List<Require>): Builder {
+        fun requires(value: List<Require>): Builder {
             this.requires = value
             return this
         }
@@ -121,19 +121,19 @@ data class ModuleDeclaration(override val name: String,
         /**
          * See [ModuleDeclaration.requires]
          */
-        fun withRequires(vararg values: Require): Builder = this.withRequires(values.toList())
+        fun requires(vararg values: Require): Builder = this.requires(values.toList())
 
         /**
          * See [ModuleDeclaration.requires]
          */
-        fun withRequires(vararg values: String): Builder = this.withRequires(values.map { Require(ModuleReference(it), emptySet()) })
+        fun requires(vararg values: String): Builder = this.requires(values.map { Require(ModuleReference(it), emptySet()) })
 
         // Exports
 
         /**
          * See [ModuleDeclaration.exports]
          */
-        fun withExports(value: List<Export>): Builder {
+        fun exports(value: List<Export>): Builder {
             this.exports = value
             return this
         }
@@ -141,19 +141,19 @@ data class ModuleDeclaration(override val name: String,
         /**
          * See [ModuleDeclaration.exports]
          */
-        fun withExports(vararg values: Export): Builder = this.withExports(values.toList())
+        fun exports(vararg values: Export): Builder = this.exports(values.toList())
 
         /**
          * See [ModuleDeclaration.exports]
          */
-        fun withExports(vararg values: String): Builder = this.withExports(values.map { Export(ModuleReference(it), emptyList()) })
+        fun exports(vararg values: String): Builder = this.exports(values.map { Export(ModuleReference(it), emptyList()) })
 
         // Uses
 
         /**
          * See [ModuleDeclaration.uses]
          */
-        fun withUses(value: List<ModuleReference>): Builder {
+        fun uses(value: List<ModuleReference>): Builder {
             this.uses = value
             return this
         }
@@ -161,19 +161,19 @@ data class ModuleDeclaration(override val name: String,
         /**
          * See [ModuleDeclaration.uses]
          */
-        fun withUses(vararg values: ModuleReference): Builder = this.withUses(values.toList())
+        fun uses(vararg values: ModuleReference): Builder = this.uses(values.toList())
 
         /**
          * See [ModuleDeclaration.uses]
          */
-        fun withUses(vararg values: String): Builder = this.withUses(values.map(::ModuleReference))
+        fun uses(vararg values: String): Builder = this.uses(values.map(::ModuleReference))
 
         // Provides
 
         /**
          * See [ModuleDeclaration.provides]
          */
-        fun withProvides(value: List<Provide>): Builder {
+        fun provides(value: List<Provide>): Builder {
             this.provides = value
             return this
         }
@@ -181,12 +181,12 @@ data class ModuleDeclaration(override val name: String,
         /**
          * See [ModuleDeclaration.provides]
          */
-        fun withProvides(vararg values: Provide): Builder = this.withProvides(values.toList())
+        fun provides(vararg values: Provide): Builder = this.provides(values.toList())
 
         /**
          * See [ModuleDeclaration.provides]
          */
-        fun withProvides(vararg values: Pair<Type, Type>): Builder = this.withProvides(values.map {
+        fun provides(vararg values: Pair<Type, Type>): Builder = this.provides(values.map {
             Provide(it.first, it.second)
         })
 

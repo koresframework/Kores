@@ -47,12 +47,12 @@ data class VariableAccess(override val variableType: Type, override val name: St
             this.variableType = defaults.variableType
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withVariableType(value: Type): Builder {
+        override fun variableType(value: Type): Builder {
             this.variableType = value
             return this
         }

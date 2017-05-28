@@ -30,7 +30,6 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Defaults;
 import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.Access;
 import com.github.jonathanxd.codeapi.base.Annotation;
 import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
 import com.github.jonathanxd.codeapi.base.AnnotationProperty;
@@ -114,9 +113,9 @@ public class BuilderTest {
     @Test
     public void annotationBuilderTest() {
         Annotation.Builder.Companion.builder()
-                .withType(Test.class)
-                .withVisible(true)
-                .withValues(MapUtils.mapOf(
+                .type(Test.class)
+                .visible(true)
+                .values(MapUtils.mapOf(
                         "expected", NullPointerException.class
                 ))
                 .build();
@@ -125,11 +124,11 @@ public class BuilderTest {
     @Test
     public void annotationDeclarationBuilderTest() {
         AnnotationDeclaration.Builder.Companion.builder()
-                .withQualifiedName("com.MyAnnotation")
-                .withProperties(AnnotationProperty.Builder.Companion.builder()
-                        .withValue("Hello world")
-                        .withName("message")
-                        .withReturnType(String.class)
+                .qualifiedName("com.MyAnnotation")
+                .properties(AnnotationProperty.Builder.Companion.builder()
+                        .defaultValue("Hello world")
+                        .name("message")
+                        .returnType(String.class)
                         .build())
                 .build();
     }
@@ -137,68 +136,68 @@ public class BuilderTest {
     @Test
     public void annotationPropertyBuilderTest() {
         AnnotationProperty.Builder.Companion.builder()
-                .withValue("Hello world")
-                .withName("message")
-                .withType(String.class)
+                .defaultValue("Hello world")
+                .name("message")
+                .type(String.class)
                 .build();
     }
 
     @Test
     public void anonymousClassBuilderTest() {
         AnonymousClass.Builder.Companion.builder()
-                .withQualifiedName("MyAnonymous")
-                .withArray(false)
-                .withConstructorBody(CodeSource.empty())
-                .withModifiers(CodeModifier.PUBLIC)
-                .withConstructorSpec(new TypeSpec(Void.TYPE))
+                .qualifiedName("MyAnonymous")
+                .array(false)
+                .constructorBody(CodeSource.empty())
+                .modifiers(CodeModifier.PUBLIC)
+                .constructorSpec(new TypeSpec(Void.TYPE))
                 .build();
     }
 
     @Test
     public void arrayConstructorBuilderTest() {
         ArrayConstructor.Builder.Companion.builder()
-                .withArray(true)
-                .withArguments(Literals.STRING("Hey"))
-                .withArrayType(String[].class)
-                .withDimensions(Literals.INT(1))
+                .array(true)
+                .arguments(Literals.STRING("Hey"))
+                .arrayType(String[].class)
+                .dimensions(Literals.INT(1))
                 .build();
     }
 
     @Test
     public void arrayLengthBuilderTest() {
         ArrayLength.Builder.Companion.builder()
-                .withArrayType(String[].class)
-                .withTarget(Factories.accessVariable(String.class, "array"))
+                .arrayType(String[].class)
+                .target(Factories.accessVariable(String.class, "array"))
                 .build();
     }
 
     @Test
     public void arrayLoadBuilderTest() {
         ArrayLoad.Builder.Companion.builder()
-                .withArrayType(String[].class)
-                .withTarget(Factories.accessVariable(String.class, "array"))
-                .withIndex(Literals.INT(0))
-                .withValueType(String.class)
+                .arrayType(String[].class)
+                .target(Factories.accessVariable(String.class, "array"))
+                .index(Literals.INT(0))
+                .valueType(String.class)
                 .build();
     }
 
     @Test
     public void arrayStoreBuilderTest() {
         ArrayStore.Builder.Companion.builder()
-                .withArrayType(String[].class)
-                .withTarget(Factories.accessVariable(String.class, "array"))
-                .withIndex(Literals.INT(0))
-                .withValueType(String.class)
-                .withValueToStore(Literals.STRING("Hello world"))
+                .arrayType(String[].class)
+                .target(Factories.accessVariable(String.class, "array"))
+                .index(Literals.INT(0))
+                .valueType(String.class)
+                .valueToStore(Literals.STRING("Hello world"))
                 .build();
     }
 
     @Test
     public void caseBuilderTest() {
         Case.Builder.Companion.builder()
-                .withValue(Literals.INT(9))
-                .withType(Integer.TYPE)
-                .withBody(CodeSource.fromVarArgs(
+                .value(Literals.INT(9))
+                .type(Integer.TYPE)
+                .body(CodeSource.fromVarArgs(
                         Predefined.invokePrintlnStr(Literals.STRING("Hello from CodeAPI"))
                 ))
                 .build();
@@ -207,144 +206,144 @@ public class BuilderTest {
     @Test
     public void castBuilderTest() {
         Cast.Builder.Companion.builder()
-                .withOriginalType(Object.class)
-                .withTargetType(Integer.class)
-                .withCastedPart(Factories.accessVariable(Object.class, "in"))
+                .originalType(Object.class)
+                .targetType(Integer.class)
+                .castedPart(Factories.accessVariable(Object.class, "in"))
                 .build();
     }
 
     @Test
     public void catchStatementBuilderTest() {
         CatchStatement.Builder.Companion.builder()
-                .withExceptionTypes(NullPointerException.class, IllegalArgumentException.class)
-                .withVariable(VariableDeclaration.Builder.Companion.builder()
-                        .withName("ex")
-                        .withVariableType(Throwable.class)
+                .exceptionTypes(NullPointerException.class, IllegalArgumentException.class)
+                .variable(VariableDeclaration.Builder.Companion.builder()
+                        .name("ex")
+                        .variableType(Throwable.class)
                         .build())
-                .withBody(CodeSource.empty())
+                .body(CodeSource.empty())
                 .build();
     }
 
     @Test
     public void classDeclarationBuilderTest() {
         ClassDeclaration.Builder.Companion.builder()
-                .withName("com.MyClass")
-                .withImplementations(CharSequence.class)
-                .withGenericSignature(GenericSignature.empty())
+                .name("com.MyClass")
+                .implementations(CharSequence.class)
+                .genericSignature(GenericSignature.empty())
                 .build();
     }
 
     @Test
     public void codeBuilderTest() {
         Code.Builder.Companion.builder()
-                .withCode(new Code.CodeNode.Plain("param"))
+                .code(new Code.CodeNode.Plain("param"))
                 .build();
     }
 
     @Test
     public void commentsBuilderTest() {
         Comments.Builder.Companion.builder()
-                .withComments(new Plain("Read api "), new Link("doc", new Link.LinkTarget.URL("https://example/docs")))
-                .withType(Comments.Type.DOCUMENTATION)
+                .comments(new Plain("Read api "), new Link("doc", new Link.LinkTarget.URL("https://example/docs")))
+                .type(Comments.Type.DOCUMENTATION)
                 .build();
     }
 
     @Test
     public void concatBuilderTest() {
         Concat.Builder.Companion.builder()
-                .withConcatenations(Literals.STRING("Code"), Literals.STRING("API"))
+                .concatenations(Literals.STRING("Code"), Literals.STRING("API"))
                 .build();
     }
 
     @Test
     public void constructorDeclarationBuilderTest() {
         ConstructorDeclaration.Builder.Companion.builder()
-                .withName("x")
-                .withParameters(Factories.parameter(String.class, "x"))
+                .name("x")
+                .parameters(Factories.parameter(String.class, "x"))
                 .build();
     }
 
     @Test
     public void controlFlowBuilderTest() {
         ControlFlow.Builder.Companion.builder()
-                .withType(ControlFlow.Type.BREAK)
+                .type(ControlFlow.Type.BREAK)
                 .build();
     }
 
     @Test
     public void enumDeclarationBuilderTest() {
         EnumDeclaration.Builder.Companion.builder()
-                .withQualifiedName("com.MyEnum")
-                .withEntries(EnumEntry.Builder.Companion.builder().withName("A").build(), EnumEntry.Builder.Companion.builder().withName("B").build())
+                .qualifiedName("com.MyEnum")
+                .entries(EnumEntry.Builder.Companion.builder().name("A").build(), EnumEntry.Builder.Companion.builder().name("B").build())
                 .build();
     }
 
     @Test
     public void enumEntryBuilderTest() {
         EnumEntry.Builder.Companion.builder()
-                .withName("Y")
-                .withConstructorSpec(new TypeSpec(Void.TYPE, Collections.singletonList(String.class)))
-                .withArguments(Literals.STRING("yy"))
+                .name("Y")
+                .constructorSpec(new TypeSpec(Void.TYPE, Collections.singletonList(String.class)))
+                .arguments(Literals.STRING("yy"))
                 .build();
     }
 
     @Test
     public void enumValueBuilderTest() {
         EnumValue.Builder.Companion.builder()
-                .withEnumEntry("A")
-                .withEnumType(new PlainCodeType("com.MyEnum"))
+                .enumEntry("A")
+                .enumType(new PlainCodeType("com.MyEnum"))
                 .build();
     }
 
     @Test
     public void fieldAccessBuilderTest() {
         FieldAccess.Builder.Companion.builder()
-                .withTarget(Defaults.ACCESS_STATIC)
-                .withLocalization(System.class)
-                .withType(PrintStream.class)
-                .withName("out")
+                .target(Defaults.ACCESS_STATIC)
+                .localization(System.class)
+                .type(PrintStream.class)
+                .name("out")
                 .build();
     }
 
     @Test
     public void fieldDeclarationBuilderTest() {
         FieldDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                .withType(PrintStream.class)
-                .withName("out")
+                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                .type(PrintStream.class)
+                .name("out")
                 .build();
     }
 
     @Test
     public void fieldDefinitionBuilderTest() {
         FieldDefinition.Builder.Companion.builder()
-                .withTarget(Defaults.ACCESS_STATIC)
-                .withLocalization(System.class)
-                .withType(PrintStream.class)
-                .withName("out")
-                .withValue(Literals.NULL)
+                .target(Defaults.ACCESS_STATIC)
+                .localization(System.class)
+                .type(PrintStream.class)
+                .name("out")
+                .value(Literals.NULL)
                 .build();
     }
 
     @Test
     public void forEachStatementBuilderTest() {
         ForEachStatement.Builder.Companion.builder()
-                .withVariable(VariableDeclaration.Builder.Companion.builder()
-                        .withVariableType(String.class)
-                        .withName("s")
+                .variable(VariableDeclaration.Builder.Companion.builder()
+                        .variableType(String.class)
+                        .name("s")
                         .build())
-                .withIterableElement(Factories.accessVariable(Generic.type(List.class).of(String.class), "myList"))
-                .withIterationType(IterationType.ITERABLE_ELEMENT)
+                .iterableElement(Factories.accessVariable(Generic.type(List.class).of(String.class), "myList"))
+                .iterationType(IterationType.ITERABLE_ELEMENT)
                 .build();
     }
 
     @Test
     public void forStatementBuilderTest() {
         ForStatement.Builder.Companion.builder()
-                .withForInit(VariableFactory.variable(Integer.TYPE, "i", Literals.INT(0)))
-                .withForExpression(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(100)))
-                .withForUpdate(Factories.operateAndAssign(Integer.TYPE, "i", Operators.ADD, Literals.INT(1)))
-                .withBody(CodeSource.fromVarArgs(
+                .forInit(VariableFactory.variable(Integer.TYPE, "i", Literals.INT(0)))
+                .forExpression(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(100)))
+                .forUpdate(Factories.operateAndAssign(Integer.TYPE, "i", Operators.ADD, Literals.INT(1)))
+                .body(CodeSource.fromVarArgs(
                         Predefined.invokePrintln(ConcatHelper.builder("Number: ")
                                 .concat(VariableFactory.variable(Integer.TYPE, "i"))
                                 .concat(".")
@@ -356,125 +355,125 @@ public class BuilderTest {
     @Test
     public void ifExprBuilderTest() {
         IfExpr.Builder.Companion.builder()
-                .withExpr1(Factories.accessVariable(Integer.TYPE, "i"))
-                .withOperation(Operators.LESS_THAN)
-                .withExpr2(Literals.INT(5))
+                .expr1(Factories.accessVariable(Integer.TYPE, "i"))
+                .operation(Operators.LESS_THAN)
+                .expr2(Literals.INT(5))
                 .build();
     }
 
     @Test
     public void ifStatementBuilderTest() {
         IfStatement.Builder.Companion.builder()
-                .withExpressions(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
-                .withBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("< 70"))))
-                .withElseStatement(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING(">= 70"))))
+                .expressions(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
+                .body(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("< 70"))))
+                .elseStatement(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING(">= 70"))))
                 .build();
     }
 
     @Test
     public void instanceOfBuilderTest() {
         InstanceOfCheck.Builder.Companion.builder()
-                .withCheckType(String.class)
-                .withPart(Factories.accessVariable(String.class, "a"))
+                .checkType(String.class)
+                .part(Factories.accessVariable(String.class, "a"))
                 .build();
     }
 
     @Test
     public void interfaceDeclarationBuilderTest() {
         InterfaceDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withName("com.MyInterface")
+                .modifiers(CodeModifier.PUBLIC)
+                .name("com.MyInterface")
                 .build();
     }
 
     @Test
     public void labelBuilderTest() {
         Label.Builder.Companion.builder()
-                .withName("myLabel")
+                .name("myLabel")
                 .build();
     }
 
     @Test
     public void linkBuilderTest() {
         Link.Builder.Companion.builder()
-                .withName("JavaDocs")
-                .withTarget(new Link.LinkTarget.URL("https://docs.oracle.com/javase/8/docs/api/"))
+                .name("JavaDocs")
+                .target(new Link.LinkTarget.URL("https://docs.oracle.com/javase/8/docs/api/"))
                 .build();
     }
 
     @Test
     public void methodDeclarationBuilderTest() {
         MethodDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                .withName("call")
-                .withReturnType(Void.TYPE)
-                .withParameters()
+                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                .name("call")
+                .returnType(Void.TYPE)
+                .parameters()
                 .build();
     }
 
     @Test
     public void methodFragmentBuilderTest() {
         LocalCode.Builder.builder()
-                .withDeclaringType(ClassDeclaration.Builder.builder().withQualifiedName("com.x").build()) // will be removed
-                .withDeclaration(
+                .declaringType(ClassDeclaration.Builder.builder().qualifiedName("com.x").build()) // will be removed
+                .declaration(
                         MethodDeclaration.Builder.Companion.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                                .withName("fragment$call")
-                                .withReturnType(Void.TYPE)
-                                .withParameters()
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .name("fragment$call")
+                                .returnType(Void.TYPE)
+                                .parameters()
                                 .build()
                 )
-                .withInvokeType(InvokeType.INVOKE_VIRTUAL)
+                .invokeType(InvokeType.INVOKE_VIRTUAL)
                 .build();
     }
 
     @Test
     public void methodInvocationBuilderTest() {
         MethodInvocation.Builder.Companion.builder()
-                .withLocalization(Alias.THIS.INSTANCE)
-                .withTarget(Defaults.ACCESS_THIS)
-                .withInvokeType(InvokeType.INVOKE_VIRTUAL)
-                .withSpec(new MethodTypeSpec(Alias.THIS.INSTANCE, "hi", new TypeSpec(Void.TYPE)))
+                .localization(Alias.THIS.INSTANCE)
+                .target(Defaults.ACCESS_THIS)
+                .invokeType(InvokeType.INVOKE_VIRTUAL)
+                .spec(new MethodTypeSpec(Alias.THIS.INSTANCE, "hi", new TypeSpec(Void.TYPE)))
                 .build();
     }
 
     @Test
     public void operateBuilderTest() {
         Operate.Builder.Companion.builder()
-                .withOperation(Operators.MULTIPLY)
-                .withTarget(Factories.accessVariable(Integer.TYPE, "a"))
-                .withValue(Literals.INT(9))
+                .operation(Operators.MULTIPLY)
+                .target(Factories.accessVariable(Integer.TYPE, "a"))
+                .value(Literals.INT(9))
                 .build();
     }
 
     @Test
     public void plainBuilderTest() {
         Plain.Builder.Companion.builder()
-                .withText("yx")
+                .text("yx")
                 .build();
     }
 
     @Test
     public void returnBuilderTest() {
         Return.Builder.Companion.builder()
-                .withType(Integer.TYPE)
-                .withValue(Literals.INT(7))
+                .type(Integer.TYPE)
+                .value(Literals.INT(7))
                 .build();
     }
 
     @Test
     public void staticBlockBuilderTest() {
         StaticBlock.Builder.Companion.builder()
-                .withBody(CodeSource.empty())
+                .body(CodeSource.empty())
                 .build();
     }
 
     @Test
     public void switchStatementBuilderTest() {
         SwitchStatement.Builder.Companion.builder()
-                .withSwitchType(SwitchType.NUMERIC)
-                .withValue(Factories.accessVariable(Integer.TYPE, "a"))
-                .withCases(
+                .switchType(SwitchType.NUMERIC)
+                .value(Factories.accessVariable(Integer.TYPE, "a"))
+                .cases(
                         new Case(Literals.INT(1), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 1")))),
                         new Case(Literals.INT(90), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 90")))),
                         new Case(null, CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a != 1 && a != 90"))))
@@ -485,7 +484,7 @@ public class BuilderTest {
     @Test
     public void throwExceptionBuilderTest() {
         ThrowException.Builder.Companion.builder()
-                .withValue(InvocationFactory.invokeConstructor(NullPointerException.class))
+                .value(InvocationFactory.invokeConstructor(NullPointerException.class))
                 .build();
     }
 
@@ -497,10 +496,10 @@ public class BuilderTest {
     @Test
     public void tryWithResourcesBuilderTest() {
         TryWithResources.Builder.Companion.builder()
-                .withVariable(VariableDeclaration.Builder.Companion.builder()
-                        .withName("mi")
-                        .withVariableType(TryWithResourcesTest_.Trm.class)
-                        .withValue(
+                .variable(VariableDeclaration.Builder.Companion.builder()
+                        .name("mi")
+                        .variableType(TryWithResourcesTest_.Trm.class)
+                        .value(
                                 InvocationFactory.invokeVirtual(TryWithResourcesTest_.Trm.class, Factories.accessVariable(TryWithResourcesTest_.Trm.class, "mi"), "read", new TypeSpec(Void.TYPE), Collections.emptyList())
                         )
                         .build()
@@ -511,35 +510,35 @@ public class BuilderTest {
     @Test
     public void variableAccessBuilderTest() {
         VariableAccess.Builder.Companion.builder()
-                .withName("a")
-                .withType(String.class)
+                .name("a")
+                .type(String.class)
                 .build();
     }
 
     @Test
     public void variableDeclarationBuilderTest() {
         VariableDeclaration.Builder.Companion.builder()
-                .withName("a")
-                .withType(String.class)
-                .withValue(Literals.NULL)
+                .name("a")
+                .type(String.class)
+                .value(Literals.NULL)
                 .build();
     }
 
     @Test
     public void variableDefinitionBuilderTest() {
         VariableDefinition.Builder.Companion.builder()
-                .withName("a")
-                .withType(String.class)
-                .withValue(Literals.NULL)
+                .name("a")
+                .type(String.class)
+                .value(Literals.NULL)
                 .build();
     }
 
     @Test
     public void whileStatementBuilderTest() {
         WhileStatement.Builder.Companion.builder()
-                .withType(WhileStatement.Type.DO_WHILE)
-                .withExpressions(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
-                .withBody(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("a"))))
+                .type(WhileStatement.Type.DO_WHILE)
+                .expressions(Factories.check(Factories.accessVariable(Integer.TYPE, "i"), Operators.LESS_THAN, Literals.INT(70)))
+                .body(CodeSource.fromPart(Predefined.invokePrintlnStr(Literals.STRING("a"))))
                 .build();
     }
 
@@ -547,21 +546,21 @@ public class BuilderTest {
     @Test
     public void invokeDynamicBuilderTest() {
         InvokeDynamic.Builder.Companion.builder()
-                .withType(Void.TYPE)
-                .withInvocation(InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(InvocationsTest_.class), Factories.accessStatic(),
+                .type(Void.TYPE)
+                .invocation(InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(InvocationsTest_.class), Factories.accessStatic(),
                         "helloWorld",
                         Factories.typeSpec(Void.TYPE, String.class),
                         Collections.singletonList(Literals.STRING("World"))))
-                .withBootstrap(new MethodInvokeSpec(InvokeType.INVOKE_STATIC, InvocationsTest_.BOOTSTRAP_SPEC))
+                .bootstrap(new MethodInvokeSpec(InvokeType.INVOKE_STATIC, InvocationsTest_.BOOTSTRAP_SPEC))
                 .build();
     }
 
     @Test
     public void invokeLambdaRefBuilderTest() {
         InvokeDynamic.LambdaMethodRef.Builder.Companion.builder()
-                .withBaseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
-                .withExpectedTypes(new TypeSpec(String.class))
-                .withInvocation(InvocationFactory.invoke(
+                .baseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
+                .expectedTypes(new TypeSpec(String.class))
+                .invocation(InvocationFactory.invoke(
                         InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
                         "hello",
                         Factories.typeSpec(String.class),
@@ -572,15 +571,15 @@ public class BuilderTest {
     @Test
     public void invokeLambdaFuncBuilderTest() {
         InvokeDynamic.LambdaLocalCode.Builder.Companion.builder()
-                .withBaseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
-                .withExpectedTypes(new TypeSpec(String.class))
-                .withLocalCode(LocalCode.Builder.builder()
-                        .withDeclaringType(ClassDeclaration.Builder.Companion.builder().withQualifiedName("com.x").build())
-                        .withDeclaration(MethodDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                                .withName("$$lambda$1")
-                                .withReturnType(Types.STRING)
-                                .withBody(CodeSource.fromVarArgs(
+                .baseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
+                .expectedTypes(new TypeSpec(String.class))
+                .localCode(LocalCode.Builder.builder()
+                        .declaringType(ClassDeclaration.Builder.Companion.builder().qualifiedName("com.x").build())
+                        .declaration(MethodDeclaration.Builder.builder()
+                                .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
+                                .name("$$lambda$1")
+                                .returnType(Types.STRING)
+                                .body(CodeSource.fromVarArgs(
                                         Factories.returnValue(Types.STRING, Literals.STRING("CodeAPI"))
                                 ))
                                 .build())

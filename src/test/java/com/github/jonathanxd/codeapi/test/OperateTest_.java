@@ -45,13 +45,13 @@ public class OperateTest_ {
     public static TypeDeclaration $() {
 
         ClassDeclaration codeClass = ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withSpecifiedName("com.OperateTest")
-                .withConstructors(
+                .modifiers(CodeModifier.PUBLIC)
+                .specifiedName("com.OperateTest")
+                .constructors(
                         ConstructorDeclaration.Builder.builder()
-                                .withModifiers(CodeModifier.PUBLIC)
-                                .withParameters(Factories.parameter(int.class, "num"))
-                                .withBody(CodeSource.fromVarArgs(
+                                .modifiers(CodeModifier.PUBLIC)
+                                .parameters(Factories.parameter(int.class, "num"))
+                                .body(CodeSource.fromVarArgs(
                                         Predefined.invokePrintlnStr(
                                                 Predefined.invokeIntToString(
                                                         OperateHelper.builder(INT(9))

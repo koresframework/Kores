@@ -54,12 +54,12 @@ data class Concat(val concatenations: List<CodeInstruction>) : CodePart, Typed, 
             this.concatenations = defaults.concatenations
         }
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         /**
          * See [Concat.concatenations]
          */
-        fun withConcatenations(value: List<CodeInstruction>): Builder {
+        fun concatenations(value: List<CodeInstruction>): Builder {
             this.concatenations = value
             return this
         }
@@ -67,7 +67,7 @@ data class Concat(val concatenations: List<CodeInstruction>) : CodePart, Typed, 
         /**
          * See [Concat.concatenations]
          */
-        fun withConcatenations(vararg values: CodeInstruction): Builder = this.withConcatenations(values.toList())
+        fun concatenations(vararg values: CodeInstruction): Builder = this.concatenations(values.toList())
 
         override fun build(): Concat = Concat(this.concatenations)
 

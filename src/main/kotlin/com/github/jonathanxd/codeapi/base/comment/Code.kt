@@ -69,7 +69,7 @@ data class Code(val code: CodeNode) : Comment {
         /**
          * See [Code.code]
          */
-        fun withCode(value: CodeNode): Builder {
+        fun code(value: CodeNode): Builder {
             this.code = value
             return this
         }

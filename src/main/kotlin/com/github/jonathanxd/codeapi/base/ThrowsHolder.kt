@@ -48,12 +48,12 @@ interface ThrowsHolder : CodePart {
         /**
          * See [ThrowsHolder.throws]
          */
-        fun withThrows(value: List<Type>): S
+        fun throws(value: List<Type>): S
 
         /**
          * See [ThrowsHolder.throws]
          */
-        fun withThrows(vararg values: Type) = this.withThrows(values.toList())
+        fun throws(vararg values: Type) = this.throws(values.toList())
 
     }
 }

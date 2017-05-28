@@ -63,7 +63,7 @@ data class MethodTypeSpec(val localization: Type, val methodName: String, val ty
             this.typeSpec = defaults.typeSpec
         }
 
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.typeSpec = this.typeSpec.copy(returnType = value)
             return this
         }

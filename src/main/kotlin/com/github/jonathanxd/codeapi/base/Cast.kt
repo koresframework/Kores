@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 
@@ -60,12 +59,12 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
             this.castedPart = defaults.castedPart
         }
 
-        override fun withType(value: Type): Builder = this.withTargetType(value)
+        override fun type(value: Type): Builder = this.targetType(value)
 
         /**
          * See [Cast.originalType]
          */
-        fun withOriginalType(value: Type?): Builder {
+        fun originalType(value: Type?): Builder {
             this.originalType = value
             return this
         }
@@ -73,7 +72,7 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
         /**
          * See [Cast.targetType]
          */
-        fun withTargetType(value: Type): Builder {
+        fun targetType(value: Type): Builder {
             this.targetType = value
             return this
         }
@@ -81,7 +80,7 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
         /**
          * See [Cast.castedPart]
          */
-        fun withCastedPart(value: CodeInstruction): Builder {
+        fun castedPart(value: CodeInstruction): Builder {
             this.castedPart = value
             return this
         }

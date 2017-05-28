@@ -50,30 +50,30 @@ public class EnumTest_ {
     public static TypeDeclaration $() {
 
         return EnumDeclaration.Builder.Companion.builder()
-                .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
-                .withImplementations(CollectionsKt.listOf(CodeTypes.getCodeType(MyItf.class)))
-                .withQualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
-                .withEntries(
+                .modifiers(SetsKt.setOf(CodeModifier.PUBLIC))
+                .implementations(CollectionsKt.listOf(CodeTypes.getCodeType(MyItf.class)))
+                .qualifiedName("com.MyEnum")//CodeAPI.sourceOfParts(Predefined.invokePrintln(CodeAPI.argument(Literals.STRING("A"), String.class)))
+                .entries(
                         EnumEntry.Builder.builder()
-                                .withName("A")
-                                .withMethods(MethodDeclaration.Builder.builder()
-                                        .withModifiers(SetsKt.setOf(CodeModifier.PUBLIC))
-                                        .withAnnotations(Factories.overrideAnnotation())
-                                        .withReturnType(Types.VOID)
-                                        .withName("v")
-                                        .withBody(CodeSource.fromVarArgs(
+                                .name("A")
+                                .methods(MethodDeclaration.Builder.builder()
+                                        .modifiers(SetsKt.setOf(CodeModifier.PUBLIC))
+                                        .annotations(Factories.overrideAnnotation())
+                                        .returnType(Types.VOID)
+                                        .name("v")
+                                        .body(CodeSource.fromVarArgs(
                                                 Predefined.invokePrintln(Literals.STRING("A"))
                                         ))
                                         .build())
                                 .build(),
                         EnumEntry.Builder.builder()
-                                .withName("B")
-                                .withMethods(MethodDeclaration.Builder.builder()
-                                        .withModifiers(CodeModifier.PUBLIC)
-                                        .withAnnotations(Factories.overrideAnnotation())
-                                        .withReturnType(Types.VOID)
-                                        .withName("v")
-                                        .withBody(CodeSource.fromVarArgs(
+                                .name("B")
+                                .methods(MethodDeclaration.Builder.builder()
+                                        .modifiers(CodeModifier.PUBLIC)
+                                        .annotations(Factories.overrideAnnotation())
+                                        .returnType(Types.VOID)
+                                        .name("v")
+                                        .body(CodeSource.fromVarArgs(
                                                 Predefined.invokePrintln(Literals.STRING("B"))
                                         ))
                                         .build())

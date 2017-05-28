@@ -110,7 +110,7 @@ data class LocalCode(val declaringType: Type,
         /**
          * See [LocalCode.invokeType]
          */
-        fun withInvokeType(value: InvokeType): Builder {
+        fun invokeType(value: InvokeType): Builder {
             this.invokeType = value
 
             return this
@@ -119,7 +119,7 @@ data class LocalCode(val declaringType: Type,
         /**
          * See [LocalCode.declaration]
          */
-        fun withDeclaration(value: MethodDeclaration): Builder {
+        fun declaration(value: MethodDeclaration): Builder {
             this.declaration = value
             return this
         }
@@ -127,7 +127,7 @@ data class LocalCode(val declaringType: Type,
         /**
          * See [LocalCode.declaringType]
          */
-        fun withDeclaringType(value: Type): Builder {
+        fun declaringType(value: Type): Builder {
             this.declaringType = value
             return this
         }
@@ -138,7 +138,7 @@ data class LocalCode(val declaringType: Type,
             } ?: LocalCode(this.declaringType, this.invokeType!!, this.declaration, this.innerTypes)
         }
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }

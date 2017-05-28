@@ -82,52 +82,52 @@ data class MethodDeclaration(override val comments: Comments,
             this.body = defaults.body
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withComments(value: Comments): Builder {
+        override fun comments(value: Comments): Builder {
             this.comments = value
             return this
         }
 
-        override fun withAnnotations(value: List<Annotation>): Builder {
+        override fun annotations(value: List<Annotation>): Builder {
             this.annotations = value
             return this
         }
 
-        override fun withModifiers(value: Set<CodeModifier>): Builder {
+        override fun modifiers(value: Set<CodeModifier>): Builder {
             this.modifiers = value
             return this
         }
 
-        override fun withReturnType(value: Type): Builder {
+        override fun returnType(value: Type): Builder {
             this.returnType = value
             return this
         }
 
-        override fun withParameters(value: List<CodeParameter>): Builder {
+        override fun parameters(value: List<CodeParameter>): Builder {
             this.parameters = value
             return this
         }
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }
 
-        override fun withThrows(value: List<Type>): Builder {
+        override fun throws(value: List<Type>): Builder {
             this.throws = value
             return this
         }
 
-        override fun withGenericSignature(value: GenericSignature): Builder {
+        override fun genericSignature(value: GenericSignature): Builder {
             this.genericSignature = value
             return this
         }
@@ -175,7 +175,7 @@ interface MethodDeclarationBase : CodeElement, ModifiersHolder, ReturnTypeHolder
             InnerTypesHolder.Builder<T, S>,
             ThrowsHolder.Builder<T, S> {
 
-        override fun withType(value: Type): S = this.withReturnType(value)
+        override fun type(value: Type): S = this.returnType(value)
 
     }
 }

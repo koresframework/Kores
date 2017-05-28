@@ -62,12 +62,12 @@ interface IfExpressionHolder : CodePart {
         /**
          * See [T.expressions]
          */
-        fun withExpressions(value: List<CodeInstruction>): S
+        fun expressions(value: List<CodeInstruction>): S
 
         /**
          * See [T.expressions]
          */
-        fun withExpressions(vararg values: CodeInstruction): S = withExpressions(values.toList())
+        fun expressions(vararg values: CodeInstruction): S = expressions(values.toList())
     }
 
     companion object {

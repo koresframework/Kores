@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import java.lang.reflect.Type
 
-public typealias CodeAnnotation = Annotation
+typealias CodeAnnotation = Annotation
 
 /**
  * An annotation, an annotation is composed by a pair of property name and property value.
@@ -59,7 +59,7 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
         /**
          * See [Annotation.type]
          */
-        override fun withType(value: Type): Builder {
+        override fun type(value: Type): Builder {
             this.type = value
             return this
         }
@@ -67,7 +67,7 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
         /**
          * See [Annotation.values]
          */
-        fun withValues(value: Map<String, Any>): Builder {
+        fun values(value: Map<String, Any>): Builder {
             this.values = value
             return this
         }
@@ -75,7 +75,7 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
         /**
          * See [Annotation.visible]
          */
-        fun withVisible(value: Boolean): Builder {
+        fun visible(value: Boolean): Builder {
             this.visible = value
             return this
         }

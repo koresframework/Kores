@@ -84,45 +84,45 @@ data class EnumEntry(override val name: String,
 
         }
 
-        override fun withArray(value: Boolean): Builder = self()
+        override fun array(value: Boolean): Builder = self()
 
         /**
          * See [EnumEntry.constructorSpec]
          */
-        fun withConstructorSpec(value: TypeSpec?): Builder {
+        fun constructorSpec(value: TypeSpec?): Builder {
             this.constructorSpec = value
             return this
         }
 
-        override fun withName(value: String): Builder {
+        override fun name(value: String): Builder {
             this.name = value
             return this
         }
 
-        override fun withArguments(value: List<CodeInstruction>): Builder {
+        override fun arguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }
 
 
-        override fun withStaticBlock(value: StaticBlock): Builder {
+        override fun staticBlock(value: StaticBlock): Builder {
             this.staticBlock = value
             return this
         }
 
-        override fun withFields(value: List<FieldDeclaration>): Builder {
+        override fun fields(value: List<FieldDeclaration>): Builder {
             this.fields = value
             return this
         }
 
-        override fun withConstructors(value: List<ConstructorDeclaration>): Builder = self()
+        override fun constructors(value: List<ConstructorDeclaration>): Builder = self()
 
-        override fun withMethods(value: List<MethodDeclaration>): Builder {
+        override fun methods(value: List<MethodDeclaration>): Builder {
             this.methods = value
             return this
         }
 
-        override fun withInnerTypes(value: List<TypeDeclaration>): Builder {
+        override fun innerTypes(value: List<TypeDeclaration>): Builder {
             this.innerTypes = value
             return this
         }

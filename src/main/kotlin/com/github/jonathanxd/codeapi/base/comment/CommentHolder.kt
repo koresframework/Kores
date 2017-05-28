@@ -44,7 +44,7 @@ interface CommentHolder : CodePart {
         /**
          * See [T.comments]
          */
-        fun withComments(value: Comments): S
+        fun comments(value: Comments): S
 
     }
 

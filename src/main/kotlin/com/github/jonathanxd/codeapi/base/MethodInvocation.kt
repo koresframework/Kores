@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
@@ -83,10 +82,10 @@ data class MethodInvocation(val invokeType: InvokeType,
             this.arguments = defaults.arguments
         }
 
-        override fun withArray(value: Boolean): Builder = self()
-        override fun withLocalization(value: Type): Builder = self()
+        override fun array(value: Boolean): Builder = self()
+        override fun localization(value: Type): Builder = self()
 
-        override fun withTarget(value: CodeInstruction): Builder {
+        override fun target(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -94,7 +93,7 @@ data class MethodInvocation(val invokeType: InvokeType,
         /**
          * See [MethodInvocation.invokeType]
          */
-        fun withInvokeType(value: InvokeType): Builder {
+        fun invokeType(value: InvokeType): Builder {
             this.invokeType = value
             return this
         }
@@ -102,18 +101,18 @@ data class MethodInvocation(val invokeType: InvokeType,
         /**
          * See [MethodInvocation.spec]
          */
-        fun withSpec(value: MethodTypeSpec): Builder {
+        fun spec(value: MethodTypeSpec): Builder {
             this.spec = value
             return this
         }
 
-        override fun withArguments(value: List<CodeInstruction>): Builder {
+        override fun arguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }
 
-        override fun withType(value: Type): Builder {
-            this.spec = this.spec.builder().withType(value).build()
+        override fun type(value: Type): Builder {
+            this.spec = this.spec.builder().type(value).build()
             return this
         }
 

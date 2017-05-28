@@ -74,12 +74,12 @@ public class CommonGen {
 
         TypeDeclaration typeDeclaration =
                 ClassDeclaration.Builder.builder()
-                        .withModifiers(CodeModifier.PUBLIC)
-                        .withName(name)
-                        .withConstructors(
+                        .modifiers(CodeModifier.PUBLIC)
+                        .name(name)
+                        .constructors(
                                 ConstructorDeclaration.Builder.builder()
-                                        .withModifiers(CodeModifier.PUBLIC)
-                                        .withBody(CodeSource.fromVarArgs(
+                                        .modifiers(CodeModifier.PUBLIC)
+                                        .body(CodeSource.fromVarArgs(
                                                 VariableFactory.variable(stringArrayType,
                                                         "array",
                                                         Factories.createArray(stringArrayType, listOf(INT(2), INT(5)),

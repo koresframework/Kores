@@ -60,10 +60,10 @@ public class TryWithResourcesTest_ {
         );
 
         return ClassDeclaration.Builder.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withSpecifiedName("test.TryWithResourcesTestClass")
-                .withConstructors(ConstructorDeclaration.Builder.builder()
-                        .withBody(CodeSource.fromPart(
+                .modifiers(CodeModifier.PUBLIC)
+                .specifiedName("test.TryWithResourcesTestClass")
+                .constructors(ConstructorDeclaration.Builder.builder()
+                        .body(CodeSource.fromPart(
                                 tryWithResources
                         ))
                         .build())

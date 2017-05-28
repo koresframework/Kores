@@ -72,12 +72,12 @@ data class Operate(val target: CodeInstruction,
             this.value = defaults.value
         }
 
-        override fun withType(value: Type): Builder = self()
+        override fun type(value: Type): Builder = self()
 
         /**
          * See [Operate.target]
          */
-        fun withTarget(value: CodeInstruction): Builder {
+        fun target(value: CodeInstruction): Builder {
             this.target = value
             return this
         }
@@ -85,12 +85,12 @@ data class Operate(val target: CodeInstruction,
         /**
          * See [Operate.operation]
          */
-        fun withOperation(value: Operator.Math): Builder {
+        fun operation(value: Operator.Math): Builder {
             this.operation = value
             return this
         }
 
-        override fun withValue(value: CodeInstruction): Builder {
+        override fun value(value: CodeInstruction): Builder {
             this.value = value
             return this
         }

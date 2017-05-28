@@ -42,16 +42,16 @@ public class TypeResolverTest {
     @Test
     public void typeResolverTest() {
         TypeDeclaration basex = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName("com.BaseX")
-                .withSuperClass(Types.OBJECT)
-                .withImplementations(CodeTypes.getCodeType(BaseExt.class))
+                .modifiers(CodeModifier.PUBLIC)
+                .qualifiedName("com.BaseX")
+                .superClass(Types.OBJECT)
+                .implementations(CodeTypes.getCodeType(BaseExt.class))
                 .build();
 
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withQualifiedName("com.TypeResolverTest")
-                .withSuperClass(basex)
+                .modifiers(CodeModifier.PUBLIC)
+                .qualifiedName("com.TypeResolverTest")
+                .superClass(basex)
                 .build();
 
 

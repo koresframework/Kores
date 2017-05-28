@@ -51,12 +51,12 @@ class Synchronized(val instruction: CodeInstruction, override val body: CodeSour
         /**
          * See [Synchronized.instruction]
          */
-        fun withInstruction(value: CodeInstruction): Builder {
+        fun instruction(value: CodeInstruction): Builder {
             this.instruction = value
             return this
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }

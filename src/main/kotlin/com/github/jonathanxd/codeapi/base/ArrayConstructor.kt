@@ -76,11 +76,11 @@ data class ArrayConstructor(val arrayType: Type,
 
                 arrayStores.add(
                         ArrayStore.Builder.builder()
-                                .withArrayType(this@ArrayConstructor.arrayType)//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
-                                .withTarget(Stack)
-                                .withIndex(Literals.INT(i))
-                                .withValueType(argument.type)
-                                .withValueToStore(argument)
+                                .arrayType(this@ArrayConstructor.arrayType)//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
+                                .target(Stack)
+                                .index(Literals.INT(i))
+                                .valueType(argument.type)
+                                .valueToStore(argument)
                                 .build()
                 )
             }
@@ -104,15 +104,15 @@ data class ArrayConstructor(val arrayType: Type,
             this.arguments = defaults.arguments
         }
 
-        override fun withType(value: Type): Builder = this.withArrayType(value)
+        override fun type(value: Type): Builder = this.arrayType(value)
 
         @Suppress("UNCHECKED_CAST")
-        override fun withArray(value: Boolean): Builder = self()
+        override fun array(value: Boolean): Builder = self()
 
         /**
          * See [ArrayConstructor.arrayType]
          */
-        fun withArrayType(value: Type): Builder {
+        fun arrayType(value: Type): Builder {
             this.arrayType = value
             return this
         }
@@ -120,7 +120,7 @@ data class ArrayConstructor(val arrayType: Type,
         /**
          * See [ArrayConstructor.dimensions]
          */
-        fun withDimensions(value: List<CodeInstruction>): Builder {
+        fun dimensions(value: List<CodeInstruction>): Builder {
             this.dimensions = value
             return this
         }
@@ -128,9 +128,9 @@ data class ArrayConstructor(val arrayType: Type,
         /**
          * See [ArrayConstructor.dimensions]
          */
-        fun withDimensions(vararg values: CodeInstruction): Builder = withDimensions(values.toList())
+        fun dimensions(vararg values: CodeInstruction): Builder = dimensions(values.toList())
 
-        override fun withArguments(value: List<CodeInstruction>): Builder {
+        override fun arguments(value: List<CodeInstruction>): Builder {
             this.arguments = value
             return this
         }

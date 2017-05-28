@@ -57,17 +57,17 @@ interface ArgumentsHolder : CodePart {
         /**
          * See [T.arguments]
          */
-        fun withArguments(value: List<CodeInstruction>): S
+        fun arguments(value: List<CodeInstruction>): S
 
         /**
          * See [T.arguments]
          */
-        fun withArguments(vararg values: CodeInstruction): S = withArguments(values.toList())
+        fun arguments(vararg values: CodeInstruction): S = arguments(values.toList())
 
         /**
          * See [T.array]
          */
-        fun withArray(value: Boolean): S
+        fun array(value: Boolean): S
     }
 
 }

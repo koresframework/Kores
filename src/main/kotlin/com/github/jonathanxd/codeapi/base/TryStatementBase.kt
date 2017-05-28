@@ -59,17 +59,17 @@ data class TryStatement(override val body: CodeSource, override val catchStateme
             this.finallyStatement = defaults.finallyStatement
         }
 
-        override fun withBody(value: CodeSource): Builder {
+        override fun body(value: CodeSource): Builder {
             this.body = value
             return this
         }
 
-        override fun withCatchStatements(value: List<CatchStatement>): Builder {
+        override fun catchStatements(value: List<CatchStatement>): Builder {
             this.catchStatements = value
             return this
         }
 
-        override fun withFinallyStatement(value: CodeSource): Builder {
+        override fun finallyStatement(value: CodeSource): Builder {
             this.finallyStatement = value
             return this
         }
@@ -116,22 +116,22 @@ internal interface TryStatementBase : BodyHolder, Typed, CodeInstruction {
             BodyHolder.Builder<T, S>,
             Typed.Builder<T, S> {
 
-        override fun withType(value: Type): S = self()
+        override fun type(value: Type): S = self()
 
         /**
          * See [T.catchStatements]
          */
-        fun withCatchStatements(value: List<CatchStatement>): S
+        fun catchStatements(value: List<CatchStatement>): S
 
         /**
          * See [T.catchStatements]
          */
-        fun withCatchStatements(vararg values: CatchStatement): S = withCatchStatements(values.toList())
+        fun catchStatements(vararg values: CatchStatement): S = catchStatements(values.toList())
 
         /**
          * See [T.finallyStatement]
          */
-        fun withFinallyStatement(value: CodeSource): S
+        fun finallyStatement(value: CodeSource): S
 
     }
 
