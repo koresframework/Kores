@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.isInterface
+import java.lang.reflect.Type
 
 /**
  * Type of the invocation. In JVM, the invocation type depends on where the element is declared and
@@ -98,13 +100,13 @@ enum class InvokeType {
     companion object {
 
         /**
-         * Get InvokeType corresponding to the [codeType]. If [codeType] is null, [INVOKE_STATIC], if [CodeType.isInterface],
-         * [INVOKE_INTERFACE] else [INVOKE_VIRTUAL].
+         * Get InvokeType corresponding to the [type]. If [type] is null, [INVOKE_STATIC], if [type]
+         * [com.github.jonathanxd.codeapi.util.isInterface], [INVOKE_INTERFACE], if not, [INVOKE_VIRTUAL].
          *
-         * @param codeType Code Type
+         * @param type Type
          * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
          */
         @JvmStatic
-        fun get(codeType: CodeType?) = if (codeType == null) INVOKE_STATIC else if (codeType.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+        fun get(type: Type?) = if (type == null) INVOKE_STATIC else if (type.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
     }
 }
