@@ -44,9 +44,10 @@ data class EnumEntry(override val name: String,
                      override val arguments: List<CodePart>,
                      override val staticBlock: StaticBlock,
                      override val fields: List<FieldDeclaration>,
-                     override val constructors: List<ConstructorDeclaration>,
                      override val methods: List<MethodDeclaration>,
                      override val innerTypes: List<TypeDeclaration>) : ArgumentHolder, Named, ElementsHolder {
+
+    override val constructors: List<ConstructorDeclaration> = emptyList()
 
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
@@ -67,10 +68,8 @@ data class EnumEntry(override val name: String,
 
         var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
         var fields: List<FieldDeclaration> = emptyList()
-        var constructors: List<ConstructorDeclaration> = emptyList()
         var methods: List<MethodDeclaration> = emptyList()
         var innerTypes: List<TypeDeclaration> = emptyList()
-
 
         constructor(defaults: EnumEntry) : this() {
             this.name = defaults.name
@@ -79,7 +78,6 @@ data class EnumEntry(override val name: String,
 
             this.staticBlock = defaults.staticBlock
             this.fields = defaults.fields
-            this.constructors = defaults.constructors
             this.methods = defaults.methods
             this.innerTypes = defaults.innerTypes
 
@@ -116,10 +114,7 @@ data class EnumEntry(override val name: String,
             return this
         }
 
-        override fun withConstructors(value: List<ConstructorDeclaration>): Builder {
-            this.constructors = value
-            return this
-        }
+        override fun withConstructors(value: List<ConstructorDeclaration>): Builder = self()
 
         override fun withMethods(value: List<MethodDeclaration>): Builder {
             this.methods = value
@@ -132,7 +127,7 @@ data class EnumEntry(override val name: String,
         }
 
         override fun build(): EnumEntry = EnumEntry(this.name, this.constructorSpec, this.arguments, this.staticBlock,
-                this.fields, this.constructors, this.methods, this.innerTypes)
+                this.fields, this.methods, this.innerTypes)
 
         companion object {
             @JvmStatic
