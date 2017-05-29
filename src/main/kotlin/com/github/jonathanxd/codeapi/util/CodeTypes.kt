@@ -93,10 +93,7 @@ fun Type.getType(isParameterized: Boolean = false): CodeType {
     if (this is CodeType)
         return this
 
-    if (cache.containsKey(this))
-        return cache[this]!!
-
-    return when (this) {
+    return cache[this] ?: when (this) {
         is ParameterizedType -> Generic.type(this.rawType.getType(false)).of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is GenericArrayType -> Generic.type(this.genericComponentType.getType(false))
         is TypeVariable<*> -> {
