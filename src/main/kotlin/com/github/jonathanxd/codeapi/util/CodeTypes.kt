@@ -93,7 +93,7 @@ fun Type.getType(isParameterized: Boolean = false): CodeType {
     if (this is CodeType)
         return this
 
-    return cache[this] ?: when (this) {
+    return synchronized(cache) { cache[this] } ?: when (this) {
         is ParameterizedType -> Generic.type(this.rawType.getType(false)).of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is GenericArrayType -> Generic.type(this.genericComponentType.getType(false))
         is TypeVariable<*> -> {
@@ -129,7 +129,7 @@ fun Type.getType(isParameterized: Boolean = false): CodeType {
         }
         else -> throw IllegalArgumentException("Cannot convert '$this' to CodeType.")
     }.let {
-        cache[this] = it
+        synchronized(cache) { cache[this] = it }
         it
     }
 }
