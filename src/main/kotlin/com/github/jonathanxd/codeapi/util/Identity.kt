@@ -34,7 +34,6 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
 import com.github.jonathanxd.iutils.string.ToStringHelper
-import java.lang.reflect.Type
 import java.util.Arrays
 import java.util.Objects
 

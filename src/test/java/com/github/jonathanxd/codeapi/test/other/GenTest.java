@@ -39,12 +39,8 @@ import com.github.jonathanxd.iutils.type.TypeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

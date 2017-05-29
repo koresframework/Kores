@@ -40,36 +40,26 @@ interface GenericType : CodeType {
 
     /**
      * Name of the generic type.
-     *
-     * @return Name of the generic type.
      */
     val name: String
 
     /**
      * Bounds of the generic type.
-     *
-     * @return Bounds of the generic type.
      */
     val bounds: Array<Bound>
 
     /**
-     * Gets the resolved code type.
-     *
-     * @return Resolved code type.
+     * Resolved code type.
      */
     val codeType: CodeType
 
     /**
-     * Returns true if this is a Type generic type, false if is a Type Variable generic type.
-     *
-     * @return True if this is a Type generic type, false if is a Type Variable generic type.
+     * True if this is a Type generic type, false if is a Type Variable generic type.
      */
     val isType: Boolean
 
     /**
-     * Returns true if this is a wildcard generic type.
-
-     * @return True if this is a wildcard generic type.
+     * True if this is a wildcard generic type.
      */
     val isWildcard: Boolean
         get() = this.name == "*"

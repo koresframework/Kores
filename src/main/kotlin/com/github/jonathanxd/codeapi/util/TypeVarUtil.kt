@@ -238,43 +238,34 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
 /**
  * Infers code type.
  */
-fun CodeType.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<out TypeVariable<*>>, generic: Generic): CodeType {
-    if (this is LoadedCodeType<*> || this is Generic && this.isType && this.codeType is LoadedCodeType<*>) {
-
-        if (this is GenericType) {
-            return this.codeType
-        } else {
-            return this
-        }
-    } else {
-        val variable = toTypeVar(this as GenericType)
-
-        if (!isConflict(variables, variable)) {
-            return getType(classVariables, variable, generic)
-                    ?: throw IllegalStateException("Cannot infer type")
-        } else {
-            return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
-        }
-
-    }
-}
-
-/**
- * Infers code type.
- */
 fun Type.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<out TypeVariable<*>>, generic: Generic): CodeType {
-    if (this is Class<*>) {
-        return this.codeType
-    } else {
-        val variable = this as TypeVariable<*>
+    this.codeType.let {
+        if (it is LoadedCodeType<*> || it is GenericType && it.isType && it.codeType is LoadedCodeType<*>) {
 
-        if (!isConflict(variables, variable)) {
-            return getType(classVariables, variable, generic)
-                    ?: throw IllegalStateException("Cannot infer type")
+            if (it is GenericType) {
+                return it.codeType
+            } else {
+                return it
+            }
         } else {
-            return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
-        }
+            val variable =
+            when(this) {
+                is TypeVariable<*> -> this
+                is GenericType -> toTypeVar(this)
+                else -> {
+                    toTypeVar((it as? GenericType)
+                            ?: throw IllegalArgumentException("Invalid receiver type. A generic type is required")
+                    )
+                }
+            }
+            if (!isConflict(variables, variable)) {
+                return getType(classVariables, variable, generic)
+                        ?: throw IllegalStateException("Cannot infer type")
+            } else {
+                return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
+            }
 
+        }
     }
 }
 

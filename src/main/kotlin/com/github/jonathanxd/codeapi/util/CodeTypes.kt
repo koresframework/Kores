@@ -29,9 +29,7 @@
 
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import java.lang.reflect.*
