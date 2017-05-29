@@ -156,19 +156,14 @@ fun toString(collection: Collection<CodeModifier>?): String {
  * @return Java modifiers flags ([Modifier])
  */
 fun toJavaModifier(modifiers: Collection<CodeModifier>): Int {
-    var end = 0
-
     val mods = modifiers.toMutableList()
 
     if (!mods.contains(CodeModifier.PACKAGE_PRIVATE) && !mods.contains(CodeModifier.PUBLIC))
         mods.add(CodeModifier.PUBLIC)
 
-    mods.asSequence()
-            .map { toJavaModifier(it) }
+    return mods.map { toJavaModifier(it) }
             .filter { it != 0 }
-            .forEach { end = end or it }
-
-    return end
+            .reduce { acc, i -> acc or i }
 }
 
 /**
