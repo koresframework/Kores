@@ -123,7 +123,7 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
             for (x in 0..arrayDimension - 1)
                 sb.append('[')
 
-            sb.toString() + "L${this.type};"
+            sb.toString() + "L${this.arrayBaseComponent.type};"
         }
 
     /**
