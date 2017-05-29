@@ -131,7 +131,7 @@ fun fixResult(str: String): String {
 /**
  * Creates a name string from a [CodeType].
  */
-fun CodeType.toName(): String {
+fun CodeType.toNameDescriptor(): String {
     if (this is GenericType) {
 
         val name = this.name
