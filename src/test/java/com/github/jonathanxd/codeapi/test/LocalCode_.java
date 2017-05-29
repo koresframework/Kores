@@ -46,7 +46,7 @@ import org.junit.Test;
 
 import java.util.Collections;
 
-public class MethodFragment_ {
+public class LocalCode_ {
 
     public static TypeDeclaration $() {
 
@@ -88,12 +88,11 @@ public class MethodFragment_ {
                 )
                 .build();
 
-        source.add(
-                Predefined.invokePrintln(
-                        build,
-                        build.createInvocation(Collections.singletonList(Literals.STRING("Hello")))
-                )
-        );
+        source.add(build);
+
+        source.add(Predefined.invokePrintln(
+                build.createInvocation(Collections.singletonList(Literals.STRING("Hello")))
+        ));
 
         return classDeclaration;
     }
