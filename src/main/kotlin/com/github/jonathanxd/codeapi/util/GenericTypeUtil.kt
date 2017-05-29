@@ -208,7 +208,7 @@ fun CodeType.createCodeTypeDescriptor(): String {
  * The method descriptor is the result concatenation method generic [signature descriptor][genericTypeToDescriptor],
  * parameter types and return type [Type descriptor][descriptor].
  */
-fun MethodDeclaration.methodGenericSignature(): String? {
+fun MethodDeclarationBase.methodGenericSignature(): String? {
 
     val returnType = this.returnType
 
