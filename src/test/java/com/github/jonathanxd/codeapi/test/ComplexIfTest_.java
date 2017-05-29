@@ -64,14 +64,6 @@ public class ComplexIfTest_ {
                                                         CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
                                                 )
                                         ),
-                                        VariableFactory.variable(Types.STRING, "b",
-                                                Factories.ifStatement(
-                                                        Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
-                                                        CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
-                                                        CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
-                                                )
-                                        ),
-
                                         Factories.ifStatement(
                                                 Factories.ifExprs(
                                                         Factories.accessVariable(Types.BOOLEAN, "h"),
