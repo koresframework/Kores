@@ -64,11 +64,12 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
         if (other !is TypeSpec)
             return false
 
-        return this.returnTypeCodeType.`is`(other.returnTypeCodeType) && this.parameterTypes == other.parameterTypes
+        return this.returnTypeCodeType.`is`(other.returnTypeCodeType) && this.parameterTypesCodeType == other.parameterTypesCodeType
     }
 
     override fun compareTo(other: TypeSpec): Int {
-        return if (this.returnTypeCodeType.`is`(other.returnTypeCodeType) && this.parameterTypes == other.parameterTypes) 0 else 1
+        return if (this.returnTypeCodeType.`is`(other.returnTypeCodeType)
+                && this.parameterTypesCodeType == other.parameterTypesCodeType) 0 else 1
     }
 
     class Builder() : Typed.Builder<TypeSpec, Builder> {
