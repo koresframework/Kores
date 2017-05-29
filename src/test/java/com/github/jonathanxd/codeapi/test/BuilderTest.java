@@ -84,6 +84,7 @@ import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.base.SwitchType;
 import com.github.jonathanxd.codeapi.base.TypeSpec;
+import com.github.jonathanxd.codeapi.common.Nothing;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
@@ -476,7 +477,7 @@ public class BuilderTest {
                 .cases(
                         new Case(Literals.INT(1), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 1")))),
                         new Case(Literals.INT(90), CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a = 90")))),
-                        new Case(null, CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a != 1 && a != 90"))))
+                        new Case(Nothing.INSTANCE, CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("a != 1 && a != 90"))))
                 )
                 .build();
     }
