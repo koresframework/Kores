@@ -105,7 +105,20 @@ fun Type.getTypeDesc(typeStr: String = this.codeType.type): String {
     if (codeType.isArray) {
         name = codeType.arrayBaseComponent.javaSpecName
     } else if (codeType.isPrimitive) {
-        return typeStr.replace(".", "/")
+        val transform = when (typeStr) {
+            "byte" -> "B"
+            "short" -> "S"
+            "int" -> "I"
+            "char" -> "C"
+            "double" -> "D"
+            "float" -> "F"
+            "long" -> "J"
+            "boolean" -> "Z"
+            "void" -> "V"
+            else -> typeStr.replace(".", "/") // Should I throw an exception or only replace?
+        }
+
+        return transform
     } else {
         return "L" + typeStr.replace('.', '/') + ";"
     }
