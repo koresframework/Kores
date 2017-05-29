@@ -43,8 +43,7 @@ import java.lang.reflect.Type
  * an interface, this must be [InvokeType.INVOKE_INTERFACE], if [declaration] is `static`, this must be
  * [InvokeType.INVOKE_STATIC] does not matter if is declared in an interface or a class, if is not `static`
  * and is declared in a `class`, this must be [InvokeType.INVOKE_VIRTUAL]. Read [InvokeType] for more information.
- * @property declaration Method declaration of the code. If you provide a name of `?` to declaration, the generator
- * should automatically generate a name of the declaration.
+ * @property declaration Method declaration of the code.
  */
 data class LocalCode(val declaringType: Type,
                      val invokeType: InvokeType,
