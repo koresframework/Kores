@@ -119,7 +119,7 @@ public class InnerClassTest_ {
                                 ))
                                 .build(),
                         ConstructorDeclaration.Builder.builder()
-                                .modifiers(CodeModifier.PRIVATE)
+                                .modifiers(CodeModifier.PROTECTED) // Required to be accessed from inner/outer
                                 .parameters(Factories.parameter(String.class, "str"))
                                 .body(CodeSource.fromVarArgs(
                                         Predefined.invokePrintln(Factories.accessVariable(String.class, "str"))
