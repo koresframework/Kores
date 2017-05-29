@@ -46,7 +46,7 @@ sealed class Alias : CodeInstruction {
      */
     object THIS : Alias(), CodeType by THIS::class.codeType {
         override fun hashCode(): Int = super.hashCode()
-        override fun equals(other: Any?): Boolean = other == THIS
+        override fun equals(other: Any?): Boolean = other === THIS
     }
 
     /**
@@ -56,7 +56,7 @@ sealed class Alias : CodeInstruction {
      */
     object SUPER : Alias(), CodeType by SUPER::class.codeType {
         override fun hashCode(): Int = super.hashCode()
-        override fun equals(other: Any?): Boolean = other == THIS
+        override fun equals(other: Any?): Boolean = other === SUPER
     }
 
     /**
