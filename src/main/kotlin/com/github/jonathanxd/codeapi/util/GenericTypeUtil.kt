@@ -129,6 +129,38 @@ fun fixResult(str: String): String {
 }
 
 /**
+ * Creates a name string from a [CodeType].
+ */
+fun CodeType.toName(): String {
+    if (this is GenericType) {
+
+        val name = this.name
+
+        val bounds = this.bounds
+
+        if (bounds.isEmpty()) {
+            if (!this.isType) {
+                if (this.isWildcard) {
+                    return fixResult(name)
+                } else {
+                    return fixResult("T$name;")
+                }
+            } else {
+                return name + ";"
+            }
+        } else {
+            return fixResult(if (!this.isWildcard)
+                name + "<" + bounds(this.isWildcard, bounds) + ">;"
+            else
+                bounds(this.isWildcard, bounds) + ";")
+        }
+
+    } else {
+        return fixResult(this.typeDesc)
+    }
+}
+
+/**
  * Create a type descriptor from [generic]
  */
 private fun GenericType.genericTypeDescriptor_plain(): String {
