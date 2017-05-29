@@ -81,7 +81,7 @@ public class InnerClassTest_ {
                 )
                 .methods(
                         MethodDeclaration.Builder.builder()
-                                .modifiers(CodeModifier.PRIVATE)
+                                .modifiers(CodeModifier.PROTECTED) // Required to be accessed from inner/outer
                                 .returnType(String.class)
                                 .name("call")
                                 .body(CodeSource.fromVarArgs(
