@@ -84,7 +84,7 @@ fun GenericSignature.genericSignatureToDescriptor(): String {
 }
 
 /**
- * Create a type descriptor from [generics]
+ * Create a type descriptor from receiver array.
  */
 fun Array<out GenericType>.genericTypesToDescriptor(): String {
     val sj = StringJoiner(";")
@@ -98,6 +98,9 @@ fun Array<out GenericType>.genericTypesToDescriptor(): String {
 
 /**
  * Create a type descriptor from receiver type.
+ *
+ * Descriptor are described as: `<GENERIC_TYPE_DESCRIPTOR>` where `GENERIC_TYPE_DESCRIPTOR` is
+ * defined by [genericTypeDescriptor_plain].
  */
 fun GenericType.genericTypeToDescriptor(): String =
     "<${fixResult(this.genericTypeDescriptor_plain())}>"
@@ -129,56 +132,20 @@ fun fixResult(str: String): String {
 }
 
 /**
- * Creates a name string from a [CodeType].
- */
-fun CodeType.toNameDescriptor(): String {
-    if (this is GenericType) {
-
-        val name = this.name
-
-        val bounds = this.bounds
-
-        if (bounds.isEmpty()) {
-            if (!this.isType) {
-                if (this.isWildcard) {
-                    return fixResult(name)
-                } else {
-                    return fixResult("T$name;")
-                }
-            } else {
-                return name + ";"
-            }
-        } else {
-            return fixResult(if (!this.isWildcard)
-                name + "<" + bounds(this.isWildcard, bounds) + ">;"
-            else
-                bounds(this.isWildcard, bounds) + ";")
-        }
-
-    } else {
-        return fixResult(this.typeDesc)
-    }
-}
-
-/**
- * Create a type descriptor from [generic]
+ * Create a type descriptor from generic `receiver`.
+ *
+ * As JVM specifies, a generic type descriptor is formatted as: `GENERIC_TYPE.NAME:(:?)BOUNDS_DESCRIPTOR`,
+ * where additional `:` is generated only if the first bound of receiver [GenericType] is a [GenericType]
+ * which has any bound, and `BOUNDS_DESCRIPTOR` is specified by [boundToDescriptorPlain].
+ *
  */
 private fun GenericType.genericTypeDescriptor_plain(): String {
     val name = this.name
 
-    var gen2 = false
-    if (this.bounds.isNotEmpty()) {
-        val codeTypeBound = this.bounds[0]
+    val additionalDel = this.bounds.isNotEmpty()
+            && this.bounds.first().let { it.type is GenericType && it.type.bounds.isNotEmpty() }
 
-        val type = codeTypeBound.type
-
-        if (type is GenericType) {
-            gen2 = type.bounds.isNotEmpty()
-        }
-    }
-
-    return name + (if (!this.isType) ":" else "") + (if (gen2) ":" else "") + boundToDescriptorPlain(this.isWildcard, this.bounds)
-
+    return name + (if (!this.isType) ":" else "") + (if (additionalDel) ":" else "") + boundToDescriptorPlain(this.isWildcard, this.bounds)
 }
 
 /**
@@ -192,11 +159,7 @@ fun bounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
 
         val boundType = bound.type
 
-        if (boundType is GenericType && !boundType.isType) {
-            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
-        } else {
-            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
-        }
+        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
 
     }
 
@@ -204,7 +167,11 @@ fun bounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
 }
 
 /**
- * Creates bound descriptor
+ * Creates bound descriptor.
+ *
+ * Generic type bound is formatted as: `(BOUND.SIGN?)(BOUND.TYPE.DESCRIPTOR)(:?)`. Where `BOUND.SIGN`
+ * is only appended if the type is a wildcard and additional `:` is only generated if current
+ * bound is not the last bound and `BOUND.TYPE.DESCRIPTOR` is specified by [descriptor].
  */
 private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
 
@@ -218,11 +185,7 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
 
         val boundType = bound.type
 
-        if (boundType is GenericType && !boundType.isType) {
-            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor).append(if (!isLast) ":" else "")
-        } else {
-            sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor).append(if (!isLast) ":" else "")
-        }
+        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor).append(if (!isLast) ":" else "")
     }
 
     return sb.toString()
@@ -240,9 +203,12 @@ fun CodeType.createCodeTypeDescriptor(): String {
 }
 
 /**
- * Creates method descriptor from receiver
+ * Creates method descriptor from receiver.
+ *
+ * The method descriptor is the result concatenation method generic [signature descriptor][genericTypeToDescriptor],
+ * parameter types and return type [Type descriptor][descriptor].
  */
-fun MethodDeclarationBase.methodGenericSignature(): String? {
+fun MethodDeclaration.methodGenericSignature(): String? {
 
     val returnType = this.returnType
 
@@ -263,7 +229,7 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
     if (generateGenerics) {
         signatureBuilder.append('(')
 
-        this.parameters.stream().map { parameter -> parameter.type.descriptor }.forEach { signatureBuilder.append(it) }
+        this.parameters.joinTo(buffer = signatureBuilder, separator = "") { it.type.descriptor }
 
         signatureBuilder.append(')')
     }

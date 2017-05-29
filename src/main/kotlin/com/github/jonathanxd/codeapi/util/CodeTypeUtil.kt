@@ -145,6 +145,16 @@ val TypeSpec.typeDesc get() = "(${this.parameterTypes.typeDesc})${this.returnTyp
 
 /**
  * Converts `this` type to type descriptor.
+ *
+ * A type descriptor is formatted as:
+ *
+ * - `TYPE_JAVA_SPEC` (specified by [CodeType.javaSpecName]) when receiver [Type] is not a [GenericType]
+ * - `TYPE_NAME` when receiver is a [GenericType], does not have bounds and is a wildcard (and not a type).
+ * - `(T)(TYPE_NAME);` when receiver is a [GenericType], does not have bounds and is neither a wildcard and a type.
+ * - `TYPE_NAME;` when receiver is a [GenericType], and is a type.
+ * - `TYPE_NAME<BOUNDS>;` when receiver is a [GenericType], have bounds and the receiver is not a wildcard.
+ *
+ * Note: `()` is only used to make the format more readable and will not be generated in descriptors.
  */
 val Type.descriptor: String get() {
     val codeType = this.codeType
