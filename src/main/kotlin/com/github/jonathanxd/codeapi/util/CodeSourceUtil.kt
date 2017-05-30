@@ -90,6 +90,59 @@ fun insertBeforeOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, so
     return result
 }
 
+/**
+ * Insert element `toInsert` in `source` after element determined by `predicate` or at start of source if not found.
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @param source    Source to find element and insert element `toInsert`
+ * @return `source`
+ */
+fun insertAfterOrStart(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    val result = insertAfter({ codePart ->
+        if (predicate(codePart)) {
+            any.toTrue()
+            return@insertAfter true
+        }
+
+        false
+    }, toInsert, source)
+
+    if (!any.get()) {
+        result.addAll(0, toInsert)
+    }
+
+    return result
+}
+
+/**
+ * Insert element `toInsert` in `source` before element determined by `predicate` or at start of source if not found.
+ *
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @param source    Source to find element and insert element `toInsert`
+ * @return `source`
+ */
+fun insertBeforeOrStart(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    val result = insertBefore({ codePart ->
+        if (predicate(codePart)) {
+            any.toTrue()
+            true
+        } else false
+    }, toInsert, source)
+
+    if (!any.get()) {
+        result.addAll(0, toInsert)
+    }
+
+    return result
+}
+
 
 /**
  * Insert element `toInsert` in `source` after element determined by `predicate`
