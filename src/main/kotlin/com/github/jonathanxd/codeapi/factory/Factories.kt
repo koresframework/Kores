@@ -199,6 +199,19 @@ fun setFieldValue(localization: Type, target: CodeInstruction, type: Type, name:
         FieldDefinition(localization, target, type, name, value)
 
 /**
+ * @see FieldDefinition
+ */
+fun setThisFieldValue(type: Type, name: String, value: CodeInstruction): FieldDefinition =
+        setFieldValue(Alias.THIS, Access.THIS, type, name, value)
+
+/**
+ * @see FieldDefinition
+ */
+@JvmOverloads
+fun setStaticFieldValue(localization: Type = Alias.THIS, type: Type, name: String, value: CodeInstruction): FieldDefinition =
+        setFieldValue(localization, Access.STATIC, type, name, value)
+
+/**
  * Invoke getter of a field (`get`+`capitalize(fieldName)`).
  *
  * @param invokeType Type of invocation
