@@ -44,7 +44,7 @@ data class ConstructorDeclaration(override val comments: Comments,
                                   override val genericSignature: GenericSignature,
                                   override val parameters: List<CodeParameter>,
                                   override val innerTypes: List<TypeDeclaration>,
-                                  override val throws: List<Type>,
+                                  override val throwsClause: List<Type>,
                                   override val body: CodeSource) : MethodDeclarationBase {
 
     init {
@@ -77,7 +77,7 @@ data class ConstructorDeclaration(override val comments: Comments,
             this.genericSignature = defaults.genericSignature
             this.parameters = defaults.parameters
             this.innerTypes = defaults.innerTypes
-            this.throws = defaults.throws
+            this.throws = defaults.throwsClause
             this.body = defaults.body
         }
 
@@ -110,7 +110,7 @@ data class ConstructorDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun throws(value: List<Type>): Builder {
+        override fun throwsClause(value: List<Type>): Builder {
             this.throws = value
             return this
         }

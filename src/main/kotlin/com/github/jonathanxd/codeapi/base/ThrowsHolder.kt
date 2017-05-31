@@ -38,7 +38,7 @@ interface ThrowsHolder : CodePart {
     /**
      * Throws exception
      */
-    val throws: List<Type>
+    val throwsClause: List<Type>
 
     override fun builder(): Builder<ThrowsHolder, *>
 
@@ -46,14 +46,14 @@ interface ThrowsHolder : CodePart {
             com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
-         * See [ThrowsHolder.throws]
+         * See [ThrowsHolder.throwsClause]
          */
-        fun throws(value: List<Type>): S
+        fun throwsClause(value: List<Type>): S
 
         /**
-         * See [ThrowsHolder.throws]
+         * See [ThrowsHolder.throwsClause]
          */
-        fun throws(vararg values: Type) = this.throws(values.toList())
+        fun throwsClause(vararg values: Type) = this.throwsClause(values.toList())
 
     }
 }

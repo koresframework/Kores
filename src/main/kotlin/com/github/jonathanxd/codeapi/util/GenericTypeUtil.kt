@@ -26,6 +26,7 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("GenericTypeUtil")
+
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.base.*
@@ -37,7 +38,7 @@ import com.github.jonathanxd.codeapi.type.PlainCodeType
 import com.github.jonathanxd.iutils.condition.Conditions
 import com.github.jonathanxd.iutils.type.TypeUtil
 import java.lang.reflect.Type
-import java.util.*
+import java.util.StringJoiner
 import java.util.regex.Pattern
 
 /**
@@ -103,7 +104,7 @@ fun Array<out GenericType>.genericTypesToDescriptor(): String {
  * defined by [genericTypeDescriptor_plain].
  */
 fun GenericType.genericTypeToDescriptor(): String =
-    "<${fixResult(this.genericTypeDescriptor_plain())}>"
+        "<${fixResult(this.genericTypeDescriptor_plain())}>"
 
 /**
  * Fixes some descriptor inconsistencies present in [str] (why this exists... I bet that I've wrote a bad algorithm :D)
@@ -142,8 +143,10 @@ fun fixResult(str: String): String {
 private fun GenericType.genericTypeDescriptor_plain(): String {
     val name = this.name
 
-    val additionalDel = this.bounds.isNotEmpty()
-            && this.bounds.first().let { it.type is GenericType && it.type.bounds.isNotEmpty() }
+    val additionalDel =
+            this.isType && this.codeType.isInterface
+                    || this.bounds.isNotEmpty()
+                    && this.bounds.first().type.isInterface
 
     return name + (if (!this.isType) ":" else "") + (if (additionalDel) ":" else "") + boundToDescriptorPlain(this.isWildcard, this.bounds)
 }
@@ -177,6 +180,9 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
 
     val sb = StringBuilder()
 
+    if (bounds.isEmpty())
+        return Any::class.codeType.descriptor
+
     for (i in bounds.indices) {
 
         val isLast = i + 1 >= bounds.size
@@ -202,6 +208,10 @@ fun CodeType.createCodeTypeDescriptor(): String {
     }
 }
 
+fun Type.isNonReifiedType() = this.codeType.let {
+    it is GenericType && (!it.isType || it.bounds.isNotEmpty())
+}
+
 /**
  * Creates method descriptor from receiver.
  *
@@ -216,10 +226,12 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
 
     val methodSignature = this.genericSignature
 
+    val genForThrows = this.throwsClause.any { it.isNonReifiedType() }
 
     val generateGenerics = methodSignature.isNotEmpty
-            || this.parameters.stream().anyMatch { parameter -> parameter.type is GenericType }
-            || returnType is GenericType
+            || this.parameters.any { it.type.isNonReifiedType() }
+            || returnType.isNonReifiedType()
+            || genForThrows
 
 
     if (generateGenerics && methodSignature.isNotEmpty) {
@@ -236,6 +248,12 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
 
     if (generateGenerics) {
         signatureBuilder.append(returnType.descriptor)
+    }
+
+    if (genForThrows) {
+        this.throwsClause.forEach {
+            signatureBuilder.append('^').append(it.descriptor)
+        }
     }
 
     return if (signatureBuilder.isNotEmpty()) signatureBuilder.toString() else null
@@ -263,9 +281,9 @@ fun parametersAndReturnToInferredDesc(owner: Lazy<TypeDeclaration>,
  * This class uses lazy owner because depending on method signature, the [TypeDeclaration] is not required.
  */
 fun inferParametersAndReturn(owner: Lazy<TypeDeclaration>,
-                                      holder: GenericSignatureHolder,
-                                      codeParameters: Collection<CodeParameter>,
-                                      returnType: Type): TypeSpec {
+                             holder: GenericSignatureHolder,
+                             codeParameters: Collection<CodeParameter>,
+                             returnType: Type): TypeSpec {
 
     val genericSign by lazy {
         owner.value.genericSignature

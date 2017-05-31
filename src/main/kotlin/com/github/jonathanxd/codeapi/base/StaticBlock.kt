@@ -62,7 +62,7 @@ data class StaticBlock(override val comments: Comments,
     override val modifiers: Set<CodeModifier>
         get() = Constants.MODIFIERS
 
-    override val throws: List<Type>
+    override val throwsClause: List<Type>
         get() = emptyList()
 
     override fun builder(): Builder = Builder(this)
@@ -86,7 +86,7 @@ data class StaticBlock(override val comments: Comments,
             return this
         }
 
-        override fun throws(value: List<Type>): Builder = self()
+        override fun throwsClause(value: List<Type>): Builder = self()
         override fun annotations(value: List<Annotation>): Builder = self()
         override fun modifiers(value: Set<CodeModifier>): Builder = self()
 

@@ -28,7 +28,11 @@
 package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,4 +47,47 @@ public class GenericTest {
 
     }
 
+
+    @Test
+    public void methodSigTest() {
+        MethodDeclaration build = MethodDeclaration.Builder.builder()
+                .name("test")
+                .genericSignature(GenericSignature.create(
+                        Generic.type("T").extends$(CharSequence.class)
+                ))
+                .parameters(Factories.parameter(Generic.type("T"), "self"))
+                .returnType(Generic.type("T"))
+                .build();
+
+        String s = GenericTypeUtil.methodGenericSignature(build);
+
+
+        String s2 = GenericTypeUtil.methodGenericSignature(MethodDeclaration.Builder.builder()
+                .name("test").genericSignature(GenericSignature.create(
+                        Generic.type("T").extends$(Object.class)
+                ))
+                .parameters(Factories.parameter(Generic.type("T"), "self"))
+                .returnType(Generic.type("T"))
+                .build());
+
+        String s3 = GenericTypeUtil.methodGenericSignature(MethodDeclaration.Builder.builder()
+                .name("test").genericSignature(GenericSignature.create(
+                        Generic.type("T")
+                ))
+                .parameters(Factories.parameter(Generic.type("T"), "self"))
+                .returnType(Generic.type("T"))
+                .build());
+
+        String s4 = GenericTypeUtil.methodGenericSignature(MethodDeclaration.Builder.builder()
+                .name("test").genericSignature(GenericSignature.create(
+                        Generic.type("T").extends$(Throwable.class)
+                ))
+                .throwsClause(Generic.type("T"))
+                .build());
+
+        Assert.assertEquals("<T::Ljava/lang/CharSequence;>(TT;)TT;", s);
+        Assert.assertEquals("<T:Ljava/lang/Object;>(TT;)TT;", s2);
+        Assert.assertEquals("<T:Ljava/lang/Object;>(TT;)TT;", s3);
+        Assert.assertEquals("<T:Ljava/lang/Throwable;>()V^TT;", s4);
+    }
 }
