@@ -148,10 +148,10 @@ inline fun <R, reified T : Any> CodeProcessor<R>.registerSugarSyntaxProcessor(su
 /**
  * Registers [processor] of [Any] of type: [T].
  */
-inline fun <reified T : Any, R> CodeProcessor<R>.registerProcessor(processor: Processor<T>) =
+inline fun <R, reified T : Any> CodeProcessor<R>.registerProcessor(processor: Processor<T>) =
         this.registerProcessor(processor, T::class.java)
 
 /**
  * Process [part] of reified type [T].
  */
-inline fun <R, reified T> CodeProcessor<R>.process(part: T, data: TypedData): R = this.process(T::class.java, part, data)
+inline fun <reified T, R> CodeProcessor<R>.process(part: T, data: TypedData): R = this.process(T::class.java, part, data)
