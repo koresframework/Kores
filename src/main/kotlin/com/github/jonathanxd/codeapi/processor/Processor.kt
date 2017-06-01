@@ -124,7 +124,7 @@ abstract class AbstractProcessor<out R> : CodeProcessor<R> {
     /**
      * Gets processor of [type].
      */
-    fun <P, T> getProcessorOf(type: Class<*>, part: T, data: TypedData): Processor<P> {
+    fun <P> getProcessorOf(type: Class<*>, part: P, data: TypedData): Processor<P> {
         val searchType = if (this.map.containsKey(type))
             type
         else if (type.superclass != Any::class.java && type.interfaces.isEmpty())
