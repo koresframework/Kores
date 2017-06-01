@@ -155,3 +155,8 @@ inline fun <R, reified T : Any> CodeProcessor<R>.registerProcessor(processor: Pr
  * Process [part] of reified type [T].
  */
 inline fun <reified T, R> CodeProcessor<R>.process(part: T, data: TypedData): R = this.process(T::class.java, part, data)
+
+/**
+ * Process [part] of reified type [T].
+ */
+inline fun <reified T> CodeProcessor<*>.processWildcard(part: T, data: TypedData) = this.process(T::class.java, part, data)
