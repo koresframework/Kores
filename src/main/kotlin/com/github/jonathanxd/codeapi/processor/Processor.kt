@@ -103,6 +103,42 @@ interface Processor<in P> {
     }
 }
 
+abstract class AbstractProcessor<out R> : CodeProcessor<R> {
+
+    protected val map = mutableMapOf<Class<*>, Processor<*>>()
+
+    inline fun <reified T> registerProcessorOfTypes(processor: Processor<T>, types: Array<Class<out T>>) {
+        types.forEach {
+            registerProcessor(processor, it)
+        }
+    }
+
+    override fun <T> registerProcessor(processor: Processor<T>, type: Class<T>) {
+        this.map[type] = processor
+    }
+
+    override fun <T> registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>, type: Class<T>) {
+        this.map[type] = sugarSyntaxProcessor
+    }
+
+    /**
+     * Gets processor of [type].
+     */
+    fun <P> getProcessorOf(type: Class<*>, part: Any, data: TypedData): Processor<P> {
+        val searchType = if (this.map.containsKey(type))
+            type
+        else if (type.superclass != Any::class.java && type.interfaces.isEmpty())
+            type.superclass
+        else if (type.interfaces.size == 1)
+            type.interfaces.single()
+        else type
+
+        @Suppress("UNCHECKED_CAST")
+        return this.map[searchType] as? Processor<P>
+                ?: throw IllegalArgumentException("Cannot find processor of type '$type' (searchType: '$searchType') and part '$part'. Data: {$data}")
+    }
+}
+
 /**
  * Registers a [sugarSyntaxProcessor] of [Any] of type: [T].
  */
