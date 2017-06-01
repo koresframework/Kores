@@ -62,7 +62,7 @@ interface CodeProcessor<out R> {
     /**
      * Process [part] with [data] and returns a value of type [R].
      */
-    fun process(part: Any, data: TypedData): R = this.process(part::class.java, part, data)
+    fun process(part: Any, data: TypedData) = this.process(part::class.java, part, data)
 
     /**
      * Process [part] of type [type] with [data] and returns a value of type [R].
@@ -150,3 +150,8 @@ inline fun <R, reified T : Any> CodeProcessor<R>.registerSugarSyntaxProcessor(su
  */
 inline fun <R, reified T : Any> CodeProcessor<R>.registerProcessor(processor: Processor<T>) =
         this.registerProcessor(processor, T::class.java)
+
+/**
+ * Process [part] of reified type [T].
+ */
+inline fun <R, reified T> CodeProcessor<R>.process(part: T, data: TypedData): R = this.process(T::class.java, part, data)
