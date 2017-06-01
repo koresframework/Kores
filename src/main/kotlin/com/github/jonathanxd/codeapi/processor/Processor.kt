@@ -152,8 +152,8 @@ inline fun <R, reified T : Any> CodeProcessor<R>.registerProcessor(processor: Pr
         this.registerProcessor(processor, T::class.java)
 
 /**
- * Process [part] of reified type [T]. This function is inlined, this means that type passed to [CodeProcessor.process]
+ * Process [part] as of reified type [T]. This function is inlined, this means that type passed to [CodeProcessor.process]
  * will be the inferred type and not the the [part] type. This is useful when you want to call a specific processor
  * instead of exact processor.
  */
-inline fun <reified T> CodeProcessor<*>.processThat(part: T, data: TypedData) = this.process(T::class.java, part, data)
+inline fun <reified T> CodeProcessor<*>.processAs(part: T, data: TypedData) = this.process(T::class.java, part, data)
