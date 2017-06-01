@@ -140,3 +140,14 @@ data class EnumEntry(override val name: String,
 
     }
 }
+
+/**
+ * Returns whether the [EnumEntry] has any declaration inside (requires a new type to be created
+ * or a body).
+ */
+val EnumEntry.hasDeclarations
+    get() = this.staticBlock.body.isNotEmpty
+            || this.fields.isNotEmpty()
+            || this.methods.isNotEmpty()
+            || this.constructorSpec != null
+            || this.innerTypes.isNotEmpty()
