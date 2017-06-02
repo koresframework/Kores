@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.common.CodeNothing
+import com.github.jonathanxd.codeapi.util.safeForComparison
 import com.github.jonathanxd.codeapi.util.self
 import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
@@ -44,12 +45,12 @@ import java.lang.reflect.Type
 data class Case(override val value: CodeInstruction, override val body: CodeSource) : ValueHolder, Typed, BodyHolder {
 
     override val type: Type
-        get() = this.value.let { if(it == CodeNothing) Types.INT else it.type }
+        get() = this.value.safeForComparison.let { if (it == CodeNothing) Types.INT else it.type }
 
     /**
      * Is case default
      */
-    val isDefault get() = this.value == CodeNothing
+    val isDefault get() = this.value.safeForComparison == CodeNothing
 
     /**
      * Is not case default
