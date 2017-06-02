@@ -29,6 +29,7 @@
 
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.InstructionWrapper
@@ -67,3 +68,18 @@ val CodePart.typeOrNull: Type?
         if (it == this)
             throw IllegalStateException("InstructionWrapper wrapping itself.")
     }?.typeOrNull
+
+
+/**
+ * Unwraps [CodeInstruction] if is a [InstructionWrapper] or return receiver if not.
+ *
+ * This functions recursively unwraps [InstructionWrapper], the operation is executed until
+ * `(receiver = InstructionWrapper.wrappedInstruction) is InstructionWrapper`
+ */
+tailrec fun CodeInstruction.unwrap(): CodeInstruction {
+    if(this !is InstructionWrapper)
+        return this
+    else
+        return this.wrappedInstruction.unwrap()
+
+}
