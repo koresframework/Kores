@@ -68,7 +68,7 @@ public class CommentClassTest_ {
                 .modifiers(EnumSet.of(CodeModifier.PUBLIC))
                 .qualifiedName("com.MyClass")
                 .superClass(Types.OBJECT)
-                .fields(                        FieldDeclaration.Builder.Companion.builder()
+                .fields(FieldDeclaration.Builder.Companion.builder()
                         .comments(CommentsFactory.documentation(CommentsFactory.code(Predefined.invokePrintlnStr(Literals.STRING("Hello world")))))
                         .modifiers(CodeModifier.PRIVATE, CodeModifier.FINAL)
                         .name("fieldi")

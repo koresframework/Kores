@@ -25,45 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-@file:JvmName("CodePartUtil")
+package com.github.jonathanxd.codeapi.base
 
-package com.github.jonathanxd.codeapi.util
-
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.InstructionWrapper
-import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.type.NullType
-import java.lang.reflect.Type
+import com.github.jonathanxd.codeapi.CodeInstruction
 
 /**
- * Returns true if a [MethodInvocation] is a invocation of super constructor
+ * A instruction which wraps another instruction.
  */
-val MethodInvocation.isSuperConstructorInvocation get() = this.spec.methodName == "<init>" && this.target == Alias.SUPER
+interface InstructionWrapper : CodeInstruction {
 
-/**
- * Returns true if the type of this [CodePart] is primitive
- */
-val CodePart.isPrimitive: Boolean
-    get() = this.type.isPrimitive
-
-/**
- * Gets the type of [CodePart]
- */
-val CodePart.type: Type
-    get() = this.typeOrNull ?: throw IllegalArgumentException("Cannot infer type of part '$this'!")
-
-
-/**
- * Gets the type of [CodePart] or null if receiver is not a [Typed] instance.
- */
-val CodePart.typeOrNull: Type?
-    get() = (this as? Typed)?.type?.let {
-        if (it.`is`(NullType))
-            Types.OBJECT
-        else it
-    } ?: (this as? InstructionWrapper)?.wrappedInstruction?.also {
-        if (it == this)
-            throw IllegalStateException("InstructionWrapper wrapping itself.")
-    }?.typeOrNull
+    /**
+     * Wrapped instruction instance.
+     */
+    val wrappedInstruction: CodeInstruction
+}
