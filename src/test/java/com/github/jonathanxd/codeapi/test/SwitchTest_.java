@@ -86,11 +86,6 @@ public class SwitchTest_ {
                                                         Factories.caseStatement(Literals.STRING("AHEAD"), CodeSource.fromVarArgs(print("AHEAD"), Factories.breakFlow())),
                                                         Factories.caseStatement(Literals.STRING("XM"), CodeSource.fromVarArgs(print("XM"), Factories.breakFlow())),
                                                         Factories.caseStatement(Literals.STRING("AH"), CodeSource.fromVarArgs(print("AH"), Factories.breakFlow())),
-                                                        Factories.defaultCase(CodeSource.fromVarArgs(print("default"))))),
-
-                                                // Object
-                                                Factories.switchString(Factories.accessVariable(Object.class, "o"), Arrays.asList(
-                                                        Factories.caseStatement(Literals.INT(0), CodeSource.fromVarArgs(print("Zero"), Factories.breakFlow())),
                                                         Factories.defaultCase(CodeSource.fromVarArgs(print("default")))))
 
                                         )
