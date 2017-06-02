@@ -28,10 +28,7 @@
 @file:JvmName("CodeSourceUtil")
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.ListCodeSource
-import com.github.jonathanxd.codeapi.MutableCodeSource
+import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer
@@ -44,7 +41,7 @@ import java.util.ArrayList
  * @param source    Source to find element and insert element `toInsert`
  * @return `source`
  */
-fun insertAfterOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+fun insertAfterOrEnd(predicate: (CodeInstruction) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
 
     val any = BooleanContainer.of(false)
 
@@ -72,7 +69,7 @@ fun insertAfterOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, sou
  * @param source    Source to find element and insert element `toInsert`
  * @return `source`
  */
-fun insertBeforeOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+fun insertBeforeOrEnd(predicate: (CodeInstruction) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
 
     val any = BooleanContainer.of(false)
 
@@ -97,7 +94,7 @@ fun insertBeforeOrEnd(predicate: (CodePart) -> Boolean, toInsert: CodeSource, so
  * @param source    Source to find element and insert element `toInsert`
  * @return `source`
  */
-fun insertAfterOrStart(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+fun insertAfterOrStart(predicate: (CodeInstruction) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
 
     val any = BooleanContainer.of(false)
 
@@ -125,7 +122,7 @@ fun insertAfterOrStart(predicate: (CodePart) -> Boolean, toInsert: CodeSource, s
  * @param source    Source to find element and insert element `toInsert`
  * @return `source`
  */
-fun insertBeforeOrStart(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+fun insertBeforeOrStart(predicate: (CodeInstruction) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
 
     val any = BooleanContainer.of(false)
 
@@ -152,7 +149,7 @@ fun insertBeforeOrStart(predicate: (CodePart) -> Boolean, toInsert: CodeSource, 
  * @param source    Source to find element and insert element `toInsert`
  * @return `source`
  */
-fun insertAfter(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+fun insertAfter(predicate: (CodeInstruction) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
 
     val any = BooleanContainer.of(false)
 
@@ -178,7 +175,7 @@ fun insertAfter(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: 
  * @param source    Source to find element and insert element `toInsert`
  * @return `source`
  */
-fun insertBefore(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
+fun insertBefore(predicate: (CodeInstruction) -> Boolean, toInsert: CodeSource, source: CodeSource): MutableCodeSource {
 
     val any = BooleanContainer.of(false)
 
@@ -209,7 +206,7 @@ fun insertBefore(predicate: (CodePart) -> Boolean, toInsert: CodeSource, source:
  * @param consumer   Consumer
  * @return Result source.
  */
-fun visit(codeSource: CodeSource, consumer: (CodePart, Location, MutableCodeSource) -> Unit): MutableCodeSource {
+fun visit(codeSource: CodeSource, consumer: (CodeInstruction, Location, MutableCodeSource) -> Unit): MutableCodeSource {
 
     val returnSource = ListCodeSource()
 
@@ -224,7 +221,7 @@ fun visit(codeSource: CodeSource, consumer: (CodePart, Location, MutableCodeSour
 }
 
 
-private fun consumeIfExists(part: CodePart, sourceConsumer: (CodePart) -> Unit) {
+private fun consumeIfExists(part: CodeInstruction, sourceConsumer: (CodeInstruction) -> Unit) {
     if (part is BodyHolder) {
         for (codePart in part.body) {
             consumeIfExists(codePart, sourceConsumer)
@@ -243,7 +240,7 @@ private fun consumeIfExists(part: CodePart, sourceConsumer: (CodePart) -> Unit) 
  * @param U          Mapped return type.
  * @return List of mapped parts.
  */
-fun <U> find(codeSource: CodeSource, predicate: (CodePart) -> Boolean, function: (CodePart) -> U): List<U> {
+fun <U> find(codeSource: CodeSource, predicate: (CodeInstruction) -> Boolean, function: (CodeInstruction) -> U): List<U> {
     val list = ArrayList<U>()
 
     for (codePart in codeSource) {
