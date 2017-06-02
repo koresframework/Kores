@@ -31,9 +31,15 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.NullType
 import java.lang.reflect.Type
+
+/**
+ * Returns true if a [MethodInvocation] is a invocation of super constructor
+ */
+val MethodInvocation.isSuperConstructorInvocation get() = this.spec.methodName == "<init>" && this.target == Alias.SUPER
 
 /**
  * Returns true if the type of this [CodePart] is primitive
