@@ -116,7 +116,6 @@ data class SwitchStatement(override val value: CodeInstruction,
  */
 enum class SwitchType {
     NUMERIC,
-    OBJECT,
     STRING,
     ENUM
 }
