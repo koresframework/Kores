@@ -556,12 +556,6 @@ fun switchString(value: CodeInstruction, cases: List<Case>): SwitchStatement =
 /**
  * @see SwitchStatement
  */
-fun switchObject(value: CodeInstruction, cases: List<Case>): SwitchStatement =
-        switchStatement(value, SwitchType.OBJECT, cases)
-
-/**
- * @see SwitchStatement
- */
 fun switchEnum(value: CodeInstruction, cases: List<Case>): SwitchStatement =
         switchStatement(value, SwitchType.ENUM, cases)
 
