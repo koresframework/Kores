@@ -25,6 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
+@file:JvmName("Line")
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
@@ -132,12 +133,3 @@ sealed class Line : CodeInstruction, ValueHolder, InstructionWrapper {
         }
     }
 }
-
-
-
-
-/**
- * Creates a [Line] instance linking [value] to [line number][line].
- */
-fun line(line: Int, value: CodeInstruction): Line =
-        if (value is Typed) Line.TypedLine(line, value, value.type) else Line.NormalLine(line, value)

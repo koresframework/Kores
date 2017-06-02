@@ -25,25 +25,44 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi
+package com.github.jonathanxd.codeapi.test;
 
-import com.github.jonathanxd.codeapi.builder.Builder
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.Access;
+import com.github.jonathanxd.codeapi.base.Line;
+import com.github.jonathanxd.codeapi.base.Synchronized;
+import com.github.jonathanxd.codeapi.base.TypeDeclaration;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
+import com.github.jonathanxd.codeapi.helper.Predefined;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.operator.Operators;
 
-/**
- * A CodePart is an element that can exists in the source code.
- *
- * All interfaces that have a concrete implementation and extends [CodePart] must provide a
- * `builder` method that return a builder instance with defined default values.
- *
- */
-interface CodePart {
+import org.junit.Test;
 
-    /**
-     * This builder may or may not accept null values, it depends on implementation.
-     */
-    fun builder(): Builder<CodePart, *> = SelfBuilder(this)
+public class LineTest_ {
 
-    class SelfBuilder(val self: CodePart) : Builder<CodePart, SelfBuilder> {
-        override fun build(): CodePart = self
+    public static TypeDeclaration $() {
+        PredefinedTest predefinedTest = PredefinedTest.create("test.LineTest");
+        predefinedTest.constructor.body(CodeSource.fromPart(
+                Factories.line(4, VariableFactory.variable(Types.STRING, "b",
+                        Factories.line(5, Factories.ifStatement(
+                                Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
+                                CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
+                                CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
+                        )))
+                )
+        ));
+
+
+        return predefinedTest.build();
     }
+
+
+    @Test
+    public void test() {
+        $();
+    }
+
 }

@@ -625,3 +625,9 @@ fun voidTypeSpec(vararg ptypes: Type) =
  */
 fun constructorTypeSpec(vararg ptypes: Type) =
         typeSpec(Types.VOID, ptypes.toList())
+
+/**
+ * Creates a [Line] instance linking [value] to [line number][line].
+ */
+fun line(line: Int, value: CodeInstruction): Line =
+        if (value is Typed) Line.TypedLine(line, value, value.type) else Line.NormalLine(line, value)
