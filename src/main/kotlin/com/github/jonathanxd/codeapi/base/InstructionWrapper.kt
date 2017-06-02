@@ -30,9 +30,10 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeInstruction
 
 /**
- * A instruction which wraps another instruction.
+ * A instruction which wraps another instruction. This class is internal
+ * because checks are hard-coded on top of implementation classes.
  */
-interface InstructionWrapper : CodeInstruction {
+internal interface InstructionWrapper : CodeInstruction {
 
     /**
      * Wrapped instruction instance.
