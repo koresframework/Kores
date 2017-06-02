@@ -146,7 +146,7 @@ fun fromJavaModifiers(modifiers: Int): MutableSet<CodeModifier> {
  * @return String containing all modifiers name.
  */
 fun toString(collection: Collection<CodeModifier>?): String {
-    return collection?.sorted()?.map { it.name }?.joinToString(" ") ?: ""
+    return collection?.sorted()?.map { it.name.toLowerCase() }?.joinToString(" ") ?: ""
 }
 
 /**
