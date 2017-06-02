@@ -71,6 +71,12 @@ val CodePart.typeOrNull: Type?
 
 
 /**
+ * Gets comparison safe version of a [CodeInstruction]
+ */
+val CodeInstruction.safeForComparison: CodeInstruction
+    get() = this.unwrap()
+
+/**
  * Unwraps [CodeInstruction] if is a [InstructionWrapper] or return receiver if not.
  *
  * This functions recursively unwraps [InstructionWrapper], the operation is executed until
