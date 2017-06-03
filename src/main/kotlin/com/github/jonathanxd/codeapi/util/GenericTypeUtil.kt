@@ -107,29 +107,11 @@ fun GenericType.genericTypeToDescriptor(): String =
         "<${fixResult(this.genericTypeDescriptor_plain())}>"
 
 /**
- * Fixes some descriptor inconsistencies present in [str] (why this exists... I bet that I've wrote a bad algorithm :D)
+ * Deprecated since 4.0.0
+ *
  */
 fun fixResult(str: String): String {
-    val sb = StringBuilder()
-
-    val chars = str.toCharArray()
-
-    var ign = false
-
-    for (aChar in chars) {
-        if (aChar == ';') {
-            if (!ign) {
-                sb.append(aChar)
-            }
-
-            ign = true
-        } else {
-            sb.append(aChar)
-            ign = false
-        }
-    }
-
-    return sb.toString()
+    return str
 }
 
 /**

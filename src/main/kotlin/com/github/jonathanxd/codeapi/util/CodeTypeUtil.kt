@@ -177,9 +177,9 @@ val Type.descriptor: String get() {
             }
         } else {
             return fixResult(if (!codeType.isWildcard)
-                name + "<" + bounds(codeType.isWildcard, bounds) + ">;"
+                name + "<${bounds(codeType.isWildcard, bounds)}>;"
             else
-                bounds(codeType.isWildcard, bounds) + ";")
+                bounds(codeType.isWildcard, bounds))
         }
 
     } else {
