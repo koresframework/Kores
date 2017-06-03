@@ -94,7 +94,7 @@ fun Array<out GenericType>.genericTypesToDescriptor(): String {
         sj.add(generic.genericTypeDescriptor_plain())
     }
 
-    return "<" + fixResult(sj.toString()) + ">"
+    return "<$sj>"
 }
 
 /**
@@ -104,15 +104,7 @@ fun Array<out GenericType>.genericTypesToDescriptor(): String {
  * defined by [genericTypeDescriptor_plain].
  */
 fun GenericType.genericTypeToDescriptor(): String =
-        "<${fixResult(this.genericTypeDescriptor_plain())}>"
-
-/**
- * Deprecated since 4.0.0
- *
- */
-fun fixResult(str: String): String {
-    return str
-}
+        "<${this.genericTypeDescriptor_plain()}>"
 
 /**
  * Create a type descriptor from generic `receiver`.

@@ -168,22 +168,22 @@ val Type.descriptor: String get() {
         if (bounds.isEmpty()) {
             if (!codeType.isType) {
                 if (codeType.isWildcard) {
-                    return fixResult(name)
+                    return name
                 } else {
-                    return fixResult("T$name;")
+                    return "T$name;"
                 }
             } else {
                 return name + ";"
             }
         } else {
-            return fixResult(if (!codeType.isWildcard)
+            return if (!codeType.isWildcard)
                 name + "<${bounds(codeType.isWildcard, bounds)}>;"
             else
-                bounds(codeType.isWildcard, bounds))
+                bounds(codeType.isWildcard, bounds)
         }
 
     } else {
-        return fixResult(codeType.javaSpecName)
+        return codeType.javaSpecName
     }
 }
 
