@@ -33,10 +33,7 @@ import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Defaults
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.InvokeType
-import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.base.New
-import com.github.jonathanxd.codeapi.base.TypeSpec
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.util.Alias
 import java.lang.reflect.Type
@@ -82,18 +79,6 @@ fun invokeSpecial(localization: Type, target: CodeInstruction, name: String, spe
 /**
  * @see MethodInvocation
  */
-fun invokeConstructor(localization: Type, spec: TypeSpec, arguments: List<CodeInstruction>) =
-        invoke(InvokeType.INVOKE_SPECIAL, localization, New(localization), CONSTRUCTOR, spec, arguments)
-
-/**
- * @see MethodInvocation
- */
-fun invokeConstructor(localization: Type) =
-        invokeConstructor(localization, TypeSpec(Types.VOID, emptyList()), emptyList())
-
-/**
- * @see MethodInvocation
- */
 fun invokeSuperConstructor(localization: Type, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_SPECIAL, localization, Alias.SUPER, CONSTRUCTOR, spec, arguments)
 
@@ -118,11 +103,50 @@ fun invokeThisConstructor(spec: TypeSpec, arguments: List<CodeInstruction>) =
 /**
  * @see MethodInvocation
  */
-fun invokeStatic(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
-        invoke(InvokeType.INVOKE_STATIC, localization, Defaults.ACCESS_STATIC, name, spec, arguments)
-
-/**
- * @see MethodInvocation
- */
 fun invokeStatic(localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
         invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)
+
+
+/**
+ * Invokes method on [CodeInstruction]
+ */
+fun CodeInstruction.invoke(invokeType: InvokeType, localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
+        invoke(invokeType, localization, this, name, spec, arguments)
+
+
+/**
+ * Invokes method on [CodeInstruction].
+ */
+fun CodeInstruction.invokeInterface(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
+        this.invoke(InvokeType.INVOKE_INTERFACE, localization, name, spec, arguments)
+
+/**
+ * Invokes method on [CodeInstruction].
+ */
+fun CodeInstruction.invokeVirtual(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
+        this.invoke(InvokeType.INVOKE_VIRTUAL, localization, name, spec, arguments)
+
+/**
+ * Invokes constructor of [Type]
+ */
+fun Type.invokeConstructor(): MethodInvocation =
+        invoke(InvokeType.INVOKE_SPECIAL, this, New(this), CONSTRUCTOR, voidTypeSpec(), emptyList())
+
+/**
+ * Invokes constructor of [Type]
+ */
+fun Type.invokeConstructor(spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
+        invoke(InvokeType.INVOKE_SPECIAL, this, New(this), CONSTRUCTOR, spec, arguments)
+
+/**
+ * Invokes static method [name] of [Type]
+ */
+fun Type.invokeStatic(name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
+        invoke(InvokeType.INVOKE_STATIC, this, Access.STATIC, name, spec, arguments)
+
+
+/**
+ * Invokes static method [name] of [Type]
+ */
+fun Type.invokeStatic(name: String): MethodInvocation =
+        invoke(InvokeType.INVOKE_STATIC, this, Access.STATIC, name, voidTypeSpec(), emptyList())

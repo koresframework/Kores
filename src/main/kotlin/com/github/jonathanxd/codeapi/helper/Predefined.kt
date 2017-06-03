@@ -49,7 +49,7 @@ fun CodeInstruction.invokeToString(): MethodInvocation {
  * Invokes `String.valueOf(int)` on receiver.
  */
 fun CodeInstruction.invokeIntToString(): MethodInvocation {
-    return invokeStatic(String::class.java,
+    return String::class.java.invokeStatic(
             "valueOf",
             TypeSpec(Types.STRING, listOf(Types.INT)),
             listOf(this))
