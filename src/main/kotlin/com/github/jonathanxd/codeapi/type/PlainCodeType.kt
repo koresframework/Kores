@@ -29,21 +29,22 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.util.eq
 import com.github.jonathanxd.codeapi.util.hash
+import java.lang.reflect.Type
 
 /**
  * Plain string code type.
  */
 open class PlainCodeType @JvmOverloads constructor(override val type: String,
                                                    override val isInterface: Boolean = false,
-                                                   val superclass_: () -> CodeType? = { throw IllegalStateException("No super class provider") },
-                                                   val superinterfaces_: () -> List<CodeType> = {throw IllegalStateException("No super interfaces provider")}) : CodeType, InheritanceProvider {
+                                                   val superclass_: () -> Type? = { throw IllegalStateException("No super class provider") },
+                                                   val superinterfaces_: () -> List<Type> = { throw IllegalStateException("No super interfaces provider") }) : CodeType, InheritanceProvider {
 
     override val canonicalName: String get() = this.type
 
-    override val superclass: CodeType?
+    override val superclass: Type?
         get() = superclass_()
 
-    override val superinterfaces: List<CodeType>
+    override val superinterfaces: List<Type>
         get() = superinterfaces_()
 
     override fun equals(other: Any?): Boolean {

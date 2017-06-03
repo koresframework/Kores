@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.common.VariableRef
 import java.lang.reflect.Type
 
 /**
@@ -55,6 +56,14 @@ data class VariableAccess(override val variableType: Type, override val name: St
         override fun variableType(value: Type): Builder {
             this.variableType = value
             return this
+        }
+
+        /**
+         * Base this builder in [ref]
+         */
+        fun base(ref: VariableRef) = this.apply {
+            name(ref.name)
+            variableType(ref.variableType)
         }
 
         override fun build(): VariableAccess = VariableAccess(this.variableType, this.name)

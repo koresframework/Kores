@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.FieldRef
 import java.lang.reflect.Type
 
 /**
@@ -77,6 +77,16 @@ data class FieldAccess(override val localization: Type,
         override fun name(value: String): Builder {
             this.name = value
             return this
+        }
+
+        /**
+         * Base this builder in [ref]
+         */
+        fun base(ref: FieldRef) = this.apply {
+            localization(ref.localization)
+            target(ref.target)
+            type(ref.type)
+            name(ref.name)
         }
 
         override fun build(): FieldAccess = FieldAccess(this.localization, this.target, this.type, this.name)

@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.type
 
+import java.lang.reflect.Type
+
 /**
  * Mixin interface, marks the element as a provider of superclass and superinterfaces for [CodeTypeResolvers][CodeTypeResolver].
  */
@@ -35,11 +37,11 @@ interface InheritanceProvider {
     /**
      * Super class
      */
-    val superclass: CodeType?
+    val superclass: Type?
 
     /**
      * Super interfaces
      */
-    val superinterfaces: List<CodeType>
+    val superinterfaces: List<Type>
 
 }
