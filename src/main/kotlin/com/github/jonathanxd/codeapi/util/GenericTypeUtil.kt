@@ -155,7 +155,7 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
     val sb = StringBuilder()
 
     if (bounds.isEmpty())
-        return Any::class.codeType.descriptor
+        return Any::class.java.descriptor
 
     for (i in bounds.indices) {
 
