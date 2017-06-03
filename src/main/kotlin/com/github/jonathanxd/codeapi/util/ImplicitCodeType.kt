@@ -127,6 +127,11 @@ val Type.identification get() = this.codeType.identification
 val Type.defaultResolver get() = this.codeType.defaultResolver
 
 /**
+ * See [concreteType]
+ */
+val Type.concreteType get() = this.codeType.concreteType
+
+/**
  * See [CodeType.toArray]
  */
 fun Type.toArray(dimensions: Int): CodeType = this.codeType.toArray(dimensions)

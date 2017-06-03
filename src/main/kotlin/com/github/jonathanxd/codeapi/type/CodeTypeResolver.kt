@@ -29,10 +29,9 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.base.ImplementationHolder
 import com.github.jonathanxd.codeapi.base.SuperClassHolder
-import com.github.jonathanxd.codeapi.util.TypeElementCodeType
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.concreteType
-import com.github.jonathanxd.codeapi.util.getCodeType
+import com.github.jonathanxd.codeapi.type.CodeTypeResolver.DefaultResolver.resolve
+import com.github.jonathanxd.codeapi.util.*
+import java.lang.reflect.Type
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
 
@@ -42,43 +41,43 @@ import javax.lang.model.util.Elements
 interface CodeTypeResolver<out T> {
 
     /**
-     * Resolver [codeType] to [T]
+     * Resolves [type] to [T]
      */
-    fun resolve(codeType: CodeType): T
+    fun resolve(type: Type): T
 
     /**
-     * Gets super classes of [codeType]
+     * Resolves super class of [type]
      */
-    fun getSuperclass(codeType: CodeType): CodeType?
+    fun getSuperclass(type: Type): Type?
 
     /**
-     * Gets super interfaces of [codeType].
+     * Resolves super interfaces of [type].
      */
-    fun getInterfaces(codeType: CodeType): List<CodeType>
+    fun getInterfaces(type: Type): List<Type>
 
     /**
-     * Checks if [codeType] is assignable from [from] using default resolvers.
+     * Checks if [type] is assignable from [from] using default resolvers.
      *
-     * @return True if [codeType] is assignable from [from].
+     * @return True if [type] is assignable from [from].
      */
-    fun isAssignableFrom(codeType: CodeType, from: CodeType): Boolean =
-            this.isAssignableFrom(codeType, from, CodeType::defaultResolver)
+    fun isAssignableFrom(type: Type, from: Type): Boolean =
+            this.isAssignableFrom(type, from, Type::defaultResolver)
 
     /**
-     * Checks if [codeType] is assignable [from] using resolvers provided by [resolverProvider]
+     * Checks if [type] is assignable [from] using resolvers provided by [resolverProvider]
      *
-     * @return True if [codeType] is assignable from [from].
+     * @return True if [type] is assignable from [from].
      */
-    fun isAssignableFrom(codeType: CodeType, from: CodeType, resolverProvider: (CodeType) -> CodeTypeResolver<*>): Boolean
+    fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean
 
     /**
      * Common implementation of resolver.
      */
     abstract class CommonResolver<out T> : CodeTypeResolver<T> {
 
-        override fun getSuperclass(codeType: CodeType): CodeType? {
+        override fun getSuperclass(type: Type): Type? {
 
-            val concreteType = codeType.concreteType
+            val concreteType = type.concreteType
 
             if (concreteType is LoadedCodeType<*>)
                 return concreteType.loadedType.superclass?.codeType
@@ -92,11 +91,11 @@ interface CodeTypeResolver<out T> {
             if (concreteType is InheritanceProvider)
                 return concreteType.superclass
 
-            throw IllegalArgumentException("Cannot resolve super class of '$codeType'")
+            throw IllegalArgumentException("Cannot resolve super class of '$type'")
         }
 
-        override fun getInterfaces(codeType: CodeType): List<CodeType> {
-            val concreteType = codeType.concreteType
+        override fun getInterfaces(type: Type): List<Type> {
+            val concreteType = type.concreteType
 
             if (concreteType is LoadedCodeType<*>)
                 return concreteType.loadedType.interfaces?.map { it.codeType }.orEmpty()
@@ -105,17 +104,17 @@ interface CodeTypeResolver<out T> {
                 return concreteType.typeElement.interfaces?.map { it.getCodeType(concreteType.elements) }.orEmpty()
 
             if (concreteType is ImplementationHolder)
-                return concreteType.implementations.map{it.codeType}.toList()
+                return concreteType.implementations.map { it.codeType }.toList()
 
             if (concreteType is InheritanceProvider)
                 return concreteType.superinterfaces.toList()
 
-            throw IllegalArgumentException("Cannot resolve interfaces of '$codeType'")
+            throw IllegalArgumentException("Cannot resolve interfaces of '$type'")
         }
 
-        override fun isAssignableFrom(codeType: CodeType, from: CodeType, resolverProvider: (CodeType) -> CodeTypeResolver<*>): Boolean {
+        override fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean {
             // Should I do something like TypeInfo#isAssignableFrom for GenericTypes?
-            val concreteCodeType = codeType.concreteType
+            val concreteCodeType = type.concreteType
             val concreteFrom = from.concreteType
 
             if (concreteCodeType is LoadedCodeType<*> && concreteFrom is LoadedCodeType<*>)
@@ -145,13 +144,13 @@ interface CodeTypeResolver<out T> {
      * Resolver that resolves [CodeType] to Java [Class]
      */
     class Java(val classLoader: ClassLoader) : CommonResolver<Class<*>>() {
-        override fun resolve(codeType: CodeType): Class<*> {
-            val concreteType = codeType.concreteType
+        override fun resolve(type: Type): Class<*> {
+            val concreteType = type.concreteType
 
             if (concreteType is LoadedCodeType<*>)
                 return concreteType.loadedType
 
-            return when (codeType.javaSpecName) {
+            return when (type.javaSpecName) {
                 "V" -> Void.TYPE
                 "Z" -> Boolean::class.javaPrimitiveType!!
                 "C" -> Char::class.javaPrimitiveType!!
@@ -161,7 +160,7 @@ interface CodeTypeResolver<out T> {
                 "F" -> Float::class.javaPrimitiveType!!
                 "D" -> Double::class.javaPrimitiveType!!
                 "J" -> Long::class.javaPrimitiveType!!
-                else -> classLoader.loadClass(codeType.binaryName)
+                else -> classLoader.loadClass(type.binaryName)
             }
         }
 
@@ -171,17 +170,17 @@ interface CodeTypeResolver<out T> {
      * Resolver that resolves [CodeType] to Javax Model [TypeElement]
      */
     class Model(val elements: Elements) : CommonResolver<TypeElement>() {
-        override fun resolve(codeType: CodeType): TypeElement {
-            return elements.getTypeElement(codeType.canonicalName)
+        override fun resolve(type: Type): TypeElement {
+            return elements.getTypeElement(type.canonicalName)
         }
     }
 
     /**
      * Default resolver that returns the same instance for [resolve] method.
      */
-    object DefaultResolver : CommonResolver<CodeType>() {
-        override fun resolve(codeType: CodeType): CodeType {
-            return codeType
+    object DefaultResolver : CommonResolver<Type>() {
+        override fun resolve(type: Type): Type {
+            return type
         }
     }
 }
