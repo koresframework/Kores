@@ -117,6 +117,9 @@ interface CodeTypeResolver<out T> {
             val concreteCodeType = type.concreteType
             val concreteFrom = from.concreteType
 
+            if (concreteCodeType.`is`(from))
+                return true
+
             if (concreteCodeType is LoadedCodeType<*> && concreteFrom is LoadedCodeType<*>)
                 return concreteCodeType.loadedType.isAssignableFrom(concreteFrom.loadedType)
 
