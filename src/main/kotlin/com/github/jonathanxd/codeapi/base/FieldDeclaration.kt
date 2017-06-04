@@ -49,7 +49,7 @@ data class FieldDeclaration(override val comments: Comments,
                             override val innerTypes: List<TypeDeclaration>,
                             override val value: CodeInstruction) :
         CodeElement, FieldBase, Named, Typed,
-        ValueHolder, ModifiersHolder, Annotable, CommentHolder, CodeInstruction,
+        ValueHolder, ModifiersHolder, Annotable, CommentHolder,
         InnerTypesHolder {
 
     override val localization: Type

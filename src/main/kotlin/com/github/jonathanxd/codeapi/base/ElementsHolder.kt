@@ -49,6 +49,8 @@ interface ElementsHolder : InnerTypesHolder {
      */
     val methods: List<MethodDeclaration>
 
+    override fun builder(): Builder<ElementsHolder, *>
+
     interface Builder<out T: ElementsHolder, S: Builder<T, S>> : InnerTypesHolder.Builder<T, S> {
 
         /**
