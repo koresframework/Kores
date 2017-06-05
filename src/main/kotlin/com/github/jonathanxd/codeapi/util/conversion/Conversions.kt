@@ -363,7 +363,7 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
     builder.methods(klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
             .map { it.toMethodDeclaration(type) })
 
-    var declaration = this.builder().build()
+    var declaration = builder.build()
 
     if (klass.isInterface) {
         val implementer = declaration as ImplementationHolder
