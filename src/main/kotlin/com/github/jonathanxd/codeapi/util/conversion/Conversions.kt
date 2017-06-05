@@ -360,7 +360,7 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
     val builder = this.builder()
     val type = klass.codeType
 
-    builder.methods(klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
+    builder.methods(type.methods + klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
             .map { it.toMethodDeclaration(type) })
 
     var declaration = builder.build()
