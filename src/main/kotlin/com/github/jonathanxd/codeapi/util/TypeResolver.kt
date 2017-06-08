@@ -29,39 +29,40 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.lang.reflect.Type
 
 /**
- * Resolves a class name which may vary to a [CodeType] and cache the resolved type.
+ * Resolves a class name which may vary to a [Type] and cache the resolved type.
  */
 @FunctionalInterface
 interface TypeResolver {
 
     /**
-     * Resolves type with [name] to a [CodeType]. If [isInterface] is `true`, and resolved
+     * Resolves type with [name] to a [Type]. If [isInterface] is `true`, and resolved
      * type is cached as non-interface, then the type should be replaced with one that is marked as interface.
      */
-    fun resolve(name: String, isInterface: Boolean): CodeType
+    fun resolve(name: String, isInterface: Boolean): Type
 
 }
 
 /**
  * Resolve type as unknown, same as [resolveClass]
  */
-fun TypeResolver.resolveUnknown(name: String): CodeType {
+fun TypeResolver.resolveUnknown(name: String): Type {
     return this.resolve(name, false)
 }
 
 /**
  * Resolve type as interface.
  */
-fun TypeResolver.resolveInterface(name: String): CodeType {
+fun TypeResolver.resolveInterface(name: String): Type {
     return this.resolve(name, true)
 }
 
 /**
  * Resolve type as class.
  */
-fun TypeResolver.resolveClass(name: String): CodeType {
+fun TypeResolver.resolveClass(name: String): Type {
     return this.resolve(name, false)
 }
 
@@ -70,7 +71,8 @@ fun TypeResolver.resolveClass(name: String): CodeType {
  */
 class SimpleResolver(private val wrapped: TypeResolver, private val resolveLoadedClasses: Boolean) : TypeResolver {
 
-    override fun resolve(name: String, isInterface: Boolean): CodeType {
+    override fun resolve(name: String, isInterface: Boolean): Type {
+        @Suppress("NAME_SHADOWING")
         var name = name
         if (name == Types.BYTE.javaSpecName) {
             return Types.BYTE

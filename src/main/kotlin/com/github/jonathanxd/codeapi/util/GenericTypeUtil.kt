@@ -44,7 +44,7 @@ import java.util.regex.Pattern
 /**
  * Create a type descriptor from [typeDeclaration] signature.
  */
-fun genericTypesToDescriptor(typeDeclaration: TypeDeclaration, superClass: CodeType, implementations: Collection<CodeType>, superClassIsGeneric: Boolean, anyInterfaceIsGeneric: Boolean): String? {
+fun genericTypesToDescriptor(typeDeclaration: TypeDeclaration, superClass: Type, implementations: Collection<Type>, superClassIsGeneric: Boolean, anyInterfaceIsGeneric: Boolean): String? {
     val types = typeDeclaration.genericSignature.types
 
     var genericRepresentation: String? = null
