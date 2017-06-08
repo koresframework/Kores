@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.base.ImplementationHolder
 import com.github.jonathanxd.codeapi.base.SuperClassHolder
+import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver.DefaultResolver.resolve
 import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type
@@ -36,7 +37,10 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
 
 /**
- * Type resolver
+ * Type resolver. Type resolvers should never throws and error when it is unable to resolve
+ * result of an operation. The operation should return `null` - in the cases which `null` is allowed -
+ * return [CodeNothing], empty [List] or `false` when the resolver is unable to resolve the result of
+ * operation. These semantics are required to [Multi] work correctly with any resolver.
  */
 interface CodeTypeResolver<out T> {
 
@@ -91,7 +95,7 @@ interface CodeTypeResolver<out T> {
             if (concreteType is InheritanceProvider)
                 return concreteType.superclass
 
-            throw IllegalArgumentException("Cannot resolve super class of '$type'")
+            return null
         }
 
         override fun getInterfaces(type: Type): List<Type> {
@@ -109,7 +113,7 @@ interface CodeTypeResolver<out T> {
             if (concreteType is InheritanceProvider)
                 return concreteType.superinterfaces.toList()
 
-            throw IllegalArgumentException("Cannot resolve interfaces of '$type'")
+            return emptyList()
         }
 
         override fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean {
@@ -144,7 +148,8 @@ interface CodeTypeResolver<out T> {
     }
 
     /**
-     * Resolver that resolves [CodeType] to Java [Class]
+     * Resolver that resolves [CodeType] to Java [Class]. This may resolve to [CodeNothing.type]
+     * is class loader fails to find class.
      */
     class Java(val classLoader: ClassLoader) : CommonResolver<Class<*>>() {
         override fun resolve(type: Type): Class<*> {
@@ -163,17 +168,22 @@ interface CodeTypeResolver<out T> {
                 "F" -> Float::class.javaPrimitiveType!!
                 "D" -> Double::class.javaPrimitiveType!!
                 "J" -> Long::class.javaPrimitiveType!!
-                else -> classLoader.loadClass(type.binaryName)
+                else -> try {
+                    classLoader.loadClass(type.binaryName)
+                } catch (t: ClassNotFoundException) {
+                    CodeNothing::class.java
+                }
             }
         }
 
     }
 
     /**
-     * Resolver that resolves [CodeType] to Javax Model [TypeElement]
+     * Resolver that resolves [CodeType] to Javax Model [TypeElement], or to `null`
+     * if type cannot be found.
      */
-    class Model(val elements: Elements) : CommonResolver<TypeElement>() {
-        override fun resolve(type: Type): TypeElement {
+    class Model(val elements: Elements) : CommonResolver<TypeElement?>() {
+        override fun resolve(type: Type): TypeElement? {
             return elements.getTypeElement(type.canonicalName)
         }
     }
@@ -185,5 +195,79 @@ interface CodeTypeResolver<out T> {
         override fun resolve(type: Type): Type {
             return type
         }
+    }
+
+    /**
+     * This is a resolver which support multiple resolvers. This resolver
+     * always returns first **valid resolved value** for each operation.
+     *
+     * A valid resolved value depends on operations, see documentation.
+     */
+    class Multi<T> : CodeTypeResolver<T?> {
+
+        private val resolvers = mutableListOf<CodeTypeResolver<T?>>()
+
+        /**
+         * Adds a resolver
+         */
+        fun addResolver(resolver: CodeTypeResolver<T?>) {
+            this.resolvers += resolver
+        }
+
+        /**
+         * Removes a resolver
+         */
+        fun removeResolver(resolver: CodeTypeResolver<T?>) {
+            this.resolvers -= resolver
+        }
+
+        /**
+         * Adds a resolver
+         */
+        operator fun plusAssign(resolver: CodeTypeResolver<T?>) {
+            this.resolvers += resolver
+        }
+
+        /**
+         * Removes a resolver
+         */
+        operator fun minusAssign(resolver: CodeTypeResolver<T?>) {
+            this.resolvers -= resolver
+        }
+
+        /**
+         * First non-null and [non-nothing][CodeNothing] value is returned, or `null` if no
+         * valid value was found.
+         */
+        @Suppress("UNCHECKED_CAST")
+        override fun resolve(type: Type): T? =
+                resolvers.map { it.resolve(type) }.firstOrNull {
+                    it != null
+                            && it != CodeNothing
+                            && (it is Type && !it.`is`(CodeNothing.type))
+                }
+
+        /**
+         * First non-null and [non-nothing][CodeNothing] value is returned, or `null` if no
+         * valid value was found.
+         */
+        override fun getSuperclass(type: Type): Type? =
+                resolvers.map { it.getSuperclass(type) }.firstOrNull { it != null && !it.`is`(CodeNothing.type) }
+
+        /**
+         * First bigger list is returned.
+         */
+        override fun getInterfaces(type: Type): List<Type> {
+            return resolvers.map { it.getInterfaces(type) }.sortedByDescending { it.size }.firstOrNull() ?: emptyList()
+        }
+
+        /**
+         * Returns true if any resolver returns true for this operation.
+         */
+        override fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean {
+            return resolvers.any { it.isAssignableFrom(type, from, resolverProvider) }
+        }
+
+
     }
 }

@@ -236,6 +236,31 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
         get() = CodeTypeResolver.DefaultResolver
 
     /**
+     * Gets the super type of `this` [Type] using default resolver.
+     */
+    val superType: Type?
+        get() = this.defaultResolver.getSuperclass(this)
+
+    /**
+     * Gets the super interfaces of `this` [Type] using default resolver.
+     */
+    val interfaces: List<Type>
+        get() = this.defaultResolver.getInterfaces(this)
+
+    /**
+     * Returns true if `this` type is assignable from [type] (using default resolver of [type]).
+     */
+    fun isAssignableFrom(type: Type): Boolean =
+        this.defaultResolver.isAssignableFrom(this, type)
+
+    /**
+     * Returns true if `this` type is assignable from [type] (using resolver provided by [resolverProvider]).
+     */
+    fun isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean =
+        this.defaultResolver.isAssignableFrom(this, type, resolverProvider)
+
+
+    /**
      * Convert this [CodeType] to a [CodeTypeArray].
      *
      * @param dimensions Dimension of the array.

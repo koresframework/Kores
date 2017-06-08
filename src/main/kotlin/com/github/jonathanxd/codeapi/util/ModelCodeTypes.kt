@@ -159,7 +159,7 @@ internal class TypeElementCodeType(val typeElement: TypeElement, val elements: E
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
 
-    override val defaultResolver: CodeTypeResolver<TypeElement>
+    override val defaultResolver: CodeTypeResolver<TypeElement?>
         get() = CodeTypeResolver.Model(elements)
 
 }

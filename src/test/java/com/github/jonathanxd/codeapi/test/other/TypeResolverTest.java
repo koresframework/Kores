@@ -32,10 +32,20 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver;
+import com.github.jonathanxd.codeapi.type.TypeRef;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.codeapi.util.ImplicitCodeType;
+import com.github.jonathanxd.iutils.collection.CollectionUtils;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import kotlin.jvm.functions.Function1;
 
 public class TypeResolverTest {
 
@@ -61,6 +71,54 @@ public class TypeResolverTest {
         Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(BaseExt.class), typeDeclaration));
         Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), CodeTypes.getCodeType(BaseExt.class)));
         Assert.assertTrue(defaultResolver.isAssignableFrom(basex, typeDeclaration));
+    }
+
+    @Test
+    public void multiResolver() {
+
+        TypeRef typeRef = new TypeRef("com.Worktable", false);
+
+        CodeTypeResolver.Multi<Type> resolver = new CodeTypeResolver.Multi<>();
+
+        CodeTypeResolver.Java java = new CodeTypeResolver.Java(ClassLoader.getSystemClassLoader());
+        resolver.addResolver(java);
+        resolver.addResolver(CodeTypeResolver.DefaultResolver.INSTANCE);
+        resolver.addResolver(new CodeTypeResolver<Type>() {
+            @Override
+            public Type resolve(@NotNull Type type) {
+                return null;
+            }
+
+            @Nullable
+            @Override
+            public Type getSuperclass(@NotNull Type type) {
+                return null;
+            }
+
+            @NotNull
+            @Override
+            public List<Type> getInterfaces(@NotNull Type type) {
+                return CollectionUtils.listOf(String.class);
+            }
+
+            @Override
+            public boolean isAssignableFrom(@NotNull Type type, @NotNull Type from) {
+                return CodeTypeResolver.DefaultImpls.isAssignableFrom(this, type, from);
+            }
+
+            @Override
+            public boolean isAssignableFrom(@NotNull Type type, @NotNull Type from, @NotNull Function1<? super Type, ? extends CodeTypeResolver<?>> resolverProvider) {
+                return ImplicitCodeType.is(Boolean.TYPE, from);
+
+            }
+        });
+
+        Assert.assertTrue(resolver.isAssignableFrom(typeRef, Boolean.TYPE));
+        Assert.assertTrue(ImplicitCodeType.is(typeRef, resolver.resolve(typeRef)));
+        Assert.assertTrue(resolver.getInterfaces(typeRef).size() == 1);
+        Assert.assertTrue(resolver.getSuperclass(typeRef) == null);
+
+
     }
 
     interface Base {

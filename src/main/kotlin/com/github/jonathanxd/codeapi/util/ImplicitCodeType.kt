@@ -34,6 +34,7 @@
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.CodeTypeResolver
 import java.lang.reflect.Type
 
 /**
@@ -132,12 +133,33 @@ val Type.defaultResolver get() = this.codeType.defaultResolver
 val Type.concreteType get() = this.codeType.concreteType
 
 /**
+ * See [CodeType.superType]
+ */
+val Type.superType get() = this.codeType.superType
+
+/**
+ * See [CodeType.interfaces]
+ */
+val Type.interfaces get() = this.codeType.interfaces
+
+/**
+ * See [CodeType.isAssignableFrom]
+ */
+fun Type.isAssignableFrom(type: Type) = this.codeType.isAssignableFrom(type)
+
+/**
+ * See [CodeType.isAssignableFrom]
+ */
+fun Type.isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>) =
+        this.codeType.isAssignableFrom(type, resolverProvider)
+
+/**
  * See [CodeType.toArray]
  */
 fun Type.toArray(dimensions: Int): CodeType = this.codeType.toArray(dimensions)
 
 /**
- * See [CodeType.is]
+ * See [CodeType. is]
  */
 fun Type.`is`(another: Type?): Boolean = another != null && this.codeType.`is`(another.codeType)
 
