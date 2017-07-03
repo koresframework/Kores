@@ -100,6 +100,15 @@ interface GenericType : CodeType {
     override val isArray: Boolean
         get() = isType && this.codeType.isArray
 
+    override val arrayBaseComponent: CodeType
+        get() = this.codeType.arrayBaseComponent
+
+    override val arrayComponent: CodeType
+        get() = this.codeType.arrayComponent
+
+    override val arrayDimension: Int
+        get() = this.codeType.arrayDimension
+
     /**
      * Only determine the Wrapper type if:
      *
