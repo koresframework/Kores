@@ -236,6 +236,12 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
         get() = CodeTypeResolver.DefaultResolver
 
     /**
+     * Creates a new binded default resolver instance.
+     */
+    val bindedDefaultResolver: BindedTypeResolver<*>
+        get() = BindedTypeResolver(this, this.defaultResolver)
+
+    /**
      * Gets the super type of `this` [Type] using default resolver.
      */
     val superType: Type?

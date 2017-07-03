@@ -58,14 +58,6 @@ data class VariableAccess(override val variableType: Type, override val name: St
             return this
         }
 
-        /**
-         * Base this builder in [ref]
-         */
-        fun base(ref: VariableRef) = this.apply {
-            name(ref.name)
-            variableType(ref.variableType)
-        }
-
         override fun build(): VariableAccess = VariableAccess(this.variableType, this.name)
 
         companion object {

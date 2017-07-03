@@ -28,7 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.common.FieldRef
+import com.github.jonathanxd.codeapi.common.VariableRef
 import java.lang.reflect.Type
 
 /**
@@ -64,5 +65,19 @@ interface FieldBase : Named, Typed {
          */
         fun target(value: CodeInstruction): S
 
+        /**
+         * Base this builder on [variableRef].
+         */
+        fun base(variableRef: VariableRef): S =
+                this.name(variableRef.name).type(variableRef.type)
+
+        /**
+         * Base this builder on [fieldRef].
+         */
+        fun base(fieldRef: FieldRef): S =
+                this.localization(fieldRef.localization)
+                        .target(fieldRef.target)
+                        .name(fieldRef.name)
+                        .type(fieldRef.type)
     }
 }

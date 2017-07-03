@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.common.FieldRef
+import com.github.jonathanxd.codeapi.common.VariableRef
 import java.lang.reflect.Type
 
 /**
@@ -59,5 +61,18 @@ interface VariableBase : Named, Typed {
          * See [T.variableType]
          */
         fun variableType(value: Type): S
+
+        /**
+         * Base this builder on [variableRef].
+         */
+        fun base(variableRef: VariableRef): S =
+                this.name(variableRef.name).type(variableRef.type)
+
+        /**
+         * Base this builder on [fieldRef] (only [name] and [type]).
+         */
+        fun base(fieldRef: FieldRef): S =
+                this.name(fieldRef.name).type(fieldRef.type)
+
     }
 }
