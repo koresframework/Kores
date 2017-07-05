@@ -31,9 +31,11 @@ import com.github.jonathanxd.codeapi.base.ImplementationHolder
 import com.github.jonathanxd.codeapi.base.SuperClassHolder
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver.DefaultResolver.resolve
+import com.github.jonathanxd.codeapi.type.CodeTypeResolver.Multi
 import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type
 import javax.lang.model.element.TypeElement
+import javax.lang.model.type.TypeKind
 import javax.lang.model.util.Elements
 
 /**
@@ -87,7 +89,10 @@ interface CodeTypeResolver<out T> {
                 return concreteType.loadedType.superclass?.codeType
 
             if (concreteType is TypeElementCodeType)
-                return concreteType.typeElement.superclass?.getCodeType(concreteType.elements)
+                return concreteType.typeElement.superclass?.let {
+                    if (it.kind != TypeKind.NONE) it.getCodeType(concreteType.elements)
+                    else null
+                }
 
             if (concreteType is SuperClassHolder)
                 return concreteType.superClass.codeType
@@ -105,7 +110,8 @@ interface CodeTypeResolver<out T> {
                 return concreteType.loadedType.interfaces?.map { it.codeType }.orEmpty()
 
             if (concreteType is TypeElementCodeType)
-                return concreteType.typeElement.interfaces?.map { it.getCodeType(concreteType.elements) }.orEmpty()
+                return concreteType.typeElement.interfaces?.filter { it.kind != TypeKind.NONE }
+                        ?.map { it.getCodeType(concreteType.elements) }.orEmpty()
 
             if (concreteType is ImplementationHolder)
                 return concreteType.implementations.map { it.codeType }.toList()
