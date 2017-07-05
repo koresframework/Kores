@@ -423,6 +423,7 @@ fun fromSourceString(sourceString: String, typeResolver: CodeTypeResolver): Gene
 }
 
 private fun fromSourceString(generic: Generic, sourceString: String, typeResolver: CodeTypeResolver): Generic {
+    @Suppress("NAME_SHADOWING")
     var generic = generic
 
     val types: Array<String>
@@ -433,6 +434,7 @@ private fun fromSourceString(generic: Generic, sourceString: String, typeResolve
         types = arrayOf(sourceString)
 
     for (type_ in types) {
+        @Suppress("NAME_SHADOWING")
         var type_ = type_.trim { it <= ' ' } // Remove unnecessary space.
         val containsTag = type_.contains("<")
 

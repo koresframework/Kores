@@ -220,21 +220,24 @@ fun inferType(type: Type,
             }
         }
 
-        val type = if (cType.isType) Generic.type(cType.resolvedType)
+        val inferType = if (cType.isType) Generic.type(cType.resolvedType)
         else if (cType.isWildcard) Generic.wildcard()
         else Generic.type(cType.name)
 
-        return type.of(*inferType(cType.bounds, parameterizedType, startingType, codeTypeResolver, genericResolver))
+        return inferType.of(*inferBoundsType(cType.bounds, parameterizedType, startingType, codeTypeResolver, genericResolver))
     }
 
     return cType
 }
 
-fun inferType(bounds: Array<out GenericType.Bound>,
-              parameterizedType: GenericType,
-              startingType: GenericType,
-              codeTypeResolver: CodeTypeResolver<*>,
-              genericResolver: GenericResolver): Array<GenericType.Bound> {
+/**
+ * Calls [inferType] against [bounds] types.
+ */
+fun inferBoundsType(bounds: Array<out GenericType.Bound>,
+                    parameterizedType: GenericType,
+                    startingType: GenericType,
+                    codeTypeResolver: CodeTypeResolver<*>,
+                    genericResolver: GenericResolver): Array<GenericType.Bound> {
     return bounds.map {
         val erase = inferType(it.type, parameterizedType, startingType, codeTypeResolver, genericResolver)
         if (it is GenericType.Extends) GenericType.Extends(erase)
@@ -243,7 +246,9 @@ fun inferType(bounds: Array<out GenericType.Bound>,
     }.toTypedArray()
 }
 
-
+/**
+ * Erase types which can not be found on [signature].
+ */
 fun eraseType(type: Type, signature: GenericSignature): CodeType {
     val cType = type.codeType
 
@@ -255,16 +260,19 @@ fun eraseType(type: Type, signature: GenericSignature): CodeType {
                 return cType.resolvedType // Do not confuse with extension, this is GenericType.codeType
         }
 
-        val type = if (cType.isType) Generic.type(cType.resolvedType)
+        val inferType = if (cType.isType) Generic.type(cType.resolvedType)
         else if (cType.isWildcard) Generic.wildcard()
         else Generic.type(cType.name)
 
-        return type.of(*eraseBounds(cType.bounds, signature))
+        return inferType.of(*eraseBounds(cType.bounds, signature))
     }
 
     return cType
 }
 
+/**
+ * Calls [eraseType] agains [bounds] type.
+ */
 fun eraseBounds(bounds: Array<out GenericType.Bound>, signature: GenericSignature): Array<GenericType.Bound> {
     return bounds.map {
         val erase = eraseType(it.type, signature)

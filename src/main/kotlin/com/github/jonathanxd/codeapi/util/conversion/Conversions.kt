@@ -427,8 +427,8 @@ fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) 
                 .name(this.name)
                 .returnType(this.returnType.codeType)
                 .parameters(this.parameters.let {
-                    it.mapIndexed { i, it ->
-                        parameter(type = it.type, name = nameProvider(i, it))
+                    it.mapIndexed { i, parameter ->
+                        parameter(type = parameter.type, name = nameProvider(i, parameter))
                     }
                 })
                 .body(MutableCodeSource.create())
@@ -471,8 +471,8 @@ fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int,
         ConstructorDeclaration.Builder.builder()
                 .modifiers(fixModifiers(this.modifiers))
                 .parameters(this.parameters.let {
-                    it.mapIndexed { i, it ->
-                        parameter(type = it.type, name = nameProvider(i, it))
+                    it.mapIndexed { i, parameter ->
+                        parameter(type = parameter.type, name = nameProvider(i, parameter))
                     }
                 })
                 .body(MutableCodeSource.create())

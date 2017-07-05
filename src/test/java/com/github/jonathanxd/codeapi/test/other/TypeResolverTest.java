@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.type.CodeTypeResolver;
 import com.github.jonathanxd.codeapi.type.TypeRef;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.codeapi.util.ImplicitCodeType;
-import com.github.jonathanxd.iutils.collection.CollectionUtils;
+import com.github.jonathanxd.iutils.collection.Collections3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -98,7 +98,7 @@ public class TypeResolverTest {
             @NotNull
             @Override
             public List<Type> getInterfaces(@NotNull Type type) {
-                return CollectionUtils.listOf(String.class);
+                return Collections3.listOf(String.class);
             }
 
             @Override

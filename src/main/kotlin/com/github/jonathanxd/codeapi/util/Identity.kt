@@ -86,20 +86,19 @@ private fun GenericType.Bound.nonStrictEq(other: GenericType.Bound): Boolean {
     val thisType = this.type
     val otherType = other.type
 
-    val comparator = { it: CodeType, other: CodeType ->
+    val comparator = { it: CodeType, second: CodeType ->
         (it is GenericType
                 && it.isWildcard)
-
                 && (it.bounds.isEmpty()
                 && (
-                other is GenericType
-                        && other.bounds.size == 1
-                        && other.bounds.first().nonStrictEq(GenericType.GenericBound(Types.OBJECT))
-                        || other.`is`(Types.OBJECT)
+                second is GenericType
+                        && second.bounds.size == 1
+                        && second.bounds.first().nonStrictEq(GenericType.GenericBound(Types.OBJECT))
+                        || second.`is`(Types.OBJECT)
                 )
                 || (
                 it.bounds.isNotEmpty()
-                        && it.bounds.any { it.type.`is`(other) }
+                        && it.bounds.any { it.type.`is`(second) }
                 ))
 
     }

@@ -41,15 +41,15 @@ import java.lang.reflect.Type
  */
 private fun resolveInnerName(qualifiedName: String, outer: Type?, isTypeName: Boolean): String {
     if (outer != null) {
-        outer.codeType.let { outer ->
-            val packageName = outer.packageName
+        outer.codeType.let { outerType ->
+            val packageName = outerType.packageName
 
             // Prevent duplication of the name
             if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
                 if (isTypeName) {
-                    return getTypeNameStr(qualifiedName, outer)
+                    return getTypeNameStr(qualifiedName, outerType)
                 } else {
-                    return getQualifiedNameStr(qualifiedName, outer)
+                    return getQualifiedNameStr(qualifiedName, outerType)
                 }
             }
         }

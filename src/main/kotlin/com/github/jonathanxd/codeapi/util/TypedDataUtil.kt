@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.iutils.`object`.Pair
 import com.github.jonathanxd.iutils.`object`.TypedKey
 import com.github.jonathanxd.iutils.data.TypedData
-import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
+import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
 import java.util.Optional
 
@@ -75,7 +75,7 @@ fun <T> TypedData.containsAnyKey(key: TypedKey<T>): Boolean {
  * Creates a [TypeInfo] of type [T].
  */
 inline fun <reified T> typedKeyOf(key: Any): TypedKey<T> =
-        TypedKey<T>(key, object : ConcreteTypeInfo<T>(){})
+        TypedKey<T>(key, object : AbstractTypeInfo<T>(){})
 
 /**
  * Adds [value] to list associated to this key
