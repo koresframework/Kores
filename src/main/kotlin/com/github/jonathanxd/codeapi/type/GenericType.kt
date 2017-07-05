@@ -51,7 +51,15 @@ interface GenericType : CodeType {
     /**
      * Resolved code type.
      */
+    @Deprecated(message = "Use GenericType.type instead, this will be removed later.",
+            replaceWith = ReplaceWith("this.resolvedType"))
     val codeType: CodeType
+        get() = this.resolvedType
+
+    /**
+     * Resolved code type.
+     */
+    val resolvedType: CodeType
 
     /**
      * True if this is a Type generic type, false if is a Type Variable generic type.
@@ -74,40 +82,40 @@ interface GenericType : CodeType {
 
     // CodeType Overrides
     override val type: String
-        get() = this.codeType.type
+        get() = this.resolvedType.type
 
     override val canonicalName: String
-        get() = this.codeType.canonicalName
+        get() = this.resolvedType.canonicalName
 
     override val packageName: String
-        get() = this.codeType.packageName
+        get() = this.resolvedType.packageName
 
     override val simpleName: String
-        get() = this.codeType.simpleName
+        get() = this.resolvedType.simpleName
 
     override val javaSpecName: String
-        get() = this.codeType.javaSpecName
+        get() = this.resolvedType.javaSpecName
 
     override val isPrimitive: Boolean
-        get() = this.isType && this.codeType.isPrimitive
+        get() = this.isType && this.resolvedType.isPrimitive
 
     override val isInterface: Boolean
-        get() = this.isType && this.codeType.isInterface
+        get() = this.isType && this.resolvedType.isInterface
 
     override val isVirtual: Boolean
-        get() = !this.isType || this.codeType.isVirtual
+        get() = !this.isType || this.resolvedType.isVirtual
 
     override val isArray: Boolean
-        get() = isType && this.codeType.isArray
+        get() = isType && this.resolvedType.isArray
 
     override val arrayBaseComponent: CodeType
-        get() = this.codeType.arrayBaseComponent
+        get() = this.resolvedType.arrayBaseComponent
 
     override val arrayComponent: CodeType
-        get() = this.codeType.arrayComponent
+        get() = this.resolvedType.arrayComponent
 
     override val arrayDimension: Int
-        get() = this.codeType.arrayDimension
+        get() = this.resolvedType.arrayDimension
 
     /**
      * Only determine the Wrapper type if:
@@ -119,7 +127,7 @@ interface GenericType : CodeType {
     override val wrapperType: CodeType?
         get() {
             if (isType && bounds.isEmpty())
-                return this.codeType.wrapperType
+                return this.resolvedType.wrapperType
 
             return null
         }
@@ -137,7 +145,7 @@ interface GenericType : CodeType {
     override val primitiveType: CodeType?
         get() {
             if (isType && bounds.isEmpty())
-                return this.codeType.primitiveType
+                return this.resolvedType.primitiveType
 
             return null
         }
@@ -145,7 +153,7 @@ interface GenericType : CodeType {
 
     override fun toArray(dimensions: Int): GenericType
 
-    override fun `is`(another: CodeType?): Boolean = this == another
+    override fun `is`(other: CodeType?): Boolean = this == other
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int
     override fun toString(): String

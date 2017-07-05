@@ -29,6 +29,8 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.util.concreteType
 import com.github.jonathanxd.codeapi.util.typeDesc
 import java.lang.reflect.Type
 
@@ -281,15 +283,40 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
     }
 
     /**
-     * Returns true if this [CodeType] is equals to another [CodeType].
+     * Returns true if this [CodeType] is equals to other [CodeType].
      *
-     * @param another Another [CodeType].
-     * @return True if this [CodeType] is equals to another [CodeType].
+     * @param other Type to test against.
+     * @return True if this [CodeType] is equals to other [CodeType].
      */
-    fun `is`(another: CodeType?): Boolean {
-        return another != null && this.compareTo(another) == 0
+    fun `is`(other: CodeType?): Boolean {
+        return other != null && this.compareTo(other) == 0
     }
 
+    /**
+     * Returns true if this [CodeType] identification is equals to other [Type] according to [is].
+     *
+     * @param other Type to test against.
+     * @return True if this [CodeType] identification is equals to other [Type]  according to [is].
+     */
+    fun isIdEq(other: Type): Boolean {
+        return this.`is`(other.codeType)
+    }
+
+    /**
+     * Returns true if identification of [concreteType] of this [CodeType] is equals to
+     * [concreteType] of other [Type] according to [is].
+     *
+     * @param other Type to test against.
+     * @return True if identification of [concreteType] of this [CodeType] is equals to
+     * [concreteType] of other [Type] according to [is].
+     */
+    fun isConcreteIdEq(other: Type): Boolean {
+        return this.concreteType.`is`(other.codeType.concreteType)
+    }
+
+    /**
+     * Compare two identifications
+     */
     override fun compareTo(other: CodeType): Int {
         return this.identification.compareTo(other.identification)
     }

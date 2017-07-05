@@ -66,7 +66,7 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
         if (!defaults.isType)
             this.name = defaults.name
         else
-            this.type = defaults.codeType
+            this.type = defaults.resolvedType
 
         this.bounds = defaults.bounds.toMutableList()
     }

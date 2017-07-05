@@ -38,7 +38,7 @@ import com.github.jonathanxd.codeapi.util.toStr
 class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: Array<GenericType.Bound>) : GenericType {
 
     override val name: String
-    override val codeType: CodeType
+    override val resolvedType: CodeType
 
     /**
      * Is type defined
@@ -63,15 +63,15 @@ class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: A
         }
 
         if (codeType != null) {
-            this.codeType = codeType
+            this.resolvedType = codeType
             this.definedCodeType = codeType
         } else {
             if (this.bounds.isEmpty()) {
                 this.definedCodeType = null
-                this.codeType = Types.OBJECT
+                this.resolvedType = Types.OBJECT
             } else {
-                this.codeType = bounds[0].type
-                this.definedCodeType = this.codeType
+                this.resolvedType = bounds[0].type
+                this.definedCodeType = this.resolvedType
             }
         }
     }
@@ -79,7 +79,7 @@ class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: A
     override val isType: Boolean
         get() = !this.isWildcard && this.isType_
 
-    override fun toArray(dimensions: Int): GenericType = GenericTypeImpl(this.name, this.codeType.toArray(dimensions), this.bounds)
+    override fun toArray(dimensions: Int): GenericType = GenericTypeImpl(this.name, this.resolvedType.toArray(dimensions), this.bounds)
 
     override fun equals(other: Any?): Boolean = this.eq(other)
     override fun hashCode(): Int = this.hash()

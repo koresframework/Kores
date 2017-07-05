@@ -49,6 +49,7 @@ const val CONSTRUCTOR = "<init>"
  * use by other class in [typeDeclaration].
  */
 fun getNewInnerName(name: String, typeDeclaration: TypeDeclaration): String {
+    @Suppress("NAME_SHADOWING")
     var name = name
     val inspect = typeDeclaration.innerTypes
 
@@ -62,6 +63,7 @@ fun getNewInnerName(name: String, typeDeclaration: TypeDeclaration): String {
  * Gets a new unique from a base [name]. This function always return a name that is not in [Named Element List][nameds].
  */
 fun getNewName(name: String, nameds: List<Named>): String {
+    @Suppress("NAME_SHADOWING")
     var name = name
     while (contains(name, nameds))
         name += "$1"
@@ -74,6 +76,7 @@ fun getNewName(name: String, nameds: List<Named>): String {
  * [FieldDeclaration] in [source].
  */
 fun getNewFieldName(name: String, source: CodeSource): String {
+    @Suppress("NAME_SHADOWING")
     var name = name
     val inspect = SourceInspect.builder { codePart -> codePart is FieldDeclaration }
             .includeSource(true)
@@ -92,6 +95,7 @@ fun getNewFieldName(name: String, source: CodeSource): String {
  * [MethodDeclarationBase] in [source].
  */
 fun getNewMethodName(name: String, source: CodeSource): String {
+    @Suppress("NAME_SHADOWING")
     var name = name
     val inspect = SourceInspect.builder { codePart -> codePart is MethodDeclarationBase }
             .includeSource(true)

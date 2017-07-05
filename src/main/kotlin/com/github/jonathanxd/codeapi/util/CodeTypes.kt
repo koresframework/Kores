@@ -63,17 +63,19 @@ private val cache = WeakValueHashMap<Type, CodeType>()
 
 val Type.codeType: CodeType get() = this.getType(false)
 
+val Type.asGeneric: GenericType get() = this.codeType.let { if (it is GenericType) it else Generic.type(it) }
+
 /**
  * Gets the concrete type of [CodeType], if this is a [GenericType], the property getter will try to
- * infer the concrete type looping the [GenericType Inferred type][GenericType.codeType].
+ * infer the concrete type looping the [GenericType Inferred type][GenericType.resolvedType].
  *
- * Example: for `S extends List<String>`, it will return `List` (obs: the [GenericType.codeType] of `S extends List<String>` is `List<String>`.
+ * Example: for `S extends List<String>`, it will return `List` (obs: the [GenericType.resolvedType] of `S extends List<String>` is `List<String>`.
  */
 val CodeType.concreteType: CodeType
     get() = if (this is GenericType) {
         var type = this
         while (type is GenericType)
-            type = type.codeType
+            type = type.resolvedType
 
         type
     } else this
@@ -88,6 +90,18 @@ fun Class<*>.getCodeTypeFromTypeParameters(): CodeType {
     return generic
 }
 
+/**
+ * Gets [GenericType] from [Class]. Returned type is a generic type of [Class] and type parameters.
+ */
+fun Class<*>.getGenericType(): GenericType {
+    val bounds = this.typeParameters.map { GenericType.GenericBound(it.getType()) }.toTypedArray()
+
+    return Generic.type(this).of(*bounds)
+}
+
+/**
+ * Gets the [CodeType] from a [Type]. This method only works for Java Reflection Types and [CodeType].
+ */
 fun Type.getType(isParameterized: Boolean = false): CodeType {
 
     if (this is CodeType)
@@ -156,18 +170,18 @@ fun CodeType.applyType(typeName: String, type: CodeType): CodeType {
 
 fun GenericType.getType(name: String): CodeType? {
     if (!this.isType && !this.isWildcard && this.name == name)
-        return this.codeType
+        return this.resolvedType
     else
-        return this.codeType.getType(name) ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
+        return this.resolvedType.getType(name) ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
 }
 
 fun GenericType.getType(name: String, inside: CodeType): CodeType? {
-    val type = (inside as? GenericType)?.codeType ?: inside
+    val type = (inside as? GenericType)?.resolvedType ?: inside
 
     if (!this.isType && !this.isWildcard && this.name == name)
         return type
     else if (inside is GenericType) {
-        this.codeType.getType(name, inside.codeType)?.let {
+        this.resolvedType.getType(name, inside.resolvedType)?.let {
             return it
         }
 
@@ -200,7 +214,7 @@ fun GenericType.applyType(typeName: String, type: CodeType): GenericType {
         }
 
         if (this.isType) {
-            return Generic.type(this.codeType.applyType(typeName, type)).of(*bounds)
+            return Generic.type(this.resolvedType.applyType(typeName, type)).of(*bounds)
         }
     }
 

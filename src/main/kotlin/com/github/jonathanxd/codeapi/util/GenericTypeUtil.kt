@@ -118,7 +118,7 @@ private fun GenericType.genericTypeDescriptor_plain(): String {
     val name = this.name
 
     val additionalDel =
-            this.isType && this.codeType.isInterface
+            this.isType && this.resolvedType.isInterface
                     || this.bounds.isNotEmpty()
                     && this.bounds.first().type.isInterface
 
@@ -267,7 +267,7 @@ fun inferParametersAndReturn(owner: Lazy<TypeDeclaration>,
 
     fun infer(codeType: java.lang.reflect.Type): CodeType =
             if (codeType is GenericType && !codeType.isType) {
-                find(methodGenericSign, codeType.name) ?: find(genericSign, codeType.name) ?: codeType.codeType
+                find(methodGenericSign, codeType.name) ?: find(genericSign, codeType.name) ?: codeType.resolvedType
             } else {
                 codeType.codeType
             }

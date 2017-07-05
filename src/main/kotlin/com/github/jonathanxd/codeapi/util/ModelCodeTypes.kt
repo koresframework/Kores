@@ -28,11 +28,10 @@
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver
-import com.github.jonathanxd.codeapi.type.Generic
-import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.NullType
+import java.lang.reflect.Type
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.TypeParameterElement
@@ -169,3 +168,54 @@ val TypeElement.typeName: String
         val element = (this.enclosingElement as? TypeElement)
         return if (element != null) "${element.typeName}\$${this.simpleName}" else this.qualifiedName.toString()
     }
+
+
+class ModelResolver(val elements: Elements) : GenericResolver {
+
+    override fun resolveTypeWithParameters(type: Type,
+                                           codeTypeResolver: CodeTypeResolver<*>): GenericType {
+        val resolved = type.codeType
+
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType)
+
+        if (resolve is TypeElement) {
+            return resolve.asType().getCodeType(elements).asGeneric
+        }
+
+        throw IllegalStateException("$type must be a Javax Annotation Model TypeElement.")
+    }
+
+    override fun resolveGenericTypeImplementation(superType: Type, implemented: Type,
+                                                  codeTypeResolver: CodeTypeResolver<*>): GenericType {
+        val superCodeType = superType.codeType
+        val implementedCodeType = implemented.codeType
+
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType)
+        val resolvedImplemented: Any? = codeTypeResolver.resolve(implementedCodeType.concreteType)
+
+        if (resolvedSuperType is TypeElement && resolvedImplemented is TypeElement) {
+            val superElement = resolvedSuperType
+            val implementedElement = resolvedImplemented
+
+            if (superElement.superclass.kind != TypeKind.NONE
+                    && superElement.superclass.getCodeType(elements).concreteType.`is`(implementedCodeType.concreteType)) {
+                return superElement.superclass.getCodeType(elements).asGeneric
+            }
+
+            val itfs = superElement.interfaces
+
+            for (i in itfs.indices) {
+                val itf = itfs[i]
+
+                if (itf.getCodeType(elements).concreteType.`is`(implementedCodeType.concreteType)) {
+                    return itf.getCodeType(elements).asGeneric
+                }
+            }
+
+            throw IllegalStateException("Can't find '$implementedElement' in superclasses and superinterfaces of '$superElement'.")
+        }
+
+        throw IllegalStateException("Super type $superType and implemented type $implemented must be a Javax Annotation Model TypeElement.")
+    }
+
+}

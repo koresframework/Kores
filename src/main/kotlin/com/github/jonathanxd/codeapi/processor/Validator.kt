@@ -242,10 +242,10 @@ object VoidValidator : CodeValidator {
             override val context: List<Any> = emptyList()
             override val validationMessages: List<ContextedValidationMessage> = emptyList()
 
-            override fun enterInspectionOf(part: Any) {
+            override fun enterInspectionOf(@Suppress("NAME_SHADOWING") part: Any) {
             }
 
-            override fun exitInspectionOf(part: Any) {
+            override fun exitInspectionOf(@Suppress("NAME_SHADOWING") part: Any) {
             }
 
             override fun addMessage(message: ValidationMessage) {

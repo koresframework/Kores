@@ -49,7 +49,7 @@ class SourceInspectBuilder<R> private constructor() {
     /**
      * Predicate to test where to stop inspection.
      */
-    private var stopPredicate: (CodePart) -> Boolean = { codePart -> false }
+    private var stopPredicate: (CodePart) -> Boolean = { false }
 
     /**
      * True to inspect [CodeSource], and not only sub elements.

@@ -109,7 +109,7 @@ fun getTypeVars(declaration: TypeDeclaration): Array<TypeVariable<*>> {
  */
 @Suppress("UNCHECKED_CAST")
 fun fillTypeVars(theClass: Class<*>, generic: GenericType): Array<out TypeVariable<*>> {
-    if (generic.isType && generic.codeType.`is`(theClass.codeType)) {
+    if (generic.isType && generic.resolvedType.`is`(theClass.codeType)) {
         return fillTypeVars(theClass.typeParameters as Array<TypeVariable<*>>, generic)
     }
 
@@ -165,7 +165,7 @@ fun findType(signature: GenericSignature?, name: String): CodeType? {
 
     return types
             .firstOrNull { !it.isType && it.name == name }
-            ?.codeType
+            ?.resolvedType
 }
 
 /**
@@ -180,7 +180,7 @@ fun toTypeVars(signature: GenericSignature?): Array<TypeVariable<*>> =
  */
 fun toTypeVar(generic: GenericType): TypeVariable<*> {
     if (generic.isType || generic.bounds.isEmpty())
-        return GenericTypeVariable(generic.codeType, null, generic.name, arrayOf(if (generic.isType) GenericJavaType(generic.codeType) else GenericTypeVariable(generic.codeType, null, generic.name, emptyArray())))
+        return GenericTypeVariable(generic.resolvedType, null, generic.name, arrayOf(if (generic.isType) GenericJavaType(generic.resolvedType) else GenericTypeVariable(generic.resolvedType, null, generic.name, emptyArray())))
 
     val typeList = mutableListOf<Type>()
 
@@ -195,7 +195,7 @@ fun toTypeVar(generic: GenericType): TypeVariable<*> {
                 }
             }
 
-    return GenericTypeVariable(generic.codeType, null, generic.name, typeList.toTypedArray())
+    return GenericTypeVariable(generic.resolvedType, null, generic.name, typeList.toTypedArray())
 }
 
 /**
@@ -207,7 +207,7 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
         val generic = bound.type
 
         if (generic.isType || generic.bounds.isEmpty())
-            return GenericTypeVariable(generic.codeType, variable, arrayOf(if (generic.isType) GenericJavaType(generic.codeType) else GenericTypeVariable(generic.codeType, null, generic.name, emptyArray())))
+            return GenericTypeVariable(generic.resolvedType, variable, arrayOf(if (generic.isType) GenericJavaType(generic.resolvedType) else GenericTypeVariable(generic.resolvedType, null, generic.name, emptyArray())))
 
         val typeList = ArrayList<Type>()
 
@@ -229,7 +229,7 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
             }
         }
 
-        return GenericTypeVariable(generic.codeType, variable, generic.type, typeList.toTypedArray())
+        return GenericTypeVariable(generic.resolvedType, variable, generic.type, typeList.toTypedArray())
     } else {
         return GenericTypeVariable(bound.type, variable, arrayOf<Type>(GenericJavaType(bound.type)))
     }
@@ -240,10 +240,10 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
  */
 fun Type.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<out TypeVariable<*>>, generic: Generic): CodeType {
     this.codeType.let {
-        if (it is LoadedCodeType<*> || it is GenericType && it.isType && it.codeType is LoadedCodeType<*>) {
+        if (it is LoadedCodeType<*> || it is GenericType && it.isType && it.resolvedType is LoadedCodeType<*>) {
 
             if (it is GenericType) {
-                return it.codeType
+                return it.resolvedType
             } else {
                 return it
             }

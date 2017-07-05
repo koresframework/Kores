@@ -70,7 +70,7 @@ fun GenericType.nonStrictEq(other: CodeType): Boolean {
     } else if (other is CodeType) {
 
         if (this.bounds.all { it.type is GenericType && it.type.isWildcard })
-            return this.codeType.identification == other.identification
+            return this.resolvedType.identification == other.identification
 
         return this.isType && this.bounds.isEmpty() && this.identification == other.identification
     } else {
@@ -166,7 +166,7 @@ fun GenericType.toComponentString(): String =
         ToStringHelper.defaultHelper(this::class.java.simpleName)
                 .add("name", this.name)
                 .add("isWildcard", this.isWildcard)
-                .add(if (this.isType) "codeType" else "inferredType", this.codeType)
+                .add(if (this.isType) "codeType" else "inferredType", this.resolvedType)
                 .add("isType", this.isWildcard)
                 .add("bounds", this.bounds.map { it.toComponentString() })
                 .toString()
