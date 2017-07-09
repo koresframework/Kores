@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
 import com.github.jonathanxd.codeapi.util.GenericTypeInferenceUtilKt;
 import com.github.jonathanxd.codeapi.util.JavaResolver;
+import com.github.jonathanxd.codeapi.util.MixedResolver;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -92,7 +93,7 @@ public class TypeInference {
         GenericType toInfer = Generic.type(List.class).of("T");
 
         CodeType codeType = GenericTypeInferenceUtilKt
-                .inferType(toInfer, type, starting, type.getDefaultResolver(), new JavaResolver());
+                .inferType(toInfer, type, starting, type.getDefaultResolver(), new MixedResolver(null));
 
         Assert.assertTrue(codeType.is(Generic.type(List.class).of(String.class)));
     }

@@ -27,10 +27,14 @@
  */
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.base.SuperClassHolder
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver
 import java.lang.reflect.Type
+import javax.lang.model.element.TypeElement
+import javax.lang.model.util.Elements
 
 /**
  * See [getInferredType] below.
@@ -199,12 +203,15 @@ interface GenericResolver {
  * explicitly or implicitly).
  * @param codeTypeResolver Type resolver which will get superclass and superinterfaces.
  * @param genericResolver Resolver which will resolve generic types from [Type].
+ * @param filter Filter which determines type variables to be inferred. (True to infer, false to ignore).
  */
+@JvmOverloads
 fun inferType(type: Type,
               parameterizedType: GenericType,
               startingType: GenericType,
               codeTypeResolver: CodeTypeResolver<*>,
-              genericResolver: GenericResolver): CodeType {
+              genericResolver: GenericResolver,
+              filter: (String) -> Boolean = {true}): CodeType {
 
     val startingBounds = startingType.bounds
     val cType = type.codeType
@@ -213,7 +220,7 @@ fun inferType(type: Type,
         if (!cType.isType && !cType.isWildcard) {
             val name = cType.name
 
-            if (startingBounds.none { it.type is GenericType && it.type.name == name }) {
+            if (filter(name) && startingBounds.none { it.type is GenericType && it.type.name == name }) {
 
                 getInferredType(name, parameterizedType, startingType, codeTypeResolver, genericResolver)
                         .firstOrNull()?.let { return it }
@@ -237,9 +244,10 @@ fun inferBoundsType(bounds: Array<out GenericType.Bound>,
                     parameterizedType: GenericType,
                     startingType: GenericType,
                     codeTypeResolver: CodeTypeResolver<*>,
-                    genericResolver: GenericResolver): Array<GenericType.Bound> {
+                    genericResolver: GenericResolver,
+                    filter: (String) -> Boolean = {true}): Array<GenericType.Bound> {
     return bounds.map {
-        val erase = inferType(it.type, parameterizedType, startingType, codeTypeResolver, genericResolver)
+        val erase = inferType(it.type, parameterizedType, startingType, codeTypeResolver, genericResolver, filter)
         if (it is GenericType.Extends) GenericType.Extends(erase)
         else if (it is GenericType.Super) GenericType.Super(erase)
         else/* if(it is GenericType.GenericBound)*/ GenericType.GenericBound(erase)
@@ -306,30 +314,121 @@ class JavaResolver : GenericResolver {
         val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType)?.let {
             (it as? LoadedCodeType<*>)?.loadedType ?: it
         }
-        val resolvedImplementedType: Any? = codeTypeResolver.resolve(implementedCodeType.concreteType)?.let {
-            (it as? LoadedCodeType<*>)?.loadedType ?: it
-        }
 
-        if (resolvedSuperType is Class<*> && resolvedImplementedType is Class<*>) {
+        if (resolvedSuperType is Class<*>) {
             val superClass = resolvedSuperType
-            val implementedClass = resolvedImplementedType
 
-            if (superClass.superclass == implementedClass) {
+            if (superClass.superclass.`is`(implemented.concreteType)) {
                 return superClass.genericSuperclass.asGeneric
             }
 
             val itfs = superClass.interfaces
 
             for (i in itfs.indices) {
-                if (itfs[i] == implementedClass)
+                if (itfs[i].`is`(implemented.concreteType))
                     return superClass.genericInterfaces[i].asGeneric
             }
 
-            throw IllegalStateException("Can't find '$implementedClass' in superclasses of '$superClass'.")
+            throw IllegalStateException("Can't find '$implemented' in superclasses of '$superClass'.")
         }
 
 
-        throw IllegalStateException("both supertype '$superType' and implemented type '$implemented' must be a Java Reflect Type.")
+        throw IllegalStateException("Supertype '$superType' must be a Java Reflect Type.")
+    }
+
+}
+
+class CodeAPIResolver : GenericResolver {
+
+    override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
+        val resolved = type.codeType
+
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType)
+
+        if (resolve is TypeDeclaration) {
+            return Generic.type(resolve).of(*resolve.genericSignature.types)
+        }
+
+        throw IllegalStateException("$type must be a CodeAPI TypeDeclaration.")
+    }
+
+    override fun resolveGenericTypeImplementation(superType: Type, implemented: Type,
+                                                  codeTypeResolver: CodeTypeResolver<*>): GenericType {
+        val superCodeType = superType.codeType
+
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType)
+
+        if (resolvedSuperType is TypeDeclaration) {
+            val superClass = resolvedSuperType
+
+            if (superClass is SuperClassHolder && superClass.`is`(implemented.concreteType)) {
+                return superClass.superClass.asGeneric
+            }
+
+            val itfs = superClass.interfaces
+
+            for (i in itfs.indices) {
+                if (itfs[i].`is`(implemented.concreteType))
+                    return superClass.interfaces[i].asGeneric
+            }
+
+            throw IllegalStateException("Can't find '$implemented' in superclasses of '$superClass'.")
+        }
+
+
+        throw IllegalStateException("both supertype '$superType' must be a CodeAPI TypeDeclaration.")
+    }
+}
+
+/**
+ * Mixes [JavaResolver] with [ModelResolver] and [CodeAPIResolver] in one resolver.
+ */
+class MixedResolver(val elements: Elements?) : GenericResolver {
+    private val javaResolver = JavaResolver()
+    private val modelResolver = elements?.let { ModelResolver(it) }
+    private val codeapiResolver = CodeAPIResolver()
+
+    override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
+        val resolved = type.codeType
+
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType)
+
+        if (resolve is LoadedCodeType<*> || resolve is Class<*>) {
+            return javaResolver.resolveTypeWithParameters(type, codeTypeResolver)
+        }
+
+        if (resolve is TypeDeclaration) {
+            return codeapiResolver.resolveTypeWithParameters(type, codeTypeResolver)
+        }
+
+        if (resolve is TypeElement) {
+            return modelResolver?.resolveTypeWithParameters(type, codeTypeResolver)
+            ?: throw IllegalArgumentException("No elements provided for Javax Model Resolution of '$resolve'")
+        }
+
+        throw IllegalArgumentException("Can't resolve $type with type resolver '$codeTypeResolver'")
+    }
+
+    override fun resolveGenericTypeImplementation(superType: Type, implemented: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
+        val rSuperType = superType.codeType
+
+        val resolve: Any? = codeTypeResolver.resolve(rSuperType.concreteType)
+
+        if (resolve is LoadedCodeType<*> || resolve is Class<*>) {
+            return javaResolver.resolveGenericTypeImplementation(rSuperType, implemented, codeTypeResolver)
+        }
+
+        if (resolve is TypeDeclaration) {
+            return codeapiResolver.resolveGenericTypeImplementation(rSuperType, implemented, codeTypeResolver)
+        }
+
+        if (resolve is TypeElement) {
+            return modelResolver?.resolveGenericTypeImplementation(rSuperType, implemented, codeTypeResolver)
+                    ?: throw IllegalArgumentException("No elements provided for Javax Model Resolution of '$resolve'")
+        }
+
+
+        throw IllegalArgumentException("Can't resolve generic implementation of $implemented in $rSuperType with type resolver '$codeTypeResolver'")
     }
 
 }

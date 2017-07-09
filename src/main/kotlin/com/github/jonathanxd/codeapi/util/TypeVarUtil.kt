@@ -35,9 +35,22 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
+import java.lang.reflect.GenericDeclaration
 import java.lang.reflect.Type
 import java.lang.reflect.TypeVariable
 import java.util.ArrayList
+
+/**
+ * Returns the [GenericType] of [Class] with its parameters.
+ */
+val Class<*>.typeWithParams: GenericType
+    get() = Generic.type(this).of(*this.typeParameters.map { it.codeType }.toTypedArray())
+
+/**
+ * Creates a [GenericSignature] from a [GenericDeclaration]
+ */
+val GenericDeclaration.genericSignature: GenericSignature
+    get() = GenericSignature.create(*this.typeParameters.map { it.codeType.asGeneric }.toTypedArray())
 
 /**
  * Resolves the [CodeType] of [variable] of [typeVariables] using types provided by [generic].

@@ -188,17 +188,14 @@ class ModelResolver(val elements: Elements) : GenericResolver {
     override fun resolveGenericTypeImplementation(superType: Type, implemented: Type,
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
-        val implementedCodeType = implemented.codeType
 
         val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType)
-        val resolvedImplemented: Any? = codeTypeResolver.resolve(implementedCodeType.concreteType)
 
-        if (resolvedSuperType is TypeElement && resolvedImplemented is TypeElement) {
+        if (resolvedSuperType is TypeElement) {
             val superElement = resolvedSuperType
-            val implementedElement = resolvedImplemented
 
             if (superElement.superclass.kind != TypeKind.NONE
-                    && superElement.superclass.getCodeType(elements).concreteType.`is`(implementedCodeType.concreteType)) {
+                    && superElement.superclass.getCodeType(elements).concreteType.`is`(implemented.concreteType)) {
                 return superElement.superclass.getCodeType(elements).asGeneric
             }
 
@@ -207,15 +204,15 @@ class ModelResolver(val elements: Elements) : GenericResolver {
             for (i in itfs.indices) {
                 val itf = itfs[i]
 
-                if (itf.getCodeType(elements).concreteType.`is`(implementedCodeType.concreteType)) {
+                if (itf.getCodeType(elements).concreteType.`is`(implemented.concreteType)) {
                     return itf.getCodeType(elements).asGeneric
                 }
             }
 
-            throw IllegalStateException("Can't find '$implementedElement' in superclasses and superinterfaces of '$superElement'.")
+            throw IllegalStateException("Can't find '$implemented' in superclasses and superinterfaces of '$superElement'.")
         }
 
-        throw IllegalStateException("Super type $superType and implemented type $implemented must be a Javax Annotation Model TypeElement.")
+        throw IllegalStateException("Super type $superType which implements $implemented must be a Javax Annotation Model TypeElement.")
     }
 
 }

@@ -33,6 +33,8 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import java.lang.reflect.*
+import javax.lang.model.element.TypeElement
+import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
 val <T> Class<T>.codeType: LoadedCodeType<T>
