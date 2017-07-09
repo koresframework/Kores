@@ -28,12 +28,16 @@
 package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.codeapi.util.GenericTypeInferenceUtilKt;
 import com.github.jonathanxd.codeapi.util.JavaResolver;
 import com.github.jonathanxd.codeapi.util.MixedResolver;
+import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -94,6 +98,24 @@ public class TypeInference {
 
         CodeType codeType = GenericTypeInferenceUtilKt
                 .inferType(toInfer, type, starting, type.getDefaultResolver(), new MixedResolver(null));
+
+        Assert.assertTrue(codeType.is(Generic.type(List.class).of(String.class)));
+    }
+
+    @Test
+    public void typeInferenceTest5() {
+        GenericType type = Generic.type(Mat.class).of("T");
+        GenericType toInfer = Generic.type(List.class).of("T");
+
+        ClassDeclaration dec = ClassDeclaration.Builder.builder()
+                .modifiers(CodeModifier.PUBLIC)
+                .name("A")
+                .superClass(Object.class)
+                .implementations(Generic.type(Z.class).of(String.class))
+                .build();
+
+        CodeType codeType = GenericTypeInferenceUtilKt
+                .inferType(toInfer, type, Generic.type(dec), type.getDefaultResolver(), new MixedResolver(null));
 
         Assert.assertTrue(codeType.is(Generic.type(List.class).of(String.class)));
     }

@@ -361,14 +361,14 @@ class CodeAPIResolver : GenericResolver {
         if (resolvedSuperType is TypeDeclaration) {
             val superClass = resolvedSuperType
 
-            if (superClass is SuperClassHolder && superClass.superClass.`is`(implemented.concreteType)) {
+            if (superClass is SuperClassHolder && superClass.superClass.concreteType.`is`(implemented.concreteType)) {
                 return superClass.superClass.asGeneric
             }
 
             val itfs = superClass.interfaces
 
             for (i in itfs.indices) {
-                if (itfs[i].`is`(implemented.concreteType))
+                if (itfs[i].concreteType.`is`(implemented.concreteType))
                     return superClass.interfaces[i].asGeneric
             }
 
