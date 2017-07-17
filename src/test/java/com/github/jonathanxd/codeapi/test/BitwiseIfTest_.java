@@ -30,7 +30,9 @@ package com.github.jonathanxd.codeapi.test;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.helper.Predefined;
@@ -103,7 +105,37 @@ public class BitwiseIfTest_ {
                                         )
 
                                 )).build()
-                ).build();
+                )
+                .methods(
+                        MethodDeclaration.Builder.builder()
+                                .modifiers(CodeModifier.PUBLIC)
+                                .returnType(Void.TYPE)
+                                .name("test")
+                                .parameters(Factories.parameter(Integer.TYPE, "a"), Factories.parameter(Integer.TYPE, "b"))
+                                .body(CodeSource.fromPart(
+                                        Factories.ifStatement(
+                                                Factories.ifExprs(
+                                                        Factories.check(
+                                                                Factories.accessVariable(Integer.TYPE, "a"),
+                                                                Operators.LESS_THAN,
+                                                                Literals.INT(100)
+                                                        ),
+                                                        Operators.BITWISE_AND,
+                                                        Factories.check(
+                                                                Factories.accessVariable(Integer.TYPE, "b"),
+                                                                Operators.GREATER_THAN,
+                                                                Literals.INT(100)
+                                                        )
+                                                ),
+                                                CodeSource.fromPart(Predefined.invokePrintlnStr(
+                                                        Literals.STRING("a < 100 & b > 100"))),
+                                                CodeSource.fromPart(Predefined.invokePrintlnStr(
+                                                        Literals.STRING("false")))
+                                        )
+                                ))
+                                .build()
+                )
+                .build();
     }
 
     @Test
