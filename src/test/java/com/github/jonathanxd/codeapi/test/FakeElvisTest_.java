@@ -45,6 +45,7 @@ import static com.github.jonathanxd.codeapi.factory.Factories.ifExpr;
 import static com.github.jonathanxd.codeapi.factory.Factories.ifExprs;
 import static com.github.jonathanxd.codeapi.factory.Factories.ifStatement;
 import static com.github.jonathanxd.codeapi.factory.Factories.parameter;
+import static com.github.jonathanxd.codeapi.factory.Factories.returnValue;
 import static com.github.jonathanxd.codeapi.factory.InvocationFactory.invokeConstructor;
 import static com.github.jonathanxd.codeapi.factory.InvocationFactory.invokeStatic;
 
@@ -72,11 +73,11 @@ public class FakeElvisTest_ {
                 .name("com.FakeElvisTest")
                 .methods(MethodDeclaration.Builder.builder()
                         .modifiers(CodeModifier.PUBLIC)
-                        .returnType(Void.TYPE)
+                        .returnType(TestClass.class)
                         .name("test")
                         .parameters(parameter(String.class, "a"))
                         .body(CodeSource.fromVarArgs(
-                                invokeConstructor(TestClass.class,
+                                returnValue(TestClass.class, invokeConstructor(TestClass.class,
                                         new TypeSpec(Void.TYPE, Collections.singletonList(String.class)),
                                         Collections.singletonList(
                                                 ifStatement(
@@ -96,7 +97,7 @@ public class FakeElvisTest_ {
                                                                 accessVariable(String.class, "a")
                                                         ))
                                         )
-                                )
+                                ))
                         ))
                         .build())
                 .build();
