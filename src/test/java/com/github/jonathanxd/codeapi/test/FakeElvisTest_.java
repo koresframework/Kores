@@ -68,7 +68,7 @@ public class FakeElvisTest_ {
     public static TypeDeclaration $() {
         return ClassDeclaration.Builder.builder()
                 .modifiers(CodeModifier.PUBLIC)
-                .name("com.ElvisExpandTest")
+                .name("com.FakeElvisTest")
                 .methods(MethodDeclaration.Builder.builder()
                         .modifiers(CodeModifier.PUBLIC)
                         .returnType(Void.TYPE)
