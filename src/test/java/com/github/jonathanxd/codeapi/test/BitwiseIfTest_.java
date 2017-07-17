@@ -80,6 +80,16 @@ public class BitwiseIfTest_ {
                                                         Literals.STRING("BITWISE_EXCLUSIVE_OR: true"))),
                                                 CodeSource.fromVarArgs(Predefined.invokePrintlnStr(
                                                         Literals.STRING("BITWISE_EXCLUSIVE_OR: false")))
+                                        ),
+                                        Factories.ifStatement(
+                                                Factories.ifExprs(
+                                                        Factories.checkFalse(Factories.accessVariable(Types.BOOLEAN, "h")),
+                                                        Operators.BITWISE_EXCLUSIVE_OR,
+                                                        Factories.accessVariable(Types.BOOLEAN, "x")),
+                                                CodeSource.fromVarArgs(Predefined.invokePrintlnStr(
+                                                        Literals.STRING("BITWISE_EXCLUSIVE_OR: true"))),
+                                                CodeSource.fromVarArgs(Predefined.invokePrintlnStr(
+                                                        Literals.STRING("BITWISE_EXCLUSIVE_OR: false")))
                                         )
 
                                 )).build()
