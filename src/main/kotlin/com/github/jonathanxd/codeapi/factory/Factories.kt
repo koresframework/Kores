@@ -359,8 +359,9 @@ fun ifExprs(vararg objects: Any): List<CodeInstruction> {
                 if (any != Operators.OR
                         && any != Operators.AND
                         && any != Operators.BITWISE_INCLUSIVE_OR
+                        && any != Operators.BITWISE_EXCLUSIVE_OR
                         && any != Operators.BITWISE_AND)
-                    throw IllegalArgumentException("Input object is not a valid operator, it must be: OR or AND or short-circuit BITWISE_INCLUSIVE_OR or BITWISE_AND. Current: $any")
+                    throw IllegalArgumentException("Input object is not a valid operator, it must be: OR or AND or short-circuit BITWISE_INCLUSIVE_OR, BITWISE_EXCLUSIVE_OR or BITWISE_AND. Current: $any")
 
             list.add(any as CodeInstruction)
         } else if (any is CodeInstruction) {
