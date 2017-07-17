@@ -71,7 +71,11 @@ public class GenericClass_ {
                                 .name("test")
                                 .parameters(new CodeParameter(Collections.emptyList(), Collections.emptySet(), Generic.type("T"), "val"))
                                 .body(CodeSource.fromVarArgs(
-                                        VariableFactory.variable(Generic.type("T"), "fieldi", Literals.NULL)
+                                        VariableFactory.variable(Generic.type("T"), "fieldi", Literals.NULL),
+                                        VariableFactory.variable(Generic.type(Object.class), "field2", Literals.NULL),
+                                        VariableFactory.variable(Generic.type(List.class).of(Generic.type(String.class)),
+                                                "field3",
+                                                Literals.NULL)
                                 ))
                                 .build()
 
