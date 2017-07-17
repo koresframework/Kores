@@ -171,6 +171,12 @@ fun accessVariable(variable: VariableBase): VariableAccess =
 fun setVariableValue(type: Type, name: String, value: CodeInstruction): VariableDefinition =
         VariableDefinition(type, name, value)
 
+/**
+ * @see VariableDefinition
+ */
+fun setVariableValue(variable: VariableBase, value: CodeInstruction): VariableDefinition =
+        VariableDefinition(variable.type, variable.name, value)
+
 // Field
 
 /**

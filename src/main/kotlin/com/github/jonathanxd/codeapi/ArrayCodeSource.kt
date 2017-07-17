@@ -39,36 +39,28 @@ import java.util.stream.StreamSupport
  *
  * @see MutableCodeSource
  */
-class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSource() {
+class ArrayCodeSource(private val parts: Array<CodeInstruction> = emptyArray()) : CodeSource() {
 
     constructor() : this(emptyArray())
 
     override val size: Int get() = this.parts.size
 
-
     override protected fun getAtIndex(index: Int): CodeInstruction =
         this.parts[index]
 
+    override operator fun contains(o: Any): Boolean = this.parts.any { equals(it, o) }
 
-    override operator fun contains(o: Any): Boolean {
-        return this.parts.any { equals(it, o) }
-    }
+    override operator fun plus(other: CodeInstruction): CodeSource =
+            ArrayCodeSource(this.parts + other)
 
-    override operator fun plus(other: CodeInstruction): CodeSource {
-        return ArrayCodeSource(this.parts + other)
-    }
+    override operator fun minus(other: CodeInstruction): CodeSource =
+            ArrayCodeSource((this.parts.toList() - other).toTypedArray())
 
-    override operator fun minus(other: CodeInstruction): CodeSource {
-        return ArrayCodeSource((this.parts.toList() - other).toTypedArray())
-    }
+    override operator fun plus(other: Iterable<CodeInstruction>): CodeSource =
+            ArrayCodeSource((this.toList() + other).toTypedArray())
 
-    override operator fun plus(other: Iterable<CodeInstruction>): CodeSource {
-        return ArrayCodeSource((this.toList() + other).toTypedArray())
-    }
-
-    override operator fun minus(other: Iterable<CodeInstruction>): CodeSource {
-        return ArrayCodeSource(this.parts.filter { it in other }.toTypedArray())
-    }
+    override operator fun minus(other: Iterable<CodeInstruction>): CodeSource =
+            ArrayCodeSource(this.parts.filter { it in other }.toTypedArray())
 
     override fun indexOf(o: Any): Int = this.parts.indices.firstOrNull { equals(this.parts[it], o) } ?: -1
 
@@ -86,8 +78,12 @@ class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSo
 
     override fun iterator(): Iterator<CodeInstruction> = Iterat()
 
-    override fun subSource(fromIndex: Int, toIndex: Int): CodeSource =
-            CodeSourceView(this, fromIndex, toIndex)
+    override fun subSource(fromIndex: Int, toIndex: Int): CodeSource {
+        if (fromIndex < 0 || toIndex > this.size || fromIndex > toIndex)
+            throw IndexOutOfBoundsException("fromIndex: $fromIndex, toIndex: $toIndex")
+
+        return CodeSourceView(this, fromIndex, toIndex)
+    }
 
     override fun listIterator(): ListIterator<CodeInstruction> = this.listIterator(0)
 
@@ -103,9 +99,7 @@ class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSo
 
         private var index = 0
 
-        override fun hasNext(): Boolean {
-            return this.index < this@ArrayCodeSource.size
-        }
+        override fun hasNext(): Boolean = this.index < this@ArrayCodeSource.size
 
         override fun next(): CodeInstruction {
             if (!this.hasNext())
@@ -123,9 +117,7 @@ class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSo
             this.index = index
         }
 
-        override fun hasNext(): Boolean {
-            return this.index < this@ArrayCodeSource.size
-        }
+        override fun hasNext(): Boolean = this.index < this@ArrayCodeSource.size
 
         override fun next(): CodeInstruction {
             if (!this.hasNext())
@@ -134,9 +126,7 @@ class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSo
             return this@ArrayCodeSource[this.index++]
         }
 
-        override fun hasPrevious(): Boolean {
-            return this.index - 1 >= 0
-        }
+        override fun hasPrevious(): Boolean = this.index - 1 >= 0
 
         override fun previous(): CodeInstruction {
 
@@ -146,26 +136,24 @@ class ArrayCodeSource(val parts: Array<CodeInstruction> = emptyArray()) : CodeSo
             return this@ArrayCodeSource[--this.index]
         }
 
-        override fun nextIndex(): Int {
-            return this.index
-        }
+        override fun nextIndex(): Int = this.index
 
-        override fun previousIndex(): Int {
-            return this.index - 1
-        }
+        override fun previousIndex(): Int = this.index - 1
 
     }
 
-    inline fun ArrayCodeSource(size: Int, init: (index: Int) -> CodeInstruction): CodeSource = ArrayCodeSource(Array(size, { init(it) }))
 
     companion object {
+
+        @JvmStatic
+        inline fun ArrayCodeSource(size: Int, init: (index: Int) -> CodeInstruction): CodeSource =
+                ArrayCodeSource(Array(size, { init(it) }))
 
         /**
          * Helper method.
          */
-        private fun equals(a: Any?, b: Any?): Boolean {
-            return a == null && b == null || a === b || a != null && b != null && a == b
-        }
+        private fun equals(a: Any?, b: Any?): Boolean =
+                a == null && b == null || a === b || a != null && b != null && a == b
     }
 }
 

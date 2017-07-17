@@ -36,13 +36,13 @@ import java.util.function.UnaryOperator
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
-open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int) : MutableCodeSource() {
+open class CodeSourceView(private val original: CodeSource,
+                          private val start: Int,
+                          private var end: Int) : MutableCodeSource() {
     override val size: Int
-        get() = start - end
+        get() = (end - start)
 
-    override fun getAtIndex(index: Int): CodeInstruction {
-        return original[start + index]
-    }
+    override fun getAtIndex(index: Int): CodeInstruction = original[start + index]
 
     override fun contains(o: Any): Boolean =
             this.any { it == o }
@@ -107,8 +107,12 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
     override fun spliterator(): Spliterator<CodeInstruction> =
             Spliterators.spliteratorUnknownSize(this.listIterator(), Spliterator.ORDERED)
 
-    override fun subSource(fromIndex: Int, toIndex: Int): CodeSource =
-            this.original.subSource(fromIndex + this.start, toIndex + this.size)
+    override fun subSource(fromIndex: Int, toIndex: Int): CodeSource {
+        if (fromIndex < 0 || toIndex > this.size || fromIndex > toIndex)
+            throw IndexOutOfBoundsException("fromIndex: $fromIndex, toIndex: $toIndex")
+
+        return this.original.subSource(fromIndex + this.start, toIndex + this.start)
+    }
 
     override fun toImmutable(): CodeSource =
             super.toImmutable()
@@ -133,7 +137,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
     inner class SubIterator(var index: Int = 0) : MutableListIterator<CodeInstruction> {
 
         override fun hasNext(): Boolean =
-                this.index + 1 < this@CodeSourceView.size
+                this.index < this@CodeSourceView.size
 
         override fun hasPrevious(): Boolean =
                 this.index - 1 >= 0
@@ -165,7 +169,7 @@ open class CodeSourceView(val original: CodeSource, val start: Int, var end: Int
         }
 
         override fun previousIndex(): Int =
-                this.index + 1
+                this.index - 1
 
         override fun remove() {
             this@CodeSourceView.remove(this.index)

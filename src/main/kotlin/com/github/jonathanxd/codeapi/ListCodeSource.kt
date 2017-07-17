@@ -125,104 +125,73 @@ class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : Mu
         this.remove(other)
     }
 
-    override fun subSource(fromIndex: Int, toIndex: Int): MutableCodeSource =
-            CodeSourceView(this, fromIndex, toIndex)
+    override fun subSource(fromIndex: Int, toIndex: Int): MutableCodeSource {
+        if (fromIndex < 0 || toIndex > this.size || fromIndex > toIndex)
+            throw IndexOutOfBoundsException("fromIndex: $fromIndex, toIndex: $toIndex")
 
-    override operator fun plus(other: CodeInstruction): MutableCodeSource {
-        return ListCodeSource(this.backingList + other)
+        return CodeSourceView(this, fromIndex, toIndex)
     }
 
-    override operator fun minus(other: CodeInstruction): MutableCodeSource {
-        return ListCodeSource(this.backingList - other)
-    }
+    override operator fun plus(other: CodeInstruction): MutableCodeSource =
+            ListCodeSource(this.backingList + other)
 
-    override operator fun plus(other: Iterable<CodeInstruction>): MutableCodeSource {
-        return ListCodeSource(this.backingList + other)
-    }
+    override operator fun minus(other: CodeInstruction): MutableCodeSource =
+            ListCodeSource(this.backingList - other)
 
-    override operator fun minus(other: Iterable<CodeInstruction>): MutableCodeSource {
-        return ListCodeSource(this.backingList - other)
-    }
+    override operator fun plus(other: Iterable<CodeInstruction>): MutableCodeSource =
+            ListCodeSource(this.backingList + other)
 
-    override fun contains(o: Any): Boolean {
-        return this.backingList.contains(o)
-    }
+    override operator fun minus(other: Iterable<CodeInstruction>): MutableCodeSource =
+            ListCodeSource(this.backingList - other)
 
-    override fun iterator(): Iterator<CodeInstruction> {
-        return this.backingList.iterator()
-    }
+    override fun contains(o: Any): Boolean = this.backingList.contains(o)
 
-    override fun toArray(): Array<CodeInstruction> {
-        return this.backingList.toTypedArray()
-    }
+    override fun iterator(): Iterator<CodeInstruction> = this.backingList.iterator()
 
-    override fun containsAll(c: Collection<*>): Boolean {
-        return this.backingList.containsAll(c)
-    }
+    override fun toArray(): Array<CodeInstruction> = this.backingList.toTypedArray()
 
-    override fun getAtIndex(index: Int): CodeInstruction {
-        return this.backingList[index]
-    }
+    override fun containsAll(c: Collection<*>): Boolean = this.backingList.containsAll(c)
 
-    override operator fun set(index: Int, element: CodeInstruction): CodeInstruction {
-        return this.backingList.set(index, element)
-    }
+    override fun getAtIndex(index: Int): CodeInstruction = this.backingList[index]
 
-    override fun indexOf(o: Any): Int {
-        return this.backingList.indexOf(o)
-    }
+    override operator fun set(index: Int, element: CodeInstruction): CodeInstruction =
+            this.backingList.set(index, element)
 
-    override fun lastIndexOf(o: Any): Int {
-        return this.backingList.lastIndexOf(o)
-    }
+    override fun indexOf(o: Any): Int = this.backingList.indexOf(o)
 
-    override fun listIterator(): ListIterator<CodeInstruction> {
-        return this.backingList.listIterator()
-    }
+    override fun lastIndexOf(o: Any): Int = this.backingList.lastIndexOf(o)
 
-    override fun listIterator(index: Int): ListIterator<CodeInstruction> {
-        return this.backingList.listIterator(index)
-    }
+    override fun listIterator(): ListIterator<CodeInstruction> = this.backingList.listIterator()
 
-    override fun clone(): Any {
-        return ListCodeSource(this.backingList)
-    }
+    override fun listIterator(index: Int): ListIterator<CodeInstruction> =
+            this.backingList.listIterator(index)
+
+    override fun clone(): Any = ListCodeSource(this.backingList)
 
     override fun forEach(action: Consumer<in CodeInstruction>) {
         this.backingList.forEach(action)
     }
 
-    override fun spliterator(): Spliterator<CodeInstruction> {
-        return this.backingList.spliterator()
-    }
+    override fun spliterator(): Spliterator<CodeInstruction> = this.backingList.spliterator()
 
-    override fun equals(other: Any?): Boolean {
-        return this.backingList == other
-    }
+    override fun equals(other: Any?): Boolean = this.backingList == other
 
-    override fun hashCode(): Int {
-        return this.backingList.hashCode()
-    }
+    override fun hashCode(): Int = this.backingList.hashCode()
 
     override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
-    override fun stream(): Stream<CodeInstruction> {
-        return this.backingList.stream()
-    }
+    override fun stream(): Stream<CodeInstruction> = this.backingList.stream()
 
-    override fun parallelStream(): Stream<CodeInstruction> {
-        return this.backingList.parallelStream()
-    }
+    override fun parallelStream(): Stream<CodeInstruction> = this.backingList.parallelStream()
 
-    override fun toImmutable(): CodeSource {
-        return CodeSource.fromArray(this.toArray())
-    }
+    override fun toImmutable(): CodeSource = CodeSource.fromArray(this.toArray())
 
-    override fun toMutable(): MutableCodeSource {
-        return ListCodeSource(this)
-    }
+    override fun toMutable(): MutableCodeSource = ListCodeSource(this)
 
-    inline fun ListCodeSource(size: Int, init: (index: Int) -> CodeInstruction): ListCodeSource =
-            ListCodeSource(MutableList(size, init))
+    companion object {
+        @JvmStatic
+        inline fun ListCodeSource(size: Int, init: (index: Int) -> CodeInstruction): ListCodeSource =
+                ListCodeSource(MutableList(size, init))
+    }
 
 }
