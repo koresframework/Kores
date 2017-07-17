@@ -109,8 +109,14 @@ public class FakeElvisTest_ {
     }
 
     public static class TestClass {
-        public TestClass(String s) {
+        private final String s;
 
+        public TestClass(String s) {
+            this.s = s;
+        }
+
+        public String getS() {
+            return this.s;
         }
 
         public static void noti() {
