@@ -41,6 +41,7 @@ import org.junit.Test;
 import java.util.Collections;
 
 import static com.github.jonathanxd.codeapi.factory.Factories.accessVariable;
+import static com.github.jonathanxd.codeapi.factory.Factories.ifExpr;
 import static com.github.jonathanxd.codeapi.factory.Factories.ifExprs;
 import static com.github.jonathanxd.codeapi.factory.Factories.ifStatement;
 import static com.github.jonathanxd.codeapi.factory.Factories.parameter;
@@ -80,9 +81,11 @@ public class FakeElvisTest_ {
                                         Collections.singletonList(
                                                 ifStatement(
                                                         ifExprs(
+                                                                ifExpr(
                                                                 accessVariable(String.class, "a"),
                                                                 Operators.EQUAL_TO,
                                                                 Literals.NULL
+                                                                )
                                                         ),
                                                         CodeSource.fromVarArgs(
                                                                 invokeStatic(TestClass.class, "noti"),
