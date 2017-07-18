@@ -32,6 +32,8 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.codeapi.util.concreteType
 import com.github.jonathanxd.codeapi.util.typeDesc
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
 import java.lang.reflect.Type
 
 /**
@@ -48,7 +50,10 @@ import java.lang.reflect.Type
  * Make sure to handle [THIS][com.github.jonathanxd.codeapi.util.Alias.THIS],
  * [SUPER][com.github.jonathanxd.codeapi.util.Alias.SUPER] and [INTERFACE(n)][com.github.jonathanxd.codeapi.util.Alias.INTERFACE] types.
  *
- * The implementation MUST implement [hashCode] and [equals].
+ * The implementation of this interface must implement [hashCode] and [equals] reflecting equality to
+ * [eq] and hashing algorithm to [hash]. This does not means that you need to delegate the call, you still
+ * free to check whatever you need, but comparison between two [CodeTypes][CodeType] and hash calculation
+ * of [CodeType] should be made through these methods.
  */
 interface CodeType : CodePart, Comparable<CodeType>, Type {
 
@@ -288,9 +293,7 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * @param other Type to test against.
      * @return True if this [CodeType] is equals to other [CodeType].
      */
-    fun `is`(other: CodeType?): Boolean {
-        return other != null && this.compareTo(other) == 0
-    }
+    fun `is`(other: CodeType?): Boolean = other != null && this.compareTo(other) == 0
 
     /**
      * Returns true if this [CodeType] identification is equals to other [Type] according to [is].
@@ -298,9 +301,7 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * @param other Type to test against.
      * @return True if this [CodeType] identification is equals to other [Type]  according to [is].
      */
-    fun isIdEq(other: Type): Boolean {
-        return this.`is`(other.codeType)
-    }
+    fun isIdEq(other: Type): Boolean = this.`is`(other.codeType)
 
     /**
      * Returns true if identification of [concreteType] of this [CodeType] is equals to
@@ -310,16 +311,13 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * @return True if identification of [concreteType] of this [CodeType] is equals to
      * [concreteType] of other [Type] according to [is].
      */
-    fun isConcreteIdEq(other: Type): Boolean {
-        return this.concreteType.`is`(other.codeType.concreteType)
-    }
+    fun isConcreteIdEq(other: Type): Boolean = this.concreteType.`is`(other.codeType.concreteType)
 
     /**
      * Compare two identifications
      */
-    override fun compareTo(other: CodeType): Int {
-        return this.identification.compareTo(other.identification)
-    }
+    override fun compareTo(other: CodeType): Int =
+            this.identification.compareTo(other.identification)
 
     override fun hashCode(): Int
     override fun equals(other: Any?): Boolean

@@ -391,18 +391,7 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
          * @return Generic of type.
          */
         @JvmStatic
-        fun type(type: CodeType): Generic {
-            return Generic(null, type, emptyArray())
-        }
-
-        /**
-         * Create a generic type from a type.
-         *
-         * @param type Type.
-         * @return Generic of type.
-         */
-        @JvmStatic
-        fun type(type: Class<*>): Generic = this.type(type.codeType)
+        fun type(type: Type): Generic = Generic(null, type.codeType, emptyArray())
 
         /**
          * Create a generic wildcard (? in Java Language, * in JVM).
