@@ -55,7 +55,7 @@ public class TestInspect {
 
         System.out.println(inspect);
 
-        Assert.assertTrue(inspect.size() == 1);
+        Assert.assertTrue(inspect.size() == 3);
         Assert.assertEquals("fieldi", inspect.get(0).getName());
     }
 
