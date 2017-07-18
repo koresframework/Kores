@@ -32,10 +32,15 @@ import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.type.Generic;
+import com.github.jonathanxd.codeapi.type.GenericType;
+import com.github.jonathanxd.codeapi.type.GenericTypeBuilder;
 import com.github.jonathanxd.codeapi.util.GenericTypeUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.Map;
 
 public class GenericTest {
 
@@ -45,6 +50,22 @@ public class GenericTest {
         Assert.assertTrue(Generic.type(Types.CODE_PART).is(Types.CODE_PART));
         Assert.assertFalse(Types.CODE_PART.is(Generic.type(Types.CODE_PART).of(Types.STRING)));
 
+        GenericType build = GenericTypeBuilder.builder()
+                .type(Map.class)
+                .addOfBound(String.class)
+                .addOfBound(
+                        GenericTypeBuilder.builder().type(List.class)
+                                .addOfBound(GenericTypeBuilder.builder().wildcard().addExtendsBound("K").build())
+                                .build()
+
+                )
+                .build();
+
+        Assert.assertTrue(build.is(
+                Generic.type(Map.class)
+                        .of(String.class)
+                        .of(Generic.type(List.class).of(Generic.wildcard().extends$("K")))
+        ));
     }
 
 
@@ -60,7 +81,6 @@ public class GenericTest {
                 .build();
 
         String s = GenericTypeUtil.methodGenericSignature(build);
-
 
         String s2 = GenericTypeUtil.methodGenericSignature(MethodDeclaration.Builder.builder()
                 .name("test").genericSignature(GenericSignature.create(

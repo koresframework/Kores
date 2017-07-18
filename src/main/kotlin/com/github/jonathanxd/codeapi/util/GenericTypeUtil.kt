@@ -395,7 +395,7 @@ fun fromSourceString(sourceString: String): GenericType {
  * @return Construct a [GenericType] from `generic source string`;
  */
 fun fromSourceString(sourceString: String, typeResolver: (String) -> CodeType): GenericType {
-    return fromSourceString(sourceString, CodeTypeResolver.fromKtFunction(typeResolver))
+    return fromSourceString(sourceString, CodeTypeResolverFunc.fromKtFunction(typeResolver))
 }
 
 /**
@@ -405,7 +405,7 @@ fun fromSourceString(sourceString: String, typeResolver: (String) -> CodeType): 
  * @param typeResolver Resolves [CodeType] from [string type][String].
  * @return Construct a [GenericType] from `generic source string`;
  */
-fun fromSourceString(sourceString: String, typeResolver: CodeTypeResolver): GenericType {
+fun fromSourceString(sourceString: String, typeResolver: CodeTypeResolverFunc): GenericType {
     if (sourceString.contains("<")) {
         Conditions.require(sourceString.endsWith(">"), "The input generic string: '$sourceString' MUST end with '>'.")
 
@@ -422,7 +422,7 @@ fun fromSourceString(sourceString: String, typeResolver: CodeTypeResolver): Gene
     return Generic.type(typeResolver.invoke(sourceString))
 }
 
-private fun fromSourceString(generic: Generic, sourceString: String, typeResolver: CodeTypeResolver): Generic {
+private fun fromSourceString(generic: Generic, sourceString: String, typeResolver: CodeTypeResolverFunc): Generic {
     @Suppress("NAME_SHADOWING")
     var generic = generic
 

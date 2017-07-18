@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.type
 
+import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.reflect.Type
+
 /**
  * Builder of a [GenericType].
  *
@@ -72,7 +75,7 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
     }
 
 
-    override fun withName(value: String): GenericType.Builder<GenericType, GenericTypeBuilder> {
+    override fun name(value: String): GenericType.Builder<GenericType, GenericTypeBuilder> {
         this.name = value
         this.type = null
         return this
@@ -84,13 +87,13 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
         return this
     }
 
-    override fun withType(value: CodeType): GenericType.Builder<GenericType, GenericTypeBuilder> {
+    override fun type(value: Type): GenericType.Builder<GenericType, GenericTypeBuilder> {
         this.name = null
-        this.type = value
+        this.type = value.codeType
         return this
     }
 
-    override fun withBounds(value: Array<GenericType.Bound>): GenericType.Builder<GenericType, GenericTypeBuilder> {
+    override fun bounds(value: Array<GenericType.Bound>): GenericType.Builder<GenericType, GenericTypeBuilder> {
         this.bounds = value.toMutableList()
         return this
     }
@@ -112,20 +115,19 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
         return this
     }
 
-    override fun addExtendsBound(value: CodeType): GenericType.Builder<GenericType, GenericTypeBuilder> {
-        this.bounds.add(GenericType.Extends(value))
+    override fun addExtendsBound(value: Type): GenericType.Builder<GenericType, GenericTypeBuilder> {
+        this.bounds.add(GenericType.Extends(value.codeType))
         return this
     }
 
-    override fun addSuperBound(value: CodeType): GenericType.Builder<GenericType, GenericTypeBuilder> {
-        this.bounds.add(GenericType.Super(value))
+    override fun addSuperBound(value: Type): GenericType.Builder<GenericType, GenericTypeBuilder> {
+        this.bounds.add(GenericType.Super(value.codeType))
         return this
     }
 
-    override fun addOfBound(value: CodeType): GenericType.Builder<GenericType, GenericTypeBuilder> {
-        this.bounds.add(GenericType.GenericBound(value))
+    override fun addOfBound(value: Type): GenericType.Builder<GenericType, GenericTypeBuilder> {
+        this.bounds.add(GenericType.GenericBound(value.codeType))
         return this
-
     }
 
     override fun build(): GenericType = GenericTypeImpl(

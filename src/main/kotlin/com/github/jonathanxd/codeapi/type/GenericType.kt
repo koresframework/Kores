@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.util.descriptor
 import com.github.jonathanxd.codeapi.util.eq
+import java.lang.reflect.Type
 import java.util.*
 
 /**
@@ -170,7 +171,7 @@ interface GenericType : CodeType {
          *
          * This method will overwrite the defined type and wildcard mark.
          */
-        fun withName(value: String): Builder<T, S>
+        fun name(value: String): Builder<T, S>
 
         /**
          * See [T.isWildcard]
@@ -190,12 +191,12 @@ interface GenericType : CodeType {
          *
          * This method will overwrite the defined name and wildcard mark.
          */
-        fun withType(value: CodeType): Builder<T, S>
+        fun type(value: Type): Builder<T, S>
 
         /**
          * See [T.bounds]
          */
-        fun withBounds(value: Array<Bound>): Builder<T, S>
+        fun bounds(value: Array<Bound>): Builder<T, S>
 
         /**
          * Adds all bounds of [bounds] array.
@@ -217,21 +218,46 @@ interface GenericType : CodeType {
          *
          * **Note: This method is used to denote the bound of a generic type.**
          */
-        fun addExtendsBound(value: CodeType): Builder<T, S>
+        fun addExtendsBound(value: Type): Builder<T, S>
 
         /**
          * Adds a super bound.
          *
          * **Note: This method is used to denote the bound of a generic type.**
          */
-        fun addSuperBound(value: CodeType): Builder<T, S>
+        fun addSuperBound(value: Type): Builder<T, S>
 
         /**
          * Adds a `of` bound. Example: A `List of String`.
          *
          * **Note: This method is used to denote a bound of a concrete type, not of a type variable.**
          */
-        fun addOfBound(value: CodeType): Builder<T, S>
+        fun addOfBound(value: Type): Builder<T, S>
+
+        /**
+         * Adds a extends bound.
+         *
+         * **Note: This method is used to denote the bound to a type variable.**
+         */
+        fun addExtendsBound(value: String): Builder<T, S> =
+            this.addExtendsBound(Generic.type(value))
+
+        /**
+         * Adds a super bound.
+         *
+         * **Note: This method is used to denote the bound to a type variable.**
+         */
+        fun addSuperBound(value: String): Builder<T, S> =
+            this.addSuperBound(Generic.type(value))
+
+        /**
+         * Adds a `of` bound. Example: A `List of E`.
+         *
+         * **Note: This method is used to denote a bound to a type variable.**
+         */
+        fun addOfBound(value: String): Builder<T, S> =
+            this.addOfBound(Generic.type(value))
+
     }
 
     /**
