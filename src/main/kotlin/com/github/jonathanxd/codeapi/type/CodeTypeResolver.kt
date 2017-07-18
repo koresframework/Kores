@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.base.ImplementationHolder
 import com.github.jonathanxd.codeapi.base.SuperClassHolder
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver.DefaultResolver.resolve
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver.Multi
@@ -189,18 +190,27 @@ interface CodeTypeResolver<out T> {
      * if type cannot be found.
      */
     class Model(val elements: Elements) : CommonResolver<TypeElement?>() {
-        override fun resolve(type: Type): TypeElement? {
-            return elements.getTypeElement(type.canonicalName)
-        }
+        override fun resolve(type: Type): TypeElement? =
+                (type.concreteType as? TypeElementCodeType)?.typeElement
+                ?: elements.getTypeElement(type.canonicalName)
     }
 
     /**
      * Default resolver that returns the same instance for [resolve] method.
      */
     object DefaultResolver : CommonResolver<Type>() {
-        override fun resolve(type: Type): Type {
-            return type
-        }
+        override fun resolve(type: Type): Type = type
+    }
+
+    /**
+     * CodeAPI Resolver.
+     */
+    class CodeAPI(val resolverFunc: CodeTypeResolverFunc? = null) : CommonResolver<TypeDeclaration?>() {
+
+        override fun resolve(type: Type): TypeDeclaration? =
+                (type.concreteType as? TypeDeclaration) ?:
+                        (resolverFunc?.apply(type.canonicalName) as? TypeDeclaration)
+
     }
 
     /**
@@ -263,16 +273,14 @@ interface CodeTypeResolver<out T> {
         /**
          * First bigger list is returned.
          */
-        override fun getInterfaces(type: Type): List<Type> {
-            return resolvers.map { it.getInterfaces(type) }.sortedByDescending { it.size }.firstOrNull() ?: emptyList()
-        }
+        override fun getInterfaces(type: Type): List<Type> =
+                resolvers.map { it.getInterfaces(type) }.sortedByDescending { it.size }.firstOrNull() ?: emptyList()
 
         /**
          * Returns true if any resolver returns true for this operation.
          */
-        override fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean {
-            return resolvers.any { it.isAssignableFrom(type, from, resolverProvider) }
-        }
+        override fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean =
+                resolvers.any { it.isAssignableFrom(type, from, resolverProvider) }
 
 
     }
