@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.CodeTypeResolver
 import com.github.jonathanxd.codeapi.type.TypeRef
 import java.lang.reflect.Type
 
@@ -78,6 +79,9 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
 
     override val canonicalName: String
         get() = this.qualifiedName
+
+    override val defaultResolver: CodeTypeResolver<*>
+        get() = CodeTypeResolver.CodeAPI(null)
 
     /**
      * Static inner types. CodeAPI 4 only supports static types, inner logic should be
