@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.exception.ValidationException;
 import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.processor.ProcessorKt;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,6 +59,8 @@ public class ProcTesting {
     @Test(expected = ValidationException.class)
     public void testValidation() {
         MyProcessorManager manager = new MyProcessorManager();
+
+        manager.getOptions().set(ProcessorKt.VALIDATE, true);
 
         VariableDeclaration variableDeclaration = new VariableDeclaration(
                 Collections.emptySet(),

@@ -113,7 +113,7 @@ interface Processor<in P> {
  * True to validate part before processing.
  */
 @JvmField
-val VALIDATE = Option(true)
+val VALIDATE = Option(false)
 
 /**
  * Stores call state
@@ -124,7 +124,7 @@ val FIRST_CALL = typedKeyOf<Boolean>("FIRS_CALL")
 /**
  * An abstract manager backed by a [MutableMap].
  *
- * You can disable validation via [VALIDATE] option.
+ * You can enable validation via [VALIDATE] option.
  */
 abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
 
