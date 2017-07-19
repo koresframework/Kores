@@ -81,7 +81,7 @@ inline fun <reified T> typedKeyOf(key: Any): TypedKey<T> =
  * Adds [value] to list associated to this key
  */
 fun <T> TypedKey<MutableList<T>>.add(data: TypedData, value: T) {
-    this.getOrSet(data, mutableListOf<T>()).add(value)
+    this.getOrSet(data, mutableListOf()).add(value)
 }
 
 /**

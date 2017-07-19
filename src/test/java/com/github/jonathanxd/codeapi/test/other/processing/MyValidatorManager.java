@@ -25,28 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.sugar
+package com.github.jonathanxd.codeapi.test.other.processing;
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.processor.ProcessorManager
-import com.github.jonathanxd.codeapi.processor.Processor
-import com.github.jonathanxd.iutils.data.TypedData
+import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.base.VariableDeclaration;
+import com.github.jonathanxd.codeapi.literal.Literal;
+import com.github.jonathanxd.codeapi.processor.AbstractValidatorManager;
+import com.github.jonathanxd.codeapi.processor.ValidationEnvironment;
+import com.github.jonathanxd.iutils.data.TypedData;
 
-/**
- * Sugar syntax processor. CodeAPI provides a way to register a sugar syntax processor, a sugar
- * syntax processor transforms a value of type [T] into a [CodePart].
- */
-abstract class SugarSyntaxProcessor<in T> : Processor<T> {
+import org.jetbrains.annotations.NotNull;
 
-    /**
-     * Process [t] and transforms in [CodePart].
-     *
-     * This class should only convert [t] to [CodePart] and should not call [ProcessorManager.process]. This class
-     * is intended only for simple conversions, if you need complex conversions you need to write a [Processor].
-     */
-    abstract fun process(t: T, codeProcessor: ProcessorManager<*>): CodePart
+public class MyValidatorManager extends AbstractValidatorManager {
 
-    override fun process(part: T, data: TypedData, codeProcessor: ProcessorManager<*>) {
-        codeProcessor.process(this.process(part, codeProcessor), data)
+    public MyValidatorManager() {
+        this.registerValidator(new LiteralValidator(), Literal.class);
+        this.registerValidator(new VariableAccessValidator(), VariableAccess.class);
+        this.registerValidator(new VariableDeclarationValidator(), VariableDeclaration.class);
+    }
+
+    @NotNull
+    @Override
+    public TypedData createData() {
+        return new TypedData();
+    }
+
+    @NotNull
+    @Override
+    public ValidationEnvironment createEnvironment(@NotNull TypedData data) {
+        return new ValidationEnvironment.Impl(data);
     }
 }

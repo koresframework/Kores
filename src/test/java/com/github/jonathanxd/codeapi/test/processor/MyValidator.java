@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.test.processor;
 import com.github.jonathanxd.codeapi.CodePart;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
-import com.github.jonathanxd.codeapi.processor.CodeValidator;
+import com.github.jonathanxd.codeapi.processor.ValidatorManager;
 import com.github.jonathanxd.codeapi.processor.ValidationEnvironment;
 import com.github.jonathanxd.codeapi.processor.ValidationMessage;
 import com.github.jonathanxd.codeapi.processor.Validator;
@@ -40,10 +40,7 @@ import com.github.jonathanxd.iutils.data.TypedData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MyValidator implements CodeValidator {
+public class MyValidator implements ValidatorManager {
 
     public static MyValidator INSTANCE = new MyValidator();
 
@@ -56,7 +53,7 @@ public class MyValidator implements CodeValidator {
     @NotNull
     @Override
     public ValidationEnvironment createEnvironment(@NotNull TypedData data) {
-        return CodeValidator.DefaultImpls.createEnvironment(this, data);
+        return ValidatorManager.DefaultImpls.createEnvironment(this, data);
     }
 
     @NotNull
@@ -96,7 +93,7 @@ public class MyValidator implements CodeValidator {
     public ValidationEnvironment validate(@NotNull Object part,
                                             @NotNull TypedData data,
                                             @Nullable ValidationEnvironment environment) {
-        return CodeValidator.DefaultImpls.validate(this, part, data, environment);
+        return ValidatorManager.DefaultImpls.validate(this, part, data, environment);
     }
 
     @NotNull

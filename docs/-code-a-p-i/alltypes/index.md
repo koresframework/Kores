@@ -41,13 +41,13 @@ BytecodeGenerator uses the [originalType](../com.github.jonathanxd.codeapi.base/
 | [com.github.jonathanxd.codeapi.base.CodeModifier](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md) | Modifiers enum. |
 | [com.github.jonathanxd.codeapi.base.CodeParameter](../com.github.jonathanxd.codeapi.base/-code-parameter/index.md) | Parameter part. |
 | [com.github.jonathanxd.codeapi.CodePart](../com.github.jonathanxd.codeapi/-code-part/index.md) | A CodePart is an element that can exists in the source code. |
-| [com.github.jonathanxd.codeapi.processor.CodeProcessor](../com.github.jonathanxd.codeapi.processor/-code-processor/index.md) | CodeProcessor transforms [Any](#) into [R](#). |
+| [com.github.jonathanxd.codeapi.processor.ProcessorManager](../com.github.jonathanxd.codeapi.processor/-code-processor/index.md) | CodeProcessor transforms [Any](#) into [R](#). |
 | [com.github.jonathanxd.codeapi.CodeSource](../com.github.jonathanxd.codeapi/-code-source/index.md) | Abstract [CodeInstruction](../com.github.jonathanxd.codeapi/-code-instruction.md) iterable. |
 | [com.github.jonathanxd.codeapi.CodeSourceView](../com.github.jonathanxd.codeapi/-code-source-view/index.md) |  |
 | [com.github.jonathanxd.codeapi.type.CodeType](../com.github.jonathanxd.codeapi.type/-code-type/index.md) | A type representation, like: |
 | [com.github.jonathanxd.codeapi.type.CodeTypeResolver](../com.github.jonathanxd.codeapi.type/-code-type-resolver/index.md) | Type resolver |
 | [com.github.jonathanxd.codeapi.util.CodeTypeResolver](../com.github.jonathanxd.codeapi.util/-code-type-resolver/index.md) |  |
-| [com.github.jonathanxd.codeapi.processor.CodeValidator](../com.github.jonathanxd.codeapi.processor/-code-validator/index.md) | Validation and Validation manager. Validates and manage custom validators. |
+| [com.github.jonathanxd.codeapi.processor.ValidatorManager](../com.github.jonathanxd.codeapi.processor/-code-validator/index.md) | Validation and Validation manager. Validates and manage custom validators. |
 | [com.github.jonathanxd.codeapi.base.comment.Comment](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md) | Comment |
 | [com.github.jonathanxd.codeapi.base.comment.CommentHolder](../com.github.jonathanxd.codeapi.base.comment/-comment-holder/index.md) | Hold comments and documentation. |
 | [com.github.jonathanxd.codeapi.base.comment.Comments](../com.github.jonathanxd.codeapi.base.comment/-comments/index.md) | Hold a list of comments. |
@@ -198,6 +198,6 @@ for null values use `Literals.NULL`). |
 | [com.github.jonathanxd.codeapi.common.VariableRef](../com.github.jonathanxd.codeapi.common/-variable-ref/index.md) | Reference to a Variable, this class must never appear in CodeSource. |
 | [com.github.jonathanxd.codeapi.modify.visit.VisitManager](../com.github.jonathanxd.codeapi.modify.visit/-visit-manager/index.md) | Manager of visitor of part [T](#). |
 | [com.github.jonathanxd.codeapi.common.Void](../com.github.jonathanxd.codeapi.common/-void/index.md) | Void instance for void returns |
-| [com.github.jonathanxd.codeapi.processor.VoidValidator](../com.github.jonathanxd.codeapi.processor/-void-validator/index.md) | **Only a void implementation**, this class does not validate, does not register validators,
+| [com.github.jonathanxd.codeapi.processor.VoidValidatorManager](../com.github.jonathanxd.codeapi.processor/-void-validator/index.md) | **Only a void implementation**, this class does not validate, does not register validators,
 this class does nothing, literally. |
 | [com.github.jonathanxd.codeapi.base.WhileStatement](../com.github.jonathanxd.codeapi.base/-while-statement/index.md) | While statement |

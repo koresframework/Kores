@@ -28,15 +28,14 @@
 package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.exception.ValidationException
 import com.github.jonathanxd.iutils.data.TypedData
 import com.github.jonathanxd.iutils.processing.Context
-import java.util.Collections
+import java.util.*
 
 /**
- * Validation and Validation manager. Validates and manage custom validators.
+ * Manages all [Validators][Validator] used to validate [part][Any].
  */
-interface CodeValidator {
+interface ValidatorManager {
 
     /**
      * Validates [part] and return environment used to validate.
@@ -68,13 +67,13 @@ interface CodeValidator {
 /**
  * Registers a custom [validator] of [CodePart] of type [P].
  */
-inline fun <reified P> CodeValidator.registerValidator(validator: Validator<P>) =
+inline fun <reified P> ValidatorManager.registerValidator(validator: Validator<P>) =
         this.registerValidator(validator, P::class.java)
 
 /**
  * Validates [part] of type [P].
  */
-inline fun <reified P> CodeValidator.validatePart(part: P, data: TypedData) =
+inline fun <reified P> ValidatorManager.validatePart(part: P, data: TypedData) =
         this.validate(P::class.java, part, data)
 
 /**
@@ -85,7 +84,7 @@ interface Validator<in P> {
     /**
      * Validates [part] and return a list of messages.
      */
-    fun validate(part: P, data: TypedData, codeValidator: CodeValidator, environment: ValidationEnvironment)
+    fun validate(part: P, data: TypedData, codeValidator: ValidatorManager, environment: ValidationEnvironment)
 
 }
 
@@ -108,6 +107,29 @@ interface ValidationEnvironment {
      * Current context.
      */
     val context: Context
+
+    /**
+     * Enters a session, a session is used to keep track about all messages
+     * added after [enterSession] invocation.
+     *
+     * This is used to analyze messages of other validation processes without needing to rely
+     * on list size and sub-list, a new session keeps track of messages
+     * added after the invocation of this method and before the invocation of [exitSession],
+     * but the list of messages does not have any relation with the list holden by [ValidationEnvironment],
+     * values are added simultaneously to session and [ValidationEnvironment].
+     *
+     * The list provided by session is mutable.
+     *
+     * Returns new session.
+     */
+    fun enterSession(): Session
+
+    /**
+     * Exists current session.
+     *
+     * Returns exited session.
+     */
+    fun exitSession(): Session
 
     /**
      * Adds a [ValidationMessage] to index.
@@ -133,9 +155,27 @@ interface ValidationEnvironment {
         private val backingList = mutableListOf<ContextedValidationMessage>()
         override val context: Context = Context.create()
         override val validationMessages: List<ContextedValidationMessage> = Collections.unmodifiableList(this.backingList)
+        private var currentSession: Session? = null
 
         override fun addMessage(message: ValidationMessage) {
-            this.backingList += ContextedValidationMessage(message, this.context.current())
+            val msg = ContextedValidationMessage(message, this.context.current())
+            this.backingList += msg
+            this.currentSession?.addMessage(msg)
+        }
+
+        override fun enterSession(): Session {
+            val sec = Session(this.currentSession, this.context.current())
+
+            this.currentSession = sec
+            return sec
+        }
+
+        override fun exitSession(): Session {
+            val sc = this.currentSession ?: throw IllegalStateException("Current section is null")
+
+            this.currentSession = sc.parent
+
+            return sc
         }
 
         override fun enterInspectionOf(part: Any) {
@@ -148,7 +188,41 @@ interface ValidationEnvironment {
 
         override fun toString(): String = "[messages={${validationMessages.joinToString()},context=$context]"
     }
+
+    /**
+     * A session, used to keep track of a fragment of messages added by other validations.
+     *
+     * @see [enterSession]
+     */
+    class Session(internal val parent: Session?,
+                  val context: Context) {
+        private val messageList: MutableList<ContextedValidationMessage> = mutableListOf()
+        val messages: List<ContextedValidationMessage> get() = messageList
+
+        fun addMessage(message: ContextedValidationMessage) {
+            this.parent?.addMessage(message)
+            this.messageList.add(message)
+        }
+
+        fun anyError() = messages.hasContextedError()
+    }
 }
+
+/**
+ * Creates session to be used only within [context], this session is exited immediately after [context] invocation.
+ */
+inline fun <R> ValidationEnvironment.sessionInContext(context: (session: ValidationEnvironment.Session) -> R) =
+        this.enterSession().let(context).also {
+            this.exitSession()
+        }
+
+/**
+ * Immediately enters the inspection of [part], calls [context] and then immediately exits the inspection of [part].
+ */
+inline fun <P, R> ValidationEnvironment.inspectionInContext(part: P, context: (part: P) -> R) =
+        this.enterInspectionOf(part as Any).let {
+            context(part).also { this.exitInspectionOf(part) }
+        }
 
 /**
  * Occurs when a unexpected inspection context is found.
@@ -240,16 +314,22 @@ fun ValidationEnvironment.printMessages(printer: (String) -> Unit, includeStack:
 }
 
 /**
- * **Only a void implementation**, this class does not validate, does not register validators,
- * this class does nothing, literally.
+ * **Only a void implementation**, this class does nothing, literally.
  */
-object VoidValidator : CodeValidator {
+object VoidValidatorManager : ValidatorManager {
 
     override fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment?): ValidationEnvironment {
         val ext = data
         return object : ValidationEnvironment {
+
             override val data: TypedData
                 get() = ext
+
+            override fun enterSession(): ValidationEnvironment.Session =
+                    ValidationEnvironment.Session(null, this.context.current())
+
+            override fun exitSession(): ValidationEnvironment.Session =
+                    ValidationEnvironment.Session(null, this.context.current())
 
             override val context: Context = Context.create()
             override val validationMessages: List<ContextedValidationMessage> = emptyList()
@@ -271,11 +351,21 @@ object VoidValidator : CodeValidator {
 
 }
 
-abstract class AbstractCodeValidator : CodeValidator {
+/**
+ * Validator manager backed by an [MutableMap].
+ */
+abstract class AbstractValidatorManager : ValidatorManager {
     private val map = mutableMapOf<Class<*>, Validator<*>>()
 
     override fun <P> registerValidator(validator: Validator<P>, type: Class<P>) {
         this.map[type] = validator
+    }
+
+    override fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment?): ValidationEnvironment {
+        val env = environment ?: createEnvironment(data)
+        this.getValidatorOf(type, part, data, env)
+                .validate(part, data, this, env)
+        return env
     }
 
     /**
@@ -294,7 +384,6 @@ abstract class AbstractCodeValidator : CodeValidator {
         return this.map[searchType] as? Validator<P>
                 ?: throw IllegalArgumentException("Cannot find validator of type '$type' (searchType: '$searchType') and part '$part'. Data: {$data}. Environment: {$environment}")
     }
-
 
 }
 

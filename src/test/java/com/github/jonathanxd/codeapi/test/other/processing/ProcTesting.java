@@ -25,28 +25,48 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.sugar
+package com.github.jonathanxd.codeapi.test.other.processing;
 
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.processor.ProcessorManager
-import com.github.jonathanxd.codeapi.processor.Processor
-import com.github.jonathanxd.iutils.data.TypedData
+import com.github.jonathanxd.codeapi.base.VariableAccess;
+import com.github.jonathanxd.codeapi.base.VariableDeclaration;
+import com.github.jonathanxd.codeapi.exception.ValidationException;
+import com.github.jonathanxd.codeapi.literal.Literals;
 
-/**
- * Sugar syntax processor. CodeAPI provides a way to register a sugar syntax processor, a sugar
- * syntax processor transforms a value of type [T] into a [CodePart].
- */
-abstract class SugarSyntaxProcessor<in T> : Processor<T> {
+import org.junit.Assert;
+import org.junit.Test;
 
-    /**
-     * Process [t] and transforms in [CodePart].
-     *
-     * This class should only convert [t] to [CodePart] and should not call [ProcessorManager.process]. This class
-     * is intended only for simple conversions, if you need complex conversions you need to write a [Processor].
-     */
-    abstract fun process(t: T, codeProcessor: ProcessorManager<*>): CodePart
+import java.util.Collections;
 
-    override fun process(part: T, data: TypedData, codeProcessor: ProcessorManager<*>) {
-        codeProcessor.process(this.process(part, codeProcessor), data)
+public class ProcTesting {
+    @Test
+    public void testProc() {
+        MyProcessorManager manager = new MyProcessorManager();
+
+        VariableDeclaration variableDeclaration = new VariableDeclaration(
+                Collections.emptySet(),
+                String.class,
+                "name",
+                Literals.STRING("CodeAPI")
+        );
+
+
+        String process = manager.process(variableDeclaration);
+
+        Assert.assertEquals("java.lang.String name = \"CodeAPI\";", process);
     }
+
+    @Test(expected = ValidationException.class)
+    public void testValidation() {
+        MyProcessorManager manager = new MyProcessorManager();
+
+        VariableDeclaration variableDeclaration = new VariableDeclaration(
+                Collections.emptySet(),
+                String.class,
+                "name",
+                new VariableAccess(String.class, "name")
+        );
+
+        manager.process(variableDeclaration);
+    }
+
 }

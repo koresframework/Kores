@@ -30,11 +30,10 @@ package com.github.jonathanxd.codeapi.test.processor;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.exception.ValidationException;
 import com.github.jonathanxd.codeapi.literal.Literals;
-import com.github.jonathanxd.codeapi.processor.CodeProcessor;
-import com.github.jonathanxd.codeapi.processor.CodeValidator;
+import com.github.jonathanxd.codeapi.processor.ProcessorManager;
+import com.github.jonathanxd.codeapi.processor.ValidatorManager;
 import com.github.jonathanxd.codeapi.processor.ContextedValidationMessage;
 import com.github.jonathanxd.codeapi.processor.Processor;
-import com.github.jonathanxd.codeapi.processor.ValidationMessage;
 import com.github.jonathanxd.codeapi.processor.ValidatorKt;
 import com.github.jonathanxd.codeapi.sugar.SugarSyntaxProcessor;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
@@ -48,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyProcessor implements CodeProcessor<String> {
+public class MyProcessor implements ProcessorManager<String> {
 
     private final Options options = new Options();
     private final Map<Class<?>, Processor<?>> map = new HashMap<>();
@@ -61,7 +60,7 @@ public class MyProcessor implements CodeProcessor<String> {
 
     @NotNull
     @Override
-    public CodeValidator getValidator() {
+    public ValidatorManager getValidatorManager() {
         return MyValidator.INSTANCE;
     }
 
@@ -83,23 +82,23 @@ public class MyProcessor implements CodeProcessor<String> {
 
     @Override
     public String process(@NotNull Object part) {
-        return (String) CodeProcessor.DefaultImpls.process(this, part);
+        return (String) ProcessorManager.DefaultImpls.process(this, part);
     }
 
     @Override
     public <T> String process(@NotNull Class<T> type, T part) {
-        return (String) CodeProcessor.DefaultImpls.process(this, type, part);
+        return (String) ProcessorManager.DefaultImpls.process(this, type, part);
     }
 
     @Override
     public String process(@NotNull Object part, @NotNull TypedData data) {
-        return (String) CodeProcessor.DefaultImpls.process(this, part, data);
+        return (String) ProcessorManager.DefaultImpls.process(this, part, data);
     }
 
     @Override
     public <T> String process(@NotNull Class<? extends T> type, T part, @NotNull TypedData data) {
 
-        List<ContextedValidationMessage> validate = this.getValidator().validate(type, part, this.getValidator().createData(), null).getValidationMessages();
+        List<ContextedValidationMessage> validate = this.getValidatorManager().validate(type, part, this.getValidatorManager().createData(), null).getValidationMessages();
 
         if (ValidatorKt.hasContextedError(validate)) {
             ValidationException e = null;

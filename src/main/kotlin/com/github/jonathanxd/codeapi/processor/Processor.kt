@@ -28,16 +28,19 @@
 package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.exception.ValidationException
 import com.github.jonathanxd.codeapi.sugar.SugarSyntaxProcessor
+import com.github.jonathanxd.codeapi.util.typedKeyOf
 import com.github.jonathanxd.iutils.data.TypedData
+import com.github.jonathanxd.iutils.option.Option
 import com.github.jonathanxd.iutils.option.Options
 
 /**
- * CodeProcessor transforms [Any] into [R].
+ * ProcessorManager manages all processors required to transform [Any] into [R].
  *
  * Supported types depends on implementation.
  */
-interface CodeProcessor<out R> {
+interface ProcessorManager<out R> {
 
     /**
      * Options of generator
@@ -47,7 +50,7 @@ interface CodeProcessor<out R> {
     /**
      * Validator.
      */
-    val validator: CodeValidator
+    val validatorManager: ValidatorManager
 
     /**
      * Process [part] and returns a value of type [R].
@@ -88,22 +91,42 @@ interface CodeProcessor<out R> {
     fun <T> registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>, type: Class<T>)
 }
 
+/**
+ * Process [part][P] and do required things.
+ */
 interface Processor<in P> {
 
     /**
      * Process the [part].
      */
-    fun process(part: P, data: TypedData, codeProcessor: CodeProcessor<*>)
+    fun process(part: P, data: TypedData, codeProcessor: ProcessorManager<*>)
 
     /**
      * Called when the process to [part] finishes.
      */
-    fun endProcess(part: P, data: TypedData, codeProcessor: CodeProcessor<*>) {
+    fun endProcess(part: P, data: TypedData, codeProcessor: ProcessorManager<*>) {
 
     }
 }
 
-abstract class AbstractProcessor<out R> : CodeProcessor<R> {
+/**
+ * True to validate part before processing.
+ */
+@JvmField
+val VALIDATE = Option(true)
+
+/**
+ * Stores call state
+ */
+@JvmField
+val FIRST_CALL = typedKeyOf<Boolean>("FIRS_CALL")
+
+/**
+ * An abstract manager backed by a [MutableMap].
+ *
+ * You can disable validation via [VALIDATE] option.
+ */
+abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
 
     protected val map = mutableMapOf<Class<*>, Processor<*>>()
 
@@ -118,8 +141,73 @@ abstract class AbstractProcessor<out R> : CodeProcessor<R> {
     }
 
     override fun <T> registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>, type: Class<T>) {
-        this.map[type] = sugarSyntaxProcessor
+        this.map[type] = object : Processor<T> {
+            override fun process(part: T, data: TypedData, codeProcessor: ProcessorManager<*>) {
+                val result = sugarSyntaxProcessor.process(part, codeProcessor)
+                codeProcessor.process(result, data)
+            }
+        }
     }
+
+    override fun <T> process(type: Class<out T>, part: T, data: TypedData): R {
+
+        if(options[VALIDATE] && !FIRST_CALL.getOrSet(data, false)) {
+            val validationEnvironment = this.validatorManager.validate(type, part,
+                    this.validatorManager.createData(), null)
+
+            val validate = validationEnvironment.validationMessages
+
+            if (validate.hasContextedError()) {
+                var e: ValidationException? = null
+
+                for (validationMessage in validate) {
+                    val ex = ValidationException(validationMessage)
+
+                    if (e == null)
+                        e = ex
+                    else
+                        e.addSuppressed(ex)
+                }
+
+                if (e != null) {
+                    this.printFailMessage("Validation failed, context:")
+                    validationEnvironment.printMessages(this::printFailMessage, true)
+                    this.printFailMessage("Validation failed, exception:")
+                    throw ValidationException("Validation failed!", e)
+                }
+            }
+        }
+
+        FIRST_CALL.set(data, true)
+
+        val processor = getProcessorOf(type, part, data)
+
+        try {
+            processor.process(part, data, this)
+        } catch (t: Throwable) {
+            t.addSuppressed(IllegalStateException("Failed to process part '$part' with type '${type.simpleName}' during 'process' phase. Data map: '${data.typedDataMap}'"))
+            throw t
+        }
+
+        try {
+            processor.endProcess(part, data, this)
+        } catch (t: Throwable) {
+            t.addSuppressed(IllegalStateException("Failed to process part '$part' with type '${type.simpleName}' during 'endProcess' phase. Data map: '${data.typedDataMap}'"))
+            throw t
+        }
+
+        return this.getFinalValue(data)
+    }
+
+    /**
+     * Print fail message to output.
+     */
+    protected abstract fun printFailMessage(message: String)
+
+    /**
+     * Gets the resulting value.
+     */
+    protected abstract fun getFinalValue(data: TypedData): R
 
     /**
      * Gets processor of [type].
@@ -142,18 +230,18 @@ abstract class AbstractProcessor<out R> : CodeProcessor<R> {
 /**
  * Registers a [sugarSyntaxProcessor] of [Any] of type: [T].
  */
-inline fun <R, reified T : Any> CodeProcessor<R>.registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>) =
+inline fun <R, reified T : Any> ProcessorManager<R>.registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>) =
         this.registerSugarSyntaxProcessor(sugarSyntaxProcessor, T::class.java)
 
 /**
  * Registers [processor] of [Any] of type: [T].
  */
-inline fun <R, reified T : Any> CodeProcessor<R>.registerProcessor(processor: Processor<T>) =
+inline fun <R, reified T : Any> ProcessorManager<R>.registerProcessor(processor: Processor<T>) =
         this.registerProcessor(processor, T::class.java)
 
 /**
- * Process [part] as of reified type [T]. This function is inlined, this means that type passed to [CodeProcessor.process]
+ * Process [part] as of reified type [T]. This function is inlined, this means that type passed to [ProcessorManager.process]
  * will be the inferred type and not the the [part] type. This is useful when you want to call a specific processor
  * instead of exact processor.
  */
-inline fun <reified T> CodeProcessor<*>.processAs(part: T, data: TypedData) = this.process(T::class.java, part, data)
+inline fun <reified T> ProcessorManager<*>.processAs(part: T, data: TypedData) = this.process(T::class.java, part, data)
