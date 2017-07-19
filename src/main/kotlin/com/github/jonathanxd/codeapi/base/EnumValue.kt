@@ -91,6 +91,11 @@ data class EnumValue(val enumType: Type,
             return this
         }
 
+        /**
+         * Base this EnumValue on an [Enum].
+         */
+        fun base(enum: Enum<*>): Builder = this.enumType(enum::class.java).enumEntry(enum.name).ordinal(enum.ordinal)
+
         override fun build(): EnumValue = EnumValue(this.enumType, this.enumEntry, this.ordinal)
 
         companion object {

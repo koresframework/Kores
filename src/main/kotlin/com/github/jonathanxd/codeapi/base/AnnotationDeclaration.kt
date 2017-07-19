@@ -31,6 +31,8 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.util.*
+import java.lang.annotation.ElementType
+import java.lang.annotation.RetentionPolicy
 import java.lang.reflect.Type
 
 /**
@@ -151,6 +153,33 @@ data class AnnotationDeclaration(override val comments: Comments,
          * See [AnnotationDeclaration.properties]
          */
         fun properties(vararg values: AnnotationProperty): Builder = properties(values.toList())
+
+        private fun addAnnotation(annotation: Annotation): Builder =
+                ((this.annotations as? MutableList) ?: this.annotations.toMutableList()).let {
+                    annotations(it.filter { it.type.isConcreteIdEq(annotation.type) } + annotation)
+                }
+
+        /**
+         * Adds retention annotation to annotation declaration (remove old retention annotation if it is already defined)
+         */
+        fun retention(retention: RetentionPolicy): Builder =
+                addAnnotation(Annotation.Builder.builder()
+                        .type(java.lang.annotation.Retention::class.java)
+                        .values(mapOf("value" to EnumValue.Builder.builder().base(retention).build()))
+                        .build()
+                )
+
+        /**
+         * Adds target annotation to annotation declaration (remove old target annotation if it is already defined)
+         */
+        fun target(targets: Array<ElementType>): Builder =
+                addAnnotation(Annotation.Builder.builder()
+                        .type(java.lang.annotation.Target::class.java)
+                        .values(mapOf("value" to
+                                targets.map { EnumValue.Builder.builder().base(it).build() }.toTypedArray()
+                        ))
+                        .build()
+                )
 
         override fun build() = AnnotationDeclaration(this.comments, this.outerClass, this.annotations, this.modifiers,
                 this.specifiedName, this.genericSignature, this.properties, this.fields, this.innerTypes)

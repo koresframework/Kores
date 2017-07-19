@@ -69,6 +69,8 @@ public class MyValidator implements CodeValidator {
         if(environment == null)
             environment = this.createEnvironment(data);
 
+        environment.enterInspectionOf(part);
+
         if (type == VariableDeclaration.class) {
             VariableDeclaration declaration = (VariableDeclaration) part;
 
@@ -83,6 +85,8 @@ public class MyValidator implements CodeValidator {
 
             }
         }
+
+        environment.exitInspectionOf(part);
 
         return environment;
     }

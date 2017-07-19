@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.iutils.data.TypedData
+import com.github.jonathanxd.iutils.processing.Context
 import java.util.Collections
 
 /**
@@ -103,11 +104,9 @@ interface ValidationEnvironment {
     val validationMessages: List<ContextedValidationMessage>
 
     /**
-     * Immutable view list of current context (LIFO stack)
-     *
-     * ATM we will not use IUtils context...
+     * Current context.
      */
-    val context: List<Any>
+    val context: Context
 
     /**
      * Adds a [ValidationMessage] to index.
@@ -130,35 +129,23 @@ interface ValidationEnvironment {
      */
     class Impl(override val data: TypedData) : ValidationEnvironment {
 
-        private val inspectionContext = mutableListOf<Any>()
         private val backingList = mutableListOf<ContextedValidationMessage>()
-        override val context: List<Any> = Collections.unmodifiableList(this.inspectionContext)
+        override val context: Context = Context.create()
         override val validationMessages: List<ContextedValidationMessage> = Collections.unmodifiableList(this.backingList)
 
         override fun addMessage(message: ValidationMessage) {
-            this.backingList += ContextedValidationMessage(message, this.context.toList())
+            this.backingList += ContextedValidationMessage(message, this.context.current())
         }
 
         override fun enterInspectionOf(part: Any) {
-            this.inspectionContext.add(part)
+            context.enterContext(part)
         }
 
         override fun exitInspectionOf(part: Any) {
-
-            if(this.inspectionContext.isEmpty())
-                fail(part, {"Empty inspection context"})
-
-            this.inspectionContext.last().let { last ->
-                if (last != part)
-                fail(part, { "Mismatch context. Expected last element: $part. Found: $last, in context: ${this.inspectionContext}" })
-            }
-
-            check(this.inspectionContext.removeAt(this.inspectionContext.lastIndex) == part)
-
+            context.exitContext(part)
         }
 
-        private inline fun fail(part: Any, message: () -> String): Nothing = throw UnexpectedInspectionContext("Failed to exit inspection of element $part: ${message()}.")
-
+        override fun toString(): String = "[messages={${validationMessages.joinToString()},context=$context]"
     }
 }
 
@@ -178,7 +165,7 @@ class UnexpectedInspectionContext : IllegalStateException {
  * @property message Validation message
  * @property context Message context.
  */
-data class ContextedValidationMessage(val message: ValidationMessage, val context: List<Any>)
+data class ContextedValidationMessage(val message: ValidationMessage, val context: Context)
 
 /**
  * Validation message.
@@ -239,7 +226,7 @@ object VoidValidator : CodeValidator {
             override val data: TypedData
                 get() = ext
 
-            override val context: List<Any> = emptyList()
+            override val context: Context = Context.create()
             override val validationMessages: List<ContextedValidationMessage> = emptyList()
 
             override fun enterInspectionOf(@Suppress("NAME_SHADOWING") part: Any) {
@@ -256,6 +243,33 @@ object VoidValidator : CodeValidator {
 
     override fun <P> registerValidator(validator: Validator<P>, type: Class<P>) {
     }
+
+}
+
+abstract class AbstractCodeValidator : CodeValidator {
+    private val map = mutableMapOf<Class<*>, Validator<*>>()
+
+    override fun <P> registerValidator(validator: Validator<P>, type: Class<P>) {
+        this.map[type] = validator
+    }
+
+    /**
+     * Gets processor of [type].
+     */
+    fun <P> getValidatorOf(type: Class<*>, part: P, data: TypedData, environment: ValidationEnvironment): Validator<P> {
+        val searchType = if (this.map.containsKey(type))
+            type
+        else if (type.superclass != Any::class.java && type.interfaces.isEmpty())
+            type.superclass
+        else if (type.interfaces.size == 1)
+            type.interfaces.single()
+        else type
+
+        @Suppress("UNCHECKED_CAST")
+        return this.map[searchType] as? Validator<P>
+                ?: throw IllegalArgumentException("Cannot find validator of type '$type' (searchType: '$searchType') and part '$part'. Data: {$data}. Environment: {$environment}")
+    }
+
 
 }
 

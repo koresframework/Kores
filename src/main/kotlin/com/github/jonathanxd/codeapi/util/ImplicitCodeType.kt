@@ -159,9 +159,14 @@ fun Type.isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolv
 fun Type.toArray(dimensions: Int): CodeType = this.codeType.toArray(dimensions)
 
 /**
- * See [CodeType. is]
+ * See [CodeType.is]
  */
 fun Type.`is`(another: Type?): Boolean = another != null && this.codeType.`is`(another.codeType)
+
+/**
+ * See [CodeType.isConcreteIdEq]
+ */
+fun Type.isConcreteIdEq(another: Type): Boolean = this.codeType.isConcreteIdEq(another.codeType)
 
 /**
  * See [CodeType.compareTo]
