@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.processor
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.exception.ValidationException
 import com.github.jonathanxd.iutils.data.TypedData
 import com.github.jonathanxd.iutils.processing.Context
 import java.util.Collections
@@ -213,6 +214,30 @@ fun List<ValidationMessage>.hasError() = this.any { it.type == ValidationMessage
  * Returns true if receiver has any [ValidationMessage] of [type][ValidationMessage.type] [ValidationMessage.Type.ERROR].
  */
 fun List<ContextedValidationMessage>.hasContextedError() = this.any { it.message.type == ValidationMessage.Type.ERROR }
+
+/**
+ * Creates a string representation of the [ValidationMessage]
+ */
+fun ValidationMessage.toMessage(): String =
+        "ValidationMessage[${this.type.name}]: ${this.message}"
+
+/**
+ * Creates a string representation of the [ContextedValidationMessage]
+ */
+fun ContextedValidationMessage.toMessage(): String =
+        "ContextedValidationMessage[${this.message.type.name}]: ${this.message.message}. Context: ${this.context}"
+
+/**
+ * Prints messages registered in [ValidationEnvironment].
+ */
+fun ValidationEnvironment.printMessages(printer: (String) -> Unit, includeStack: Boolean = false) {
+    this.validationMessages.forEach { (message, context) ->
+        printer(message.toMessage())
+        printer("Contexts:{")
+        context.printContext(printer, false, true, includeStack)
+        printer("}")
+    }
+}
 
 /**
  * **Only a void implementation**, this class does not validate, does not register validators,

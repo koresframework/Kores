@@ -29,6 +29,7 @@ package com.github.jonathanxd.codeapi.exception
 
 import com.github.jonathanxd.codeapi.processor.ContextedValidationMessage
 import com.github.jonathanxd.codeapi.processor.ValidationMessage
+import com.github.jonathanxd.codeapi.processor.toMessage
 
 /**
  * Occurs when validation fails.
@@ -52,11 +53,4 @@ class ValidationException : RuntimeException {
     constructor(message: ContextedValidationMessage, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean) :
             super(message.toMessage(), cause, enableSuppression, writableStackTrace)
 
-    companion object {
-        private fun ValidationMessage.toMessage(): String =
-                "ValidationMessage[${this.type.name}]: ${this.message}"
-
-        private fun ContextedValidationMessage.toMessage(): String =
-                "ContextedValidationMessage[${this.message.type.name}]: ${this.message.message}. Context: ${this.context}"
-    }
 }
