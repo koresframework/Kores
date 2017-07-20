@@ -99,12 +99,12 @@ interface Processor<in P> {
     /**
      * Process the [part].
      */
-    fun process(part: P, data: TypedData, codeProcessor: ProcessorManager<*>)
+    fun process(part: P, data: TypedData, processorManager: ProcessorManager<*>)
 
     /**
      * Called when the process to [part] finishes.
      */
-    fun endProcess(part: P, data: TypedData, codeProcessor: ProcessorManager<*>) {
+    fun endProcess(part: P, data: TypedData, processorManager: ProcessorManager<*>) {
 
     }
 }
@@ -142,9 +142,9 @@ abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
 
     override fun <T> registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>, type: Class<T>) {
         this.map[type] = object : Processor<T> {
-            override fun process(part: T, data: TypedData, codeProcessor: ProcessorManager<*>) {
-                val result = sugarSyntaxProcessor.process(part, codeProcessor)
-                codeProcessor.process(result, data)
+            override fun process(part: T, data: TypedData, processorManager: ProcessorManager<*>) {
+                val result = sugarSyntaxProcessor.process(part, processorManager)
+                processorManager.process(result, data)
             }
         }
     }

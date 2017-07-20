@@ -38,14 +38,14 @@ import org.jetbrains.annotations.NotNull;
 public class LiteralProcessor implements Processor<Literal> {
 
     @Override
-    public void process(Literal part, @NotNull TypedData data, @NotNull ProcessorManager<?> codeProcessor) {
+    public void process(Literal part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
         StringBuilder require = TypedDataUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
 
         require.append(part.getValue().toString());
     }
 
     @Override
-    public void endProcess(Literal part, @NotNull TypedData data, @NotNull ProcessorManager<?> codeProcessor) {
+    public void endProcess(Literal part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
 
     }
 

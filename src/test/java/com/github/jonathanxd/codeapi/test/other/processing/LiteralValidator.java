@@ -42,7 +42,7 @@ public class LiteralValidator implements Validator<Literal> {
     @Override
     public void validate(Literal part,
                          @NotNull TypedData data,
-                         @NotNull ValidatorManager codeValidator,
+                         @NotNull ValidatorManager validatorManager,
                          @NotNull ValidationEnvironment environment) {
         ValidatorKt.inspectionInContext(environment, part, variableDeclaration -> null);
     }

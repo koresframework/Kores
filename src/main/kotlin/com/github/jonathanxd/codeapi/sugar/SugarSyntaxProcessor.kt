@@ -46,7 +46,7 @@ abstract class SugarSyntaxProcessor<in T> : Processor<T> {
      */
     abstract fun process(t: T, codeProcessor: ProcessorManager<*>): CodePart
 
-    override fun process(part: T, data: TypedData, codeProcessor: ProcessorManager<*>) {
-        codeProcessor.process(this.process(part, codeProcessor), data)
+    override fun process(part: T, data: TypedData, processorManager: ProcessorManager<*>) {
+        processorManager.process(this.process(part, processorManager), data)
     }
 }

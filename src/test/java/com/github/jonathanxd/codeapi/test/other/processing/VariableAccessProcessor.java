@@ -38,14 +38,14 @@ import org.jetbrains.annotations.NotNull;
 public class VariableAccessProcessor implements Processor<VariableAccess> {
 
     @Override
-    public void process(VariableAccess part, @NotNull TypedData data, @NotNull ProcessorManager<?> codeProcessor) {
+    public void process(VariableAccess part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
         StringBuilder require = TypedDataUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
 
         require.append(part.getName());
     }
 
     @Override
-    public void endProcess(VariableAccess part, @NotNull TypedData data, @NotNull ProcessorManager<?> codeProcessor) {
+    public void endProcess(VariableAccess part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
 
     }
 

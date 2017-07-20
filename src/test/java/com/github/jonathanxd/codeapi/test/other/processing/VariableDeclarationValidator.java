@@ -56,13 +56,13 @@ public class VariableDeclarationValidator implements Validator<VariableDeclarati
     @Override
     public void validate(VariableDeclaration part,
                          @NotNull TypedData data,
-                         @NotNull ValidatorManager codeValidator,
+                         @NotNull ValidatorManager validatorManager,
                          @NotNull ValidationEnvironment environment) {
 
         ValidatorKt.inspectionInContext(environment, part, variableDeclaration -> {
             environment.enterSession();
 
-            codeValidator.validate(part.getValue(), data, environment);
+            validatorManager.validate(part.getValue(), data, environment);
 
             ValidationEnvironment.Session session =
                     environment.exitSession();

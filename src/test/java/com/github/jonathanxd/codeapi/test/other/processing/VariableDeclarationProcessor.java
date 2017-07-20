@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 public class VariableDeclarationProcessor implements Processor<VariableDeclaration> {
 
     @Override
-    public void process(VariableDeclaration part, @NotNull TypedData data, @NotNull ProcessorManager<?> codeProcessor) {
+    public void process(VariableDeclaration part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
         StringBuilder require = TypedDataUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
 
         require.append(ImplicitCodeType.getCanonicalName(part.getVariableType()));
@@ -48,12 +48,12 @@ public class VariableDeclarationProcessor implements Processor<VariableDeclarati
         require.append(' ');
         require.append('=');
         require.append(' ');
-        codeProcessor.process(part.getValue(), data);
+        processorManager.process(part.getValue(), data);
         require.append(';');
     }
 
     @Override
-    public void endProcess(VariableDeclaration part, @NotNull TypedData data, @NotNull ProcessorManager<?> codeProcessor) {
+    public void endProcess(VariableDeclaration part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
 
     }
 

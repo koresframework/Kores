@@ -50,7 +50,7 @@ public class VariableAccessValidator implements Validator<VariableAccess> {
     @Override
     public void validate(VariableAccess part,
                          @NotNull TypedData data,
-                         @NotNull ValidatorManager codeValidator,
+                         @NotNull ValidatorManager validatorManager,
                          @NotNull ValidationEnvironment environment) {
 
         ValidatorKt.inspectionInContext(environment, part, variableDeclaration -> {
