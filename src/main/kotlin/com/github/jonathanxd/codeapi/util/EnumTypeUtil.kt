@@ -45,7 +45,7 @@ object EnumTypeUtil {
      * Try to resolve int value of part [p]. If is a numeric literal, returns the numeric value of
      * the literal, if is a string literal, returns the hashcode of the string.
      */
-    fun resolve(p: CodePart, aSwitch: Lazy<SwitchStatement>): Int {
+    fun resolve(p: CodePart): Int {
 
 
         if (p is Literal) {

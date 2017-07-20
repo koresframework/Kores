@@ -61,6 +61,16 @@ data class EnumDeclaration(override val outerClass: Type?,
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerClass)
 
+    /**
+     * Gets the ordinal position of [entry]
+     */
+    fun getOrdinal(entry: EnumEntry) = entries.indexOf(entry)
+
+    /**
+     * Gets the ordinal position of [EnumEntry] which matches [entryPredicate]
+     */
+    fun getOrdinal(entryPredicate: (EnumEntry) -> Boolean) = entries.indexOfFirst(entryPredicate)
+
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
 
