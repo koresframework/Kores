@@ -2,7 +2,7 @@
 
 # ifExprs
 
-`fun ifExprs(vararg objects: Any): List<`[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`fun ifExprs(vararg objects: Any): List<`[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 Helper function to create if expressions. This function converts a sequence of: [IfExpr](../com.github.jonathanxd.codeapi.base/-if-expr/index.md),
 [Operator](../com.github.jonathanxd.codeapi.operator/-operator/index.md), [IfGroup](../com.github.jonathanxd.codeapi.base/-if-group/index.md), [List](#) and [CodePart](../com.github.jonathanxd.codeapi/-code-part/index.md) into a list of expressions (which for the three first types

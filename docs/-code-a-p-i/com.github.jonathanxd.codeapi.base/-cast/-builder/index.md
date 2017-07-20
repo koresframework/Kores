@@ -14,7 +14,7 @@
 
 | Name | Summary |
 |---|---|
-| [castedPart](casted-part.md) | `lateinit var castedPart: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [castedPart](casted-part.md) | `lateinit var castedPart: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 | [originalType](original-type.md) | `var originalType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?` |
 | [targetType](target-type.md) | `lateinit var targetType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
 
@@ -23,10 +23,10 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Cast`](../index.md)<br>Build the object of type [T](#). |
-| [withCastedPart](with-casted-part.md) | `fun withCastedPart(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [Cast.castedPart](../casted-part.md) |
-| [withOriginalType](with-original-type.md) | `fun withOriginalType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): Builder`<br>See [Cast.originalType](../original-type.md) |
-| [withTargetType](with-target-type.md) | `fun withTargetType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [Cast.targetType](../target-type.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [castedPart](casted-part.md) | `fun castedPart(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Cast.castedPart](../casted-part.md) |
+| [originalType](original-type.md) | `fun originalType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): Builder`<br>See [Cast.originalType](../original-type.md) |
+| [targetType](target-type.md) | `fun targetType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [Cast.targetType](../target-type.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

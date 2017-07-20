@@ -8,3 +8,4 @@
 
 [EnumValue](../com.github.jonathanxd.codeapi.base/-enum-value/index.md)
 
+`fun enumValue(): `[`Builder`](../com.github.jonathanxd.codeapi.base/-enum-value/-builder/index.md)

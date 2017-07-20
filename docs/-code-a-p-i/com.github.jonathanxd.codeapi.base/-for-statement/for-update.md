@@ -2,7 +2,7 @@
 
 # forUpdate
 
-`val forUpdate: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?`
+`val forUpdate: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 For update. (ex: `i++`)
 

@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`LambdaLocalCode(baseSam: `[`MethodTypeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`, localCode: `[`LocalCode`](../../-local-code/index.md)`, arguments: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>)`
+`LambdaLocalCode(baseSam: `[`MethodTypeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`, localCode: `[`LocalCode`](../../-local-code/index.md)`, arguments: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`

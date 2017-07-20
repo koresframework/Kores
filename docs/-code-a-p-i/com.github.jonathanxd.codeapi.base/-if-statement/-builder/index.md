@@ -16,22 +16,22 @@
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
 | [elseStatement](else-statement.md) | `var elseStatement: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
-| [expressions](expressions.md) | `var expressions: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [expressions](expressions.md) | `var expressions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`IfStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withElseStatement](with-else-statement.md) | `fun withElseStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [IfStatement.elseStatement](../else-statement.md) |
-| [withExpressions](with-expressions.md) | `fun withExpressions(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>See [T.expressions](#) |
+| [elseStatement](else-statement.md) | `fun elseStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [IfStatement.elseStatement](../else-statement.md) |
+| [expressions](expressions.md) | `fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.expressions](#) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [withExpressions](../../-if-expression-holder/-builder/with-expressions.md) | `open fun withExpressions(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): S`<br>See [T.expressions](../../-if-expression-holder/expressions.md) |
+| [expressions](../../-if-expression-holder/-builder/expressions.md) | `open fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.expressions](../../-if-expression-holder/-builder/expressions.md) |
 
 ### Companion Object Functions
 

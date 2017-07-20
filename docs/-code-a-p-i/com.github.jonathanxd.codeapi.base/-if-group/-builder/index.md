@@ -14,11 +14,17 @@
 
 | Name | Summary |
 |---|---|
-| [expressions](expressions.md) | `var expressions: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [expressions](expressions.md) | `var expressions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`IfGroup`](../index.md)<br>Build the object of type [T](#). |
-| [withExpressions](with-expressions.md) | `fun withExpressions(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>`fun withExpressions(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [T.expressions](#) |
+| [expressions](expressions.md) | `fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.expressions](#) |
+
+### Companion Object Functions
+
+| Name | Summary |
+|---|---|
+| [builder](builder.md) | `fun builder(): Builder`<br>`fun builder(defaults: `[`IfGroup`](../index.md)`): Builder` |

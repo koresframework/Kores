@@ -4,5 +4,6 @@
 
 `Java(classLoader: `[`ClassLoader`](http://docs.oracle.com/javase/6/docs/api/java/lang/ClassLoader.html)`)`
 
-Resolver that resolves [CodeType](../../-code-type/index.md) to Java [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)
+Resolver that resolves [CodeType](../../-code-type/index.md) to Java [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html). This may resolve to [CodeNothing.type](#)
+is class loader fails to find class.
 

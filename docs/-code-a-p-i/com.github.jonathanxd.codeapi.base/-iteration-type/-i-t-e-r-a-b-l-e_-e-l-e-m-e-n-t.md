@@ -2,4 +2,7 @@
 
 # ITERABLE_ELEMENT
 
-`ITERABLE_ELEMENT`
+`val ITERABLE_ELEMENT: `[`IterationType`](index.md)
+
+Foreach on an element which extends iterable
+

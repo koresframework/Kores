@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ForStatement(forInit: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?, forExpression: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>, forUpdate: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
+`ForStatement(forInit: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, forExpression: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, forUpdate: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
 
 For statement.
 

@@ -6,9 +6,9 @@
 
 Creates a [ConcatHelper](index.md) instance.
 
-`fun builder(part: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`ConcatHelper`](index.md)
+`fun builder(part: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`ConcatHelper`](index.md)
 
-Creates a [ConcatHelper](index.md) instance and concatenate [part](builder.md#com.github.jonathanxd.codeapi.helper.ConcatHelper.Companion$builder(com.github.jonathanxd.codeapi.CodePart)/part).
+Creates a [ConcatHelper](index.md) instance and concatenate [part](builder.md#com.github.jonathanxd.codeapi.helper.ConcatHelper.Companion$builder(com.github.jonathanxd.codeapi.CodeInstruction)/part).
 
 `fun builder(str: String): `[`ConcatHelper`](index.md)
 

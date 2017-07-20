@@ -2,7 +2,7 @@
 
 # toAccess
 
-`fun `[`Field`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html)`.toAccess(target: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?): `[`FieldAccess`](../../com.github.jonathanxd.codeapi.base/-field-access/index.md)
+`fun `[`Field`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html)`.toAccess(target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`?): `[`FieldAccess`](../../com.github.jonathanxd.codeapi.base/-field-access/index.md)
 
 Create [FieldAccess](../../com.github.jonathanxd.codeapi.base/-field-access/index.md) from [Field](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html).
 

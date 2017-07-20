@@ -2,7 +2,7 @@
 
 # forInit
 
-`val forInit: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?`
+`val forInit: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 For initialization (ex: `int i = 0`).
 

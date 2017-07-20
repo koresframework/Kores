@@ -4,6 +4,8 @@
 
 `val catchStatements: List<`[`CatchStatement`](../-catch-statement/index.md)`>`
 
+Overrides [TryStatementBase.catchStatements](../-try-statement-base/catch-statements.md)
+
 Catch clauses/exception handlers.
 
 ### Property

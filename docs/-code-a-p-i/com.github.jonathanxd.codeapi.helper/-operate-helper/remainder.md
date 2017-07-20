@@ -2,7 +2,7 @@
 
 # remainder
 
-`fun remainder(value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`fun remainder(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)
 
 Remainder (%)
 

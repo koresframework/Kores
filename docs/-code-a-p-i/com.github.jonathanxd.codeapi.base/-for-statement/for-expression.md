@@ -2,7 +2,7 @@
 
 # forExpression
 
-`val forExpression: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`val forExpression: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 For expression. See [IfExpressionHolder.expressions](../-if-expression-holder/expressions.md). (ex: `i < 10`)
 

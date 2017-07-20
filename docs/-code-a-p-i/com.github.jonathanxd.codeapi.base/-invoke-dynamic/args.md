@@ -4,6 +4,8 @@
 
 `val args: List<Any>`
 
+Overrides [InvokeDynamicBase.args](../-invoke-dynamic-base/args.md)
+
 Bootstrap method Arguments, must be an [String](#), [Int](#),
 [Long](#), [Float](#), [Double](#), [CodeType](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) or [MethodInvokeSpec](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md).
 

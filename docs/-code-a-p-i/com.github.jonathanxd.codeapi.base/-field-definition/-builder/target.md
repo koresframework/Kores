@@ -2,4 +2,13 @@
 
 # target
 
-`lateinit var target: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`lateinit var target: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
+
+`fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+Overrides [Builder.target](../../-accessor/-builder/target.md)
+
+Overrides [Builder.target](../../-field-base/-builder/target.md)
+
+See [T.target](#)
+

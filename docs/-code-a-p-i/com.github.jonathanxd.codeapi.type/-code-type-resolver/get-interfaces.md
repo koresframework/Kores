@@ -2,7 +2,7 @@
 
 # getInterfaces
 
-`abstract fun getInterfaces(codeType: `[`CodeType`](../-code-type/index.md)`): List<`[`CodeType`](../-code-type/index.md)`>`
+`abstract fun getInterfaces(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
 
-Gets super interfaces of [codeType](get-interfaces.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver$getInterfaces(com.github.jonathanxd.codeapi.type.CodeType)/codeType).
+Resolves super interfaces of [type](get-interfaces.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver$getInterfaces(java.lang.reflect.Type)/type).
 

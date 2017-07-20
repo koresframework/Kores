@@ -15,7 +15,7 @@
 | Name | Summary |
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
-| [iterableElement](iterable-element.md) | `lateinit var iterableElement: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [iterableElement](iterable-element.md) | `lateinit var iterableElement: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 | [iterationType](iteration-type.md) | `lateinit var iterationType: `[`IterationType`](../../-iteration-type/index.md) |
 | [variable](variable.md) | `lateinit var variable: `[`VariableDeclaration`](../../-variable-declaration/index.md) |
 
@@ -23,11 +23,11 @@
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`ForEachStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withIterableElement](with-iterable-element.md) | `fun withIterableElement(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [ForEachStatement.iterableElement](../iterable-element.md) |
-| [withIterationType](with-iteration-type.md) | `fun withIterationType(value: `[`IterationType`](../../-iteration-type/index.md)`): Builder`<br>See [ForEachStatement.iterationType](../iteration-type.md) |
-| [withVariable](with-variable.md) | `fun withVariable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): Builder`<br>See [ForEachStatement.variable](../variable.md) |
+| [iterableElement](iterable-element.md) | `fun iterableElement(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForEachStatement.iterableElement](../iterable-element.md) |
+| [iterationType](iteration-type.md) | `fun iterationType(value: `[`IterationType`](../../-iteration-type/index.md)`): Builder`<br>See [ForEachStatement.iterationType](../iteration-type.md) |
+| [variable](variable.md) | `fun variable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): Builder`<br>See [ForEachStatement.variable](../variable.md) |
 
 ### Companion Object Functions
 

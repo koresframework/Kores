@@ -3,3 +3,8 @@
 # instruction
 
 `lateinit var instruction: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
+
+`fun instruction(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [Synchronized.instruction](../instruction.md)
+

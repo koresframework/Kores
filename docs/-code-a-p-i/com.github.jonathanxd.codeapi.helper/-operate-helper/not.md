@@ -2,7 +2,7 @@
 
 # not
 
-`fun not(value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`fun not(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)
 
 Bitwise not (~).
 

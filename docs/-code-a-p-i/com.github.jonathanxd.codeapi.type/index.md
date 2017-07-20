@@ -6,8 +6,13 @@
 
 | Name | Summary |
 |---|---|
+| [BindedTypeResolver](-binded-type-resolver/index.md) | `class BindedTypeResolver<out T> : Any`<br>A type resolver 'binded' to a [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html). All functions delegates to [codeTypeResolver](-binded-type-resolver/code-type-resolver.md) and uses [bindType](-binded-type-resolver/bind-type.md)
+as first argument of functions. |
 | [CodeType](-code-type/index.md) | `interface CodeType : `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`, Comparable<`[`CodeType`](-code-type/index.md)`>, `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>A type representation, like: |
-| [CodeTypeResolver](-code-type-resolver/index.md) | `interface CodeTypeResolver<out T> : Any`<br>Type resolver |
+| [CodeTypeResolver](-code-type-resolver/index.md) | `interface CodeTypeResolver<out T> : Any`<br>Type resolver. Type resolvers should never throws and error when it is unable to resolve
+result of an operation. The operation should return `null` - in the cases which `null` is allowed -
+return [CodeNothing](../com.github.jonathanxd.codeapi.common/-code-nothing.md), empty [List](#) or `false` when the resolver is unable to resolve the result of
+operation. These semantics are required to [Multi](-code-type-resolver/-multi/index.md) work correctly with any resolver. |
 | [Generic](-generic/index.md) | `class Generic : `[`GenericType`](-generic-type/index.md)<br>A generic type. |
 | [GenericType](-generic-type/index.md) | `interface GenericType : `[`CodeType`](-code-type/index.md)<br>Generic type. |
 | [GenericTypeBuilder](-generic-type-builder/index.md) | `class GenericTypeBuilder : `[`Builder`](-generic-type/-builder/index.md)`<`[`GenericType`](-generic-type/index.md)`, `[`GenericTypeBuilder`](-generic-type-builder/index.md)`>`<br>Builder of a [GenericType](-generic-type/index.md). |

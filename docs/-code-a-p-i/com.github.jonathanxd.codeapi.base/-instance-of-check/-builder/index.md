@@ -15,16 +15,16 @@
 | Name | Summary |
 |---|---|
 | [checkType](check-type.md) | `lateinit var checkType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
-| [part](part.md) | `lateinit var part: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [part](part.md) | `lateinit var part: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`InstanceOfCheck`](../index.md)<br>Build the object of type [T](#). |
-| [withCheckType](with-check-type.md) | `fun withCheckType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [InstanceOfCheck.checkType](../check-type.md) |
-| [withPart](with-part.md) | `fun withPart(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [InstanceOfCheck.part](../part.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [checkType](check-type.md) | `fun checkType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [InstanceOfCheck.checkType](../check-type.md) |
+| [part](part.md) | `fun part(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [InstanceOfCheck.part](../part.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

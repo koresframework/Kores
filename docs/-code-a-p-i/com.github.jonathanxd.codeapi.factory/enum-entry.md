@@ -8,3 +8,4 @@
 
 [EnumEntry](../com.github.jonathanxd.codeapi.base/-enum-entry/index.md)
 
+`fun enumEntry(): `[`Builder`](../com.github.jonathanxd.codeapi.base/-enum-entry/-builder/index.md)

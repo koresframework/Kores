@@ -21,7 +21,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`New`](../index.md)<br>Build the object of type [T](#). |
-| [withLocalization](with-localization.md) | `fun withLocalization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [New.localization](../localization.md) |
+| [localization](localization.md) | `fun localization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [New.localization](../localization.md) |
 
 ### Companion Object Functions
 

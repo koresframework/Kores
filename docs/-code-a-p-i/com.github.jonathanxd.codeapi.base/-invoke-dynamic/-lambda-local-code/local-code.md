@@ -4,5 +4,7 @@
 
 `val localCode: `[`LocalCode`](../../-local-code/index.md)
 
+Overrides [LambdaLocalCodeBase.localCode](../../-invoke-dynamic-base/-lambda-local-code-base/local-code.md)
+
 Local method to invoke
 

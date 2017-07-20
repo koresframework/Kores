@@ -2,7 +2,7 @@
 
 # genericSignatureToDescriptor
 
-`fun genericSignatureToDescriptor(signature: `[`GenericSignature`](../com.github.jonathanxd.codeapi.generic/-generic-signature/index.md)`): String`
+`fun `[`GenericSignature`](../com.github.jonathanxd.codeapi.generic/-generic-signature/index.md)`.genericSignatureToDescriptor(): String`
 
-Create a type descriptor from [signature](generic-signature-to-descriptor.md#com.github.jonathanxd.codeapi.util$genericSignatureToDescriptor(com.github.jonathanxd.codeapi.generic.GenericSignature)/signature)
+Create a type descriptor from receiver signature
 

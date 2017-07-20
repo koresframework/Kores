@@ -2,7 +2,7 @@
 
 # process
 
-`abstract fun process(part: P, data: TypedData, codeProcessor: `[`CodeProcessor`](../-code-processor/index.md)`<*>): Unit`
+`abstract fun process(part: P, data: TypedData, codeProcessor: `[`ProcessorManager`](../-processor-manager/index.md)`<*>): Unit`
 
 Process the [part](process.md#com.github.jonathanxd.codeapi.processor.Processor$process(com.github.jonathanxd.codeapi.processor.Processor.P, com.github.jonathanxd.iutils.data.TypedData, com.github.jonathanxd.codeapi.processor.ProcessorManager((kotlin.Any)))/part).
 

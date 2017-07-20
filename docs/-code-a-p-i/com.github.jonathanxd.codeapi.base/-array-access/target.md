@@ -2,7 +2,7 @@
 
 # target
 
-`abstract val target: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`abstract val target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Target array to access
 

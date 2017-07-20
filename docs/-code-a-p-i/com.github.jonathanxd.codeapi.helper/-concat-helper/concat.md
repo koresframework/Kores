@@ -2,9 +2,9 @@
 
 # concat
 
-`fun concat(codePart: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`ConcatHelper`](index.md)
+`fun concat(codePart: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`ConcatHelper`](index.md)
 
-Concatenate [codePart](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(com.github.jonathanxd.codeapi.CodePart)/codePart).
+Concatenate [codePart](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(com.github.jonathanxd.codeapi.CodeInstruction)/codePart).
 
 `fun concat(str: String): `[`ConcatHelper`](index.md)
 

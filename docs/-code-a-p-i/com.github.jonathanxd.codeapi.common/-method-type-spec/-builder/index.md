@@ -23,7 +23,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`MethodTypeSpec`](../index.md)<br>Build the object of type [T](#). |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 | [withLocalization](with-localization.md) | `fun withLocalization(value: `[`CodeType`](../../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): Builder` |
 | [withMethodName](with-method-name.md) | `fun withMethodName(value: String): Builder` |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 | [withTypeSpec](with-type-spec.md) | `fun withTypeSpec(value: `[`TypeSpec`](../../../com.github.jonathanxd.codeapi.base/-type-spec/index.md)`): Builder` |

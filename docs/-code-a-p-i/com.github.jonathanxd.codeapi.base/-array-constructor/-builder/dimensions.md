@@ -2,4 +2,10 @@
 
 # dimensions
 
-`var dimensions: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`var dimensions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+
+`fun dimensions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`Builder`](index.md)
+`fun dimensions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [ArrayConstructor.dimensions](../dimensions.md)
+

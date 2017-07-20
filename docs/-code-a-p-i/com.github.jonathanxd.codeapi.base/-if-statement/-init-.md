@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`IfStatement(expressions: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`, elseStatement: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
+`IfStatement(expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`, elseStatement: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
 
 If statement.
 

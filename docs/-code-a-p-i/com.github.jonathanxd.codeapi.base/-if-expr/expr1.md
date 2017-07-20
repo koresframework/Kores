@@ -2,7 +2,7 @@
 
 # expr1
 
-`val expr1: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val expr1: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 First expression
 

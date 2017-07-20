@@ -2,7 +2,7 @@
 
 # addOfBound
 
-`fun addOfBound(value: `[`CodeType`](../-code-type/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
+`fun addOfBound(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
 
 Overrides [Builder.addOfBound](../-generic-type/-builder/add-of-bound.md)
 

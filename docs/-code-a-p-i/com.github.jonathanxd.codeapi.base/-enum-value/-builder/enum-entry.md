@@ -3,3 +3,8 @@
 # enumEntry
 
 `lateinit var enumEntry: String`
+
+`fun enumEntry(value: String): `[`Builder`](index.md)
+
+See [EnumValue.enumEntry](../enum-entry.md)
+

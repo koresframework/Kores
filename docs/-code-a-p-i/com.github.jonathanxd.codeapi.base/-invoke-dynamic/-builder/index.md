@@ -2,7 +2,7 @@
 
 # Builder
 
-`class Builder : Builder<`[`InvokeDynamic`](../index.md)`, Builder>`
+`class Builder : `[`Builder`](../../-invoke-dynamic-base/-builder/index.md)`<`[`InvokeDynamic`](../index.md)`, Builder>`
 
 ### Constructors
 
@@ -23,11 +23,17 @@
 
 | Name | Summary |
 |---|---|
+| [args](args.md) | `fun args(value: List<Any>): Builder`<br>See [T.args](#) |
+| [bootstrap](bootstrap.md) | `fun bootstrap(value: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): Builder`<br>See [T.bootstrap](#) |
 | [build](build.md) | `fun build(): `[`InvokeDynamic`](../index.md)<br>Build the object of type [T](#). |
-| [withArgs](with-args.md) | `fun withArgs(value: List<Any>): Builder`<br>See [T.args](#) |
-| [withBootstrap](with-bootstrap.md) | `fun withBootstrap(value: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): Builder`<br>See [T.bootstrap](#) |
-| [withInvocation](with-invocation.md) | `fun withInvocation(value: `[`MethodInvocation`](../../-method-invocation/index.md)`): Builder`<br>See [T.invocation](#) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [invocation](invocation.md) | `fun invocation(value: `[`MethodInvocation`](../../-method-invocation/index.md)`): Builder`<br>See [T.invocation](#) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+
+### Inherited Functions
+
+| Name | Summary |
+|---|---|
+| [args](../../-invoke-dynamic-base/-builder/args.md) | `open fun args(vararg values: Any): S`<br>See [T.args](../../-invoke-dynamic-base/-builder/args.md) |
 
 ### Companion Object Functions
 

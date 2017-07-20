@@ -3,3 +3,10 @@
 # annotations
 
 `var annotations: List<`[`Annotation`](../../-annotation/index.md)`>`
+
+`fun annotations(value: List<`[`Annotation`](../../-annotation/index.md)`>): `[`Builder`](index.md)
+
+Overrides [Builder.annotations](../../-annotable/-builder/annotations.md)
+
+See [T.annotations](#)
+

@@ -2,7 +2,7 @@
 
 # orFalse
 
-`fun orFalse(part1: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`IfExpressionHelper`](index.md)
+`fun orFalse(part1: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`IfExpressionHelper`](index.md)
 
-Or checks if [part1](or-false.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$orFalse(com.github.jonathanxd.codeapi.CodePart)/part1) is `false`.
+Or checks if [part1](or-false.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$orFalse(com.github.jonathanxd.codeapi.CodeInstruction)/part1) is `false`.
 

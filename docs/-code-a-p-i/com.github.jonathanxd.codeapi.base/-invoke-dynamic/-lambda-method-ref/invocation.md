@@ -4,5 +4,7 @@
 
 `val invocation: `[`MethodInvocation`](../../-method-invocation/index.md)
 
+Overrides [InvokeDynamicBase.invocation](../../-invoke-dynamic-base/invocation.md)
+
 Invocation to handle dynamically.
 

@@ -2,7 +2,7 @@
 
 # getSuperclass
 
-`abstract fun getSuperclass(codeType: `[`CodeType`](../-code-type/index.md)`): `[`CodeType`](../-code-type/index.md)`?`
+`abstract fun getSuperclass(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
 
-Gets super classes of [codeType](get-superclass.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver$getSuperclass(com.github.jonathanxd.codeapi.type.CodeType)/codeType)
+Resolves super class of [type](get-superclass.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver$getSuperclass(java.lang.reflect.Type)/type)
 

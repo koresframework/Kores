@@ -21,9 +21,9 @@
 
 | Name | Summary |
 |---|---|
+| [at](at.md) | `fun at(value: `[`Label`](../../-label/index.md)`?): Builder`<br>See [ControlFlow.at](../at.md) |
 | [build](build.md) | `fun build(): `[`ControlFlow`](../index.md)<br>Build the object of type [T](#). |
-| [withAt](with-at.md) | `fun withAt(value: `[`Label`](../../-label/index.md)`?): Builder`<br>See [ControlFlow.at](../at.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](../-type/index.md)`): Builder`<br>See [ControlFlow.type](../type.md) |
+| [type](type.md) | `fun type(value: `[`Type`](../-type/index.md)`): Builder`<br>See [ControlFlow.type](../type.md) |
 
 ### Companion Object Functions
 

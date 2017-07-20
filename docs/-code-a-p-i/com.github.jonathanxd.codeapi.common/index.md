@@ -9,8 +9,17 @@
 | [FieldRef](-field-ref/index.md) | `data class FieldRef : `[`FieldBase`](../com.github.jonathanxd.codeapi.base/-field-base/index.md)<br>Field reference, this class must never appear in CodeSource. |
 | [MethodInvokeSpec](-method-invoke-spec/index.md) | `data class MethodInvokeSpec : `[`Typed`](../com.github.jonathanxd.codeapi.base/-typed/index.md)`, Comparable<`[`MethodInvokeSpec`](-method-invoke-spec/index.md)`>` |
 | [MethodTypeSpec](-method-type-spec/index.md) | `data class MethodTypeSpec : `[`Typed`](../com.github.jonathanxd.codeapi.base/-typed/index.md)`, Comparable<`[`MethodTypeSpec`](-method-type-spec/index.md)`>` |
+| [Nothing](-nothing/index.md) | `object Nothing : `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, `[`Typed`](../com.github.jonathanxd.codeapi.base/-typed/index.md)<br>Nothing for values (some parts may not support nothing as value). |
+| [Stack](-stack.md) | `object Stack : `[`Literal`](../com.github.jonathanxd.codeapi.literal/-literal/index.md)<br>Use JVM Stack value (is supported by `BytecodeGenerators`). |
 | [VariableRef](-variable-ref/index.md) | `data class VariableRef : `[`VariableBase`](../com.github.jonathanxd.codeapi.base/-variable-base/index.md)<br>Reference to a Variable, this class must never appear in CodeSource. |
-| [Void](-void/index.md) | `object Void : `[`Typed`](../com.github.jonathanxd.codeapi.base/-typed/index.md)<br>Void instance for void returns |
+| [Void](-void/index.md) | `object Void : `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, `[`Typed`](../com.github.jonathanxd.codeapi.base/-typed/index.md)<br>Void instance for void returns and void values. |
+
+### Type Aliases
+
+| Name | Summary |
+|---|---|
+| [CodeNothing](-code-nothing.md) | `typealias CodeNothing = `[`Nothing`](-nothing/index.md)<br>To avoid confusion with kotlin nothing |
+| [CodeVoid](-code-void.md) | `typealias CodeVoid = `[`Void`](-void/index.md)<br>To avoid confusion with java void. |
 
 ### Properties
 

@@ -2,10 +2,8 @@
 
 # codeType
 
-`abstract val codeType: `[`CodeType`](../-code-type/index.md)
+`open val ~~codeType~~: `[`CodeType`](../-code-type/index.md)
+**Deprecated:** Use GenericType.type instead, this will be removed later.
 
-Gets the resolved code type.
-
-**Return**
 Resolved code type.
 

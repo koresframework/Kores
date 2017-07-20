@@ -8,6 +8,3 @@ Overrides [GenericType.name](../-generic-type/name.md)
 
 Name of the generic type.
 
-**Return**
-Name of the generic type.
-

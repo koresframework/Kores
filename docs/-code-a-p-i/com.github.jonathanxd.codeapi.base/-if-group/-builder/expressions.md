@@ -2,4 +2,16 @@
 
 # expressions
 
-`var expressions: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`var expressions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+
+`fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`Builder`](index.md)
+
+Overrides [Builder.expressions](../../-if-expression-holder/-builder/expressions.md)
+
+
+`fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+Overrides [Builder.expressions](../../-if-expression-holder/-builder/expressions.md)
+
+See [T.expressions](#)
+

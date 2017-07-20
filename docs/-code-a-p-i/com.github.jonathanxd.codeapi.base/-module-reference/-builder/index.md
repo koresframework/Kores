@@ -21,7 +21,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`ModuleReference`](../index.md)<br>Build the object of type [T](#). |
-| [withName](with-name.md) | `fun withName(value: String): Builder` |
+| [name](name.md) | `fun name(value: String): Builder` |
 
 ### Companion Object Functions
 

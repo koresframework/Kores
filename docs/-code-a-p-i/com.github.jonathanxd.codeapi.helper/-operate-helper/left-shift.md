@@ -2,7 +2,7 @@
 
 # leftShift
 
-`fun leftShift(value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`fun leftShift(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)
 
 Bitwise left shift (&lt;&lt;).
 

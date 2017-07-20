@@ -15,20 +15,20 @@
 | Name | Summary |
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
-| [forExpression](for-expression.md) | `var forExpression: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
-| [forInit](for-init.md) | `var forInit: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`?` |
-| [forUpdate](for-update.md) | `var forUpdate: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`?` |
+| [forExpression](for-expression.md) | `var forExpression: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
+| [forInit](for-init.md) | `var forInit: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
+| [forUpdate](for-update.md) | `var forUpdate: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`ForStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withExpressions](with-expressions.md) | `fun withExpressions(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>`fun withExpressions(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [T.expressions](#) |
-| [withForExpression](with-for-expression.md) | `fun withForExpression(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>`fun withForExpression(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [ForStatement.forExpression](../for-expression.md) |
-| [withForInit](with-for-init.md) | `fun withForInit(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`?): Builder`<br>See [ForStatement.forInit](../for-init.md) |
-| [withForUpdate](with-for-update.md) | `fun withForUpdate(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`?): Builder`<br>See [ForStatement.forUpdate](../for-update.md) |
+| [expressions](expressions.md) | `fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.expressions](#) |
+| [forExpression](for-expression.md) | `fun forExpression(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun forExpression(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forExpression](../for-expression.md) |
+| [forInit](for-init.md) | `fun forInit(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forInit](../for-init.md) |
+| [forUpdate](for-update.md) | `fun forUpdate(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forUpdate](../for-update.md) |
 
 ### Companion Object Functions
 

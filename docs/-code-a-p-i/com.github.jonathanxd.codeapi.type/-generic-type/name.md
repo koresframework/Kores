@@ -6,6 +6,3 @@
 
 Name of the generic type.
 
-**Return**
-Name of the generic type.
-

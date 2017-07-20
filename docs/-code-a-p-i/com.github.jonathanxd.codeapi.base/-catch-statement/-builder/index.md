@@ -22,11 +22,11 @@
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`CatchStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withExceptionTypes](with-exception-types.md) | `fun withExceptionTypes(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [CatchStatement.exceptionTypes](../exception-types.md)`fun withExceptionTypes(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [CatchStatement.variable](../variable.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
-| [withVariable](with-variable.md) | `fun withVariable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): Builder`<br>See [CatchStatement.variable](../variable.md) |
+| [exceptionTypes](exception-types.md) | `fun exceptionTypes(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [CatchStatement.exceptionTypes](../exception-types.md)`fun exceptionTypes(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [CatchStatement.variable](../variable.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [variable](variable.md) | `fun variable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): Builder`<br>See [CatchStatement.variable](../variable.md) |
 
 ### Companion Object Functions
 

@@ -14,15 +14,15 @@
 
 | Name | Summary |
 |---|---|
-| [concatenations](concatenations.md) | `var concatenations: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [concatenations](concatenations.md) | `var concatenations: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Concat`](../index.md)<br>Build the object of type [T](#). |
-| [withConcatenations](with-concatenations.md) | `fun withConcatenations(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>`fun withConcatenations(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [Concat.concatenations](../concatenations.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [concatenations](concatenations.md) | `fun concatenations(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun concatenations(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Concat.concatenations](../concatenations.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

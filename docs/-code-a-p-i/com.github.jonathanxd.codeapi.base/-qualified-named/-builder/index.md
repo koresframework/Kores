@@ -8,8 +8,8 @@
 
 | Name | Summary |
 |---|---|
-| [withName](with-name.md) | `open fun withName(value: String): S` |
-| [withQualifiedName](with-qualified-name.md) | `abstract fun withQualifiedName(value: String): S` |
+| [name](name.md) | `open fun name(value: String): S` |
+| [qualifiedName](qualified-name.md) | `abstract fun qualifiedName(value: String): S` |
 
 ### Inheritors
 

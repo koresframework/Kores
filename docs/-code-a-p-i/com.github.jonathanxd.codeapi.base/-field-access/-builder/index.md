@@ -16,18 +16,19 @@
 |---|---|
 | [localization](localization.md) | `lateinit var localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
 | [name](name.md) | `lateinit var name: String` |
-| [target](target.md) | `lateinit var target: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [target](target.md) | `lateinit var target: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 | [type](type.md) | `lateinit var type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
+| [base](base.md) | `fun base(ref: `[`FieldRef`](../../../com.github.jonathanxd.codeapi.common/-field-ref/index.md)`): <ERROR CLASS>`<br>Base this builder in [ref](base.md#com.github.jonathanxd.codeapi.base.FieldAccess.Builder$base(com.github.jonathanxd.codeapi.common.FieldRef)/ref) |
 | [build](build.md) | `fun build(): `[`FieldAccess`](../index.md)<br>Build the object of type [T](#). |
-| [withLocalization](with-localization.md) | `fun withLocalization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.localization](#) |
-| [withName](with-name.md) | `fun withName(value: String): Builder` |
-| [withTarget](with-target.md) | `fun withTarget(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [T.target](#) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [localization](localization.md) | `fun localization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.localization](#) |
+| [name](name.md) | `fun name(value: String): Builder` |
+| [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.target](#) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

@@ -4,5 +4,7 @@
 
 `fun builder(): `[`Builder`](-builder/index.md)
 
+Overrides [LambdaMethodRefBase.builder](../../-invoke-dynamic-base/-lambda-method-ref-base/builder.md)
+
 This builder may or may not accept null values, it depends on implementation.
 

@@ -2,4 +2,4 @@
 
 # builder
 
-`fun builder(part: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`fun builder(part: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)

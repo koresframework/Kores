@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`MethodInvocation(invokeType: `[`InvokeType`](../-invoke-type/index.md)`, target: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`, spec: `[`MethodTypeSpec`](../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`, arguments: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>)`
+`MethodInvocation(invokeType: `[`InvokeType`](../-invoke-type/index.md)`, target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, spec: `[`MethodTypeSpec`](../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`, arguments: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`
 
 Invokes a method.
 

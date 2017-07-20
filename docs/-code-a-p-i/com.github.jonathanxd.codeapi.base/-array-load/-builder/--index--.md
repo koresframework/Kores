@@ -2,4 +2,9 @@
 
 # index
 
-`lateinit var index: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`lateinit var index: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
+
+`fun index(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [ArrayLoad.index](../--index--.md)
+

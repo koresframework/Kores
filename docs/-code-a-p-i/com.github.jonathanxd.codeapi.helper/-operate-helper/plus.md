@@ -2,7 +2,7 @@
 
 # plus
 
-`operator fun plus(value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`operator fun plus(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)
 
 Plus (+).
 

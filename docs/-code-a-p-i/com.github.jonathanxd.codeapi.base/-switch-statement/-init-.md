@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`SwitchStatement(value: `[`Typed`](../-typed/index.md)`, switchType: `[`SwitchType`](../-switch-type/index.md)`, cases: List<`[`Case`](../-case/index.md)`>)`
+`SwitchStatement(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, switchType: `[`SwitchType`](../-switch-type/index.md)`, cases: List<`[`Case`](../-case/index.md)`>)`
 
 Switch statement, this switch can switch numeric values and object values (like Enum, String or other
 objects).

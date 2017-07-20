@@ -15,23 +15,23 @@
 | Name | Summary |
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
-| [expressions](expressions.md) | `var expressions: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [expressions](expressions.md) | `var expressions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 | [type](type.md) | `lateinit var type: `[`Type`](../-type/index.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`WhileStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withExpressions](with-expressions.md) | `fun withExpressions(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>See [T.expressions](#) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](../-type/index.md)`): Builder`<br>See [WhileStatement.type](../type.md) |
+| [expressions](expressions.md) | `fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.expressions](#) |
+| [type](type.md) | `fun type(value: `[`Type`](../-type/index.md)`): Builder`<br>See [WhileStatement.type](../type.md) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [withExpressions](../../-if-expression-holder/-builder/with-expressions.md) | `open fun withExpressions(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): S`<br>See [T.expressions](../../-if-expression-holder/expressions.md) |
+| [expressions](../../-if-expression-holder/-builder/expressions.md) | `open fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.expressions](../../-if-expression-holder/-builder/expressions.md) |
 
 ### Companion Object Functions
 

@@ -2,4 +2,4 @@
 
 # build
 
-`fun build(): `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`fun build(): `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)

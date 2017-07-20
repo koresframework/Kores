@@ -3,3 +3,10 @@
 # entries
 
 `var entries: List<`[`EnumEntry`](../../-enum-entry/index.md)`>`
+
+`fun entries(value: List<`[`EnumEntry`](../../-enum-entry/index.md)`>): `[`Builder`](index.md)
+
+Overrides [Builder.entries](../../-entry-holder/-builder/entries.md)
+
+See [T.entries](#)
+

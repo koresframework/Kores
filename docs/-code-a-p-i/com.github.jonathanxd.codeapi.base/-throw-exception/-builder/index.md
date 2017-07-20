@@ -2,7 +2,7 @@
 
 # Builder
 
-`class Builder : `[`Builder`](../../../com.github.jonathanxd.codeapi.builder/-builder/index.md)`<`[`ThrowException`](../index.md)`, Builder>`
+`class Builder : `[`Builder`](../../-value-holder/-builder/index.md)`<`[`ThrowException`](../index.md)`, Builder>`
 
 ### Constructors
 
@@ -14,14 +14,14 @@
 
 | Name | Summary |
 |---|---|
-| [partToThrow](part-to-throw.md) | `lateinit var partToThrow: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [value](value.md) | `lateinit var value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`ThrowException`](../index.md)<br>Build the object of type [T](#). |
-| [withPartToThrow](with-part-to-throw.md) | `fun withPartToThrow(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [ThrowException.partToThrow](../part-to-throw.md) |
+| [value](value.md) | `fun value(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.value](#) |
 
 ### Companion Object Functions
 

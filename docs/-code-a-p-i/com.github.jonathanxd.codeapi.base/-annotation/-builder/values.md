@@ -3,3 +3,8 @@
 # values
 
 `var values: Map<String, Any>`
+
+`fun values(value: Map<String, Any>): `[`Builder`](index.md)
+
+See [Annotation.values](../values.md)
+

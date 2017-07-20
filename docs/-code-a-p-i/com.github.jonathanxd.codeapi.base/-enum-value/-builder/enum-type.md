@@ -3,3 +3,8 @@
 # enumType
 
 `lateinit var enumType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+
+`fun enumType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+
+See [EnumValue.enumType](../enum-type.md)
+

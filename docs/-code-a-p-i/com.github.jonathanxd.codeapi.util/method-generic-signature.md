@@ -2,11 +2,10 @@
 
 # methodGenericSignature
 
-`fun methodGenericSignature(methodDeclaration: `[`MethodDeclaration`](../com.github.jonathanxd.codeapi.base/-method-declaration/index.md)`): String?`
+`fun `[`MethodDeclarationBase`](../com.github.jonathanxd.codeapi.base/-method-declaration-base/index.md)`.methodGenericSignature(): String?`
 
-Creates method descriptor from [methodDeclaration](method-generic-signature.md#com.github.jonathanxd.codeapi.util$methodGenericSignature(com.github.jonathanxd.codeapi.base.MethodDeclaration)/methodDeclaration)
+Creates method descriptor from receiver.
 
-`fun methodGenericSignature(constructorDeclaration: `[`ConstructorDeclaration`](../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md)`): String?`
-
-Creates method descriptor from [constructorDeclaration](method-generic-signature.md#com.github.jonathanxd.codeapi.util$methodGenericSignature(com.github.jonathanxd.codeapi.base.ConstructorDeclaration)/constructorDeclaration)
+The method descriptor is the result concatenation method generic [signature descriptor](generic-type-to-descriptor.md),
+parameter types and return type [Type descriptor](java.lang.reflect.-type/descriptor.md).
 

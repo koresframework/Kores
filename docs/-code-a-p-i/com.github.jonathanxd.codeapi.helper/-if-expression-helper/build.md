@@ -2,7 +2,7 @@
 
 # build
 
-`fun build(): List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`fun build(): List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 Build expressions.
 

@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ThrowException(partToThrow: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`)`
+`ThrowException(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`)`
 
-Throws [partToThrow](-init-.md#com.github.jonathanxd.codeapi.base.ThrowException$<init>(com.github.jonathanxd.codeapi.CodePart)/partToThrow).
+Throws [value](-init-.md#com.github.jonathanxd.codeapi.base.ThrowException$<init>(com.github.jonathanxd.codeapi.CodeInstruction)/value).
 

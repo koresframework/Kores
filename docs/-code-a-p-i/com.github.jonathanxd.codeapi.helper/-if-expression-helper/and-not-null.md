@@ -2,7 +2,7 @@
 
 # andNotNull
 
-`fun andNotNull(part1: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`IfExpressionHelper`](index.md)
+`fun andNotNull(part1: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`IfExpressionHelper`](index.md)
 
-And checks if [part1](and-not-null.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$andNotNull(com.github.jonathanxd.codeapi.CodePart)/part1) is not `null`.
+And checks if [part1](and-not-null.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$andNotNull(com.github.jonathanxd.codeapi.CodeInstruction)/part1) is not `null`.
 

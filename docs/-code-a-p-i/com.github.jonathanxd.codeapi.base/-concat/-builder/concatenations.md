@@ -2,4 +2,10 @@
 
 # concatenations
 
-`var concatenations: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`var concatenations: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+
+`fun concatenations(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`Builder`](index.md)
+`fun concatenations(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [Concat.concatenations](../concatenations.md)
+

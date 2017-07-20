@@ -2,7 +2,7 @@
 
 # subtract
 
-`fun subtract(value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`fun subtract(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)
 
 Subtract (-).
 

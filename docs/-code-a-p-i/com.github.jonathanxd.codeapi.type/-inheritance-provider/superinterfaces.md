@@ -2,7 +2,7 @@
 
 # superinterfaces
 
-`abstract val superinterfaces: List<`[`CodeType`](../-code-type/index.md)`>`
+`abstract val superinterfaces: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
 
 Super interfaces
 

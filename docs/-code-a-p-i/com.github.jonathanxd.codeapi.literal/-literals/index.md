@@ -44,7 +44,6 @@
 | [LONG](-l-o-n-g.md) | `fun LONG(i: Long): `[`Literal`](../-literal/index.md) |
 | [SHORT](-s-h-o-r-t.md) | `fun SHORT(s: Short): `[`Literal`](../-literal/index.md) |
 | [STRING](-s-t-r-i-n-g.md) | `fun STRING(s: String): `[`Literal`](../-literal/index.md) |
-| [isPrimitive](is-primitive.md) | `fun isPrimitive(codePart1: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`, codePart2: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Boolean``fun isPrimitive(literal1: `[`Literal`](../-literal/index.md)`, literal2: `[`Literal`](../-literal/index.md)`): Boolean`<br>Return true if [literal1](is-primitive.md#com.github.jonathanxd.codeapi.literal.Literals$isPrimitive(com.github.jonathanxd.codeapi.literal.Literal, com.github.jonathanxd.codeapi.literal.Literal)/literal1) and [literal2](is-primitive.md#com.github.jonathanxd.codeapi.literal.Literals$isPrimitive(com.github.jonathanxd.codeapi.literal.Literal, com.github.jonathanxd.codeapi.literal.Literal)/literal2) is primitive.`fun isPrimitive(literal: `[`Literal`](../-literal/index.md)`): Boolean`<br>Return true if [literal](is-primitive.md#com.github.jonathanxd.codeapi.literal.Literals$isPrimitive(com.github.jonathanxd.codeapi.literal.Literal)/literal) is primitive |
 
 ### Extension Functions
 

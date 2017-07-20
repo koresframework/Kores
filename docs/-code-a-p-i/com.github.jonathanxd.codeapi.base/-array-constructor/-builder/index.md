@@ -2,7 +2,7 @@
 
 # Builder
 
-`class Builder : `[`Builder`](../../-argument-holder/-builder/index.md)`<`[`ArrayConstructor`](../index.md)`, Builder>, `[`Builder`](../../-typed/-builder/index.md)`<`[`ArrayConstructor`](../index.md)`, Builder>`
+`class Builder : `[`Builder`](../../-arguments-holder/-builder/index.md)`<`[`ArrayConstructor`](../index.md)`, Builder>, `[`Builder`](../../-typed/-builder/index.md)`<`[`ArrayConstructor`](../index.md)`, Builder>`
 
 ### Constructors
 
@@ -14,26 +14,26 @@
 
 | Name | Summary |
 |---|---|
-| [arguments](arguments.md) | `var arguments: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [arguments](arguments.md) | `var arguments: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 | [arrayType](array-type.md) | `lateinit var arrayType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
-| [dimensions](dimensions.md) | `var dimensions: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [dimensions](dimensions.md) | `var dimensions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
+| [arguments](arguments.md) | `fun arguments(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.arguments](#) |
+| [array](array.md) | `fun array(value: Boolean): Builder`<br>See [T.array](#) |
+| [arrayType](array-type.md) | `fun arrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [ArrayConstructor.arrayType](../array-type.md) |
 | [build](build.md) | `fun build(): `[`ArrayConstructor`](../index.md)<br>Build the object of type [T](#). |
-| [withArguments](with-arguments.md) | `fun withArguments(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>See [T.arguments](#) |
-| [withArray](with-array.md) | `fun withArray(value: Boolean): Builder`<br>See [T.array](#) |
-| [withArrayType](with-array-type.md) | `fun withArrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [ArrayConstructor.arrayType](../array-type.md) |
-| [withDimensions](with-dimensions.md) | `fun withDimensions(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>`fun withDimensions(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [ArrayConstructor.dimensions](../dimensions.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [dimensions](dimensions.md) | `fun dimensions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun dimensions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ArrayConstructor.dimensions](../dimensions.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [withArguments](../../-argument-holder/-builder/with-arguments.md) | `open fun withArguments(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): S`<br>See [T.arguments](../../-argument-holder/arguments.md) |
+| [arguments](../../-arguments-holder/-builder/arguments.md) | `open fun arguments(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.arguments](../../-arguments-holder/-builder/arguments.md) |
 
 ### Companion Object Functions
 

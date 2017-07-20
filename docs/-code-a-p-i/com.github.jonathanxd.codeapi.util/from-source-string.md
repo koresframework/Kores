@@ -14,7 +14,7 @@ Parse [generic source string](#) and construct [GenericType](../com.github.jonat
 Construct a [GenericType](../com.github.jonathanxd.codeapi.type/-generic-type/index.md) from `generic source string`;
 
 `fun fromSourceString(sourceString: String, typeResolver: (String) -> `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
-`fun fromSourceString(sourceString: String, typeResolver: `[`CodeTypeResolver`](-code-type-resolver/index.md)`): `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
+`fun fromSourceString(sourceString: String, typeResolver: `[`CodeTypeResolverFunc`](-code-type-resolver-func/index.md)`): `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
 
 Parse [generic source string](#) and construct [GenericType](../com.github.jonathanxd.codeapi.type/-generic-type/index.md).
 

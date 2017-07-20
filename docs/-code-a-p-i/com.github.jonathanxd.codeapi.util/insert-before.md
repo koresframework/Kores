@@ -2,7 +2,7 @@
 
 # insertBefore
 
-`fun insertBefore(predicate: (`[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`) -> Boolean, toInsert: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`, source: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`MutableCodeSource`](../com.github.jonathanxd.codeapi/-mutable-code-source/index.md)
+`fun insertBefore(predicate: (`[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`) -> Boolean, toInsert: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`, source: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`MutableCodeSource`](../com.github.jonathanxd.codeapi/-mutable-code-source/index.md)
 
 Insert element `toInsert` in `source` before element determined by `predicate`
 

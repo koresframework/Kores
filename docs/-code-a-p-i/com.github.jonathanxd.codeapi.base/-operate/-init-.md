@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Operate(target: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`, operation: `[`Math`](../../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?)`
+`Operate(target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, operation: `[`Math`](../../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`)`
 
 Operate a value and return result of operation.
 

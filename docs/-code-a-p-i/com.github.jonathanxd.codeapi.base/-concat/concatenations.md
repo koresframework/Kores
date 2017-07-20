@@ -2,4 +2,4 @@
 
 # concatenations
 
-`val concatenations: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`val concatenations: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`

@@ -16,7 +16,7 @@ Simple type resolver
 
 | Name | Summary |
 |---|---|
-| [resolve](resolve.md) | `fun resolve(name: String, isInterface: Boolean): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)<br>Resolves type with [name](resolve.md#com.github.jonathanxd.codeapi.util.SimpleResolver$resolve(kotlin.String, kotlin.Boolean)/name) to a [CodeType](../../com.github.jonathanxd.codeapi.type/-code-type/index.md). If [isInterface](resolve.md#com.github.jonathanxd.codeapi.util.SimpleResolver$resolve(kotlin.String, kotlin.Boolean)/isInterface) is `true`, and resolved
+| [resolve](resolve.md) | `fun resolve(name: String, isInterface: Boolean): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Resolves type with [name](resolve.md#com.github.jonathanxd.codeapi.util.SimpleResolver$resolve(kotlin.String, kotlin.Boolean)/name) to a [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html). If [isInterface](resolve.md#com.github.jonathanxd.codeapi.util.SimpleResolver$resolve(kotlin.String, kotlin.Boolean)/isInterface) is `true`, and resolved
 type is cached as non-interface, then the type should be replaced with one that is marked as interface. |
 
 ### Extension Functions
@@ -24,7 +24,7 @@ type is cached as non-interface, then the type should be replaced with one that 
 | Name | Summary |
 |---|---|
 | [asString](../kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [resolveClass](../resolve-class.md) | `fun `[`TypeResolver`](../-type-resolver/index.md)`.resolveClass(name: String): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)<br>Resolve type as class. |
-| [resolveInterface](../resolve-interface.md) | `fun `[`TypeResolver`](../-type-resolver/index.md)`.resolveInterface(name: String): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)<br>Resolve type as interface. |
-| [resolveUnknown](../resolve-unknown.md) | `fun `[`TypeResolver`](../-type-resolver/index.md)`.resolveUnknown(name: String): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)<br>Resolve type as unknown, same as [resolveClass](../resolve-class.md) |
+| [resolveClass](../resolve-class.md) | `fun `[`TypeResolver`](../-type-resolver/index.md)`.resolveClass(name: String): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Resolve type as class. |
+| [resolveInterface](../resolve-interface.md) | `fun `[`TypeResolver`](../-type-resolver/index.md)`.resolveInterface(name: String): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Resolve type as interface. |
+| [resolveUnknown](../resolve-unknown.md) | `fun `[`TypeResolver`](../-type-resolver/index.md)`.resolveUnknown(name: String): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Resolve type as unknown, same as [resolveClass](../resolve-class.md) |
 | [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |

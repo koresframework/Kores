@@ -6,3 +6,5 @@
 
 Overrides [CodeType.compareTo](../-code-type/compare-to.md)
 
+Compare two identifications
+

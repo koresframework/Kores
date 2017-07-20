@@ -2,7 +2,7 @@
 
 # shiftRight
 
-`fun shiftRight(value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`OperateHelper`](index.md)
+`fun shiftRight(value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`OperateHelper`](index.md)
 
 Bitwise shift right (&gt;&gt;).
 

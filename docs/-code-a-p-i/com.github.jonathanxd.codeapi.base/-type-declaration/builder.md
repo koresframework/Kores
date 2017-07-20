@@ -16,5 +16,7 @@ Overrides [Annotable.builder](../-annotable/builder.md)
 
 Overrides [InnerTypesHolder.builder](../-inner-types-holder/builder.md)
 
+Overrides [ElementsHolder.builder](../-elements-holder/builder.md)
+
 This builder may or may not accept null values, it depends on implementation.
 

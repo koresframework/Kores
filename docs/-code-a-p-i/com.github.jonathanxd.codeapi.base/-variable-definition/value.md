@@ -2,7 +2,7 @@
 
 # value
 
-`val value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Overrides [ValueHolder.value](../-value-holder/value.md)
 

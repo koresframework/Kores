@@ -2,7 +2,7 @@
 
 # createInvocation
 
-`fun createInvocation(arguments: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): `[`MethodInvocation`](../-method-invocation/index.md)
+`fun createInvocation(arguments: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`MethodInvocation`](../-method-invocation/index.md)
 
-Creates a invocation of this [LocalCode](index.md) with [arguments](create-invocation.md#com.github.jonathanxd.codeapi.base.LocalCode$createInvocation(kotlin.collections.List((com.github.jonathanxd.codeapi.CodePart)))/arguments).
+Creates a invocation of this [LocalCode](index.md) with [arguments](create-invocation.md#com.github.jonathanxd.codeapi.base.LocalCode$createInvocation(kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))/arguments).
 

@@ -2,7 +2,7 @@
 
 # invokePrintlnStr
 
-`fun invokePrintlnStr(part: `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
+`fun invokePrintlnStr(part: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
 
-Invokes `System.out.println(String)` with [part](invoke-println-str.md#com.github.jonathanxd.codeapi.helper$invokePrintlnStr(com.github.jonathanxd.codeapi.CodePart)/part) as argument.
+Invokes `System.out.println(String)` with [part](invoke-println-str.md#com.github.jonathanxd.codeapi.helper$invokePrintlnStr(com.github.jonathanxd.codeapi.CodeInstruction)/part) as argument.
 

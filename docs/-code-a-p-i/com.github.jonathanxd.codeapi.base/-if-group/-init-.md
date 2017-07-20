@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`IfGroup(expressions: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>)`
+`IfGroup(expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`
 
 Group of if expressions.
 

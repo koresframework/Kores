@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [withExpressions](with-expressions.md) | `abstract fun withExpressions(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): S`<br>`open fun withExpressions(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): S`<br>See [T.expressions](../expressions.md) |
+| [expressions](expressions.md) | `abstract fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): S`<br>`open fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.expressions](expressions.md) |
 
 ### Inherited Functions
 

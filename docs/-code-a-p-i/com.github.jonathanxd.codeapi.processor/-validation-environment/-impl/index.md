@@ -16,7 +16,7 @@ Common implementation of [ValidationEnvironment](../index.md)
 
 | Name | Summary |
 |---|---|
-| [context](context.md) | `val context: List<Any>`<br>Immutable view list of current context (LIFO stack) |
+| [context](context.md) | `val context: Context`<br>Current context. |
 | [data](data.md) | `val data: TypedData`<br>Data |
 | [validationMessages](validation-messages.md) | `val validationMessages: List<`[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`>`<br>Immutable view list of indexed contexted validation messages. |
 
@@ -26,5 +26,9 @@ Common implementation of [ValidationEnvironment](../index.md)
 |---|---|
 | [addMessage](add-message.md) | `fun addMessage(message: `[`ValidationMessage`](../../-validation-message/index.md)`): Unit`<br>Adds a [ValidationMessage](../../-validation-message/index.md) to index. |
 | [enterInspectionOf](enter-inspection-of.md) | `fun enterInspectionOf(part: Any): Unit`<br>Adds [part](enter-inspection-of.md#com.github.jonathanxd.codeapi.processor.ValidationEnvironment.Impl$enterInspectionOf(kotlin.Any)/part) to inspection context |
+| [enterSession](enter-session.md) | `fun enterSession(): `[`Session`](../-session/index.md)<br>Enters a session, a session is used to keep track about all messages
+added after [enterSession](enter-session.md) invocation. |
 | [exitInspectionOf](exit-inspection-of.md) | `fun exitInspectionOf(part: Any): Unit`<br>Exits the inspection of [part](exit-inspection-of.md#com.github.jonathanxd.codeapi.processor.ValidationEnvironment.Impl$exitInspectionOf(kotlin.Any)/part). This method may throw [UnexpectedInspectionContext](../../-unexpected-inspection-context/index.md), if
 the last value of inspection context is not [Any.equals](#) to [part](exit-inspection-of.md#com.github.jonathanxd.codeapi.processor.ValidationEnvironment.Impl$exitInspectionOf(kotlin.Any)/part). |
+| [exitSession](exit-session.md) | `fun exitSession(): `[`Session`](../-session/index.md)<br>Exists current session. |
+| [toString](to-string.md) | `fun toString(): String` |

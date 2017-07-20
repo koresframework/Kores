@@ -3,3 +3,10 @@
 # args
 
 `var args: List<Any>`
+
+`fun args(value: List<Any>): `[`Builder`](index.md)
+
+Overrides [Builder.args](../../-invoke-dynamic-base/-builder/args.md)
+
+See [T.args](#)
+

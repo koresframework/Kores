@@ -3,3 +3,6 @@
 # compareTo
 
 `open fun compareTo(other: `[`CodeType`](index.md)`): Int`
+
+Compare two identifications
+

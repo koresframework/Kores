@@ -53,14 +53,22 @@ Generic.type("T").extends_(
 |---|---|
 | [addBound](add-bound.md) | `fun addBound(bound: `[`Bound`](../-generic-type/-bound/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a bound. |
 | [addBounds](add-bounds.md) | `fun addBounds(bounds: Array<`[`Bound`](../-generic-type/-bound/index.md)`>): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds all bounds of [bounds](add-bounds.md#com.github.jonathanxd.codeapi.type.GenericTypeBuilder$addBounds(kotlin.Array((com.github.jonathanxd.codeapi.type.GenericType.Bound)))/bounds) array.`fun addBounds(bounds: Collection<`[`Bound`](../-generic-type/-bound/index.md)`>): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds all bounds of [bounds](add-bounds.md#com.github.jonathanxd.codeapi.type.GenericTypeBuilder$addBounds(kotlin.collections.Collection((com.github.jonathanxd.codeapi.type.GenericType.Bound)))/bounds) collection. |
-| [addExtendsBound](add-extends-bound.md) | `fun addExtendsBound(value: `[`CodeType`](../-code-type/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a extends bound. |
-| [addOfBound](add-of-bound.md) | `fun addOfBound(value: `[`CodeType`](../-code-type/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a `of` bound. Example: A `List of String`. |
-| [addSuperBound](add-super-bound.md) | `fun addSuperBound(value: `[`CodeType`](../-code-type/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a super bound. |
+| [addExtendsBound](add-extends-bound.md) | `fun addExtendsBound(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a extends bound. |
+| [addOfBound](add-of-bound.md) | `fun addOfBound(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a `of` bound. Example: A `List of String`. |
+| [addSuperBound](add-super-bound.md) | `fun addSuperBound(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>Adds a super bound. |
+| [bounds](bounds.md) | `fun bounds(value: Array<`[`Bound`](../-generic-type/-bound/index.md)`>): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.bounds](#) |
 | [build](build.md) | `fun build(): `[`GenericType`](../-generic-type/index.md)<br>Build the object of type [T](#). |
+| [name](name.md) | `fun name(value: String): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.name](#). |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.codeType](#) |
 | [wildcard](wildcard.md) | `fun wildcard(): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.isWildcard](#) |
-| [withBounds](with-bounds.md) | `fun withBounds(value: Array<`[`Bound`](../-generic-type/-bound/index.md)`>): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.bounds](#) |
-| [withName](with-name.md) | `fun withName(value: String): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.name](#). |
-| [withType](with-type.md) | `fun withType(value: `[`CodeType`](../-code-type/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, GenericTypeBuilder>`<br>See [T.codeType](#) |
+
+### Inherited Functions
+
+| Name | Summary |
+|---|---|
+| [addExtendsBound](../-generic-type/-builder/add-extends-bound.md) | `open fun addExtendsBound(value: String): `[`Builder`](../-generic-type/-builder/index.md)`<T, S>`<br>Adds a extends bound. |
+| [addOfBound](../-generic-type/-builder/add-of-bound.md) | `open fun addOfBound(value: String): `[`Builder`](../-generic-type/-builder/index.md)`<T, S>`<br>Adds a `of` bound. Example: A `List of E`. |
+| [addSuperBound](../-generic-type/-builder/add-super-bound.md) | `open fun addSuperBound(value: String): `[`Builder`](../-generic-type/-builder/index.md)`<T, S>`<br>Adds a super bound. |
 
 ### Companion Object Functions
 

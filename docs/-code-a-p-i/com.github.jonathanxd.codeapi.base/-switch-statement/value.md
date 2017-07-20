@@ -2,7 +2,7 @@
 
 # value
 
-`val value: `[`Typed`](../-typed/index.md)
+`val value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Overrides [ValueHolder.value](../-value-holder/value.md)
 

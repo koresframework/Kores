@@ -2,4 +2,9 @@
 
 # valueToStore
 
-`lateinit var valueToStore: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`lateinit var valueToStore: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
+
+`fun valueToStore(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [ArrayStore.valueToStore](../value-to-store.md)
+

@@ -3,3 +3,8 @@
 # visible
 
 `var visible: Boolean`
+
+`fun visible(value: Boolean): `[`Builder`](index.md)
+
+See [Annotation.visible](../visible.md)
+

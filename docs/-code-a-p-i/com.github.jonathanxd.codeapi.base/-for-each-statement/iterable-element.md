@@ -2,7 +2,7 @@
 
 # iterableElement
 
-`val iterableElement: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val iterableElement: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Element to iterate
 

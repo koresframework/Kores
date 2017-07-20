@@ -2,4 +2,7 @@
 
 # ARRAY
 
-`ARRAY`
+`val ARRAY: `[`IterationType`](index.md)
+
+Foreach on array. Requires special handling.
+

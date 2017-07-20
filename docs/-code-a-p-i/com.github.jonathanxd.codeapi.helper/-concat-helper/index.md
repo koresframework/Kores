@@ -11,13 +11,13 @@ Concatenation helper.
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Concat`](../../com.github.jonathanxd.codeapi.base/-concat/index.md)<br>Builds [Concat](../../com.github.jonathanxd.codeapi.base/-concat/index.md) instance with concatenations. |
-| [concat](concat.md) | `fun concat(codePart: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): ConcatHelper`<br>Concatenate [codePart](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(com.github.jonathanxd.codeapi.CodePart)/codePart).`fun concat(str: String): ConcatHelper`<br>Concatenate [str](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(kotlin.String)/str). |
+| [concat](concat.md) | `fun concat(codePart: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): ConcatHelper`<br>Concatenate [codePart](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(com.github.jonathanxd.codeapi.CodeInstruction)/codePart).`fun concat(str: String): ConcatHelper`<br>Concatenate [str](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(kotlin.String)/str). |
 
 ### Companion Object Functions
 
 | Name | Summary |
 |---|---|
-| [builder](builder.md) | `fun builder(): ConcatHelper`<br>Creates a ConcatHelper instance.`fun builder(part: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): ConcatHelper`<br>Creates a ConcatHelper instance and concatenate [part](builder.md#com.github.jonathanxd.codeapi.helper.ConcatHelper.Companion$builder(com.github.jonathanxd.codeapi.CodePart)/part).`fun builder(str: String): ConcatHelper`<br>Creates a ConcatHelper instance and concatenate [str](builder.md#com.github.jonathanxd.codeapi.helper.ConcatHelper.Companion$builder(kotlin.String)/str). |
+| [builder](builder.md) | `fun builder(): ConcatHelper`<br>Creates a ConcatHelper instance.`fun builder(part: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): ConcatHelper`<br>Creates a ConcatHelper instance and concatenate [part](builder.md#com.github.jonathanxd.codeapi.helper.ConcatHelper.Companion$builder(com.github.jonathanxd.codeapi.CodeInstruction)/part).`fun builder(str: String): ConcatHelper`<br>Creates a ConcatHelper instance and concatenate [str](builder.md#com.github.jonathanxd.codeapi.helper.ConcatHelper.Companion$builder(kotlin.String)/str). |
 
 ### Extension Functions
 

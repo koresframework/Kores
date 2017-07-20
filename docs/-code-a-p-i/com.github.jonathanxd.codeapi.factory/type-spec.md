@@ -10,3 +10,4 @@
 
 [TypeSpec](../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
 
+`fun typeSpec(): `[`Builder`](../com.github.jonathanxd.codeapi.base/-type-spec/-builder/index.md)

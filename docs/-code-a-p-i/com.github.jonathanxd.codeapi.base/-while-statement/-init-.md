@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`WhileStatement(type: `[`Type`](-type/index.md)`, expressions: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
+`WhileStatement(type: `[`Type`](-type/index.md)`, expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
 
 While statement
 

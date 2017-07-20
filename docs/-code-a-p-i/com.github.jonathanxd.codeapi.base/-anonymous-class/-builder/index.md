@@ -2,7 +2,7 @@
 
 # Builder
 
-`class Builder : `[`Builder`](../../-type-declaration/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>, `[`Builder`](../../-super-class-holder/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>, `[`Builder`](../../-argument-holder/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>, `[`Builder`](../../-implementation-holder/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>`
+`class Builder : `[`Builder`](../../-type-declaration/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>, `[`Builder`](../../-super-class-holder/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>, `[`Builder`](../../-arguments-holder/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>, `[`Builder`](../../-implementation-holder/-builder/index.md)`<`[`AnonymousClass`](../index.md)`, Builder>`
 
 ### Constructors
 
@@ -15,7 +15,7 @@
 | Name | Summary |
 |---|---|
 | [annotations](annotations.md) | `var annotations: List<`[`Annotation`](../../-annotation/index.md)`>` |
-| [arguments](arguments.md) | `var arguments: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>` |
+| [arguments](arguments.md) | `var arguments: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 | [comments](comments.md) | `var comments: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md) |
 | [constructorBody](constructor-body.md) | `lateinit var constructorBody: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
 | [constructorSpec](constructor-spec.md) | `lateinit var constructorSpec: `[`TypeSpec`](../../-type-spec/index.md) |
@@ -33,33 +33,33 @@
 
 | Name | Summary |
 |---|---|
+| [annotations](annotations.md) | `fun annotations(value: List<`[`Annotation`](../../-annotation/index.md)`>): Builder`<br>See [T.annotations](#) |
+| [arguments](arguments.md) | `fun arguments(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.arguments](#) |
+| [array](array.md) | `fun array(value: Boolean): Builder`<br>See [T.array](#) |
 | [build](build.md) | `fun build(): `[`AnonymousClass`](../index.md)<br>Build the object of type [T](#). |
-| [withAnnotations](with-annotations.md) | `fun withAnnotations(value: List<`[`Annotation`](../../-annotation/index.md)`>): Builder`<br>See [T.annotations](#) |
-| [withArguments](with-arguments.md) | `fun withArguments(value: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>): Builder`<br>See [T.arguments](#) |
-| [withArray](with-array.md) | `fun withArray(value: Boolean): Builder`<br>See [T.array](#) |
-| [withComments](with-comments.md) | `fun withComments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): Builder`<br>See [T.comments](#) |
-| [withConstructorBody](with-constructor-body.md) | `fun withConstructorBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [AnonymousClass.constructorBody](../constructor-body.md) |
-| [withConstructorSpec](with-constructor-spec.md) | `fun withConstructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`): Builder`<br>See [AnonymousClass.constructorSpec](../constructor-spec.md) |
-| [withConstructors](with-constructors.md) | `fun withConstructors(value: List<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>): Builder`<br>See [TypeDeclaration.constructors](../../-elements-holder/constructors.md) |
-| [withFields](with-fields.md) | `fun withFields(value: List<`[`FieldDeclaration`](../../-field-declaration/index.md)`>): Builder`<br>See [TypeDeclaration.fields](../../-elements-holder/fields.md) |
-| [withGenericSignature](with-generic-signature.md) | `fun withGenericSignature(value: `[`GenericSignature`](../../../com.github.jonathanxd.codeapi.generic/-generic-signature/index.md)`): Builder`<br>See [T.genericSignature](#) |
-| [withImplementations](with-implementations.md) | `fun withImplementations(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [T.implementations](#) |
-| [withInnerTypes](with-inner-types.md) | `fun withInnerTypes(value: List<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): Builder`<br>See [T.innerTypes](#) |
-| [withMethods](with-methods.md) | `fun withMethods(value: List<`[`MethodDeclaration`](../../-method-declaration/index.md)`>): Builder`<br>See [TypeDeclaration.methods](../../-elements-holder/methods.md) |
-| [withModifiers](with-modifiers.md) | `fun withModifiers(value: Set<`[`CodeModifier`](../../-code-modifier/index.md)`>): Builder`<br>`fun withModifiers(vararg values: `[`CodeModifier`](../../-code-modifier/index.md)`): Builder`<br>See [ModifiersHolder.modifiers](../../-modifiers-holder/modifiers.md) |
-| [withOuterClass](with-outer-class.md) | `fun withOuterClass(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): Builder`<br>See [TypeDeclaration.outerClass](../../-type-declaration/outer-class.md) |
-| [withSpecifiedName](with-specified-name.md) | `fun withSpecifiedName(value: String): Builder`<br>See [TypeDeclaration.specifiedName](../../-type-declaration/specified-name.md) |
-| [withStaticBlock](with-static-block.md) | `fun withStaticBlock(value: `[`StaticBlock`](../../-static-block/index.md)`): Builder`<br>See [TypeDeclaration.staticBlock](../../-elements-holder/static-block.md) |
-| [withSuperClass](with-super-class.md) | `fun withSuperClass(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): Builder`<br>See [T.superClass](#) |
+| [comments](comments.md) | `fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): Builder`<br>See [T.comments](#) |
+| [constructorBody](constructor-body.md) | `fun constructorBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [AnonymousClass.constructorBody](../constructor-body.md) |
+| [constructorSpec](constructor-spec.md) | `fun constructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`): Builder`<br>See [AnonymousClass.constructorSpec](../constructor-spec.md) |
+| [constructors](constructors.md) | `fun constructors(value: List<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>): Builder`<br>See [TypeDeclaration.constructors](../../-elements-holder/constructors.md) |
+| [fields](fields.md) | `fun fields(value: List<`[`FieldDeclaration`](../../-field-declaration/index.md)`>): Builder`<br>See [TypeDeclaration.fields](../../-elements-holder/fields.md) |
+| [genericSignature](generic-signature.md) | `fun genericSignature(value: `[`GenericSignature`](../../../com.github.jonathanxd.codeapi.generic/-generic-signature/index.md)`): Builder`<br>See [T.genericSignature](#) |
+| [implementations](implementations.md) | `fun implementations(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [T.implementations](#) |
+| [innerTypes](inner-types.md) | `fun innerTypes(value: List<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): Builder`<br>See [T.innerTypes](#) |
+| [methods](methods.md) | `fun methods(value: List<`[`MethodDeclaration`](../../-method-declaration/index.md)`>): Builder`<br>See [TypeDeclaration.methods](../../-elements-holder/methods.md) |
+| [modifiers](modifiers.md) | `fun modifiers(value: Set<`[`CodeModifier`](../../-code-modifier/index.md)`>): Builder`<br>`fun modifiers(vararg values: `[`CodeModifier`](../../-code-modifier/index.md)`): Builder`<br>See [ModifiersHolder.modifiers](../../-modifiers-holder/modifiers.md) |
+| [outerClass](outer-class.md) | `fun outerClass(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): Builder`<br>See [TypeDeclaration.outerClass](../../-type-declaration/outer-class.md) |
+| [specifiedName](specified-name.md) | `fun specifiedName(value: String): Builder`<br>See [TypeDeclaration.specifiedName](../../-type-declaration/specified-name.md) |
+| [staticBlock](static-block.md) | `fun staticBlock(value: `[`StaticBlock`](../../-static-block/index.md)`): Builder`<br>See [TypeDeclaration.staticBlock](../../-elements-holder/static-block.md) |
+| [superClass](super-class.md) | `fun superClass(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): Builder`<br>See [T.superClass](#) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
+| [arguments](../../-arguments-holder/-builder/arguments.md) | `open fun arguments(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.arguments](../../-arguments-holder/-builder/arguments.md) |
 | [base](../../-type-declaration/-builder/base.md) | `open fun base(typeRef: `[`TypeRef`](../../../com.github.jonathanxd.codeapi.type/-type-ref/index.md)`): S`<br>Sets the name and outer type to values specified in [typeRef](../../-type-declaration/-builder/base.md#com.github.jonathanxd.codeapi.base.TypeDeclaration.Builder$base(com.github.jonathanxd.codeapi.type.TypeRef)/typeRef) |
-| [withArguments](../../-argument-holder/-builder/with-arguments.md) | `open fun withArguments(vararg values: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): S`<br>See [T.arguments](../../-argument-holder/arguments.md) |
-| [withImplementations](../../-implementation-holder/-builder/with-implementations.md) | `open fun withImplementations(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.implementations](../../-implementation-holder/implementations.md) |
-| [withQualifiedName](../../-type-declaration/-builder/with-qualified-name.md) | `open fun withQualifiedName(value: String): S` |
+| [implementations](../../-implementation-holder/-builder/implementations.md) | `open fun implementations(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.implementations](../../-implementation-holder/-builder/implementations.md) |
+| [qualifiedName](../../-type-declaration/-builder/qualified-name.md) | `open fun qualifiedName(value: String): S` |
 
 ### Companion Object Functions
 

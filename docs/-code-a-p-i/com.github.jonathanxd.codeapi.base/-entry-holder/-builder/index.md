@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [withEntries](with-entries.md) | `abstract fun withEntries(value: List<`[`EnumEntry`](../../-enum-entry/index.md)`>): S`<br>`open fun withEntries(vararg values: `[`EnumEntry`](../../-enum-entry/index.md)`): S`<br>See [T.entries](../entries.md) |
+| [entries](entries.md) | `abstract fun entries(value: List<`[`EnumEntry`](../../-enum-entry/index.md)`>): S`<br>`open fun entries(vararg values: `[`EnumEntry`](../../-enum-entry/index.md)`): S`<br>See [T.entries](entries.md) |
 
 ### Inherited Functions
 

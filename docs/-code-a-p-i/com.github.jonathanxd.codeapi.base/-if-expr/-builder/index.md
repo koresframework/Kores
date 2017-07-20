@@ -14,8 +14,8 @@
 
 | Name | Summary |
 |---|---|
-| [expr1](expr1.md) | `lateinit var expr1: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [expr2](expr2.md) | `lateinit var expr2: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [expr1](expr1.md) | `lateinit var expr1: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
+| [expr2](expr2.md) | `lateinit var expr2: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 | [operation](operation.md) | `lateinit var operation: `[`Conditional`](../../../com.github.jonathanxd.codeapi.operator/-operator/-conditional/index.md) |
 
 ### Functions
@@ -23,9 +23,9 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`IfExpr`](../index.md)<br>Build the object of type [T](#). |
-| [withExpr1](with-expr1.md) | `fun withExpr1(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [IfExpr.expr1](../expr1.md) |
-| [withExpr2](with-expr2.md) | `fun withExpr2(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Builder`<br>See [IfExpr.expr2](../expr2.md) |
-| [withOperation](with-operation.md) | `fun withOperation(value: `[`Conditional`](../../../com.github.jonathanxd.codeapi.operator/-operator/-conditional/index.md)`): Builder`<br>See [IfExpr.operation](../operation.md) |
+| [expr1](expr1.md) | `fun expr1(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [IfExpr.expr1](../expr1.md) |
+| [expr2](expr2.md) | `fun expr2(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [IfExpr.expr2](../expr2.md) |
+| [operation](operation.md) | `fun operation(value: `[`Conditional`](../../../com.github.jonathanxd.codeapi.operator/-operator/-conditional/index.md)`): Builder`<br>See [IfExpr.operation](../operation.md) |
 
 ### Companion Object Functions
 

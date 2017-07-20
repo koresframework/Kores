@@ -2,7 +2,7 @@
 
 # index
 
-`val index: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val index: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Index to access
 

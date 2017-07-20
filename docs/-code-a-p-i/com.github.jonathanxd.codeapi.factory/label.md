@@ -8,3 +8,4 @@
 
 [Label](../com.github.jonathanxd.codeapi.base/-label/index.md)
 
+`fun label(): `[`Builder`](../com.github.jonathanxd.codeapi.base/-label/-builder/index.md)

@@ -38,4 +38,6 @@ Hold information about generic signatures.
 | Name | Summary |
 |---|---|
 | [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [genericSignatureToDescriptor](../../com.github.jonathanxd.codeapi.util/generic-signature-to-descriptor.md) | `fun GenericSignature.genericSignatureToDescriptor(): String`<br>Create a type descriptor from receiver signature |
 | [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |
+| [toSourceString](../../com.github.jonathanxd.codeapi.util/to-source-string.md) | `fun GenericSignature.toSourceString(): String`<br>Convert generic signature to string. |

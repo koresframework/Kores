@@ -22,12 +22,13 @@
 
 | Name | Summary |
 |---|---|
+| [base](base.md) | `fun base(enum: Enum<*>): Builder`<br>Base this EnumValue on an [Enum](#). |
 | [build](build.md) | `fun build(): `[`EnumValue`](../index.md)<br>Build the object of type [T](#). |
-| [withEnumEntry](with-enum-entry.md) | `fun withEnumEntry(value: String): Builder`<br>See [EnumValue.enumEntry](../enum-entry.md) |
-| [withEnumType](with-enum-type.md) | `fun withEnumType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [EnumValue.enumType](../enum-type.md) |
-| [withName](with-name.md) | `fun withName(value: String): Builder` |
-| [withOrdinal](with-ordinal.md) | `fun withOrdinal(value: Int): Builder`<br>See [EnumValue.ordinal](../ordinal.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [enumEntry](enum-entry.md) | `fun enumEntry(value: String): Builder`<br>See [EnumValue.enumEntry](../enum-entry.md) |
+| [enumType](enum-type.md) | `fun enumType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [EnumValue.enumType](../enum-type.md) |
+| [name](name.md) | `fun name(value: String): Builder` |
+| [ordinal](ordinal.md) | `fun ordinal(value: Int): Builder`<br>See [EnumValue.ordinal](../ordinal.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

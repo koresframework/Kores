@@ -4,5 +4,7 @@
 
 `val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
 
+Overrides [InvokeDynamicBase.type](../-invoke-dynamic-base/type.md)
+
 Return type of dynamic invocation
 

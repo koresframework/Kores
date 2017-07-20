@@ -4,7 +4,7 @@
 
 `fun builder(): `[`Builder`](-builder/index.md)
 
-Overrides [ArgumentHolder.builder](../-argument-holder/builder.md)
+Overrides [ArgumentsHolder.builder](../-arguments-holder/builder.md)
 
 Overrides [Typed.builder](../-typed/builder.md)
 

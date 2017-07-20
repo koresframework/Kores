@@ -2,7 +2,7 @@
 
 # Builder
 
-`class Builder : Builder<`[`LambdaMethodRef`](../index.md)`, Builder>`
+`class Builder : `[`Builder`](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/index.md)`<`[`LambdaMethodRef`](../index.md)`, Builder>`
 
 ### Constructors
 
@@ -22,10 +22,18 @@
 
 | Name | Summary |
 |---|---|
+| [baseSam](base-sam.md) | `fun baseSam(value: `[`MethodTypeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`): Builder`<br>See [T.baseSam](#) |
 | [build](build.md) | `fun build(): `[`LambdaMethodRef`](../index.md)<br>Build the object of type [T](#). |
-| [withBaseSam](with-base-sam.md) | `fun withBaseSam(value: `[`MethodTypeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`): Builder`<br>See [T.baseSam](#) |
-| [withExpectedTypes](with-expected-types.md) | `fun withExpectedTypes(value: `[`TypeSpec`](../../../-type-spec/index.md)`): Builder`<br>See [T.expectedTypes](#) |
-| [withInvocation](with-invocation.md) | `fun withInvocation(value: `[`MethodInvocation`](../../../-method-invocation/index.md)`): Builder`<br>See [T.invocation](#) |
+| [expectedTypes](expected-types.md) | `fun expectedTypes(value: `[`TypeSpec`](../../../-type-spec/index.md)`): Builder`<br>See [T.expectedTypes](#) |
+| [invocation](invocation.md) | `fun invocation(value: `[`MethodInvocation`](../../../-method-invocation/index.md)`): Builder`<br>See [T.invocation](#) |
+
+### Inherited Functions
+
+| Name | Summary |
+|---|---|
+| [args](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/args.md) | `open fun args(value: List<Any>): S`<br>See [T.args](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/args.md) |
+| [bootstrap](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/bootstrap.md) | `open fun bootstrap(value: `[`MethodInvokeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): S`<br>See [T.bootstrap](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/bootstrap.md) |
+| [type](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/type.md) | `open fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.type](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/type.md) |
 
 ### Companion Object Functions
 

@@ -21,24 +21,27 @@ All interfaces that have a concrete implementation and extends CodePart must pro
 |---|---|
 | [builder](builder.md) | `open fun builder(): `[`Builder`](../../com.github.jonathanxd.codeapi.builder/-builder/index.md)`<CodePart, *>`<br>This builder may or may not accept null values, it depends on implementation. |
 
+### Extension Properties
+
+| Name | Summary |
+|---|---|
+| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val CodePart.isPrimitive: Boolean`<br>Returns true if the type of this CodePart is primitive |
+| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val CodePart.type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Gets the type of CodePart |
+| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val CodePart.typeOrNull: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Gets the type of CodePart or null if receiver is not a [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) instance. |
+
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
 | [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this CodePart |
-| [getPartType](../../com.github.jonathanxd.codeapi.util/get-part-type.md) | `fun CodePart.getPartType(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of CodePart or throws [IllegalStateException](http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalStateException.html) if CodePart is not instance of [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) |
-| [getPartTypeOrNull](../../com.github.jonathanxd.codeapi.util/get-part-type-or-null.md) | `fun CodePart.getPartTypeOrNull(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of CodePart or `null` if CodePart is not instance of [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md). |
 | [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |
 
 ### Inheritors
 
 | Name | Summary |
 |---|---|
-| [Access](../../com.github.jonathanxd.codeapi.base/-access/index.md) | `enum class Access : Enum<`[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)`>, CodePart`<br>Access to a scope. Example, access to static scope of [String](#). |
-| [Accessor](../../com.github.jonathanxd.codeapi.base/-accessor/index.md) | `interface Accessor : CodePart`<br>Accessor of an element. Example: field access/definition, method invocation
-and executable code. |
 | [Annotable](../../com.github.jonathanxd.codeapi.base/-annotable/index.md) | `interface Annotable : CodePart`<br>An part that hold annotations. |
-| [ArgumentHolder](../../com.github.jonathanxd.codeapi.base/-argument-holder/index.md) | `interface ArgumentHolder : CodePart`<br>Hold arguments. |
+| [ArgumentsHolder](../../com.github.jonathanxd.codeapi.base/-arguments-holder/index.md) | `interface ArgumentsHolder : CodePart`<br>Hold arguments. |
 | [ArrayAccess](../../com.github.jonathanxd.codeapi.base/-array-access/index.md) | `interface ArrayAccess : CodePart`<br>Access to an array. |
 | [BodyHolder](../../com.github.jonathanxd.codeapi.base/-body-holder/index.md) | `interface BodyHolder : CodePart`<br>Holds a body. Example: method declarations, type declarations, static block, constructors... |
 | [CodeElement](../-code-element.md) | `interface CodeElement : CodePart`<br>Code elements like Field, Methods and static block. |
@@ -65,10 +68,9 @@ type or translated to a lambda (for [InvokeDynamic.LambdaLocalCode](../../com.gi
 | [ModifiersHolder](../../com.github.jonathanxd.codeapi.base/-modifiers-holder/index.md) | `interface ModifiersHolder : CodePart`<br>A element that have modifiers. |
 | [Named](../../com.github.jonathanxd.codeapi.base/-named/index.md) | `interface Named : CodePart`<br>A element that have a name. |
 | [New](../../com.github.jonathanxd.codeapi.base/-new/index.md) | `data class New : CodePart, `[`CodeInstruction`](../-code-instruction.md)<br>Represents the construction of type, used to invoke constructor methods. (not `super` constructor or `this` constructor). |
-| [Operator](../../com.github.jonathanxd.codeapi.operator/-operator/index.md) | `sealed class Operator : CodePart, `[`Named`](../../com.github.jonathanxd.codeapi.base/-named/index.md)<br>Operator. |
 | [ParametersHolder](../../com.github.jonathanxd.codeapi.base/-parameters-holder/index.md) | `interface ParametersHolder : CodePart`<br>Parameter holder |
 | [ReturnTypeHolder](../../com.github.jonathanxd.codeapi.base/-return-type-holder/index.md) | `interface ReturnTypeHolder : CodePart`<br>Return type holder part |
 | [SuperClassHolder](../../com.github.jonathanxd.codeapi.base/-super-class-holder/index.md) | `interface SuperClassHolder : CodePart`<br>Super class holder |
-| [ThrowException](../../com.github.jonathanxd.codeapi.base/-throw-exception/index.md) | `data class ThrowException : CodePart, `[`CodeInstruction`](../-code-instruction.md)<br>Throws [partToThrow](../../com.github.jonathanxd.codeapi.base/-throw-exception/part-to-throw.md). |
+| [ThrowsHolder](../../com.github.jonathanxd.codeapi.base/-throws-holder/index.md) | `interface ThrowsHolder : CodePart`<br>A code part which declares `throws` statement. |
 | [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) | `interface Typed : CodePart`<br>A element that can have a type. |
 | [ValueHolder](../../com.github.jonathanxd.codeapi.base/-value-holder/index.md) | `interface ValueHolder : CodePart`<br>Value holder part |

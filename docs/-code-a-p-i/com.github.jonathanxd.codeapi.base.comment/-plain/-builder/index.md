@@ -21,7 +21,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Plain`](../index.md)<br>Build the object of type [T](#). |
-| [withText](with-text.md) | `fun withText(value: String): Builder`<br>See [Plain.text](../text.md) |
+| [text](text.md) | `fun text(value: String): Builder`<br>See [Plain.text](../text.md) |
 
 ### Companion Object Functions
 

@@ -2,7 +2,10 @@
 
 # genericTypeToDescriptor
 
-`fun genericTypeToDescriptor(generic: `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`): String`
+`fun `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`.genericTypeToDescriptor(): String`
 
-Create a type descriptor from [generic](generic-type-to-descriptor.md#com.github.jonathanxd.codeapi.util$genericTypeToDescriptor(com.github.jonathanxd.codeapi.type.GenericType)/generic)
+Create a type descriptor from receiver type.
+
+Descriptor are described as: `<GENERIC_TYPE_DESCRIPTOR>` where `GENERIC_TYPE_DESCRIPTOR` is
+defined by [genericTypeDescriptor_plain](#).
 

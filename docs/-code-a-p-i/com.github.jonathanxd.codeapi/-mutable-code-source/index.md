@@ -70,13 +70,19 @@ changes to this [CodeSource](../-code-source/index.md) is reflected in current [
 | [create](create.md) | `fun create(): MutableCodeSource`<br>Create a MutableCodeSource.`fun create(list: List<`[`CodeInstruction`](../-code-instruction.md)`>): MutableCodeSource`<br>Create a MutableCodeSource from a copy of [list](create.md#com.github.jonathanxd.codeapi.MutableCodeSource.Companion$create(kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))/list). |
 | [createFromOriginal](create-from-original.md) | `fun createFromOriginal(list: MutableList<`[`CodeInstruction`](../-code-instruction.md)`>): MutableCodeSource`<br>Create a MutableCodeSource delegating to [list](create-from-original.md#com.github.jonathanxd.codeapi.MutableCodeSource.Companion$createFromOriginal(kotlin.collections.MutableList((com.github.jonathanxd.codeapi.CodeInstruction)))/list). |
 
+### Extension Properties
+
+| Name | Summary |
+|---|---|
+| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val `[`CodePart`](../-code-part/index.md)`.isPrimitive: Boolean`<br>Returns true if the type of this [CodePart](../-code-part/index.md) is primitive |
+| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val `[`CodePart`](../-code-part/index.md)`.type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Gets the type of [CodePart](../-code-part/index.md) |
+| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val `[`CodePart`](../-code-part/index.md)`.typeOrNull: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Gets the type of [CodePart](../-code-part/index.md) or null if receiver is not a [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) instance. |
+
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
 | [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../-code-part/index.md) |
-| [getPartType](../../com.github.jonathanxd.codeapi.util/get-part-type.md) | `fun `[`CodePart`](../-code-part/index.md)`.getPartType(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of [CodePart](../-code-part/index.md) or throws [IllegalStateException](http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalStateException.html) if [CodePart](../-code-part/index.md) is not instance of [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) |
-| [getPartTypeOrNull](../../com.github.jonathanxd.codeapi.util/get-part-type-or-null.md) | `fun `[`CodePart`](../-code-part/index.md)`.getPartTypeOrNull(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of [CodePart](../-code-part/index.md) or `null` if [CodePart](../-code-part/index.md) is not instance of [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md). |
 | [isEqual](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-iterable/is-equal.md) | `fun <T : Any> Iterable<T>.isEqual(other: Iterable<*>): Boolean`<br>Checks if all elements of receiver [Iterable](#) is equal to elements of [other](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-iterable/is-equal.md#com.github.jonathanxd.codeapi.util.conversion$isEqual(kotlin.collections.Iterable((com.github.jonathanxd.codeapi.util.conversion.isEqual.T)), kotlin.collections.Iterable((kotlin.Any)))/other). |
 | [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |
 

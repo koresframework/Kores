@@ -16,17 +16,17 @@
 |---|---|
 | [cases](cases.md) | `var cases: List<`[`Case`](../../-case/index.md)`>` |
 | [switchType](switch-type.md) | `lateinit var switchType: `[`SwitchType`](../../-switch-type/index.md) |
-| [value](value.md) | `lateinit var value: `[`Typed`](../../-typed/index.md) |
+| [value](value.md) | `lateinit var value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`SwitchStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withCases](with-cases.md) | `fun withCases(value: List<`[`Case`](../../-case/index.md)`>): Builder`<br>`fun withCases(vararg values: `[`Case`](../../-case/index.md)`): Builder`<br>See [SwitchStatement.cases](../cases.md) |
-| [withSwitchType](with-switch-type.md) | `fun withSwitchType(value: `[`SwitchType`](../../-switch-type/index.md)`): Builder`<br>See [SwitchStatement.switchType](../switch-type.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
-| [withValue](with-value.md) | `fun withValue(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`?): Builder`<br>See [T.value](#)`fun withValue(value: `[`Typed`](../../-typed/index.md)`): Builder`<br>See [SwitchStatement.value](../value.md) |
+| [cases](cases.md) | `fun cases(value: List<`[`Case`](../../-case/index.md)`>): Builder`<br>`fun cases(vararg values: `[`Case`](../../-case/index.md)`): Builder`<br>See [SwitchStatement.cases](../cases.md) |
+| [switchType](switch-type.md) | `fun switchType(value: `[`SwitchType`](../../-switch-type/index.md)`): Builder`<br>See [SwitchStatement.switchType](../switch-type.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [value](value.md) | `fun value(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [SwitchStatement.value](../value.md) |
 
 ### Companion Object Functions
 

@@ -2,7 +2,7 @@
 
 # createCodeTypeDescriptor
 
-`fun createCodeTypeDescriptor(codeType: `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): String`
+`fun `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`.createCodeTypeDescriptor(): String`
 
 Creates [CodeType](../com.github.jonathanxd.codeapi.type/-code-type/index.md) type descriptor
 

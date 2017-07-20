@@ -2,7 +2,7 @@
 
 # expressions
 
-`abstract val expressions: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`abstract val expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 If expressions and operations
 

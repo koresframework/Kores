@@ -3,3 +3,8 @@
 # switchType
 
 `lateinit var switchType: `[`SwitchType`](../../-switch-type/index.md)
+
+`fun switchType(value: `[`SwitchType`](../../-switch-type/index.md)`): `[`Builder`](index.md)
+
+See [SwitchStatement.switchType](../switch-type.md)
+

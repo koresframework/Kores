@@ -25,11 +25,11 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`ModuleDeclaration`](../index.md)<br>Build the object of type [T](#). |
-| [withExports](with-exports.md) | `fun withExports(value: List<`[`Export`](../../-export/index.md)`>): Builder`<br>`fun withExports(vararg values: `[`Export`](../../-export/index.md)`): Builder`<br>`fun withExports(vararg values: String): Builder`<br>See [ModuleDeclaration.exports](../exports.md) |
-| [withName](with-name.md) | `fun withName(value: String): Builder` |
-| [withProvides](with-provides.md) | `fun withProvides(value: List<`[`Provide`](../../-provide/index.md)`>): Builder`<br>`fun withProvides(vararg values: `[`Provide`](../../-provide/index.md)`): Builder`<br>`fun withProvides(vararg values: <ERROR CLASS><`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [ModuleDeclaration.provides](../provides.md) |
-| [withRequires](with-requires.md) | `fun withRequires(value: List<`[`Require`](../../-require/index.md)`>): Builder`<br>`fun withRequires(vararg values: `[`Require`](../../-require/index.md)`): Builder`<br>`fun withRequires(vararg values: String): Builder`<br>See [ModuleDeclaration.requires](../requires.md) |
-| [withUses](with-uses.md) | `fun withUses(value: List<`[`ModuleReference`](../../-module-reference/index.md)`>): Builder`<br>`fun withUses(vararg values: `[`ModuleReference`](../../-module-reference/index.md)`): Builder`<br>`fun withUses(vararg values: String): Builder`<br>See [ModuleDeclaration.uses](../uses.md) |
+| [exports](exports.md) | `fun exports(value: List<`[`Export`](../../-export/index.md)`>): Builder`<br>`fun exports(vararg values: `[`Export`](../../-export/index.md)`): Builder`<br>`fun exports(vararg values: String): Builder`<br>See [ModuleDeclaration.exports](../exports.md) |
+| [name](name.md) | `fun name(value: String): Builder` |
+| [provides](provides.md) | `fun provides(value: List<`[`Provide`](../../-provide/index.md)`>): Builder`<br>`fun provides(vararg values: `[`Provide`](../../-provide/index.md)`): Builder`<br>`fun provides(vararg values: <ERROR CLASS><`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [ModuleDeclaration.provides](../provides.md) |
+| [requires](requires.md) | `fun requires(value: List<`[`Require`](../../-require/index.md)`>): Builder`<br>`fun requires(vararg values: `[`Require`](../../-require/index.md)`): Builder`<br>`fun requires(vararg values: String): Builder`<br>See [ModuleDeclaration.requires](../requires.md) |
+| [uses](uses.md) | `fun uses(value: List<`[`ModuleReference`](../../-module-reference/index.md)`>): Builder`<br>`fun uses(vararg values: `[`ModuleReference`](../../-module-reference/index.md)`): Builder`<br>`fun uses(vararg values: String): Builder`<br>See [ModuleDeclaration.uses](../uses.md) |
 
 ### Companion Object Functions
 

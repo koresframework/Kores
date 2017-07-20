@@ -3,3 +3,8 @@
 # ordinal
 
 `var ordinal: Int`
+
+`fun ordinal(value: Int): `[`Builder`](index.md)
+
+See [EnumValue.ordinal](../ordinal.md)
+

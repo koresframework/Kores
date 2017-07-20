@@ -2,7 +2,7 @@
 
 # part
 
-`val part: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val part: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Casted part
 

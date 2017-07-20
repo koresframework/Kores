@@ -6,7 +6,7 @@
 
 Overrides [Accessor.builder](../-accessor/builder.md)
 
-Overrides [ArgumentHolder.builder](../-argument-holder/builder.md)
+Overrides [ArgumentsHolder.builder](../-arguments-holder/builder.md)
 
 Overrides [Typed.builder](../-typed/builder.md)
 

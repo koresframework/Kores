@@ -2,7 +2,7 @@
 
 # access
 
-`val `[`CodeParameter`](../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)`.access: `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val `[`CodeParameter`](../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)`.access: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Convert [CodeParameter](../com.github.jonathanxd.codeapi.base/-code-parameter/index.md) to variable access
 

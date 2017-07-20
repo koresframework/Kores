@@ -2,4 +2,4 @@
 
 # dimensions
 
-`val dimensions: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`val dimensions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`

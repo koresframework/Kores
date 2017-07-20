@@ -2,7 +2,7 @@
 
 # superinterfaces
 
-`open val superinterfaces: List<`[`CodeType`](../-code-type/index.md)`>`
+`open val superinterfaces: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
 
 Overrides [InheritanceProvider.superinterfaces](../-inheritance-provider/superinterfaces.md)
 

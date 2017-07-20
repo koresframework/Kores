@@ -4,12 +4,14 @@
 
 `interface Processor<in P> : Any`
 
+Process [part](#) and do required things.
+
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [endProcess](end-process.md) | `open fun endProcess(part: P, data: TypedData, codeProcessor: `[`CodeProcessor`](../-code-processor/index.md)`<*>): Unit`<br>Called when the process to [part](end-process.md#com.github.jonathanxd.codeapi.processor.Processor$endProcess(com.github.jonathanxd.codeapi.processor.Processor.P, com.github.jonathanxd.iutils.data.TypedData, com.github.jonathanxd.codeapi.processor.ProcessorManager((kotlin.Any)))/part) finishes. |
-| [process](process.md) | `abstract fun process(part: P, data: TypedData, codeProcessor: `[`CodeProcessor`](../-code-processor/index.md)`<*>): Unit`<br>Process the [part](process.md#com.github.jonathanxd.codeapi.processor.Processor$process(com.github.jonathanxd.codeapi.processor.Processor.P, com.github.jonathanxd.iutils.data.TypedData, com.github.jonathanxd.codeapi.processor.ProcessorManager((kotlin.Any)))/part). |
+| [endProcess](end-process.md) | `open fun endProcess(part: P, data: TypedData, codeProcessor: `[`ProcessorManager`](../-processor-manager/index.md)`<*>): Unit`<br>Called when the process to [part](end-process.md#com.github.jonathanxd.codeapi.processor.Processor$endProcess(com.github.jonathanxd.codeapi.processor.Processor.P, com.github.jonathanxd.iutils.data.TypedData, com.github.jonathanxd.codeapi.processor.ProcessorManager((kotlin.Any)))/part) finishes. |
+| [process](process.md) | `abstract fun process(part: P, data: TypedData, codeProcessor: `[`ProcessorManager`](../-processor-manager/index.md)`<*>): Unit`<br>Process the [part](process.md#com.github.jonathanxd.codeapi.processor.Processor$process(com.github.jonathanxd.codeapi.processor.Processor.P, com.github.jonathanxd.iutils.data.TypedData, com.github.jonathanxd.codeapi.processor.ProcessorManager((kotlin.Any)))/part). |
 
 ### Extension Functions
 

@@ -8,7 +8,7 @@ Overrides [TypeDeclaration.builder](../-type-declaration/builder.md)
 
 Overrides [SuperClassHolder.builder](../-super-class-holder/builder.md)
 
-Overrides [ArgumentHolder.builder](../-argument-holder/builder.md)
+Overrides [ArgumentsHolder.builder](../-arguments-holder/builder.md)
 
 Overrides [ImplementationHolder.builder](../-implementation-holder/builder.md)
 

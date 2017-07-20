@@ -2,7 +2,7 @@
 
 # caseStatement
 
-`fun caseStatement(value: `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`?, body: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`Case`](../com.github.jonathanxd.codeapi.base/-case/index.md)
+`fun caseStatement(value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, body: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`Case`](../com.github.jonathanxd.codeapi.base/-case/index.md)
 
 **See Also**
 

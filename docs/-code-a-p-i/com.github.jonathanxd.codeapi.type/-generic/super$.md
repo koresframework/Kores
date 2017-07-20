@@ -24,8 +24,7 @@ Generic type that have a super type variables `ss`.
 **Return**
 New instance of generic type.
 
-`fun super$(type: `[`CodeType`](../-code-type/index.md)`): `[`Generic`](index.md)
-`fun super$(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): `[`Generic`](index.md)
+`fun super$(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
 
 Generic type that have a super type `type`.
 
@@ -36,8 +35,7 @@ Generic type that have a super type `type`.
 **Return**
 New instance of generic type.
 
-`fun super$(vararg types: `[`CodeType`](../-code-type/index.md)`): `[`Generic`](index.md)
-`fun super$(vararg types: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): `[`Generic`](index.md)
+`fun super$(vararg types: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
 
 Generic type that have a super types `types`.
 

@@ -4,6 +4,8 @@
 
 `val finallyStatement: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)
 
+Overrides [TryStatementBase.finallyStatement](../-try-statement-base/finally-statement.md)
+
 Finally statement (in bytecode generator the finally statement is inlined).
 
 ### Property

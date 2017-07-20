@@ -2,7 +2,7 @@
 
 # expressions
 
-`val expressions: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`val expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 Overrides [IfExpressionHolder.expressions](../-if-expression-holder/expressions.md)
 

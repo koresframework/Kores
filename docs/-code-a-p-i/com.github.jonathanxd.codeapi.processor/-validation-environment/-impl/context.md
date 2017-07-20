@@ -2,9 +2,9 @@
 
 # context
 
-`val context: List<Any>`
+`val context: Context`
 
 Overrides [ValidationEnvironment.context](../context.md)
 
-Immutable view list of current context (LIFO stack)
+Current context.
 

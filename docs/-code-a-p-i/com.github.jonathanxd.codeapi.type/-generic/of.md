@@ -46,8 +46,7 @@ Add name bounds.
 **Return**
 New instance of generic type.
 
-`fun of(type: `[`CodeType`](../-code-type/index.md)`): `[`Generic`](index.md)
-`fun of(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): `[`Generic`](index.md)
+`fun of(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
 
 Add a type bound.
 
@@ -58,8 +57,7 @@ Add a type bound.
 **Return**
 New instance of generic type.
 
-`fun of(vararg types: `[`CodeType`](../-code-type/index.md)`): `[`Generic`](index.md)
-`fun of(vararg types: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): `[`Generic`](index.md)
+`fun of(vararg types: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
 
 Add type bounds.
 

@@ -24,5 +24,7 @@ Overrides [BodyHolder.builder](../-body-holder/builder.md)
 
 Overrides [InnerTypesHolder.builder](../-inner-types-holder/builder.md)
 
+Overrides [ThrowsHolder.builder](../-throws-holder/builder.md)
+
 This builder may or may not accept null values, it depends on implementation.
 

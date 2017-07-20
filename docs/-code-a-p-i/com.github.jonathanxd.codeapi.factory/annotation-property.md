@@ -8,3 +8,4 @@
 
 [Annotation](../com.github.jonathanxd.codeapi.base/-annotation/index.md)
 
+`fun annotationProperty(): `[`Builder`](../com.github.jonathanxd.codeapi.base/-annotation-property/-builder/index.md)

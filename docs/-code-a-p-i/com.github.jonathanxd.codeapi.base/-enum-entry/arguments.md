@@ -2,9 +2,9 @@
 
 # arguments
 
-`val arguments: List<`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`val arguments: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
-Overrides [ArgumentHolder.arguments](../-argument-holder/arguments.md)
+Overrides [ArgumentsHolder.arguments](../-arguments-holder/arguments.md)
 
 Enum constructor arguments
 

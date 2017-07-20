@@ -2,7 +2,7 @@
 
 # Builder
 
-`class Builder : Builder<`[`TryStatement`](../index.md)`, Builder>`
+`class Builder : `[`Builder`](../../-try-statement-base/-builder/index.md)`<`[`TryStatement`](../index.md)`, Builder>`
 
 ### Constructors
 
@@ -22,10 +22,17 @@
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`TryStatement`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withCatchStatements](with-catch-statements.md) | `fun withCatchStatements(value: List<`[`CatchStatement`](../../-catch-statement/index.md)`>): Builder`<br>See [T.catchStatements](#) |
-| [withFinallyStatement](with-finally-statement.md) | `fun withFinallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.finallyStatement](#) |
+| [catchStatements](catch-statements.md) | `fun catchStatements(value: List<`[`CatchStatement`](../../-catch-statement/index.md)`>): Builder`<br>See [T.catchStatements](#) |
+| [finallyStatement](finally-statement.md) | `fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.finallyStatement](#) |
+
+### Inherited Functions
+
+| Name | Summary |
+|---|---|
+| [catchStatements](../../-try-statement-base/-builder/catch-statements.md) | `open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [T.catchStatements](../../-try-statement-base/-builder/catch-statements.md) |
+| [type](../../-try-statement-base/-builder/type.md) | `open fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.type](../../-try-statement-base/-builder/type.md) |
 
 ### Companion Object Functions
 

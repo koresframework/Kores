@@ -2,4 +2,10 @@
 
 # forExpression
 
-`var forExpression: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`var forExpression: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+
+`fun forExpression(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`Builder`](index.md)
+`fun forExpression(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [ForStatement.forExpression](../for-expression.md)
+

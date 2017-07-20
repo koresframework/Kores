@@ -2,7 +2,7 @@
 
 # resolveUnknown
 
-`fun `[`TypeResolver`](-type-resolver/index.md)`.resolveUnknown(name: String): `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`fun `[`TypeResolver`](-type-resolver/index.md)`.resolveUnknown(name: String): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
 
 Resolve type as unknown, same as [resolveClass](resolve-class.md)
 

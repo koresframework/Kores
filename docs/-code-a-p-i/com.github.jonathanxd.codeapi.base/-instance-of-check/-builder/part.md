@@ -2,4 +2,9 @@
 
 # part
 
-`lateinit var part: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`lateinit var part: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
+
+`fun part(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+See [InstanceOfCheck.part](../part.md)
+

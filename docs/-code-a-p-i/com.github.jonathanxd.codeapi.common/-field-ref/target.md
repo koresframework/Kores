@@ -2,7 +2,7 @@
 
 # target
 
-`val target: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Overrides [FieldBase.target](../../com.github.jonathanxd.codeapi.base/-field-base/target.md)
 

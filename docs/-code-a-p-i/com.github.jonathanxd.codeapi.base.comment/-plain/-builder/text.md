@@ -3,3 +3,8 @@
 # text
 
 `lateinit var text: String`
+
+`fun text(value: String): `[`Builder`](index.md)
+
+See [Plain.text](../text.md)
+

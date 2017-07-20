@@ -2,7 +2,7 @@
 
 # throwException
 
-`fun throwException(part: `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`ThrowException`](../com.github.jonathanxd.codeapi.base/-throw-exception/index.md)
+`fun throwException(part: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`ThrowException`](../com.github.jonathanxd.codeapi.base/-throw-exception/index.md)
 
 **See Also**
 

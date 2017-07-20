@@ -21,6 +21,12 @@
 
 | Name | Summary |
 |---|---|
+| [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`Synchronized`](../index.md)<br>Build the object of type [T](#). |
-| [withBody](with-body.md) | `fun withBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
-| [withInstruction](with-instruction.md) | `fun withInstruction(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Synchronized.instruction](../instruction.md) |
+| [instruction](instruction.md) | `fun instruction(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Synchronized.instruction](../instruction.md) |
+
+### Companion Object Functions
+
+| Name | Summary |
+|---|---|
+| [builder](builder.md) | `fun builder(): Builder`<br>`fun builder(defaults: `[`Synchronized`](../index.md)`): Builder` |

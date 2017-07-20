@@ -2,7 +2,7 @@
 
 # checkRefEqual
 
-`fun checkRefEqual(part1: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`, part2: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`IfExpressionHelper`](index.md)
+`fun checkRefEqual(part1: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, part2: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`IfExpressionHelper`](index.md)
 
-Compares [part1](check-ref-equal.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$checkRefEqual(com.github.jonathanxd.codeapi.CodePart, com.github.jonathanxd.codeapi.CodePart)/part1) and [part2](check-ref-equal.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$checkRefEqual(com.github.jonathanxd.codeapi.CodePart, com.github.jonathanxd.codeapi.CodePart)/part2) by reference.
+Compares [part1](check-ref-equal.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$checkRefEqual(com.github.jonathanxd.codeapi.CodeInstruction, com.github.jonathanxd.codeapi.CodeInstruction)/part1) and [part2](check-ref-equal.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$checkRefEqual(com.github.jonathanxd.codeapi.CodeInstruction, com.github.jonathanxd.codeapi.CodeInstruction)/part2) by reference.
 

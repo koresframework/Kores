@@ -2,14 +2,14 @@
 
 # is
 
-`open fun is(another: `[`CodeType`](index.md)`?): Boolean`
+`open fun is(other: `[`CodeType`](index.md)`?): Boolean`
 
-Returns true if this [CodeType](index.md) is equals to another [CodeType](index.md).
+Returns true if this [CodeType](index.md) is equals to other [CodeType](index.md).
 
 ### Parameters
 
-`another` - Another [CodeType](index.md).
+`other` - Type to test against.
 
 **Return**
-True if this [CodeType](index.md) is equals to another [CodeType](index.md).
+True if this [CodeType](index.md) is equals to other [CodeType](index.md).
 

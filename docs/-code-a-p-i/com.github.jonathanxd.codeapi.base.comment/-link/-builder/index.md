@@ -22,8 +22,8 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Link`](../index.md)<br>Build the object of type [T](#). |
-| [withName](with-name.md) | `fun withName(value: String?): Builder`<br>See [Link.name](../name.md) |
-| [withTarget](with-target.md) | `fun withTarget(value: `[`LinkTarget`](../-link-target/index.md)`): Builder`<br>See [Link.target](../target.md) |
+| [name](name.md) | `fun name(value: String?): Builder`<br>See [Link.name](../name.md) |
+| [target](target.md) | `fun target(value: `[`LinkTarget`](../-link-target/index.md)`): Builder`<br>See [Link.target](../target.md) |
 
 ### Companion Object Functions
 

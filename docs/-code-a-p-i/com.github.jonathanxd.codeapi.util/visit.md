@@ -2,7 +2,7 @@
 
 # visit
 
-`fun visit(codeSource: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`, consumer: (`[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`, `[`Location`](-location/index.md)`, `[`MutableCodeSource`](../com.github.jonathanxd.codeapi/-mutable-code-source/index.md)`) -> Unit): `[`MutableCodeSource`](../com.github.jonathanxd.codeapi/-mutable-code-source/index.md)
+`fun visit(codeSource: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)`, consumer: (`[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, `[`Location`](-location/index.md)`, `[`MutableCodeSource`](../com.github.jonathanxd.codeapi/-mutable-code-source/index.md)`) -> Unit): `[`MutableCodeSource`](../com.github.jonathanxd.codeapi/-mutable-code-source/index.md)
 
 Visit Code Source elements.
 

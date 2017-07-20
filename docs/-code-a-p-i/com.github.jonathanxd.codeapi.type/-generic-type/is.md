@@ -2,16 +2,16 @@
 
 # is
 
-`open fun is(another: `[`CodeType`](../-code-type/index.md)`?): Boolean`
+`open fun is(other: `[`CodeType`](../-code-type/index.md)`?): Boolean`
 
 Overrides [CodeType.is](../-code-type/is.md)
 
-Returns true if this [CodeType](../-code-type/index.md) is equals to another [CodeType](../-code-type/index.md).
+Returns true if this [CodeType](../-code-type/index.md) is equals to other [CodeType](../-code-type/index.md).
 
 ### Parameters
 
-`another` - Another [CodeType](../-code-type/index.md).
+`other` - Type to test against.
 
 **Return**
-True if this [CodeType](../-code-type/index.md) is equals to another [CodeType](../-code-type/index.md).
+True if this [CodeType](../-code-type/index.md) is equals to other [CodeType](../-code-type/index.md).
 

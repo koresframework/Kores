@@ -2,7 +2,7 @@
 
 # MethodDeclarationBase
 
-`interface MethodDeclarationBase : `[`CodeElement`](../../com.github.jonathanxd.codeapi/-code-element.md)`, `[`ModifiersHolder`](../-modifiers-holder/index.md)`, `[`ReturnTypeHolder`](../-return-type-holder/index.md)`, `[`ParametersHolder`](../-parameters-holder/index.md)`, `[`GenericSignatureHolder`](../-generic-signature-holder/index.md)`, `[`Annotable`](../-annotable/index.md)`, `[`Named`](../-named/index.md)`, `[`Typed`](../-typed/index.md)`, `[`CommentHolder`](../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/index.md)`, `[`BodyHolder`](../-body-holder/index.md)`, `[`InnerTypesHolder`](../-inner-types-holder/index.md)
+`interface MethodDeclarationBase : `[`CodeElement`](../../com.github.jonathanxd.codeapi/-code-element.md)`, `[`ModifiersHolder`](../-modifiers-holder/index.md)`, `[`ReturnTypeHolder`](../-return-type-holder/index.md)`, `[`ParametersHolder`](../-parameters-holder/index.md)`, `[`GenericSignatureHolder`](../-generic-signature-holder/index.md)`, `[`Annotable`](../-annotable/index.md)`, `[`Named`](../-named/index.md)`, `[`Typed`](../-typed/index.md)`, `[`CommentHolder`](../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/index.md)`, `[`BodyHolder`](../-body-holder/index.md)`, `[`InnerTypesHolder`](../-inner-types-holder/index.md)`, `[`ThrowsHolder`](../-throws-holder/index.md)
 
 Method declaration
 
@@ -10,7 +10,7 @@ Method declaration
 
 | Name | Summary |
 |---|---|
-| [Builder](-builder/index.md) | `interface Builder<out T : MethodDeclarationBase, S : `[`Builder`](-builder/index.md)`<T, S>> : `[`Builder`](../-body-holder/-builder/index.md)`<T, S>, `[`Builder`](../-modifiers-holder/-builder/index.md)`<T, S>, `[`Builder`](../-return-type-holder/-builder/index.md)`<T, S>, `[`Builder`](../-parameters-holder/-builder/index.md)`<T, S>, `[`Builder`](../-generic-signature-holder/-builder/index.md)`<T, S>, `[`Builder`](../-annotable/-builder/index.md)`<T, S>, `[`Builder`](../-named/-builder/index.md)`<T, S>, `[`Builder`](../-typed/-builder/index.md)`<T, S>, `[`Builder`](../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/-builder/index.md)`<T, S>, `[`Builder`](../-inner-types-holder/-builder/index.md)`<T, S>` |
+| [Builder](-builder/index.md) | `interface Builder<out T : MethodDeclarationBase, S : `[`Builder`](-builder/index.md)`<T, S>> : `[`Builder`](../-body-holder/-builder/index.md)`<T, S>, `[`Builder`](../-modifiers-holder/-builder/index.md)`<T, S>, `[`Builder`](../-return-type-holder/-builder/index.md)`<T, S>, `[`Builder`](../-parameters-holder/-builder/index.md)`<T, S>, `[`Builder`](../-generic-signature-holder/-builder/index.md)`<T, S>, `[`Builder`](../-annotable/-builder/index.md)`<T, S>, `[`Builder`](../-named/-builder/index.md)`<T, S>, `[`Builder`](../-typed/-builder/index.md)`<T, S>, `[`Builder`](../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/-builder/index.md)`<T, S>, `[`Builder`](../-inner-types-holder/-builder/index.md)`<T, S>, `[`Builder`](../-throws-holder/-builder/index.md)`<T, S>` |
 
 ### Properties
 
@@ -34,6 +34,7 @@ Method declaration
 [CodeModifier.PACKAGE_PRIVATE](../-code-modifier/-p-a-c-k-a-g-e_-p-r-i-v-a-t-e.md) is required. |
 | [name](../-named/name.md) | `abstract val name: String`<br>Name |
 | [parameters](../-parameters-holder/parameters.md) | `abstract val parameters: List<`[`CodeParameter`](../-code-parameter/index.md)`>`<br>Parameters |
+| [throwsClause](../-throws-holder/throws-clause.md) | `abstract val throwsClause: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`<br>Throws exception |
 
 ### Functions
 
@@ -41,13 +42,20 @@ Method declaration
 |---|---|
 | [builder](builder.md) | `abstract fun builder(): `[`Builder`](-builder/index.md)`<MethodDeclarationBase, *>`<br>This builder may or may not accept null values, it depends on implementation. |
 
+### Extension Properties
+
+| Name | Summary |
+|---|---|
+| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.isPrimitive: Boolean`<br>Returns true if the type of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is primitive |
+| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or null if receiver is not a [Typed](../-typed/index.md) instance. |
+
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
 | [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [getPartType](../../com.github.jonathanxd.codeapi.util/get-part-type.md) | `fun `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.getPartType(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or throws [IllegalStateException](http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalStateException.html) if [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is not instance of [Typed](../-typed/index.md) |
-| [getPartTypeOrNull](../../com.github.jonathanxd.codeapi.util/get-part-type-or-null.md) | `fun `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.getPartTypeOrNull(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or `null` if [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is not instance of [Typed](../-typed/index.md). |
+| [methodGenericSignature](../../com.github.jonathanxd.codeapi.util/method-generic-signature.md) | `fun MethodDeclarationBase.methodGenericSignature(): String?`<br>Creates method descriptor from receiver. |
 | [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |
 
 ### Inheritors

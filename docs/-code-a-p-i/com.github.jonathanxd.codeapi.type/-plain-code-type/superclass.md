@@ -2,7 +2,7 @@
 
 # superclass
 
-`open val superclass: `[`CodeType`](../-code-type/index.md)`?`
+`open val superclass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
 
 Overrides [InheritanceProvider.superclass](../-inheritance-provider/superclass.md)
 

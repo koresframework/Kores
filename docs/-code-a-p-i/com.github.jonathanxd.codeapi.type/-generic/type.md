@@ -33,8 +33,7 @@ Create a generic type from a name (ex: T, E, R).
 **Return**
 Generic of name.
 
-`fun type(type: `[`CodeType`](../-code-type/index.md)`): `[`Generic`](index.md)
-`fun type(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): `[`Generic`](index.md)
+`fun type(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
 
 Create a generic type from a type.
 

@@ -4,8 +4,5 @@
 
 `open val isWildcard: Boolean`
 
-Returns true if this is a wildcard generic type.
-
-**Return**
 True if this is a wildcard generic type.
 

@@ -4,5 +4,7 @@
 
 `val invocation: `[`MethodInvocation`](../../-method-invocation/index.md)
 
+Overrides [LambdaLocalCodeBase.invocation](../../-invoke-dynamic-base/-lambda-local-code-base/invocation.md)
+
 Invocation to handle dynamically.
 

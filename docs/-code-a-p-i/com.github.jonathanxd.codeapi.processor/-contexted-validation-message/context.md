@@ -2,7 +2,7 @@
 
 # context
 
-`val context: List<Any>`
+`val context: Context`
 
 Message context.
 

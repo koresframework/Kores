@@ -6,6 +6,3 @@
 
 Bounds of the generic type.
 
-**Return**
-Bounds of the generic type.
-

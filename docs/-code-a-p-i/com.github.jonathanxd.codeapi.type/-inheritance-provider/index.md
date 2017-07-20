@@ -10,8 +10,8 @@ Mixin interface, marks the element as a provider of superclass and superinterfac
 
 | Name | Summary |
 |---|---|
-| [superclass](superclass.md) | `abstract val superclass: `[`CodeType`](../-code-type/index.md)`?`<br>Super class |
-| [superinterfaces](superinterfaces.md) | `abstract val superinterfaces: List<`[`CodeType`](../-code-type/index.md)`>`<br>Super interfaces |
+| [superclass](superclass.md) | `abstract val superclass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Super class |
+| [superinterfaces](superinterfaces.md) | `abstract val superinterfaces: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`<br>Super interfaces |
 
 ### Extension Functions
 

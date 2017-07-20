@@ -2,7 +2,7 @@
 
 # toInvocation
 
-`fun `[`MethodTypeSpec`](../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`.toInvocation(invokeType: `[`InvokeType`](../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)`, target: `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`, arguments: List<`[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`>): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
+`fun `[`MethodTypeSpec`](../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`.toInvocation(invokeType: `[`InvokeType`](../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)`, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, arguments: List<`[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
 
 Create [MethodInvocation](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md) from [MethodTypeSpec](../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)
 
@@ -14,7 +14,7 @@ Create [MethodInvocation](../com.github.jonathanxd.codeapi.base/-method-invocati
 
 `arguments` - Arguments to pass to method.
 
-`fun `[`MethodInvokeSpec`](../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`.toInvocation(target: `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`, arguments: List<`[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`>): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
+`fun `[`MethodInvokeSpec`](../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`.toInvocation(target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, arguments: List<`[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
 
 Create [MethodInvocation](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md) from [MethodInvokeSpec](../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)
 

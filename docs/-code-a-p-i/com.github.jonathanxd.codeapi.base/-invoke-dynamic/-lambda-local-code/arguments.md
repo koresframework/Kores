@@ -2,7 +2,9 @@
 
 # arguments
 
-`val arguments: List<`[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`>`
+`val arguments: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+
+Overrides [LambdaLocalCodeBase.arguments](../../-invoke-dynamic-base/-lambda-local-code-base/arguments.md)
 
 Argument to capture from current context and pass to [localCode](local-code.md)
 

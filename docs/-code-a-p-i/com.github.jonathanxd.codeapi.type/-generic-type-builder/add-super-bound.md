@@ -2,7 +2,7 @@
 
 # addSuperBound
 
-`fun addSuperBound(value: `[`CodeType`](../-code-type/index.md)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
+`fun addSuperBound(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
 
 Overrides [Builder.addSuperBound](../-generic-type/-builder/add-super-bound.md)
 

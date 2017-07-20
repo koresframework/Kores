@@ -11,7 +11,6 @@ Switch types
 | Name | Summary |
 |---|---|
 | [NUMERIC](-n-u-m-e-r-i-c.md) |  |
-| [OBJECT](-o-b-j-e-c-t.md) |  |
 | [STRING](-s-t-r-i-n-g.md) |  |
 | [ENUM](-e-n-u-m.md) |  |
 

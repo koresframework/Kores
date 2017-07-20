@@ -2,4 +2,11 @@
 
 # value
 
-`lateinit var value: `[`Typed`](../../-typed/index.md)
+`lateinit var value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
+
+`fun value(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+
+Overrides [Builder.value](../../-value-holder/-builder/value.md)
+
+See [SwitchStatement.value](../value.md)
+

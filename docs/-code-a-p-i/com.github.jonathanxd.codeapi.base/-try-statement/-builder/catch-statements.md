@@ -3,3 +3,10 @@
 # catchStatements
 
 `var catchStatements: List<`[`CatchStatement`](../../-catch-statement/index.md)`>`
+
+`fun catchStatements(value: List<`[`CatchStatement`](../../-catch-statement/index.md)`>): `[`Builder`](index.md)
+
+Overrides [Builder.catchStatements](../../-try-statement-base/-builder/catch-statements.md)
+
+See [T.catchStatements](#)
+

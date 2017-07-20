@@ -23,9 +23,9 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Annotation`](../index.md)<br>Build the object of type [T](#). |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [Annotation.type](../type.md) |
-| [withValues](with-values.md) | `fun withValues(value: Map<String, Any>): Builder`<br>See [Annotation.values](../values.md) |
-| [withVisible](with-visible.md) | `fun withVisible(value: Boolean): Builder`<br>See [Annotation.visible](../visible.md) |
+| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [Annotation.type](../type.md) |
+| [values](values.md) | `fun values(value: Map<String, Any>): Builder`<br>See [Annotation.values](../values.md) |
+| [visible](visible.md) | `fun visible(value: Boolean): Builder`<br>See [Annotation.visible](../visible.md) |
 
 ### Companion Object Functions
 

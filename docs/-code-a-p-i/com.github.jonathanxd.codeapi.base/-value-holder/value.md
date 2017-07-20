@@ -2,7 +2,7 @@
 
 # value
 
-`abstract val value: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`?`
+`abstract val value: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Value
 

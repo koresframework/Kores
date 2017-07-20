@@ -2,7 +2,7 @@
 
 # orNotNull
 
-`fun orNotNull(part1: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): `[`IfExpressionHelper`](index.md)
+`fun orNotNull(part1: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`IfExpressionHelper`](index.md)
 
-Or checks if [part1](or-not-null.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$orNotNull(com.github.jonathanxd.codeapi.CodePart)/part1) is not `null`.
+Or checks if [part1](or-not-null.md#com.github.jonathanxd.codeapi.helper.IfExpressionHelper$orNotNull(com.github.jonathanxd.codeapi.CodeInstruction)/part1) is not `null`.
 

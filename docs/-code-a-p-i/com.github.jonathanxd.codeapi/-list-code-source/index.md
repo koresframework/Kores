@@ -22,7 +22,6 @@ A [MutableCodeSource](../-mutable-code-source/index.md) backing to a [ArrayList]
 
 | Name | Summary |
 |---|---|
-| [ListCodeSource](-list-code-source.md) | `fun ListCodeSource(size: Int, init: (Int) -> `[`CodeInstruction`](../-code-instruction.md)`): ListCodeSource` |
 | [add](add.md) | `fun add(instruction: `[`CodeInstruction`](../-code-instruction.md)`): Boolean`<br>Adds [instruction](add.md#com.github.jonathanxd.codeapi.ListCodeSource$add(com.github.jonathanxd.codeapi.CodeInstruction)/instruction) to list.`fun add(index: Int, element: `[`CodeInstruction`](../-code-instruction.md)`): Unit`<br>Adds [element](add.md#com.github.jonathanxd.codeapi.ListCodeSource$add(kotlin.Int, com.github.jonathanxd.codeapi.CodeInstruction)/element) at [index](add.md#com.github.jonathanxd.codeapi.ListCodeSource$add(kotlin.Int, com.github.jonathanxd.codeapi.CodeInstruction)/index). |
 | [addAll](add-all.md) | `fun addAll(c: Collection<`[`CodeInstruction`](../-code-instruction.md)`>): Boolean`<br>Adds all [CodeInstruction](../-code-instruction.md) of [c](add-all.md#com.github.jonathanxd.codeapi.ListCodeSource$addAll(kotlin.collections.Collection((com.github.jonathanxd.codeapi.CodeInstruction)))/c) into this list.`fun addAll(index: Int, c: Collection<`[`CodeInstruction`](../-code-instruction.md)`>): Boolean`<br>`fun addAll(index: Int, c: Iterable<`[`CodeInstruction`](../-code-instruction.md)`>): Boolean`<br>Adds all [CodeInstruction](../-code-instruction.md) of [c](add-all.md#com.github.jonathanxd.codeapi.ListCodeSource$addAll(kotlin.Int, kotlin.collections.Collection((com.github.jonathanxd.codeapi.CodeInstruction)))/c) into this list at [index](add-all.md#com.github.jonathanxd.codeapi.ListCodeSource$addAll(kotlin.Int, kotlin.collections.Collection((com.github.jonathanxd.codeapi.CodeInstruction)))/index). |
 | [clear](clear.md) | `fun clear(): Unit`<br>Clears this list. |
@@ -65,12 +64,24 @@ changes to this [CodeSource](../-code-source/index.md) is reflected in current [
 |---|---|
 | [addAll](../-mutable-code-source/add-all.md) | `fun addAll(c: Iterable<`[`CodeInstruction`](../-code-instruction.md)`>): Boolean`<br>Adds all [CodeInstruction](../-code-instruction.md) of [c](../-mutable-code-source/add-all.md#com.github.jonathanxd.codeapi.MutableCodeSource$addAll(kotlin.collections.Iterable((com.github.jonathanxd.codeapi.CodeInstruction)))/c) into this list. |
 
+### Companion Object Functions
+
+| Name | Summary |
+|---|---|
+| [ListCodeSource](-list-code-source.md) | `fun ListCodeSource(size: Int, init: (Int) -> `[`CodeInstruction`](../-code-instruction.md)`): ListCodeSource` |
+
+### Extension Properties
+
+| Name | Summary |
+|---|---|
+| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val `[`CodePart`](../-code-part/index.md)`.isPrimitive: Boolean`<br>Returns true if the type of this [CodePart](../-code-part/index.md) is primitive |
+| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val `[`CodePart`](../-code-part/index.md)`.type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Gets the type of [CodePart](../-code-part/index.md) |
+| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val `[`CodePart`](../-code-part/index.md)`.typeOrNull: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Gets the type of [CodePart](../-code-part/index.md) or null if receiver is not a [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) instance. |
+
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
 | [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../-code-part/index.md) |
-| [getPartType](../../com.github.jonathanxd.codeapi.util/get-part-type.md) | `fun `[`CodePart`](../-code-part/index.md)`.getPartType(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of [CodePart](../-code-part/index.md) or throws [IllegalStateException](http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalStateException.html) if [CodePart](../-code-part/index.md) is not instance of [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) |
-| [getPartTypeOrNull](../../com.github.jonathanxd.codeapi.util/get-part-type-or-null.md) | `fun `[`CodePart`](../-code-part/index.md)`.getPartTypeOrNull(): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`<br>Returns the [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) of [CodePart](../-code-part/index.md) or `null` if [CodePart](../-code-part/index.md) is not instance of [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md). |
 | [isEqual](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-iterable/is-equal.md) | `fun <T : Any> Iterable<T>.isEqual(other: Iterable<*>): Boolean`<br>Checks if all elements of receiver [Iterable](#) is equal to elements of [other](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-iterable/is-equal.md#com.github.jonathanxd.codeapi.util.conversion$isEqual(kotlin.collections.Iterable((com.github.jonathanxd.codeapi.util.conversion.isEqual.T)), kotlin.collections.Iterable((kotlin.Any)))/other). |
 | [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |

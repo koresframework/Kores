@@ -22,8 +22,8 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Comments`](../index.md)<br>Build the object of type [T](#). |
-| [withComments](with-comments.md) | `fun withComments(value: List<`[`Comment`](../../-comment/index.md)`>): Builder`<br>`fun withComments(vararg values: `[`Comment`](../../-comment/index.md)`): Builder`<br>See [Comments.comments](../comments.md) |
-| [withType](with-type.md) | `fun withType(value: `[`Type`](../-type/index.md)`): Builder`<br>See [Comments.type](../type.md) |
+| [comments](comments.md) | `fun comments(value: List<`[`Comment`](../../-comment/index.md)`>): Builder`<br>`fun comments(vararg values: `[`Comment`](../../-comment/index.md)`): Builder`<br>See [Comments.comments](../comments.md) |
+| [type](type.md) | `fun type(value: `[`Type`](../-type/index.md)`): Builder`<br>See [Comments.type](../type.md) |
 
 ### Companion Object Functions
 

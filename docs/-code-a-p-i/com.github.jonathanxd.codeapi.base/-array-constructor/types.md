@@ -4,7 +4,7 @@
 
 `val types: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
 
-Overrides [ArgumentHolder.types](../-argument-holder/types.md)
+Overrides [ArgumentsHolder.types](../-arguments-holder/types.md)
 
 Expected types of each argument
 

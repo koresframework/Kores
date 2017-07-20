@@ -8,8 +8,8 @@
 
 | Name | Summary |
 |---|---|
-| [withArrayType](with-array-type.md) | `abstract fun withArrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.arrayType](../array-type.md) |
-| [withTarget](with-target.md) | `abstract fun withTarget(value: `[`CodePart`](../../../com.github.jonathanxd.codeapi/-code-part/index.md)`): S`<br>See [T.target](../target.md) |
+| [arrayType](array-type.md) | `abstract fun arrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.arrayType](array-type.md) |
+| [target](target.md) | `abstract fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.target](target.md) |
 
 ### Inherited Functions
 

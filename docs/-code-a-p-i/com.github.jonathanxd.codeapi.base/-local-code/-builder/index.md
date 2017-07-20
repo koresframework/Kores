@@ -24,16 +24,16 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`LocalCode`](../index.md)<br>Build the object of type [T](#). |
-| [withDeclaration](with-declaration.md) | `fun withDeclaration(value: `[`MethodDeclaration`](../../-method-declaration/index.md)`): Builder`<br>See [LocalCode.declaration](../declaration.md) |
-| [withDeclaringType](with-declaring-type.md) | `fun withDeclaringType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [LocalCode.declaringType](../declaring-type.md) |
-| [withInnerTypes](with-inner-types.md) | `fun withInnerTypes(value: List<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): Builder`<br>See [T.innerTypes](#) |
-| [withInvokeType](with-invoke-type.md) | `fun withInvokeType(value: `[`InvokeType`](../../-invoke-type/index.md)`): Builder`<br>See [LocalCode.invokeType](../invoke-type.md) |
+| [declaration](declaration.md) | `fun declaration(value: `[`MethodDeclaration`](../../-method-declaration/index.md)`): Builder`<br>See [LocalCode.declaration](../declaration.md) |
+| [declaringType](declaring-type.md) | `fun declaringType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [LocalCode.declaringType](../declaring-type.md) |
+| [innerTypes](inner-types.md) | `fun innerTypes(value: List<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): Builder`<br>See [T.innerTypes](#) |
+| [invokeType](invoke-type.md) | `fun invokeType(value: `[`InvokeType`](../../-invoke-type/index.md)`): Builder`<br>See [LocalCode.invokeType](../invoke-type.md) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [withInnerTypes](../../-inner-types-holder/-builder/with-inner-types.md) | `open fun withInnerTypes(vararg values: `[`TypeDeclaration`](../../-type-declaration/index.md)`): S`<br>See [T.innerTypes](../../-inner-types-holder/inner-types.md) |
+| [innerTypes](../../-inner-types-holder/-builder/inner-types.md) | `open fun innerTypes(vararg values: `[`TypeDeclaration`](../../-type-declaration/index.md)`): S`<br>See [T.innerTypes](../../-inner-types-holder/-builder/inner-types.md) |
 
 ### Companion Object Functions
 

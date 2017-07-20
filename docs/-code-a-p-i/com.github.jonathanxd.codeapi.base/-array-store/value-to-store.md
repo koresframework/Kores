@@ -2,7 +2,7 @@
 
 # valueToStore
 
-`val valueToStore: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)
+`val valueToStore: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
 
 Value to store
 

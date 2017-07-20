@@ -8,6 +8,3 @@ Overrides [GenericType.bounds](../-generic-type/bounds.md)
 
 Bounds of the generic type.
 
-**Return**
-Bounds of the generic type.
-

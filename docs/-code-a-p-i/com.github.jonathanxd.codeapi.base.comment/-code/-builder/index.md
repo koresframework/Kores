@@ -21,7 +21,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Code`](../index.md)<br>Build the object of type [T](#). |
-| [withCode](with-code.md) | `fun withCode(value: `[`CodeNode`](../-code-node/index.md)`): Builder`<br>See [Code.code](../code.md) |
+| [code](code.md) | `fun code(value: `[`CodeNode`](../-code-node/index.md)`): Builder`<br>See [Code.code](../code.md) |
 
 ### Companion Object Functions
 

@@ -2,9 +2,9 @@
 
 # resolve
 
-`fun resolve(codeType: `[`CodeType`](../../-code-type/index.md)`): `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>`
+`fun resolve(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>`
 
 Overrides [CodeTypeResolver.resolve](../resolve.md)
 
-Resolver [codeType](resolve.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver.Java$resolve(com.github.jonathanxd.codeapi.type.CodeType)/codeType) to [T](#)
+Resolves [type](resolve.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver.Java$resolve(java.lang.reflect.Type)/type) to [T](#)
 

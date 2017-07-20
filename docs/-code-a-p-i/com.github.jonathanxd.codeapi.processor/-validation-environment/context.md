@@ -2,7 +2,7 @@
 
 # context
 
-`abstract val context: List<Any>`
+`abstract val context: Context`
 
-Immutable view list of current context (LIFO stack)
+Current context.
 

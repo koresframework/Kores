@@ -3,3 +3,10 @@
 # returnType
 
 `var returnType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+
+`fun returnType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+
+Overrides [Builder.returnType](../../-return-type-holder/-builder/return-type.md)
+
+See [T.returnType](#)
+

@@ -2,4 +2,4 @@
 
 # check
 
-`fun check(part: `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`): Unit`
+`fun check(part: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Unit`

@@ -6,3 +6,5 @@
 
 Overrides [GenericType.compareTo](../-generic-type/compare-to.md)
 
+Compare two identifications
+

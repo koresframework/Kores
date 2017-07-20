@@ -4,7 +4,7 @@
 
 `val array: Boolean`
 
-Overrides [ArgumentHolder.array](../-argument-holder/array.md)
+Overrides [ArgumentsHolder.array](../-arguments-holder/array.md)
 
 Array arguments
 
