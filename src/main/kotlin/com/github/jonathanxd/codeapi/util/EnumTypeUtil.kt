@@ -43,8 +43,7 @@ object EnumTypeUtil {
 
     /**
      * Try to resolve int value of part [p]. If is a numeric literal, returns the numeric value of
-     * the literal, if is a string literal, returns the hashcode of the string, if is a [EnumValue], tries
-     * to resolve the ordinal value.
+     * the literal, if is a string literal, returns the hashcode of the string.
      */
     fun resolve(p: CodePart, aSwitch: Lazy<SwitchStatement>): Int {
 
@@ -63,36 +62,6 @@ object EnumTypeUtil {
         if (p is Literals.StringLiteral) {
             return p.original.hashCode()
         }
-
-        try {
-            if (p is EnumValue) {
-                val enumValue = p
-                val ordinal = enumValue.ordinal
-
-                if (ordinal > -1) {
-                    return ordinal
-                }
-
-                val name = enumValue.name
-
-                val type = aSwitch.value.type.codeType
-
-                if (type is LoadedCodeType<*>)
-                    type.loadedType.enumConstants.forEachIndexed { index, it ->
-                        if(it == name)
-                            return@resolve index
-                    }
-                else if(type is EnumDeclaration)
-                    type.entries.forEachIndexed { index, it ->
-                        if(it.name == name)
-                            return@resolve index
-                    }
-
-            }
-        } catch (e: Exception) {
-            throw RuntimeException("Cannot resolve enum ordinal value, please use CodeAPI.enumValue(NAME, ORDINAL) to switch enum values that isn't available at runtime!", e)
-        }
-
 
         throw RuntimeException("Cannot resolve the numeric value of '$p', a new SwitchType must be implemented to resolve this!")
     }

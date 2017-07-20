@@ -145,9 +145,8 @@ fun enumEntry(name: String): EnumEntry =
 /**
  * @see EnumValue
  */
-@JvmOverloads
-fun enumValue(enumType: Type, enumEntry: String, ordinal: Int = -1): EnumValue =
-        EnumValue(enumType, enumEntry, ordinal)
+fun enumValue(enumType: Type, enumEntry: String): EnumValue =
+        EnumValue(enumType, enumEntry)
 
 
 

@@ -38,8 +38,8 @@ typealias CodeAnnotation = Annotation
  * @property type Type of annotation.
  * @property values Map of annotation values (key is the property of annotation),
  * the Annotation value must be: [Byte], [Boolean], [Char], [Short],
- * [Int], [Long], [Float], [Double], [String], [Type], OBJECT, ARRAY,
- * [EnumValue] or other [Annotation].
+ * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or an ARRAY
+ * of one of types cited above (with or without elements).
  */
 data class Annotation(override val type: Type, val values: Map<String, Any>, val visible: Boolean) : Typed {
     override fun builder(): Builder = Builder(this)

@@ -35,12 +35,9 @@ import java.lang.reflect.Type
  *
  * @property enumType Type of enum
  * @property enumEntry Entry of enum.
- * @property ordinal Ordinal value of enum. (If -1 is provided, CodeAPI will
- * try to statically resolve the ordinal value).
  */
 data class EnumValue(val enumType: Type,
-                     val enumEntry: String,
-                     val ordinal: Int) : Named, Typed, CodeInstruction {
+                     val enumEntry: String) : Named, Typed, CodeInstruction {
 
     override val name: String
         get() = this.enumEntry
@@ -56,12 +53,10 @@ data class EnumValue(val enumType: Type,
 
         lateinit var enumType: Type
         lateinit var enumEntry: String
-        var ordinal: Int = -1
 
         constructor(defaults: EnumValue) : this() {
             this.enumType = defaults.enumType
             this.enumEntry = defaults.enumEntry
-            this.ordinal = defaults.ordinal
         }
 
         override fun name(value: String): Builder = this.enumEntry(value)
@@ -84,19 +79,11 @@ data class EnumValue(val enumType: Type,
         }
 
         /**
-         * See [EnumValue.ordinal]
-         */
-        fun ordinal(value: Int): Builder {
-            this.ordinal = value
-            return this
-        }
-
-        /**
          * Base this EnumValue on an [Enum].
          */
-        fun base(enum: Enum<*>): Builder = this.enumType(enum::class.java).enumEntry(enum.name).ordinal(enum.ordinal)
+        fun base(enum: Enum<*>): Builder = this.enumType(enum::class.java).enumEntry(enum.name)
 
-        override fun build(): EnumValue = EnumValue(this.enumType, this.enumEntry, this.ordinal)
+        override fun build(): EnumValue = EnumValue(this.enumType, this.enumEntry)
 
         companion object {
             @JvmStatic
