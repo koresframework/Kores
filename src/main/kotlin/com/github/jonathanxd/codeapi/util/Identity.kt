@@ -67,14 +67,12 @@ fun GenericType.nonStrictEq(other: CodeType): Boolean {
                 && this.name == other.name
                 && this.bounds.nonStrictEq(other.bounds)
 
-    } else if (other is CodeType) {
+    } else {
 
         if (this.bounds.all { it.type is GenericType && it.type.isWildcard })
             return this.resolvedType.identification == other.identification
 
         return this.isType && this.bounds.isEmpty() && this.identification == other.identification
-    } else {
-        return false
     }
 
 }

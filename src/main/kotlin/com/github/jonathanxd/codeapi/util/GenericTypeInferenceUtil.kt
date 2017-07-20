@@ -309,7 +309,6 @@ class JavaResolver : GenericResolver {
     override fun resolveGenericTypeImplementation(superType: Type, implemented: Type,
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
-        val implementedCodeType = implemented.codeType
 
         val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType)?.let {
             (it as? LoadedCodeType<*>)?.loadedType ?: it
