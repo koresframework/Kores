@@ -63,7 +63,7 @@ public class ComplexInnerClassTest_ {
                 .constructors()
                 .methods(
                         MethodDeclaration.Builder.builder()
-                                .modifiers(CodeModifier.PROTECTED) // Required to be accessed from inner/outer
+                                .modifiers(CodeModifier.PRIVATE) // Required to be accessed from inner/outer
                                 .returnType(String.class)
                                 .name("call2")
                                 .body(CodeSource.fromVarArgs(
@@ -108,6 +108,10 @@ public class ComplexInnerClassTest_ {
                                         ),
                                         InvocationFactory.invokeVirtual(classRef, ScopeAccess.outer(classRef),
                                                 "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
+                                        InvocationFactory.invokeVirtual(innerInnerClassRef,
+                                                InvocationFactory.invokeConstructor(innerInnerClassRef, Factories.constructorTypeSpec(), CollectionsKt.listOf()),
+                                                "call2", Factories.typeSpec(Types.STRING), Collections.emptyList()),
+
                                         Factories.returnValue(String.class, Literals.STRING("A"))
                                 )).build()
                 ).build();
