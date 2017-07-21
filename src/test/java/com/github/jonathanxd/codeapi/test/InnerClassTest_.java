@@ -35,6 +35,7 @@ import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.FieldDeclaration;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
+import com.github.jonathanxd.codeapi.base.ScopeAccess;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
@@ -88,10 +89,11 @@ public class InnerClassTest_ {
                                 .body(CodeSource.fromVarArgs(
                                         Predefined.invokePrintln(
                                                 Factories.accessField(classRef,
-                                                        Access.OUTER,
+                                                        ScopeAccess.outer(classRef),
                                                         Types.STRING, "field")
                                         ),
-                                        InvocationFactory.invokeVirtual(classRef, Access.OUTER, "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
+                                        InvocationFactory.invokeVirtual(classRef, ScopeAccess.outer(classRef),
+                                                "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
                                         Factories.returnValue(String.class, Literals.STRING("A"))
                                 )).build()
                 ).build();

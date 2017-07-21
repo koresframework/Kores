@@ -28,32 +28,23 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-
+import java.lang.reflect.Type
 
 /**
- * Access to a scope. Example, access to static scope of [String].
+ * Access to an inner or outer scope.
  */
-enum class Access : CodeInstruction {
+class ScopeAccess(val type: Type, val scope: Scope) : CodeInstruction {
 
-    /**
-     * Access to local scope
-     */
-    LOCAL,
+    companion object {
+        @JvmStatic
+        fun outer(type: Type) = ScopeAccess(type, Scope.OUTER)
 
-    /**
-     * Access to static scope
-     */
-    STATIC,
-
-    /**
-     * Access to this scope
-     */
-    THIS,
-
-    /**
-     * Access to super class scope
-     */
-    SUPER
-
+        @JvmStatic
+        fun inner(type: Type) = ScopeAccess(type, Scope.INNER)
+    }
 }
 
+enum class Scope {
+    INNER,
+    OUTER
+}
