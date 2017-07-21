@@ -110,6 +110,54 @@ fun getNewMethodName(name: String, source: CodeSource): String {
 }
 
 /**
+ * Gets a new unique from a base [name]. This function always return a name that is not in [Named Element List][nameds].
+ */
+fun getNewNames(name: String, amount: Int, nameds: List<Named>): List<String> {
+    val names = nameds.map { it.name }.toMutableList()
+    val nameList = mutableListOf<String>()
+
+    @Suppress("NAME_SHADOWING")
+    var name = name
+    var count = 0
+    while (true) {
+        if(!names.contains(name)) {
+            nameList.add(name)
+            names.add(name)
+        }
+
+        if (nameList.size == amount)
+            return nameList
+
+        name += "$count"
+        count++
+    }
+}
+
+/**
+ * Gets a new unique from a base [name]. This function always return a name that is not in [Named Element List][nameds].
+ */
+fun getNewNamesBaseOnNameList(name: String, amount: Int, nameList: List<String>): List<String> {
+    val names = nameList.toMutableList()
+    val currentNameList = mutableListOf<String>()
+
+    @Suppress("NAME_SHADOWING")
+    var name = name
+    var count = 0
+    while (true) {
+        if(!names.contains(name)) {
+            currentNameList.add(name)
+            names.add(name)
+        }
+
+        if (currentNameList.size == amount)
+            return currentNameList
+
+        name += "$count"
+        count++
+    }
+}
+
+/**
  * Checks if any [namedElements] has the name [name].
  */
 fun contains(name: String, namedElements: List<Named>): Boolean {
