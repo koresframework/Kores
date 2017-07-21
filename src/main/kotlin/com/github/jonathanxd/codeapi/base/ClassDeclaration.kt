@@ -52,7 +52,8 @@ data class ClassDeclaration(override val outerClass: Type?,
                             override val fields: List<FieldDeclaration>,
                             override val constructors: List<ConstructorDeclaration>,
                             override val methods: List<MethodDeclaration>,
-                            override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder, ImplementationHolder {
+                            override val innerTypes: List<TypeDeclaration>) : TypeDeclaration,
+        SuperClassHolder, ImplementationHolder, ConstructorsHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -67,7 +68,8 @@ data class ClassDeclaration(override val outerClass: Type?,
 
     class Builder() : TypeDeclaration.Builder<ClassDeclaration, Builder>,
             SuperClassHolder.Builder<ClassDeclaration, Builder>,
-            ImplementationHolder.Builder<ClassDeclaration, Builder> {
+            ImplementationHolder.Builder<ClassDeclaration, Builder>,
+            ConstructorsHolder.Builder<ClassDeclaration, Builder> {
 
         var outerClass: Type? = null
         lateinit var specifiedName: String

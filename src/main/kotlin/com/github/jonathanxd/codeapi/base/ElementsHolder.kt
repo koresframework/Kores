@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+/**
+ * Holder of some elements.
+ */
 interface ElementsHolder : InnerTypesHolder {
 
     /**
@@ -40,11 +43,6 @@ interface ElementsHolder : InnerTypesHolder {
     val fields: List<FieldDeclaration>
 
     /**
-     * Constructor declaration
-     */
-    val constructors: List<ConstructorDeclaration>
-
-    /**
      * Methods of type
      */
     val methods: List<MethodDeclaration>
@@ -54,52 +52,37 @@ interface ElementsHolder : InnerTypesHolder {
     interface Builder<out T: ElementsHolder, S: Builder<T, S>> : InnerTypesHolder.Builder<T, S> {
 
         /**
-         * See [TypeDeclaration.staticBlock]
+         * See [ElementsHolder.staticBlock]
          */
         fun staticBlock(value: StaticBlock): S
 
         /**
-         * See [TypeDeclaration.fields]
+         * See [ElementsHolder.fields]
          */
         fun fields(value: List<FieldDeclaration>): S
 
         /**
-         * See [TypeDeclaration.fields]
+         * See [ElementsHolder.fields]
          */
         fun fields(vararg values: FieldDeclaration): S = this.fields(values.toList())
 
         /**
-         * See [TypeDeclaration.fields]
+         * See [ElementsHolder.fields]
          */
         fun fields(value: FieldDeclaration): S = this.fields(listOf(value))
 
         /**
-         * See [TypeDeclaration.constructors]
-         */
-        fun constructors(value: List<ConstructorDeclaration>): S
-
-        /**
-         * See [TypeDeclaration.constructors]
-         */
-        fun constructors(vararg values: ConstructorDeclaration): S = this.constructors(values.toList())
-
-        /**
-         * See [TypeDeclaration.constructors]
-         */
-        fun constructors(value: ConstructorDeclaration): S = this.constructors(listOf(value))
-
-        /**
-         * See [TypeDeclaration.methods]
+         * See [ElementsHolder.methods]
          */
         fun methods(value: List<MethodDeclaration>): S
 
         /**
-         * See [TypeDeclaration.methods]
+         * See [ElementsHolder.methods]
          */
         fun methods(vararg values: MethodDeclaration): S = this.methods(values.toList())
 
         /**
-         * See [TypeDeclaration.methods]
+         * See [ElementsHolder.methods]
          */
         fun methods(value: MethodDeclaration): S = this.methods(listOf(value))
 

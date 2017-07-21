@@ -52,7 +52,8 @@ data class EnumDeclaration(override val outerClass: Type?,
                            override val fields: List<FieldDeclaration>,
                            override val constructors: List<ConstructorDeclaration>,
                            override val methods: List<MethodDeclaration>,
-                           override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, ImplementationHolder, EntryHolder {
+                           override val innerTypes: List<TypeDeclaration>) : TypeDeclaration,
+        ImplementationHolder, EntryHolder, ConstructorsHolder {
 
 
     override val qualifiedName: String = specifiedName
@@ -78,7 +79,8 @@ data class EnumDeclaration(override val outerClass: Type?,
 
     class Builder() : TypeDeclaration.Builder<EnumDeclaration, Builder>,
             ImplementationHolder.Builder<EnumDeclaration, Builder>,
-            EntryHolder.Builder<EnumDeclaration, Builder> {
+            EntryHolder.Builder<EnumDeclaration, Builder>,
+            ConstructorsHolder.Builder<EnumDeclaration, Builder> {
 
         var outerClass: Type? = null
         lateinit var specifiedName: String

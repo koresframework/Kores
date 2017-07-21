@@ -48,8 +48,6 @@ data class EnumEntry(override val name: String,
                      override val methods: List<MethodDeclaration>,
                      override val innerTypes: List<TypeDeclaration>) : ArgumentsHolder, Named, ElementsHolder {
 
-    override val constructors: List<ConstructorDeclaration> = emptyList()
-
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
 
@@ -114,8 +112,6 @@ data class EnumEntry(override val name: String,
             this.fields = value
             return this
         }
-
-        override fun constructors(value: List<ConstructorDeclaration>): Builder = self()
 
         override fun methods(value: List<MethodDeclaration>): Builder {
             this.methods = value

@@ -50,7 +50,6 @@ data class AnnotationDeclaration(override val comments: Comments,
                                  override val fields: List<FieldDeclaration>,
                                  override val innerTypes: List<TypeDeclaration>) : TypeDeclaration {
 
-    override val constructors: List<ConstructorDeclaration> = emptyList()
     override val methods: List<MethodDeclaration> = emptyList()
     override val staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
 
@@ -111,8 +110,6 @@ data class AnnotationDeclaration(override val comments: Comments,
             this.fields = value
             return this
         }
-
-        override fun constructors(value: List<ConstructorDeclaration>): Builder = self()
 
         override fun methods(value: List<MethodDeclaration>): Builder = self()
 

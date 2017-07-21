@@ -47,7 +47,6 @@ data class InterfaceDeclaration(override val outerClass: Type?,
                                 override val methods: List<MethodDeclaration>,
                                 override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, ImplementationHolder {
 
-    override val constructors: List<ConstructorDeclaration> = emptyList()
     override val staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
 
     override val isInterface: Boolean
@@ -113,8 +112,6 @@ data class InterfaceDeclaration(override val outerClass: Type?,
             this.fields = value
             return this
         }
-
-        override fun constructors(value: List<ConstructorDeclaration>): Builder = self()
 
         override fun methods(value: List<MethodDeclaration>): Builder {
             this.methods = value

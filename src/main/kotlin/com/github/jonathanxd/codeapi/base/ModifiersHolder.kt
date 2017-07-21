@@ -41,7 +41,7 @@ interface ModifiersHolder : CodePart {
     val modifiers: Set<CodeModifier>
 
     /**
-     * Returns true if is public.
+     * Returns true if this part is public.
      */
     val isPublic: Boolean
         get() = this.modifiers.isEmpty() || this.modifiers.contains(CodeModifier.PUBLIC)

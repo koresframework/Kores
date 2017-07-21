@@ -27,38 +27,33 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeInstruction
-
+import com.github.jonathanxd.codeapi.CodePart
 
 /**
- * Access to a scope. Example, access to static scope of [String].
+ * Same as [ElementsHolder] but holds constructors.
  */
-enum class Access : CodeInstruction {
+interface ConstructorsHolder : CodePart {
 
     /**
-     * Access to local scope
+     * Constructor declarations
      */
-    LOCAL,
+    val constructors: List<ConstructorDeclaration>
 
-    /**
-     * Access to static scope
-     */
-    STATIC,
+    interface Builder<out T: ConstructorsHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
-    /**
-     * Access to this scope
-     */
-    THIS,
+        /**
+         * See [ConstructorsHolder.constructors]
+         */
+        fun constructors(value: List<ConstructorDeclaration>): S
 
-    /**
-     * Access to super class scope
-     */
-    SUPER,
+        /**
+         * See [ConstructorsHolder.constructors]
+         */
+        fun constructors(vararg values: ConstructorDeclaration): S = this.constructors(values.toList())
 
-    /**
-     * Access to outer class scope.
-     */
-    OUTER
-
+        /**
+         * See [ConstructorsHolder.constructors]
+         */
+        fun constructors(value: ConstructorDeclaration): S = this.constructors(listOf(value))
+    }
 }
-

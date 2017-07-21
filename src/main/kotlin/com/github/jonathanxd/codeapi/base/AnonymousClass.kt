@@ -53,7 +53,8 @@ data class AnonymousClass(override val comments: Comments,
                           override val fields: List<FieldDeclaration>,
                           override val constructors: List<ConstructorDeclaration>,
                           override val methods: List<MethodDeclaration>,
-                          override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder, ArgumentsHolder, ImplementationHolder {
+                          override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder,
+        ArgumentsHolder, ImplementationHolder, ConstructorsHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -83,7 +84,8 @@ data class AnonymousClass(override val comments: Comments,
             TypeDeclaration.Builder<AnonymousClass, Builder>,
             SuperClassHolder.Builder<AnonymousClass, Builder>,
             ArgumentsHolder.Builder<AnonymousClass, Builder>,
-            ImplementationHolder.Builder<AnonymousClass, Builder> {
+            ImplementationHolder.Builder<AnonymousClass, Builder>,
+            ConstructorsHolder.Builder<AnonymousClass, Builder> {
 
         var comments: Comments = Comments.Absent
         var outerClass: Type? = null
