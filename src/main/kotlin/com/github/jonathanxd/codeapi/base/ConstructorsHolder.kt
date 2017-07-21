@@ -28,6 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.Builder
 
 /**
  * Same as [ElementsHolder] but holds constructors.
@@ -38,6 +39,8 @@ interface ConstructorsHolder : CodePart {
      * Constructor declarations
      */
     val constructors: List<ConstructorDeclaration>
+
+    override fun builder(): Builder<ConstructorsHolder, *>
 
     interface Builder<out T: ConstructorsHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
