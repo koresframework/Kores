@@ -60,7 +60,11 @@ public class ComplexInnerClassTest_ {
                 .outerClass(innerClassRef)
                 .specifiedName("Inner2")
                 .fields()
-                .constructors()
+                .constructors(
+                        ConstructorDeclaration.Builder.builder()
+                                .modifiers(CodeModifier.PRIVATE)
+                                .build()
+                )
                 .methods(
                         MethodDeclaration.Builder.builder()
                                 .modifiers(CodeModifier.PRIVATE) // Required to be accessed from inner/outer
