@@ -121,7 +121,7 @@ public class ComplexInnerClassTest_ {
                 .base(classRef)
                 .innerTypes(inner)
                 .fields(FieldDeclaration.Builder.builder()
-                        .modifiers(CodeModifier.PROTECTED) // Required to be accessed from inner/outer
+                        .modifiers(CodeModifier.PRIVATE) // Required to be accessed from inner/outer
                         .type(String.class)
                         .name("field")
                         .value(Literals.STRING("XSD"))
