@@ -112,9 +112,9 @@ public class InnerClassTest_ {
                                 .body(CodeSource.fromVarArgs(
                                         InvocationFactory.invokeVirtual(
                                                 inner,
-                                                InvocationFactory.invokeConstructor(inner,
+                                                InvocationFactory.invokeConstructor(inner/*,
                                                         Factories.voidTypeSpec(classRef),
-                                                        Collections.singletonList(Factories.accessThis())),
+                                                        Collections.singletonList(Factories.accessThis())*/),
                                                 "call",
                                                 Factories.typeSpec(String.class),
                                                 Collections.emptyList()
