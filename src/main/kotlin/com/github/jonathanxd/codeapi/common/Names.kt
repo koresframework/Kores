@@ -49,14 +49,17 @@ const val CONSTRUCTOR = "<init>"
  * use by other class in [typeDeclaration].
  */
 fun getNewInnerName(name: String, typeDeclaration: TypeDeclaration): String {
-    @Suppress("NAME_SHADOWING")
-    var name = name
     val inspect = typeDeclaration.innerTypes
 
-    while (contains(name, inspect))
-        name += "$1"
+    var count = 0
 
-    return name
+    if (!contains(name, inspect))
+        return name
+
+    while (contains("name$count", inspect))
+        ++count
+
+    return "$name$count"
 }
 
 /**
@@ -64,11 +67,15 @@ fun getNewInnerName(name: String, typeDeclaration: TypeDeclaration): String {
  */
 fun getNewName(name: String, nameds: List<Named>): String {
     @Suppress("NAME_SHADOWING")
-    var name = name
-    while (contains(name, nameds))
-        name += "$1"
+    var count = 0
 
-    return name
+    if (!contains(name, nameds))
+        return name
+
+    while (contains("name$count", nameds))
+        ++count
+
+    return "$name$count"
 }
 
 /**
@@ -76,18 +83,21 @@ fun getNewName(name: String, nameds: List<Named>): String {
  * [FieldDeclaration] in [source].
  */
 fun getNewFieldName(name: String, source: CodeSource): String {
-    @Suppress("NAME_SHADOWING")
-    var name = name
     val inspect = SourceInspect.builder { codePart -> codePart is FieldDeclaration }
             .includeSource(true)
             .include { bodied -> bodied is CodeSource }
             .mapTo { codePart -> codePart as FieldDeclaration }
             .inspect(source)
 
-    while (contains(name, inspect))
-        name += "$1"
+    var count = 0
 
-    return name
+    if (!contains(name, inspect))
+        return name
+
+    while (contains("name$count", inspect))
+        ++count
+
+    return "$name$count"
 }
 
 /**
@@ -103,10 +113,15 @@ fun getNewMethodName(name: String, source: CodeSource): String {
             .mapTo { codePart -> codePart as MethodDeclarationBase }
             .inspect(source)
 
-    while (contains(name, inspect))
-        name += "$1"
+    var count = 0
 
-    return name
+    if (!contains(name, inspect))
+        return name
+
+    while (contains("name$count", inspect))
+        ++count
+
+    return "$name$count"
 }
 
 /**
@@ -160,11 +175,5 @@ fun getNewNamesBaseOnNameList(name: String, amount: Int, nameList: List<String>)
 /**
  * Checks if any [namedElements] has the name [name].
  */
-fun contains(name: String, namedElements: List<Named>): Boolean {
-    for (named in namedElements) {
-        if (named.name == name)
-            return true
-    }
-
-    return false
-}
+fun contains(name: String, namedElements: List<Named>): Boolean =
+    namedElements.any { it.name == name }
