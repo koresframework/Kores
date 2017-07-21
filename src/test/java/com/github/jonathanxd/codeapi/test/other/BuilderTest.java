@@ -59,4 +59,33 @@ public class BuilderTest {
         System.out.println(invocation);
     }
 
+
+
+    class A {
+
+        private final String s = "X";
+
+        class B {
+            private final int i = 9;
+
+            public void c() {
+                System.out.println(new C().getS());
+            }
+
+            class C {
+                private C() {
+
+                }
+
+                public String getS() {
+                    return A.this.s;
+                }
+            }
+        }
+
+        public void b() {
+            new B().c();
+        }
+    }
+
 }

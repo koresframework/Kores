@@ -173,6 +173,23 @@ fun getNewNamesBaseOnNameList(name: String, amount: Int, nameList: List<String>)
 }
 
 /**
+ * Gets a new unique from a base [name]. This function always return a name that is not in [Named Element List][nameds].
+ */
+fun getNewNameBasedOnNameList(name: String, nameList: List<String>): String {
+    val names = nameList.toMutableList()
+
+    if (!names.contains(name))
+        return name
+
+    var count = 0
+    while (names.contains("$name$count")) {
+        count++
+    }
+
+    return "$name$count"
+}
+
+/**
  * Checks if any [namedElements] has the name [name].
  */
 fun contains(name: String, namedElements: List<Named>): Boolean =
