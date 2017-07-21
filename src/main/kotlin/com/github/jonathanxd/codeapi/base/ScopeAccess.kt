@@ -38,13 +38,9 @@ class ScopeAccess(val type: Type, val scope: Scope) : CodeInstruction {
     companion object {
         @JvmStatic
         fun outer(type: Type) = ScopeAccess(type, Scope.OUTER)
-
-        @JvmStatic
-        fun inner(type: Type) = ScopeAccess(type, Scope.INNER)
     }
 }
 
 enum class Scope {
-    INNER,
     OUTER
 }
