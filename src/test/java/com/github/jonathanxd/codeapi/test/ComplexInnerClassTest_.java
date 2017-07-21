@@ -72,6 +72,8 @@ public class ComplexInnerClassTest_ {
                                                         ScopeAccess.outer(classRef),
                                                         Types.STRING, "field")
                                         ),
+                                        InvocationFactory.invokeVirtual(classRef, ScopeAccess.outer(classRef),
+                                                "mm", Factories.typeSpec(Types.VOID), Collections.emptyList()),
                                         Factories.returnValue(String.class, Literals.STRING("A"))
                                 )).build()
                 ).build();
@@ -85,6 +87,11 @@ public class ComplexInnerClassTest_ {
                                 .type(classRef)
                                 .name("a")
                                 .value(InvocationFactory.invokeConstructor(classRef, Factories.constructorTypeSpec(String.class), CollectionsKt.listOf(Literals.STRING("Hello"))))
+                                .build(),
+                        FieldDeclaration.Builder.builder()
+                                .type(innerInnerClassRef)
+                                .name("b")
+                                .value(InvocationFactory.invokeConstructor(innerInnerClassRef, Factories.constructorTypeSpec(), CollectionsKt.listOf()))
                                 .build()
                 )
                 .constructors()
