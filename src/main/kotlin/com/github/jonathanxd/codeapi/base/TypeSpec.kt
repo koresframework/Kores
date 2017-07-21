@@ -28,9 +28,10 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.util.bothMatches
 import com.github.jonathanxd.codeapi.util.codeType
 import java.lang.reflect.Type
-import java.util.Objects
+import java.util.*
 
 /**
  * Type Signature representation.
@@ -65,6 +66,14 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
             return false
 
         return this.returnTypeCodeType.`is`(other.returnTypeCodeType) && this.parameterTypesCodeType == other.parameterTypesCodeType
+    }
+
+    /**
+     * Returns true if concrete types of this spec is same as concrete types of [other] spec.
+     */
+    fun isConreteEq(other: TypeSpec): Boolean {
+        return this.returnTypeCodeType.isConcreteIdEq(other.returnTypeCodeType)
+                && this.parameterTypesCodeType.bothMatches(other.parameterTypesCodeType) { f, s -> f.isConcreteIdEq(s) }
     }
 
     override fun compareTo(other: TypeSpec): Int {
