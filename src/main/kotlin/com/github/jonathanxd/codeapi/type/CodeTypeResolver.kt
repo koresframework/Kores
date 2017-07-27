@@ -40,7 +40,7 @@ import javax.lang.model.type.TypeKind
 import javax.lang.model.util.Elements
 
 /**
- * Type resolver. Type resolvers should never throws and error when it is unable to resolve
+ * Type resolver. Type resolvers should never throws an error when it is unable to resolve
  * result of an operation. The operation should return `null` - in the cases which `null` is allowed -
  * return [CodeNothing], empty [List] or `false` when the resolver is unable to resolve the result of
  * operation. These semantics are required to [Multi] work correctly with any resolver.
@@ -192,7 +192,7 @@ interface CodeTypeResolver<out T> {
     class Model(val elements: Elements) : CommonResolver<TypeElement?>() {
         override fun resolve(type: Type): TypeElement? =
                 (type.concreteType as? TypeElementCodeType)?.typeElement
-                ?: elements.getTypeElement(type.canonicalName)
+                        ?: elements.getTypeElement(type.canonicalName)
     }
 
     /**
