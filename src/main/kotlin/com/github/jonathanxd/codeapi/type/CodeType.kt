@@ -29,11 +29,7 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.concreteType
-import com.github.jonathanxd.codeapi.util.typeDesc
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.*
 import java.lang.reflect.Type
 
 /**
@@ -252,25 +248,25 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * Gets the super type of `this` [Type] using default resolver.
      */
     val superType: Type?
-        get() = this.defaultResolver.getSuperclass(this).right
+        get() = this.defaultResolver.getSuperclass(this).rightOrFail
 
     /**
      * Gets the super interfaces of `this` [Type] using default resolver.
      */
     val interfaces: List<Type>
-        get() = this.defaultResolver.getInterfaces(this).right
+        get() = this.defaultResolver.getInterfaces(this).rightOrFail
 
     /**
      * Returns true if `this` type is assignable from [type] (using default resolver of [type]).
      */
     fun isAssignableFrom(type: Type): Boolean =
-        this.defaultResolver.isAssignableFrom(this, type).right
+        this.defaultResolver.isAssignableFrom(this, type).rightOrFail
 
     /**
      * Returns true if `this` type is assignable from [type] (using resolver provided by [resolverProvider]).
      */
     fun isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean =
-        this.defaultResolver.isAssignableFrom(this, type, resolverProvider).right
+        this.defaultResolver.isAssignableFrom(this, type, resolverProvider).rightOrFail
 
 
     /**

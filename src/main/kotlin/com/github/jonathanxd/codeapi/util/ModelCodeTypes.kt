@@ -176,7 +176,7 @@ class ModelResolver(val elements: Elements) : GenericResolver {
                                            codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).right
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail
 
         if (resolve is TypeElement) {
             return resolve.asType().getCodeType(elements).asGeneric
@@ -189,17 +189,16 @@ class ModelResolver(val elements: Elements) : GenericResolver {
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).right
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail
 
         if (resolvedSuperType is TypeElement) {
-            val superElement = resolvedSuperType
 
-            if (superElement.superclass.kind != TypeKind.NONE
-                    && superElement.superclass.getCodeType(elements).concreteType.`is`(implemented.concreteType)) {
-                return superElement.superclass.getCodeType(elements).asGeneric
+            if (resolvedSuperType.superclass.kind != TypeKind.NONE
+                    && resolvedSuperType.superclass.getCodeType(elements).concreteType.`is`(implemented.concreteType)) {
+                return resolvedSuperType.superclass.getCodeType(elements).asGeneric
             }
 
-            val itfs = superElement.interfaces
+            val itfs = resolvedSuperType.interfaces
 
             for (i in itfs.indices) {
                 val itf = itfs[i]
@@ -209,7 +208,7 @@ class ModelResolver(val elements: Elements) : GenericResolver {
                 }
             }
 
-            throw IllegalStateException("Can't find '$implemented' in superclasses and superinterfaces of '$superElement'.")
+            throw IllegalStateException("Can't find '$implemented' in superclasses and superinterfaces of '$resolvedSuperType'.")
         }
 
         throw IllegalStateException("Super type $superType which implements $implemented must be a Javax Annotation Model TypeElement.")

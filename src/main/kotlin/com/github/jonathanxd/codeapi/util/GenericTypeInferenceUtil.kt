@@ -111,11 +111,11 @@ fun getInferredType(name: String,
 
     val plainTypes = mutableListOf<CodeType>()
 
-    codeTypeResolver.getSuperclass(startingType).right?.let {
+    codeTypeResolver.getSuperclass(startingType).rightOrFail?.let {
         plainTypes += it.codeType
     }
 
-    codeTypeResolver.getInterfaces(startingType).right.forEach {
+    codeTypeResolver.getInterfaces(startingType).rightOrFail.forEach {
         plainTypes += it.codeType
     }
 
@@ -295,7 +295,7 @@ class JavaResolver : GenericResolver {
     override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).right?.let {
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail?.let {
             (it as? LoadedCodeType<*>)?.loadedType ?: it
         }
 
@@ -310,7 +310,7 @@ class JavaResolver : GenericResolver {
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).right?.let {
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail?.let {
             (it as? LoadedCodeType<*>)?.loadedType ?: it
         }
 
@@ -342,7 +342,7 @@ class CodeAPIResolver : GenericResolver {
     override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).right
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail
 
         if (resolve is TypeDeclaration) {
             return Generic.type(resolve).of(*resolve.genericSignature.types)
@@ -355,7 +355,7 @@ class CodeAPIResolver : GenericResolver {
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).right
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail
 
         if (resolvedSuperType is TypeDeclaration) {
             val superClass = resolvedSuperType
@@ -390,7 +390,7 @@ class MixedResolver(val elements: Elements?) : GenericResolver {
     override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).right
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail
 
         if (resolve is LoadedCodeType<*> || resolve is Class<*>) {
             return javaResolver.resolveTypeWithParameters(type, codeTypeResolver)
@@ -411,7 +411,7 @@ class MixedResolver(val elements: Elements?) : GenericResolver {
     override fun resolveGenericTypeImplementation(superType: Type, implemented: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val rSuperType = superType.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(rSuperType.concreteType).right
+        val resolve: Any? = codeTypeResolver.resolve(rSuperType.concreteType).rightOrFail
 
         if (resolve is LoadedCodeType<*> || resolve is Class<*>) {
             return javaResolver.resolveGenericTypeImplementation(rSuperType, implemented, codeTypeResolver)
