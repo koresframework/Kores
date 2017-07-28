@@ -28,6 +28,8 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.util.defaultResolver
+import com.github.jonathanxd.iutils.`object`.Either
+import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
 import java.lang.reflect.Type
 
 /**
@@ -39,24 +41,24 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
     /**
      * Resolves [bindType] to [T]
      */
-    fun resolve(): T = this.codeTypeResolver.resolve(this.bindType)
+    fun resolve(): Either<Exception, out T> = this.codeTypeResolver.resolve(this.bindType)
 
     /**
      * Resolves super class of [bindType]
      */
-    fun getSuperclass(): Type? = this.codeTypeResolver.getSuperclass(this.bindType)
+    fun getSuperclass(): Either<Exception, Type?> = this.codeTypeResolver.getSuperclass(this.bindType)
 
     /**
      * Resolves super interfaces of [bindType].
      */
-    fun getInterfaces(): List<Type> = this.codeTypeResolver.getInterfaces(this.bindType)
+    fun getInterfaces(): Either<Exception, List<Type>> = this.codeTypeResolver.getInterfaces(this.bindType)
 
     /**
      * Checks if [bindType] is assignable from [from] using default resolvers.
      *
      * @return True if [bindType] is assignable from [from].
      */
-    fun isAssignableFrom(from: Type): Boolean =
+    fun isAssignableFrom(from: Type): EitherObjBoolean<Exception> =
             this.isAssignableFrom(from, Type::defaultResolver)
 
     /**
@@ -64,16 +66,16 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
      *
      * @return True if [bindType] is assignable from [from].
      */
-    fun isAssignableFrom(from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean =
+    fun isAssignableFrom(from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception> =
             this.codeTypeResolver.isAssignableFrom(this.bindType, from, resolverProvider)
 
     /**
      * Creates a new [BindedTypeResolver] instance 'binded' to [bindType].
      */
-    fun bindTo(bindedType: Type) = BindedTypeResolver<T>(bindedType, this.codeTypeResolver)
+    fun bindTo(bindedType: Type) = BindedTypeResolver(bindedType, this.codeTypeResolver)
 
     /**
      * Creates a new [BindedTypeResolver] instance which delegate calls to [codeTypeResolver].
      */
-    fun <T> bindToResolver(codeTypeResolver: CodeTypeResolver<T>) = BindedTypeResolver<T>(bindType, codeTypeResolver)
+    fun <T> bindToResolver(codeTypeResolver: CodeTypeResolver<T>) = BindedTypeResolver(bindType, codeTypeResolver)
 }

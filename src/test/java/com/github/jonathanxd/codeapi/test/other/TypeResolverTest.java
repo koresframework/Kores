@@ -36,9 +36,10 @@ import com.github.jonathanxd.codeapi.type.TypeRef;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.codeapi.util.ImplicitCodeType;
 import com.github.jonathanxd.iutils.collection.Collections3;
+import com.github.jonathanxd.iutils.object.Either;
+import com.github.jonathanxd.iutils.object.specialized.EitherObjBoolean;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -67,10 +68,10 @@ public class TypeResolverTest {
 
         CodeTypeResolver<?> defaultResolver = typeDeclaration.getDefaultResolver();
 
-        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), typeDeclaration));
-        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(BaseExt.class), typeDeclaration));
-        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), CodeTypes.getCodeType(BaseExt.class)));
-        Assert.assertTrue(defaultResolver.isAssignableFrom(basex, typeDeclaration));
+        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), typeDeclaration).getRight());
+        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(BaseExt.class), typeDeclaration).getRight());
+        Assert.assertTrue(defaultResolver.isAssignableFrom(CodeTypes.getCodeType(Base.class), CodeTypes.getCodeType(BaseExt.class)).getRight());
+        Assert.assertTrue(defaultResolver.isAssignableFrom(basex, typeDeclaration).getRight());
     }
 
     @Test
@@ -84,39 +85,42 @@ public class TypeResolverTest {
         resolver.addResolver(java);
         resolver.addResolver(CodeTypeResolver.DefaultResolver.INSTANCE);
         resolver.addResolver(new CodeTypeResolver<Type>() {
+            @NotNull
             @Override
-            public Type resolve(@NotNull Type type) {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public Type getSuperclass(@NotNull Type type) {
-                return null;
+            public Either<Exception, Type> resolve(@NotNull Type type) {
+                return Either.right(null);
             }
 
             @NotNull
             @Override
-            public List<Type> getInterfaces(@NotNull Type type) {
-                return Collections3.listOf(String.class);
+            public Either<Exception, Type> getSuperclass(@NotNull Type type) {
+                return Either.right(null);
             }
 
+            @NotNull
             @Override
-            public boolean isAssignableFrom(@NotNull Type type, @NotNull Type from) {
+            public Either<Exception, List<Type>> getInterfaces(@NotNull Type type) {
+                return Either.right(Collections3.listOf(String.class));
+            }
+
+            @NotNull
+            @Override
+            public EitherObjBoolean<Exception> isAssignableFrom(@NotNull Type type, @NotNull Type from) {
                 return CodeTypeResolver.DefaultImpls.isAssignableFrom(this, type, from);
             }
 
+            @NotNull
             @Override
-            public boolean isAssignableFrom(@NotNull Type type, @NotNull Type from, @NotNull Function1<? super Type, ? extends CodeTypeResolver<?>> resolverProvider) {
-                return ImplicitCodeType.is(Boolean.TYPE, from);
+            public EitherObjBoolean<Exception> isAssignableFrom(@NotNull Type type, @NotNull Type from, @NotNull Function1<? super Type, ? extends CodeTypeResolver<?>> resolverProvider) {
+                return EitherObjBoolean.right(ImplicitCodeType.is(Boolean.TYPE, from));
 
             }
         });
 
-        Assert.assertTrue(resolver.isAssignableFrom(typeRef, Boolean.TYPE));
-        Assert.assertTrue(ImplicitCodeType.is(typeRef, resolver.resolve(typeRef)));
-        Assert.assertTrue(resolver.getInterfaces(typeRef).size() == 1);
-        Assert.assertTrue(resolver.getSuperclass(typeRef) == null);
+        Assert.assertTrue(resolver.isAssignableFrom(typeRef, Boolean.TYPE).getRight());
+        Assert.assertTrue(ImplicitCodeType.is(typeRef, resolver.resolve(typeRef).getRight()));
+        Assert.assertTrue(resolver.getInterfaces(typeRef).getRight().size() == 1);
+        Assert.assertTrue(resolver.getSuperclass(typeRef).getRight() == null);
 
 
     }

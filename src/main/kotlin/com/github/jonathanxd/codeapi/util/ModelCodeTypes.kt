@@ -176,7 +176,7 @@ class ModelResolver(val elements: Elements) : GenericResolver {
                                            codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType)
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).right
 
         if (resolve is TypeElement) {
             return resolve.asType().getCodeType(elements).asGeneric
@@ -189,7 +189,7 @@ class ModelResolver(val elements: Elements) : GenericResolver {
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType)
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).right
 
         if (resolvedSuperType is TypeElement) {
             val superElement = resolvedSuperType
