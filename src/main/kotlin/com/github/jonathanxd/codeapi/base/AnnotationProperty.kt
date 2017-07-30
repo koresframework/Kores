@@ -35,7 +35,7 @@ import java.lang.reflect.Type
  * Annotation property, this is part of [AnnotationDeclaration].
  *
  * @property defaultValue Annotation default value, must be: [Byte], [Boolean], [Char], [Short],
- * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or an ARRAY
+ * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or a List
  * of one of types cited above (with or without elements).
  */
 data class AnnotationProperty(override val comments: Comments,

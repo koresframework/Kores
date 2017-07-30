@@ -55,9 +55,8 @@ val GenericDeclaration.genericSignature: GenericSignature
 /**
  * Resolves the [CodeType] of [variable] of [typeVariables] using types provided by [generic].
  */
-fun getType(typeVariables: Array<out TypeVariable<*>>, variable: TypeVariable<*>, generic: GenericType): CodeType? {
-    return getType(typeVariables, variable.name, generic)
-}
+fun getType(typeVariables: Array<out TypeVariable<*>>, variable: TypeVariable<*>, generic: GenericType): CodeType? =
+        getType(typeVariables, variable.name, generic)
 
 /**
  * Resolves the [CodeType] of variable with name [variable] of [typeVariables] using types provided by [generic].

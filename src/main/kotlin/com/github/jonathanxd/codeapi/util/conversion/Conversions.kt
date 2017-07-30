@@ -290,14 +290,12 @@ fun Class<Annotation>.toDeclaration() =
  * Creates a [ClassDeclaration] from receiver [Class] class.
  */
 fun <T : Any> Class<T>.toDeclaration() =
-        if (this.isInterface)
-            this.toInterfaceDeclaration()
-        else if (this.isEnum)
-            this.toEnumDeclaration()
-        else if (this.isAnnotation)
-            this.toAnnotationDeclaration()
-        else
-            this.toClassDeclaration()
+        when {
+            this.isInterface -> this.toInterfaceDeclaration()
+            this.isEnum -> this.toEnumDeclaration()
+            this.isAnnotation -> this.toAnnotationDeclaration()
+            else -> this.toClassDeclaration()
+        }
 
 
 /**

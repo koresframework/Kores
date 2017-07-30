@@ -37,37 +37,28 @@ import java.util.Optional
 /**
  * Associates [key] to [value] in receiver [TypedData]
  */
-operator fun <T> TypedData.set(key: TypedKey<T>, value: T): Pair<*, TypeInfo<*>>? {
-    return this.set(key.key, value, key.type)
-}
+operator fun <T> TypedData.set(key: TypedKey<T>, value: T): Pair<*, TypeInfo<*>>? =
+        this.set(key.key, value, key.type)
 
 /**
  * Gets value associated to [key] in receiver [TypedData].
  */
-operator fun <T> TypedData.get(key: TypedKey<T>): T? {
-    return this.getOrNull(key.key, key.type)
-}
+operator fun <T> TypedData.get(key: TypedKey<T>): T? = this.getOrNull(key.key, key.type)
 
 /**
  * Gets value associated to [key] in receiver [TypedData] boxing in an [Optional].
  */
-fun <T> TypedData.getOptional(key: TypedKey<T>): Optional<T> {
-    return Optional.ofNullable(this[key])
-}
+fun <T> TypedData.getOptional(key: TypedKey<T>): Optional<T> = Optional.ofNullable(this[key])
 
 /**
  * Returns if [TypedData] contains a value associated to [key].
  */
-fun <T> TypedData.containsKey(key: TypedKey<T>): Boolean {
-    return this.contains(key.key, key.type)
-}
+fun <T> TypedData.containsKey(key: TypedKey<T>): Boolean = this.contains(key.key, key.type)
 
 /**
  * Returns if [TypedData] contains a value associated to [key] regardless the [TypeInfo].
  */
-fun <T> TypedData.containsAnyKey(key: TypedKey<T>): Boolean {
-    return this.contains(key.key)
-}
+fun <T> TypedData.containsAnyKey(key: TypedKey<T>): Boolean = this.contains(key.key)
 
 // TypedKeyUtils
 

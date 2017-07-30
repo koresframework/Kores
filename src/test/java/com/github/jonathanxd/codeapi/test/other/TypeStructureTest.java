@@ -25,46 +25,51 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.test;
+package com.github.jonathanxd.codeapi.test.other;
 
-import com.github.jonathanxd.codeapi.Types;
-import com.github.jonathanxd.codeapi.base.AnnotationDeclaration;
-import com.github.jonathanxd.codeapi.base.AnnotationProperty;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
-import com.github.jonathanxd.codeapi.base.comment.Comments;
-import com.github.jonathanxd.codeapi.factory.Factories;
-import com.github.jonathanxd.iutils.collection.Collections3;
+import com.github.jonathanxd.codeapi.util.conversion.TypeStructureKt;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collections;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import kotlin.collections.CollectionsKt;
-import kotlin.collections.SetsKt;
-
-public class AnnotationTest_ {
-
-
-    public static TypeDeclaration $() {
-
-        AnnotationDeclaration build = AnnotationDeclaration.Builder.Companion.builder()
-                .modifiers(SetsKt.setOf(CodeModifier.PUBLIC))
-                .qualifiedName("com.MyAnnotation")
-                .properties(CollectionsKt.listOf(
-                        new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING, "value", null),
-                        new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING, "id", "A"),
-                        new AnnotationProperty(Comments.Absent, Collections.emptyList(), Types.STRING.toArray(1), "names",
-                                Collections3.listOf("A", "B")),
-                        Factories.annotationProperty(Types.INT.toArray(1), "ns", Collections3.listOf(1, 2))
-                ))
-                .build();
-
-        return build;
-    }
+public class TypeStructureTest {
 
     @Test
     public void test() {
-        $();
+        TypeDeclaration typeDeclaration = TypeStructureKt.getTypeDeclaration(MyCl.class);
+        TypeDeclaration enumDec = TypeStructureKt.getTypeDeclaration(X.class);
+
+        Assert.assertFalse(typeDeclaration.getAnnotations().isEmpty());
+        // TODO: Test
+    }
+
+
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface A {
+        String[] n();
+        int v();
+        String c() default "default";
+    }
+
+    @A(n = {"A"}, v = 9)
+    public static class MyCl {
+        private final String name;
+
+        public MyCl(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+
+    enum X {
+        @A(n = {"X"}, v = 9)
+        A
     }
 }

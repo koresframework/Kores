@@ -139,6 +139,70 @@ fun fromJavaModifiers(modifiers: Int): MutableSet<CodeModifier> {
     return collection
 }
 
+private typealias JavaxModifier = javax.lang.model.element.Modifier
+
+/**
+ * Extract modifiers from Javax model modifiers ([Modifier]).
+ *
+ * @param modifiers Modifiers.
+ * @return Sorted Collection of modifiers.
+ */
+fun fromJavaxModifiers(modifiers: Iterable<JavaxModifier>): MutableSet<CodeModifier> {
+    val collection = java.util.TreeSet<CodeModifier>()
+
+    if (modifiers.contains(JavaxModifier.PUBLIC)) {
+        collection.add(CodeModifier.PUBLIC)
+    } else if (modifiers.contains(JavaxModifier.PRIVATE)) {
+        collection.add(CodeModifier.PRIVATE)
+    } else if (modifiers.contains(JavaxModifier.PROTECTED)) {
+        collection.add(CodeModifier.PROTECTED)
+    } else {
+        collection.add(CodeModifier.PACKAGE_PRIVATE)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.ABSTRACT)) {
+        collection.add(CodeModifier.ABSTRACT)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.STATIC)) {
+        collection.add(CodeModifier.STATIC)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.FINAL)) {
+        collection.add(CodeModifier.FINAL)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.TRANSIENT)) {
+        collection.add(CodeModifier.TRANSIENT)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.VOLATILE)) {
+        collection.add(CodeModifier.VOLATILE)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.SYNCHRONIZED)) {
+        collection.add(CodeModifier.SYNCHRONIZED)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.NATIVE)) {
+        collection.add(CodeModifier.NATIVE)
+    }
+
+
+    if (modifiers.contains(JavaxModifier.STRICTFP)) {
+        collection.add(CodeModifier.STRICTFP)
+    }
+
+    return collection
+}
+
 /**
  * Modifiers to String
  *

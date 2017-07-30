@@ -27,12 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.base.ImplementationHolder
-import com.github.jonathanxd.codeapi.base.SuperClassHolder
-import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver.DefaultResolver.resolve
 import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.util.conversion.getTypeDeclaration
+import com.github.jonathanxd.codeapi.util.conversion.toRepresentation
+import com.github.jonathanxd.codeapi.util.conversion.typeDeclaration
 import com.github.jonathanxd.iutils.`object`.Either
 import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
 import java.lang.reflect.Type
@@ -78,6 +79,42 @@ interface CodeTypeResolver<out T> {
      * @return True if [type] is assignable from [from].
      */
     fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception>
+
+    /**
+     * Resolves or create [TypeDeclaration] from [type] structure and elements.
+     */
+    fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration>
+
+    /**
+     * Resolves or create a list of all [FieldDeclaration] present in [type].
+     *
+     * The default implementation delegates the call to [resolveTypeDeclaration]
+     * and extract property value.
+     */
+    fun resolveFields(type: Type): Either<Exception, List<FieldDeclaration>> =
+            this.resolveTypeDeclaration(type).mapRight { it.fields }
+
+    /**
+     * Resolves or create a list of all [ConstructorDeclaration] present in [type].
+     *
+     * The default implementation delegates the call to [resolveTypeDeclaration]
+     * and extract property value.
+     */
+    fun resolveConstructors(type: Type): Either<Exception, List<ConstructorDeclaration>> =
+            this.resolveTypeDeclaration(type).flatMapRight {
+                (it as? ConstructorsHolder)?.let {
+                    Either.right<Exception, List<ConstructorDeclaration>>(it.constructors)
+                } ?: Either.left<Exception, List<ConstructorDeclaration>>(IllegalArgumentException("Type $type is not a ConstructorHolder"))
+            }
+
+    /**
+     * Resolves or create a list of all [MethodDeclaration] present in [type].
+     *
+     * The default implementation delegates the call to [resolveTypeDeclaration]
+     * and extract property value.
+     */
+    fun resolveMethods(type: Type): Either<Exception, List<MethodDeclaration>> =
+            this.resolveTypeDeclaration(type).mapRight { it.methods }
 
     /**
      * Common implementation of resolver.
@@ -180,6 +217,21 @@ interface CodeTypeResolver<out T> {
             }
 
             return EitherObjBoolean.right(false)
+        }
+
+        override fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> {
+            val concreteType = type.concreteType
+
+            if (concreteType is LoadedCodeType<*>)
+                return Either.right(concreteType.loadedType.typeDeclaration)
+
+            if (concreteType is TypeElementCodeType)
+                return Either.right(concreteType.typeElement.getTypeDeclaration(concreteType.elements))
+
+            if (concreteType is TypeDeclaration)
+                return Either.right(concreteType.toRepresentation())
+
+            return Either.left(IllegalArgumentException("Cannot create TypeDeclaration representation from $type"))
         }
     }
 
@@ -320,8 +372,12 @@ interface CodeTypeResolver<out T> {
                 resolvers.map { it.isAssignableFrom(type, from, resolverProvider) }
                         .firstOrNull { it.isRight && it.right }
                         ?: EitherObjBoolean.left<Exception>(IllegalArgumentException("None of provided resolvers was" +
-                        " able to resolve if $type is assignable from $from. Provided resolvers: '${resolvers.joinToString()}'"))
+                        " able to resolve whether $type is assignable from $from. Provided resolvers: '${resolvers.joinToString()}'"))
 
-
+        override fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> =
+            resolvers.map { it.resolveTypeDeclaration(type) }
+                    .firstOrNull { it.isRight }
+                    ?: Either.left<Exception, TypeDeclaration>(IllegalArgumentException("None of provided resolvers was" +
+                    " able to resolve TypeDeclaration representation of $type."))
     }
 }

@@ -29,12 +29,16 @@ package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
+import com.github.jonathanxd.codeapi.base.FieldDeclaration;
+import com.github.jonathanxd.codeapi.base.MethodDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver;
 import com.github.jonathanxd.codeapi.type.TypeRef;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.codeapi.util.ImplicitCodeType;
+import com.github.jonathanxd.codeapi.util.conversion.TypeStructureKt;
 import com.github.jonathanxd.iutils.collection.Collections3;
 import com.github.jonathanxd.iutils.object.Either;
 import com.github.jonathanxd.iutils.object.specialized.EitherObjBoolean;
@@ -113,7 +117,34 @@ public class TypeResolverTest {
             @Override
             public EitherObjBoolean<Exception> isAssignableFrom(@NotNull Type type, @NotNull Type from, @NotNull Function1<? super Type, ? extends CodeTypeResolver<?>> resolverProvider) {
                 return EitherObjBoolean.right(ImplicitCodeType.is(Boolean.TYPE, from));
+            }
 
+            @NotNull
+            @Override
+            public Either<Exception, List<ConstructorDeclaration>> resolveConstructors(@NotNull Type type) {
+                return CodeTypeResolver.DefaultImpls.resolveConstructors(this, type);
+            }
+
+            @NotNull
+            @Override
+            public Either<Exception, List<FieldDeclaration>> resolveFields(@NotNull Type type) {
+                return CodeTypeResolver.DefaultImpls.resolveFields(this, type);
+            }
+
+            @NotNull
+            @Override
+            public Either<Exception, List<MethodDeclaration>> resolveMethods(@NotNull Type type) {
+                return CodeTypeResolver.DefaultImpls.resolveMethods(this, type);
+            }
+
+            @NotNull
+            @Override
+            public Either<Exception, TypeDeclaration> resolveTypeDeclaration(@NotNull Type type) {
+                if (ImplicitCodeType.is(Boolean.TYPE, type)) {
+                    return Either.right(TypeStructureKt.getTypeDeclaration(Boolean.class));
+                }
+
+                return Either.left(new IllegalArgumentException(type.toString()));
             }
         });
 

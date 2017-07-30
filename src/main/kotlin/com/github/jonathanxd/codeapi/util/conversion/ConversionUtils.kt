@@ -36,6 +36,7 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.*
 import kotlin.reflect.KParameter
+import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
 import kotlin.reflect.full.valueParameters
 import kotlin.reflect.jvm.kotlinFunction
 
@@ -91,34 +92,46 @@ fun <T : Any> Iterable<T>.isEqual(other: Iterable<*>): Boolean {
  * Gets parameter names of receiver [Method].
  */
 val Method.parameterNames: List<String>
-    get() = this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name } ?: this.parameters.map { it.name }
+    get() = this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
+        if (it.size != this.parameterCount) null
+        else it
+    } ?: this.parameters.map { it.name }
 
 /**
  * Gets kotlin parameters from receiver [Method].
  */
 val Method.kotlinParameters: List<KParameter>?
-    get() = this.kotlinFunction?.valueParameters
+    get() = try { this.kotlinFunction?.valueParameters } catch (ex: KotlinReflectionInternalError) { null }
 
 /**
  * Gets code parameters of receiver [Method].
  */
 val Method.codeParameters: List<CodeParameter>
-    get() = this.kotlinParameters?.map { it.toCodeParameter() } ?: this.parameters.map { it.toCodeParameter() }
+    get() = this.kotlinParameters?.map { it.toCodeParameter() }?.let {
+        if (it.size != this.parameterCount) null
+        else it
+    } ?: this.parameters.map { it.toCodeParameter() }
 
 /**
  * Gets parameter names of receiver [Constructor].
  */
-val <T: Any> Constructor<T>.parameterNames: List<String>
-    get() = this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name } ?: this.parameters.map { it.name }
+val <T : Any> Constructor<T>.parameterNames: List<String>
+    get() = this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
+        if (it.size != this.parameterCount) null
+        else it
+    } ?: this.parameters.map { it.name }
 
 /**
  * Gets kotlin parameter of receiver [Constructor].
  */
-val <T: Any> Constructor<T>.kotlinParameters: List<KParameter>?
-    get() = this.kotlinFunction?.valueParameters
+val <T : Any> Constructor<T>.kotlinParameters: List<KParameter>?
+    get() = try { this.kotlinFunction?.valueParameters } catch (ex: KotlinReflectionInternalError) { null }
 
 /**
  * Gets code parameters of receiver [Method].
  */
-val <T: Any> Constructor<T>.codeParameters: List<CodeParameter>
-    get() = this.kotlinParameters?.map { it.toCodeParameter() } ?: this.parameters.map { it.toCodeParameter() }
+val <T : Any> Constructor<T>.codeParameters: List<CodeParameter>
+    get() = this.kotlinParameters?.map { it.toCodeParameter() }?.let {
+        if (it.size != this.parameterCount) null
+        else it
+    } ?: this.parameters.map { it.toCodeParameter() }

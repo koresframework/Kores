@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.util.self
@@ -40,13 +39,14 @@ import java.lang.reflect.Type
  * @property constructorSpec Enum constructor specification. Null for default enum constructor.
  * @property arguments Enum constructor arguments
  */
-data class EnumEntry(override val name: String,
+data class EnumEntry(override val annotations: List<Annotation>,
+                     override val name: String,
                      val constructorSpec: TypeSpec?,
                      override val arguments: List<CodeInstruction>,
                      override val staticBlock: StaticBlock,
                      override val fields: List<FieldDeclaration>,
                      override val methods: List<MethodDeclaration>,
-                     override val innerTypes: List<TypeDeclaration>) : ArgumentsHolder, Named, ElementsHolder {
+                     override val innerTypes: List<TypeDeclaration>) : Annotable, ArgumentsHolder, Named, ElementsHolder {
 
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
@@ -57,10 +57,12 @@ data class EnumEntry(override val name: String,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
+            Annotable.Builder<EnumEntry, Builder>,
             ArgumentsHolder.Builder<EnumEntry, Builder>,
             Named.Builder<EnumEntry, Builder>,
             ElementsHolder.Builder<EnumEntry, Builder> {
 
+        var annotations: List<Annotation> = emptyList()
         lateinit var name: String
         var constructorSpec: TypeSpec? = null
         var arguments: List<CodeInstruction> = emptyList()
@@ -71,6 +73,7 @@ data class EnumEntry(override val name: String,
         var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: EnumEntry) : this() {
+            this.annotations = defaults.annotations
             this.name = defaults.name
             this.constructorSpec = defaults.constructorSpec
             this.arguments = defaults.arguments
@@ -83,6 +86,11 @@ data class EnumEntry(override val name: String,
         }
 
         override fun array(value: Boolean): Builder = self()
+
+        override fun annotations(value: List<Annotation>): Builder {
+            this.annotations = value
+            return this
+        }
 
         /**
          * See [EnumEntry.constructorSpec]
@@ -123,7 +131,7 @@ data class EnumEntry(override val name: String,
             return this
         }
 
-        override fun build(): EnumEntry = EnumEntry(this.name, this.constructorSpec, this.arguments, this.staticBlock,
+        override fun build(): EnumEntry = EnumEntry(this.annotations, this.name, this.constructorSpec, this.arguments, this.staticBlock,
                 this.fields, this.methods, this.innerTypes)
 
         companion object {
