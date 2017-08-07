@@ -169,7 +169,7 @@ interface CodeTypeResolver<out T> {
             val concreteCodeType = type.concreteType
             val concreteFrom = from.concreteType
 
-            if (concreteCodeType.`is`(from))
+            if (concreteCodeType.`is`(concreteFrom))
                 return EitherObjBoolean.right(true)
 
             if (concreteCodeType is LoadedCodeType<*> && concreteFrom is LoadedCodeType<*>)
@@ -178,11 +178,10 @@ interface CodeTypeResolver<out T> {
             val superClass =
                     concreteFrom.let { resolverProvider(it).getSuperclass(it) }
                             .let {
-                                if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right
+                                if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right?.concreteType
                             }
 
             if (superClass != null) {
-
                 if (superClass.`is`(concreteCodeType)
                         ||
                         superClass.let {
