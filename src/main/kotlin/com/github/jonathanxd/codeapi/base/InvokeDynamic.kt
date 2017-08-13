@@ -165,8 +165,6 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override val array: Boolean
             get() = false
 
-        override val types: List<Type>
-            get() = this.localCode.parameters.map(CodeParameter::type)
 
         /**
          * Local method to invoke
@@ -187,7 +185,6 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
             override fun type(value: Type): S = self()
             override fun bootstrap(value: MethodInvokeSpec): S = self()
             override fun args(value: List<Any>): S = self()
-            override fun expectedTypes(value: TypeSpec): S = self()
             override fun invocation(value: MethodInvocation): S = self()
 
             /**
@@ -296,7 +293,10 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
         }
     }
 
-    data class LambdaLocalCode(override val baseSam: MethodTypeSpec, override val localCode: LocalCode, override val arguments: List<CodeInstruction>) : InvokeDynamicBase.LambdaLocalCodeBase {
+    data class LambdaLocalCode(override val baseSam: MethodTypeSpec,
+                               override val expectedTypes: TypeSpec,
+                               override val localCode: LocalCode,
+                               override val arguments: List<CodeInstruction>) : InvokeDynamicBase.LambdaLocalCodeBase {
 
         override val invocation: MethodInvocation = this.localCode.createInvocation(this.arguments)
         override val types: List<Type> = this.localCode.parameters.map(CodeParameter::type)
@@ -309,11 +309,18 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
             lateinit var baseSam: MethodTypeSpec
             lateinit var localCode: LocalCode
             var arguments: List<CodeInstruction> = emptyList()
+            lateinit var expectedTypes: TypeSpec
 
             constructor(defaults: LambdaLocalCode) : this() {
                 this.baseSam = defaults.baseSam
                 this.localCode = defaults.localCode
                 this.arguments = defaults.arguments
+                this.expectedTypes = defaults.expectedTypes
+            }
+
+            override fun expectedTypes(value: TypeSpec): Builder {
+                this.expectedTypes = value
+                return this
             }
 
             override fun baseSam(value: MethodTypeSpec): Builder {
@@ -333,7 +340,7 @@ data class InvokeDynamic(override val type: Type, override val bootstrap: Method
                 return this
             }
 
-            override fun build(): LambdaLocalCode = LambdaLocalCode(this.baseSam, this.localCode, this.arguments)
+            override fun build(): LambdaLocalCode = LambdaLocalCode(this.baseSam, this.expectedTypes, this.localCode, this.arguments)
 
             companion object {
                 @JvmStatic

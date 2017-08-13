@@ -54,5 +54,5 @@ fun invokeDynamicLambda(invocation: MethodInvocation, baseSam: MethodTypeSpec, e
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, localCode: LocalCode, arguments: List<CodeInstruction>): InvokeDynamic.LambdaLocalCode =
-        InvokeDynamic.LambdaLocalCode(baseSam, localCode, arguments)
+fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, expectedTypes: TypeSpec, localCode: LocalCode, arguments: List<CodeInstruction>): InvokeDynamic.LambdaLocalCode =
+        InvokeDynamic.LambdaLocalCode(baseSam, expectedTypes, localCode, arguments)

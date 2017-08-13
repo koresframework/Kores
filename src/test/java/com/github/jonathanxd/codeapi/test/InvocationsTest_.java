@@ -221,6 +221,7 @@ public class InvocationsTest_ {
 
         InvokeDynamic.LambdaLocalCode dynamicSupplierGet = DynamicInvocationFactory.invokeDynamicLambdaCode(
                 new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
+                Factories.typeSpec(Types.OBJECT),
                 new LocalCode(typeDeclaration, MethodDeclaration.Builder.builder()
                         .modifiers(CodeModifier.PRIVATE, CodeModifier.STATIC)
                         .name("$$lambda$0")
