@@ -51,7 +51,14 @@ public class TryTest_ {
     public static TypeDeclaration $() {
 
         TryStatement tryStatement = Factories.tryStatement(
-                CodeSource.fromPart(Predefined.invokePrintln(Literals.STRING("Ok"))),
+                CodeSource.fromPart(
+                        InvocationFactory.invokeStatic(
+                                TryTest_.class,
+                                "boom",
+                                new TypeSpec(Void.TYPE),
+                                Collections.emptyList()
+                        )
+                ),
                 Collections3.listOf(
                         Factories.catchStatement(Exception.class,
                                 VariableFactory.variable(Exception.class, "e"),
