@@ -46,7 +46,11 @@ enum class CodeModifier(val modifierType: ModifierType, expr_: String? = null) :
     NATIVE(OTHER), STRICTFP(OTHER),
     BRIDGE(OTHER), VARARGS(OTHER),
     SYNTHETIC(OTHER), ANNOTATION(OTHER),
-    ENUM(OTHER), MANDATED(OTHER);
+    ENUM(OTHER), MANDATED(OTHER),
+    // Java 9 modules. Synthetic and Mandated are also module modifiers.
+    OPEN(MODULE), TRANSITIVE(MODULE),
+    // Compile-time only dependency
+    STATIC_PHASE(MODULE);
 
     val expr: String = expr_ ?: this.name.toLowerCase()
 
@@ -86,6 +90,11 @@ enum class ModifierType {
     /**
      * - Other Modifiers like: Static, Final
      */
-    OTHER
+    OTHER,
+
+    /**
+     * Java 9 module modifiers
+     */
+    MODULE
 
 }

@@ -30,9 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import java.lang.reflect.Type
 
 /**
- * Reference to a module.
- *
- * At the moment, Modules does not have any.
+ * Reference to a module or a package.
  *
  * @property name Qualified name of module.
  */
@@ -68,17 +66,22 @@ data class ModuleReference(override val name: String) : Named {
 /**
  * Declaration of a module.
  *
+ * @property modifiers Modifiers of the module. Valid modifiers are [CodeModifier.OPEN],
+ * [CodeModifier.SYNTHETIC] and [CodeModifier.MANDATED].
  * @property name Module name.
  * @property requires Module requires.
  * @property exports Module exports.
  * @property uses Module service uses.
  * @property provides Module service provides.
  */
-data class ModuleDeclaration(override val name: String,
+data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
+                             override val name: String,
                              val requires: List<Require>,
                              val exports: List<Export>,
+                             val opens: List<Open>,
                              val uses: List<ModuleReference>,
-                             val provides: List<Provide>) : Named {
+                             val provides: List<Provide>) : Named, ModifiersHolder {
+
 
     /**
      * Module reference.
@@ -87,20 +90,30 @@ data class ModuleDeclaration(override val name: String,
 
     override fun builder(): Builder = Builder()
 
-    class Builder() : Named.Builder<ModuleDeclaration, Builder> {
+    class Builder() : Named.Builder<ModuleDeclaration, Builder>,
+            ModifiersHolder.Builder<ModuleDeclaration, Builder> {
 
+        var modifiers: Set<CodeModifier> = emptySet()
         lateinit var name: String
         var requires: List<Require> = emptyList()
         var exports: List<Export> = emptyList()
+        var opens: List<Open> = emptyList()
         var uses: List<ModuleReference> = emptyList()
         var provides: List<Provide> = emptyList()
 
         constructor(defaults: ModuleDeclaration) : this() {
+            this.modifiers = defaults.modifiers
             this.name = defaults.name
             this.requires = defaults.requires
             this.exports = defaults.exports
+            this.opens = defaults.opens
             this.uses = defaults.uses
             this.provides = defaults.provides
+        }
+
+        override fun modifiers(value: Set<CodeModifier>): Builder {
+            this.modifiers = value
+            return this
         }
 
         override fun name(value: String): Builder {
@@ -146,7 +159,29 @@ data class ModuleDeclaration(override val name: String,
         /**
          * See [ModuleDeclaration.exports]
          */
-        fun exports(vararg values: String): Builder = this.exports(values.map { Export(ModuleReference(it), emptyList()) })
+        fun exports(vararg values: String): Builder = this.exports(values.map {
+            Export(ModuleReference(it), emptyList(), emptySet())
+        })
+
+        // Exports
+
+        /**
+         * See [ModuleDeclaration.opens]
+         */
+        fun opens(value: List<Open>): Builder {
+            this.opens = value
+            return this
+        }
+
+        /**
+         * See [ModuleDeclaration.opens]
+         */
+        fun opens(vararg values: Open): Builder = this.opens(values.toList())
+
+        /**
+         * See [ModuleDeclaration.opens]
+         */
+        fun opens(vararg values: String): Builder = this.opens(values.map { Open(ModuleReference(it), emptyList(), emptySet()) })
 
         // Uses
 
@@ -191,7 +226,8 @@ data class ModuleDeclaration(override val name: String,
         })
 
 
-        override fun build(): ModuleDeclaration = ModuleDeclaration(this.name, this.requires, this.exports, this.uses, this.provides)
+        override fun build(): ModuleDeclaration = ModuleDeclaration(this.modifiers, this.name, this.requires,
+                this.exports, this.opens, this.uses, this.provides)
 
         companion object {
             @JvmStatic
@@ -207,17 +243,19 @@ data class ModuleDeclaration(override val name: String,
  * Module requires statement
  *
  * @property module Module to require.
- * @property modifiers Modifiers.
+ * @property modifiers Modifiers. Valid modifiers are [CodeModifier.STATIC_PHASE], [CodeModifier.TRANSITIVE]
+ * [CodeModifier.SYNTHETIC] and [CodeModifier.MANDATED].
  */
 data class Require(val module: ModuleReference, val modifiers: Set<CodeModifier>)
 
 /**
  * Exports [module] to modules [to].
  *
- * @property module Modules to export.
+ * @property module Module to export.
  * @property to Modules to export to. (Empty list to export to all modules).
+ * @property modifiers Modifiers. Valid modifiers are [CodeModifier.SYNTHETIC] and [CodeModifier.MANDATED]
  */
-data class Export(val module: ModuleReference, val to: List<ModuleReference>)
+data class Export(val module: ModuleReference, val to: List<ModuleReference>, val modifiers: Set<CodeModifier>)
 
 /**
  * Provides [with] to service [service].
@@ -226,3 +264,12 @@ data class Export(val module: ModuleReference, val to: List<ModuleReference>)
  * @property with Service implementation/provider.
  */
 data class Provide(val service: Type, val with: Type)
+
+/**
+ * Opens [module] to modules [to].
+ *
+ * @property Module Package to open, allowing reflection.
+ * @property to Modules to open to, allowing reflective access. (Empty list to open to all modules).
+ * @property modifiers Modifiers. Valid modifiers are [CodeModifier.SYNTHETIC] and [CodeModifier.MANDATED]
+ */
+data class Open(val module: ModuleReference, val to: List<ModuleReference>, val modifiers: Set<CodeModifier>)
