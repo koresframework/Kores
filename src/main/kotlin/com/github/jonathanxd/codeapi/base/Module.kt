@@ -233,7 +233,7 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
         /**
          * See [ModuleDeclaration.provides]
          */
-        fun provides(vararg values: Pair<Type, Type>): Builder = this.provides(values.map {
+        fun provides(vararg values: Pair<Type, List<Type>>): Builder = this.provides(values.map {
             Provide(it.first, it.second)
         })
 
@@ -274,9 +274,9 @@ data class Export(val module: ModuleReference, val to: List<ModuleReference>, va
  * Provides [with] to service [service].
  *
  * @property service Service to provide implementation.
- * @property with Service implementation/provider.
+ * @property with Service implementations/providers.
  */
-data class Provide(val service: Type, val with: Type)
+data class Provide(val service: Type, val with: List<Type>)
 
 /**
  * Opens [module] to modules [to].
