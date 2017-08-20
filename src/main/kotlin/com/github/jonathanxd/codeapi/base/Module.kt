@@ -69,6 +69,7 @@ data class ModuleReference(override val name: String) : Named {
  * @property modifiers Modifiers of the module. Valid modifiers are [CodeModifier.OPEN],
  * [CodeModifier.SYNTHETIC] and [CodeModifier.MANDATED].
  * @property name Module name.
+ * @property version Module version. (null means no version).
  * @property requires Module requires.
  * @property exports Module exports.
  * @property uses Module service uses.
@@ -76,6 +77,7 @@ data class ModuleReference(override val name: String) : Named {
  */
 data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
                              override val name: String,
+                             val version: String?,
                              val requires: List<Require>,
                              val exports: List<Export>,
                              val opens: List<Open>,
@@ -95,6 +97,7 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
 
         var modifiers: Set<CodeModifier> = emptySet()
         lateinit var name: String
+        var version: String? = null
         var requires: List<Require> = emptyList()
         var exports: List<Export> = emptyList()
         var opens: List<Open> = emptyList()
@@ -104,6 +107,7 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
         constructor(defaults: ModuleDeclaration) : this() {
             this.modifiers = defaults.modifiers
             this.name = defaults.name
+            this.version = defaults.version
             this.requires = defaults.requires
             this.exports = defaults.exports
             this.opens = defaults.opens
@@ -118,6 +122,14 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
 
         override fun name(value: String): Builder {
             this.name = value
+            return this
+        }
+
+        /**
+         * See [ModuleDeclaration.version]
+         */
+        fun version(value: String): Builder {
+            this.version = value
             return this
         }
 
@@ -139,7 +151,7 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
         /**
          * See [ModuleDeclaration.requires]
          */
-        fun requires(vararg values: String): Builder = this.requires(values.map { Require(ModuleReference(it), emptySet()) })
+        fun requires(vararg values: String): Builder = this.requires(values.map { Require(ModuleReference(it), emptySet(), null) })
 
         // Exports
 
@@ -226,7 +238,7 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
         })
 
 
-        override fun build(): ModuleDeclaration = ModuleDeclaration(this.modifiers, this.name, this.requires,
+        override fun build(): ModuleDeclaration = ModuleDeclaration(this.modifiers, this.name, this.version, this.requires,
                 this.exports, this.opens, this.uses, this.provides)
 
         companion object {
@@ -245,8 +257,9 @@ data class ModuleDeclaration(override val modifiers: Set<CodeModifier>,
  * @property module Module to require.
  * @property modifiers Modifiers. Valid modifiers are [CodeModifier.STATIC_PHASE], [CodeModifier.TRANSITIVE]
  * [CodeModifier.SYNTHETIC] and [CodeModifier.MANDATED].
+ * @property version Module required version.
  */
-data class Require(val module: ModuleReference, val modifiers: Set<CodeModifier>)
+data class Require(val module: ModuleReference, val modifiers: Set<CodeModifier>, val version: String?)
 
 /**
  * Exports [module] to modules [to].
