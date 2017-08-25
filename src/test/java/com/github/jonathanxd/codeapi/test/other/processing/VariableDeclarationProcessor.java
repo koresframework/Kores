@@ -31,8 +31,8 @@ import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.processor.Processor;
 import com.github.jonathanxd.codeapi.processor.ProcessorManager;
 import com.github.jonathanxd.codeapi.util.ImplicitCodeType;
-import com.github.jonathanxd.codeapi.util.TypedDataUtilKt;
 import com.github.jonathanxd.iutils.data.TypedData;
+import com.github.jonathanxd.jwiutils.kt.KeyUtilKt;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +40,7 @@ public class VariableDeclarationProcessor implements Processor<VariableDeclarati
 
     @Override
     public void process(VariableDeclaration part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
-        StringBuilder require = TypedDataUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
+        StringBuilder require = KeyUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
 
         require.append(ImplicitCodeType.getCanonicalName(part.getVariableType()));
         require.append(' ');

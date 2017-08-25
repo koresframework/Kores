@@ -30,8 +30,8 @@ package com.github.jonathanxd.codeapi.test.other.processing;
 import com.github.jonathanxd.codeapi.literal.Literal;
 import com.github.jonathanxd.codeapi.processor.Processor;
 import com.github.jonathanxd.codeapi.processor.ProcessorManager;
-import com.github.jonathanxd.codeapi.util.TypedDataUtilKt;
 import com.github.jonathanxd.iutils.data.TypedData;
+import com.github.jonathanxd.jwiutils.kt.KeyUtilKt;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +39,7 @@ public class LiteralProcessor implements Processor<Literal> {
 
     @Override
     public void process(Literal part, @NotNull TypedData data, @NotNull ProcessorManager<?> processorManager) {
-        StringBuilder require = TypedDataUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
+        StringBuilder require = KeyUtilKt.require(MyProcessorManager.APPENDER_KEY, data);
 
         require.append(part.getValue().toString());
     }

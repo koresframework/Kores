@@ -33,10 +33,10 @@ import com.github.jonathanxd.codeapi.processor.ValidationEnvironment;
 import com.github.jonathanxd.codeapi.processor.Validator;
 import com.github.jonathanxd.codeapi.processor.ValidatorKt;
 import com.github.jonathanxd.codeapi.processor.ValidatorManager;
-import com.github.jonathanxd.codeapi.util.TypedDataUtilKt;
 import com.github.jonathanxd.iutils.data.TypedData;
 import com.github.jonathanxd.iutils.object.TypedKey;
 import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
+import com.github.jonathanxd.jwiutils.kt.KeyUtilKt;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -68,7 +68,7 @@ public class VariableDeclarationValidator implements Validator<VariableDeclarati
                     environment.exitSession();
 
             if (!session.anyError()) {
-                TypedDataUtilKt.add(DECLARED_VARIABLES_KEY, data, new VariableRef(part.getVariableType(), part.getName()));
+                KeyUtilKt.add(DECLARED_VARIABLES_KEY, data, new VariableRef(part.getVariableType(), part.getName()));
             }
 
             return null;

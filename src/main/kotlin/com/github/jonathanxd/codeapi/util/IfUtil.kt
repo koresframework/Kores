@@ -152,8 +152,6 @@ fun IfExpr.removeRedundantNot(): IfExpr =
 
                 val value = const == const2
 
-                //val value = if (op == Operators.NOT_EQUAL_TO) !const else const
-
                 return@let this.builder()
                         .expr1(xp.removeRedundantNot())
                         .operation(Operators.EQUAL_TO)

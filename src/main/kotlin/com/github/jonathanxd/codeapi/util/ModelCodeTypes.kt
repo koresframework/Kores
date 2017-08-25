@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver
 import com.github.jonathanxd.codeapi.type.NullType
+import com.github.jonathanxd.jwiutils.kt.rightOrFail
 import java.lang.reflect.Type
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement

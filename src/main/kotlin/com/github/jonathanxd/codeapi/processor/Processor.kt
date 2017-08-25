@@ -30,10 +30,10 @@ package com.github.jonathanxd.codeapi.processor
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.exception.ValidationException
 import com.github.jonathanxd.codeapi.sugar.SugarSyntaxProcessor
-import com.github.jonathanxd.codeapi.util.typedKeyOf
 import com.github.jonathanxd.iutils.data.TypedData
 import com.github.jonathanxd.iutils.option.Option
 import com.github.jonathanxd.iutils.option.Options
+import com.github.jonathanxd.jwiutils.kt.typedKeyOf
 
 /**
  * ProcessorManager manages all processors required to transform [Any] into [R].

@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver
+import com.github.jonathanxd.jwiutils.kt.rightOrFail
 import java.lang.reflect.Type
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
