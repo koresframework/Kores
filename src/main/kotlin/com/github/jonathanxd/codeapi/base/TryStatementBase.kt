@@ -40,7 +40,9 @@ import java.lang.reflect.Type
  * @property catchStatements Catch clauses/exception handlers.
  * @property finallyStatement Finally block (Obs: for bytecode generation, finally blocks is always inlined).
  */
-data class TryStatement(override val body: CodeSource, override val catchStatements: List<CatchStatement>, override val finallyStatement: CodeSource) : TryStatementBase {
+data class TryStatement(override val body: CodeSource,
+                        override val catchStatements: List<CatchStatement>,
+                        override val finallyStatement: CodeSource) : TryStatementBase {
     init {
         BodyHolder.checkBody(this)
     }
