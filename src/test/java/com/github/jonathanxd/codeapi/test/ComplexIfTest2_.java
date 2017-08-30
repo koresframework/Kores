@@ -66,7 +66,7 @@ public class ComplexIfTest2_ {
                                                         Operators.AND,
                                                         Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "y"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "z")),
                                                         Operators.AND,
-                                                        Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "h"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "v")),
+                                                        Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "h"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "v"))
                                                         ),
                                                 CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("true"))),
                                                 CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("false")))
