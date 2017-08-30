@@ -55,7 +55,7 @@ public class ComplexIfTest2_ {
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "x"),
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "y"),
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "z"),
-                                        new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "h"),
+                                        new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "p"),
                                         new CodeParameter(Collections.emptyList(), Collections.emptySet(), Types.BOOLEAN, "v"))
                                 .body(CodeSource.fromVarArgs(
                                         Factories.ifStatement(
@@ -66,7 +66,7 @@ public class ComplexIfTest2_ {
                                                         Operators.AND,
                                                         Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "y"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "z")),
                                                         Operators.AND,
-                                                        Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "h"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "v"))
+                                                        Factories.ifExprs(Factories.accessVariable(Types.BOOLEAN, "p"), Operators.OR, Factories.accessVariable(Types.BOOLEAN, "v"))
                                                         ),
                                                 CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("true"))),
                                                 CodeSource.fromVarArgs(Predefined.invokePrintlnStr(Literals.STRING("false")))
