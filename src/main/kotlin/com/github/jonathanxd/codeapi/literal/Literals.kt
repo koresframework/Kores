@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.NullType
 import com.github.jonathanxd.codeapi.util.codeType
+import java.lang.reflect.Type
 
 /**
  * [Literals][Literal] constants.
@@ -115,13 +116,13 @@ object Literals {
 
     // Class Literal
     @JvmStatic
-    fun CLASS(aClass: Class<*>): Literal {
-        return CLASS(aClass.codeType)
+    fun CLASS(type: Type): Literal {
+        return ClassLiteral(type.codeType)
     }
 
     @JvmStatic
-    fun CLASS(aClass: CodeType): Literal {
-        return ClassLiteral(aClass)
+    fun TYPE(type: Type): Literal {
+        return ClassLiteral(type.codeType)
     }
 
     private class SimpleLiteral internal constructor(name: String, dataType: CodeType) : Literal(name, name, dataType)
