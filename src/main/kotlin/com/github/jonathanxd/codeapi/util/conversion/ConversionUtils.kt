@@ -36,7 +36,6 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.*
 import kotlin.reflect.KParameter
-import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
 import kotlin.reflect.full.valueParameters
 import kotlin.reflect.jvm.kotlinFunction
 
@@ -101,7 +100,11 @@ val Method.parameterNames: List<String>
  * Gets kotlin parameters from receiver [Method].
  */
 val Method.kotlinParameters: List<KParameter>?
-    get() = try { this.kotlinFunction?.valueParameters } catch (ex: KotlinReflectionInternalError) { null }
+    get() = try {
+        this.kotlinFunction?.valueParameters
+    } catch (ex: Throwable) {
+        null
+    }
 
 /**
  * Gets code parameters of receiver [Method].
@@ -125,7 +128,11 @@ val <T : Any> Constructor<T>.parameterNames: List<String>
  * Gets kotlin parameter of receiver [Constructor].
  */
 val <T : Any> Constructor<T>.kotlinParameters: List<KParameter>?
-    get() = try { this.kotlinFunction?.valueParameters } catch (ex: KotlinReflectionInternalError) { null }
+    get() = try {
+        this.kotlinFunction?.valueParameters
+    } catch (ex: Throwable) {
+        null
+    }
 
 /**
  * Gets code parameters of receiver [Method].
