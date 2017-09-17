@@ -270,9 +270,12 @@ interface CodeTypeResolver<out T> {
      * if type cannot be found.
      */
     class Model(val elements: Elements) : CommonResolver<TypeElement?>() {
-        override fun resolve(type: Type): Either<Exception, out TypeElement?> =
-                Either.right((type.concreteType as? TypeElementCodeType)?.typeElement
-                        ?: elements.getTypeElement(type.canonicalName))
+        override fun resolve(type: Type): Either<Exception, out TypeElement> =
+                ((type.concreteType as? TypeElementCodeType)?.typeElement
+                        ?: elements.getTypeElement(type.canonicalName))?.let {
+                    Either.right<Exception, TypeElement>(it)
+                }
+                ?: Either.left<Exception, TypeElement>(IllegalArgumentException("Cannot resolve '$type' in Model Elements."))
     }
 
     /**
@@ -287,9 +290,12 @@ interface CodeTypeResolver<out T> {
      */
     class CodeAPI(val resolverFunc: CodeTypeResolverFunc? = null) : CommonResolver<TypeDeclaration?>() {
 
-        override fun resolve(type: Type): Either<Exception, out TypeDeclaration?> =
-                Either.right((type.concreteType as? TypeDeclaration) ?:
-                        (resolverFunc?.apply(type.canonicalName) as? TypeDeclaration))
+        override fun resolve(type: Type): Either<Exception, out TypeDeclaration> =
+                ((type.concreteType as? TypeDeclaration) ?:
+                        (resolverFunc?.apply(type.canonicalName) as? TypeDeclaration))?.let {
+                    Either.right<Exception, TypeDeclaration>(it)
+                } ?: Either.left<Exception, TypeDeclaration>(IllegalArgumentException("Cannot resolve '$type' CodeAPI Declaration."))
+
 
     }
 
