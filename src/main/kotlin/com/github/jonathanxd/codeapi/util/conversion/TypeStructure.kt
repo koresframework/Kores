@@ -544,6 +544,7 @@ fun TypeDeclaration.toRepresentation(): TypeDeclaration {
     return builder
             .outerClass(this.outerClass)
             .annotations(this.annotations.map { it.toRepresentation() })
+            .genericSignature(this.genericSignature)
             .modifiers(this.modifiers.toSet())
             .qualifiedName(this.canonicalName)
             .fields(this.fields.map { it.toRepresentation() })
