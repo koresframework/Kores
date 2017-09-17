@@ -391,7 +391,11 @@ class MixedResolver(val elements: Elements?) : GenericResolver {
     override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).let {
+            if (it.isRight)
+                it.right
+            else resolved.concreteType.bindedDefaultResolver.resolve().rightOrFail
+        }
 
         if (resolve is LoadedCodeType<*> || resolve is Class<*>) {
             return javaResolver.resolveTypeWithParameters(type, codeTypeResolver)
@@ -412,7 +416,11 @@ class MixedResolver(val elements: Elements?) : GenericResolver {
     override fun resolveGenericTypeImplementation(superType: Type, implemented: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val rSuperType = superType.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(rSuperType.concreteType).rightOrFail
+        val resolve: Any? = codeTypeResolver.resolve(rSuperType.concreteType).let {
+            if (it.isRight)
+                it.right
+            else rSuperType.concreteType.bindedDefaultResolver.resolve().rightOrFail
+        }
 
         if (resolve is LoadedCodeType<*> || resolve is Class<*>) {
             return javaResolver.resolveGenericTypeImplementation(rSuperType, implemented, codeTypeResolver)
