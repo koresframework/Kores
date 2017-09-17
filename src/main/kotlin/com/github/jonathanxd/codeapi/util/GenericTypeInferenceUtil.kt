@@ -296,7 +296,11 @@ class JavaResolver : GenericResolver {
     override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail?.let {
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).let {
+            if (it.isRight)
+                it.right
+            else resolved.concreteType.bindedDefaultResolver.resolve().rightOrFail
+        }?.let {
             (it as? LoadedCodeType<*>)?.loadedType ?: it
         }
 
@@ -311,7 +315,11 @@ class JavaResolver : GenericResolver {
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail?.let {
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).let {
+            if (it.isRight)
+                it.right
+            else superCodeType.concreteType.bindedDefaultResolver.resolve().rightOrFail
+        }?.let {
             (it as? LoadedCodeType<*>)?.loadedType ?: it
         }
 
@@ -343,7 +351,11 @@ class CodeAPIResolver : GenericResolver {
     override fun resolveTypeWithParameters(type: Type, codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val resolved = type.codeType
 
-        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail
+        val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).let {
+            if (it.isRight)
+                it.right
+            else resolved.concreteType.bindedDefaultResolver.resolve().rightOrFail
+        }
 
         if (resolve is TypeDeclaration) {
             return Generic.type(resolve).of(*resolve.genericSignature.types)
@@ -356,7 +368,11 @@ class CodeAPIResolver : GenericResolver {
                                                   codeTypeResolver: CodeTypeResolver<*>): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail
+        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).let {
+            if (it.isRight)
+                it.right
+            else superCodeType.concreteType.bindedDefaultResolver.resolve().rightOrFail
+        }
 
         if (resolvedSuperType is TypeDeclaration) {
             val superClass = resolvedSuperType
