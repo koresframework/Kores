@@ -68,7 +68,7 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodS
         val (_, _, currentType, name) = currentParameters[i]
         val targetType = parameterTypes[i]
 
-        codeParameters.add(CodeParameter(emptyList<Annotation>(), emptySet<CodeModifier>(), targetType, name))
+        codeParameters.add(CodeParameter(emptyList(), emptySet(), targetType, name))
 
         codeArguments.add(cast(targetType, currentType, accessVariable(targetType, name)))
     }
@@ -95,10 +95,10 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodS
     codeModifiers.add(CodeModifier.BRIDGE)
 
     return MethodDeclaration(Comments.Absent,
-            emptyList<Annotation>(),
+            emptyList(),
             codeModifiers,
             GenericSignature.empty(),
-            currentReturnType,
+            methodSpec.typeSpec.returnType,
             methodSpec.methodName,
             codeParameters,
             emptyList(),
