@@ -34,7 +34,10 @@ import com.github.jonathanxd.codeapi.util.toStr
 /**
  * Common implementation of [CodeType] for arrays.
  */
-internal open class CodeTypeArray(val component: CodeType, override val arrayDimension: Int) : CodeType {
+internal open class CodeTypeArray(val component: CodeType, override val arrayDimension: Int) : CodeType, WrapperCodeType {
+
+    override val wrapped: CodeType
+        get() = this.component
 
     override val type: String
         get() {
@@ -42,7 +45,7 @@ internal open class CodeTypeArray(val component: CodeType, override val arrayDim
 
             val sb = StringBuilder()
 
-            for (x in 0..this.arrayDimension - 1)
+            for (x in 0 until this.arrayDimension)
                 sb.append("[]")
 
             return name + sb.toString()

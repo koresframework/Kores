@@ -25,32 +25,12 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
-
-import com.github.jonathanxd.codeapi.CodePart
+package com.github.jonathanxd.codeapi.type
 
 /**
- * A holder of inner types
+ * A Code Type that is not known by CodeAPI. These types are commonly those defined by the user to refer to classes
+ * that are not loaded by the JVM and isn't defined by CodeAPI, or will be defined later.
+ * [UnknownCodeType] is not the same as [TypeRef]. The [TypeRef] is intended to reference CodeAPI type declarations before them
+ * is created. [UnknownCodeType] is intended to reference a type that is unknown to either JVM and CodeAPI.
  */
-interface InnerTypesHolder : CodePart {
-
-    /**
-     * Inner types
-     */
-    val innerTypes: List<TypeDeclaration>
-
-    override fun builder(): Builder<InnerTypesHolder, *>
-
-    interface Builder<out T : InnerTypesHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-
-        /**
-         * See [InnerTypesHolder.innerTypes]
-         */
-        fun innerTypes(value: List<TypeDeclaration>): S
-
-        /**
-         * See [InnerTypesHolder.innerTypes]
-         */
-        fun innerTypes(vararg values: TypeDeclaration): S = innerTypes(values.toList())
-    }
-}
+interface UnknownCodeType : CodeType

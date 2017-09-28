@@ -37,7 +37,7 @@ import java.lang.reflect.Type
 open class PlainCodeType @JvmOverloads constructor(override val type: String,
                                                    override val isInterface: Boolean = false,
                                                    val superclass_: () -> Type? = { throw IllegalStateException("No super class provider") },
-                                                   val superinterfaces_: () -> List<Type> = { throw IllegalStateException("No super interfaces provider") }) : CodeType, InheritanceProvider {
+                                                   val superinterfaces_: () -> List<Type> = { throw IllegalStateException("No super interfaces provider") }) : UnknownCodeType, InheritanceProvider {
 
     override val canonicalName: String get() = this.type
 

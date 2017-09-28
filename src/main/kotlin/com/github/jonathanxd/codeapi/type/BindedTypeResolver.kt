@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.type
 
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.util.defaultResolver
 import com.github.jonathanxd.iutils.`object`.Either
 import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
@@ -68,6 +69,30 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
      */
     fun isAssignableFrom(from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception> =
             this.codeTypeResolver.isAssignableFrom(this.bindType, from, resolverProvider)
+
+    /**
+     * Resolves or create [TypeDeclaration] from [type] structure and elements (back call to [codeTypeResolver]).
+     */
+    fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> =
+            this.codeTypeResolver.resolveTypeDeclaration(type)
+
+    /**
+     * Resolves or create a list of all [FieldDeclaration] present in [type] (back call to [codeTypeResolver]).
+     */
+    fun resolveFields(type: Type): Either<Exception, List<FieldDeclaration>> =
+            this.codeTypeResolver.resolveFields(type)
+
+    /**
+     * Resolves or create a list of all [ConstructorDeclaration] present in [type]  (back call to [codeTypeResolver]).
+     */
+    fun resolveConstructors(type: Type): Either<Exception, List<ConstructorDeclaration>> =
+            this.codeTypeResolver.resolveConstructors(type)
+
+    /**
+     * Resolves or create a list of all [MethodDeclaration] present in [type] (back call to [codeTypeResolver]).
+     */
+    fun resolveMethods(type: Type): Either<Exception, List<MethodDeclaration>> =
+            this.codeTypeResolver.resolveMethods(type)
 
     /**
      * Creates a new [BindedTypeResolver] instance 'binded' to [bindType].

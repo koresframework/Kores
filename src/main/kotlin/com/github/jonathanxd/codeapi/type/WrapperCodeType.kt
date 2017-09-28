@@ -25,32 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.base
-
-import com.github.jonathanxd.codeapi.CodePart
+package com.github.jonathanxd.codeapi.type
 
 /**
- * A holder of inner types
+ * Denotes a CodeType that wraps another type.
  */
-interface InnerTypesHolder : CodePart {
-
+interface WrapperCodeType : CodeType {
     /**
-     * Inner types
+     * Wrapped code type.
      */
-    val innerTypes: List<TypeDeclaration>
-
-    override fun builder(): Builder<InnerTypesHolder, *>
-
-    interface Builder<out T : InnerTypesHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
-
-        /**
-         * See [InnerTypesHolder.innerTypes]
-         */
-        fun innerTypes(value: List<TypeDeclaration>): S
-
-        /**
-         * See [InnerTypesHolder.innerTypes]
-         */
-        fun innerTypes(vararg values: TypeDeclaration): S = innerTypes(values.toList())
-    }
+    val wrapped: CodeType
 }

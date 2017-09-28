@@ -37,7 +37,10 @@ import java.util.*
  *
  * Default implementations of [equals], [hashCode] and [toString] is provided by [com.github.jonathanxd.codeapi.util] functions.
  */
-interface GenericType : CodeType {
+interface GenericType : CodeType, WrapperCodeType {
+
+    override val wrapped: CodeType
+        get() = this.resolvedType
 
     /**
      * Name of the generic type.
@@ -75,10 +78,10 @@ interface GenericType : CodeType {
 
     override val identification: String
         get() {
-            if (this.isType && this.bounds.isEmpty())
-                return this.javaSpecName
+            return if (this.isType && this.bounds.isEmpty())
+                this.javaSpecName
             else
-                return this.descriptor
+                this.descriptor
         }
 
     // CodeType Overrides
