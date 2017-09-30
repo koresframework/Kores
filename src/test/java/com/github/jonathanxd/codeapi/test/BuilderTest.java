@@ -42,6 +42,7 @@ import com.github.jonathanxd.codeapi.base.Case;
 import com.github.jonathanxd.codeapi.base.Cast;
 import com.github.jonathanxd.codeapi.base.CatchStatement;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
+import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.Concat;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.ControlFlow;
@@ -58,6 +59,8 @@ import com.github.jonathanxd.codeapi.base.IfStatement;
 import com.github.jonathanxd.codeapi.base.InstanceOfCheck;
 import com.github.jonathanxd.codeapi.base.InterfaceDeclaration;
 import com.github.jonathanxd.codeapi.base.InvokeDynamic;
+import com.github.jonathanxd.codeapi.base.InvokeType;
+import com.github.jonathanxd.codeapi.base.IterationType;
 import com.github.jonathanxd.codeapi.base.Label;
 import com.github.jonathanxd.codeapi.base.LocalCode;
 import com.github.jonathanxd.codeapi.base.MethodDeclaration;
@@ -66,9 +69,11 @@ import com.github.jonathanxd.codeapi.base.Operate;
 import com.github.jonathanxd.codeapi.base.Return;
 import com.github.jonathanxd.codeapi.base.StaticBlock;
 import com.github.jonathanxd.codeapi.base.SwitchStatement;
+import com.github.jonathanxd.codeapi.base.SwitchType;
 import com.github.jonathanxd.codeapi.base.ThrowException;
 import com.github.jonathanxd.codeapi.base.TryStatement;
 import com.github.jonathanxd.codeapi.base.TryWithResources;
+import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.base.VariableAccess;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
 import com.github.jonathanxd.codeapi.base.VariableDefinition;
@@ -77,13 +82,8 @@ import com.github.jonathanxd.codeapi.base.comment.Code;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.comment.Link;
 import com.github.jonathanxd.codeapi.base.comment.Plain;
-import com.github.jonathanxd.codeapi.base.CodeModifier;
-import com.github.jonathanxd.codeapi.base.InvokeType;
-import com.github.jonathanxd.codeapi.base.IterationType;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
-import com.github.jonathanxd.codeapi.base.SwitchType;
-import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.common.Nothing;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.InvocationFactory;
@@ -93,15 +93,18 @@ import com.github.jonathanxd.codeapi.helper.ConcatHelper;
 import com.github.jonathanxd.codeapi.helper.Predefined;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
+import com.github.jonathanxd.codeapi.type.AnnotatedCodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
 import com.github.jonathanxd.codeapi.util.Alias;
 import com.github.jonathanxd.codeapi.util.CodeTypes;
 import com.github.jonathanxd.iutils.map.MapUtils;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -585,6 +588,17 @@ public class BuilderTest {
                                 ))
                                 .build())
                         .build())
-        .build();
+                .build();
+    }
+
+    @Test
+    public void annotatedTypeTest() {
+        AnnotatedCodeType.Companion.builder(String.class)
+                .annotations(new ArrayList<>())
+                .addAnnotation(Annotation.Builder.builder()
+                        .visible(true)
+                        .type(NotNull.class)
+                        .build())
+                .build();
     }
 }
