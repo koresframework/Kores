@@ -37,7 +37,7 @@ import com.github.jonathanxd.codeapi.util.*
 import com.github.jonathanxd.codeapi.util.conversion.toLiteral
 import org.junit.Test
 
-object LiteralTest_ {
+class LiteralTest_ {
     fun `$`(): TypeDeclaration {
 
         return ClassDeclaration.Builder.builder()
