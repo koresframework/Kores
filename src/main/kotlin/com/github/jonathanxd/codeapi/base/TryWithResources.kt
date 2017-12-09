@@ -55,6 +55,7 @@ data class TryWithResources(val variable: VariableDeclaration,
         var finallyStatement: CodeSource = CodeSource.empty()
 
         constructor(defaults: TryWithResources) : this() {
+            this.variable = defaults.variable
             this.body = defaults.body
             this.catchStatements = defaults.catchStatements
             this.finallyStatement = defaults.finallyStatement
