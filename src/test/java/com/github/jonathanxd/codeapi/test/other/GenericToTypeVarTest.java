@@ -53,7 +53,17 @@ public class GenericToTypeVarTest {
         TypeVariable<?>[] typeVariables = TypeVarUtil.fillTypeVars(MyClass.class, generic);
 
         print(typeVariables);
+        Assert.assertEquals(3, typeVariables.length);
+        Assert.assertEquals(1, typeVariables[0].getBounds().length);
+        Assert.assertEquals(1, typeVariables[1].getBounds().length);
+        Assert.assertEquals(1, typeVariables[2].getBounds().length);
+        Assert.assertEquals("java.lang.Integer", typeVariables[0].getName());
+        Assert.assertEquals("java.lang.Object", typeVariables[1].getName());
+        Assert.assertEquals("java.lang.String", typeVariables[2].getName());
 
+        Assert.assertEquals("java.lang.Integer", typeVariables[0].getBounds()[0].getTypeName());
+        Assert.assertEquals("T", typeVariables[1].getBounds()[0].getTypeName());
+        Assert.assertEquals("java.lang.String", typeVariables[2].getBounds()[0].getTypeName());
     }
 
     @Test

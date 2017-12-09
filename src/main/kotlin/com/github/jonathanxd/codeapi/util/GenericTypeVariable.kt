@@ -59,6 +59,8 @@ class GenericTypeVariable internal constructor(val type: CodeType?, private val 
         return this.name ?: if (this.type != null) this.type.canonicalName else if (this.wrapped != null) this.wrapped.name else this.wrappedType!!.typeName
     }
 
+    override fun getTypeName(): String = this.getName()
+
     override fun getAnnotatedBounds(): Array<AnnotatedType> {
         return if (this.wrapped != null) this.wrapped.annotatedBounds else emptyArray()
     }
