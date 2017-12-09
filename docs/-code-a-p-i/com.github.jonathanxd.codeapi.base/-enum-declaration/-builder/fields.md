@@ -2,11 +2,9 @@
 
 # fields
 
-`var fields: List<`[`FieldDeclaration`](../../-field-declaration/index.md)`>`
-
-`fun fields(value: List<`[`FieldDeclaration`](../../-field-declaration/index.md)`>): `[`Builder`](index.md)
+`var fields: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`FieldDeclaration`](../../-field-declaration/index.md)`>``fun fields(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`FieldDeclaration`](../../-field-declaration/index.md)`>): `[`Builder`](index.md)
 
 Overrides [Builder.fields](../../-elements-holder/-builder/fields.md)
 
-See [TypeDeclaration.fields](../../-elements-holder/fields.md)
+See [ElementsHolder.fields](../../-elements-holder/fields.md)
 

@@ -2,4 +2,4 @@
 
 # knownOperators
 
-`val knownOperators: Map<String, `[`Operator`](../-operator/index.md)`>`
+`@JvmField val knownOperators: `[`Map`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`Operator`](../-operator/index.md)`>`

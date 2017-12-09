@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`SubIterator(index: Int = 0)`
+`SubIterator(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)` = 0)`

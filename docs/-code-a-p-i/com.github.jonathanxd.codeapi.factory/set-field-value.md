@@ -2,7 +2,7 @@
 
 # setFieldValue
 
-`fun setFieldValue(localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
+`fun setFieldValue(localization: Type, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
 
 **See Also**
 

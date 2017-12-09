@@ -2,7 +2,7 @@
 
 # interfaces
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.interfaces: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`val Type.interfaces: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
 See [CodeType.interfaces](../../com.github.jonathanxd.codeapi.type/-code-type/interfaces.md)
 

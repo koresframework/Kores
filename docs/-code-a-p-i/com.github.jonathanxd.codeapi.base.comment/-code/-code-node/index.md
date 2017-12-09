@@ -2,7 +2,7 @@
 
 # CodeNode
 
-`interface CodeNode : Any`
+`interface CodeNode`
 
 Node of the code.
 

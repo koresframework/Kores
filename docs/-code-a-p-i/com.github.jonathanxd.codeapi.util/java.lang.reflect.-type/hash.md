@@ -2,7 +2,7 @@
 
 # hash
 
-`fun `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.hash(): Int`
+`fun Type.hash(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 See [CodeType.hashCode](../../com.github.jonathanxd.codeapi.type/-code-type/hash-code.md)
 

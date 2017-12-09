@@ -2,7 +2,7 @@
 
 # replaceAll
 
-`open fun replaceAll(operator: `[`UnaryOperator`](http://docs.oracle.com/javase/6/docs/api/java/util/function/UnaryOperator.html)`<`[`CodeInstruction`](../-code-instruction.md)`>): Unit`
+`open fun replaceAll(operator: UnaryOperator<`[`CodeInstruction`](../-code-instruction.md)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Overrides [MutableCodeSource.replaceAll](../-mutable-code-source/replace-all.md)
 

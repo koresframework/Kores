@@ -2,9 +2,9 @@
 
 # fromJavaModifiers
 
-`fun fromJavaModifiers(modifiers: Int): MutableSet<`[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`>`
+`fun fromJavaModifiers(modifiers: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`MutableSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html)`<`[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`>`
 
-Extract modifiers from Java modifiers flags ([Modifier](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Modifier.html)).
+Extract modifiers from Java modifiers flags ([Modifier](#)).
 
 ### Parameters
 

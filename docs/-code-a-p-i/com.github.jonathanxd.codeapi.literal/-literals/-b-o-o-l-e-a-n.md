@@ -2,4 +2,4 @@
 
 # BOOLEAN
 
-`fun BOOLEAN(b: Boolean): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun BOOLEAN(b: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`Literal`](../-literal/index.md)

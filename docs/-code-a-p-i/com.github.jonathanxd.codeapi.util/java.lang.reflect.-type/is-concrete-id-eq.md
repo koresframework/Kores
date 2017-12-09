@@ -2,7 +2,7 @@
 
 # isConcreteIdEq
 
-`fun `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.isConcreteIdEq(another: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Boolean`
+`fun Type.isConcreteIdEq(another: Type): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 See [CodeType.isConcreteIdEq](../../com.github.jonathanxd.codeapi.type/-code-type/is-concrete-id-eq.md)
 

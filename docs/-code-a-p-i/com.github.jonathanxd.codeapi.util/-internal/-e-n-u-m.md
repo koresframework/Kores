@@ -2,4 +2,4 @@
 
 # ENUM
 
-`val ENUM: Int`
+`@JvmField val ENUM: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

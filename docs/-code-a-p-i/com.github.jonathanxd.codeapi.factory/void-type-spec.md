@@ -2,7 +2,7 @@
 
 # voidTypeSpec
 
-`fun voidTypeSpec(vararg ptypes: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): <ERROR CLASS>`
+`fun voidTypeSpec(vararg ptypes: Type): `[`TypeSpec`](../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
 
 **See Also**
 

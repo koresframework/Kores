@@ -2,7 +2,7 @@
 
 # service
 
-`val service: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val service: Type`
 
 Service to provide implementation.
 

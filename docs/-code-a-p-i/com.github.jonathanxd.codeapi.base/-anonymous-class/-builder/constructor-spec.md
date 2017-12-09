@@ -2,9 +2,7 @@
 
 # constructorSpec
 
-`lateinit var constructorSpec: `[`TypeSpec`](../../-type-spec/index.md)
-
-`fun constructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`): `[`Builder`](index.md)
+`lateinit var constructorSpec: `[`TypeSpec`](../../-type-spec/index.md)`fun constructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`): `[`Builder`](index.md)
 
 See [AnonymousClass.constructorSpec](../constructor-spec.md)
 

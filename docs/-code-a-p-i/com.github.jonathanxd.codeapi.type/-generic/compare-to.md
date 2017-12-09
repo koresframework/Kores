@@ -2,7 +2,7 @@
 
 # compareTo
 
-`fun compareTo(other: `[`CodeType`](../-code-type/index.md)`): Int`
+`fun compareTo(other: `[`CodeType`](../-code-type/index.md)`): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [GenericType.compareTo](../-generic-type/compare-to.md)
 

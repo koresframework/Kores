@@ -2,4 +2,4 @@
 
 # isBridge
 
-`fun isBridge(modifiers: Int): Boolean`
+`@JvmStatic fun isBridge(modifiers: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

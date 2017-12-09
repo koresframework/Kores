@@ -2,7 +2,7 @@
 
 # identification
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.identification: String`
+`val Type.identification: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 See [CodeType.identification](../../com.github.jonathanxd.codeapi.type/-code-type/identification.md)
 

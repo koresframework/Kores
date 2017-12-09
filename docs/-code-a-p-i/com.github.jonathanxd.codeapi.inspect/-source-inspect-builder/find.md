@@ -2,7 +2,7 @@
 
 # find
 
-`fun find(codePartPredicate: (`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`) -> Boolean): `[`SourceInspectBuilder`](index.md)`<R>`
+`fun find(codePartPredicate: (`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`) -> `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`SourceInspectBuilder`](index.md)`<R>`
 
 Sets the matcher of elements to collect.
 

@@ -2,9 +2,7 @@
 
 # specifiedName
 
-`lateinit var specifiedName: String`
-
-`fun specifiedName(value: String): `[`Builder`](index.md)
+`lateinit var specifiedName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`fun specifiedName(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)
 
 Overrides [Builder.specifiedName](../../-type-declaration/-builder/specified-name.md)
 

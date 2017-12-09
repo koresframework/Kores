@@ -2,7 +2,7 @@
 
 # catchStatements
 
-`abstract val catchStatements: List<`[`CatchStatement`](../-catch-statement/index.md)`>`
+`abstract val catchStatements: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../-catch-statement/index.md)`>`
 
 Exception handler statements
 

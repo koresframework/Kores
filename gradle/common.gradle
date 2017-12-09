@@ -50,6 +50,13 @@ jar {
 dokka {
     outputFormat = 'gfm'
     outputDirectory = 'docs'
+    reportNotDocumented = false
+
+    linkMapping {
+        dir = 'src/main/kotlin'
+        url = 'https://github.com/JonathanxD/CodeAPI/tree/version/4.0.0/src/main/kotlin'
+        suffix = '#L'
+    }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

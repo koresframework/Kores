@@ -2,4 +2,4 @@
 
 # toString
 
-`abstract fun toString(): String`
+`abstract fun toString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

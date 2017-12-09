@@ -2,7 +2,7 @@
 
 # ARRAY
 
-`val ARRAY: `[`IterationType`](index.md)
+`@JvmField val ARRAY: `[`IterationType`](index.md)
 
 Foreach on array. Requires special handling.
 

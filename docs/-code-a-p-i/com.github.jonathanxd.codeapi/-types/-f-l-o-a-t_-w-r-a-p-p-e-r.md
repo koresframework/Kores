@@ -2,4 +2,4 @@
 
 # FLOAT_WRAPPER
 
-`val FLOAT_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Float>`
+`@JvmField val FLOAT_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)`>`

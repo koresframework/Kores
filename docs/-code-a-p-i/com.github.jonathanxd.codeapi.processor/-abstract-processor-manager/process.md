@@ -2,7 +2,7 @@
 
 # process
 
-`open fun <T> process(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<out T>, part: T, data: TypedData): R`
+`open fun <T> process(type: Class<out T>, part: T, data: TypedData): R`
 
 Overrides [ProcessorManager.process](../-processor-manager/process.md)
 

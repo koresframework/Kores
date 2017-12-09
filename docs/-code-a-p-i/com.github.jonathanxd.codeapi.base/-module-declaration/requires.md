@@ -2,7 +2,7 @@
 
 # requires
 
-`val requires: List<`[`Require`](../-require/index.md)`>`
+`val requires: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Require`](../-require/index.md)`>`
 
 Module requires.
 

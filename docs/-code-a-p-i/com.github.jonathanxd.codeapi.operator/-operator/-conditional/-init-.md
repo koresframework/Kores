@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Conditional(name: String)`
+`Conditional(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Conditional operator
 

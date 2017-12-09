@@ -2,4 +2,4 @@
 
 # VOID
 
-`val VOID: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Void`](http://docs.oracle.com/javase/6/docs/api/java/lang/Void.html)`>`
+`@JvmField val VOID: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Void>`

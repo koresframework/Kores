@@ -2,4 +2,4 @@
 
 # FLOAT
 
-`fun FLOAT(f: Float): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun FLOAT(f: `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)`): `[`Literal`](../-literal/index.md)

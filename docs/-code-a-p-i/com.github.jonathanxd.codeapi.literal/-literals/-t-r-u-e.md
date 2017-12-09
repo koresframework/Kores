@@ -2,4 +2,4 @@
 
 # TRUE
 
-`val TRUE: `[`Literal`](../-literal/index.md)
+`@JvmField val TRUE: `[`Literal`](../-literal/index.md)

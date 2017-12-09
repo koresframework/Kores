@@ -2,7 +2,7 @@
 
 # packageName
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.packageName: String`
+`val Type.packageName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 See [CodeType.packageName](../../com.github.jonathanxd.codeapi.type/-code-type/package-name.md)
 

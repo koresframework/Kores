@@ -2,7 +2,7 @@
 
 # plainClassType
 
-`fun plainClassType(name: String): `[`PlainCodeType`](../com.github.jonathanxd.codeapi.type/-plain-code-type/index.md)
+`fun plainClassType(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`PlainCodeType`](../com.github.jonathanxd.codeapi.type/-plain-code-type/index.md)
 
 **See Also**
 

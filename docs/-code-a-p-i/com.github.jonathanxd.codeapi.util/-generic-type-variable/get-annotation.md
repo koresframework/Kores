@@ -2,4 +2,4 @@
 
 # getAnnotation
 
-`fun <T : Annotation> getAnnotation(annotationClass: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>): T?`
+`fun <T : `[`Annotation`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html)`> getAnnotation(annotationClass: Class<T>): T?`

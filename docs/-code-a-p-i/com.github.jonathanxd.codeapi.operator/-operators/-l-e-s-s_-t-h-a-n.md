@@ -2,4 +2,4 @@
 
 # LESS_THAN
 
-`val LESS_THAN: <ERROR CLASS>`
+`@JvmField val LESS_THAN: `[`Conditional`](../-operator/-conditional/index.md)

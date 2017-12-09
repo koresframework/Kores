@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`URL(url: String)`
+`URL(url: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 A link to a website url.
 

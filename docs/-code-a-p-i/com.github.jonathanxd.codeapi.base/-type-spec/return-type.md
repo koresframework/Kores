@@ -2,7 +2,7 @@
 
 # returnType
 
-`val returnType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val returnType: Type`
 
 Type of the return.
 

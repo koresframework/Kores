@@ -2,4 +2,4 @@
 
 # createConditional
 
-`fun createConditional(name: String): <ERROR CLASS>`
+`fun createConditional(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Conditional`](../-operator/-conditional/index.md)

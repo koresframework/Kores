@@ -2,7 +2,7 @@
 
 # line
 
-`abstract fun line(value: Int): S`
+`abstract fun line(value: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): S`
 
 See [Line.line](../line.md)
 

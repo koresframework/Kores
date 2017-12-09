@@ -2,7 +2,7 @@
 
 # loadedType
 
-`abstract val loadedType: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>`
+`abstract val loadedType: Class<T>`
 
 Loaded class.
 

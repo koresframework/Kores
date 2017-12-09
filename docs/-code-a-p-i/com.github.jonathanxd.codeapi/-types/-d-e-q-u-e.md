@@ -2,4 +2,4 @@
 
 # DEQUE
 
-`val DEQUE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Deque`](http://docs.oracle.com/javase/6/docs/api/java/util/Deque.html)`<*>>`
+`@JvmField val DEQUE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Deque<*>>`

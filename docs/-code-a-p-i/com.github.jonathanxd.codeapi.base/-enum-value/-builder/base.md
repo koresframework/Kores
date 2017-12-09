@@ -2,7 +2,7 @@
 
 # base
 
-`fun base(enum: Enum<*>): `[`Builder`](index.md)
+`fun base(enum: `[`Enum`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)`<*>): `[`Builder`](index.md)
 
-Base this EnumValue on an [Enum](#).
+Base this EnumValue on an [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html).
 

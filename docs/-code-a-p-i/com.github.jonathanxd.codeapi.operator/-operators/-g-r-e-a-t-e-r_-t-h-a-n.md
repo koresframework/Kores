@@ -2,4 +2,4 @@
 
 # GREATER_THAN
 
-`val GREATER_THAN: <ERROR CLASS>`
+`@JvmField val GREATER_THAN: `[`Conditional`](../-operator/-conditional/index.md)

@@ -2,9 +2,9 @@
 
 # toConstructorDeclaration
 
-`fun <T : Any> `[`Constructor`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html)`<T>.toConstructorDeclaration(nameProvider: (Int, `[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`) -> String = { i, _ -> this.parameterNames[i] }): `[`ConstructorDeclaration`](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md)
+`@JvmOverloads fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Constructor<T>.toConstructorDeclaration(nameProvider: (index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, parameter: Parameter) -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = { i, _ -> this.parameterNames[i] }): `[`ConstructorDeclaration`](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md)
 
-Convert this [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html) to [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md).
+Convert this [Method](#) to [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md).
 
 ### Parameters
 
@@ -13,9 +13,9 @@ Convert this [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect
 **Return**
 [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md).
 
-`fun <T : Any> `[`Constructor`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html)`<T>.toConstructorDeclaration(arguments: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, nameProvider: (Int, `[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`) -> String = { i, _ -> this.parameterNames[i] }): `[`ConstructorDeclaration`](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md)
+`@JvmOverloads fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Constructor<T>.toConstructorDeclaration(arguments: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, nameProvider: (index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, parameter: Parameter) -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = { i, _ -> this.parameterNames[i] }): `[`ConstructorDeclaration`](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md)
 
-Convert this [Constructor](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html) structure to [ConstructorDeclaration](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md) structure calling super constructor with [arguments](to-constructor-declaration.md#com.github.jonathanxd.codeapi.util.conversion$toConstructorDeclaration(java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.toConstructorDeclaration.T)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))/arguments).
+Convert this [Constructor](#) structure to [ConstructorDeclaration](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md) structure calling super constructor with [arguments](to-constructor-declaration.md#com.github.jonathanxd.codeapi.util.conversion$toConstructorDeclaration(java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.toConstructorDeclaration.T)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))/arguments).
 
 ### Parameters
 
@@ -24,5 +24,5 @@ Convert this [Constructor](http://docs.oracle.com/javase/6/docs/api/java/lang/re
 `nameProvider` - Provider of parameter names.
 
 **Return**
-[ConstructorDeclaration](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md) structure from [Constructor](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html) calling super constructor with [arguments](to-constructor-declaration.md#com.github.jonathanxd.codeapi.util.conversion$toConstructorDeclaration(java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.toConstructorDeclaration.T)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))/arguments).
+[ConstructorDeclaration](../../com.github.jonathanxd.codeapi.base/-constructor-declaration/index.md) structure from [Constructor](#) calling super constructor with [arguments](to-constructor-declaration.md#com.github.jonathanxd.codeapi.util.conversion$toConstructorDeclaration(java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.toConstructorDeclaration.T)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))/arguments).
 

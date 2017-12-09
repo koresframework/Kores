@@ -2,9 +2,7 @@
 
 # type
 
-`lateinit var type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
-
-`fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`lateinit var type: Type``fun type(value: Type): `[`Builder`](index.md)
 
 Overrides [Builder.type](../../../com.github.jonathanxd.codeapi.base/-variable-base/-builder/type.md)
 

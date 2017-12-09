@@ -2,7 +2,7 @@
 
 # bounds
 
-`abstract fun bounds(value: Array<`[`Bound`](../-bound/index.md)`>): `[`Builder`](index.md)`<T, S>`
+`abstract fun bounds(value: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`Bound`](../-bound/index.md)`>): `[`Builder`](index.md)`<T, S>`
 
 See T.bounds
 

@@ -2,7 +2,7 @@
 
 # toArray
 
-`abstract fun toArray(dimensions: Int): `[`GenericType`](index.md)
+`abstract fun toArray(dimensions: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`GenericType`](index.md)
 
 Overrides [CodeType.toArray](../-code-type/to-array.md)
 

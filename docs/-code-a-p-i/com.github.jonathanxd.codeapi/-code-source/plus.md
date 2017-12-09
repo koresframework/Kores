@@ -6,7 +6,7 @@
 
 Adds [other](plus.md#com.github.jonathanxd.codeapi.CodeSource$plus(com.github.jonathanxd.codeapi.CodeInstruction)/other) to this [CodeSource](index.md).
 
-`abstract operator fun plus(other: Iterable<`[`CodeInstruction`](../-code-instruction.md)`>): `[`CodeSource`](index.md)
+`abstract operator fun plus(other: `[`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>): `[`CodeSource`](index.md)
 
 Adds all [CodeInstruction](../-code-instruction.md) of [other](plus.md#com.github.jonathanxd.codeapi.CodeSource$plus(kotlin.collections.Iterable((com.github.jonathanxd.codeapi.CodeInstruction)))/other) to this [CodeSource](index.md)
 

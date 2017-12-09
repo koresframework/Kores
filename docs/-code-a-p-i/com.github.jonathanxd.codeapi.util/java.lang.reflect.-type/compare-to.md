@@ -2,7 +2,7 @@
 
 # compareTo
 
-`fun `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.compareTo(other: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Int`
+`fun Type.compareTo(other: Type): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 See [CodeType.compareTo](../../com.github.jonathanxd.codeapi.type/-code-type/compare-to.md)
 

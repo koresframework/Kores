@@ -2,7 +2,7 @@
 
 # isPrimitive
 
-`open val isPrimitive: Boolean`
+`open val isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if this [CodeType](index.md) is a primitive type.
 

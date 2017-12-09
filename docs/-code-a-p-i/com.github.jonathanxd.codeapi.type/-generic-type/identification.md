@@ -2,7 +2,7 @@
 
 # identification
 
-`open val identification: String`
+`open val identification: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [CodeType.identification](../-code-type/identification.md)
 

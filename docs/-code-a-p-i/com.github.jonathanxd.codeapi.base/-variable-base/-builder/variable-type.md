@@ -2,7 +2,7 @@
 
 # variableType
 
-`abstract fun variableType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`
+`abstract fun variableType(value: Type): S`
 
 See T.variableType
 

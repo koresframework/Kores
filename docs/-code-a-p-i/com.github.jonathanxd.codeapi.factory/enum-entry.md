@@ -2,7 +2,7 @@
 
 # enumEntry
 
-`fun enumEntry(name: String): `[`EnumEntry`](../com.github.jonathanxd.codeapi.base/-enum-entry/index.md)
+`fun enumEntry(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`EnumEntry`](../com.github.jonathanxd.codeapi.base/-enum-entry/index.md)
 
 **See Also**
 

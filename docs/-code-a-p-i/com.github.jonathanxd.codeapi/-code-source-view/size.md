@@ -2,7 +2,7 @@
 
 # size
 
-`open val size: Int`
+`open val size: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [CodeSource.size](../-code-source/size.md)
 

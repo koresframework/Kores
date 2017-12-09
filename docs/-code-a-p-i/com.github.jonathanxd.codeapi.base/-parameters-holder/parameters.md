@@ -2,7 +2,7 @@
 
 # parameters
 
-`abstract val parameters: List<`[`CodeParameter`](../-code-parameter/index.md)`>`
+`abstract val parameters: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeParameter`](../-code-parameter/index.md)`>`
 
 Parameters
 

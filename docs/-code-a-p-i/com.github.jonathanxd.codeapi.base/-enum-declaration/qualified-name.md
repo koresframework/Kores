@@ -2,7 +2,7 @@
 
 # qualifiedName
 
-`val qualifiedName: String`
+`val qualifiedName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [TypeDeclaration.qualifiedName](../-type-declaration/qualified-name.md)
 

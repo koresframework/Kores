@@ -14,21 +14,21 @@
 
 | Name | Summary |
 |---|---|
-| [arrayType](array-type.md) | `lateinit var arrayType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [arrayType](array-type.md) | `lateinit var arrayType: Type` |
 | [index](--index--.md) | `lateinit var index: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 | [target](target.md) | `lateinit var target: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
-| [valueType](value-type.md) | `lateinit var valueType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [valueType](value-type.md) | `lateinit var valueType: Type` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [arrayType](array-type.md) | `fun arrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.arrayType](#) |
+| [arrayType](array-type.md) | `fun arrayType(value: Type): Builder`<br>See [T.arrayType](#) |
 | [build](build.md) | `fun build(): `[`ArrayLoad`](../index.md)<br>Build the object of type [T](#). |
 | [index](--index--.md) | `fun index(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ArrayLoad.index](../--index--.md) |
 | [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.target](#) |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
-| [valueType](value-type.md) | `fun valueType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [ArrayLoad.valueType](../value-type.md) |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
+| [valueType](value-type.md) | `fun valueType(value: Type): Builder`<br>See [ArrayLoad.valueType](../value-type.md) |
 
 ### Companion Object Functions
 

@@ -2,7 +2,7 @@
 
 # specifiedName
 
-`abstract fun specifiedName(value: String): S`
+`abstract fun specifiedName(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): S`
 
 See [TypeDeclaration.specifiedName](../specified-name.md)
 

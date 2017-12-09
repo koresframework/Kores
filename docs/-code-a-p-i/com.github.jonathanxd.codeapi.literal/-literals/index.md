@@ -2,7 +2,7 @@
 
 # Literals
 
-`object Literals : Any`
+`object Literals`
 
 [Literals](../-literal/index.md) constants.
 
@@ -33,21 +33,23 @@
 
 | Name | Summary |
 |---|---|
-| [ARRAY](-a-r-r-a-y.md) | `fun ARRAY(other: `[`Literal`](../-literal/index.md)`, array: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): `[`Literal`](../-literal/index.md) |
-| [BOOLEAN](-b-o-o-l-e-a-n.md) | `fun BOOLEAN(b: Boolean): `[`Literal`](../-literal/index.md) |
-| [BYTE](-b-y-t-e.md) | `fun BYTE(b: Byte): `[`Literal`](../-literal/index.md) |
-| [CHAR](-c-h-a-r.md) | `fun CHAR(c: Char): `[`Literal`](../-literal/index.md) |
-| [CLASS](-c-l-a-s-s.md) | `fun CLASS(aClass: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): `[`Literal`](../-literal/index.md)<br>`fun CLASS(aClass: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): `[`Literal`](../-literal/index.md) |
-| [DOUBLE](-d-o-u-b-l-e.md) | `fun DOUBLE(d: Double): `[`Literal`](../-literal/index.md) |
-| [FLOAT](-f-l-o-a-t.md) | `fun FLOAT(f: Float): `[`Literal`](../-literal/index.md) |
-| [INT](-i-n-t.md) | `fun INT(i: Int): `[`Literal`](../-literal/index.md) |
-| [LONG](-l-o-n-g.md) | `fun LONG(i: Long): `[`Literal`](../-literal/index.md) |
-| [SHORT](-s-h-o-r-t.md) | `fun SHORT(s: Short): `[`Literal`](../-literal/index.md) |
-| [STRING](-s-t-r-i-n-g.md) | `fun STRING(s: String): `[`Literal`](../-literal/index.md) |
+| [BOOLEAN](-b-o-o-l-e-a-n.md) | `fun BOOLEAN(b: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`Literal`](../-literal/index.md) |
+| [BYTE](-b-y-t-e.md) | `fun BYTE(b: `[`Byte`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte/index.html)`): `[`Literal`](../-literal/index.md) |
+| [CHAR](-c-h-a-r.md) | `fun CHAR(c: `[`Char`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html)`): `[`Literal`](../-literal/index.md) |
+| [CLASS](-c-l-a-s-s.md) | `fun CLASS(type: Type): `[`Literal`](../-literal/index.md) |
+| [DOUBLE](-d-o-u-b-l-e.md) | `fun DOUBLE(d: `[`Double`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)`): `[`Literal`](../-literal/index.md) |
+| [FLOAT](-f-l-o-a-t.md) | `fun FLOAT(f: `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)`): `[`Literal`](../-literal/index.md) |
+| [INT](-i-n-t.md) | `fun INT(i: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Literal`](../-literal/index.md) |
+| [LONG](-l-o-n-g.md) | `fun LONG(i: `[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`): `[`Literal`](../-literal/index.md) |
+| [SHORT](-s-h-o-r-t.md) | `fun SHORT(s: `[`Short`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html)`): `[`Literal`](../-literal/index.md) |
+| [STRING](-s-t-r-i-n-g.md) | `fun STRING(s: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Literal`](../-literal/index.md) |
+| [TYPE](-t-y-p-e.md) | `fun TYPE(type: Type): `[`Literal`](../-literal/index.md) |
 
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
-| [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../-literal/index.md)`?`<br>Convert this value to a literal |
+| [annotationValue](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/annotation-value.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`.annotationValue(rType: Class<*>): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html) |
+| [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?.asString(simple: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`.toLiteral(): `[`Literal`](../-literal/index.md)<br>Convert this value to a literal |
+| [toLiteralOrNull](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal-or-null.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`.toLiteralOrNull(): `[`Literal`](../-literal/index.md)`?`<br>Convert this value to a literal |

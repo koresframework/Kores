@@ -2,7 +2,7 @@
 
 # throwsClause
 
-`val throwsClause: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`val throwsClause: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
 Overrides [ThrowsHolder.throwsClause](../-throws-holder/throws-clause.md)
 

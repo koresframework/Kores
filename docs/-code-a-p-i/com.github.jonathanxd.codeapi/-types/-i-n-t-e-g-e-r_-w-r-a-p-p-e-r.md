@@ -2,4 +2,4 @@
 
 # INTEGER_WRAPPER
 
-`val INTEGER_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Int>`
+`@JvmField val INTEGER_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`>`

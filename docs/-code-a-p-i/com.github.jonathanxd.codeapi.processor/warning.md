@@ -2,7 +2,7 @@
 
 # warning
 
-`inline fun warning(message: () -> String): `[`ValidationMessage`](-validation-message/index.md)
+`inline fun warning(message: () -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`ValidationMessage`](-validation-message/index.md)
 
 Creates a warning validation message.
 

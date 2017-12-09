@@ -2,7 +2,7 @@
 
 # array
 
-`fun array(value: Boolean): `[`Builder`](index.md)
+`fun array(value: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`Builder`](index.md)
 
 Overrides [Builder.array](../../../-arguments-holder/-builder/array.md)
 

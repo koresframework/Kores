@@ -2,7 +2,7 @@
 
 # lastIndexOf
 
-`fun lastIndexOf(o: Any): Int`
+`fun lastIndexOf(o: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [CodeSource.lastIndexOf](../-code-source/last-index-of.md)
 

@@ -2,7 +2,7 @@
 
 # sign
 
-`abstract val sign: String`
+`abstract val sign: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Symbol of this bound.
 

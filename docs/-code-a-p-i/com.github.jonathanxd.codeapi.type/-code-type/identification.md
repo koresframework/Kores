@@ -2,7 +2,7 @@
 
 # identification
 
-`open val identification: String`
+`open val identification: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Unique string identification, this property may be used for equality comparison, normal types,
 array types and generic types have different identifications, if a generic type represent a single

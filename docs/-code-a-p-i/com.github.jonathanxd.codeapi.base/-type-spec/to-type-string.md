@@ -2,7 +2,7 @@
 
 # toTypeString
 
-`fun toTypeString(): String`
+`fun toTypeString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Human readable type specification string.
 

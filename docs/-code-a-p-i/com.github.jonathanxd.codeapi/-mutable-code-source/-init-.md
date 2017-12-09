@@ -4,5 +4,5 @@
 
 `MutableCodeSource()`
 
-A mutable [CodeSource](../-code-source/index.md) backing to a [ArrayList](http://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html) instead of to an [Array](#).
+A mutable [CodeSource](../-code-source/index.md) backing to a [ArrayList](#) instead of to an [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html).
 

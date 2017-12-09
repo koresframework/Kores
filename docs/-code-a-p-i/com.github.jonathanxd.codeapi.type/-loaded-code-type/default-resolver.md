@@ -2,7 +2,7 @@
 
 # defaultResolver
 
-`open val defaultResolver: `[`CodeTypeResolver`](../-code-type-resolver/index.md)`<`[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>>`
+`open val defaultResolver: `[`CodeTypeResolver`](../-code-type-resolver/index.md)`<Class<*>>`
 
 Overrides [CodeType.defaultResolver](../-code-type/default-resolver.md)
 

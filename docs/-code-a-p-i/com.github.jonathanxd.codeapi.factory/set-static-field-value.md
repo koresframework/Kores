@@ -2,7 +2,7 @@
 
 # setStaticFieldValue
 
-`fun setStaticFieldValue(localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)` = Alias.THIS, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
+`@JvmOverloads fun setStaticFieldValue(localization: Type = Alias.THIS, type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
 
 **See Also**
 

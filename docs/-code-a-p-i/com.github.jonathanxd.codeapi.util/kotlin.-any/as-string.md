@@ -2,7 +2,7 @@
 
 # asString
 
-`fun Any?.asString(simple: Boolean = true): String`
+`@JvmOverloads fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?.asString(simple: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md)
 

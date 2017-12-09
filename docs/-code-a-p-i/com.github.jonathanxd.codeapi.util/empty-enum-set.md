@@ -2,4 +2,4 @@
 
 # emptyEnumSet
 
-`inline fun <reified E : Enum<E>> emptyEnumSet(): <ERROR CLASS>`
+`inline fun <reified E : `[`Enum`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)`<E>> emptyEnumSet(): EnumSet<E>`

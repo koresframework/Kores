@@ -2,7 +2,7 @@
 
 # provides
 
-`val provides: List<`[`Provide`](../-provide/index.md)`>`
+`val provides: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Provide`](../-provide/index.md)`>`
 
 Module service provides.
 

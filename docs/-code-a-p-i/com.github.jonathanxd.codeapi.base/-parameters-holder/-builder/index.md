@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [parameters](parameters.md) | `abstract fun parameters(value: List<`[`CodeParameter`](../../-code-parameter/index.md)`>): S`<br>`open fun parameters(vararg values: `[`CodeParameter`](../../-code-parameter/index.md)`): S`<br>See [T.parameters](parameters.md) |
+| [parameters](parameters.md) | `abstract fun parameters(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeParameter`](../../-code-parameter/index.md)`>): S`<br>`open fun parameters(vararg values: `[`CodeParameter`](../../-code-parameter/index.md)`): S`<br>See [T.parameters](parameters.md) |
 
 ### Inherited Functions
 

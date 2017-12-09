@@ -14,14 +14,14 @@
 
 | Name | Summary |
 |---|---|
-| [text](text.md) | `lateinit var text: String` |
+| [text](text.md) | `lateinit var text: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Plain`](../index.md)<br>Build the object of type [T](#). |
-| [text](text.md) | `fun text(value: String): Builder`<br>See [Plain.text](../text.md) |
+| [text](text.md) | `fun text(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder`<br>See [Plain.text](../text.md) |
 
 ### Companion Object Functions
 

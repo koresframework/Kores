@@ -2,4 +2,4 @@
 
 # MULTIPLY
 
-`val MULTIPLY: <ERROR CLASS>`
+`@JvmField val MULTIPLY: `[`Math`](../-operator/-math/index.md)

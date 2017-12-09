@@ -16,19 +16,19 @@ Interface extension localization.
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `INTERFACE(n: Int)`<br>Interface extension localization. |
+| [&lt;init&gt;](-init-.md) | `INTERFACE(n: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)`<br>Interface extension localization. |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [canonicalName](canonical-name.md) | `val canonicalName: String`<br>Canonical name |
-| [n](n.md) | `val n: Int` |
-| [type](type.md) | `val type: String`<br>Type name, examples: |
+| [canonicalName](canonical-name.md) | `val canonicalName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Canonical name |
+| [n](n.md) | `val n: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
+| [type](type.md) | `val type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Type name, examples: |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [equals](equals.md) | `fun equals(other: Any?): Boolean` |
-| [hashCode](hash-code.md) | `fun hashCode(): Int` |
+| [equals](equals.md) | `fun equals(other: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [hashCode](hash-code.md) | `fun hashCode(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |

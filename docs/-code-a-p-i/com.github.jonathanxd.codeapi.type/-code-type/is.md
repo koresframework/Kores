@@ -2,7 +2,7 @@
 
 # is
 
-`open fun is(other: `[`CodeType`](index.md)`?): Boolean`
+`open fun is(other: `[`CodeType`](index.md)`?): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Returns true if this [CodeType](index.md) is equals to other [CodeType](index.md).
 

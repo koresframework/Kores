@@ -2,12 +2,12 @@
 
 # type
 
-`abstract val type: String`
+`abstract val type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Type name, examples:
 
-[String](#) = `java.lang.String`.
-[Int](#) = `int`.
+[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`.
+[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`.
 `path.to.A.B` = `path.to.A$B`.
 `path.to.A.B[][]` = `path.to.A$B[][]`.
 

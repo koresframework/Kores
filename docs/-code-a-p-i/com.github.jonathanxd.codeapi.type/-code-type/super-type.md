@@ -2,7 +2,7 @@
 
 # superType
 
-`open val superType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
+`open val superType: Type?`
 
-Gets the super type of `this` [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) using default resolver.
+Gets the super type of `this` [Type](#) using default resolver.
 

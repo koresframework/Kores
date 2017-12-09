@@ -2,7 +2,7 @@
 
 # getInterfaces
 
-`fun getInterfaces(): List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`fun getInterfaces(): Either<`[`Exception`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html)`, `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>>`
 
 Resolves super interfaces of [bindType](bind-type.md).
 

@@ -6,6 +6,6 @@
 
 Array base component.
 
-Example, if is a `String[]`, returns [String](#), if is `Integer[][][]`
-returns [Integer](http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html), the Java equivalent method returns: `Integer[][]`.
+Example, if is a `String[]`, returns [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), if is `Integer[][][]`
+returns [Integer](#), the Java equivalent method returns: `Integer[][]`.
 

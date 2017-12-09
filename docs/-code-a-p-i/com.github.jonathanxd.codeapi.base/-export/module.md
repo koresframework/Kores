@@ -4,8 +4,8 @@
 
 `val module: `[`ModuleReference`](../-module-reference/index.md)
 
-Modules to export.
+Module to export.
 
 ### Property
 
-`module` - Modules to export.
+`module` - Module to export.

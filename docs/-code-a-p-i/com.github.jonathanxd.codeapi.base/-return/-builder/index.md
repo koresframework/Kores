@@ -14,7 +14,7 @@
 
 | Name | Summary |
 |---|---|
-| [type](type.md) | `lateinit var type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [type](type.md) | `lateinit var type: Type` |
 | [value](value.md) | `lateinit var value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
@@ -22,7 +22,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Return`](../index.md)<br>Build the object of type [T](#). |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 | [value](value.md) | `fun value(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.value](#) |
 
 ### Companion Object Functions

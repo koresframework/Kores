@@ -2,7 +2,7 @@
 
 # superClass
 
-`abstract val superClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`abstract val superClass: Type`
 
 Super type
 

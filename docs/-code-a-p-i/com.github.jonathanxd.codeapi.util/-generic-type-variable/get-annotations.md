@@ -2,4 +2,4 @@
 
 # getAnnotations
 
-`fun getAnnotations(): Array<Annotation>`
+`fun getAnnotations(): `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`Annotation`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html)`>`

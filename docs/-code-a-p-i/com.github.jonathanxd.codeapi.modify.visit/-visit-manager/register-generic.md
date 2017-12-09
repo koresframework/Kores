@@ -2,7 +2,7 @@
 
 # registerGeneric
 
-`open fun registerGeneric(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>, visitor: `[`PartVisitor`](../-part-visitor/index.md)`<*>): Unit`
+`open fun registerGeneric(type: Class<*>, visitor: `[`PartVisitor`](../-part-visitor/index.md)`<*>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Register a generic visitor of [type](register-generic.md#com.github.jonathanxd.codeapi.modify.visit.VisitManager$registerGeneric(java.lang.Class((kotlin.Any)), com.github.jonathanxd.codeapi.modify.visit.PartVisitor((kotlin.Any)))/type).
 

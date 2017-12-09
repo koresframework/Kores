@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`TypeSpec(returnType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, parameterTypes: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`> = emptyList())`
+`TypeSpec(returnType: Type, parameterTypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type> = emptyList())`
 
 Type Signature representation.
 

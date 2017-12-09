@@ -2,7 +2,7 @@
 
 # isInterface
 
-`val isInterface: Boolean`
+`val isInterface: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [GenericType.isInterface](../-generic-type/is-interface.md)
 

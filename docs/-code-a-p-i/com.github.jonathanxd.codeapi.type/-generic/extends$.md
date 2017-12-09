@@ -2,7 +2,7 @@
 
 # extends$
 
-`fun extends$(s: String): `[`Generic`](index.md)
+`fun extends$(s: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Generic type that extends type variable `s`.
 
@@ -13,7 +13,7 @@ Generic type that extends type variable `s`.
 **Return**
 New instance of generic type.
 
-`fun extends$(vararg ss: String): `[`Generic`](index.md)
+`fun extends$(vararg ss: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Generic type that extends type variables `ss`.
 
@@ -24,7 +24,7 @@ Generic type that extends type variables `ss`.
 **Return**
 New instance of generic type.
 
-`fun extends$(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`fun extends$(type: Type): `[`Generic`](index.md)
 
 Generic type that extends type `type`.
 
@@ -35,7 +35,7 @@ Generic type that extends type `type`.
 **Return**
 New instance of generic type.
 
-`fun extends$(vararg types: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`fun extends$(vararg types: Type): `[`Generic`](index.md)
 
 Generic type that extends types `types`.
 

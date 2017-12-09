@@ -2,7 +2,7 @@
 
 # exceptionTypes
 
-`val exceptionTypes: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`val exceptionTypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
 Exception types to catch.
 

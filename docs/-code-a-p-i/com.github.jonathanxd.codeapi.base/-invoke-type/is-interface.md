@@ -2,7 +2,7 @@
 
 # isInterface
 
-`fun isInterface(): Boolean`
+`fun isInterface(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Returns true if the InvokeType is [INVOKE_INTERFACE](-i-n-v-o-k-e_-i-n-t-e-r-f-a-c-e.md).
 

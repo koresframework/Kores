@@ -2,4 +2,4 @@
 
 # BYTE
 
-`fun BYTE(b: Byte): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun BYTE(b: `[`Byte`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte/index.html)`): `[`Literal`](../-literal/index.md)

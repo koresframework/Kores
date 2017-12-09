@@ -2,7 +2,7 @@
 
 # toArray
 
-`fun `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.toArray(dimensions: Int): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`fun Type.toArray(dimensions: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
 
 See [CodeType.toArray](../../com.github.jonathanxd.codeapi.type/-code-type/to-array.md)
 

@@ -2,7 +2,7 @@
 
 # array
 
-`abstract fun array(value: Boolean): S`
+`abstract fun array(value: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): S`
 
 See T.array
 

@@ -2,7 +2,7 @@
 
 # methods
 
-`val methods: List<`[`MethodDeclaration`](../-method-declaration/index.md)`>`
+`val methods: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`MethodDeclaration`](../-method-declaration/index.md)`>`
 
 Overrides [ElementsHolder.methods](../-elements-holder/methods.md)
 

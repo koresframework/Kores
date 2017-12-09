@@ -2,4 +2,4 @@
 
 # messages
 
-`val messages: List<`[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`>`
+`val messages: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`>`

@@ -2,4 +2,4 @@
 
 # MODIFIERS
 
-`val MODIFIERS: <ERROR CLASS>`
+`val MODIFIERS: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../-code-modifier/index.md)`>`

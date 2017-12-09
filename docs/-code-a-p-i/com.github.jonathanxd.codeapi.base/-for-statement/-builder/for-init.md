@@ -2,9 +2,7 @@
 
 # forInit
 
-`var forInit: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
-
-`fun forInit(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+`var forInit: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`fun forInit(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
 
 See [ForStatement.forInit](../for-init.md)
 

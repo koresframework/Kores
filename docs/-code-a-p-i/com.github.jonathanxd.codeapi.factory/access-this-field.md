@@ -2,7 +2,7 @@
 
 # accessThisField
 
-`fun accessThisField(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String): `[`FieldAccess`](../com.github.jonathanxd.codeapi.base/-field-access/index.md)
+`fun accessThisField(type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`FieldAccess`](../com.github.jonathanxd.codeapi.base/-field-access/index.md)
 
 **See Also**
 

@@ -8,8 +8,8 @@
 
 | Name | Summary |
 |---|---|
-| [name](name.md) | `open fun name(value: String): S` |
-| [qualifiedName](qualified-name.md) | `abstract fun qualifiedName(value: String): S` |
+| [name](name.md) | `open fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): S` |
+| [qualifiedName](qualified-name.md) | `abstract fun qualifiedName(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): S` |
 
 ### Inheritors
 

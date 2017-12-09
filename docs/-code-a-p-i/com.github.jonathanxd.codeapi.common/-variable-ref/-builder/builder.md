@@ -2,4 +2,4 @@
 
 # builder
 
-`fun builder(): `[`Builder`](index.md)
+`@JvmStatic fun builder(): `[`Builder`](index.md)

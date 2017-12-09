@@ -2,7 +2,7 @@
 
 # arrayValues
 
-`val arrayValues: List<`[`ArrayStore`](../-array-store/index.md)`>`
+`val arrayValues: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ArrayStore`](../-array-store/index.md)`>`
 
 Array values
 

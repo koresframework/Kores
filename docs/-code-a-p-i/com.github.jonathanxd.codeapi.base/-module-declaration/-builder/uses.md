@@ -2,11 +2,9 @@
 
 # uses
 
-`var uses: List<`[`ModuleReference`](../../-module-reference/index.md)`>`
-
-`fun uses(value: List<`[`ModuleReference`](../../-module-reference/index.md)`>): `[`Builder`](index.md)
+`var uses: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ModuleReference`](../../-module-reference/index.md)`>``fun uses(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ModuleReference`](../../-module-reference/index.md)`>): `[`Builder`](index.md)
 `fun uses(vararg values: `[`ModuleReference`](../../-module-reference/index.md)`): `[`Builder`](index.md)
-`fun uses(vararg values: String): `[`Builder`](index.md)
+`fun uses(vararg values: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)
 
 See [ModuleDeclaration.uses](../uses.md)
 

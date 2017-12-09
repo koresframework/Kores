@@ -2,7 +2,7 @@
 
 # sort
 
-`fun sort(c: `[`Comparator`](http://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html)`<in `[`CodeInstruction`](../-code-instruction.md)`>): Unit`
+`fun sort(c: Comparator<in `[`CodeInstruction`](../-code-instruction.md)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Overrides [MutableCodeSource.sort](../-mutable-code-source/sort.md)
 

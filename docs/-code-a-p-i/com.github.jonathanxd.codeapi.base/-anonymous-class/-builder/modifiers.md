@@ -2,7 +2,7 @@
 
 # modifiers
 
-`fun modifiers(value: Set<`[`CodeModifier`](../../-code-modifier/index.md)`>): `[`Builder`](index.md)
+`fun modifiers(value: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../../-code-modifier/index.md)`>): `[`Builder`](index.md)
 
 Overrides [Builder.modifiers](../../-modifiers-holder/-builder/modifiers.md)
 

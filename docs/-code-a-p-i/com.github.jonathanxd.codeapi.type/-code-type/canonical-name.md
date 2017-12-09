@@ -2,14 +2,14 @@
 
 # canonicalName
 
-`abstract val canonicalName: String`
+`abstract val canonicalName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Canonical name
 
 Qualified name:
 
-[String](#) = `java.lang.String`.
-[Int](#) = `int`.
+[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`.
+[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`.
 `path.to.A.B` = `path.to.A.B`.
 `path.to.A.B[][]` = `path.to.A.B[][]`.
 

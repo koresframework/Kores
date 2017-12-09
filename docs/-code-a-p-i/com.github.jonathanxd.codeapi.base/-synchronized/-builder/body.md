@@ -2,9 +2,7 @@
 
 # body
 
-`var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)
-
-`fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`Builder`](index.md)
+`var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`Builder`](index.md)
 
 Overrides [Builder.body](../../-body-holder/-builder/body.md)
 

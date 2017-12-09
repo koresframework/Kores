@@ -2,7 +2,7 @@
 
 # codeParameters
 
-`val List<`[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`>.codeParameters: List<`[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)`>`
+`val `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Parameter>.codeParameters: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)`>`
 
 Convert Java parameter list to CodeAPI parameter list.
 

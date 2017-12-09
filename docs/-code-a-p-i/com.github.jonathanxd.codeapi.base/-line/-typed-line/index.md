@@ -16,14 +16,14 @@ A [Line](../index.md) which extends [Typed](../../-typed/index.md).
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `TypedLine(line: Int, value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`)`<br>A [Line](../index.md) which extends [Typed](../../-typed/index.md). |
+| [&lt;init&gt;](-init-.md) | `TypedLine(line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: Type)`<br>A [Line](../index.md) which extends [Typed](../../-typed/index.md). |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [line](line.md) | `val line: Int`<br>Line index |
-| [type](type.md) | `val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>Element type |
+| [line](line.md) | `val line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)<br>Line index |
+| [type](type.md) | `val type: Type`<br>Element type |
 | [value](value.md) | `val value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)<br>Instruction mapped to line |
 
 ### Inherited Properties

@@ -2,9 +2,9 @@
 
 # fields
 
-`abstract fun fields(value: List<`[`FieldDeclaration`](../../-field-declaration/index.md)`>): S`
+`abstract fun fields(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`FieldDeclaration`](../../-field-declaration/index.md)`>): S`
 `open fun fields(vararg values: `[`FieldDeclaration`](../../-field-declaration/index.md)`): S`
 `open fun fields(value: `[`FieldDeclaration`](../../-field-declaration/index.md)`): S`
 
-See [TypeDeclaration.fields](../fields.md)
+See [ElementsHolder.fields](../fields.md)
 

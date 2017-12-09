@@ -2,9 +2,7 @@
 
 # entries
 
-`var entries: List<`[`EnumEntry`](../../-enum-entry/index.md)`>`
-
-`fun entries(value: List<`[`EnumEntry`](../../-enum-entry/index.md)`>): `[`Builder`](index.md)
+`var entries: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`EnumEntry`](../../-enum-entry/index.md)`>``fun entries(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`EnumEntry`](../../-enum-entry/index.md)`>): `[`Builder`](index.md)
 
 Overrides [Builder.entries](../../-entry-holder/-builder/entries.md)
 

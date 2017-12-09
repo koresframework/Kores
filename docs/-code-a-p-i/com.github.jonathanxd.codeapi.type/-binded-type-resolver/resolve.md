@@ -2,7 +2,7 @@
 
 # resolve
 
-`fun resolve(): T`
+`fun resolve(): Either<`[`Exception`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html)`, out T>`
 
 Resolves [bindType](bind-type.md) to [T](#)
 

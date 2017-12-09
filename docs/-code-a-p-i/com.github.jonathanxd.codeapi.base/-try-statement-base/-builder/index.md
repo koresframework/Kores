@@ -8,9 +8,9 @@
 
 | Name | Summary |
 |---|---|
-| [catchStatements](catch-statements.md) | `abstract fun catchStatements(value: List<`[`CatchStatement`](../../-catch-statement/index.md)`>): S`<br>`open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [T.catchStatements](catch-statements.md) |
+| [catchStatements](catch-statements.md) | `abstract fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): S`<br>`open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [T.catchStatements](catch-statements.md) |
 | [finallyStatement](finally-statement.md) | `abstract fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): S`<br>See [T.finallyStatement](finally-statement.md) |
-| [type](type.md) | `open fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.type](type.md) |
+| [type](type.md) | `open fun type(value: Type): S`<br>See [T.type](type.md) |
 
 ### Inherited Functions
 
@@ -22,5 +22,5 @@
 
 | Name | Summary |
 |---|---|
-| [Builder](../../-try-with-resources/-builder/index.md) | `class Builder : Builder<`[`TryWithResources`](../../-try-with-resources/index.md)`, `[`Builder`](../../-try-with-resources/-builder/index.md)`>` |
 | [Builder](../../-try-statement/-builder/index.md) | `class Builder : Builder<`[`TryStatement`](../../-try-statement/index.md)`, `[`Builder`](../../-try-statement/-builder/index.md)`>` |
+| [Builder](../../-try-with-resources/-builder/index.md) | `class Builder : Builder<`[`TryWithResources`](../../-try-with-resources/index.md)`, `[`Builder`](../../-try-with-resources/-builder/index.md)`>` |

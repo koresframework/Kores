@@ -2,13 +2,11 @@
 
 # &lt;init&gt;
 
-`ArrayCodeSource()`
-
-`ArrayCodeSource(parts: Array<`[`CodeInstruction`](../-code-instruction.md)`> = emptyArray())`
+`ArrayCodeSource()``ArrayCodeSource(parts: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`> = emptyArray())`
 
 CodeSource is an iterable of [CodeInstructions](../-code-instruction.md).
 
-This class is backed by an [Array](#) of [CodeInstruction](../-code-instruction.md).
+This class is backed by an [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html) of [CodeInstruction](../-code-instruction.md).
 
 **See Also**
 

@@ -8,7 +8,7 @@ See [T.isWildcard](../is-wildcard.md)
 
 Defines as a wildcard type, this method is the same as calling `withName("*")`.
 
-**Note:`withName("?")`is invalid because CodeAPI denotes wildcards with`*`instead of`?`**
+**Note: `withName("?")` is invalid because CodeAPI denotes wildcards with `*` instead of `?`**
 
 This method will overwrite defined type and name.
 

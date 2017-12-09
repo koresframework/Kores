@@ -2,7 +2,7 @@
 
 # forEach
 
-`open fun forEach(action: `[`Consumer`](http://docs.oracle.com/javase/6/docs/api/java/util/function/Consumer.html)`<in `[`CodeInstruction`](../-code-instruction.md)`>): Unit`
+`open fun forEach(action: Consumer<in `[`CodeInstruction`](../-code-instruction.md)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Overrides [CodeSource.forEach](../-code-source/for-each.md)
 

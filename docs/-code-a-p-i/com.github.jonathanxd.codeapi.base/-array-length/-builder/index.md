@@ -14,17 +14,17 @@
 
 | Name | Summary |
 |---|---|
-| [arrayType](array-type.md) | `lateinit var arrayType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [arrayType](array-type.md) | `lateinit var arrayType: Type` |
 | [target](target.md) | `lateinit var target: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [arrayType](array-type.md) | `fun arrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.arrayType](#) |
+| [arrayType](array-type.md) | `fun arrayType(value: Type): Builder`<br>See [T.arrayType](#) |
 | [build](build.md) | `fun build(): `[`ArrayLength`](../index.md)<br>Build the object of type [T](#). |
 | [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.target](#) |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

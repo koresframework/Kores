@@ -2,4 +2,4 @@
 
 # ACCESS_THIS
 
-`val ACCESS_THIS: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)
+`@JvmField val ACCESS_THIS: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)

@@ -2,7 +2,7 @@
 
 # LinkTarget
 
-`interface LinkTarget : Any`
+`interface LinkTarget`
 
 Target of the link
 

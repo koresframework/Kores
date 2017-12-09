@@ -2,4 +2,4 @@
 
 # COLLECTION
 
-`val COLLECTION: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Collection<*>>`
+`@JvmField val COLLECTION: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<*>>`

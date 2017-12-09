@@ -2,7 +2,7 @@
 
 # toArray
 
-`open fun toArray(dimensions: Int): `[`CodeType`](index.md)
+`open fun toArray(dimensions: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`CodeType`](index.md)
 
 Convert this [CodeType](index.md) to a [CodeTypeArray](#).
 

@@ -2,4 +2,4 @@
 
 # DOUBLE
 
-`fun DOUBLE(d: Double): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun DOUBLE(d: `[`Double`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)`): `[`Literal`](../-literal/index.md)

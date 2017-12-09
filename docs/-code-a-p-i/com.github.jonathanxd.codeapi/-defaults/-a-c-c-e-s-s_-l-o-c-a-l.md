@@ -2,4 +2,4 @@
 
 # ACCESS_LOCAL
 
-`val ACCESS_LOCAL: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)
+`@JvmField val ACCESS_LOCAL: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)

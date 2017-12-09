@@ -2,4 +2,4 @@
 
 # DOUBLE_WRAPPER
 
-`val DOUBLE_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Double>`
+`@JvmField val DOUBLE_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Double`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)`>`

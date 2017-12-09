@@ -2,4 +2,4 @@
 
 # UNSIGNED_RIGHT_SHIFT
 
-`val UNSIGNED_RIGHT_SHIFT: <ERROR CLASS>`
+`@JvmField val UNSIGNED_RIGHT_SHIFT: `[`Math`](../-operator/-math/index.md)

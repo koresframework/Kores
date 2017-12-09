@@ -2,7 +2,7 @@
 
 # isVirtual
 
-`val isVirtual: Boolean`
+`val isVirtual: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [GenericType.isVirtual](../-generic-type/is-virtual.md)
 

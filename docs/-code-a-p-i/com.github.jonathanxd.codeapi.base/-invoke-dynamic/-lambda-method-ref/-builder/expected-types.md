@@ -2,9 +2,7 @@
 
 # expectedTypes
 
-`lateinit var expectedTypes: `[`TypeSpec`](../../../-type-spec/index.md)
-
-`fun expectedTypes(value: `[`TypeSpec`](../../../-type-spec/index.md)`): `[`Builder`](index.md)
+`lateinit var expectedTypes: `[`TypeSpec`](../../../-type-spec/index.md)`fun expectedTypes(value: `[`TypeSpec`](../../../-type-spec/index.md)`): `[`Builder`](index.md)
 
 Overrides [Builder.expectedTypes](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/expected-types.md)
 

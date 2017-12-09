@@ -2,9 +2,9 @@
 
 # toMethodDeclaration
 
-`fun `[`Method`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html)`.toMethodDeclaration(nameProvider: (Int, `[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`) -> String = { i, _ -> this.parameterNames[i] }): `[`MethodDeclaration`](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md)
+`@JvmOverloads fun Method.toMethodDeclaration(nameProvider: (index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, parameter: Parameter) -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = { i, _ -> this.parameterNames[i] }): `[`MethodDeclaration`](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md)
 
-Convert this [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html) to [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md).
+Convert this [Method](#) to [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md).
 
 ### Parameters
 
@@ -13,9 +13,9 @@ Convert this [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect
 **Return**
 [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md).
 
-`fun `[`Method`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html)`.toMethodDeclaration(superClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, nameProvider: (Int, `[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`) -> String = { i, _ -> this.parameterNames[i] }): `[`MethodDeclaration`](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md)
+`@JvmOverloads fun Method.toMethodDeclaration(superClass: Type, nameProvider: (index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, parameter: Parameter) -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)` = { i, _ -> this.parameterNames[i] }): `[`MethodDeclaration`](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md)
 
-Convert this [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html) structure to [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md) structure invoking the super class method.
+Convert this [Method](#) structure to [MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md) structure invoking the super class method.
 
 ### Parameters
 
@@ -24,5 +24,5 @@ Convert this [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect
 `nameProvider` - Provider of parameter names.
 
 **Return**
-[MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md) structure from [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html) invoking super class method.
+[MethodDeclaration](../../com.github.jonathanxd.codeapi.base/-method-declaration/index.md) structure from [Method](#) invoking super class method.
 

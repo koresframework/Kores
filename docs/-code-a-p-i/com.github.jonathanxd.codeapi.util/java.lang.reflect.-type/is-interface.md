@@ -2,7 +2,7 @@
 
 # isInterface
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.isInterface: Boolean`
+`val Type.isInterface: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 See [CodeType.isInterface](../../com.github.jonathanxd.codeapi.type/-code-type/is-interface.md)
 

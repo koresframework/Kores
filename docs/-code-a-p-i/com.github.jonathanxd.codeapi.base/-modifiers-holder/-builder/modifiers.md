@@ -2,7 +2,7 @@
 
 # modifiers
 
-`abstract fun modifiers(value: Set<`[`CodeModifier`](../../-code-modifier/index.md)`>): S`
+`abstract fun modifiers(value: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../../-code-modifier/index.md)`>): S`
 `open fun modifiers(vararg values: `[`CodeModifier`](../../-code-modifier/index.md)`): S`
 
 See [ModifiersHolder.modifiers](../modifiers.md)

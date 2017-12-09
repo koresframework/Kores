@@ -2,7 +2,7 @@
 
 # FIRST_CALL
 
-`val FIRST_CALL: TypedKey<Boolean>`
+`@JvmField val FIRST_CALL: TypedKey<`[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`>`
 
 Stores call state
 

@@ -2,7 +2,7 @@
 
 # wrapperType
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.wrapperType: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`?`
+`val Type.wrapperType: `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`?`
 
 See [CodeType.wrapperType](../../com.github.jonathanxd.codeapi.type/-code-type/wrapper-type.md)
 

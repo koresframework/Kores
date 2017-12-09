@@ -2,7 +2,7 @@
 
 # hasNextName
 
-`val hasNextName: String`
+`val hasNextName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Name of method which returns true if has next elements.
 

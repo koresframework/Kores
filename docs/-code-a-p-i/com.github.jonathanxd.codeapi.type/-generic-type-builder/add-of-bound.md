@@ -2,11 +2,11 @@
 
 # addOfBound
 
-`fun addOfBound(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
+`fun addOfBound(value: Type): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
 
 Overrides [Builder.addOfBound](../-generic-type/-builder/add-of-bound.md)
 
 Adds a `of` bound. Example: A `List of String`.
 
-**Note:This method is used to denote a bound of a concrete type,not of a type variable.**
+**Note: This method is used to denote a bound of a concrete type, not of a type variable.**
 

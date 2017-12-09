@@ -2,7 +2,7 @@
 
 # kotlinParameters
 
-`val <T : Any> `[`Constructor`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html)`<T>.kotlinParameters: List<KParameter>?`
+`val <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Constructor<T>.kotlinParameters: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`KParameter`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)`>?`
 
-Gets kotlin parameter of receiver [Constructor](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html).
+Gets kotlin parameter of receiver [Constructor](#).
 

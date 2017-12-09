@@ -2,9 +2,7 @@
 
 # castedPart
 
-`lateinit var castedPart: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
-
-`fun castedPart(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+`lateinit var castedPart: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`fun castedPart(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
 
 See [Cast.castedPart](../casted-part.md)
 

@@ -3,10 +3,8 @@
 # &lt;init&gt;
 
 `ListCodeSource()`
-`ListCodeSource(iterable: Iterable<`[`CodeInstruction`](../-code-instruction.md)`>)`
-`ListCodeSource(a: Array<`[`CodeInstruction`](../-code-instruction.md)`>)`
+`ListCodeSource(iterable: `[`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>)`
+`ListCodeSource(a: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>)``ListCodeSource(backingList: `[`MutableList`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>)`
 
-`ListCodeSource(backingList: MutableList<`[`CodeInstruction`](../-code-instruction.md)`>)`
-
-A [MutableCodeSource](../-mutable-code-source/index.md) backing to a [ArrayList](http://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html).
+A [MutableCodeSource](../-mutable-code-source/index.md) backing to a [ArrayList](#).
 

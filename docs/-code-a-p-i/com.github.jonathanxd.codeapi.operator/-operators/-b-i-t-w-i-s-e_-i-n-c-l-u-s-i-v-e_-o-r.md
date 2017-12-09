@@ -2,4 +2,4 @@
 
 # BITWISE_INCLUSIVE_OR
 
-`val BITWISE_INCLUSIVE_OR: <ERROR CLASS>`
+`@JvmField val BITWISE_INCLUSIVE_OR: `[`Math`](../-operator/-math/index.md)

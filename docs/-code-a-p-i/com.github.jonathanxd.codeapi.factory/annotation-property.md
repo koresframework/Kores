@@ -2,7 +2,7 @@
 
 # annotationProperty
 
-`fun annotationProperty(comments: `[`Comments`](../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)` = Comments.Absent, annotations: List<`[`Annotation`](../com.github.jonathanxd.codeapi.base/-annotation/index.md)`> = emptyList(), type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, defaultValue: Any?): `[`AnnotationProperty`](../com.github.jonathanxd.codeapi.base/-annotation-property/index.md)
+`@JvmOverloads fun annotationProperty(comments: `[`Comments`](../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)` = Comments.Absent, annotations: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Annotation`](../com.github.jonathanxd.codeapi.base/-annotation/index.md)`> = emptyList(), type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, defaultValue: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`AnnotationProperty`](../com.github.jonathanxd.codeapi.base/-annotation-property/index.md)
 
 **See Also**
 

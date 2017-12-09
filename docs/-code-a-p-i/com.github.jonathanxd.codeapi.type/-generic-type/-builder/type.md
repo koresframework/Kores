@@ -2,7 +2,7 @@
 
 # type
 
-`abstract fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)`<T, S>`
+`abstract fun type(value: Type): `[`Builder`](index.md)`<T, S>`
 
 See [T.codeType](../code-type.md)
 

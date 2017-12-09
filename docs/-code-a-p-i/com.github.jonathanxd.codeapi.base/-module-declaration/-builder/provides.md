@@ -2,11 +2,9 @@
 
 # provides
 
-`var provides: List<`[`Provide`](../../-provide/index.md)`>`
-
-`fun provides(value: List<`[`Provide`](../../-provide/index.md)`>): `[`Builder`](index.md)
+`var provides: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Provide`](../../-provide/index.md)`>``fun provides(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Provide`](../../-provide/index.md)`>): `[`Builder`](index.md)
 `fun provides(vararg values: `[`Provide`](../../-provide/index.md)`): `[`Builder`](index.md)
-`fun provides(vararg values: <ERROR CLASS><`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): `[`Builder`](index.md)
+`fun provides(vararg values: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<Type, `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>>): `[`Builder`](index.md)
 
 See [ModuleDeclaration.provides](../provides.md)
 

@@ -2,13 +2,13 @@
 
 # javaSpecName
 
-`open val javaSpecName: String`
+`open val javaSpecName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [CodeType.javaSpecName](../-code-type/java-spec-name.md)
 
 JVM Spec class name.
 
-[String](#) = `Ljava/lang/String;`
-[Int](#) = `I`
+[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `Ljava/lang/String;`
+[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `I`
 `path.to.A.B[]` = `[Lpath/to/A$B;`
 

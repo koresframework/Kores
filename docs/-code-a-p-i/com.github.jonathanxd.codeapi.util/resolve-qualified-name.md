@@ -2,7 +2,7 @@
 
 # resolveQualifiedName
 
-`fun resolveQualifiedName(qualifiedName: String, outer: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): String`
+`fun resolveQualifiedName(qualifiedName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, outer: Type?): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Resolves the qualified name based on [qualifiedName](resolve-qualified-name.md#com.github.jonathanxd.codeapi.util$resolveQualifiedName(kotlin.String, java.lang.reflect.Type)/qualifiedName) and [outer](resolve-qualified-name.md#com.github.jonathanxd.codeapi.util$resolveQualifiedName(kotlin.String, java.lang.reflect.Type)/outer) type.
 

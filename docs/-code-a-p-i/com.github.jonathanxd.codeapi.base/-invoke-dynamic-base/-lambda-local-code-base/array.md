@@ -2,7 +2,7 @@
 
 # array
 
-`open val array: Boolean`
+`open val array: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [ArgumentsHolder.array](../../-arguments-holder/array.md)
 

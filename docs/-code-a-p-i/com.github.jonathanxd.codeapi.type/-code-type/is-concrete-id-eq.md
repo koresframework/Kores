@@ -2,10 +2,10 @@
 
 # isConcreteIdEq
 
-`open fun isConcreteIdEq(other: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Boolean`
+`open fun isConcreteIdEq(other: Type): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Returns true if identification of [concreteType](../../com.github.jonathanxd.codeapi.util/concrete-type.md) of this [CodeType](index.md) is equals to
-[concreteType](../../com.github.jonathanxd.codeapi.util/concrete-type.md) of other [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) according to [is](is.md).
+[concreteType](../../com.github.jonathanxd.codeapi.util/concrete-type.md) of other [Type](#) according to [is](is.md).
 
 ### Parameters
 
@@ -13,5 +13,5 @@ Returns true if identification of [concreteType](../../com.github.jonathanxd.cod
 
 **Return**
 True if identification of [concreteType](../../com.github.jonathanxd.codeapi.util/concrete-type.md) of this [CodeType](index.md) is equals to
-[concreteType](../../com.github.jonathanxd.codeapi.util/concrete-type.md) of other [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) according to [is](is.md).
+[concreteType](../../com.github.jonathanxd.codeapi.util/concrete-type.md) of other [Type](#) according to [is](is.md).
 

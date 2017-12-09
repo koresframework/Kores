@@ -2,4 +2,4 @@
 
 # toVariableAccess
 
-`fun `[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`.toVariableAccess(): `[`VariableAccess`](../../com.github.jonathanxd.codeapi.base/-variable-access/index.md)
+`fun Parameter.toVariableAccess(): `[`VariableAccess`](../../com.github.jonathanxd.codeapi.base/-variable-access/index.md)

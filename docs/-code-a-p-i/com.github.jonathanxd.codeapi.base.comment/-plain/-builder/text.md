@@ -2,9 +2,7 @@
 
 # text
 
-`lateinit var text: String`
-
-`fun text(value: String): `[`Builder`](index.md)
+`lateinit var text: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`fun text(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)
 
 See [Plain.text](../text.md)
 

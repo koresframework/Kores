@@ -14,14 +14,14 @@
 
 | Name | Summary |
 |---|---|
-| [name](name.md) | `lateinit var name: String` |
+| [name](name.md) | `lateinit var name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`ModuleReference`](../index.md)<br>Build the object of type [T](#). |
-| [name](name.md) | `fun name(value: String): Builder` |
+| [name](name.md) | `fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder` |
 
 ### Companion Object Functions
 

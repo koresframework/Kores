@@ -2,9 +2,9 @@
 
 # registerProcessor
 
-`abstract fun <T> registerProcessor(processor: `[`Processor`](../-processor/index.md)`<T>, type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>): Unit`
+`abstract fun <T> registerProcessor(processor: `[`Processor`](../-processor/index.md)`<T>, type: Class<T>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Registers [processor](register-processor.md#com.github.jonathanxd.codeapi.processor.ProcessorManager$registerProcessor(com.github.jonathanxd.codeapi.processor.Processor((com.github.jonathanxd.codeapi.processor.ProcessorManager.registerProcessor.T)), java.lang.Class((com.github.jonathanxd.codeapi.processor.ProcessorManager.registerProcessor.T)))/processor) of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) of type: [type](register-processor.md#com.github.jonathanxd.codeapi.processor.ProcessorManager$registerProcessor(com.github.jonathanxd.codeapi.processor.Processor((com.github.jonathanxd.codeapi.processor.ProcessorManager.registerProcessor.T)), java.lang.Class((com.github.jonathanxd.codeapi.processor.ProcessorManager.registerProcessor.T)))/type).
 
-**Obs:registering a processor for a type that already have one does not means that the defaultprocessor will be replaced.**
+**Obs: registering a processor for a type that already have one does not means that the defaultprocessor will be replaced.**
 

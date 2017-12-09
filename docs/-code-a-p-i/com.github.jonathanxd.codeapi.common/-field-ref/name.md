@@ -2,7 +2,7 @@
 
 # name
 
-`val name: String`
+`val name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [Named.name](../../com.github.jonathanxd.codeapi.base/-named/name.md)
 

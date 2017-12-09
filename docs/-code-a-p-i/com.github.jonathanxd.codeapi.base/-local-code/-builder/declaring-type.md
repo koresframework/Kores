@@ -2,9 +2,7 @@
 
 # declaringType
 
-`lateinit var declaringType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
-
-`fun declaringType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`lateinit var declaringType: Type``fun declaringType(value: Type): `[`Builder`](index.md)
 
 See [LocalCode.declaringType](../declaring-type.md)
 

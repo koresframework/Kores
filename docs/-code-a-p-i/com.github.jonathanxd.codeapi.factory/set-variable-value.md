@@ -2,7 +2,7 @@
 
 # setVariableValue
 
-`fun setVariableValue(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`VariableDefinition`](../com.github.jonathanxd.codeapi.base/-variable-definition/index.md)
+`fun setVariableValue(type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`VariableDefinition`](../com.github.jonathanxd.codeapi.base/-variable-definition/index.md)
 `fun setVariableValue(variable: `[`VariableBase`](../com.github.jonathanxd.codeapi.base/-variable-base/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`VariableDefinition`](../com.github.jonathanxd.codeapi.base/-variable-definition/index.md)
 
 **See Also**

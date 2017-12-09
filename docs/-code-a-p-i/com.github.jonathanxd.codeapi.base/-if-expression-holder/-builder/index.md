@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [expressions](expressions.md) | `abstract fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): S`<br>`open fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.expressions](expressions.md) |
+| [expressions](expressions.md) | `abstract fun expressions(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): S`<br>`open fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.expressions](expressions.md) |
 
 ### Inherited Functions
 
@@ -20,7 +20,7 @@
 
 | Name | Summary |
 |---|---|
-| [Builder](../../-while-statement/-builder/index.md) | `class Builder : Builder<`[`WhileStatement`](../../-while-statement/index.md)`, `[`Builder`](../../-while-statement/-builder/index.md)`>, `[`Builder`](../../-body-holder/-builder/index.md)`<`[`WhileStatement`](../../-while-statement/index.md)`, `[`Builder`](../../-while-statement/-builder/index.md)`>` |
 | [Builder](../../-for-statement/-builder/index.md) | `class Builder : Builder<`[`ForStatement`](../../-for-statement/index.md)`, `[`Builder`](../../-for-statement/-builder/index.md)`>, `[`Builder`](../../-body-holder/-builder/index.md)`<`[`ForStatement`](../../-for-statement/index.md)`, `[`Builder`](../../-for-statement/-builder/index.md)`>` |
 | [Builder](../../-if-group/-builder/index.md) | `class Builder : Builder<`[`IfGroup`](../../-if-group/index.md)`, `[`Builder`](../../-if-group/-builder/index.md)`>` |
 | [Builder](../../-if-statement/-builder/index.md) | `class Builder : Builder<`[`IfStatement`](../../-if-statement/index.md)`, `[`Builder`](../../-if-statement/-builder/index.md)`>, `[`Builder`](../../-body-holder/-builder/index.md)`<`[`IfStatement`](../../-if-statement/index.md)`, `[`Builder`](../../-if-statement/-builder/index.md)`>` |
+| [Builder](../../-while-statement/-builder/index.md) | `class Builder : Builder<`[`WhileStatement`](../../-while-statement/index.md)`, `[`Builder`](../../-while-statement/-builder/index.md)`>, `[`Builder`](../../-body-holder/-builder/index.md)`<`[`WhileStatement`](../../-while-statement/index.md)`, `[`Builder`](../../-while-statement/-builder/index.md)`>` |

@@ -2,4 +2,4 @@
 
 # types
 
-`val types: Array<out `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`>`
+`val types: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<out `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`>`

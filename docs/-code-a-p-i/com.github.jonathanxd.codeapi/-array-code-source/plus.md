@@ -8,7 +8,7 @@ Overrides [CodeSource.plus](../-code-source/plus.md)
 
 Adds [other](plus.md#com.github.jonathanxd.codeapi.ArrayCodeSource$plus(com.github.jonathanxd.codeapi.CodeInstruction)/other) to this [CodeSource](../-code-source/index.md).
 
-`operator fun plus(other: Iterable<`[`CodeInstruction`](../-code-instruction.md)`>): `[`CodeSource`](../-code-source/index.md)
+`operator fun plus(other: `[`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>): `[`CodeSource`](../-code-source/index.md)
 
 Overrides [CodeSource.plus](../-code-source/plus.md)
 

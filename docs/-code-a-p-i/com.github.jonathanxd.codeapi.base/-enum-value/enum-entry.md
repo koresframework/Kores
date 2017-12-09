@@ -2,7 +2,7 @@
 
 # enumEntry
 
-`val enumEntry: String`
+`val enumEntry: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Entry of enum.
 

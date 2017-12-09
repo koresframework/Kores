@@ -2,7 +2,7 @@
 
 # set
 
-`open operator fun set(index: Int, element: `[`CodeInstruction`](../-code-instruction.md)`): `[`CodeInstruction`](../-code-instruction.md)
+`open operator fun set(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, element: `[`CodeInstruction`](../-code-instruction.md)`): `[`CodeInstruction`](../-code-instruction.md)
 
 Overrides [MutableCodeSource.set](../-mutable-code-source/set.md)
 

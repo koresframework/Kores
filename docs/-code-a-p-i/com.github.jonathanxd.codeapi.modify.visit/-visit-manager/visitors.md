@@ -2,7 +2,7 @@
 
 # visitors
 
-`val visitors: MutableMap<`[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>, `[`PartVisitor`](../-part-visitor/index.md)`<*>>`
+`val visitors: `[`MutableMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html)`<Class<*>, `[`PartVisitor`](../-part-visitor/index.md)`<*>>`
 
 Unmodifiable view of registered visitors.
 

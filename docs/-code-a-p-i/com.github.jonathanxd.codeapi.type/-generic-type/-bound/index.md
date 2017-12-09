@@ -2,7 +2,7 @@
 
 # Bound
 
-`abstract class Bound : Any`
+`abstract class Bound`
 
 Generic type bounds.
 
@@ -16,21 +16,21 @@ Generic type bounds.
 
 | Name | Summary |
 |---|---|
-| [sign](sign.md) | `abstract val sign: String`<br>Symbol of this bound. |
+| [sign](sign.md) | `abstract val sign: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Symbol of this bound. |
 | [type](type.md) | `val type: `[`CodeType`](../../-code-type/index.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [equals](equals.md) | `open fun equals(other: Any?): Boolean` |
-| [hashCode](hash-code.md) | `open fun hashCode(): Int` |
+| [equals](equals.md) | `open fun equals(other: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [hashCode](hash-code.md) | `open fun hashCode(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
 
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
-| [toComponentString](../../../com.github.jonathanxd.codeapi.util/to-component-string.md) | `fun Bound.toComponentString(): String`<br>Creates a string representation of components of GenericType.Bound. |
+| [toComponentString](../../../com.github.jonathanxd.codeapi.util/to-component-string.md) | `fun Bound.toComponentString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Creates a string representation of components of GenericType.Bound. |
 
 ### Inheritors
 

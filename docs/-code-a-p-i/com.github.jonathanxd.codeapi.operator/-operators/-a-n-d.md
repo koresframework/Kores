@@ -2,4 +2,4 @@
 
 # AND
 
-`val AND: <ERROR CLASS>`
+`@JvmField val AND: `[`Conditional`](../-operator/-conditional/index.md)

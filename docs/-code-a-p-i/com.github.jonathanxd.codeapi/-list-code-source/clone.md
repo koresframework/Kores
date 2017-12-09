@@ -2,4 +2,4 @@
 
 # clone
 
-`protected fun clone(): Any`
+`protected fun clone(): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)

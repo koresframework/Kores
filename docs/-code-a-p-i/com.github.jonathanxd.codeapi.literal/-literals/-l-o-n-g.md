@@ -2,4 +2,4 @@
 
 # LONG
 
-`fun LONG(i: Long): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun LONG(i: `[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`): `[`Literal`](../-literal/index.md)

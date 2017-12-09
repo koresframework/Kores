@@ -2,4 +2,4 @@
 
 # typeName
 
-`val `[`TypeElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/TypeElement.html)`.typeName: String`
+`val TypeElement.typeName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

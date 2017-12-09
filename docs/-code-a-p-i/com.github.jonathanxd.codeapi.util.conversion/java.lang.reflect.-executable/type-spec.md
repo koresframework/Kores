@@ -2,7 +2,7 @@
 
 # typeSpec
 
-`val `[`Executable`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Executable.html)`.typeSpec: `[`TypeSpec`](../../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
+`val Executable.typeSpec: `[`TypeSpec`](../../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
 
-Gets the [TypeSpec](../../com.github.jonathanxd.codeapi.base/-type-spec/index.md) of the [Executable](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Executable.html).
+Gets the [TypeSpec](../../com.github.jonathanxd.codeapi.base/-type-spec/index.md) of the [Executable](#).
 

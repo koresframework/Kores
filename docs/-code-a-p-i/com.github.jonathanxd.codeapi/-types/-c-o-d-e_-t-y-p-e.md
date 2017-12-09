@@ -2,4 +2,4 @@
 
 # CODE_TYPE
 
-`val CODE_TYPE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`>`
+`@JvmField val CODE_TYPE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`>`

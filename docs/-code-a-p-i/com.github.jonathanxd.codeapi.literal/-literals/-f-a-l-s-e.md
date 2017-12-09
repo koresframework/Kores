@@ -2,4 +2,4 @@
 
 # FALSE
 
-`val FALSE: `[`Literal`](../-literal/index.md)
+`@JvmField val FALSE: `[`Literal`](../-literal/index.md)

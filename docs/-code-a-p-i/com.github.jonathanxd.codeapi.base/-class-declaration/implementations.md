@@ -2,7 +2,7 @@
 
 # implementations
 
-`val implementations: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`val implementations: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
 Overrides [ImplementationHolder.implementations](../-implementation-holder/implementations.md)
 

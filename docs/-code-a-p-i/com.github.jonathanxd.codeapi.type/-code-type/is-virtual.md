@@ -2,7 +2,7 @@
 
 # isVirtual
 
-`open val isVirtual: Boolean`
+`open val isVirtual: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if is a `Virtual Type` (Virtual Types = Types that were not loaded by JVM)
 

@@ -2,7 +2,7 @@
 
 # label
 
-`fun label(name: String, body: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)` = CodeSource.empty()): `[`Label`](../com.github.jonathanxd.codeapi.base/-label/index.md)
+`@JvmOverloads fun label(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, body: `[`CodeSource`](../com.github.jonathanxd.codeapi/-code-source/index.md)` = CodeSource.empty()): `[`Label`](../com.github.jonathanxd.codeapi.base/-label/index.md)
 
 **See Also**
 

@@ -2,4 +2,4 @@
 
 # getBounds
 
-`fun getBounds(): Array<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`fun getBounds(): `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<Type>`

@@ -2,8 +2,8 @@
 
 # implementations
 
-`abstract fun implementations(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): S`
-`open fun implementations(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`
+`abstract fun implementations(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): S`
+`open fun implementations(vararg values: Type): S`
 
 See T.implementations
 

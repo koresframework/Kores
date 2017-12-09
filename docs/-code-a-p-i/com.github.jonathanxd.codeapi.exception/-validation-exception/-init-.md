@@ -3,13 +3,13 @@
 # &lt;init&gt;
 
 `ValidationException()`
-`ValidationException(message: String)`
-`ValidationException(cause: Throwable)`
-`ValidationException(message: String, cause: Throwable)`
-`ValidationException(message: String, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean)`
+`ValidationException(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
+`ValidationException(cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`)`
+`ValidationException(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`)`
+`ValidationException(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`, enableSuppression: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, writableStackTrace: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`)`
 `ValidationException(message: `[`ValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-validation-message/index.md)`)`
-`ValidationException(message: `[`ValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-validation-message/index.md)`, cause: Throwable)`
-`ValidationException(message: `[`ValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-validation-message/index.md)`, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean)`
+`ValidationException(message: `[`ValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-validation-message/index.md)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`)`
+`ValidationException(message: `[`ValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-validation-message/index.md)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`, enableSuppression: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, writableStackTrace: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`)`
 `ValidationException(message: `[`ContextedValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-contexted-validation-message/index.md)`)`
-`ValidationException(message: `[`ContextedValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-contexted-validation-message/index.md)`, cause: Throwable)`
-`ValidationException(message: `[`ContextedValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-contexted-validation-message/index.md)`, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean)`
+`ValidationException(message: `[`ContextedValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-contexted-validation-message/index.md)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`)`
+`ValidationException(message: `[`ContextedValidationMessage`](../../com.github.jonathanxd.codeapi.processor/-contexted-validation-message/index.md)`, cause: `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`, enableSuppression: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, writableStackTrace: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`)`

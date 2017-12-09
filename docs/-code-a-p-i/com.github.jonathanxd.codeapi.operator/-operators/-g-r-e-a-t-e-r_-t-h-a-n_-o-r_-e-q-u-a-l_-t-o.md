@@ -2,4 +2,4 @@
 
 # GREATER_THAN_OR_EQUAL_TO
 
-`val GREATER_THAN_OR_EQUAL_TO: <ERROR CLASS>`
+`@JvmField val GREATER_THAN_OR_EQUAL_TO: `[`Conditional`](../-operator/-conditional/index.md)

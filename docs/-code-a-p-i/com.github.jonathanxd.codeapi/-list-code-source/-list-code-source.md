@@ -2,4 +2,4 @@
 
 # ListCodeSource
 
-`inline fun ListCodeSource(size: Int, init: (Int) -> `[`CodeInstruction`](../-code-instruction.md)`): `[`ListCodeSource`](index.md)
+`@JvmStatic inline fun ListCodeSource(size: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, init: (index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`) -> `[`CodeInstruction`](../-code-instruction.md)`): `[`ListCodeSource`](index.md)

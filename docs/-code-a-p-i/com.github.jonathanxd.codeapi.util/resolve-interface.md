@@ -2,7 +2,7 @@
 
 # resolveInterface
 
-`fun `[`TypeResolver`](-type-resolver/index.md)`.resolveInterface(name: String): `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`fun `[`TypeResolver`](-type-resolver/index.md)`.resolveInterface(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Type`
 
 Resolve type as interface.
 

@@ -2,4 +2,4 @@
 
 # anyError
 
-`fun anyError(): <ERROR CLASS>`
+`fun anyError(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

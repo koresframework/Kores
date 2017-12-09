@@ -22,6 +22,6 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`MethodInvokeSpec`](../index.md)<br>Build the object of type [T](#). |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 | [withInvokeType](with-invoke-type.md) | `fun withInvokeType(value: `[`InvokeType`](../../../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)`): Builder` |
 | [withMethodTypeSpec](with-method-type-spec.md) | `fun withMethodTypeSpec(value: `[`MethodTypeSpec`](../../-method-type-spec/index.md)`): Builder` |

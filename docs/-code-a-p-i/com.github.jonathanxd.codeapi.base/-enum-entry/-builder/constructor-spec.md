@@ -2,9 +2,7 @@
 
 # constructorSpec
 
-`var constructorSpec: `[`TypeSpec`](../../-type-spec/index.md)`?`
-
-`fun constructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`?): `[`Builder`](index.md)
+`var constructorSpec: `[`TypeSpec`](../../-type-spec/index.md)`?``fun constructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`?): `[`Builder`](index.md)
 
 See [EnumEntry.constructorSpec](../constructor-spec.md)
 

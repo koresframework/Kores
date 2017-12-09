@@ -2,4 +2,4 @@
 
 # ANNOTATION
 
-`val ANNOTATION: Int`
+`@JvmField val ANNOTATION: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

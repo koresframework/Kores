@@ -2,7 +2,7 @@
 
 # type
 
-`val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val type: Type`
 
 Overrides [Typed.type](../../-typed/type.md)
 

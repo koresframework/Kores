@@ -2,4 +2,4 @@
 
 # hashCode
 
-`abstract fun hashCode(): Int`
+`abstract fun hashCode(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

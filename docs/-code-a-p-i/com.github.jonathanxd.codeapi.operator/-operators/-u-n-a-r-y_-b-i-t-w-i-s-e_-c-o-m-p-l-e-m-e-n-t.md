@@ -2,4 +2,4 @@
 
 # UNARY_BITWISE_COMPLEMENT
 
-`val UNARY_BITWISE_COMPLEMENT: <ERROR CLASS>`
+`@JvmField val UNARY_BITWISE_COMPLEMENT: `[`Math`](../-operator/-math/index.md)

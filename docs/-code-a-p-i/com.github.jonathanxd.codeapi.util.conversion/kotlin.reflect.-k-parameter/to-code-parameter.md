@@ -2,4 +2,4 @@
 
 # toCodeParameter
 
-`fun KParameter.toCodeParameter(): `[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)
+`fun `[`KParameter`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)`.toCodeParameter(): `[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)

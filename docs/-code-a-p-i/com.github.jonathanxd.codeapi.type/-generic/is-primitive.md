@@ -2,7 +2,7 @@
 
 # isPrimitive
 
-`val isPrimitive: Boolean`
+`val isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [GenericType.isPrimitive](../-generic-type/is-primitive.md)
 

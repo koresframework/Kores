@@ -2,7 +2,7 @@
 
 # toMethodString
 
-`fun toMethodString(): String`
+`fun toMethodString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Human readable method specification string.
 

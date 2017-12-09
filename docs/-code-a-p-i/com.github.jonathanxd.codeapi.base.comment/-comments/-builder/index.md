@@ -14,7 +14,7 @@
 
 | Name | Summary |
 |---|---|
-| [comments](comments.md) | `var comments: List<`[`Comment`](../../-comment/index.md)`>` |
+| [comments](comments.md) | `var comments: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Comment`](../../-comment/index.md)`>` |
 | [type](type.md) | `lateinit var type: `[`Type`](../-type/index.md) |
 
 ### Functions
@@ -22,7 +22,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Comments`](../index.md)<br>Build the object of type [T](#). |
-| [comments](comments.md) | `fun comments(value: List<`[`Comment`](../../-comment/index.md)`>): Builder`<br>`fun comments(vararg values: `[`Comment`](../../-comment/index.md)`): Builder`<br>See [Comments.comments](../comments.md) |
+| [comments](comments.md) | `fun comments(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Comment`](../../-comment/index.md)`>): Builder`<br>`fun comments(vararg values: `[`Comment`](../../-comment/index.md)`): Builder`<br>See [Comments.comments](../comments.md) |
 | [type](type.md) | `fun type(value: `[`Type`](../-type/index.md)`): Builder`<br>See [Comments.type](../type.md) |
 
 ### Companion Object Functions

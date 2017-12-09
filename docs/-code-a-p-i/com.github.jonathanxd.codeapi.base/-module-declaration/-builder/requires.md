@@ -2,11 +2,9 @@
 
 # requires
 
-`var requires: List<`[`Require`](../../-require/index.md)`>`
-
-`fun requires(value: List<`[`Require`](../../-require/index.md)`>): `[`Builder`](index.md)
+`var requires: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Require`](../../-require/index.md)`>``fun requires(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Require`](../../-require/index.md)`>): `[`Builder`](index.md)
 `fun requires(vararg values: `[`Require`](../../-require/index.md)`): `[`Builder`](index.md)
-`fun requires(vararg values: String): `[`Builder`](index.md)
+`fun requires(vararg values: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)
 
 See [ModuleDeclaration.requires](../requires.md)
 

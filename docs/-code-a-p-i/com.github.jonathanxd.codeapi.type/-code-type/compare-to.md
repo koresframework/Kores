@@ -2,7 +2,7 @@
 
 # compareTo
 
-`open fun compareTo(other: `[`CodeType`](index.md)`): Int`
+`open fun compareTo(other: `[`CodeType`](index.md)`): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Compare two identifications
 

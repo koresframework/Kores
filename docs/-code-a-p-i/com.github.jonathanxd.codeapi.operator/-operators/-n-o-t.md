@@ -2,4 +2,4 @@
 
 # NOT
 
-`val NOT: <ERROR CLASS>`
+`@JvmField val NOT: `[`Conditional`](../-operator/-conditional/index.md)

@@ -2,7 +2,7 @@
 
 # returnType
 
-`fun returnType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`fun returnType(value: Type): `[`Builder`](index.md)
 
 Overrides [Builder.returnType](../../-return-type-holder/-builder/return-type.md)
 

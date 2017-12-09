@@ -2,7 +2,7 @@
 
 # simpleName
 
-`open val simpleName: String`
+`open val simpleName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [CodeType.simpleName](../-code-type/simple-name.md)
 

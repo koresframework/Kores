@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Provide(service: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, with: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`)`
+`Provide(service: Type, with: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>)`
 
-Provides [with](-init-.md#com.github.jonathanxd.codeapi.base.Provide$<init>(java.lang.reflect.Type, java.lang.reflect.Type)/with) to service [service](-init-.md#com.github.jonathanxd.codeapi.base.Provide$<init>(java.lang.reflect.Type, java.lang.reflect.Type)/service).
+Provides [with](-init-.md#com.github.jonathanxd.codeapi.base.Provide$<init>(java.lang.reflect.Type, kotlin.collections.List((java.lang.reflect.Type)))/with) to service [service](-init-.md#com.github.jonathanxd.codeapi.base.Provide$<init>(java.lang.reflect.Type, kotlin.collections.List((java.lang.reflect.Type)))/service).
 

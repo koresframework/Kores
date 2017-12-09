@@ -16,7 +16,7 @@
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
 | [elseStatement](else-statement.md) | `var elseStatement: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
-| [expressions](expressions.md) | `var expressions: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
+| [expressions](expressions.md) | `var expressions: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 
 ### Functions
 
@@ -25,7 +25,7 @@
 | [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`IfStatement`](../index.md)<br>Build the object of type [T](#). |
 | [elseStatement](else-statement.md) | `fun elseStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [IfStatement.elseStatement](../else-statement.md) |
-| [expressions](expressions.md) | `fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.expressions](#) |
+| [expressions](expressions.md) | `fun expressions(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.expressions](#) |
 
 ### Inherited Functions
 

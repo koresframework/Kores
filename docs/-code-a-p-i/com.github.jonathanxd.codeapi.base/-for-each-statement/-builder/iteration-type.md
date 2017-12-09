@@ -2,9 +2,7 @@
 
 # iterationType
 
-`lateinit var iterationType: `[`IterationType`](../../-iteration-type/index.md)
-
-`fun iterationType(value: `[`IterationType`](../../-iteration-type/index.md)`): `[`Builder`](index.md)
+`lateinit var iterationType: `[`IterationType`](../../-iteration-type/index.md)`fun iterationType(value: `[`IterationType`](../../-iteration-type/index.md)`): `[`Builder`](index.md)
 
 See [ForEachStatement.iterationType](../iteration-type.md)
 

@@ -2,4 +2,4 @@
 
 # qualifiedName
 
-`abstract fun qualifiedName(value: String): S`
+`abstract fun qualifiedName(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): S`

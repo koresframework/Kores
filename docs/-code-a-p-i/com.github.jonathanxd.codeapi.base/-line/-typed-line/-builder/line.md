@@ -2,9 +2,7 @@
 
 # line
 
-`var line: Int`
-
-`fun line(value: Int): `[`Builder`](index.md)
+`var line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`fun line(value: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Builder`](index.md)
 
 Overrides [Builder.line](../../-builder/line.md)
 

@@ -2,7 +2,7 @@
 
 # isPrimitive
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.isPrimitive: Boolean`
+`val Type.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 See [CodeType.isPrimitive](../../com.github.jonathanxd.codeapi.type/-code-type/is-primitive.md)
 

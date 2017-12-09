@@ -2,7 +2,7 @@
 
 # resolve
 
-`fun resolve(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>`
+`fun resolve(type: Type): Either<`[`Exception`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html)`, out Class<*>>`
 
 Overrides [CodeTypeResolver.resolve](../resolve.md)
 

@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [GenericSignature](-generic-signature/index.md) | `class GenericSignature : Any`<br>Hold information about generic signatures. |
+| [GenericSignature](-generic-signature/index.md) | `class GenericSignature`<br>Hold information about generic signatures. |

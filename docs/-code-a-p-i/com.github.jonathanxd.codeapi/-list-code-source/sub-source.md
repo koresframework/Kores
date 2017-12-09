@@ -2,7 +2,7 @@
 
 # subSource
 
-`fun subSource(fromIndex: Int, toIndex: Int): `[`MutableCodeSource`](../-mutable-code-source/index.md)
+`fun subSource(fromIndex: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, toIndex: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`MutableCodeSource`](../-mutable-code-source/index.md)
 
 Overrides [CodeSource.subSource](../-code-source/sub-source.md)
 

@@ -14,23 +14,23 @@
 
 | Name | Summary |
 |---|---|
-| [name](name.md) | `lateinit var name: String` |
-| [variableType](variable-type.md) | `lateinit var variableType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [name](name.md) | `lateinit var name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [variableType](variable-type.md) | `lateinit var variableType: Type` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`VariableAccess`](../index.md)<br>Build the object of type [T](#). |
-| [name](name.md) | `fun name(value: String): Builder` |
-| [variableType](variable-type.md) | `fun variableType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.variableType](#) |
+| [name](name.md) | `fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder` |
+| [variableType](variable-type.md) | `fun variableType(value: Type): Builder`<br>See [T.variableType](#) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [base](../../-variable-base/-builder/base.md) | `open fun base(fieldRef: `[`FieldRef`](../../../com.github.jonathanxd.codeapi.common/-field-ref/index.md)`): S`<br>Base this builder on [fieldRef](../../-variable-base/-builder/base.md#com.github.jonathanxd.codeapi.base.VariableBase.Builder$base(com.github.jonathanxd.codeapi.common.FieldRef)/fieldRef) (only [name](../../-named/-builder/name.md) and [type](../../-variable-base/-builder/type.md)).`open fun base(variableRef: `[`VariableRef`](../../../com.github.jonathanxd.codeapi.common/-variable-ref/index.md)`): S`<br>Base this builder on [variableRef](../../-variable-base/-builder/base.md#com.github.jonathanxd.codeapi.base.VariableBase.Builder$base(com.github.jonathanxd.codeapi.common.VariableRef)/variableRef). |
-| [type](../../-variable-base/-builder/type.md) | `open fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.type](../../-variable-base/-builder/type.md) |
+| [base](../../-variable-base/-builder/base.md) | `open fun base(variableRef: `[`VariableRef`](../../../com.github.jonathanxd.codeapi.common/-variable-ref/index.md)`): S`<br>Base this builder on [variableRef](../../-variable-base/-builder/base.md#com.github.jonathanxd.codeapi.base.VariableBase.Builder$base(com.github.jonathanxd.codeapi.common.VariableRef)/variableRef).`open fun base(fieldRef: `[`FieldRef`](../../../com.github.jonathanxd.codeapi.common/-field-ref/index.md)`): S`<br>Base this builder on [fieldRef](../../-variable-base/-builder/base.md#com.github.jonathanxd.codeapi.base.VariableBase.Builder$base(com.github.jonathanxd.codeapi.common.FieldRef)/fieldRef) (only [name](../../-named/-builder/name.md) and [type](../../-variable-base/-builder/type.md)). |
+| [type](../../-variable-base/-builder/type.md) | `open fun type(value: Type): S`<br>See [T.type](../../-variable-base/-builder/type.md) |
 
 ### Companion Object Functions
 

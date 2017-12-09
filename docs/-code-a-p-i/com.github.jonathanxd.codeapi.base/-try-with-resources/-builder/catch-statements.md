@@ -2,9 +2,7 @@
 
 # catchStatements
 
-`var catchStatements: List<`[`CatchStatement`](../../-catch-statement/index.md)`>`
-
-`fun catchStatements(value: List<`[`CatchStatement`](../../-catch-statement/index.md)`>): `[`Builder`](index.md)
+`var catchStatements: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>``fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): `[`Builder`](index.md)
 
 Overrides [Builder.catchStatements](../../-try-statement-base/-builder/catch-statements.md)
 

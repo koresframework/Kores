@@ -2,7 +2,7 @@
 
 # isWildcard
 
-`open val isWildcard: Boolean`
+`open val isWildcard: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if this is a wildcard generic type.
 

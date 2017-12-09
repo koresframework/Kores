@@ -2,7 +2,7 @@
 
 # enumValue
 
-`fun enumValue(enumType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, enumEntry: String, ordinal: Int = -1): `[`EnumValue`](../com.github.jonathanxd.codeapi.base/-enum-value/index.md)
+`fun enumValue(enumType: Type, enumEntry: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`EnumValue`](../com.github.jonathanxd.codeapi.base/-enum-value/index.md)
 
 **See Also**
 

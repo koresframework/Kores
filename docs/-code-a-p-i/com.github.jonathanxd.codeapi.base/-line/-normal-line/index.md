@@ -16,13 +16,13 @@ A Line which does extends [Line](../index.md)
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `NormalLine(line: Int, value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`)`<br>A Line which does extends [Line](../index.md) |
+| [&lt;init&gt;](-init-.md) | `NormalLine(line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`)`<br>A Line which does extends [Line](../index.md) |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [line](line.md) | `val line: Int`<br>Line index |
+| [line](line.md) | `val line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)<br>Line index |
 | [value](value.md) | `val value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)<br>Instruction mapped to line |
 
 ### Inherited Properties

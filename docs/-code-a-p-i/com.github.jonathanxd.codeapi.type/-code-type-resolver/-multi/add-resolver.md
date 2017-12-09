@@ -2,7 +2,7 @@
 
 # addResolver
 
-`fun addResolver(resolver: `[`CodeTypeResolver`](../index.md)`<T?>): Unit`
+`fun addResolver(resolver: `[`CodeTypeResolver`](../index.md)`<T?>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Adds a resolver
 

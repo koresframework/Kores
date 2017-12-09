@@ -2,7 +2,7 @@
 
 # isArray
 
-`val isArray: Boolean`
+`val isArray: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [GenericType.isArray](../-generic-type/is-array.md)
 

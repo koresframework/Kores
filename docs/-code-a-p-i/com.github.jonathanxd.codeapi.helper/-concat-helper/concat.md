@@ -6,7 +6,7 @@
 
 Concatenate [codePart](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(com.github.jonathanxd.codeapi.CodeInstruction)/codePart).
 
-`fun concat(str: String): `[`ConcatHelper`](index.md)
+`fun concat(str: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`ConcatHelper`](index.md)
 
 Concatenate [str](concat.md#com.github.jonathanxd.codeapi.helper.ConcatHelper$concat(kotlin.String)/str).
 

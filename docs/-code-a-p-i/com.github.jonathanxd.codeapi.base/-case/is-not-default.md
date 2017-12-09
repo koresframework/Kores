@@ -2,7 +2,7 @@
 
 # isNotDefault
 
-`val isNotDefault: Boolean`
+`val isNotDefault: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Is not case default
 

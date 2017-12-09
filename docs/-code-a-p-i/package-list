@@ -1,0 +1,155 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.github.jonathanxd.codeapi.factory$invokeConstructor(java.lang.reflect.Type)com.github.jonathanxd.codeapi.factory/java.lang.reflect.-type/invoke-constructor.md
+$dokka.location:com.github.jonathanxd.codeapi.factory$invokeConstructor(java.lang.reflect.Type, com.github.jonathanxd.codeapi.base.TypeSpec, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))com.github.jonathanxd.codeapi.factory/java.lang.reflect.-type/invoke-constructor.md
+$dokka.location:com.github.jonathanxd.codeapi.factory$invokeStatic(java.lang.reflect.Type, kotlin.String)com.github.jonathanxd.codeapi.factory/java.lang.reflect.-type/invoke-static.md
+$dokka.location:com.github.jonathanxd.codeapi.factory$invokeStatic(java.lang.reflect.Type, kotlin.String, com.github.jonathanxd.codeapi.base.TypeSpec, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))com.github.jonathanxd.codeapi.factory/java.lang.reflect.-type/invoke-static.md
+$dokka.location:com.github.jonathanxd.codeapi.processor$hasContextedError(kotlin.collections.List((com.github.jonathanxd.codeapi.processor.ContextedValidationMessage)))com.github.jonathanxd.codeapi.processor/kotlin.collections.-list/has-contexted-error.md
+$dokka.location:com.github.jonathanxd.codeapi.processor$hasError(kotlin.collections.List((com.github.jonathanxd.codeapi.processor.ValidationMessage)))com.github.jonathanxd.codeapi.processor/kotlin.collections.-list/has-error.md
+$dokka.location:com.github.jonathanxd.codeapi.util$alwaysBranch(kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.Function1((com.github.jonathanxd.codeapi.CodeInstruction, kotlin.Boolean)))com.github.jonathanxd.codeapi.util/kotlin.collections.-list/always-branch.md
+$dokka.location:com.github.jonathanxd.codeapi.util$arrayBaseComponent#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/array-base-component.md
+$dokka.location:com.github.jonathanxd.codeapi.util$arrayComponent#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/array-component.md
+$dokka.location:com.github.jonathanxd.codeapi.util$arrayDimension#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/array-dimension.md
+$dokka.location:com.github.jonathanxd.codeapi.util$asGeneric#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/as-generic.md
+$dokka.location:com.github.jonathanxd.codeapi.util$asString(kotlin.Any, kotlin.Boolean)com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md
+$dokka.location:com.github.jonathanxd.codeapi.util$binaryName#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/binary-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$bothMatches(kotlin.collections.List((com.github.jonathanxd.codeapi.util.bothMatches.T)), kotlin.collections.List((com.github.jonathanxd.codeapi.util.bothMatches.T)), kotlin.Function2((com.github.jonathanxd.codeapi.util.bothMatches.T, , kotlin.Boolean)))com.github.jonathanxd.codeapi.util/kotlin.collections.-list/both-matches.md
+$dokka.location:com.github.jonathanxd.codeapi.util$canonicalName#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/canonical-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$codeType#java.lang.Class((com.github.jonathanxd.codeapi.util.codeType.T))com.github.jonathanxd.codeapi.util/java.lang.-class/code-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$codeType#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/code-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$codeType#kotlin.reflect.KClass((com.github.jonathanxd.codeapi.util.codeType.T))com.github.jonathanxd.codeapi.util/kotlin.reflect.-k-class/code-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$codeTypes#kotlin.Array((java.lang.Class((com.github.jonathanxd.codeapi.util.codeTypes.T))))com.github.jonathanxd.codeapi.util/kotlin.-array/code-types.md
+$dokka.location:com.github.jonathanxd.codeapi.util$codeTypes#kotlin.Array((java.lang.reflect.Type))com.github.jonathanxd.codeapi.util/kotlin.-array/code-types.md
+$dokka.location:com.github.jonathanxd.codeapi.util$codeTypes#kotlin.Array((kotlin.reflect.KClass((com.github.jonathanxd.codeapi.util.codeTypes.T))))com.github.jonathanxd.codeapi.util/kotlin.-array/code-types.md
+$dokka.location:com.github.jonathanxd.codeapi.util$compareTo(java.lang.reflect.Type, java.lang.reflect.Type)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/compare-to.md
+$dokka.location:com.github.jonathanxd.codeapi.util$concreteType#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/concrete-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$containsBefore(kotlin.String, kotlin.String, kotlin.String)com.github.jonathanxd.codeapi.util/kotlin.-string/contains-before.md
+$dokka.location:com.github.jonathanxd.codeapi.util$defaultResolver#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/default-resolver.md
+$dokka.location:com.github.jonathanxd.codeapi.util$descriptor#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/descriptor.md
+$dokka.location:com.github.jonathanxd.codeapi.util$eq(java.lang.reflect.Type, kotlin.Any)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/eq.md
+$dokka.location:com.github.jonathanxd.codeapi.util$genericSignature#java.lang.reflect.GenericDeclarationcom.github.jonathanxd.codeapi.util/java.lang.reflect.-generic-declaration/generic-signature.md
+$dokka.location:com.github.jonathanxd.codeapi.util$genericTypesToDescriptor(kotlin.Array((com.github.jonathanxd.codeapi.type.GenericType)))com.github.jonathanxd.codeapi.util/kotlin.-array/generic-types-to-descriptor.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getCodeType(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util/javax.lang.model.element.-type-element/get-code-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getCodeType(javax.lang.model.type.TypeMirror, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util/javax.lang.model.type.-type-mirror/get-code-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getCodeTypeFromTypeParameters(java.lang.Class((kotlin.Any)))com.github.jonathanxd.codeapi.util/java.lang.-class/get-code-type-from-type-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getCodeTypeFromTypeParameters(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util/javax.lang.model.element.-type-element/get-code-type-from-type-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getGenericType(java.lang.Class((kotlin.Any)))com.github.jonathanxd.codeapi.util/java.lang.-class/get-generic-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getType(java.lang.reflect.Type, kotlin.Boolean)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/get-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$getTypeDesc(java.lang.reflect.Type, kotlin.String)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/get-type-desc.md
+$dokka.location:com.github.jonathanxd.codeapi.util$hash(java.lang.reflect.Type)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/hash.md
+$dokka.location:com.github.jonathanxd.codeapi.util$identification#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/identification.md
+$dokka.location:com.github.jonathanxd.codeapi.util$inferType(java.lang.reflect.Type, kotlin.Array((java.lang.reflect.TypeVariable((java.lang.reflect.GenericDeclaration)))), kotlin.Array((java.lang.reflect.TypeVariable((java.lang.reflect.GenericDeclaration)))), com.github.jonathanxd.codeapi.type.Generic)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/infer-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$interfaces#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/interfaces.md
+$dokka.location:com.github.jonathanxd.codeapi.util$internalName#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/internal-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$is(java.lang.reflect.Type, java.lang.reflect.Type)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is.md
+$dokka.location:com.github.jonathanxd.codeapi.util$is(kotlin.collections.List((java.lang.reflect.Type)), kotlin.collections.List((java.lang.reflect.Type)))com.github.jonathanxd.codeapi.util/kotlin.collections.-list/is.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isArray#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-array.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isAssignableFrom(java.lang.reflect.Type, java.lang.reflect.Type)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-assignable-from.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isAssignableFrom(java.lang.reflect.Type, java.lang.reflect.Type, kotlin.Function1((java.lang.reflect.Type, com.github.jonathanxd.codeapi.type.CodeTypeResolver((kotlin.Any)))))com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-assignable-from.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isConcreteIdEq(java.lang.reflect.Type, java.lang.reflect.Type)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-concrete-id-eq.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isInterface#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-interface.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isNonReifiedType(java.lang.reflect.Type)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-non-reified-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isPrimitive#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-primitive.md
+$dokka.location:com.github.jonathanxd.codeapi.util$isVirtual#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/is-virtual.md
+$dokka.location:com.github.jonathanxd.codeapi.util$javaSpecName#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/java-spec-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$packageName#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/package-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$primitiveType#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/primitive-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$removeRedundantNot(kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))com.github.jonathanxd.codeapi.util/kotlin.collections.-list/remove-redundant-not.md
+$dokka.location:com.github.jonathanxd.codeapi.util$simpleName#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/simple-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$superType#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/super-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$toArray(java.lang.reflect.Type, kotlin.Int)com.github.jonathanxd.codeapi.util/java.lang.reflect.-type/to-array.md
+$dokka.location:com.github.jonathanxd.codeapi.util$toCodeType(javax.lang.model.type.TypeMirror, kotlin.Boolean, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util/javax.lang.model.type.-type-mirror/to-code-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$type#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/type.md
+$dokka.location:com.github.jonathanxd.codeapi.util$typeDesc#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/type-desc.md
+$dokka.location:com.github.jonathanxd.codeapi.util$typeDesc#kotlin.collections.Iterable((java.lang.reflect.Type))com.github.jonathanxd.codeapi.util/kotlin.collections.-iterable/type-desc.md
+$dokka.location:com.github.jonathanxd.codeapi.util$typeName#javax.lang.model.element.TypeElementcom.github.jonathanxd.codeapi.util/javax.lang.model.element.-type-element/type-name.md
+$dokka.location:com.github.jonathanxd.codeapi.util$typeWithParams#java.lang.Class((kotlin.Any))com.github.jonathanxd.codeapi.util/java.lang.-class/type-with-params.md
+$dokka.location:com.github.jonathanxd.codeapi.util$wrapperType#java.lang.reflect.Typecom.github.jonathanxd.codeapi.util/java.lang.reflect.-type/wrapper-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$access#kotlin.collections.List((com.github.jonathanxd.codeapi.base.CodeParameter))com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-list/access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$annotationValue(javax.lang.model.element.AnnotationValue, javax.lang.model.element.ExecutableElement, javax.lang.model.type.TypeMirror, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-annotation-value/annotation-value.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$annotationValue(kotlin.Any, java.lang.Class((kotlin.Any)))com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/annotation-value.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$asCodeParameter(java.lang.reflect.Parameter, kotlin.String)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-parameter/as-code-parameter.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$asTypeRef#java.lang.Class((kotlin.Any))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/as-type-ref.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$asTypeRef(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-type-element/as-type-ref.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeAnnotation#kotlin.Array((com.github.jonathanxd.codeapi.util.conversion.codeAnnotation.T))com.github.jonathanxd.codeapi.util.conversion/kotlin.-array/code-annotation.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeAnnotation#kotlin.collections.List((com.github.jonathanxd.codeapi.util.conversion.codeAnnotation.T))com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-list/code-annotation.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeAnnotations#java.lang.reflect.AnnotatedElementcom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-annotated-element/code-annotations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeParameter#java.lang.reflect.Parametercom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-parameter/code-parameter.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeParameters#java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.codeParameters.T))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-constructor/code-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeParameters#java.lang.reflect.Methodcom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-method/code-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$codeParameters#kotlin.collections.List((java.lang.reflect.Parameter))com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-list/code-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$constructorDeclarations#java.lang.Class((kotlin.Any))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/constructor-declarations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$createAccess(java.lang.reflect.Field, com.github.jonathanxd.codeapi.CodeInstruction)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-field/create-access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$createStaticAccess(java.lang.reflect.Field)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-field/create-static-access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$fieldDeclarations#java.lang.Class((kotlin.Any))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/field-declarations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$find(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.find.T)), com.github.jonathanxd.codeapi.base.FieldDeclaration)com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/find.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$find(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.find.T)), com.github.jonathanxd.codeapi.base.MethodDeclaration)com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/find.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$find(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.find.T)), com.github.jonathanxd.codeapi.base.TypeDeclaration)com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/find.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getCodeAnnotations(javax.lang.model.AnnotatedConstruct, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.-annotated-construct/get-code-annotations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getConstructorDeclaration(javax.lang.model.element.ExecutableElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/get-constructor-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getConstructorDeclarations(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-type-element/get-constructor-declarations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getEnclosingType(javax.lang.model.element.Element)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-element/get-enclosing-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getFieldDeclaration(javax.lang.model.element.VariableElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-variable-element/get-field-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getFieldDeclarations(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-type-element/get-field-declarations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getMethodDeclaration(javax.lang.model.element.ExecutableElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/get-method-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getMethodDeclarations(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-type-element/get-method-declarations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getMethodInvokeSpec(javax.lang.model.element.ExecutableElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/get-method-invoke-spec.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getMethodTypeSpec(javax.lang.model.element.ExecutableElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/get-method-type-spec.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getMirrorToCodeAnnotation(kotlin.collections.List((javax.lang.model.element.AnnotationMirror)), javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-list/get-mirror-to-code-annotation.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getTypeDeclaration(javax.lang.model.element.TypeElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-type-element/get-type-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$getTypeSpec(javax.lang.model.element.ExecutableElement, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/get-type-spec.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$invokeType#java.lang.reflect.Executablecom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-executable/invoke-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$invokeType#javax.lang.model.element.ExecutableElementcom.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/invoke-type.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$isAccessibleFrom(java.lang.reflect.Method, com.github.jonathanxd.codeapi.base.TypeDeclaration, kotlin.Boolean)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-method/is-accessible-from.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$isEqual(kotlin.collections.Iterable((com.github.jonathanxd.codeapi.util.conversion.isEqual.T)), kotlin.collections.Iterable((kotlin.Any)))com.github.jonathanxd.codeapi.util.conversion/kotlin.collections.-iterable/is-equal.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$isRetentionRuntime(javax.lang.model.element.AnnotationMirror, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-annotation-mirror/is-retention-runtime.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$kotlinParameters#java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.kotlinParameters.T))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-constructor/kotlin-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$kotlinParameters#java.lang.reflect.Methodcom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-method/kotlin-parameters.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$methodDeclarations#java.lang.Class((kotlin.Any))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/method-declarations.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$methodInvokeSpec#java.lang.reflect.Executablecom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-executable/method-invoke-spec.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$methodTypeSpec#java.lang.reflect.Executablecom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-executable/method-type-spec.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$parameterNames#java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.parameterNames.T))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-constructor/parameter-names.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$parameterNames#java.lang.reflect.Methodcom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-method/parameter-names.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toAccess(java.lang.reflect.Field, com.github.jonathanxd.codeapi.CodeInstruction)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-field/to-access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toAccess(javax.lang.model.element.VariableElement, com.github.jonathanxd.codeapi.CodeInstruction, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-variable-element/to-access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toAnnotationDeclaration(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.toAnnotationDeclaration.T)))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-annotation-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toClassDeclaration(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.toClassDeclaration.T)))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-class-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toCodeAnnotation(javax.lang.model.element.AnnotationMirror, javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-annotation-mirror/to-code-annotation.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toCodeParameter(java.lang.reflect.Parameter)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-parameter/to-code-parameter.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toCodeParameter(kotlin.reflect.KParameter)com.github.jonathanxd.codeapi.util.conversion/kotlin.reflect.-k-parameter/to-code-parameter.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toConstructorDeclaration(java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.toConstructorDeclaration.T)), kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-constructor/to-constructor-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toConstructorDeclaration(java.lang.reflect.Constructor((com.github.jonathanxd.codeapi.util.conversion.toConstructorDeclaration.T)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-constructor/to-constructor-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toDeclaration(java.lang.Class((com.github.jonathanxd.codeapi.base.Annotation)))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toDeclaration(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.toDeclaration.T)))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toEnumDeclaration(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.toEnumDeclaration.T)), kotlin.Function3((java.lang.reflect.Method, kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-enum-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toFieldDeclaration(java.lang.reflect.Field)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-field/to-field-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toInterfaceDeclaration(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.toInterfaceDeclaration.T)))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-interface-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toInvocation(java.lang.reflect.Executable, com.github.jonathanxd.codeapi.base.InvokeType, com.github.jonathanxd.codeapi.CodeInstruction, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-executable/to-invocation.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toInvocation(javax.lang.model.element.ExecutableElement, com.github.jonathanxd.codeapi.base.InvokeType, com.github.jonathanxd.codeapi.CodeInstruction, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), javax.lang.model.util.Elements)com.github.jonathanxd.codeapi.util.conversion/javax.lang.model.element.-executable-element/to-invocation.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toLiteral(kotlin.Any)com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toLiteralOrNull(kotlin.Any)com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal-or-null.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toMethodDeclaration(java.lang.reflect.Method, java.lang.reflect.Type, kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-method/to-method-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toMethodDeclaration(java.lang.reflect.Method, kotlin.Function2((kotlin.Int, java.lang.reflect.Parameter, kotlin.String)))com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-method/to-method-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toStructure(java.lang.Class((com.github.jonathanxd.codeapi.util.conversion.toStructure.T)), kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/to-structure.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toVariableAccess(java.lang.reflect.Parameter)com.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-parameter/to-variable-access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$toVariableAccess(kotlin.reflect.KParameter)com.github.jonathanxd.codeapi.util.conversion/kotlin.reflect.-k-parameter/to-variable-access.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$typeDeclaration#java.lang.Class((kotlin.Any))com.github.jonathanxd.codeapi.util.conversion/java.lang.-class/type-declaration.md
+$dokka.location:com.github.jonathanxd.codeapi.util.conversion$typeSpec#java.lang.reflect.Executablecom.github.jonathanxd.codeapi.util.conversion/java.lang.reflect.-executable/type-spec.md
+com.github.jonathanxd.codeapi
+com.github.jonathanxd.codeapi.base
+com.github.jonathanxd.codeapi.base.comment
+com.github.jonathanxd.codeapi.builder
+com.github.jonathanxd.codeapi.common
+com.github.jonathanxd.codeapi.exception
+com.github.jonathanxd.codeapi.factory
+com.github.jonathanxd.codeapi.generic
+com.github.jonathanxd.codeapi.helper
+com.github.jonathanxd.codeapi.inspect
+com.github.jonathanxd.codeapi.literal
+com.github.jonathanxd.codeapi.modify.visit
+com.github.jonathanxd.codeapi.operator
+com.github.jonathanxd.codeapi.processor
+com.github.jonathanxd.codeapi.sugar
+com.github.jonathanxd.codeapi.type
+com.github.jonathanxd.codeapi.util
+com.github.jonathanxd.codeapi.util.conversion

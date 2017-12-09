@@ -2,4 +2,4 @@
 
 # NOT_EQUAL_TO
 
-`val NOT_EQUAL_TO: <ERROR CLASS>`
+`@JvmField val NOT_EQUAL_TO: `[`Conditional`](../-operator/-conditional/index.md)

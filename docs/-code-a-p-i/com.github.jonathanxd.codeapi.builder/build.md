@@ -2,7 +2,7 @@
 
 # build
 
-`inline fun <T, S : `[`Builder`](-builder/index.md)`<T, S>> S.build(func: (S) -> Unit): T`
+`inline fun <T, S : `[`Builder`](-builder/index.md)`<T, S>> S.build(func: S.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): T`
 
 Build the object of type [T](#).
 

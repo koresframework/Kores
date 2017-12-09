@@ -2,4 +2,4 @@
 
 # RETURN_TYPE
 
-`val RETURN_TYPE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Void`](http://docs.oracle.com/javase/6/docs/api/java/lang/Void.html)`>`
+`val RETURN_TYPE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Void>`

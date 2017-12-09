@@ -2,4 +2,4 @@
 
 # BITWISE_AND
 
-`val BITWISE_AND: <ERROR CLASS>`
+`@JvmField val BITWISE_AND: `[`Math`](../-operator/-math/index.md)

@@ -2,9 +2,9 @@
 
 # spliterator
 
-`open fun spliterator(): `[`Spliterator`](http://docs.oracle.com/javase/6/docs/api/java/util/Spliterator.html)`<`[`CodeInstruction`](../-code-instruction.md)`>`
+`open fun spliterator(): Spliterator<`[`CodeInstruction`](../-code-instruction.md)`>`
 
 Overrides [CodeSource.spliterator](../-code-source/spliterator.md)
 
-Creates a [Spliterator](http://docs.oracle.com/javase/6/docs/api/java/util/Spliterator.html) from elements of this [CodeSource](../-code-source/index.md).
+Creates a [Spliterator](#) from elements of this [CodeSource](../-code-source/index.md).
 

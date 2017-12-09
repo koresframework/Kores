@@ -2,4 +2,4 @@
 
 # createMath
 
-`fun createMath(name: String): <ERROR CLASS>`
+`fun createMath(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Math`](../-operator/-math/index.md)

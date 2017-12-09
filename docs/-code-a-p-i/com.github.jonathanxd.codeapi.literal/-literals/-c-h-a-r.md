@@ -2,4 +2,4 @@
 
 # CHAR
 
-`fun CHAR(c: Char): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun CHAR(c: `[`Char`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html)`): `[`Literal`](../-literal/index.md)

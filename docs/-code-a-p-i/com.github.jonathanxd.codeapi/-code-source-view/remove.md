@@ -2,13 +2,13 @@
 
 # remove
 
-`open fun remove(o: Any): Boolean`
+`open fun remove(o: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [MutableCodeSource.remove](../-mutable-code-source/remove.md)
 
 Removes [o](remove.md#com.github.jonathanxd.codeapi.CodeSourceView$remove(kotlin.Any)/o) from list.
 
-`open fun remove(index: Int): `[`CodeInstruction`](../-code-instruction.md)
+`open fun remove(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`CodeInstruction`](../-code-instruction.md)
 
 Overrides [MutableCodeSource.remove](../-mutable-code-source/remove.md)
 

@@ -2,7 +2,7 @@
 
 # VALIDATE
 
-`val VALIDATE: Option<Boolean>`
+`@JvmField val VALIDATE: Option<`[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`>`
 
 True to validate part before processing.
 

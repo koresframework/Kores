@@ -2,4 +2,4 @@
 
 # SHORT
 
-`fun SHORT(s: Short): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun SHORT(s: `[`Short`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html)`): `[`Literal`](../-literal/index.md)

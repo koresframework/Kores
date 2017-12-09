@@ -2,7 +2,7 @@
 
 # contains
 
-`operator fun contains(o: Any): Boolean`
+`operator fun contains(o: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [CodeSource.contains](../-code-source/contains.md)
 

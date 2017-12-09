@@ -2,7 +2,7 @@
 
 # modifiers
 
-`val modifiers: Set<`[`CodeModifier`](../-code-modifier/index.md)`>`
+`val modifiers: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../-code-modifier/index.md)`>`
 
 Overrides [ModifiersHolder.modifiers](../-modifiers-holder/modifiers.md)
 

@@ -2,7 +2,7 @@
 
 # simpleName
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.simpleName: String`
+`val Type.simpleName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 See [CodeType.simpleName](../../com.github.jonathanxd.codeapi.type/-code-type/simple-name.md)
 

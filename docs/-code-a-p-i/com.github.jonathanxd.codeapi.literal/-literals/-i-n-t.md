@@ -2,4 +2,4 @@
 
 # INT
 
-`fun INT(i: Int): `[`Literal`](../-literal/index.md)
+`@JvmStatic fun INT(i: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Literal`](../-literal/index.md)

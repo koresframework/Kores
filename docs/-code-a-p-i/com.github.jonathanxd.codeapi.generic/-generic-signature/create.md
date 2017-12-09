@@ -2,7 +2,7 @@
 
 # create
 
-`fun create(vararg types: `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`): `[`GenericSignature`](index.md)
+`@JvmStatic fun create(vararg types: `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`): `[`GenericSignature`](index.md)
 
 Create generic signature.
 

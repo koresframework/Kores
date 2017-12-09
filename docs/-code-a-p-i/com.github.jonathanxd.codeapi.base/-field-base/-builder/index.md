@@ -9,15 +9,15 @@
 | Name | Summary |
 |---|---|
 | [base](base.md) | `open fun base(variableRef: `[`VariableRef`](../../../com.github.jonathanxd.codeapi.common/-variable-ref/index.md)`): S`<br>Base this builder on [variableRef](base.md#com.github.jonathanxd.codeapi.base.FieldBase.Builder$base(com.github.jonathanxd.codeapi.common.VariableRef)/variableRef).`open fun base(fieldRef: `[`FieldRef`](../../../com.github.jonathanxd.codeapi.common/-field-ref/index.md)`): S`<br>Base this builder on [fieldRef](base.md#com.github.jonathanxd.codeapi.base.FieldBase.Builder$base(com.github.jonathanxd.codeapi.common.FieldRef)/fieldRef). |
-| [localization](localization.md) | `abstract fun localization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.localization](localization.md) |
+| [localization](localization.md) | `abstract fun localization(value: Type): S`<br>See [T.localization](localization.md) |
 | [target](target.md) | `abstract fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.target](target.md) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [name](../../-named/-builder/name.md) | `abstract fun name(value: String): S` |
-| [type](../../-typed/-builder/type.md) | `abstract fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.type](../../-typed/-builder/type.md) |
+| [name](../../-named/-builder/name.md) | `abstract fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): S` |
+| [type](../../-typed/-builder/type.md) | `abstract fun type(value: Type): S`<br>See [T.type](../../-typed/-builder/type.md) |
 
 ### Inheritors
 

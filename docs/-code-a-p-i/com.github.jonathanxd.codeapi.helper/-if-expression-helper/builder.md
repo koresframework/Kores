@@ -2,7 +2,7 @@
 
 # builder
 
-`fun builder(): `[`IfExpressionHelper`](index.md)
+`@JvmStatic fun builder(): `[`IfExpressionHelper`](index.md)
 
 Creates [IfExpressionHelper](index.md).
 

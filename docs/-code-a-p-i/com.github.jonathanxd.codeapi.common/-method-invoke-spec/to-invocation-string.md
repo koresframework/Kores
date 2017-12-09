@@ -2,7 +2,7 @@
 
 # toInvocationString
 
-`fun toInvocationString(): String`
+`fun toInvocationString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Human readable method invocation string.
 

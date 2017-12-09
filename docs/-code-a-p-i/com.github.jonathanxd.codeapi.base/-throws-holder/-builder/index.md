@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [throwsClause](throws-clause.md) | `abstract fun throwsClause(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): S`<br>`open fun throwsClause(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): <ERROR CLASS>`<br>See [ThrowsHolder.throwsClause](../throws-clause.md) |
+| [throwsClause](throws-clause.md) | `abstract fun throwsClause(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): S`<br>`open fun throwsClause(vararg values: Type): S`<br>See [ThrowsHolder.throwsClause](../throws-clause.md) |
 
 ### Inherited Functions
 

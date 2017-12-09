@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`VariableAccess(variableType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String)`
+`VariableAccess(variableType: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Access to a variable in local scope.
 

@@ -2,7 +2,7 @@
 
 # removeIf
 
-`open fun removeIf(filter: `[`Predicate`](http://docs.oracle.com/javase/6/docs/api/java/util/function/Predicate.html)`<in `[`CodeInstruction`](../-code-instruction.md)`>): Boolean`
+`open fun removeIf(filter: Predicate<in `[`CodeInstruction`](../-code-instruction.md)`>): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [MutableCodeSource.removeIf](../-mutable-code-source/remove-if.md)
 

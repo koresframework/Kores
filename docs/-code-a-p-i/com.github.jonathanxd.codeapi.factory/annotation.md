@@ -2,7 +2,7 @@
 
 # annotation
 
-`fun annotation(visible: Boolean, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, values: Map<String, Any> = emptyMap()): `[`Annotation`](../com.github.jonathanxd.codeapi.base/-annotation/index.md)
+`@JvmOverloads fun annotation(visible: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, type: Type, values: `[`Map`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> = emptyMap()): `[`Annotation`](../com.github.jonathanxd.codeapi.base/-annotation/index.md)
 
 **See Also**
 

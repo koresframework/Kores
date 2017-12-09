@@ -2,7 +2,7 @@
 
 # error
 
-`inline fun error(message: () -> String): `[`ValidationMessage`](-validation-message/index.md)
+`inline fun error(message: () -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`ValidationMessage`](-validation-message/index.md)
 
 Creates a error validation message.
 

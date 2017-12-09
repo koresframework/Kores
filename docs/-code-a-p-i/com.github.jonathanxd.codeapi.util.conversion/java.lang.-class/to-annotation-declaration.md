@@ -2,7 +2,7 @@
 
 # toAnnotationDeclaration
 
-`fun <T : Any> `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>.toAnnotationDeclaration(): `[`AnnotationDeclaration`](../../com.github.jonathanxd.codeapi.base/-annotation-declaration/index.md)
+`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Class<T>.toAnnotationDeclaration(): `[`AnnotationDeclaration`](../../com.github.jonathanxd.codeapi.base/-annotation-declaration/index.md)
 
-Creates an [AnnotationDeclaration](../../com.github.jonathanxd.codeapi.base/-annotation-declaration/index.md) from receiver [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html).
+Creates an [AnnotationDeclaration](../../com.github.jonathanxd.codeapi.base/-annotation-declaration/index.md) from receiver [Class](#).
 

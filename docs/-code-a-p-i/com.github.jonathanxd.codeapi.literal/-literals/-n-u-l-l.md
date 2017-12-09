@@ -2,4 +2,4 @@
 
 # NULL
 
-`val NULL: `[`Literal`](../-literal/index.md)
+`@JvmField val NULL: `[`Literal`](../-literal/index.md)

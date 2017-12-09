@@ -2,7 +2,7 @@
 
 # message
 
-`val message: String`
+`val message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Message.
 

@@ -2,7 +2,7 @@
 
 # Absent
 
-`val Absent: `[`Comments`](index.md)
+`@JvmField val Absent: `[`Comments`](index.md)
 
 Absent comments. Absent comment should not be generated.
 

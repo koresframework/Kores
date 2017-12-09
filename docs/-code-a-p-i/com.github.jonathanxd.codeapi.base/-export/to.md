@@ -2,7 +2,7 @@
 
 # to
 
-`val to: List<`[`ModuleReference`](../-module-reference/index.md)`>`
+`val to: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ModuleReference`](../-module-reference/index.md)`>`
 
 Modules to export to. (Empty list to export to all modules).
 

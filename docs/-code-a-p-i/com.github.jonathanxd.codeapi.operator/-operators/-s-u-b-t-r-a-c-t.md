@@ -2,4 +2,4 @@
 
 # SUBTRACT
 
-`val SUBTRACT: <ERROR CLASS>`
+`@JvmField val SUBTRACT: `[`Math`](../-operator/-math/index.md)

@@ -2,8 +2,8 @@
 
 # linkClass
 
-`fun linkClass(name: String? = null, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
-`fun linkClass(name: String? = null, canonicalName: String): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
+`@JvmOverloads fun linkClass(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, type: Type): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
+`@JvmOverloads fun linkClass(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, canonicalName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
 
 **See Also**
 

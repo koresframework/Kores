@@ -4,8 +4,8 @@
 
 `val variable: `[`VariableDeclaration`](../-variable-declaration/index.md)
 
-Variable to try-with-resources (value must be [AutoCloseable](http://docs.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html)).
+Variable to try-with-resources (value must be [AutoCloseable](#)).
 
 ### Property
 
-`variable` - Variable to try-with-resources (value must be [AutoCloseable](http://docs.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html)).
+`variable` - Variable to try-with-resources (value must be [AutoCloseable](#)).

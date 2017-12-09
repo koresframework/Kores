@@ -2,7 +2,7 @@
 
 # indexOf
 
-`open fun indexOf(o: Any): Int`
+`open fun indexOf(o: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [CodeSource.indexOf](../-code-source/index-of.md)
 

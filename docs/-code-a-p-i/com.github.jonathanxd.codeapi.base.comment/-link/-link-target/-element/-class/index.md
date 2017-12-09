@@ -14,10 +14,10 @@ A link to a class
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Class(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`)`<br>A link to a class |
+| [&lt;init&gt;](-init-.md) | `Class(type: Type)`<br>A link to a class |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [type](type.md) | `val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [type](type.md) | `val type: Type` |

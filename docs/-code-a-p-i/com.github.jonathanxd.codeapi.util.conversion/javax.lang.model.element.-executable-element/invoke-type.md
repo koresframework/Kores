@@ -2,7 +2,7 @@
 
 # invokeType
 
-`val `[`ExecutableElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/ExecutableElement.html)`.invokeType: `[`InvokeType`](../../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)
+`val ExecutableElement.invokeType: `[`InvokeType`](../../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)
 
-Gets the invocation type of the [ExecutableElement](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/ExecutableElement.html).
+Gets the invocation type of the [ExecutableElement](#).
 

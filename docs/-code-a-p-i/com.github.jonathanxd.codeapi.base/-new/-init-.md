@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`New(localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`)`
+`New(localization: Type)`
 
 Represents the construction of type, used to invoke constructor methods. (not `super` constructor or `this` constructor).
 

@@ -2,7 +2,7 @@
 
 # args
 
-`open fun args(value: List<Any>): S`
+`open fun args(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): S`
 
 Overrides [Builder.args](../../-builder/args.md)
 

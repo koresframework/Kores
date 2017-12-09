@@ -2,7 +2,7 @@
 
 # clear
 
-`abstract fun clear(): Unit`
+`abstract fun clear(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Clears this list.
 

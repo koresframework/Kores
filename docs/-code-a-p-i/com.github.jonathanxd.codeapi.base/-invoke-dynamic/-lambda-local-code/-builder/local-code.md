@@ -2,9 +2,7 @@
 
 # localCode
 
-`lateinit var localCode: `[`LocalCode`](../../../-local-code/index.md)
-
-`fun localCode(value: `[`LocalCode`](../../../-local-code/index.md)`): `[`Builder`](index.md)
+`lateinit var localCode: `[`LocalCode`](../../../-local-code/index.md)`fun localCode(value: `[`LocalCode`](../../../-local-code/index.md)`): `[`Builder`](index.md)
 
 Overrides [Builder.localCode](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/local-code.md)
 

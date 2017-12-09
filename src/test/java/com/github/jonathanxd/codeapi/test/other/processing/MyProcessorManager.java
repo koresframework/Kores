@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.processor.ValidatorManager;
 import com.github.jonathanxd.iutils.data.TypedData;
 import com.github.jonathanxd.iutils.object.TypedKey;
 import com.github.jonathanxd.iutils.option.Options;
-import com.github.jonathanxd.iutils.type.AbstractTypeInfo;
+import com.github.jonathanxd.iutils.type.TypeParameterProvider;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -43,8 +43,8 @@ import java.util.Objects;
 
 public class MyProcessorManager extends AbstractProcessorManager<String> {
     public static final TypedKey<StringBuilder> APPENDER_KEY =
-            new TypedKey<>("APPENDER", new AbstractTypeInfo<StringBuilder>() {
-            });
+            new TypedKey<>("APPENDER", new TypeParameterProvider<StringBuilder>() {
+            }.createTypeInfo());
     private final Options options = new Options();
     private final ValidatorManager myValidatorManager = new MyValidatorManager();
 

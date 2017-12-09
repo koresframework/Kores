@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ArrayConstructor(arrayType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, dimensions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, arguments: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`
+`ArrayConstructor(arrayType: Type, dimensions: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>, arguments: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`
 
 Constructs an array of type [arrayType](-init-.md#com.github.jonathanxd.codeapi.base.ArrayConstructor$<init>(java.lang.reflect.Type, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))/arrayType) with dimensions [dimensions](-init-.md#com.github.jonathanxd.codeapi.base.ArrayConstructor$<init>(java.lang.reflect.Type, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))/dimensions). Example:
 
@@ -11,6 +11,7 @@ Constructs an array of type [arrayType](-init-.md#com.github.jonathanxd.codeapi.
 
 ```
 new ArrayConstructor(String.class, listOf(Literals.INT(3)), listOf(Literals.STRING("A"), Literals.STRING("B"), Literals.STRING("C"))) =
+
 new String[] {"A", "B", "C"}
 ```
 

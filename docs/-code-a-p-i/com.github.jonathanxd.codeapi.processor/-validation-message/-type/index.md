@@ -2,7 +2,7 @@
 
 # Type
 
-`enum class Type : Enum<Type>`
+`enum class Type`
 
 ### Enum Values
 

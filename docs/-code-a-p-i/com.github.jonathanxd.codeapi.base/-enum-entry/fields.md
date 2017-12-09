@@ -2,7 +2,7 @@
 
 # fields
 
-`val fields: List<`[`FieldDeclaration`](../-field-declaration/index.md)`>`
+`val fields: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`FieldDeclaration`](../-field-declaration/index.md)`>`
 
 Overrides [ElementsHolder.fields](../-elements-holder/fields.md)
 

@@ -2,4 +2,4 @@
 
 # NAME
 
-`val NAME: String`
+`val NAME: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

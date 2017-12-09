@@ -2,9 +2,7 @@
 
 # valueType
 
-`lateinit var valueType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
-
-`fun valueType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`lateinit var valueType: Type``fun valueType(value: Type): `[`Builder`](index.md)
 
 See [ArrayLoad.valueType](../value-type.md)
 

@@ -2,9 +2,7 @@
 
 # target
 
-`lateinit var target: `[`LinkTarget`](../-link-target/index.md)
-
-`fun target(value: `[`LinkTarget`](../-link-target/index.md)`): `[`Builder`](index.md)
+`lateinit var target: `[`LinkTarget`](../-link-target/index.md)`fun target(value: `[`LinkTarget`](../-link-target/index.md)`): `[`Builder`](index.md)
 
 See [Link.target](../target.md)
 

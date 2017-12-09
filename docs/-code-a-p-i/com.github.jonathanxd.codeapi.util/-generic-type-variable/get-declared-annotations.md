@@ -2,4 +2,4 @@
 
 # getDeclaredAnnotations
 
-`fun getDeclaredAnnotations(): Array<Annotation>`
+`fun getDeclaredAnnotations(): `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`Annotation`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html)`>`

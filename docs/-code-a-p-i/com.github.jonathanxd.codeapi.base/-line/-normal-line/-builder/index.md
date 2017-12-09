@@ -14,7 +14,7 @@
 
 | Name | Summary |
 |---|---|
-| [line](line.md) | `var line: Int` |
+| [line](line.md) | `var line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
 | [value](value.md) | `lateinit var value: `[`CodeInstruction`](../../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
 
 ### Functions
@@ -22,5 +22,5 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`NormalLine`](../index.md)<br>Build the object of type [T](#). |
-| [line](line.md) | `fun line(value: Int): Builder`<br>See [Line.line](../../line.md) |
+| [line](line.md) | `fun line(value: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): Builder`<br>See [Line.line](../../line.md) |
 | [value](value.md) | `fun value(value: `[`CodeInstruction`](../../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.value](#) |

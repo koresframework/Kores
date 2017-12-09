@@ -2,7 +2,7 @@
 
 # array
 
-`abstract val array: Boolean`
+`abstract val array: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Array arguments
 

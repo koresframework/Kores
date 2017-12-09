@@ -2,7 +2,7 @@
 
 # parameterNames
 
-`val <T : Any> `[`Constructor`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html)`<T>.parameterNames: List<String>`
+`val <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Constructor<T>.parameterNames: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`>`
 
-Gets parameter names of receiver [Constructor](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Constructor.html).
+Gets parameter names of receiver [Constructor](#).
 

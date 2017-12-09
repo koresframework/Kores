@@ -2,7 +2,7 @@
 
 # comments
 
-`fun comments(type: `[`Type`](../com.github.jonathanxd.codeapi.base.comment/-comments/-type/index.md)` = Comments.Type.COMMENT, vararg comments: `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)`): `[`Comments`](../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)
+`@JvmOverloads fun comments(type: `[`Type`](../com.github.jonathanxd.codeapi.base.comment/-comments/-type/index.md)` = Comments.Type.COMMENT, vararg comments: `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)`): `[`Comments`](../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)
 
 **See Also**
 

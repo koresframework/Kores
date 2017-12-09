@@ -2,9 +2,7 @@
 
 # &lt;init&gt;
 
-`GenericTypeBuilder(defaults: `[`GenericType`](../-generic-type/index.md)`)`
-
-`GenericTypeBuilder()`
+`GenericTypeBuilder(defaults: `[`GenericType`](../-generic-type/index.md)`)``GenericTypeBuilder()`
 
 Builder of a [GenericType](../-generic-type/index.md).
 
@@ -33,5 +31,5 @@ Generic.type("T").extends_(
 )
 ```
 
-**Attention:All calls of the methods of[Generic](../-generic/index.md)class creates a copy of the`bound`array(except the first call),if you mind performance use the[GenericTypeBuilder](index.md)**
+**Attention: All calls of the methods of [Generic](../-generic/index.md) class creates a copy of the `bound` array (except the first call), if you mind performance use the [GenericTypeBuilder](index.md)**
 

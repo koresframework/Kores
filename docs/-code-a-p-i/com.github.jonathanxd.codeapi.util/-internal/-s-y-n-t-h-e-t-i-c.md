@@ -2,4 +2,4 @@
 
 # SYNTHETIC
 
-`val SYNTHETIC: Int`
+`@JvmField val SYNTHETIC: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

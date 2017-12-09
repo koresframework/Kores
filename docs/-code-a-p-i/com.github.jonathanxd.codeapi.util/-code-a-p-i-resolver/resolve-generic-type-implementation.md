@@ -2,7 +2,7 @@
 
 # resolveGenericTypeImplementation
 
-`fun resolveGenericTypeImplementation(superType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, implemented: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, codeTypeResolver: `[`CodeTypeResolver`](../../com.github.jonathanxd.codeapi.type/-code-type-resolver/index.md)`<*>): `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
+`fun resolveGenericTypeImplementation(superType: Type, implemented: Type, codeTypeResolver: `[`CodeTypeResolver`](../../com.github.jonathanxd.codeapi.type/-code-type-resolver/index.md)`<*>): `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
 
 Overrides [GenericResolver.resolveGenericTypeImplementation](../-generic-resolver/resolve-generic-type-implementation.md)
 

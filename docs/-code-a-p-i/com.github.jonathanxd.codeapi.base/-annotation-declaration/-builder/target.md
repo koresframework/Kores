@@ -2,7 +2,7 @@
 
 # target
 
-`fun target(targets: Array<`[`ElementType`](http://docs.oracle.com/javase/6/docs/api/java/lang/annotation/ElementType.html)`>): `[`Builder`](index.md)
+`fun target(targets: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<ElementType>): `[`Builder`](index.md)
 
 Adds target annotation to annotation declaration (remove old target annotation if it is already defined)
 

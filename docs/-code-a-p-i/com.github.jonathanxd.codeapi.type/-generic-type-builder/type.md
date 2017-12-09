@@ -2,9 +2,7 @@
 
 # type
 
-`var type: `[`CodeType`](../-code-type/index.md)`?`
-
-`fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
+`var type: `[`CodeType`](../-code-type/index.md)`?``fun type(value: Type): `[`Builder`](../-generic-type/-builder/index.md)`<`[`GenericType`](../-generic-type/index.md)`, `[`GenericTypeBuilder`](index.md)`>`
 
 Overrides [Builder.type](../-generic-type/-builder/type.md)
 

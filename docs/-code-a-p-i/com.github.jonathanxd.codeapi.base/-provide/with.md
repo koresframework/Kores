@@ -2,10 +2,10 @@
 
 # with
 
-`val with: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val with: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
-Service implementation/provider.
+Service implementations/providers.
 
 ### Property
 
-`with` - Service implementation/provider.
+`with` - Service implementations/providers.

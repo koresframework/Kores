@@ -2,4 +2,4 @@
 
 # EQUAL_TO
 
-`val EQUAL_TO: <ERROR CLASS>`
+`@JvmField val EQUAL_TO: `[`Conditional`](../-operator/-conditional/index.md)

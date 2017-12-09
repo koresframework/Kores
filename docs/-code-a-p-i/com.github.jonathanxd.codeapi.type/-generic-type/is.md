@@ -2,7 +2,7 @@
 
 # is
 
-`open fun is(other: `[`CodeType`](../-code-type/index.md)`?): Boolean`
+`open fun is(other: `[`CodeType`](../-code-type/index.md)`?): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [CodeType.is](../-code-type/is.md)
 

@@ -3,7 +3,7 @@
 # operateAndAssign
 
 `fun operateAndAssign(variable: `[`VariableBase`](../com.github.jonathanxd.codeapi.base/-variable-base/index.md)`, operation: `[`Math`](../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`VariableDefinition`](../com.github.jonathanxd.codeapi.base/-variable-definition/index.md)
-`fun operateAndAssign(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, operation: `[`Math`](../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`VariableDefinition`](../com.github.jonathanxd.codeapi.base/-variable-definition/index.md)
+`fun operateAndAssign(type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, operation: `[`Math`](../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`VariableDefinition`](../com.github.jonathanxd.codeapi.base/-variable-definition/index.md)
 
 Operate variable value and assign the result to the variable
 
@@ -12,7 +12,7 @@ Operate variable value and assign the result to the variable
 [Operate](../com.github.jonathanxd.codeapi.base/-operate/index.md)
 
 `fun operateAndAssign(field: `[`FieldBase`](../com.github.jonathanxd.codeapi.base/-field-base/index.md)`, operation: `[`Math`](../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
-`fun operateAndAssign(localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, operation: `[`Math`](../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
+`fun operateAndAssign(localization: Type, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, operation: `[`Math`](../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`, value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`FieldDefinition`](../com.github.jonathanxd.codeapi.base/-field-definition/index.md)
 
 Operate field value and assign the result to the field
 

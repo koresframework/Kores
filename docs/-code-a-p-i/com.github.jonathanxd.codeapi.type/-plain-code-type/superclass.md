@@ -2,7 +2,7 @@
 
 # superclass
 
-`open val superclass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
+`open val superclass: Type?`
 
 Overrides [InheritanceProvider.superclass](../-inheritance-provider/superclass.md)
 

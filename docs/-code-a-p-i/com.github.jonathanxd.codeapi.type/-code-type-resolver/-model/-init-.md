@@ -2,8 +2,8 @@
 
 # &lt;init&gt;
 
-`Model(elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`)`
+`Model(elements: Elements)`
 
-Resolver that resolves [CodeType](../../-code-type/index.md) to Javax Model [TypeElement](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/TypeElement.html), or to `null`
+Resolver that resolves [CodeType](../../-code-type/index.md) to Javax Model [TypeElement](#), or to `null`
 if type cannot be found.
 

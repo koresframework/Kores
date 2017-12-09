@@ -2,9 +2,9 @@
 
 # methods
 
-`abstract fun methods(value: List<`[`MethodDeclaration`](../../-method-declaration/index.md)`>): S`
+`abstract fun methods(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`MethodDeclaration`](../../-method-declaration/index.md)`>): S`
 `open fun methods(vararg values: `[`MethodDeclaration`](../../-method-declaration/index.md)`): S`
 `open fun methods(value: `[`MethodDeclaration`](../../-method-declaration/index.md)`): S`
 
-See [TypeDeclaration.methods](../methods.md)
+See [ElementsHolder.methods](../methods.md)
 

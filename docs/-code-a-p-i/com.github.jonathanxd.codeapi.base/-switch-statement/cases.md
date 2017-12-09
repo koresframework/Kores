@@ -2,7 +2,7 @@
 
 # cases
 
-`val cases: List<`[`Case`](../-case/index.md)`>`
+`val cases: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Case`](../-case/index.md)`>`
 
 Cases statements.
 

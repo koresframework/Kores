@@ -2,4 +2,4 @@
 
 # DIVISION
 
-`val DIVISION: <ERROR CLASS>`
+`@JvmField val DIVISION: `[`Math`](../-operator/-math/index.md)

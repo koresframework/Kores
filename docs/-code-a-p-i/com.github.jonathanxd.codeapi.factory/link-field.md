@@ -2,8 +2,8 @@
 
 # linkField
 
-`fun linkField(name: String? = null, declaringClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, fieldName: String, fieldType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
-`fun linkField(name: String? = null, declaringClass: String, fieldName: String, fieldType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
+`@JvmOverloads fun linkField(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, declaringClass: Type, fieldName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, fieldType: Type): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
+`@JvmOverloads fun linkField(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, declaringClass: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, fieldName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, fieldType: Type): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
 
 **See Also**
 

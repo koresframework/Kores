@@ -16,15 +16,15 @@ Bound to wildcard.
 
 | Name | Summary |
 |---|---|
-| [sign](../-bound/sign.md) | `abstract val sign: String`<br>Symbol of this bound. |
+| [sign](../-bound/sign.md) | `abstract val sign: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Symbol of this bound. |
 | [type](../-bound/type.md) | `val type: `[`CodeType`](../../-code-type/index.md) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [equals](../-bound/equals.md) | `open fun equals(other: Any?): Boolean` |
-| [hashCode](../-bound/hash-code.md) | `open fun hashCode(): Int` |
+| [equals](../-bound/equals.md) | `open fun equals(other: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [hashCode](../-bound/hash-code.md) | `open fun hashCode(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
 
 ### Inheritors
 

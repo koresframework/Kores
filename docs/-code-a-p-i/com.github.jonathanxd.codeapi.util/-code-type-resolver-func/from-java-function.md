@@ -2,4 +2,4 @@
 
 # fromJavaFunction
 
-`fun fromJavaFunction(func: `[`Function`](http://docs.oracle.com/javase/6/docs/api/java/util/function/Function.html)`<String, `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`>): `[`CodeTypeResolverFunc`](index.md)
+`fun fromJavaFunction(func: Function<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`>): `[`CodeTypeResolverFunc`](index.md)

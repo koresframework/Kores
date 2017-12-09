@@ -2,5 +2,5 @@
 
 # builder
 
-`fun builder(): `[`Builder`](index.md)
-`fun builder(defaults: `[`TypeSpec`](../index.md)`): `[`Builder`](index.md)
+`@JvmStatic fun builder(): `[`Builder`](index.md)
+`@JvmStatic fun builder(defaults: `[`TypeSpec`](../index.md)`): `[`Builder`](index.md)

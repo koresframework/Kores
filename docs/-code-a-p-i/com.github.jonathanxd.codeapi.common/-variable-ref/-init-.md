@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`VariableRef(variableType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String)`
+`VariableRef(variableType: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Reference to a Variable, this class must never appear in CodeSource.
 

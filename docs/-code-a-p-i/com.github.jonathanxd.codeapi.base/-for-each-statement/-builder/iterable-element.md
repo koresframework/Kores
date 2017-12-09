@@ -2,9 +2,7 @@
 
 # iterableElement
 
-`lateinit var iterableElement: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
-
-`fun iterableElement(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+`lateinit var iterableElement: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`fun iterableElement(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
 
 See [ForEachStatement.iterableElement](../iterable-element.md)
 

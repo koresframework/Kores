@@ -2,7 +2,7 @@
 
 # eq
 
-`fun `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.eq(other: Any?): Boolean`
+`fun Type.eq(other: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 See [CodeType.equals](../../com.github.jonathanxd.codeapi.type/-code-type/equals.md)
 

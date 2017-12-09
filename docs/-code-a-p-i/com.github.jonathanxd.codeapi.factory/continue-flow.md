@@ -2,7 +2,7 @@
 
 # continueFlow
 
-`fun continueFlow(at: `[`Label`](../com.github.jonathanxd.codeapi.base/-label/index.md)`? = null): `[`ControlFlow`](../com.github.jonathanxd.codeapi.base/-control-flow/index.md)
+`@JvmOverloads fun continueFlow(at: `[`Label`](../com.github.jonathanxd.codeapi.base/-label/index.md)`? = null): `[`ControlFlow`](../com.github.jonathanxd.codeapi.base/-control-flow/index.md)
 
 `continue`
 

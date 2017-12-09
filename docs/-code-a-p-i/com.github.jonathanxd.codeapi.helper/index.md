@@ -6,9 +6,9 @@
 
 | Name | Summary |
 |---|---|
-| [ConcatHelper](-concat-helper/index.md) | `class ConcatHelper : Any`<br>Concatenation helper. |
-| [IfExpressionHelper](-if-expression-helper/index.md) | `class IfExpressionHelper : Any`<br>If expression helper. |
-| [OperateHelper](-operate-helper/index.md) | `class OperateHelper : Any`<br>Operator helper. |
+| [ConcatHelper](-concat-helper/index.md) | `class ConcatHelper`<br>Concatenation helper. |
+| [IfExpressionHelper](-if-expression-helper/index.md) | `class IfExpressionHelper`<br>If expression helper. |
+| [OperateHelper](-operate-helper/index.md) | `class OperateHelper`<br>Operator helper. |
 
 ### Functions
 

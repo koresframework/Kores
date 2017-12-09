@@ -2,7 +2,7 @@
 
 # arrayDimension
 
-`open val arrayDimension: Int`
+`open val arrayDimension: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [CodeType.arrayDimension](../-code-type/array-dimension.md)
 

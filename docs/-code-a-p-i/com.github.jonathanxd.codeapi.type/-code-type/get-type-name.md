@@ -2,4 +2,4 @@
 
 # getTypeName
 
-`open fun getTypeName(): String`
+`open fun getTypeName(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

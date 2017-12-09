@@ -2,4 +2,4 @@
 
 # withMethodName
 
-`fun withMethodName(value: String): `[`Builder`](index.md)
+`fun withMethodName(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)

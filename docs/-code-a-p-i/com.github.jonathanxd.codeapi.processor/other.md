@@ -2,7 +2,7 @@
 
 # other
 
-`inline fun other(message: () -> String): `[`ValidationMessage`](-validation-message/index.md)
+`inline fun other(message: () -> `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`ValidationMessage`](-validation-message/index.md)
 
 Creates a other validation message.
 

@@ -2,8 +2,8 @@
 
 # throwsClause
 
-`abstract fun throwsClause(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): S`
-`open fun throwsClause(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): <ERROR CLASS>`
+`abstract fun throwsClause(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): S`
+`open fun throwsClause(vararg values: Type): S`
 
 See [ThrowsHolder.throwsClause](../throws-clause.md)
 

@@ -2,9 +2,7 @@
 
 # comments
 
-`var comments: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)
-
-`fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): `[`Builder`](index.md)
+`var comments: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): `[`Builder`](index.md)
 
 Overrides [Builder.comments](../../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/-builder/comments.md)
 

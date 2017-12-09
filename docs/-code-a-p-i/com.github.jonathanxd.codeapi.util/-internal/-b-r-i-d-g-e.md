@@ -2,4 +2,4 @@
 
 # BRIDGE
 
-`val BRIDGE: Int`
+`@JvmField val BRIDGE: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

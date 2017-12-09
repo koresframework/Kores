@@ -2,4 +2,4 @@
 
 # fromKtFunction
 
-`fun fromKtFunction(func: (String) -> `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): `[`CodeTypeResolverFunc`](index.md)
+`fun fromKtFunction(func: (`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`) -> `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`): `[`CodeTypeResolverFunc`](index.md)

@@ -2,7 +2,7 @@
 
 # retention
 
-`fun retention(retention: `[`RetentionPolicy`](http://docs.oracle.com/javase/6/docs/api/java/lang/annotation/RetentionPolicy.html)`): `[`Builder`](index.md)
+`fun retention(retention: RetentionPolicy): `[`Builder`](index.md)
 
 Adds retention annotation to annotation declaration (remove old retention annotation if it is already defined)
 

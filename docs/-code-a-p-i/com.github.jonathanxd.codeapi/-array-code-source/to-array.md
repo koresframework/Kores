@@ -2,7 +2,7 @@
 
 # toArray
 
-`fun toArray(): Array<`[`CodeInstruction`](../-code-instruction.md)`>`
+`fun toArray(): `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>`
 
 Overrides [CodeSource.toArray](../-code-source/to-array.md)
 

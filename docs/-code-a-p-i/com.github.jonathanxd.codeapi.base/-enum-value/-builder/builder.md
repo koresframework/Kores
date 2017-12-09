@@ -2,5 +2,5 @@
 
 # builder
 
-`fun builder(): `[`Builder`](index.md)
-`fun builder(defaults: `[`EnumValue`](../index.md)`): `[`Builder`](index.md)
+`@JvmStatic fun builder(): `[`Builder`](index.md)
+`@JvmStatic fun builder(defaults: `[`EnumValue`](../index.md)`): `[`Builder`](index.md)

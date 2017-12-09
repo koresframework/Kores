@@ -2,7 +2,7 @@
 
 # type
 
-`open val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`open val type: Type`
 
 Overrides [InvokeDynamicBase.type](../type.md)
 

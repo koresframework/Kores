@@ -2,7 +2,7 @@
 
 # empty
 
-`fun empty(): `[`GenericSignature`](index.md)
+`@JvmStatic fun empty(): `[`GenericSignature`](index.md)
 
 Empty generic signature.
 

@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Link(name: String?, target: `[`LinkTarget`](-link-target/index.md)`)`
+`Link(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?, target: `[`LinkTarget`](-link-target/index.md)`)`
 
 Link comment: comment linking to an element or a url
 

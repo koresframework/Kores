@@ -2,7 +2,7 @@
 
 # type
 
-`open fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`
+`open fun type(value: Type): S`
 
 Overrides [Builder.type](../../../-typed/-builder/type.md)
 

@@ -2,7 +2,7 @@
 
 # checkBody
 
-`fun checkBody(self: `[`BodyHolder`](index.md)`): Unit`
+`fun checkBody(self: `[`BodyHolder`](index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Validates the method body (avoid infinite recursion)
 

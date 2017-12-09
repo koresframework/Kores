@@ -2,7 +2,7 @@
 
 # visible
 
-`val visible: Boolean`
+`val visible: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if this annotation is visible at runtime (may not affect all generators).
 

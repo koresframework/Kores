@@ -2,7 +2,7 @@
 
 # line
 
-`abstract val line: Int`
+`abstract val line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Line index
 

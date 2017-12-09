@@ -2,7 +2,7 @@
 
 # outerClass
 
-`abstract fun outerClass(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?): S`
+`abstract fun outerClass(value: Type?): S`
 
 See [TypeDeclaration.outerClass](../outer-class.md)
 

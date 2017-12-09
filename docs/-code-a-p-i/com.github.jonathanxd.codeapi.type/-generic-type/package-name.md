@@ -2,7 +2,7 @@
 
 # packageName
 
-`open val packageName: String`
+`open val packageName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [CodeType.packageName](../-code-type/package-name.md)
 

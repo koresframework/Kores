@@ -2,7 +2,7 @@
 
 # typeOrNull
 
-`val `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
+`val `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: Type?`
 
 Gets the type of [CodePart](../com.github.jonathanxd.codeapi/-code-part/index.md) or null if receiver is not a [Typed](../com.github.jonathanxd.codeapi.base/-typed/index.md) instance.
 

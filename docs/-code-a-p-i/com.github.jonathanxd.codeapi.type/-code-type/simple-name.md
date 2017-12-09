@@ -2,7 +2,7 @@
 
 # simpleName
 
-`open val simpleName: String`
+`open val simpleName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Simple name.
 

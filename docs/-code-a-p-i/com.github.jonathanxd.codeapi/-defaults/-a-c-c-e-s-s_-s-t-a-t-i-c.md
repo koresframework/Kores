@@ -2,4 +2,4 @@
 
 # ACCESS_STATIC
 
-`val ACCESS_STATIC: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)
+`@JvmField val ACCESS_STATIC: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)

@@ -2,4 +2,4 @@
 
 # toCodeType
 
-`fun `[`TypeMirror`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/type/TypeMirror.html)`.toCodeType(isParameterized: Boolean, elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`fun TypeMirror.toCodeType(isParameterized: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, elements: Elements): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)

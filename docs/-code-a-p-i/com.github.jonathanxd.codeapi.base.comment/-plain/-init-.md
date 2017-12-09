@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Plain(text: String)`
+`Plain(text: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Plain comment (like texts)
 

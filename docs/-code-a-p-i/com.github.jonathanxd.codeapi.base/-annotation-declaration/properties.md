@@ -2,7 +2,7 @@
 
 # properties
 
-`val properties: List<`[`AnnotationProperty`](../-annotation-property/index.md)`>`
+`val properties: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`AnnotationProperty`](../-annotation-property/index.md)`>`
 
 Properties of annotation declaration.
 

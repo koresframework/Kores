@@ -2,9 +2,7 @@
 
 # code
 
-`lateinit var code: `[`CodeNode`](../-code-node/index.md)
-
-`fun code(value: `[`CodeNode`](../-code-node/index.md)`): `[`Builder`](index.md)
+`lateinit var code: `[`CodeNode`](../-code-node/index.md)`fun code(value: `[`CodeNode`](../-code-node/index.md)`): `[`Builder`](index.md)
 
 See [Code.code](../code.md)
 

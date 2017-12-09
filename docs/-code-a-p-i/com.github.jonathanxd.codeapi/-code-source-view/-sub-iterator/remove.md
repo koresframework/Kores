@@ -2,4 +2,4 @@
 
 # remove
 
-`fun remove(): Unit`
+`fun remove(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)

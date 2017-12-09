@@ -121,14 +121,14 @@ fun IfExpr.isCheckFalse() = this.getRuntimeBooleanEqCheck()?.booleanConstant == 
  * and [predicate] returns true for the [instruction][CodeInstruction].
  */
 inline fun IfExpr.isCheckTrueAnd(predicate: (CodeInstruction) -> Boolean) =
-        this.getRuntimeBooleanEqCheck()?.let { (ins, op, const) -> const && predicate(ins) } ?: false
+        this.getRuntimeBooleanEqCheck()?.let { (ins, _, const) -> const && predicate(ins) } ?: false
 
 /**
  * Returns `true` if `receiver` [IfExpr] is a check of [instruction][CodeInstruction] equality to `false` constant
  * and [predicate] returns true for the [instruction][CodeInstruction].
  */
 inline fun IfExpr.isCheckFalseAnd(predicate: (CodeInstruction) -> Boolean) =
-        this.getRuntimeBooleanEqCheck()?.let { (ins, op, const) -> const && predicate(ins) } ?: false
+        this.getRuntimeBooleanEqCheck()?.let { (ins, _, const) -> const && predicate(ins) } ?: false
 
 /**
  * Removes redundant not check.
@@ -192,7 +192,7 @@ fun IfExpr.getRuntimeBooleanEqCheck(): EqCheck? {
  * Data class to hold equality check against a boolean constant.
  *
  * @property instruction Instruction to check if is equal to [booleanConstant]
- * @property operator Operator used in [IfExpr] to denote the comparsion, does not have any direct
+ * @property operator Operator used in [IfExpr] to denote the comparison, does not have any direct
  * relation to comparison against [booleanConstant].
  * @property booleanConstant Boolean constant to compare to, does not have any direct relation to [operator].
  */

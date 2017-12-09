@@ -2,4 +2,4 @@
 
 # apply
 
-`open fun apply(t: String): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`open fun apply(t: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)

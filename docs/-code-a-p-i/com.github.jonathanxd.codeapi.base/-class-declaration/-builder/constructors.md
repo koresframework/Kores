@@ -2,11 +2,9 @@
 
 # constructors
 
-`var constructors: List<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>`
+`var constructors: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>``fun constructors(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>): `[`Builder`](index.md)
 
-`fun constructors(value: List<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>): `[`Builder`](index.md)
+Overrides [Builder.constructors](../../-constructors-holder/-builder/constructors.md)
 
-Overrides [Builder.constructors](../../-elements-holder/-builder/constructors.md)
-
-See [TypeDeclaration.constructors](../../-elements-holder/constructors.md)
+See [ConstructorsHolder.constructors](../../-constructors-holder/constructors.md)
 

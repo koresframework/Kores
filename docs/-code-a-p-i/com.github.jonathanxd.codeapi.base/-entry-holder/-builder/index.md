@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [entries](entries.md) | `abstract fun entries(value: List<`[`EnumEntry`](../../-enum-entry/index.md)`>): S`<br>`open fun entries(vararg values: `[`EnumEntry`](../../-enum-entry/index.md)`): S`<br>See [T.entries](entries.md) |
+| [entries](entries.md) | `abstract fun entries(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`EnumEntry`](../../-enum-entry/index.md)`>): S`<br>`open fun entries(vararg values: `[`EnumEntry`](../../-enum-entry/index.md)`): S`<br>See [T.entries](entries.md) |
 
 ### Inherited Functions
 
@@ -20,4 +20,4 @@
 
 | Name | Summary |
 |---|---|
-| [Builder](../../-enum-declaration/-builder/index.md) | `class Builder : `[`Builder`](../../-type-declaration/-builder/index.md)`<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>, `[`Builder`](../../-implementation-holder/-builder/index.md)`<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>, Builder<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>` |
+| [Builder](../../-enum-declaration/-builder/index.md) | `class Builder : `[`Builder`](../../-type-declaration/-builder/index.md)`<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>, `[`Builder`](../../-implementation-holder/-builder/index.md)`<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>, Builder<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>, `[`Builder`](../../-constructors-holder/-builder/index.md)`<`[`EnumDeclaration`](../../-enum-declaration/index.md)`, `[`Builder`](../../-enum-declaration/-builder/index.md)`>` |

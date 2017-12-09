@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [args](args.md) | `abstract fun args(value: List<Any>): S`<br>`open fun args(vararg values: Any): S`<br>See [T.args](args.md) |
+| [args](args.md) | `abstract fun args(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): S`<br>`open fun args(vararg values: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): S`<br>See [T.args](args.md) |
 | [bootstrap](bootstrap.md) | `abstract fun bootstrap(value: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): S`<br>See [T.bootstrap](bootstrap.md) |
 | [invocation](invocation.md) | `abstract fun invocation(value: `[`MethodInvocation`](../../-method-invocation/index.md)`): S`<br>See [T.invocation](invocation.md) |
 
@@ -16,7 +16,7 @@
 
 | Name | Summary |
 |---|---|
-| [type](../../-typed/-builder/type.md) | `abstract fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`<br>See [T.type](../../-typed/-builder/type.md) |
+| [type](../../-typed/-builder/type.md) | `abstract fun type(value: Type): S`<br>See [T.type](../../-typed/-builder/type.md) |
 
 ### Inheritors
 

@@ -2,10 +2,10 @@
 
 # createStaticAccess
 
-`fun `[`Field`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html)`.createStaticAccess(): `[`FieldAccess`](../../com.github.jonathanxd.codeapi.base/-field-access/index.md)
+`fun Field.createStaticAccess(): `[`FieldAccess`](../../com.github.jonathanxd.codeapi.base/-field-access/index.md)
 
-Create static access to this [Field](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html).
+Create static access to this [Field](#).
 
 **Return**
-**Static** [VariableAccess](../../com.github.jonathanxd.codeapi.base/-variable-access/index.md) to this [Field](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html).
+**Static** [VariableAccess](../../com.github.jonathanxd.codeapi.base/-variable-access/index.md) to this [Field](#).
 

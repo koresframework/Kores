@@ -2,7 +2,7 @@
 
 # isVirtual
 
-`fun isVirtual(): Boolean`
+`fun isVirtual(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Returns true if the InvokeType is [INVOKE_VIRTUAL](-i-n-v-o-k-e_-v-i-r-t-u-a-l.md).
 

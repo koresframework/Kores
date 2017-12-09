@@ -2,7 +2,7 @@
 
 # toArray
 
-`abstract fun toArray(): Array<`[`CodeInstruction`](../-code-instruction.md)`>`
+`abstract fun toArray(): `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>`
 
 Creates an array of [CodeInstruction](../-code-instruction.md) of all elements of this [CodeSource](index.md).
 

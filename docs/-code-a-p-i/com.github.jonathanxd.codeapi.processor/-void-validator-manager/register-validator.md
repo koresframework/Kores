@@ -2,7 +2,7 @@
 
 # registerValidator
 
-`fun <P> registerValidator(validator: `[`Validator`](../-validator/index.md)`<P>, type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<P>): Unit`
+`fun <P> registerValidator(validator: `[`Validator`](../-validator/index.md)`<P>, type: Class<P>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Overrides [ValidatorManager.registerValidator](../-validator-manager/register-validator.md)
 

@@ -2,4 +2,4 @@
 
 # descName
 
-`val `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`.descName: String`
+`val `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`.descName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

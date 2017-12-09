@@ -2,7 +2,7 @@
 
 # validationMessages
 
-`abstract val validationMessages: List<`[`ContextedValidationMessage`](../-contexted-validation-message/index.md)`>`
+`abstract val validationMessages: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ContextedValidationMessage`](../-contexted-validation-message/index.md)`>`
 
 Immutable view list of indexed contexted validation messages.
 

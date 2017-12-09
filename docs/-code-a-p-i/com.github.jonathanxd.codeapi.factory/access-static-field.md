@@ -2,7 +2,7 @@
 
 # accessStaticField
 
-`fun accessStaticField(localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)` = Alias.THIS, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String): `[`FieldAccess`](../com.github.jonathanxd.codeapi.base/-field-access/index.md)
+`@JvmOverloads fun accessStaticField(localization: Type = Alias.THIS, type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`FieldAccess`](../com.github.jonathanxd.codeapi.base/-field-access/index.md)
 
 **See Also**
 

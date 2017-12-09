@@ -27,7 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.util.conversion
 
-import com.github.jonathanxd.codeapi.*
+import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.Defaults
+import com.github.jonathanxd.codeapi.MutableCodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
@@ -506,25 +509,29 @@ fun KParameter.toVariableAccess() = accessVariable(this.type.jvmErasure.codeType
 
 fun Parameter.toVariableAccess() = accessVariable(this.type.codeType, this.name)
 
-fun CodeParameter.toVariableAccess()= accessVariable(this.type, this.name)
+fun CodeParameter.toVariableAccess() = accessVariable(this.type, this.name)
 
 // Any
 
 /**
  * Convert this value to a literal
  */
-fun Any.toLiteral(): Literal? {
-    return when (this) {
-        is Byte -> Literals.BYTE(this)
-        is Short -> Literals.SHORT(this)
-        is Int -> Literals.INT(this)
-        is Boolean -> Literals.BOOLEAN(this)
-        is Long -> Literals.LONG(this)
-        is Float -> Literals.FLOAT(this)
-        is Double -> Literals.DOUBLE(this)
-        is Char -> Literals.CHAR(this)
-        is String -> Literals.STRING(this)
-        is Class<*> -> Literals.CLASS(this)
-        else -> null
-    }
+fun Any.toLiteral(): Literal =
+        this.toLiteralOrNull() ?: throw IllegalArgumentException("$this cannot be converted to CodeAPI Literal.")
+
+/**
+ * Convert this value to a literal
+ */
+fun Any.toLiteralOrNull(): Literal? = when (this) {
+    is Byte -> Literals.BYTE(this)
+    is Short -> Literals.SHORT(this)
+    is Int -> Literals.INT(this)
+    is Boolean -> Literals.BOOLEAN(this)
+    is Long -> Literals.LONG(this)
+    is Float -> Literals.FLOAT(this)
+    is Double -> Literals.DOUBLE(this)
+    is Char -> Literals.CHAR(this)
+    is String -> Literals.STRING(this)
+    is Type -> Literals.TYPE(this)
+    else -> null
 }

@@ -10,17 +10,17 @@ Conditional operator
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Conditional(name: String)`<br>Conditional operator |
+| [&lt;init&gt;](-init-.md) | `Conditional(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`<br>Conditional operator |
 
 ### Inherited Properties
 
 | Name | Summary |
 |---|---|
-| [name](../name.md) | `open val name: String`<br>Name |
+| [name](../name.md) | `open val name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Name |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
 | [builder](../builder.md) | `open fun builder(): `[`Builder`](../-builder/index.md)<br>This builder may or may not accept null values, it depends on implementation. |
-| [toString](../to-string.md) | `open fun toString(): String` |
+| [toString](../to-string.md) | `open fun toString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |

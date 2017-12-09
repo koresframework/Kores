@@ -2,7 +2,7 @@
 
 # toJavaModifier
 
-`fun toJavaModifier(modifiers: Collection<`[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`>): Int`
+`fun toJavaModifier(modifiers: `[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<`[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`>): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Convert [CodeModifier](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)s to Java Modifiers flags.
 
@@ -11,9 +11,9 @@ Convert [CodeModifier](../com.github.jonathanxd.codeapi.base/-code-modifier/inde
 `modifiers` - Modifiers
 
 **Return**
-Java modifiers flags ([Modifier](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Modifier.html))
+Java modifiers flags ([Modifier](#))
 
-`fun toJavaModifier(codeModifier: `[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`): Int`
+`fun toJavaModifier(codeModifier: `[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Convert a [CodeModifier](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md) to Java Modifiers flags.
 
@@ -22,5 +22,5 @@ Convert a [CodeModifier](../com.github.jonathanxd.codeapi.base/-code-modifier/in
 `codeModifier` - Modifier to convert
 
 **Return**
-Java modifiers flags ([Modifier](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Modifier.html))
+Java modifiers flags ([Modifier](#))
 

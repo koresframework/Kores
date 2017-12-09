@@ -2,7 +2,7 @@
 
 # fields
 
-`abstract val fields: List<`[`FieldDeclaration`](../-field-declaration/index.md)`>`
+`abstract val fields: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`FieldDeclaration`](../-field-declaration/index.md)`>`
 
 Fields of the type.
 

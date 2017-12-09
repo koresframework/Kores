@@ -2,9 +2,7 @@
 
 # arrayType
 
-`lateinit var arrayType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
-
-`fun arrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`lateinit var arrayType: Type``fun arrayType(value: Type): `[`Builder`](index.md)
 
 Overrides [Builder.arrayType](../../-array-access/-builder/array-type.md)
 

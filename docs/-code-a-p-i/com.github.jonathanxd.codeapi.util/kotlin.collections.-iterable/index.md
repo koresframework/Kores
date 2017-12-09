@@ -4,4 +4,4 @@
 
 | Name | Summary |
 |---|---|
-| [typeDesc](type-desc.md) | `val Iterable<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>.typeDesc: <ERROR CLASS>`<br>Convert iterable of types to string description |
+| [typeDesc](type-desc.md) | `val `[`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)`<Type>.typeDesc: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Convert iterable of types to string description |

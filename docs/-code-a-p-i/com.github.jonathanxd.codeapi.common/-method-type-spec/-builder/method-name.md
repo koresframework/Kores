@@ -2,4 +2,4 @@
 
 # methodName
 
-`lateinit var methodName: String`
+`lateinit var methodName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

@@ -2,4 +2,4 @@
 
 # LONG_WRAPPER
 
-`val LONG_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Long>`
+`@JvmField val LONG_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`>`

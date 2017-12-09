@@ -2,7 +2,7 @@
 
 # variableType
 
-`val variableType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val variableType: Type`
 
 Overrides [VariableBase.variableType](../-variable-base/variable-type.md)
 

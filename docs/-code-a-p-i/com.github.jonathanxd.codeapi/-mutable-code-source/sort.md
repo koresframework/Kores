@@ -2,7 +2,7 @@
 
 # sort
 
-`abstract fun sort(c: `[`Comparator`](http://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html)`<in `[`CodeInstruction`](../-code-instruction.md)`>): Unit`
+`abstract fun sort(c: Comparator<in `[`CodeInstruction`](../-code-instruction.md)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Sorts this [MutableCodeSource](index.md) using [Comparator](sort.md#com.github.jonathanxd.codeapi.MutableCodeSource$sort(java.util.Comparator((com.github.jonathanxd.codeapi.CodeInstruction)))/c).
 

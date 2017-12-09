@@ -16,4 +16,4 @@ Bound to extends.
 
 | Name | Summary |
 |---|---|
-| [sign](sign.md) | `val sign: String`<br>Symbol of this bound. |
+| [sign](sign.md) | `val sign: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Symbol of this bound. |

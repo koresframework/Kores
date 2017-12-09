@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Plain(plain: String)`
+`Plain(plain: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Plain code
 

@@ -2,7 +2,7 @@
 
 # comments
 
-`val comments: List<`[`Comment`](../-comment/index.md)`>`
+`val comments: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Comment`](../-comment/index.md)`>`
 
 Comment list
 

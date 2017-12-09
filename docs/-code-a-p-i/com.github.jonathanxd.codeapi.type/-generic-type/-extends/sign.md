@@ -2,7 +2,7 @@
 
 # sign
 
-`val sign: String`
+`val sign: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [Bound.sign](../-bound/sign.md)
 

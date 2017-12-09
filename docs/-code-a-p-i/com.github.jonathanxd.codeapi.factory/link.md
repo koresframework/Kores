@@ -2,8 +2,8 @@
 
 # link
 
-`fun link(name: String? = null, url: String): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
-`fun link(name: String? = null, element: `[`Element`](../com.github.jonathanxd.codeapi.base.comment/-link/-link-target/-element/index.md)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
+`@JvmOverloads fun link(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, url: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
+`@JvmOverloads fun link(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`? = null, element: `[`Element`](../com.github.jonathanxd.codeapi.base.comment/-link/-link-target/-element/index.md)`): `[`Comment`](../com.github.jonathanxd.codeapi.base.comment/-comment/index.md)
 
 **See Also**
 

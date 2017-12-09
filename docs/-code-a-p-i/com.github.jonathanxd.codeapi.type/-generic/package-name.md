@@ -2,7 +2,7 @@
 
 # packageName
 
-`val packageName: String`
+`val packageName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [GenericType.packageName](../-generic-type/package-name.md)
 

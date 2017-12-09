@@ -2,4 +2,4 @@
 
 # getCodeType
 
-`fun `[`TypeMirror`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/type/TypeMirror.html)`.getCodeType(elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`fun TypeMirror.getCodeType(elements: Elements): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)

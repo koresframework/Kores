@@ -2,4 +2,4 @@
 
 # previousIndex
 
-`fun previousIndex(): Int`
+`fun previousIndex(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

@@ -14,10 +14,10 @@ Plain code
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Plain(plain: String)`<br>Plain code |
+| [&lt;init&gt;](-init-.md) | `Plain(plain: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`<br>Plain code |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [plain](plain.md) | `val plain: String` |
+| [plain](plain.md) | `val plain: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |

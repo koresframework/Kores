@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Field(declaringClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`)`
+`Field(declaringClass: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, type: Type)`
 
 A link to a field
 

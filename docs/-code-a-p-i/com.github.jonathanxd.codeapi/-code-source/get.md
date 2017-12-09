@@ -2,7 +2,7 @@
 
 # get
 
-`operator fun get(index: Int): `[`CodeInstruction`](../-code-instruction.md)
+`operator fun get(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`CodeInstruction`](../-code-instruction.md)
 
 Gets element at index [index](get.md#com.github.jonathanxd.codeapi.CodeSource$get(kotlin.Int)/index).
 

@@ -2,14 +2,14 @@
 
 # type
 
-`val type: String`
+`val type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [GenericType.type](../-generic-type/type.md)
 
 Type name, examples:
 
-[String](#) = `java.lang.String`.
-[Int](#) = `int`.
+[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`.
+[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`.
 `path.to.A.B` = `path.to.A$B`.
 `path.to.A.B[][]` = `path.to.A$B[][]`.
 
@@ -17,12 +17,12 @@ Type name, examples:
 
 Type name, examples:
 
-[String](#) = `java.lang.String`.
-[Int](#) = `int`.
+[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`.
+[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`.
 `path.to.A.B` = `path.to.A$B`.
 `path.to.A.B[][]` = `path.to.A$B[][]`.
 
-`fun type(s: String): `[`Generic`](index.md)
+`@JvmStatic fun type(s: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Create a generic type from a name (ex: T, E, R).
 
@@ -33,7 +33,7 @@ Create a generic type from a name (ex: T, E, R).
 **Return**
 Generic of name.
 
-`fun type(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`@JvmStatic fun type(type: Type): `[`Generic`](index.md)
 
 Create a generic type from a type.
 

@@ -2,4 +2,4 @@
 
 # elements
 
-`val elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)
+`val elements: Elements`

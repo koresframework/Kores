@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [line](line.md) | `abstract fun line(value: Int): S`<br>See [Line.line](../line.md) |
+| [line](line.md) | `abstract fun line(value: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): S`<br>See [Line.line](../line.md) |
 
 ### Inherited Functions
 

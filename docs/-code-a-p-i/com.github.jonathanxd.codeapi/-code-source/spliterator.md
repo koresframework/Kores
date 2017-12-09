@@ -2,7 +2,7 @@
 
 # spliterator
 
-`abstract fun spliterator(): `[`Spliterator`](http://docs.oracle.com/javase/6/docs/api/java/util/Spliterator.html)`<`[`CodeInstruction`](../-code-instruction.md)`>`
+`abstract fun spliterator(): Spliterator<`[`CodeInstruction`](../-code-instruction.md)`>`
 
-Creates a [Spliterator](http://docs.oracle.com/javase/6/docs/api/java/util/Spliterator.html) from elements of this [CodeSource](index.md).
+Creates a [Spliterator](#) from elements of this [CodeSource](index.md).
 

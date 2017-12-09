@@ -2,4 +2,4 @@
 
 # toLoadedArray
 
-`open fun toLoadedArray(array: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>, dimensions: Int): `[`LoadedCodeType`](index.md)`<T>`
+`open fun toLoadedArray(array: Class<T>, dimensions: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`LoadedCodeType`](index.md)`<T>`

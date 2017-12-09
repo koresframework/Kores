@@ -2,7 +2,7 @@
 
 # type
 
-`val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val type: Type`
 
 Overrides [FieldBase.type](../../com.github.jonathanxd.codeapi.base/-field-base/type.md)
 

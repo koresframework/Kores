@@ -2,11 +2,11 @@
 
 # visit
 
-`fun <U : Any> visit(part: U, data: TypedData): U`
+`fun <U : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> visit(part: U, data: TypedData): U`
 
 Visits [part](visit.md#com.github.jonathanxd.codeapi.modify.visit.VisitManager$visit(com.github.jonathanxd.codeapi.modify.visit.VisitManager.visit.U, com.github.jonathanxd.iutils.data.TypedData)/part)
 
-`fun <U : Any> visit(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<U>, part: U, data: TypedData): U`
+`fun <U : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> visit(type: Class<U>, part: U, data: TypedData): U`
 
 Visits [part](visit.md#com.github.jonathanxd.codeapi.modify.visit.VisitManager$visit(java.lang.Class((com.github.jonathanxd.codeapi.modify.visit.VisitManager.visit.U)), com.github.jonathanxd.codeapi.modify.visit.VisitManager.visit.U, com.github.jonathanxd.iutils.data.TypedData)/part) of [type](visit.md#com.github.jonathanxd.codeapi.modify.visit.VisitManager$visit(java.lang.Class((com.github.jonathanxd.codeapi.modify.visit.VisitManager.visit.U)), com.github.jonathanxd.codeapi.modify.visit.VisitManager.visit.U, com.github.jonathanxd.iutils.data.TypedData)/type).
 

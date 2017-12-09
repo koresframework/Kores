@@ -18,12 +18,12 @@ A link to a field
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Field(declaringClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`)`<br>A link to a field |
+| [&lt;init&gt;](-init-.md) | `Field(declaringClass: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, type: Type)`<br>A link to a field |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [declaringClass](declaring-class.md) | `val declaringClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
-| [name](name.md) | `val name: String` |
-| [type](type.md) | `val type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [declaringClass](declaring-class.md) | `val declaringClass: Type` |
+| [name](name.md) | `val name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [type](type.md) | `val type: Type` |

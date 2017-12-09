@@ -2,7 +2,7 @@
 
 # switchEnum
 
-`fun switchEnum(value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, cases: List<`[`Case`](../com.github.jonathanxd.codeapi.base/-case/index.md)`>): `[`SwitchStatement`](../com.github.jonathanxd.codeapi.base/-switch-statement/index.md)
+`fun switchEnum(value: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, cases: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Case`](../com.github.jonathanxd.codeapi.base/-case/index.md)`>): `[`SwitchStatement`](../com.github.jonathanxd.codeapi.base/-switch-statement/index.md)
 
 **See Also**
 

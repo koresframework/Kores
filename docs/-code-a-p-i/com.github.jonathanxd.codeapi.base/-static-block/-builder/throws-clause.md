@@ -2,7 +2,7 @@
 
 # throwsClause
 
-`fun throwsClause(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): `[`Builder`](index.md)
+`fun throwsClause(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): `[`Builder`](index.md)
 
 Overrides [Builder.throwsClause](../../-throws-holder/-builder/throws-clause.md)
 

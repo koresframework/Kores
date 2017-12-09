@@ -6,5 +6,5 @@
 
 Overrides [Builder.staticBlock](../../-elements-holder/-builder/static-block.md)
 
-See [TypeDeclaration.staticBlock](../../-elements-holder/static-block.md)
+See [ElementsHolder.staticBlock](../../-elements-holder/static-block.md)
 

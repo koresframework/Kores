@@ -2,7 +2,7 @@
 
 # exports
 
-`val exports: List<`[`Export`](../-export/index.md)`>`
+`val exports: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Export`](../-export/index.md)`>`
 
 Module exports.
 

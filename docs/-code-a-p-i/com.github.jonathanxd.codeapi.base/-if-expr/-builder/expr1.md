@@ -2,9 +2,7 @@
 
 # expr1
 
-`lateinit var expr1: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)
-
-`fun expr1(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
+`lateinit var expr1: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`fun expr1(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): `[`Builder`](index.md)
 
 See [IfExpr.expr1](../expr1.md)
 

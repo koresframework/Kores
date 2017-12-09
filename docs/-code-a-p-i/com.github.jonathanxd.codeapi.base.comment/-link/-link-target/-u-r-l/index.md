@@ -14,10 +14,10 @@ A link to a website url.
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `URL(url: String)`<br>A link to a website url. |
+| [&lt;init&gt;](-init-.md) | `URL(url: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`<br>A link to a website url. |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [url](url.md) | `val url: String` |
+| [url](url.md) | `val url: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |

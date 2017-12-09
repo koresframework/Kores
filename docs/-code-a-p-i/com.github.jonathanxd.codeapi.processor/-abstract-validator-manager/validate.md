@@ -2,7 +2,7 @@
 
 # validate
 
-`open fun <P> validate(type: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<out P>, part: P, data: TypedData, environment: `[`ValidationEnvironment`](../-validation-environment/index.md)`?): `[`ValidationEnvironment`](../-validation-environment/index.md)
+`open fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: `[`ValidationEnvironment`](../-validation-environment/index.md)`?): `[`ValidationEnvironment`](../-validation-environment/index.md)
 
 Overrides [ValidatorManager.validate](../-validator-manager/validate.md)
 

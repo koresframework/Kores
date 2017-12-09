@@ -2,7 +2,7 @@
 
 # getAllSubclasses
 
-`fun getAllSubclasses(base: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>): Collection<`[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>>`
+`fun getAllSubclasses(base: Class<*>): `[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<Class<*>>`
 
 Internal undocumented.
 

@@ -2,7 +2,7 @@
 
 # parametersTypeAndReturnToDesc
 
-`fun parametersTypeAndReturnToDesc(parameterTypes: Collection<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>, returnType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): String`
+`fun parametersTypeAndReturnToDesc(parameterTypes: `[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<Type>, returnType: Type): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Creates type description from
 

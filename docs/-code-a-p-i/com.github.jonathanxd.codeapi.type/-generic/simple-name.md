@@ -2,7 +2,7 @@
 
 # simpleName
 
-`val simpleName: String`
+`val simpleName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [GenericType.simpleName](../-generic-type/simple-name.md)
 

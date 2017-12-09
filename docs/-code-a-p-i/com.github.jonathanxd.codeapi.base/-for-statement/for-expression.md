@@ -2,7 +2,7 @@
 
 # forExpression
 
-`val forExpression: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+`val forExpression: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 For expression. See [IfExpressionHolder.expressions](../-if-expression-holder/expressions.md). (ex: `i < 10`)
 

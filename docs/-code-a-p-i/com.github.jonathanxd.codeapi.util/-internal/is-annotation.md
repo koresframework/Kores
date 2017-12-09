@@ -2,4 +2,4 @@
 
 # isAnnotation
 
-`fun isAnnotation(modifiers: Int): Boolean`
+`@JvmStatic fun isAnnotation(modifiers: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

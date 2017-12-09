@@ -2,7 +2,7 @@
 
 # enterInspectionOf
 
-`fun enterInspectionOf(part: Any): Unit`
+`fun enterInspectionOf(part: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Overrides [ValidationEnvironment.enterInspectionOf](../enter-inspection-of.md)
 

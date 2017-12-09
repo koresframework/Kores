@@ -2,9 +2,9 @@
 
 # constructors
 
-`val constructors: List<`[`ConstructorDeclaration`](../-constructor-declaration/index.md)`>`
+`val constructors: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ConstructorDeclaration`](../-constructor-declaration/index.md)`>`
 
-Overrides [ElementsHolder.constructors](../-elements-holder/constructors.md)
+Overrides [ConstructorsHolder.constructors](../-constructors-holder/constructors.md)
 
-Constructor declaration
+Constructor declarations
 

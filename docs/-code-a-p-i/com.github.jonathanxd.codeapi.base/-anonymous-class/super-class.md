@@ -2,7 +2,7 @@
 
 # superClass
 
-`val superClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val superClass: Type`
 
 Overrides [SuperClassHolder.superClass](../-super-class-holder/super-class.md)
 

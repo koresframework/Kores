@@ -2,7 +2,7 @@
 
 # kotlinParameters
 
-`val `[`Method`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html)`.kotlinParameters: List<KParameter>?`
+`val Method.kotlinParameters: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`KParameter`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)`>?`
 
-Gets kotlin parameters from receiver [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html).
+Gets kotlin parameters from receiver [Method](#).
 

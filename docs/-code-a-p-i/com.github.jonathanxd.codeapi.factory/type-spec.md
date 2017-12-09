@@ -2,9 +2,9 @@
 
 # typeSpec
 
-`fun typeSpec(rtype: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, ptypes: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): `[`TypeSpec`](../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
-`fun typeSpec(rtype: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, ptype: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): <ERROR CLASS>`
-`fun typeSpec(rtype: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, vararg ptypes: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): <ERROR CLASS>`
+`fun typeSpec(rtype: Type, ptypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): `[`TypeSpec`](../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
+`fun typeSpec(rtype: Type, ptype: Type): `[`TypeSpec`](../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
+`fun typeSpec(rtype: Type, vararg ptypes: Type): `[`TypeSpec`](../com.github.jonathanxd.codeapi.base/-type-spec/index.md)
 
 **See Also**
 

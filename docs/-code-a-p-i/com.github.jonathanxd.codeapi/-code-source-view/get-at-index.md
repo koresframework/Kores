@@ -2,7 +2,7 @@
 
 # getAtIndex
 
-`protected open fun getAtIndex(index: Int): `[`CodeInstruction`](../-code-instruction.md)
+`protected open fun getAtIndex(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`CodeInstruction`](../-code-instruction.md)
 
 Overrides [CodeSource.getAtIndex](../-code-source/get-at-index.md)
 

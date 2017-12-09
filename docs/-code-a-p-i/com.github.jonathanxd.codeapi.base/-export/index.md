@@ -2,7 +2,7 @@
 
 # Export
 
-`data class Export : Any`
+`data class Export`
 
 Exports [module](module.md) to modules [to](to.md).
 
@@ -10,18 +10,21 @@ Exports [module](module.md) to modules [to](to.md).
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Export(module: `[`ModuleReference`](../-module-reference/index.md)`, to: List<`[`ModuleReference`](../-module-reference/index.md)`>)`<br>Exports [module](-init-.md#com.github.jonathanxd.codeapi.base.Export$<init>(com.github.jonathanxd.codeapi.base.ModuleReference, kotlin.collections.List((com.github.jonathanxd.codeapi.base.ModuleReference)))/module) to modules [to](-init-.md#com.github.jonathanxd.codeapi.base.Export$<init>(com.github.jonathanxd.codeapi.base.ModuleReference, kotlin.collections.List((com.github.jonathanxd.codeapi.base.ModuleReference)))/to). |
+| [&lt;init&gt;](-init-.md) | `Export(module: `[`ModuleReference`](../-module-reference/index.md)`, to: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ModuleReference`](../-module-reference/index.md)`>, modifiers: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../-code-modifier/index.md)`>)`<br>Exports [module](-init-.md#com.github.jonathanxd.codeapi.base.Export$<init>(com.github.jonathanxd.codeapi.base.ModuleReference, kotlin.collections.List((com.github.jonathanxd.codeapi.base.ModuleReference)), kotlin.collections.Set((com.github.jonathanxd.codeapi.base.CodeModifier)))/module) to modules [to](-init-.md#com.github.jonathanxd.codeapi.base.Export$<init>(com.github.jonathanxd.codeapi.base.ModuleReference, kotlin.collections.List((com.github.jonathanxd.codeapi.base.ModuleReference)), kotlin.collections.Set((com.github.jonathanxd.codeapi.base.CodeModifier)))/to). |
 
 ### Properties
 
 | Name | Summary |
 |---|---|
-| [module](module.md) | `val module: `[`ModuleReference`](../-module-reference/index.md)<br>Modules to export. |
-| [to](to.md) | `val to: List<`[`ModuleReference`](../-module-reference/index.md)`>`<br>Modules to export to. (Empty list to export to all modules). |
+| [modifiers](modifiers.md) | `val modifiers: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../-code-modifier/index.md)`>`<br>Modifiers. Valid modifiers are [CodeModifier.SYNTHETIC](../-code-modifier/-s-y-n-t-h-e-t-i-c.md) and [CodeModifier.MANDATED](../-code-modifier/-m-a-n-d-a-t-e-d.md) |
+| [module](module.md) | `val module: `[`ModuleReference`](../-module-reference/index.md)<br>Module to export. |
+| [to](to.md) | `val to: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ModuleReference`](../-module-reference/index.md)`>`<br>Modules to export to. (Empty list to export to all modules). |
 
 ### Extension Functions
 
 | Name | Summary |
 |---|---|
-| [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun Any?.asString(simple: Boolean = true): String`<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun Any.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |
+| [annotationValue](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/annotation-value.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`.annotationValue(rType: Class<*>): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html) |
+| [asString](../../com.github.jonathanxd.codeapi.util/kotlin.-any/as-string.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?.asString(simple: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Create a String representation of the part of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [toLiteral](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`.toLiteral(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)<br>Convert this value to a literal |
+| [toLiteralOrNull](../../com.github.jonathanxd.codeapi.util.conversion/kotlin.-any/to-literal-or-null.md) | `fun `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`.toLiteralOrNull(): `[`Literal`](../../com.github.jonathanxd.codeapi.literal/-literal/index.md)`?`<br>Convert this value to a literal |

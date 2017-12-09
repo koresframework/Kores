@@ -14,21 +14,19 @@
 
 | Name | Summary |
 |---|---|
-| [enumEntry](enum-entry.md) | `lateinit var enumEntry: String` |
-| [enumType](enum-type.md) | `lateinit var enumType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
-| [ordinal](ordinal.md) | `var ordinal: Int` |
+| [enumEntry](enum-entry.md) | `lateinit var enumEntry: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [enumType](enum-type.md) | `lateinit var enumType: Type` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [base](base.md) | `fun base(enum: Enum<*>): Builder`<br>Base this EnumValue on an [Enum](#). |
+| [base](base.md) | `fun base(enum: `[`Enum`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)`<*>): Builder`<br>Base this EnumValue on an [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html). |
 | [build](build.md) | `fun build(): `[`EnumValue`](../index.md)<br>Build the object of type [T](#). |
-| [enumEntry](enum-entry.md) | `fun enumEntry(value: String): Builder`<br>See [EnumValue.enumEntry](../enum-entry.md) |
-| [enumType](enum-type.md) | `fun enumType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [EnumValue.enumType](../enum-type.md) |
-| [name](name.md) | `fun name(value: String): Builder` |
-| [ordinal](ordinal.md) | `fun ordinal(value: Int): Builder`<br>See [EnumValue.ordinal](../ordinal.md) |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [enumEntry](enum-entry.md) | `fun enumEntry(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder`<br>See [EnumValue.enumEntry](../enum-entry.md) |
+| [enumType](enum-type.md) | `fun enumType(value: Type): Builder`<br>See [EnumValue.enumType](../enum-type.md) |
+| [name](name.md) | `fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder` |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 
 ### Companion Object Functions
 

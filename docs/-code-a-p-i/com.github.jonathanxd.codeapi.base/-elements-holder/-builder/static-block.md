@@ -4,5 +4,5 @@
 
 `abstract fun staticBlock(value: `[`StaticBlock`](../../-static-block/index.md)`): S`
 
-See [TypeDeclaration.staticBlock](../static-block.md)
+See [ElementsHolder.staticBlock](../static-block.md)
 

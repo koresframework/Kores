@@ -2,7 +2,7 @@
 
 # arrayType
 
-`abstract fun arrayType(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): S`
+`abstract fun arrayType(value: Type): S`
 
 See T.arrayType
 

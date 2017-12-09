@@ -2,5 +2,5 @@
 
 # builder
 
-`fun builder(): `[`Builder`](index.md)
-`fun builder(defaults: `[`FieldAccess`](../index.md)`): `[`Builder`](index.md)
+`@JvmStatic fun builder(): `[`Builder`](index.md)
+`@JvmStatic fun builder(defaults: `[`FieldAccess`](../index.md)`): `[`Builder`](index.md)

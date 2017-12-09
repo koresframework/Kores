@@ -2,7 +2,7 @@
 
 # compareTo
 
-`operator fun compareTo(other: `[`MethodTypeSpec`](index.md)`): Int`
+`operator fun compareTo(other: `[`MethodTypeSpec`](index.md)`): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 This method will not compare the method localization.
 

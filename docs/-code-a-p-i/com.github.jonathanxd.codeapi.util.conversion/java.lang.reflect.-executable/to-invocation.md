@@ -2,9 +2,9 @@
 
 # toInvocation
 
-`fun `[`Executable`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Executable.html)`.toInvocation(invokeType: `[`InvokeType`](../../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)`?, target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, arguments: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`MethodInvocation`](../../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
+`fun Executable.toInvocation(invokeType: `[`InvokeType`](../../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)`?, target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`, arguments: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`MethodInvocation`](../../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
 
-Create [MethodInvocation](../../com.github.jonathanxd.codeapi.base/-method-invocation/index.md) from [Executable](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Executable.html)
+Create [MethodInvocation](../../com.github.jonathanxd.codeapi.base/-method-invocation/index.md) from [Executable](#)
 
 ### Parameters
 

@@ -2,7 +2,7 @@
 
 # localization
 
-`val localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val localization: Type`
 
 Overrides [FieldBase.localization](../../com.github.jonathanxd.codeapi.base/-field-base/localization.md)
 

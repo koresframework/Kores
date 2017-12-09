@@ -2,4 +2,4 @@
 
 # getCodeTypeFromTypeParameters
 
-`fun `[`TypeElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/TypeElement.html)`.getCodeTypeFromTypeParameters(elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`fun TypeElement.getCodeTypeFromTypeParameters(elements: Elements): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)

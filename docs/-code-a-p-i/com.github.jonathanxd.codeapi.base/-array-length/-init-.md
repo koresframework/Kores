@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ArrayLength(arrayType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`)`
+`ArrayLength(arrayType: Type, target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`)`
 
 Access length of array [target](-init-.md#com.github.jonathanxd.codeapi.base.ArrayLength$<init>(java.lang.reflect.Type, com.github.jonathanxd.codeapi.CodeInstruction)/target) of type [arrayType](-init-.md#com.github.jonathanxd.codeapi.base.ArrayLength$<init>(java.lang.reflect.Type, com.github.jonathanxd.codeapi.CodeInstruction)/arrayType).
 

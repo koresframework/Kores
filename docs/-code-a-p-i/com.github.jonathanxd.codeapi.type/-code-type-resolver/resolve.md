@@ -2,7 +2,7 @@
 
 # resolve
 
-`abstract fun resolve(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): T`
+`abstract fun resolve(type: Type): Either<`[`Exception`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html)`, out T>`
 
 Resolves [type](resolve.md#com.github.jonathanxd.codeapi.type.CodeTypeResolver$resolve(java.lang.reflect.Type)/type) to [T](#)
 

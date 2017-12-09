@@ -2,9 +2,7 @@
 
 # &lt;init&gt;
 
-`ModuleReference(name: String)`
+`ModuleReference(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
-Reference to a module.
-
-At the moment, Modules does not have any.
+Reference to a module or a package.
 

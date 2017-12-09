@@ -2,7 +2,7 @@
 
 # isType
 
-`val isType: Boolean`
+`val isType: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [GenericType.isType](../-generic-type/is-type.md)
 

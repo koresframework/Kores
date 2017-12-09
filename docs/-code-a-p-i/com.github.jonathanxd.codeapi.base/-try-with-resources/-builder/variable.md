@@ -2,9 +2,7 @@
 
 # variable
 
-`lateinit var variable: `[`VariableDeclaration`](../../-variable-declaration/index.md)
-
-`fun variable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): `[`Builder`](index.md)
+`lateinit var variable: `[`VariableDeclaration`](../../-variable-declaration/index.md)`fun variable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): `[`Builder`](index.md)
 
 See [TryWithResources.variable](../variable.md)
 

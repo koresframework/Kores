@@ -2,4 +2,4 @@
 
 # ArrayCodeSource
 
-`inline fun ArrayCodeSource(size: Int, init: (Int) -> `[`CodeInstruction`](../-code-instruction.md)`): `[`CodeSource`](../-code-source/index.md)
+`@JvmStatic inline fun ArrayCodeSource(size: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, init: (index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`) -> `[`CodeInstruction`](../-code-instruction.md)`): `[`CodeSource`](../-code-source/index.md)

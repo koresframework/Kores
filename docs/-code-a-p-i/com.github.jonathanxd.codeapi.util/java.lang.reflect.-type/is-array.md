@@ -2,7 +2,7 @@
 
 # isArray
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.isArray: Boolean`
+`val Type.isArray: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 See [CodeType.isArray](../../com.github.jonathanxd.codeapi.type/-code-type/is-array.md)
 

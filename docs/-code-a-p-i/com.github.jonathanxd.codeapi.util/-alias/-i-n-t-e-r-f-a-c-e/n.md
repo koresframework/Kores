@@ -2,4 +2,4 @@
 
 # n
 
-`val n: Int`
+`val n: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

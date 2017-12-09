@@ -4,4 +4,4 @@
 
 | Name | Summary |
 |---|---|
-| [containsBefore](contains-before.md) | `fun String.containsBefore(str: String, before: String): Boolean` |
+| [containsBefore](contains-before.md) | `fun `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`.containsBefore(str: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, before: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |

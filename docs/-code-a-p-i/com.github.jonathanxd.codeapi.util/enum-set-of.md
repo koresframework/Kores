@@ -2,5 +2,5 @@
 
 # enumSetOf
 
-`inline fun <E : Enum<E>> enumSetOf(first: E): `[`EnumSet`](http://docs.oracle.com/javase/6/docs/api/java/util/EnumSet.html)`<E>`
-`inline fun <E : Enum<E>> enumSetOf(first: E, vararg rest: E): `[`EnumSet`](http://docs.oracle.com/javase/6/docs/api/java/util/EnumSet.html)`<E>`
+`inline fun <E : `[`Enum`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)`<E>> enumSetOf(first: E): EnumSet<E>`
+`inline fun <E : `[`Enum`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)`<E>> enumSetOf(first: E, vararg rest: E): EnumSet<E>`

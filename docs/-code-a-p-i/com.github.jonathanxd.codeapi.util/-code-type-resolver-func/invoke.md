@@ -2,4 +2,4 @@
 
 # invoke
 
-`open fun invoke(p1: String): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`open fun invoke(p1: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)

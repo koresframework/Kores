@@ -4,6 +4,6 @@
 
 | Name | Summary |
 |---|---|
-| [getCodeType](get-code-type.md) | `fun `[`TypeElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/TypeElement.html)`.getCodeType(elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) |
-| [getCodeTypeFromTypeParameters](get-code-type-from-type-parameters.md) | `fun `[`TypeElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/TypeElement.html)`.getCodeTypeFromTypeParameters(elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) |
-| [typeName](type-name.md) | `val `[`TypeElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/TypeElement.html)`.typeName: String` |
+| [getCodeType](get-code-type.md) | `fun TypeElement.getCodeType(elements: Elements): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) |
+| [getCodeTypeFromTypeParameters](get-code-type-from-type-parameters.md) | `fun TypeElement.getCodeTypeFromTypeParameters(elements: Elements): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) |
+| [typeName](type-name.md) | `val TypeElement.typeName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |

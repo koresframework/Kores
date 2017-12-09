@@ -2,7 +2,7 @@
 
 # methodInvokeSpec
 
-`val `[`Executable`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Executable.html)`.methodInvokeSpec: `[`MethodInvokeSpec`](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)
+`val Executable.methodInvokeSpec: `[`MethodInvokeSpec`](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)
 
-Gets the [MethodInvokeSpec](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md) of the [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html).
+Gets the [MethodInvokeSpec](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md) of the [Method](#).
 

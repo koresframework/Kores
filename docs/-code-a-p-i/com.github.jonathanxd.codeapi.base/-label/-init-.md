@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Label(name: String, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
+`Label(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, body: `[`CodeSource`](../../com.github.jonathanxd.codeapi/-code-source/index.md)`)`
 
 Label.
 

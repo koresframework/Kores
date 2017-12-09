@@ -2,7 +2,7 @@
 
 # expr
 
-`val expr: String`
+`val expr: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Modifier name.
 

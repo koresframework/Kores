@@ -2,14 +2,14 @@
 
 # toStr
 
-`fun `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`.toStr(): String`
+`fun `[`GenericType`](../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`.toStr(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Default to string conversion for [GenericType](../com.github.jonathanxd.codeapi.type/-generic-type/index.md).
 
 This method convert [GenericType](../com.github.jonathanxd.codeapi.type/-generic-type/index.md) to a Java Source representation of the [GenericType](../com.github.jonathanxd.codeapi.type/-generic-type/index.md),
 see the algorithm of translation [here](to-source-string.md).
 
-`fun `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`.toStr(): String`
+`fun `[`CodeType`](../com.github.jonathanxd.codeapi.type/-code-type/index.md)`.toStr(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Default to string conversion for [CodeType](../com.github.jonathanxd.codeapi.type/-code-type/index.md).
 

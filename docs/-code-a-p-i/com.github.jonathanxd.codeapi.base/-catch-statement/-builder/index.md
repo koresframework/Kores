@@ -15,7 +15,7 @@
 | Name | Summary |
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
-| [exceptionTypes](exception-types.md) | `var exceptionTypes: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>` |
+| [exceptionTypes](exception-types.md) | `var exceptionTypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>` |
 | [variable](variable.md) | `lateinit var variable: `[`VariableDeclaration`](../../-variable-declaration/index.md) |
 
 ### Functions
@@ -24,8 +24,8 @@
 |---|---|
 | [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`CatchStatement`](../index.md)<br>Build the object of type [T](#). |
-| [exceptionTypes](exception-types.md) | `fun exceptionTypes(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): Builder`<br>See [CatchStatement.exceptionTypes](../exception-types.md)`fun exceptionTypes(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [CatchStatement.variable](../variable.md) |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [exceptionTypes](exception-types.md) | `fun exceptionTypes(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): Builder`<br>See [CatchStatement.exceptionTypes](../exception-types.md)`fun exceptionTypes(vararg values: Type): Builder`<br>See [CatchStatement.variable](../variable.md) |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 | [variable](variable.md) | `fun variable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): Builder`<br>See [CatchStatement.variable](../variable.md) |
 
 ### Companion Object Functions

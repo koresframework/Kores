@@ -2,9 +2,9 @@
 
 # isAccessibleFrom
 
-`fun `[`Method`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html)`.isAccessibleFrom(typeDeclaration: `[`TypeDeclaration`](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md)`, override: Boolean = false): Boolean`
+`@JvmOverloads fun Method.isAccessibleFrom(typeDeclaration: `[`TypeDeclaration`](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md)`, override: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
-Returns true if receiver [Method](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html) is accessible from [typeDeclaration](is-accessible-from.md#com.github.jonathanxd.codeapi.util.conversion$isAccessibleFrom(java.lang.reflect.Method, com.github.jonathanxd.codeapi.base.TypeDeclaration, kotlin.Boolean)/typeDeclaration) or accessible to be [overwritten](is-accessible-from.md#com.github.jonathanxd.codeapi.util.conversion$isAccessibleFrom(java.lang.reflect.Method, com.github.jonathanxd.codeapi.base.TypeDeclaration, kotlin.Boolean)/override)
+Returns true if receiver [Method](#) is accessible from [typeDeclaration](is-accessible-from.md#com.github.jonathanxd.codeapi.util.conversion$isAccessibleFrom(java.lang.reflect.Method, com.github.jonathanxd.codeapi.base.TypeDeclaration, kotlin.Boolean)/typeDeclaration) or accessible to be [overwritten](is-accessible-from.md#com.github.jonathanxd.codeapi.util.conversion$isAccessibleFrom(java.lang.reflect.Method, com.github.jonathanxd.codeapi.base.TypeDeclaration, kotlin.Boolean)/override)
 from [typeDeclaration](is-accessible-from.md#com.github.jonathanxd.codeapi.util.conversion$isAccessibleFrom(java.lang.reflect.Method, com.github.jonathanxd.codeapi.base.TypeDeclaration, kotlin.Boolean)/typeDeclaration).
 
 ### Parameters

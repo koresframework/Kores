@@ -2,7 +2,7 @@
 
 # catchStatements
 
-`val catchStatements: List<`[`CatchStatement`](../-catch-statement/index.md)`>`
+`val catchStatements: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../-catch-statement/index.md)`>`
 
 Overrides [TryStatementBase.catchStatements](../-try-statement-base/catch-statements.md)
 

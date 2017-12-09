@@ -2,7 +2,7 @@
 
 # subPredicate
 
-`val subPredicate: (`[`BodyHolder`](../../com.github.jonathanxd.codeapi.base/-body-holder/index.md)`) -> Boolean`
+`val subPredicate: (`[`BodyHolder`](../../com.github.jonathanxd.codeapi.base/-body-holder/index.md)`) -> `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Predicate to check whether a [BodyHolder](../../com.github.jonathanxd.codeapi.base/-body-holder/index.md) should be inspected.
 

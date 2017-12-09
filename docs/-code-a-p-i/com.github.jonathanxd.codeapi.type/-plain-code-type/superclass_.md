@@ -2,4 +2,4 @@
 
 # superclass_
 
-`val superclass_: () -> `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
+`val superclass_: () -> Type?`

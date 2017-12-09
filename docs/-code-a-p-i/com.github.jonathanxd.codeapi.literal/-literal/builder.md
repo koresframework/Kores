@@ -2,7 +2,7 @@
 
 # builder
 
-`open fun builder(): Nothing`
+`open fun builder(): `[`Nothing`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing/index.html)
 
 Overrides [CodePart.builder](../../com.github.jonathanxd.codeapi/-code-part/builder.md)
 

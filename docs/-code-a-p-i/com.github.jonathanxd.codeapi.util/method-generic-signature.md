@@ -2,7 +2,7 @@
 
 # methodGenericSignature
 
-`fun `[`MethodDeclarationBase`](../com.github.jonathanxd.codeapi.base/-method-declaration-base/index.md)`.methodGenericSignature(): String?`
+`fun `[`MethodDeclarationBase`](../com.github.jonathanxd.codeapi.base/-method-declaration-base/index.md)`.methodGenericSignature(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?`
 
 Creates method descriptor from receiver.
 

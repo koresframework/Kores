@@ -2,7 +2,7 @@
 
 # accessField
 
-`fun accessField(localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String): `[`FieldAccess`](../com.github.jonathanxd.codeapi.base/-field-access/index.md)
+`fun accessField(localization: Type, target: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`FieldAccess`](../com.github.jonathanxd.codeapi.base/-field-access/index.md)
 
 **See Also**
 

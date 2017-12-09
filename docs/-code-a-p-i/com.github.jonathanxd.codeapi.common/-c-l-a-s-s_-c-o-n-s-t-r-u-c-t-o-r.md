@@ -2,7 +2,7 @@
 
 # CLASS_CONSTRUCTOR
 
-`const val CLASS_CONSTRUCTOR: String`
+`const val CLASS_CONSTRUCTOR: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Class constructor JVM Name
 

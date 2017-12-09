@@ -6,10 +6,10 @@
 
 | Name | Summary |
 |---|---|
-| [Builder](-builder/index.md) | `interface Builder<out T, S : `[`Builder`](-builder/index.md)`<T, S>> : Any`<br>Builder pattern. |
+| [Builder](-builder/index.md) | `interface Builder<out T, S : `[`Builder`](-builder/index.md)`<T, S>>`<br>Builder pattern. |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [build](build.md) | `fun <T, S : `[`Builder`](-builder/index.md)`<T, S>> S.build(func: (S) -> Unit): T`<br>Build the object of type [T](#). |
+| [build](build.md) | `fun <T, S : `[`Builder`](-builder/index.md)`<T, S>> S.build(func: S.() -> `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)`): T`<br>Build the object of type [T](#). |

@@ -2,7 +2,7 @@
 
 # codeParameter
 
-`val `[`Parameter`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Parameter.html)`.codeParameter: `[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)
+`val Parameter.codeParameter: `[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)
 
 Convert parameter to access to the parameter.
 

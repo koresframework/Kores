@@ -2,7 +2,7 @@
 
 # internalName
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.internalName: String`
+`val Type.internalName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
-Returns internal name of [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html). See [CodeType.binaryName](../../com.github.jonathanxd.codeapi.type/-code-type/binary-name.md)
+Returns internal name of [Type](#). See [CodeType.binaryName](../../com.github.jonathanxd.codeapi.type/-code-type/binary-name.md)
 

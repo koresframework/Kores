@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`Require(module: `[`ModuleReference`](../-module-reference/index.md)`, modifiers: Set<`[`CodeModifier`](../-code-modifier/index.md)`>)`
+`Require(module: `[`ModuleReference`](../-module-reference/index.md)`, modifiers: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../-code-modifier/index.md)`>, version: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?)`
 
 Module requires statement
 

@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`PlainCodeType(type: String, isInterface: Boolean = false, superclass_: () -> `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`? = { throw IllegalStateException("No super class provider") }, superinterfaces_: () -> List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`> = { throw IllegalStateException("No super interfaces provider") })`
+`PlainCodeType(type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, isInterface: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false, superclass_: () -> Type? = { throw IllegalStateException("No super class provider") }, superinterfaces_: () -> `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type> = { throw IllegalStateException("No super interfaces provider") })`
 
 Plain string code type.
 

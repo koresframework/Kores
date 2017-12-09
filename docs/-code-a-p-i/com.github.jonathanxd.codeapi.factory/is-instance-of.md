@@ -2,7 +2,7 @@
 
 # isInstanceOf
 
-`fun isInstanceOf(part: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`InstanceOfCheck`](../com.github.jonathanxd.codeapi.base/-instance-of-check/index.md)
+`fun isInstanceOf(part: `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`, type: Type): `[`InstanceOfCheck`](../com.github.jonathanxd.codeapi.base/-instance-of-check/index.md)
 
 Checks if [part](is-instance-of.md#com.github.jonathanxd.codeapi.factory$isInstanceOf(com.github.jonathanxd.codeapi.CodeInstruction, java.lang.reflect.Type)/part) is instance of [type](is-instance-of.md#com.github.jonathanxd.codeapi.factory$isInstanceOf(com.github.jonathanxd.codeapi.CodeInstruction, java.lang.reflect.Type)/type)
 

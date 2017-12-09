@@ -25,7 +25,7 @@
 | [build](build.md) | `fun build(): `[`Operate`](../index.md)<br>Build the object of type [T](#). |
 | [operation](operation.md) | `fun operation(value: `[`Math`](../../../com.github.jonathanxd.codeapi.operator/-operator/-math/index.md)`): Builder`<br>See [Operate.operation](../operation.md) |
 | [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Operate.target](../target.md) |
-| [type](type.md) | `fun type(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [T.type](#) |
+| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 | [value](value.md) | `fun value(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.value](#) |
 
 ### Companion Object Functions

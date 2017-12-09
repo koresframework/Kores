@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.literal
 
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.NullType
 import com.github.jonathanxd.codeapi.util.codeType
@@ -106,12 +105,6 @@ object Literals {
     @JvmStatic
     fun STRING(s: String): Literal {
         return StringLiteral(s)
-    }
-
-    // Array
-    @JvmStatic
-    fun ARRAY(other: Literal, array: CodeType): Literal {
-        return SimpleLiteral(other.name, array)
     }
 
     // Class Literal

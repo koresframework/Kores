@@ -4,5 +4,5 @@
 
 `AbstractValidatorManager()`
 
-Validator manager backed by an [MutableMap](#).
+Validator manager backed by an [MutableMap](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html).
 

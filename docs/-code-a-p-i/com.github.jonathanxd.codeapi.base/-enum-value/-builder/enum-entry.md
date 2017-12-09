@@ -2,9 +2,7 @@
 
 # enumEntry
 
-`lateinit var enumEntry: String`
-
-`fun enumEntry(value: String): `[`Builder`](index.md)
+`lateinit var enumEntry: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`fun enumEntry(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)
 
 See [EnumValue.enumEntry](../enum-entry.md)
 

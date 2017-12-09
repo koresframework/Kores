@@ -2,4 +2,4 @@
 
 # hasPrevious
 
-`fun hasPrevious(): Boolean`
+`fun hasPrevious(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

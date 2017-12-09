@@ -8,6 +8,6 @@ Overrides [CodeType.arrayComponent](../-code-type/array-component.md)
 
 Array component.
 
-Example, if is a `String[]`, returns [String](#), if is `Integer[][][]`
+Example, if is a `String[]`, returns [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), if is `Integer[][][]`
 returns `Integer[][]`.
 

@@ -24,7 +24,7 @@ Add all [bounds](of.md#com.github.jonathanxd.codeapi.type.Generic$of(kotlin.Arra
 **Return**
 New instance of generic type.
 
-`fun of(s: String): `[`Generic`](index.md)
+`fun of(s: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Add a name bound.
 
@@ -35,7 +35,7 @@ Add a name bound.
 **Return**
 New instance of generic type.
 
-`fun of(vararg ss: String): `[`Generic`](index.md)
+`fun of(vararg ss: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Add name bounds.
 
@@ -46,7 +46,7 @@ Add name bounds.
 **Return**
 New instance of generic type.
 
-`fun of(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`fun of(type: Type): `[`Generic`](index.md)
 
 Add a type bound.
 
@@ -57,7 +57,7 @@ Add a type bound.
 **Return**
 New instance of generic type.
 
-`fun of(vararg types: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`fun of(vararg types: Type): `[`Generic`](index.md)
 
 Add type bounds.
 

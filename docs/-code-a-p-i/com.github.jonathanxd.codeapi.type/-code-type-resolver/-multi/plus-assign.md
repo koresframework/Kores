@@ -2,7 +2,7 @@
 
 # plusAssign
 
-`operator fun plusAssign(resolver: `[`CodeTypeResolver`](../index.md)`<T?>): Unit`
+`operator fun plusAssign(resolver: `[`CodeTypeResolver`](../index.md)`<T?>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
 
 Adds a resolver
 

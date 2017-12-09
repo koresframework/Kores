@@ -2,7 +2,7 @@
 
 # bounds
 
-`abstract val bounds: Array<`[`Bound`](-bound/index.md)`>`
+`abstract val bounds: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<`[`Bound`](-bound/index.md)`>`
 
 Bounds of the generic type.
 

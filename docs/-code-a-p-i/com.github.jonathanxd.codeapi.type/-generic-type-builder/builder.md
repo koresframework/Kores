@@ -2,4 +2,4 @@
 
 # builder
 
-`fun builder(): `[`GenericTypeBuilder`](index.md)
+`@JvmStatic fun builder(): `[`GenericTypeBuilder`](index.md)

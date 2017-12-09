@@ -2,4 +2,4 @@
 
 # getAnnotatedBounds
 
-`fun getAnnotatedBounds(): Array<`[`AnnotatedType`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/AnnotatedType.html)`>`
+`fun getAnnotatedBounds(): `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<AnnotatedType>`

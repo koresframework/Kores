@@ -2,7 +2,7 @@
 
 # uses
 
-`val uses: List<`[`ModuleReference`](../-module-reference/index.md)`>`
+`val uses: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ModuleReference`](../-module-reference/index.md)`>`
 
 Module service uses.
 

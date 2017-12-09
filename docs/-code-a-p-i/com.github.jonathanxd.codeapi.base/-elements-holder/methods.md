@@ -2,7 +2,7 @@
 
 # methods
 
-`abstract val methods: List<`[`MethodDeclaration`](../-method-declaration/index.md)`>`
+`abstract val methods: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`MethodDeclaration`](../-method-declaration/index.md)`>`
 
 Methods of type
 

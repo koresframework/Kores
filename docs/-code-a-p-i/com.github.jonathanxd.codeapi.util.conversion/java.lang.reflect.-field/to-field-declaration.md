@@ -2,10 +2,10 @@
 
 # toFieldDeclaration
 
-`fun `[`Field`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html)`.toFieldDeclaration(): `[`FieldDeclaration`](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md)
+`fun Field.toFieldDeclaration(): `[`FieldDeclaration`](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md)
 
-Convert this [Field](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html) structure to [FieldDeclaration](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md).
+Convert this [Field](#) structure to [FieldDeclaration](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md).
 
 **Return**
-[FieldDeclaration](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md) structure from [Field](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Field.html).
+[FieldDeclaration](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md) structure from [Field](#).
 

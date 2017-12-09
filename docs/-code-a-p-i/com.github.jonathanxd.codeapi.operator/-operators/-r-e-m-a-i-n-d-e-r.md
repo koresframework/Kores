@@ -2,4 +2,4 @@
 
 # REMAINDER
 
-`val REMAINDER: <ERROR CLASS>`
+`@JvmField val REMAINDER: `[`Math`](../-operator/-math/index.md)

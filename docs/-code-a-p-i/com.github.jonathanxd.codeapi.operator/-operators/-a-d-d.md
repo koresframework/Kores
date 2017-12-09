@@ -2,4 +2,4 @@
 
 # ADD
 
-`val ADD: <ERROR CLASS>`
+`@JvmField val ADD: `[`Math`](../-operator/-math/index.md)

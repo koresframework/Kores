@@ -2,13 +2,11 @@
 
 # exceptionTypes
 
-`var exceptionTypes: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
-
-`fun exceptionTypes(value: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>): `[`Builder`](index.md)
+`var exceptionTypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>``fun exceptionTypes(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>): `[`Builder`](index.md)
 
 See [CatchStatement.exceptionTypes](../exception-types.md)
 
-`fun exceptionTypes(vararg values: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`fun exceptionTypes(vararg values: Type): `[`Builder`](index.md)
 
 See [CatchStatement.variable](../variable.md)
 

@@ -2,7 +2,7 @@
 
 # line
 
-`val line: Int`
+`val line: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [Line.line](../line.md)
 

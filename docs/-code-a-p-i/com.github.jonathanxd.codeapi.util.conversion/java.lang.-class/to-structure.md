@@ -2,9 +2,9 @@
 
 # toStructure
 
-`fun <T : Any> `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>.toStructure(includeFields: Boolean = true, includeMethods: Boolean = true, includeSubClasses: Boolean = true): List<`[`TypeDeclaration`](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md)`>`
+`@JvmOverloads fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Class<T>.toStructure(includeFields: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true, includeMethods: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true, includeSubClasses: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = true): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`TypeDeclaration`](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md)`>`
 
-Convert this [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html) structure to [TypeDeclaration](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md)s (first element is the
+Convert this [Class](#) structure to [TypeDeclaration](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md)s (first element is the
 input class, other elements is inner-classes).
 
 ### Parameters
@@ -16,5 +16,5 @@ input class, other elements is inner-classes).
 `includeSubClasses` - True to include sub classes.
 
 **Return**
-[TypeDeclaration](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md) structure from [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html).
+[TypeDeclaration](../../com.github.jonathanxd.codeapi.base/-type-declaration/index.md) structure from [Class](#).
 

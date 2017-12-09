@@ -2,7 +2,7 @@
 
 # specifiedName
 
-`val specifiedName: String`
+`val specifiedName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [TypeDeclaration.specifiedName](../-type-declaration/specified-name.md)
 

@@ -2,7 +2,7 @@
 
 # outerClass
 
-`abstract val outerClass: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
+`abstract val outerClass: Type?`
 
 Outer class (null if this type is not a inner class).
 

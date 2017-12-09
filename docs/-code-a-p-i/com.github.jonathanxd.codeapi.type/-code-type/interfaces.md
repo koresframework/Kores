@@ -2,7 +2,7 @@
 
 # interfaces
 
-`open val interfaces: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`open val interfaces: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
-Gets the super interfaces of `this` [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) using default resolver.
+Gets the super interfaces of `this` [Type](#) using default resolver.
 

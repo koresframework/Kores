@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`IfGroup(expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`
+`IfGroup(expressions: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>)`
 
 Group of if expressions.
 

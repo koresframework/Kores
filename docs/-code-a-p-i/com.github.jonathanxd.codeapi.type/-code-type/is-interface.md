@@ -2,7 +2,7 @@
 
 # isInterface
 
-`open val isInterface: Boolean`
+`open val isInterface: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if this [CodeType](index.md) is a interface type.
 

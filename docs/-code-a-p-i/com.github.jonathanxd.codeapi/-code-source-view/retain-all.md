@@ -2,12 +2,12 @@
 
 # retainAll
 
-`open fun retainAll(c: Collection<*>): Boolean`
+`open fun retainAll(c: `[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<*>): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [MutableCodeSource.retainAll](../-mutable-code-source/retain-all.md)
 
 
-`open fun retainAll(c: Iterable<`[`CodeInstruction`](../-code-instruction.md)`>): Boolean`
+`open fun retainAll(c: `[`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [MutableCodeSource.retainAll](../-mutable-code-source/retain-all.md)
 

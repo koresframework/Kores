@@ -2,4 +2,4 @@
 
 # ACCESS_SUPER
 
-`val ACCESS_SUPER: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)
+`@JvmField val ACCESS_SUPER: `[`Access`](../../com.github.jonathanxd.codeapi.base/-access/index.md)

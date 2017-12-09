@@ -2,4 +2,4 @@
 
 # addMessage
 
-`fun addMessage(message: `[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`): Unit`
+`fun addMessage(message: `[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)

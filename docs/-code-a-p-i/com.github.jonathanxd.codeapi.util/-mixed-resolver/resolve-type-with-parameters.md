@@ -2,7 +2,7 @@
 
 # resolveTypeWithParameters
 
-`fun resolveTypeWithParameters(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, codeTypeResolver: `[`CodeTypeResolver`](../../com.github.jonathanxd.codeapi.type/-code-type-resolver/index.md)`<*>): `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
+`fun resolveTypeWithParameters(type: Type, codeTypeResolver: `[`CodeTypeResolver`](../../com.github.jonathanxd.codeapi.type/-code-type-resolver/index.md)`<*>): `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
 
 Overrides [GenericResolver.resolveTypeWithParameters](../-generic-resolver/resolve-type-with-parameters.md)
 

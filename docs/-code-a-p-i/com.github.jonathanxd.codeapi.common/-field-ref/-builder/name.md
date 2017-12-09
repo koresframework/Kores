@@ -2,8 +2,8 @@
 
 # name
 
-`lateinit var name: String`
-`fun name(value: String): `[`Builder`](index.md)
+`lateinit var name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+`fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)
 
 Overrides [Builder.name](../../../com.github.jonathanxd.codeapi.base/-named/-builder/name.md)
 

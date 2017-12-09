@@ -4,4 +4,5 @@
 
 | Name | Summary |
 |---|---|
-| [toAccess](to-access.md) | `fun `[`VariableElement`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/VariableElement.html)`.toAccess(target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`?, elements: `[`Elements`](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/util/Elements.html)`): `[`FieldAccess`](../../com.github.jonathanxd.codeapi.base/-field-access/index.md)<br>Create [FieldAccess](../../com.github.jonathanxd.codeapi.base/-field-access/index.md) from [VariableElement](http://docs.oracle.com/javase/6/docs/api/javax/lang/model/element/VariableElement.html). |
+| [getFieldDeclaration](get-field-declaration.md) | `fun VariableElement.getFieldDeclaration(elements: Elements): `[`FieldDeclaration`](../../com.github.jonathanxd.codeapi.base/-field-declaration/index.md) |
+| [toAccess](to-access.md) | `fun VariableElement.toAccess(target: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`?, elements: Elements): `[`FieldAccess`](../../com.github.jonathanxd.codeapi.base/-field-access/index.md)<br>Create [FieldAccess](../../com.github.jonathanxd.codeapi.base/-field-access/index.md) from [VariableElement](#). |

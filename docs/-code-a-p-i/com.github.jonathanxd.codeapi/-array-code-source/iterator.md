@@ -2,9 +2,9 @@
 
 # iterator
 
-`fun iterator(): Iterator<`[`CodeInstruction`](../-code-instruction.md)`>`
+`fun iterator(): `[`Iterator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterator/index.html)`<`[`CodeInstruction`](../-code-instruction.md)`>`
 
 Overrides [CodeSource.iterator](../-code-source/iterator.md)
 
-Creates an [Iterator](#) that iterates elements of this [CodeSource](../-code-source/index.md).
+Creates an [Iterator](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterator/index.html) that iterates elements of this [CodeSource](../-code-source/index.md).
 

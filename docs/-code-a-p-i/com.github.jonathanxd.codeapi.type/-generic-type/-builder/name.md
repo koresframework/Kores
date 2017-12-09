@@ -2,7 +2,7 @@
 
 # name
 
-`abstract fun name(value: String): `[`Builder`](index.md)`<T, S>`
+`abstract fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Builder`](index.md)`<T, S>`
 
 See T.name.
 

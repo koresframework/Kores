@@ -2,7 +2,7 @@
 
 # toString
 
-`open fun toString(): String`
+`open fun toString(): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [CodeSource.toString](../-code-source/to-string.md)
 

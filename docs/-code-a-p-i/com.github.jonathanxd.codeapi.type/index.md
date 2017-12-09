@@ -6,20 +6,19 @@
 
 | Name | Summary |
 |---|---|
-| [BindedTypeResolver](-binded-type-resolver/index.md) | `class BindedTypeResolver<out T> : Any`<br>A type resolver 'binded' to a [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html). All functions delegates to [codeTypeResolver](-binded-type-resolver/code-type-resolver.md) and uses [bindType](-binded-type-resolver/bind-type.md)
-as first argument of functions. |
-| [CodeType](-code-type/index.md) | `interface CodeType : `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`, Comparable<`[`CodeType`](-code-type/index.md)`>, `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)<br>A type representation, like: |
-| [CodeTypeResolver](-code-type-resolver/index.md) | `interface CodeTypeResolver<out T> : Any`<br>Type resolver. Type resolvers should never throws and error when it is unable to resolve
-result of an operation. The operation should return `null` - in the cases which `null` is allowed -
-return [CodeNothing](../com.github.jonathanxd.codeapi.common/-code-nothing.md), empty [List](#) or `false` when the resolver is unable to resolve the result of
-operation. These semantics are required to [Multi](-code-type-resolver/-multi/index.md) work correctly with any resolver. |
+| [AnnotatedCodeType](-annotated-code-type/index.md) | `interface AnnotatedCodeType : `[`WrapperCodeType`](-wrapper-code-type/index.md)<br>A [CodeType](-code-type/index.md) with annotations, to be used where `TYPE_USE Annotations` are allowed, but there is no limitation of where you can use. |
+| [BindedTypeResolver](-binded-type-resolver/index.md) | `class BindedTypeResolver<out T>`<br>A type resolver 'binded' to a [Type](#). All functions delegates to [codeTypeResolver](-binded-type-resolver/code-type-resolver.md) and uses [bindType](-binded-type-resolver/bind-type.md) as first argument of functions. |
+| [CodeType](-code-type/index.md) | `interface CodeType : `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`, `[`Comparable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html)`<`[`CodeType`](-code-type/index.md)`>, Type`<br>A type representation, like: |
+| [CodeTypeResolver](-code-type-resolver/index.md) | `interface CodeTypeResolver<out T>`<br>Type resolver. Type resolvers should never throws an error when it is unable to resolve result of an operation. The operation should return an [Either](#) instance which contains either the exception describing fail of resolution or the result of resolution. |
 | [Generic](-generic/index.md) | `class Generic : `[`GenericType`](-generic-type/index.md)<br>A generic type. |
-| [GenericType](-generic-type/index.md) | `interface GenericType : `[`CodeType`](-code-type/index.md)<br>Generic type. |
+| [GenericType](-generic-type/index.md) | `interface GenericType : `[`CodeType`](-code-type/index.md)`, `[`WrapperCodeType`](-wrapper-code-type/index.md)<br>Generic type. |
 | [GenericTypeBuilder](-generic-type-builder/index.md) | `class GenericTypeBuilder : `[`Builder`](-generic-type/-builder/index.md)`<`[`GenericType`](-generic-type/index.md)`, `[`GenericTypeBuilder`](-generic-type-builder/index.md)`>`<br>Builder of a [GenericType](-generic-type/index.md). |
 | [GenericTypeImpl](-generic-type-impl/index.md) | `class GenericTypeImpl : `[`GenericType`](-generic-type/index.md)<br>Generic type implementation. |
-| [InheritanceProvider](-inheritance-provider/index.md) | `interface InheritanceProvider : Any`<br>Mixin interface, marks the element as a provider of superclass and superinterfaces for [CodeTypeResolvers](-code-type-resolver/index.md). |
+| [InheritanceProvider](-inheritance-provider/index.md) | `interface InheritanceProvider`<br>Mixin interface, marks the element as a provider of superclass and superinterfaces for [CodeTypeResolvers](-code-type-resolver/index.md). |
 | [JavaType](-java-type/index.md) | `open class JavaType<T> : `[`LoadedCodeType`](-loaded-code-type/index.md)`<T>`<br>Java class [CodeType](-code-type/index.md). |
-| [LoadedCodeType](-loaded-code-type/index.md) | `interface LoadedCodeType<T> : `[`CodeType`](-code-type/index.md)<br>A [CodeType](-code-type/index.md) backing to a loaded [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html) ([loadedType](-loaded-code-type/loaded-type.md)). |
+| [LoadedCodeType](-loaded-code-type/index.md) | `interface LoadedCodeType<T> : `[`CodeType`](-code-type/index.md)<br>A [CodeType](-code-type/index.md) backing to a loaded [Class](#) ([loadedType](-loaded-code-type/loaded-type.md)). |
 | [NullType](-null-type/index.md) | `object NullType : `[`CodeType`](-code-type/index.md)<br>Null code type. |
-| [PlainCodeType](-plain-code-type/index.md) | `open class PlainCodeType : `[`CodeType`](-code-type/index.md)`, `[`InheritanceProvider`](-inheritance-provider/index.md)<br>Plain string code type. |
+| [PlainCodeType](-plain-code-type/index.md) | `open class PlainCodeType : `[`UnknownCodeType`](-unknown-code-type.md)`, `[`InheritanceProvider`](-inheritance-provider/index.md)<br>Plain string code type. |
 | [TypeRef](-type-ref/index.md) | `data class TypeRef : `[`CodeType`](-code-type/index.md)<br>Reference to a type, this is only intended to be used to inform outer types. |
+| [UnknownCodeType](-unknown-code-type.md) | `interface UnknownCodeType : `[`CodeType`](-code-type/index.md)<br>A Code Type that is not known by CodeAPI. These types are commonly those defined by the user to refer to classes that are not loaded by the JVM and isn't defined by CodeAPI, or will be defined later. [UnknownCodeType](-unknown-code-type.md) is not the same as [TypeRef](-type-ref/index.md). The [TypeRef](-type-ref/index.md) is intended to reference CodeAPI type declarations before them is created. [UnknownCodeType](-unknown-code-type.md) is intended to reference a type that is unknown to either JVM and CodeAPI. |
+| [WrapperCodeType](-wrapper-code-type/index.md) | `interface WrapperCodeType : `[`CodeType`](-code-type/index.md)<br>Denotes a CodeType that wraps another type. |

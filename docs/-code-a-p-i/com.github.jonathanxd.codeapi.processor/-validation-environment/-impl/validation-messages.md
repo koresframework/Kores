@@ -2,7 +2,7 @@
 
 # validationMessages
 
-`val validationMessages: List<`[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`>`
+`val validationMessages: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ContextedValidationMessage`](../../-contexted-validation-message/index.md)`>`
 
 Overrides [ValidationEnvironment.validationMessages](../validation-messages.md)
 

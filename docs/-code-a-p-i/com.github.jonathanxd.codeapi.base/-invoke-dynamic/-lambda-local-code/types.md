@@ -2,9 +2,9 @@
 
 # types
 
-`val types: List<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>`
+`val types: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<Type>`
 
-Overrides [LambdaLocalCodeBase.types](../../-invoke-dynamic-base/-lambda-local-code-base/types.md)
+Overrides [ArgumentsHolder.types](../../-arguments-holder/types.md)
 
 Expected types of each argument
 

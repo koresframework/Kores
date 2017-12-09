@@ -2,7 +2,7 @@
 
 # getType
 
-`fun `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.getType(isParameterized: Boolean = false): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
+`fun Type.getType(isParameterized: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)` = false): `[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)
 
-Gets the [CodeType](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) from a [Type](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html). This method only works for Java Reflection Types and [CodeType](../../com.github.jonathanxd.codeapi.type/-code-type/index.md).
+Gets the [CodeType](../../com.github.jonathanxd.codeapi.type/-code-type/index.md) from a [Type](#). This method only works for Java Reflection Types and [CodeType](../../com.github.jonathanxd.codeapi.type/-code-type/index.md).
 

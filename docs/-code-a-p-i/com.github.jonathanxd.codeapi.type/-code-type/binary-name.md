@@ -2,11 +2,11 @@
 
 # binaryName
 
-`open val binaryName: String`
+`open val binaryName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Binary name of the class.
 
-[String](#) = `java.lang.String`
-[Int](#) = `int`
+[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`
+[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`
 `String[]` = `[Ljava.lang.String;`
 

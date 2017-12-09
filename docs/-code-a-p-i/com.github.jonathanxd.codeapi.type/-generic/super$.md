@@ -2,7 +2,7 @@
 
 # super$
 
-`fun super$(s: String): `[`Generic`](index.md)
+`fun super$(s: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Generic type that have a super type variable `s`.
 
@@ -13,7 +13,7 @@ Generic type that have a super type variable `s`.
 **Return**
 New instance of generic type.
 
-`fun super$(vararg ss: String): `[`Generic`](index.md)
+`fun super$(vararg ss: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Generic`](index.md)
 
 Generic type that have a super type variables `ss`.
 
@@ -24,7 +24,7 @@ Generic type that have a super type variables `ss`.
 **Return**
 New instance of generic type.
 
-`fun super$(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`fun super$(type: Type): `[`Generic`](index.md)
 
 Generic type that have a super type `type`.
 
@@ -35,7 +35,7 @@ Generic type that have a super type `type`.
 **Return**
 New instance of generic type.
 
-`fun super$(vararg types: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Generic`](index.md)
+`fun super$(vararg types: Type): `[`Generic`](index.md)
 
 Generic type that have a super types `types`.
 

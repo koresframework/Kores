@@ -2,11 +2,9 @@
 
 # innerTypes
 
-`var innerTypes: List<`[`TypeDeclaration`](../../-type-declaration/index.md)`>`
-
-`fun innerTypes(value: List<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): `[`Builder`](index.md)
+`var innerTypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`TypeDeclaration`](../../-type-declaration/index.md)`>``fun innerTypes(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): `[`Builder`](index.md)
 
 Overrides [Builder.innerTypes](../../-inner-types-holder/-builder/inner-types.md)
 
-See [T.innerTypes](#)
+See [InnerTypesHolder.innerTypes](../../-inner-types-holder/inner-types.md)
 

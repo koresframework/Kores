@@ -2,4 +2,4 @@
 
 # VARARGS
 
-`val VARARGS: Int`
+`@JvmField val VARARGS: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

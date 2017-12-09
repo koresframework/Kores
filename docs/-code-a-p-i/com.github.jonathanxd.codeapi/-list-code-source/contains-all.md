@@ -2,7 +2,7 @@
 
 # containsAll
 
-`fun containsAll(c: Collection<*>): Boolean`
+`fun containsAll(c: `[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<*>): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Overrides [CodeSource.containsAll](../-code-source/contains-all.md)
 

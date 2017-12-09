@@ -2,9 +2,7 @@
 
 # constructorBody
 
-`lateinit var constructorBody: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)
-
-`fun constructorBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`Builder`](index.md)
+`lateinit var constructorBody: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`fun constructorBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): `[`Builder`](index.md)
 
 See [AnonymousClass.constructorBody](../constructor-body.md)
 

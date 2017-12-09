@@ -2,7 +2,7 @@
 
 # expressions
 
-`val expressions: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+`val expressions: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 Overrides [IfExpressionHolder.expressions](../-if-expression-holder/expressions.md)
 

@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`INTERFACE(n: Int)`
+`INTERFACE(n: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)`
 
 Interface extension localization.
 

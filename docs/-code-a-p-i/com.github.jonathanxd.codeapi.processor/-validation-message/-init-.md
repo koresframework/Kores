@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`ValidationMessage(message: String, type: `[`Type`](-type/index.md)`)`
+`ValidationMessage(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, type: `[`Type`](-type/index.md)`)`
 
 Validation message.
 

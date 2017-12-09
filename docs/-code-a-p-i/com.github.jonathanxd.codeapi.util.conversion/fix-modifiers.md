@@ -2,4 +2,4 @@
 
 # fixModifiers
 
-`fun fixModifiers(modifiers: Int): `[`EnumSet`](http://docs.oracle.com/javase/6/docs/api/java/util/EnumSet.html)`<`[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`>`
+`fun fixModifiers(modifiers: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): EnumSet<`[`CodeModifier`](../com.github.jonathanxd.codeapi.base/-code-modifier/index.md)`>`

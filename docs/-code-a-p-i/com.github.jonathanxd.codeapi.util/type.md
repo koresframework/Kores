@@ -2,7 +2,8 @@
 
 # type
 
-`val `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val `[`CodePart`](../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: Type`
 
 Gets the type of [CodePart](../com.github.jonathanxd.codeapi/-code-part/index.md)
 
+`@JvmName("typeLiteral") fun type(type: Type): `[`Literal`](../com.github.jonathanxd.codeapi.literal/-literal/index.md)

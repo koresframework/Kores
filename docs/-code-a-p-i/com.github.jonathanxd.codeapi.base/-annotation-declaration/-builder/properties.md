@@ -2,9 +2,7 @@
 
 # properties
 
-`var properties: List<`[`AnnotationProperty`](../../-annotation-property/index.md)`>`
-
-`fun properties(value: List<`[`AnnotationProperty`](../../-annotation-property/index.md)`>): `[`Builder`](index.md)
+`var properties: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`AnnotationProperty`](../../-annotation-property/index.md)`>``fun properties(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`AnnotationProperty`](../../-annotation-property/index.md)`>): `[`Builder`](index.md)
 `fun properties(vararg values: `[`AnnotationProperty`](../../-annotation-property/index.md)`): `[`Builder`](index.md)
 
 See [AnnotationDeclaration.properties](../properties.md)

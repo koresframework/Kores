@@ -2,7 +2,7 @@
 
 # expressions
 
-`fun expressions(value: List<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`Builder`](index.md)
+`fun expressions(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): `[`Builder`](index.md)
 
 Overrides [Builder.expressions](../../-if-expression-holder/-builder/expressions.md)
 

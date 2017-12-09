@@ -2,9 +2,7 @@
 
 # name
 
-`var name: String?`
-
-`fun name(value: String?): `[`Builder`](index.md)
+`var name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?``fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?): `[`Builder`](index.md)
 
 See [Link.name](../name.md)
 

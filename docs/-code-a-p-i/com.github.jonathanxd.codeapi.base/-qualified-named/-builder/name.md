@@ -2,7 +2,7 @@
 
 # name
 
-`open fun name(value: String): S`
+`open fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): S`
 
 Overrides [Builder.name](../../-named/-builder/name.md)
 

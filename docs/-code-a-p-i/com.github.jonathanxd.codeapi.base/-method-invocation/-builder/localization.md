@@ -2,7 +2,7 @@
 
 # localization
 
-`fun localization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): `[`Builder`](index.md)
+`fun localization(value: Type): `[`Builder`](index.md)
 
 Overrides [Builder.localization](../../-accessor/-builder/localization.md)
 

@@ -104,7 +104,7 @@ fun invokeThisConstructor(spec: TypeSpec, arguments: List<CodeInstruction>) =
  * @see MethodInvocation
  */
 fun invokeStatic(localization: Type, target: CodeInstruction, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
-        invoke(InvokeType.INVOKE_VIRTUAL, localization, target, name, spec, arguments)
+        invoke(InvokeType.INVOKE_STATIC, localization, target, name, spec, arguments)
 
 
 /**

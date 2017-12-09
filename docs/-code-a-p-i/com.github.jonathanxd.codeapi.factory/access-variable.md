@@ -2,7 +2,7 @@
 
 # accessVariable
 
-`fun accessVariable(type: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, name: String): `[`VariableAccess`](../com.github.jonathanxd.codeapi.base/-variable-access/index.md)
+`fun accessVariable(type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`VariableAccess`](../com.github.jonathanxd.codeapi.base/-variable-access/index.md)
 `fun accessVariable(variable: `[`VariableBase`](../com.github.jonathanxd.codeapi.base/-variable-base/index.md)`): `[`VariableAccess`](../com.github.jonathanxd.codeapi.base/-variable-access/index.md)
 
 **See Also**

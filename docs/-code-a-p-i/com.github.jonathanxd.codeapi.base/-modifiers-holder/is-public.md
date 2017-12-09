@@ -2,7 +2,7 @@
 
 # isPublic
 
-`open val isPublic: Boolean`
+`open val isPublic: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
-Returns true if is public.
+Returns true if this part is public.
 

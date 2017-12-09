@@ -2,7 +2,7 @@
 
 # checkType
 
-`val checkType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)
+`val checkType: Type`
 
 Type to check if part value is instance.
 

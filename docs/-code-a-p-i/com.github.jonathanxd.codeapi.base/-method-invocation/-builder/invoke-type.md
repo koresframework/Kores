@@ -2,9 +2,7 @@
 
 # invokeType
 
-`lateinit var invokeType: `[`InvokeType`](../../-invoke-type/index.md)
-
-`fun invokeType(value: `[`InvokeType`](../../-invoke-type/index.md)`): `[`Builder`](index.md)
+`lateinit var invokeType: `[`InvokeType`](../../-invoke-type/index.md)`fun invokeType(value: `[`InvokeType`](../../-invoke-type/index.md)`): `[`Builder`](index.md)
 
 See [MethodInvocation.invokeType](../invoke-type.md)
 

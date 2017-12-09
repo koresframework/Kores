@@ -2,7 +2,7 @@
 
 # typeDesc
 
-`val Iterable<`[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`>.typeDesc: <ERROR CLASS>`
+`val `[`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)`<Type>.typeDesc: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Convert iterable of types to string description
 

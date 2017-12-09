@@ -2,7 +2,7 @@
 
 # superType
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.superType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`?`
+`val Type.superType: Type?`
 
 See [CodeType.superType](../../com.github.jonathanxd.codeapi.type/-code-type/super-type.md)
 

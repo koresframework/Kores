@@ -2,7 +2,7 @@
 
 # hashCode
 
-`fun hashCode(): Int`
+`fun hashCode(): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Overrides [CodeType.hashCode](../../../com.github.jonathanxd.codeapi.type/-code-type/hash-code.md)
 

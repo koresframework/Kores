@@ -2,4 +2,4 @@
 
 # asGeneric
 
-`val `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`.asGeneric: `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)
+`val Type.asGeneric: `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)

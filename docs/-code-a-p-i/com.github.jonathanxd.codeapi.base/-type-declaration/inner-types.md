@@ -2,7 +2,7 @@
 
 # innerTypes
 
-`abstract val innerTypes: List<`[`TypeDeclaration`](index.md)`>`
+`abstract val innerTypes: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`TypeDeclaration`](index.md)`>`
 
 Overrides [InnerTypesHolder.innerTypes](../-inner-types-holder/inner-types.md)
 

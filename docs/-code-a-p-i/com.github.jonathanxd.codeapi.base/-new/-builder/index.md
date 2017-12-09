@@ -14,14 +14,14 @@
 
 | Name | Summary |
 |---|---|
-| [localization](localization.md) | `lateinit var localization: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html) |
+| [localization](localization.md) | `lateinit var localization: Type` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`New`](../index.md)<br>Build the object of type [T](#). |
-| [localization](localization.md) | `fun localization(value: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`): Builder`<br>See [New.localization](../localization.md) |
+| [localization](localization.md) | `fun localization(value: Type): Builder`<br>See [New.localization](../localization.md) |
 
 ### Companion Object Functions
 

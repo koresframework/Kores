@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`EnumValue(enumType: `[`Type`](http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Type.html)`, enumEntry: String, ordinal: Int)`
+`EnumValue(enumType: Type, enumEntry: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Enum value.
 

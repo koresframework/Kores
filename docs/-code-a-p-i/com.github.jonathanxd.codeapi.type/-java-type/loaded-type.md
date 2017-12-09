@@ -2,7 +2,7 @@
 
 # loadedType
 
-`open val loadedType: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>`
+`open val loadedType: Class<T>`
 
 Overrides [LoadedCodeType.loadedType](../-loaded-code-type/loaded-type.md)
 

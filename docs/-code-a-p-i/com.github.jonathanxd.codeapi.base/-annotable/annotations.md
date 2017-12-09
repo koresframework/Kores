@@ -2,7 +2,7 @@
 
 # annotations
 
-`abstract val annotations: List<`[`Annotation`](../-annotation/index.md)`>`
+`abstract val annotations: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Annotation`](../-annotation/index.md)`>`
 
 Annotations
 

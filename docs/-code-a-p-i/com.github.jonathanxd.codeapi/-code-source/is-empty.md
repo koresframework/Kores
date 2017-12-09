@@ -2,7 +2,7 @@
 
 # isEmpty
 
-`val isEmpty: Boolean`
+`val isEmpty: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if is empty, false otherwise.
 

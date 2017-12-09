@@ -2,4 +2,4 @@
 
 # map
 
-`protected val map: <ERROR CLASS>`
+`protected val map: `[`MutableMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html)`<Class<*>, `[`Processor`](../-processor/index.md)`<*>>`

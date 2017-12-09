@@ -2,7 +2,7 @@
 
 # access
 
-`val List<`[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)`>.access: List<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
+`val `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeParameter`](../../com.github.jonathanxd.codeapi.base/-code-parameter/index.md)`>.access: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
 Convert parameter list to a list of access to these parameters.
 

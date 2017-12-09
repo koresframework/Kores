@@ -4,6 +4,8 @@
 
 `fun builder(): `[`Builder`](-builder/index.md)
 
+Overrides [Annotable.builder](../-annotable/builder.md)
+
 Overrides [ArgumentsHolder.builder](../-arguments-holder/builder.md)
 
 Overrides [Named.builder](../-named/builder.md)

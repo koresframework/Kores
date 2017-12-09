@@ -2,4 +2,4 @@
 
 # value
 
-`val value: Any`
+`val value: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)

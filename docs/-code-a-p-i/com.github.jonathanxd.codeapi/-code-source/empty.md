@@ -2,7 +2,7 @@
 
 # empty
 
-`fun empty(): `[`CodeSource`](index.md)
+`@JvmStatic fun empty(): `[`CodeSource`](index.md)
 
 Returns a empty immutable [CodeSource](index.md).
 

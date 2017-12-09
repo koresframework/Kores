@@ -2,7 +2,7 @@
 
 # entries
 
-`val entries: List<`[`EnumEntry`](../-enum-entry/index.md)`>`
+`val entries: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`EnumEntry`](../-enum-entry/index.md)`>`
 
 Overrides [EntryHolder.entries](../-entry-holder/entries.md)
 

@@ -2,7 +2,7 @@
 
 # wildcard
 
-`fun wildcard(): `[`Generic`](index.md)
+`@JvmStatic fun wildcard(): `[`Generic`](index.md)
 
 Create a generic wildcard (? in Java Language, * in JVM).
 

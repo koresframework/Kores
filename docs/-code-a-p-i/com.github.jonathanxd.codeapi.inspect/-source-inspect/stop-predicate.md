@@ -2,7 +2,7 @@
 
 # stopPredicate
 
-`val stopPredicate: (`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`) -> Boolean`
+`val stopPredicate: (`[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`) -> `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Predicate to determine when the inspection should stop (`true` to stop, `false` to continue).
 

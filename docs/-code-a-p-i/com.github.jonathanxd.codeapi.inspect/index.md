@@ -6,5 +6,5 @@
 
 | Name | Summary |
 |---|---|
-| [SourceInspect](-source-inspect/index.md) | `class SourceInspect<out R> : Any`<br>Utility to inspect [CodeSource](../com.github.jonathanxd.codeapi/-code-source/index.md). |
-| [SourceInspectBuilder](-source-inspect-builder/index.md) | `class SourceInspectBuilder<R> : Any` |
+| [SourceInspect](-source-inspect/index.md) | `class SourceInspect<out R>`<br>Utility to inspect [CodeSource](../com.github.jonathanxd.codeapi/-code-source/index.md). |
+| [SourceInspectBuilder](-source-inspect-builder/index.md) | `class SourceInspectBuilder<R>` |

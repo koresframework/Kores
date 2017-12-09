@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`JavaType(loadedType: `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>)`
+`JavaType(loadedType: Class<T>)`
 
 Java class [CodeType](../-code-type/index.md).
 

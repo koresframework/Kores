@@ -2,7 +2,7 @@
 
 # toInterfaceDeclaration
 
-`fun <T : Any> `[`Class`](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<T>.toInterfaceDeclaration(): `[`InterfaceDeclaration`](../../com.github.jonathanxd.codeapi.base/-interface-declaration/index.md)
+`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> Class<T>.toInterfaceDeclaration(): `[`InterfaceDeclaration`](../../com.github.jonathanxd.codeapi.base/-interface-declaration/index.md)
 
-Creates an [InterfaceDeclaration](../../com.github.jonathanxd.codeapi.base/-interface-declaration/index.md) from receiver [Class](http://docs.oracle.com/javase/6/docs/api/java/lang/Class.html).
+Creates an [InterfaceDeclaration](../../com.github.jonathanxd.codeapi.base/-interface-declaration/index.md) from receiver [Class](#).
 

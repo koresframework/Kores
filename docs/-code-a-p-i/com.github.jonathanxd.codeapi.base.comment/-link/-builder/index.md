@@ -14,7 +14,7 @@
 
 | Name | Summary |
 |---|---|
-| [name](name.md) | `var name: String?` |
+| [name](name.md) | `var name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?` |
 | [target](target.md) | `lateinit var target: `[`LinkTarget`](../-link-target/index.md) |
 
 ### Functions
@@ -22,7 +22,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Link`](../index.md)<br>Build the object of type [T](#). |
-| [name](name.md) | `fun name(value: String?): Builder`<br>See [Link.name](../name.md) |
+| [name](name.md) | `fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?): Builder`<br>See [Link.name](../name.md) |
 | [target](target.md) | `fun target(value: `[`LinkTarget`](../-link-target/index.md)`): Builder`<br>See [Link.target](../target.md) |
 
 ### Companion Object Functions
