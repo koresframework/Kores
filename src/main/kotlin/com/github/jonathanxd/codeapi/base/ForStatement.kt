@@ -36,14 +36,14 @@ import com.github.jonathanxd.codeapi.common.CodeNothing
  *
  * for(forInit; forExpression; forUpdate)
  *
- * @property forInit For initialization (ex: `int i = 0`).
+ * @property forInit For initialization (ex: `int i = 0`, `int i = 0, x = 9`).
  * @property forExpression For expression. See [IfExpressionHolder.expressions]. (ex: `i < 10`)
- * @property forUpdate For update. (ex: `i++`)
+ * @property forUpdate For update. (ex: `i++`, `i++. x++`)
  * @property body Body of for statement (ex: `println(i)`).
  */
-data class ForStatement(val forInit: CodeInstruction,
+data class ForStatement(val forInit: List<CodeInstruction>,
                         val forExpression: List<CodeInstruction>,
-                        val forUpdate: CodeInstruction,
+                        val forUpdate: List<CodeInstruction>,
                         override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
@@ -58,9 +58,9 @@ data class ForStatement(val forInit: CodeInstruction,
             IfExpressionHolder.Builder<ForStatement, Builder>,
             BodyHolder.Builder<ForStatement, Builder> {
 
-        var forInit: CodeInstruction = CodeNothing
+        var forInit: List<CodeInstruction> = emptyList()
         var forExpression: List<CodeInstruction> = emptyList()
-        var forUpdate: CodeInstruction = CodeNothing
+        var forUpdate: List<CodeInstruction> = emptyList()
         var body: CodeSource = CodeSource.empty()
 
         constructor(defaults: ForStatement) : this() {
@@ -76,10 +76,15 @@ data class ForStatement(val forInit: CodeInstruction,
         /**
          * See [ForStatement.forInit]
          */
-        fun forInit(value: CodeInstruction): Builder {
+        fun forInit(value: List<CodeInstruction>): Builder {
             this.forInit = value
             return this
         }
+
+        /**
+         * See [ForStatement.forInit]
+         */
+        fun forInit(vararg values: CodeInstruction): Builder = forInit(values.toList())
 
         /**
          * See [ForStatement.forExpression]
@@ -97,10 +102,15 @@ data class ForStatement(val forInit: CodeInstruction,
         /**
          * See [ForStatement.forUpdate]
          */
-        fun forUpdate(value: CodeInstruction): Builder {
+        fun forUpdate(value: List<CodeInstruction>): Builder {
             this.forUpdate = value
             return this
         }
+
+        /**
+         * See [ForStatement.forUpdate]
+         */
+        fun forUpdate(vararg values: CodeInstruction): Builder = forUpdate(values.toList())
 
         override fun body(value: CodeSource): Builder {
             this.body = value

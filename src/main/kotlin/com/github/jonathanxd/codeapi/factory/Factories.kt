@@ -514,6 +514,12 @@ fun doWhileStatement(expressions: List<CodeInstruction>, body: CodeSource): Whil
  * @see ForStatement
  */
 fun forStatement(forInit: CodeInstruction, forExpression: List<CodeInstruction>, forUpdate: CodeInstruction, body: CodeSource): ForStatement =
+        ForStatement(listOf(forInit), forExpression, listOf(forUpdate), body)
+
+/**
+ * @see ForStatement
+ */
+fun forStatement(forInit: List<CodeInstruction>, forExpression: List<CodeInstruction>, forUpdate: List<CodeInstruction>, body: CodeSource): ForStatement =
         ForStatement(forInit, forExpression, forUpdate, body)
 
 /**
