@@ -33,7 +33,6 @@ import com.github.jonathanxd.codeapi.common.DynamicMethodSpec
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.invoke.*
 import java.lang.reflect.Type
@@ -118,9 +117,11 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override val array: Boolean
             get() = false
 
+        // Dynamic method, for lambdas, the get(InstanceType)FunctionalInterfaceType
+        // The InstanceType is not needed for static [methodRef]
         override val dynamicMethod: DynamicMethodSpec
-            get() = DynamicMethodSpec(this.methodRef.methodTypeSpec.methodName,
-                    this.methodRef.methodTypeSpec.typeSpec,
+            get() = DynamicMethodSpec(this.baseSam.methodName,
+                    this.baseSam.typeSpec,
                     this.arguments)
 
         override val type: Type
@@ -137,7 +138,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
 
         override val bootstrapArgs: List<Any>
             get() = listOf(
-                    this.baseSam.typeSpec,
+                    this.currentTypes,
                     MethodInvokeSpec(this.methodRef.invokeType,
                             MethodTypeSpec(this.methodRef.methodTypeSpec.localization, this.methodRef.methodTypeSpec.methodName,
                                     this.methodRef.methodTypeSpec.typeSpec)),
@@ -149,6 +150,17 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
          * is [Supplier], then the base SAM method is the [Supplier.get].
          */
         val baseSam: MethodTypeSpec
+
+        /**
+         * Current types of lambda method, extracted from [baseSam] (first is removed
+         * when [methodRef] is not static because it is the receiver type).
+         */
+        val currentTypes: TypeSpec
+            get() = if (methodRef.invokeType != InvokeType.INVOKE_STATIC)
+                baseSam.typeSpec.copy(
+                        parameterTypes = baseSam.typeSpec.parameterTypes.subList(1, baseSam.typeSpec.parameterTypes.size))
+            else
+                baseSam.typeSpec
 
         /**
          * Types expected by the caller of lambda SAM.
