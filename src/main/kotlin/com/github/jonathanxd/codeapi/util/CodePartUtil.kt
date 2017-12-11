@@ -72,6 +72,11 @@ val CodePart.typeOrNull: Type?
         if (bType != null && bType2 != null && bType.`is`(bType2))
             bType
         else null
+    } ?: (this as? Access)?.let {
+        when(it) {
+            Access.THIS, Access.LOCAL, Access.STATIC -> Alias.THIS.codeType
+            Access.SUPER -> Alias.SUPER.codeType
+        }
     }
 
 
