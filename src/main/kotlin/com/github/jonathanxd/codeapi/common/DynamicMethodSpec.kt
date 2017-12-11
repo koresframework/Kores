@@ -29,12 +29,13 @@ package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
 
 /**
  * @property name Name of dynamic method
  * @property typeSpec Signature of dynamic method.
- * @property arguments Arguments to pass to dynamic method. (may include the receiver/).
+ * @property arguments Arguments to pass to dynamic method. (may include the receiver).
  */
 data class DynamicMethodSpec(override val name: String,
                              val typeSpec: TypeSpec,
@@ -47,7 +48,7 @@ data class DynamicMethodSpec(override val name: String,
         get() = false
 
     override val types: List<Type>
-        get() = this.typeSpec.parameterTypes
+        get() = this.arguments.map { it.type }
 
     /**
      * Creates a dynamic invocation of this dynamic method spec. The dynamic invocation
