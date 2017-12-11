@@ -121,7 +121,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         // The InstanceType is not needed for static [methodRef]
         override val dynamicMethod: DynamicMethodSpec
             get() = DynamicMethodSpec(this.baseSam.methodName,
-                    this.baseSam.typeSpec,
+                    this.baseSam.typeSpec.copy(returnType = this.baseSam.localization),
                     this.arguments)
 
         override val type: Type
