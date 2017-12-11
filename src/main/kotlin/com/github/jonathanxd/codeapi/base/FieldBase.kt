@@ -47,6 +47,18 @@ interface FieldBase : Named, Typed {
      */
     val target: CodeInstruction
 
+    /**
+     * Creates access to the field that this instance represents.
+     */
+    fun access(): FieldAccess =
+            FieldAccess(this.localization, this.target, this.type, this.name)
+
+    /**
+     * Creates a definition of the value of the field that this instance represents.
+     */
+    fun set(value: CodeInstruction): FieldDefinition =
+            FieldDefinition(this.localization, this.target, this.type, this.name, value)
+
     override val type: Type
 
     override fun builder(): Builder<FieldBase, *>

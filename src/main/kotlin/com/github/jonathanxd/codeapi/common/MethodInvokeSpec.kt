@@ -27,7 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.base.InvokeType
+import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.Typed
 import java.lang.reflect.Type
 
@@ -41,6 +43,17 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
      */
     fun toInvocationString() =
             "${invokeType.name.toLowerCase()} ${this.methodTypeSpec.toMethodString()}"
+
+    /**
+     * Invokes this method in [target].
+     */
+    operator fun invoke(target: CodeInstruction) = this.invoke(target, emptyList())
+
+    /**
+     * Invokes this method in [target] with [arguments].
+     */
+    operator fun invoke(target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation
+            = MethodInvocation(this.invokeType, target, this.methodTypeSpec, arguments)
 
     override fun builder(): Builder = Builder(this)
 

@@ -56,10 +56,12 @@ data class LocalCode(val declaringType: Type,
      */
     constructor(declaringType: CodeType, declaration: MethodDeclaration, innerTypes: List<TypeDeclaration>) :
             this(declaringType,
-                    if (declaration.modifiers.contains(CodeModifier.STATIC)) InvokeType.INVOKE_STATIC
-                    else if (declaration.modifiers.contains(CodeModifier.PRIVATE)) InvokeType.INVOKE_VIRTUAL
-                    else if (declaringType.isInterface) InvokeType.INVOKE_INTERFACE
-                    else InvokeType.INVOKE_VIRTUAL,
+                    when {
+                        declaration.modifiers.contains(CodeModifier.STATIC) -> InvokeType.INVOKE_STATIC
+                        declaration.modifiers.contains(CodeModifier.PRIVATE) -> InvokeType.INVOKE_VIRTUAL
+                        declaringType.isInterface -> InvokeType.INVOKE_INTERFACE
+                        else -> InvokeType.INVOKE_VIRTUAL
+                    },
                     declaration,
                     innerTypes)
 

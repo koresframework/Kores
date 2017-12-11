@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.common.FieldRef
 import com.github.jonathanxd.codeapi.common.VariableRef
 import java.lang.reflect.Type
@@ -46,6 +47,18 @@ interface VariableBase : Named, Typed {
      */
     val variableType: Type
 
+    /**
+     * Creates access to the variable that this instance represents.
+     */
+    fun access(): VariableAccess =
+            VariableAccess(this.variableType, this.name)
+
+    /**
+     * Creates a definition of the value of the variable that this instance represents.
+     */
+    fun set(value: CodeInstruction): VariableDefinition =
+            VariableDefinition(this.type, this.name, value)
+
     override val type: Type
         get() = this.variableType
 
@@ -58,7 +71,7 @@ interface VariableBase : Named, Typed {
         override fun type(value: Type): S = this.variableType(value)
 
         /**
-         * See [T.variableType]
+         * See [VariableBase.variableType]
          */
         fun variableType(value: Type): S
 

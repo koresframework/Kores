@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [args](args.md) | `open fun args(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): S`<br>See [T.args](args.md) |
+| [args](bootstrapArgs.md) | `open fun bootstrapArgs(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): S`<br>See [T.bootstrapArgs](bootstrapArgs.md) |
 | [baseSam](base-sam.md) | `abstract fun baseSam(value: `[`MethodTypeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`): S`<br>See [T.baseSam](base-sam.md) |
 | [bootstrap](bootstrap.md) | `open fun bootstrap(value: `[`MethodInvokeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): S`<br>See [T.bootstrap](bootstrap.md) |
 | [expectedTypes](expected-types.md) | `abstract fun expectedTypes(value: `[`TypeSpec`](../../../-type-spec/index.md)`): S`<br>See [T.expectedTypes](expected-types.md) |
@@ -18,7 +18,7 @@
 
 | Name | Summary |
 |---|---|
-| [args](../../-builder/args.md) | `open fun args(vararg values: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): S`<br>See [T.args](../../-builder/args.md) |
+| [args](../../-builder/bootstrapArgs.md) | `open fun bootstrapArgs(vararg values: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): S`<br>See [T.bootstrapArgs](../../-builder/bootstrapArgs.md) |
 | [invocation](../../-builder/invocation.md) | `abstract fun invocation(value: `[`MethodInvocation`](../../../-method-invocation/index.md)`): S`<br>See [T.invocation](../../-builder/invocation.md) |
 
 ### Inheritors

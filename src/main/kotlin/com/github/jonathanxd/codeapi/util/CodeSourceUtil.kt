@@ -26,13 +26,21 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("CodeSourceUtil")
+
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.*
-import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.base.BodyHolder
 import com.github.jonathanxd.codeapi.inspect.SourceInspect
+import com.github.jonathanxd.codeapi.processor.AbstractProcessorManager
+import com.github.jonathanxd.codeapi.processor.ProcessorManager
+import com.github.jonathanxd.codeapi.processor.ValidatorManager
+import com.github.jonathanxd.codeapi.processor.VoidValidatorManager
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer
-import java.util.ArrayList
+import com.github.jonathanxd.iutils.data.TypedData
+import com.github.jonathanxd.iutils.option.Options
+import java.lang.reflect.Type
+import java.util.*
 
 /**
  * Insert element `toInsert` in `source` after element determined by `predicate` or at end of source if not found.
@@ -255,6 +263,24 @@ fun <U> find(codeSource: CodeSource, predicate: (CodeInstruction) -> Boolean, fu
 
     return list
 }
+
+/**
+ * Gets the last type leaved by [source].
+ */
+fun getLastType(source: CodeSource): Type? {
+    if (source.isEmpty)
+        return null
+
+    return source.last().typeOrNull
+}
+
+/**
+ * Tries to determine which type this [CodeSource] leaves on stack or returns,
+ * if this [source] leaves two different types (ex, [String] and [List]), the returned type is
+ * [Any], if source leaves two different primitive types, or an object type and a primitive, `null` is returned.
+ */
+private fun getLastType0(source: CodeSource): Type? =
+    TODO("Work in progress")
 
 /**
  * Location to insert element.

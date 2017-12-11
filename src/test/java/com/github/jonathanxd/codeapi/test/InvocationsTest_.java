@@ -44,6 +44,7 @@ import com.github.jonathanxd.codeapi.base.MethodInvocation;
 import com.github.jonathanxd.codeapi.base.TypeDeclaration;
 import com.github.jonathanxd.codeapi.base.TypeSpec;
 import com.github.jonathanxd.codeapi.base.VariableDeclaration;
+import com.github.jonathanxd.codeapi.common.DynamicMethodSpec;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.factory.DynamicInvocationFactory;
@@ -199,6 +200,9 @@ public class InvocationsTest_ {
                 VariableFactory.variable(CodeTypes.getCodeType(Greeter.class), "greeter", InvocationFactory.invokeConstructor(CodeTypes.getCodeType(WorldGreeter.class)))
         );
 
+        MethodInvokeSpec greet = new MethodInvokeSpec(InvokeType.INVOKE_INTERFACE,
+                new MethodTypeSpec(Greeter.class, "hello", Factories.typeSpec(Types.STRING)));
+
         MethodInvocation greetingInvoke = InvocationFactory.invoke(
                 InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
                 "hello",
@@ -250,7 +254,8 @@ public class InvocationsTest_ {
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         InvokeDynamic.LambdaMethodRef dynamicGet = DynamicInvocationFactory.invokeDynamicLambda(
-                greetingInvoke,
+                greet,
+                singletonList(Factories.accessVariable(Greeter.class, "greeter")), // Receiver
                 new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
                 new TypeSpec(Types.STRING));
 
@@ -279,11 +284,8 @@ public class InvocationsTest_ {
         methodSource.add(Predefined.invokePrintln(Literals.STRING("Invoke Dynamic Bootstrap ->")));
 
         InvokeDynamic bootstrapInvocation = DynamicInvocationFactory.invokeDynamic(
-                Types.VOID,
                 new MethodInvokeSpec(InvokeType.INVOKE_STATIC, BOOTSTRAP_SPEC),
-                InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(InvocationsTest_.class), Factories.accessStatic(),
-                        "helloWorld",
-                        Factories.typeSpec(Types.VOID, Types.STRING),
+                new DynamicMethodSpec("helloWorld", Factories.typeSpec(Types.VOID, Types.STRING),
                         singletonList(Literals.STRING("World"))),
                 emptyList()
         );

@@ -27,6 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.common
 
+import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.base.InvokeType
+import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -44,6 +47,18 @@ data class MethodTypeSpec(val localization: Type, val methodName: String, val ty
      */
     fun toMethodString() =
             "${localization.codeType.canonicalName}.$methodName${typeSpec.toTypeString()}"
+
+    /**
+     * Invokes this method in [target].
+     */
+    operator fun invoke(invokeType: InvokeType, target: CodeInstruction) =
+            this.invoke(invokeType, target, emptyList())
+
+    /**
+     * Invokes this method in [target] with [arguments].
+     */
+    operator fun invoke(invokeType: InvokeType, target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation
+            = MethodInvocation(invokeType, target, this, arguments)
 
     /**
      * This method will not compare the method localization.

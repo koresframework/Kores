@@ -34,7 +34,7 @@
 
 | Name | Summary |
 |---|---|
-| [args](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/args.md) | `open fun args(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): S`<br>See [T.args](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/args.md) |
+| [args](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/bootstrapArgs.md) | `open fun bootstrapArgs(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): S`<br>See [T.bootstrapArgs](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/bootstrapArgs.md) |
 | [bootstrap](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/bootstrap.md) | `open fun bootstrap(value: `[`MethodInvokeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): S`<br>See [T.bootstrap](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/bootstrap.md) |
 | [invocation](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/invocation.md) | `open fun invocation(value: `[`MethodInvocation`](../../../-method-invocation/index.md)`): S`<br>See [T.invocation](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/invocation.md) |
 | [type](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/type.md) | `open fun type(value: Type): S`<br>See [T.type](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/type.md) |

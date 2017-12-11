@@ -82,6 +82,7 @@ import com.github.jonathanxd.codeapi.base.comment.Code;
 import com.github.jonathanxd.codeapi.base.comment.Comments;
 import com.github.jonathanxd.codeapi.base.comment.Link;
 import com.github.jonathanxd.codeapi.base.comment.Plain;
+import com.github.jonathanxd.codeapi.common.DynamicMethodSpec;
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec;
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec;
 import com.github.jonathanxd.codeapi.common.Nothing;
@@ -551,8 +552,7 @@ public class BuilderTest {
     public void invokeDynamicBuilderTest() {
         InvokeDynamic.Builder.Companion.builder()
                 .type(Void.TYPE)
-                .invocation(InvocationFactory.invoke(InvokeType.INVOKE_VIRTUAL, CodeTypes.getCodeType(InvocationsTest_.class), Factories.accessStatic(),
-                        "helloWorld",
+                .dynamicMethod(new DynamicMethodSpec("helloWorld",
                         Factories.typeSpec(Void.TYPE, String.class),
                         Collections.singletonList(Literals.STRING("World"))))
                 .bootstrap(new MethodInvokeSpec(InvokeType.INVOKE_STATIC, InvocationsTest_.BOOTSTRAP_SPEC))
@@ -564,11 +564,11 @@ public class BuilderTest {
         InvokeDynamic.LambdaMethodRef.Builder.Companion.builder()
                 .baseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
                 .expectedTypes(new TypeSpec(String.class))
-                .invocation(InvocationFactory.invoke(
-                        InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
-                        "hello",
-                        Factories.typeSpec(String.class),
-                        Collections.emptyList()))
+                .methodRef(new MethodInvokeSpec(
+                        InvokeType.INVOKE_INTERFACE,
+                        new MethodTypeSpec(Greeter.class, "hello", Factories.typeSpec(String.class))
+                ))
+                .arguments(Collections.singletonList(Factories.accessVariable(Greeter.class, "greeter")))
                 .build();
     }
 

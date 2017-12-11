@@ -32,9 +32,7 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.base.InstructionWrapper
-import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.base.Typed
+import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.type.NullType
 import java.lang.reflect.Type
 
@@ -67,7 +65,14 @@ val CodePart.typeOrNull: Type?
     } ?: (this as? InstructionWrapper)?.wrappedInstruction?.also {
         if (it == this)
             throw IllegalStateException("InstructionWrapper wrapping itself.")
-    }?.typeOrNull
+    }?.typeOrNull ?: (this as? IfStatement)?.let {
+        val bType = getLastType(it.body)
+        val bType2 = getLastType(it.elseStatement)
+
+        if (bType != null && bType2 != null && bType.`is`(bType2))
+            bType
+        else null
+    }
 
 
 /**

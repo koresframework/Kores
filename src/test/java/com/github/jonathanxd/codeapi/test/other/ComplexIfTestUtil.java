@@ -25,37 +25,33 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-@file:JvmName("DynamicInvocationFactory")
+package com.github.jonathanxd.codeapi.test.other;
 
-package com.github.jonathanxd.codeapi.factory
+import com.github.jonathanxd.codeapi.CodeInstruction;
+import com.github.jonathanxd.codeapi.CodeSource;
+import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.factory.VariableFactory;
+import com.github.jonathanxd.codeapi.literal.Literals;
+import com.github.jonathanxd.codeapi.operator.Operators;
+import com.github.jonathanxd.codeapi.util.CodePartUtil;
+import com.github.jonathanxd.codeapi.util.CodeTypes;
 
-import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.InvokeDynamic
-import com.github.jonathanxd.codeapi.base.LocalCode
-import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
-import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.base.TypeSpec
-import com.github.jonathanxd.codeapi.common.DynamicMethodSpec
-import java.lang.reflect.Type
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * @see InvokeDynamic
- */
-fun invokeDynamic(bootstrap: MethodInvokeSpec, dynamicMethod: DynamicMethodSpec, args: List<Any>): InvokeDynamic =
-        InvokeDynamic(bootstrap, dynamicMethod, args)
+public class ComplexIfTestUtil {
+    @Test
+    public void test() {
+        CodeInstruction value = Factories.ifStatement(
+                Factories.check(Literals.INT(9), Operators.LESS_THAN, Literals.INT(5)),
+                CodeSource.fromVarArgs(Literals.STRING("9 < 5")),
+                CodeSource.fromVarArgs(Literals.STRING("9 >= 5"))
+        );
 
-/**
- * @see InvokeDynamic
- */
-fun invokeDynamicLambda(methodRef: MethodInvokeSpec,
-                        arguments: List<CodeInstruction>,
-                        baseSam: MethodTypeSpec, expectedTypes: TypeSpec): InvokeDynamic.LambdaMethodRef =
-        InvokeDynamic.LambdaMethodRef(methodRef, arguments, baseSam, expectedTypes)
+        VariableFactory.variable(Types.STRING, "b", value);
+        Assert.assertEquals(CodeTypes.getCodeType(String.class), CodePartUtil.getType(value));
+    }
 
-/**
- * @see InvokeDynamic
- */
-fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, expectedTypes: TypeSpec, localCode: LocalCode, arguments: List<CodeInstruction>): InvokeDynamic.LambdaLocalCode =
-        InvokeDynamic.LambdaLocalCode(baseSam, expectedTypes, localCode, arguments)
+
+}
