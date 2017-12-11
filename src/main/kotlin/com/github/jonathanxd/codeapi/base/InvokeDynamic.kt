@@ -62,8 +62,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
     val bootstrap: MethodInvokeSpec
 
     /**
-     * Specification of dynamic method. If the dynamic method needs a receiver object,
-     * specify it in [DynamicMethodSpec.typeSpec] and provide it in [DynamicMethodSpec.arguments].
+     * Specification of dynamic method.
      */
     val dynamicMethod: DynamicMethodSpec
 

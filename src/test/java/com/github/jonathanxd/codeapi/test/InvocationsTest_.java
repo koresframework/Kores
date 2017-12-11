@@ -202,7 +202,7 @@ public class InvocationsTest_ {
 
         MethodInvokeSpec greet = new MethodInvokeSpec(InvokeType.INVOKE_INTERFACE,
                 new MethodTypeSpec(Greeter.class, "hello",
-                        Factories.typeSpec(Types.STRING, Greeter.class))); // Greeter.class = Instance
+                        Factories.typeSpec(Types.STRING)));
 
         MethodInvocation greetingInvoke = InvocationFactory.invoke(
                 InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
@@ -257,7 +257,7 @@ public class InvocationsTest_ {
         InvokeDynamic.LambdaMethodRef dynamicGet = DynamicInvocationFactory.invokeDynamicLambda(
                 greet,
                 singletonList(Factories.accessVariable(Greeter.class, "greeter")), // Receiver
-                new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
+                new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT, Greeter.class)),
                 new TypeSpec(Types.STRING));
 
         VariableDeclaration supplierVar = VariableFactory.variable(supplierType, "supplier", dynamicGet);
