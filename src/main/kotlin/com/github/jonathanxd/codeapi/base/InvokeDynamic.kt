@@ -35,10 +35,7 @@ import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
-import java.lang.invoke.CallSite
-import java.lang.invoke.LambdaMetafactory
-import java.lang.invoke.MethodHandles
-import java.lang.invoke.MethodType
+import java.lang.invoke.*
 import java.lang.reflect.Type
 import java.util.function.Supplier
 
@@ -135,7 +132,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
                     methodName = "metafactory",
                     typeSpec = TypeSpec(
                             returnType = CallSite::class.java,
-                            parameterTypes = listOf(MethodHandles.Lookup::class.java, String::class.java, MethodType::class.java, MethodType::class.java, MethodHandles::class.java, MethodType::class.java)
+                            parameterTypes = listOf(MethodHandles.Lookup::class.java, String::class.java, MethodType::class.java, MethodType::class.java, MethodHandle::class.java, MethodType::class.java)
                     )))
 
         override val bootstrapArgs: List<Any>
