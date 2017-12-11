@@ -125,7 +125,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
                             parameterTypes =
                             (if (!methodRef.invokeType.isStatic())
                                 listOf(methodRef.methodTypeSpec.localization)
-                            else emptyList()) + this.baseSam.typeSpec.parameterTypes),
+                            else emptyList()) + this.additionalArgumentsType),
                     this.arguments)
 
         override val type: Type
@@ -411,3 +411,12 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
     }
 
 }
+
+val InvokeDynamicBase.LambdaMethodRefBase.additionalArgumentsType: List<Type>
+    get() = if (baseSam.typeSpec.parameterTypes.size !=
+            this.methodRef.methodTypeSpec.typeSpec.parameterTypes.size) {
+        val samSpec = baseSam.typeSpec
+        val invkSpec = this.methodRef.methodTypeSpec.typeSpec
+
+        invkSpec.parameterTypes.subList(0, (invkSpec.parameterTypes.size - samSpec.parameterTypes.size))
+    } else emptyList()
