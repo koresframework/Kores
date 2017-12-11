@@ -202,10 +202,8 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
                             this.localCode.description))
 
         override val dynamicMethod: DynamicMethodSpec
-            get() = DynamicMethodSpec(this.localCode.declaration.name,
-                    if (needThis) this.localCode.description.copy(
-                            parameterTypes = listOf(Alias.THIS) + this.localCode.description.parameterTypes)
-                    else this.localCode.description,
+            get() = DynamicMethodSpec(this.baseSam.methodName,
+                    this.baseSam.typeSpec,
                     (if (!needThis) listOf() else listOf(Defaults.ACCESS_THIS)) + arguments)
 
         override val array: Boolean
