@@ -33,6 +33,7 @@ import com.github.jonathanxd.codeapi.common.DynamicMethodSpec
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.self
 import java.lang.invoke.CallSite
 import java.lang.invoke.LambdaMetafactory
@@ -195,6 +196,9 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override val expectedTypes: TypeSpec
             get() = this.localCode.description
 
+        private val needThis
+            get() = this.localCode.invokeType == InvokeType.INVOKE_INTERFACE
+
         override val methodRef: MethodInvokeSpec
             get() = MethodInvokeSpec(this.localCode.invokeType,
                     MethodTypeSpec(this.localCode.declaringType, this.localCode.declaration.name,
@@ -202,10 +206,10 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
 
         override val dynamicMethod: DynamicMethodSpec
             get() = DynamicMethodSpec(this.localCode.declaration.name,
-                    this.localCode.description,
-                    listOf(
-                            if (this.methodRef.invokeType == InvokeType.INVOKE_STATIC) Defaults.ACCESS_STATIC
-                            else Defaults.ACCESS_THIS) + arguments)
+                    if (needThis) this.localCode.description.copy(
+                            parameterTypes = listOf(Alias.THIS) + this.localCode.description.parameterTypes)
+                    else this.localCode.description,
+                    listOf(if (!needThis) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS) + arguments)
 
         override val array: Boolean
             get() = false

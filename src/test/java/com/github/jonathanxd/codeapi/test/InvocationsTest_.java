@@ -201,7 +201,8 @@ public class InvocationsTest_ {
         );
 
         MethodInvokeSpec greet = new MethodInvokeSpec(InvokeType.INVOKE_INTERFACE,
-                new MethodTypeSpec(Greeter.class, "hello", Factories.typeSpec(Types.STRING)));
+                new MethodTypeSpec(Greeter.class, "hello",
+                        Factories.typeSpec(Types.STRING, Greeter.class))); // Greeter.class = Instance
 
         MethodInvocation greetingInvoke = InvocationFactory.invoke(
                 InvokeType.INVOKE_INTERFACE, Greeter.class, Factories.accessVariable(Greeter.class, "greeter"),
