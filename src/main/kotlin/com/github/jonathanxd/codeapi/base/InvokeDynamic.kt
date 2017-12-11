@@ -210,7 +210,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
                     if (needThis) this.localCode.description.copy(
                             parameterTypes = listOf(Alias.THIS) + this.localCode.description.parameterTypes)
                     else this.localCode.description,
-                    listOf(if (!needThis) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS) + arguments)
+                    (if (!needThis) listOf() else listOf(Defaults.ACCESS_THIS)) + arguments)
 
         override val array: Boolean
             get() = false
