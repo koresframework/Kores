@@ -119,8 +119,8 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
             get() = false
 
         override val dynamicMethod: DynamicMethodSpec
-            get() = DynamicMethodSpec(this.methodRef.methodTypeSpec.methodName,
-                    this.methodRef.methodTypeSpec.typeSpec,
+            get() = DynamicMethodSpec(this.baseSam.methodName,
+                    this.baseSam.typeSpec,
                     this.arguments)
 
         override val type: Type
