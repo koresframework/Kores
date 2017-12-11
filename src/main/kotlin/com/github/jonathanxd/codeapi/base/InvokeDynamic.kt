@@ -112,16 +112,20 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override val arguments: List<CodeInstruction>
 
         override val types: List<Type>
-            get() = this.methodRef.methodTypeSpec.typeSpec.parameterTypes
+            get() = this.dynamicMethod.types
 
         override val array: Boolean
             get() = false
 
-        // Dynamic method, for lambdas, the get(InstanceType)FunctionalInterfaceType
+        // Dynamic method, for lambdas, the get(InstanceType, AdditionalArgs)FunctionalInterfaceType
         // The InstanceType is not needed for static [methodRef]
         override val dynamicMethod: DynamicMethodSpec
             get() = DynamicMethodSpec(this.baseSam.methodName,
-                    this.baseSam.typeSpec.copy(returnType = this.baseSam.localization),
+                    this.baseSam.typeSpec.copy(returnType = this.baseSam.localization,
+                            parameterTypes =
+                            (if (!methodRef.invokeType.isStatic())
+                                listOf(methodRef.methodTypeSpec.localization)
+                            else emptyList()) + this.baseSam.typeSpec.parameterTypes),
                     this.arguments)
 
         override val type: Type
@@ -152,15 +156,10 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         val baseSam: MethodTypeSpec
 
         /**
-         * Current types of lambda method, extracted from [baseSam] (first is removed
-         * when [methodRef] is not static because it is the receiver type).
+         * Current types of lambda sam.
          */
         val currentTypes: TypeSpec
-            get() = if (methodRef.invokeType != InvokeType.INVOKE_STATIC)
-                baseSam.typeSpec.copy(
-                        parameterTypes = baseSam.typeSpec.parameterTypes.subList(1, baseSam.typeSpec.parameterTypes.size))
-            else
-                baseSam.typeSpec
+            get() = baseSam.typeSpec
 
         /**
          * Types expected by the caller of lambda SAM.
