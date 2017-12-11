@@ -62,7 +62,8 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
     val bootstrap: MethodInvokeSpec
 
     /**
-     * Specification of dynamic method
+     * Specification of dynamic method. If the dynamic method needs a receiver object,
+     * specify it in [DynamicMethodSpec.typeSpec] and provide it in [DynamicMethodSpec.arguments].
      */
     val dynamicMethod: DynamicMethodSpec
 
@@ -240,7 +241,6 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
              * See [LambdaLocalCodeBase.localCode]
              */
             fun localCode(value: LocalCode): S
-
         }
     }
 
