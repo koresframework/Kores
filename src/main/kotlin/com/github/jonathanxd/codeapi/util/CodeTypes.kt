@@ -30,8 +30,10 @@
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
+import com.github.jonathanxd.jwiutils.kt.rightOrFail
 import java.lang.reflect.*
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
@@ -67,6 +69,14 @@ val Type.codeType: CodeType get() = this.getType(false)
 
 val Type.asGeneric: GenericType get() = this.codeType.let { if (it is GenericType) it else Generic.type(it) }
 
+val Type.toGeneric: GenericType get() = this.codeType.let {
+    when (it) {
+        is LoadedCodeType<*> -> it.loadedType.getCodeTypeFromTypeParameters()
+        is TypeDeclaration -> Generic.type(it).of(*it.genericSignature.types)
+        else -> it.defaultResolver.resolveTypeDeclaration(it).rightOrFail.asGeneric
+    }
+}
+
 /**
  * Gets the concrete type of [CodeType], if this is a [GenericType], the property getter will try to
  * infer the concrete type looping the [GenericType Inferred type][GenericType.resolvedType].
@@ -82,7 +92,7 @@ val CodeType.concreteType: CodeType
         type
     } else this
 
-fun Class<*>.getCodeTypeFromTypeParameters(): CodeType {
+fun Class<*>.getCodeTypeFromTypeParameters(): GenericType {
     var generic = Generic.type(this)
 
     this.typeParameters.forEach {
