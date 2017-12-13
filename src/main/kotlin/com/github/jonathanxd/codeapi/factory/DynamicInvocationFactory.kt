@@ -50,9 +50,10 @@ fun invokeDynamic(bootstrap: MethodInvokeSpec, dynamicMethod: DynamicMethodSpec,
  * @see InvokeDynamic
  */
 fun invokeDynamicLambda(methodRef: MethodInvokeSpec,
+                        target: CodeInstruction,
                         arguments: List<CodeInstruction>,
                         baseSam: MethodTypeSpec, expectedTypes: TypeSpec): InvokeDynamic.LambdaMethodRef =
-        InvokeDynamic.LambdaMethodRef(methodRef, arguments, baseSam, expectedTypes)
+        InvokeDynamic.LambdaMethodRef(methodRef, target, arguments, baseSam, expectedTypes)
 
 /**
  * @see InvokeDynamic

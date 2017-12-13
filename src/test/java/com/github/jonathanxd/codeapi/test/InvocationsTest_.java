@@ -256,7 +256,8 @@ public class InvocationsTest_ {
 
         InvokeDynamic.LambdaMethodRef dynamicGet = DynamicInvocationFactory.invokeDynamicLambda(
                 greet,
-                singletonList(Factories.accessVariable(Greeter.class, "greeter")), // Receiver
+                Factories.accessVariable(Greeter.class, "greeter"),
+                emptyList(),
                 new MethodTypeSpec(supplierType, "get", Factories.typeSpec(Types.OBJECT)),
                 new TypeSpec(Types.STRING));
 

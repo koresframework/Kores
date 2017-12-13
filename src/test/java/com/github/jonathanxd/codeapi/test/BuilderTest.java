@@ -563,12 +563,12 @@ public class BuilderTest {
     public void invokeLambdaRefBuilderTest() {
         InvokeDynamic.LambdaMethodRef.Builder.Companion.builder()
                 .baseSam(new MethodTypeSpec(Supplier.class, "get", new TypeSpec(Object.class)))
+                .target(Factories.accessVariable(Greeter.class, "greeter"))
                 .expectedTypes(new TypeSpec(String.class))
                 .methodRef(new MethodInvokeSpec(
                         InvokeType.INVOKE_INTERFACE,
                         new MethodTypeSpec(Greeter.class, "hello", Factories.typeSpec(String.class))
                 ))
-                .arguments(Collections.singletonList(Factories.accessVariable(Greeter.class, "greeter")))
                 .build();
     }
 
