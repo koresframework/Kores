@@ -206,9 +206,6 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override val expectedTypes: TypeSpec
             get() = this.localCode.description
 
-        private val needThis
-            get() = this.localCode.invokeType != InvokeType.INVOKE_STATIC
-
         override val methodRef: MethodInvokeSpec
             get() = MethodInvokeSpec(this.localCode.invokeType,
                     MethodTypeSpec(this.localCode.declaringType, this.localCode.declaration.name,
