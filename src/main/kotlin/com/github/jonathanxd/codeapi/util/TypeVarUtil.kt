@@ -66,7 +66,7 @@ fun getType(typeVariables: Array<out TypeVariable<*>>, variable: TypeVariable<*>
  * @param generic Generic type with types of [typeVariables]
  */
 fun getType(typeVariables: Array<out TypeVariable<*>>, variable: String, generic: GenericType): CodeType? =
-        (0..generic.bounds.size - 1)
+        (0 until generic.bounds.size)
                 .takeWhile { it < typeVariables.size }
                 .firstOrNull { variable == typeVariables[it].name }
                 ?.let { generic.bounds[it].type }
@@ -270,11 +270,11 @@ fun Type.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<
                     )
                 }
             }
-            if (!isConflict(variables, variable)) {
-                return getType(classVariables, variable, generic)
-                        ?: throw IllegalStateException("Cannot infer type")
+            return if (!isConflict(variables, variable)) {
+                getType(classVariables, variable, generic)
+                        ?: Types.OBJECT
             } else {
-                return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
+                com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT
             }
 
         }
