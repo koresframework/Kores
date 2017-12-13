@@ -123,10 +123,12 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
             get() = DynamicMethodSpec(this.baseSam.methodName,
                     this.baseSam.typeSpec.copy(returnType = this.baseSam.localization,
                             parameterTypes =
-                            (if (!methodRef.invokeType.isStatic())
+                            (if (this.needThis)
                                 listOf(methodRef.methodTypeSpec.localization)
                             else emptyList()) + this.additionalArgumentsType),
-                    this.arguments)
+                    (if (this.needThis)
+                        listOf(Access.THIS)
+                    else emptyList()) + this.arguments)
 
         override val type: Type
             get() = this.baseSam.localization
@@ -211,11 +213,6 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
             get() = MethodInvokeSpec(this.localCode.invokeType,
                     MethodTypeSpec(this.localCode.declaringType, this.localCode.declaration.name,
                             this.localCode.description))
-
-        override val dynamicMethod: DynamicMethodSpec
-            get() = DynamicMethodSpec(this.baseSam.methodName,
-                    this.baseSam.typeSpec.copy(returnType = this.baseSam.localization),
-                    (if (!needThis) listOf() else listOf(Defaults.ACCESS_THIS)) + arguments)
 
         override val array: Boolean
             get() = false
@@ -420,3 +417,6 @@ val InvokeDynamicBase.LambdaMethodRefBase.additionalArgumentsType: List<Type>
 
         invkSpec.parameterTypes.subList(0, (invkSpec.parameterTypes.size - samSpec.parameterTypes.size))
     } else emptyList()
+
+private val InvokeDynamicBase.LambdaMethodRefBase.needThis
+    get() = !methodRef.invokeType.isStatic()
