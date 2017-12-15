@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.base.ClassDeclaration
 import com.github.jonathanxd.codeapi.base.CodeModifier
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
+import com.github.jonathanxd.codeapi.factory.source
 import com.github.jonathanxd.codeapi.factory.variable
 import com.github.jonathanxd.codeapi.util.*
 import com.github.jonathanxd.codeapi.util.conversion.toLiteral
