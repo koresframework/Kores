@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.base.CodeModifier
 import com.github.jonathanxd.codeapi.base.CodeParameter
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.codeapi.util.fromJavaModifiers
+import com.github.jonathanxd.codeapi.util.isKotlin
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -91,10 +92,14 @@ fun <T : Any> Iterable<T>.isEqual(other: Iterable<*>): Boolean {
  * Gets parameter names of receiver [Method].
  */
 val Method.parameterNames: List<String>
-    get() = this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
-        if (it.size != this.parameterCount) null
-        else it
-    } ?: this.parameters.map { it.name }
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.name }
+        else
+            this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.name }
 
 /**
  * Gets kotlin parameters from receiver [Method].
@@ -110,19 +115,27 @@ val Method.kotlinParameters: List<KParameter>?
  * Gets code parameters of receiver [Method].
  */
 val Method.codeParameters: List<CodeParameter>
-    get() = this.kotlinParameters?.map { it.toCodeParameter() }?.let {
-        if (it.size != this.parameterCount) null
-        else it
-    } ?: this.parameters.map { it.toCodeParameter() }
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.toCodeParameter() }
+        else
+            this.kotlinParameters?.map { it.toCodeParameter() }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.toCodeParameter() }
 
 /**
  * Gets parameter names of receiver [Constructor].
  */
 val <T : Any> Constructor<T>.parameterNames: List<String>
-    get() = this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
-        if (it.size != this.parameterCount) null
-        else it
-    } ?: this.parameters.map { it.name }
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.name }
+        else
+            this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.name }
 
 /**
  * Gets kotlin parameter of receiver [Constructor].
@@ -138,7 +151,11 @@ val <T : Any> Constructor<T>.kotlinParameters: List<KParameter>?
  * Gets code parameters of receiver [Method].
  */
 val <T : Any> Constructor<T>.codeParameters: List<CodeParameter>
-    get() = this.kotlinParameters?.map { it.toCodeParameter() }?.let {
-        if (it.size != this.parameterCount) null
-        else it
-    } ?: this.parameters.map { it.toCodeParameter() }
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.toCodeParameter() }
+        else
+            this.kotlinParameters?.map { it.toCodeParameter() }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.toCodeParameter() }

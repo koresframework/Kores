@@ -74,3 +74,8 @@ fun getAllSubclasses(base: Class<*>): Collection<Class<*>> {
 
     return classes
 }
+
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+val Class<*>.isKotlin get() = this.declaredAnnotations.any {
+    (it as java.lang.annotation.Annotation).annotationType().canonicalName.startsWith("kotlin.Metadata")
+}
