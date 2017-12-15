@@ -74,45 +74,38 @@ class SimpleResolver(private val wrapped: TypeResolver, private val resolveLoade
     override fun resolve(name: String, isInterface: Boolean): Type {
         @Suppress("NAME_SHADOWING")
         var name = name
-        if (name == Types.BYTE.javaSpecName) {
-            return Types.BYTE
-        } else if (name == Types.SHORT.javaSpecName) {
-            return Types.SHORT
-        } else if (name == Types.INT.javaSpecName) {
-            return Types.INT
-        } else if (name == Types.FLOAT.javaSpecName) {
-            return Types.FLOAT
-        } else if (name == Types.DOUBLE.javaSpecName) {
-            return Types.DOUBLE
-        } else if (name == Types.LONG.javaSpecName) {
-            return Types.LONG
-        } else if (name == Types.CHAR.javaSpecName) {
-            return Types.CHAR
-        } else if (name == Types.STRING.javaSpecName) {
-            return Types.STRING
-        } else if (name == Types.BOOLEAN.javaSpecName) {
-            return Types.BOOLEAN
-        } else if (name == Types.VOID.javaSpecName) {
-            return Types.VOID
-        }
+        when (name) {
+            Types.BYTE.javaSpecName -> return Types.BYTE
+            Types.SHORT.javaSpecName -> return Types.SHORT
+            Types.INT.javaSpecName -> return Types.INT
+            Types.FLOAT.javaSpecName -> return Types.FLOAT
+            Types.DOUBLE.javaSpecName -> return Types.DOUBLE
+            Types.LONG.javaSpecName -> return Types.LONG
+            Types.CHAR.javaSpecName -> return Types.CHAR
+            Types.STRING.javaSpecName -> return Types.STRING
+            Types.BOOLEAN.javaSpecName -> return Types.BOOLEAN
+            Types.VOID.javaSpecName -> return Types.VOID
+            else -> {
+                name = name.replace('/', '.')
 
-        name = name.replace('/', '.')
+                if (name.startsWith("L") && name.endsWith(";")) {
+                    name = name.substring(1, name.length - 1)
+                }
 
-        if (name.startsWith("L") && name.endsWith(";")) {
-            name = name.substring(1, name.length - 1)
-        }
+                if (this.resolveLoadedClasses) {
+                    try {
+                        val aClass = Class.forName(name)
 
-        if (this.resolveLoadedClasses) {
-            try {
-                val aClass = Class.forName(name)
+                        if (aClass != null)
+                            return aClass.codeType
+                    } catch (ignored: Throwable) {
+                    }
 
-                if (aClass != null)
-                    return aClass.codeType
-            } catch (ignored: Throwable) {
+                }
+
+                return this.wrapped.resolve(name, isInterface)
             }
-
         }
 
-        return this.wrapped.resolve(name, isInterface)
     }
 }

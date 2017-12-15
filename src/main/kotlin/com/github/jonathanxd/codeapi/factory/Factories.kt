@@ -618,6 +618,12 @@ fun plainClassType(name: String): PlainCodeType =
 /**
  * @see TypeSpec
  */
+fun typeSpec(rtype: Type) =
+        TypeSpec(rtype, emptyList())
+
+/**
+ * @see TypeSpec
+ */
 fun typeSpec(rtype: Type, ptypes: List<Type>) =
         TypeSpec(rtype, ptypes.toList())
 

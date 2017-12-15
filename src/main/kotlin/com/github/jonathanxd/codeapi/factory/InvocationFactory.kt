@@ -108,20 +108,26 @@ fun invokeStatic(localization: Type, target: CodeInstruction, name: String, spec
 
 
 /**
- * Invokes method on [CodeInstruction]
+ * Invokes special method on [receiver][CodeInstruction].
+ */
+fun CodeInstruction.invokeSpecial(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>) =
+        invoke(InvokeType.INVOKE_SPECIAL, localization, this, name, spec, arguments)
+
+/**
+ * Invokes method on [receiver][CodeInstruction].
  */
 fun CodeInstruction.invoke(invokeType: InvokeType, localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
         invoke(invokeType, localization, this, name, spec, arguments)
 
 
 /**
- * Invokes method on [CodeInstruction].
+ * Invokes method on [receiver][CodeInstruction].
  */
 fun CodeInstruction.invokeInterface(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
         this.invoke(InvokeType.INVOKE_INTERFACE, localization, name, spec, arguments)
 
 /**
- * Invokes method on [CodeInstruction].
+ * Invokes method on [receiver][CodeInstruction].
  */
 fun CodeInstruction.invokeVirtual(localization: Type, name: String, spec: TypeSpec, arguments: List<CodeInstruction>): MethodInvocation =
         this.invoke(InvokeType.INVOKE_VIRTUAL, localization, name, spec, arguments)

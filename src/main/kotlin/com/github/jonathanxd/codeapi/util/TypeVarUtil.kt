@@ -66,7 +66,7 @@ fun getType(typeVariables: Array<out TypeVariable<*>>, variable: TypeVariable<*>
  * @param generic Generic type with types of [typeVariables]
  */
 fun getType(typeVariables: Array<out TypeVariable<*>>, variable: String, generic: GenericType): CodeType? =
-        (0..generic.bounds.size - 1)
+        (0 until generic.bounds.size)
                 .takeWhile { it < typeVariables.size }
                 .firstOrNull { variable == typeVariables[it].name }
                 ?.let { generic.bounds[it].type }
@@ -243,14 +243,16 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
 
         return GenericTypeVariable(generic.resolvedType, variable, generic.type, typeList.toTypedArray())
     } else {
-        return GenericTypeVariable(bound.type, variable, arrayOf<Type>(GenericJavaType(bound.type)))
+        return GenericTypeVariable(bound.type, variable, arrayOf(GenericJavaType(bound.type)))
     }
 }
 
 /**
  * Infers code type.
  */
-fun Type.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<out TypeVariable<*>>, generic: Generic): CodeType {
+fun Type.inferType(variables: Array<out TypeVariable<*>>,
+                   classVariables: Array<out TypeVariable<*>>,
+                   genericType: GenericType): CodeType {
     this.codeType.let {
         if (it is LoadedCodeType<*> || it is GenericType && it.isType && it.resolvedType is LoadedCodeType<*>) {
 
@@ -271,7 +273,7 @@ fun Type.inferType(variables: Array<out TypeVariable<*>>, classVariables: Array<
                 }
             }
             if (!isConflict(variables, variable)) {
-                return getType(classVariables, variable, generic)
+                return getType(classVariables, variable, genericType)
                         ?: throw IllegalStateException("Cannot infer type")
             } else {
                 return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.codeType ?: Types.OBJECT

@@ -36,7 +36,7 @@ import java.lang.reflect.Type
 /**
  * A type representation, like:
  *
- * - Java Classes.
+ * - Java Classes (reflection and apt types).
  *
  * - CodeAPI Type Declarations.
  *

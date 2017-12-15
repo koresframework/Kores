@@ -67,7 +67,7 @@ private val cache = WeakValueHashMap<Type, CodeType>()
 
 val Type.codeType: CodeType get() = this.getType(false)
 
-val Type.asGeneric: GenericType get() = this.codeType.let { if (it is GenericType) it else Generic.type(it) }
+val Type.asGeneric: GenericType get() = this.codeType.let { it as? GenericType ?: Generic.type(it) }
 
 val Type.toGeneric: GenericType get() = this.codeType.let {
     when (it) {

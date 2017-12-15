@@ -87,7 +87,7 @@ fun varDec() = VariableDeclaration.Builder.builder()
 fun varDef() = VariableDefinition.Builder.builder()
 fun whileStm() = WhileStatement.Builder.builder()
 
-fun source(ins: CodeInstruction) = CodeSource.fromPart(ins)
-fun source(ins: CodeInstruction, vararg other: CodeInstruction) = ArrayCodeSource(
+fun source(ins: CodeInstruction): CodeSource = CodeSource.fromPart(ins)
+fun source(ins: CodeInstruction, vararg other: CodeInstruction): CodeSource = ArrayCodeSource(
         Array(other.size + 1, { if(it == 0) ins else other[it - 1]})
 )

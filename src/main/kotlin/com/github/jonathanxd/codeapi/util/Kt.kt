@@ -81,6 +81,3 @@ fun trueLiteral(): Literal =
 
 fun falseLiteral(): Literal =
         Literals.FALSE
-
-fun source(part: CodeInstruction): CodeSource = CodeSource.fromPart(part)
-fun source(vararg parts: CodeInstruction): CodeSource = CodeSource.fromVarArgs(*parts)
