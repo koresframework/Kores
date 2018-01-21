@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,22 +30,24 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 
 /**
  * Instance constructor declaration.
  */
-data class ConstructorDeclaration(override val comments: Comments,
-                                  override val annotations: List<Annotation>,
-                                  override val modifiers: Set<CodeModifier>,
-                                  override val genericSignature: GenericSignature,
-                                  override val parameters: List<CodeParameter>,
-                                  override val innerTypes: List<TypeDeclaration>,
-                                  override val throwsClause: List<Type>,
-                                  override val body: CodeSource) : MethodDeclarationBase {
+data class ConstructorDeclaration(
+    override val comments: Comments,
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val genericSignature: GenericSignature,
+    override val parameters: List<CodeParameter>,
+    override val innerTypes: List<TypeDeclaration>,
+    override val throwsClause: List<Type>,
+    override val body: CodeSource
+) : MethodDeclarationBase {
 
     init {
         BodyHolder.checkBody(this)
@@ -126,7 +128,16 @@ data class ConstructorDeclaration(override val comments: Comments,
         }
 
 
-        override fun build(): ConstructorDeclaration = ConstructorDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature, this.parameters, this.innerTypes, this.throws, this.body)
+        override fun build(): ConstructorDeclaration = ConstructorDeclaration(
+            this.comments,
+            this.annotations,
+            this.modifiers,
+            this.genericSignature,
+            this.parameters,
+            this.innerTypes,
+            this.throws,
+            this.body
+        )
 
         companion object {
             @JvmStatic

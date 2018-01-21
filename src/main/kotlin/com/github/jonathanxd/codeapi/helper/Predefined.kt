@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,7 +30,6 @@
 package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.InvokeType
 import com.github.jonathanxd.codeapi.base.MethodInvocation
@@ -50,9 +49,10 @@ fun CodeInstruction.invokeToString(): MethodInvocation {
  */
 fun CodeInstruction.invokeIntToString(): MethodInvocation {
     return String::class.java.invokeStatic(
-            "valueOf",
-            TypeSpec(Types.STRING, listOf(Types.INT)),
-            listOf(this))
+        "valueOf",
+        TypeSpec(Types.STRING, listOf(Types.INT)),
+        listOf(this)
+    )
 }
 
 /**
@@ -76,9 +76,11 @@ fun invokePrintln(vararg arguments: CodeInstruction): MethodInvocation {
         helper.build()
     }
 
-    return invoke(InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
-            accessStaticField(System::class.java, PrintStream::class.java, "out"),
-            "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), listOf(arg))
+    return invoke(
+        InvokeType.INVOKE_VIRTUAL, PrintStream::class.java,
+        accessStaticField(System::class.java, PrintStream::class.java, "out"),
+        "println", TypeSpec(Types.VOID, listOf(Types.OBJECT)), listOf(arg)
+    )
 }
 
 /**
@@ -86,9 +88,10 @@ fun invokePrintln(vararg arguments: CodeInstruction): MethodInvocation {
  */
 fun invokePrintlnStr(part: CodeInstruction): MethodInvocation {
     return invokeVirtual(
-            PrintStream::class.java,
-            accessStaticField(System::class.java, PrintStream::class.java, "out"),
-            "println",
-            typeSpec(Types.VOID, Types.STRING),
-            listOf(part))
+        PrintStream::class.java,
+        accessStaticField(System::class.java, PrintStream::class.java, "out"),
+        "println",
+        typeSpec(Types.VOID, Types.STRING),
+        listOf(part)
+    )
 }

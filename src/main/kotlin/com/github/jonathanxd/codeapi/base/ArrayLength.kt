@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,15 +28,15 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.builder.self
 import java.lang.reflect.Type
 
 /**
  * Access length of array [target] of type [arrayType].
  */
-data class ArrayLength(override val arrayType: Type, override val target: CodeInstruction) : ArrayAccess, Typed, CodeInstruction {
+data class ArrayLength(override val arrayType: Type, override val target: CodeInstruction) :
+    ArrayAccess, Typed, CodeInstruction {
 
     override val type: Type
         get() = Types.INT
@@ -44,8 +44,8 @@ data class ArrayLength(override val arrayType: Type, override val target: CodeIn
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ArrayAccess.Builder<ArrayLength, Builder>,
-            Typed.Builder<ArrayLength, Builder> {
+        ArrayAccess.Builder<ArrayLength, Builder>,
+        Typed.Builder<ArrayLength, Builder> {
 
         lateinit var arrayType: Type
         lateinit var target: CodeInstruction

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,9 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
-import com.github.jonathanxd.codeapi.util.Alias
-import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
@@ -40,10 +39,12 @@ import java.lang.reflect.Type
  * you must to pass a [New] instance, for super constructor or this constructors you must to pass either an [Alias] or an
  * [Access] to `this` context.
  */
-data class MethodInvocation(val invokeType: InvokeType,
-                            override val target: CodeInstruction,
-                            val spec: MethodTypeSpec,
-                            override val arguments: List<CodeInstruction>) : Accessor, ArgumentsHolder, Typed, CodeInstruction {
+data class MethodInvocation(
+    val invokeType: InvokeType,
+    override val target: CodeInstruction,
+    val spec: MethodTypeSpec,
+    override val arguments: List<CodeInstruction>
+) : Accessor, ArgumentsHolder, Typed, CodeInstruction {
 
     override val types: List<Type>
         get() = this.spec.typeSpec.parameterTypes
@@ -67,8 +68,8 @@ data class MethodInvocation(val invokeType: InvokeType,
     override fun builder(): Builder = Builder(this)
 
     class Builder() : Accessor.Builder<MethodInvocation, Builder>,
-            ArgumentsHolder.Builder<MethodInvocation, Builder>,
-            Typed.Builder<MethodInvocation, Builder> {
+        ArgumentsHolder.Builder<MethodInvocation, Builder>,
+        Typed.Builder<MethodInvocation, Builder> {
 
         lateinit var invokeType: InvokeType
         lateinit var target: CodeInstruction
@@ -116,7 +117,8 @@ data class MethodInvocation(val invokeType: InvokeType,
             return this
         }
 
-        override fun build(): MethodInvocation = MethodInvocation(this.invokeType, this.target, this.spec, this.arguments)
+        override fun build(): MethodInvocation =
+            MethodInvocation(this.invokeType, this.target, this.spec, this.arguments)
 
         companion object {
             @JvmStatic
@@ -127,5 +129,10 @@ data class MethodInvocation(val invokeType: InvokeType,
         }
 
     }
-
 }
+
+/**
+ * Returns true if a [MethodInvocation] is a invocation of super constructor
+ */
+val MethodInvocation.isSuperConstructorInvocation
+    get() = this.spec.methodName == "<init>" && this.target == Alias.SUPER

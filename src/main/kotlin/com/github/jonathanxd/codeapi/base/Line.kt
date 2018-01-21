@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -26,10 +26,11 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("Line")
+
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.util.type
+import com.github.jonathanxd.codeapi.type
 import java.lang.reflect.Type
 
 /**
@@ -65,12 +66,16 @@ sealed class Line : CodeInstruction, ValueHolder, InstructionWrapper {
     /**
      * A [Line] which extends [Typed].
      */
-    data class TypedLine(override val line: Int, override val value: CodeInstruction, override val type: Type) : Line(), Typed {
+    data class TypedLine(
+        override val line: Int,
+        override val value: CodeInstruction,
+        override val type: Type
+    ) : Line(), Typed {
 
         override fun builder() = Builder(this)
 
         class Builder() : Line.Builder<TypedLine, Builder>,
-                Typed.Builder<TypedLine, Builder> {
+            Typed.Builder<TypedLine, Builder> {
 
             lateinit var type: Type
             var line: Int = -1

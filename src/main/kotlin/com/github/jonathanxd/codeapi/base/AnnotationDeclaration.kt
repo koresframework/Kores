@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,8 +29,13 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.type.isConcreteIdEq
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
 import java.lang.annotation.ElementType
 import java.lang.annotation.RetentionPolicy
 import java.lang.reflect.Type
@@ -40,18 +45,21 @@ import java.lang.reflect.Type
  *
  * @property properties Properties of annotation declaration.
  */
-data class AnnotationDeclaration(override val comments: Comments,
-                                 override val outerClass: Type?,
-                                 override val annotations: List<Annotation>,
-                                 override val modifiers: Set<CodeModifier>,
-                                 override val specifiedName: String,
-                                 override val genericSignature: GenericSignature,
-                                 val properties: List<AnnotationProperty>,
-                                 override val fields: List<FieldDeclaration>,
-                                 override val innerTypes: List<TypeDeclaration>) : TypeDeclaration {
+data class AnnotationDeclaration(
+    override val comments: Comments,
+    override val outerClass: Type?,
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val specifiedName: String,
+    override val genericSignature: GenericSignature,
+    val properties: List<AnnotationProperty>,
+    override val fields: List<FieldDeclaration>,
+    override val innerTypes: List<TypeDeclaration>
+) : TypeDeclaration {
 
     override val methods: List<MethodDeclaration> = emptyList()
-    override val staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+    override val staticBlock: StaticBlock =
+        StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -152,34 +160,43 @@ data class AnnotationDeclaration(override val comments: Comments,
         fun properties(vararg values: AnnotationProperty): Builder = properties(values.toList())
 
         private fun addAnnotation(annotation: Annotation): Builder =
-                ((this.annotations as? MutableList) ?: this.annotations.toMutableList()).let {
-                    annotations(it.filter { it.type.isConcreteIdEq(annotation.type) } + annotation)
-                }
+            ((this.annotations as? MutableList) ?: this.annotations.toMutableList()).let {
+                annotations(it.filter { it.type.isConcreteIdEq(annotation.type) } + annotation)
+            }
 
         /**
          * Adds retention annotation to annotation declaration (remove old retention annotation if it is already defined)
          */
         fun retention(retention: RetentionPolicy): Builder =
-                addAnnotation(Annotation.Builder.builder()
-                        .type(java.lang.annotation.Retention::class.java)
-                        .values(mapOf("value" to EnumValue.Builder.builder().base(retention).build()))
-                        .build()
-                )
+            addAnnotation(
+                Annotation.Builder.builder()
+                    .type(java.lang.annotation.Retention::class.java)
+                    .values(mapOf("value" to EnumValue.Builder.builder().base(retention).build()))
+                    .build()
+            )
 
         /**
          * Adds target annotation to annotation declaration (remove old target annotation if it is already defined)
          */
         fun target(targets: Array<ElementType>): Builder =
-                addAnnotation(Annotation.Builder.builder()
-                        .type(java.lang.annotation.Target::class.java)
-                        .values(mapOf("value" to
-                                targets.map { EnumValue.Builder.builder().base(it).build() }.toTypedArray()
-                        ))
-                        .build()
-                )
+            addAnnotation(
+                Annotation.Builder.builder()
+                    .type(java.lang.annotation.Target::class.java)
+                    .values(
+                        mapOf(
+                            "value" to
+                                    targets.map {
+                                        EnumValue.Builder.builder().base(it).build()
+                                    }.toTypedArray()
+                        )
+                    )
+                    .build()
+            )
 
-        override fun build() = AnnotationDeclaration(this.comments, this.outerClass, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.properties, this.fields, this.innerTypes)
+        override fun build() = AnnotationDeclaration(
+            this.comments, this.outerClass, this.annotations, this.modifiers,
+            this.specifiedName, this.genericSignature, this.properties, this.fields, this.innerTypes
+        )
 
         companion object {
             @JvmStatic

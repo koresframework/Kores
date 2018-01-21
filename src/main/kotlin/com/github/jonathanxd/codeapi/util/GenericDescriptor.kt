@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,20 +31,23 @@ package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.Generic
-import com.github.jonathanxd.codeapi.type.GenericType
-import com.github.jonathanxd.codeapi.type.PlainCodeType
+import com.github.jonathanxd.codeapi.type.*
 import com.github.jonathanxd.iutils.condition.Conditions
 import com.github.jonathanxd.iutils.type.TypeUtil
 import java.lang.reflect.Type
-import java.util.StringJoiner
+import java.util.*
 import java.util.regex.Pattern
 
 /**
  * Create a type descriptor from [typeDeclaration] signature.
  */
-fun genericTypesToDescriptor(typeDeclaration: TypeDeclaration, superClass: Type, implementations: Collection<Type>, superClassIsGeneric: Boolean, anyInterfaceIsGeneric: Boolean): String? {
+fun genericTypesToDescriptor(
+    typeDeclaration: TypeDeclaration,
+    superClass: Type,
+    implementations: Collection<Type>,
+    superClassIsGeneric: Boolean,
+    anyInterfaceIsGeneric: Boolean
+): String? {
     val types = typeDeclaration.genericSignature.types
 
     var genericRepresentation: String? = null
@@ -104,7 +107,7 @@ fun Array<out GenericType>.genericTypesToDescriptor(): String {
  * defined by [genericTypeDescriptor_plain].
  */
 fun GenericType.genericTypeToDescriptor(): String =
-        "<${this.genericTypeDescriptor_plain()}>"
+    "<${this.genericTypeDescriptor_plain()}>"
 
 /**
  * Create a type descriptor from generic `receiver`.
@@ -118,11 +121,14 @@ private fun GenericType.genericTypeDescriptor_plain(): String {
     val name = this.name
 
     val additionalDel =
-            this.isType && this.resolvedType.isInterface
-                    || this.bounds.isNotEmpty()
-                    && this.bounds.first().type.isInterface
+        this.isType && this.resolvedType.isInterface
+                || this.bounds.isNotEmpty()
+                && this.bounds.first().type.isInterface
 
-    return name + (if (!this.isType) ":" else "") + (if (additionalDel) ":" else "") + boundToDescriptorPlain(this.isWildcard, this.bounds)
+    return name + (if (!this.isType) ":" else "") + (if (additionalDel) ":" else "") + boundToDescriptorPlain(
+        this.isWildcard,
+        this.bounds
+    )
 }
 
 /**
@@ -165,7 +171,8 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
 
         val boundType = bound.type
 
-        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor).append(if (!isLast) ":" else "")
+        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
+            .append(if (!isLast) ":" else "")
     }
 
     return sb.toString()
@@ -175,10 +182,10 @@ private fun boundToDescriptorPlain(isWildcard: Boolean, bounds: Array<GenericTyp
  * Creates [CodeType] type descriptor
  */
 fun CodeType.createCodeTypeDescriptor(): String {
-    if (this is GenericType) {
-        return this.genericTypeToDescriptor()
+    return if (this is GenericType) {
+        this.genericTypeToDescriptor()
     } else {
-        return this.javaSpecName
+        this.javaSpecName
     }
 }
 
@@ -238,10 +245,12 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
  * Infer bound of generic types using types specified in [signature holder][holder]
  * and in [type declaration][owner] and returns the string representing the description.
  */
-fun parametersAndReturnToInferredDesc(owner: Lazy<TypeDeclaration>,
-                                      holder: GenericSignatureHolder,
-                                      codeParameters: Collection<CodeParameter>,
-                                      returnType: Type): String {
+fun parametersAndReturnToInferredDesc(
+    owner: Lazy<TypeDeclaration>,
+    holder: GenericSignatureHolder,
+    codeParameters: Collection<CodeParameter>,
+    returnType: Type
+): String {
 
     val infer = inferParametersAndReturn(owner, holder, codeParameters, returnType)
 
@@ -254,10 +263,12 @@ fun parametersAndReturnToInferredDesc(owner: Lazy<TypeDeclaration>,
  *
  * This class uses lazy owner because depending on method signature, the [TypeDeclaration] is not required.
  */
-fun inferParametersAndReturn(owner: Lazy<TypeDeclaration>,
-                             holder: GenericSignatureHolder,
-                             codeParameters: Collection<CodeParameter>,
-                             returnType: Type): TypeSpec {
+fun inferParametersAndReturn(
+    owner: Lazy<TypeDeclaration>,
+    holder: GenericSignatureHolder,
+    codeParameters: Collection<CodeParameter>,
+    returnType: Type
+): TypeSpec {
 
     val genericSign by lazy {
         owner.value.genericSignature
@@ -266,11 +277,12 @@ fun inferParametersAndReturn(owner: Lazy<TypeDeclaration>,
     val parameterTypes = codeParameters.map { it.type }
 
     fun infer(codeType: java.lang.reflect.Type): CodeType =
-            if (codeType is GenericType && !codeType.isType) {
-                find(methodGenericSign, codeType.name) ?: find(genericSign, codeType.name) ?: codeType.resolvedType
-            } else {
-                codeType.codeType
-            }
+        if (codeType is GenericType && !codeType.isType) {
+            find(methodGenericSign, codeType.name) ?: find(genericSign, codeType.name)
+            ?: codeType.resolvedType
+        } else {
+            codeType.codeType
+        }
 
     return TypeSpec(infer(returnType), parameterTypes.map(::infer))
 }
@@ -279,7 +291,7 @@ fun inferParametersAndReturn(owner: Lazy<TypeDeclaration>,
  * Searches for a type with name [typeName] in [genericSignature]
  */
 fun find(genericSignature: GenericSignature, typeName: String): GenericType? =
-        genericSignature.types.find { !it.isType && it.name == typeName }
+    genericSignature.types.find { !it.isType && it.name == typeName }
 
 
 private val TYPE_VAR_REGEX = Pattern.compile("(([A-Za-z0-9_?]*) (extends|super) ).*")
@@ -407,7 +419,10 @@ fun fromSourceString(sourceString: String, typeResolver: (String) -> CodeType): 
  */
 fun fromSourceString(sourceString: String, typeResolver: CodeTypeResolverFunc): GenericType {
     if (sourceString.contains("<")) {
-        Conditions.require(sourceString.endsWith(">"), "The input generic string: '$sourceString' MUST end with '>'.")
+        Conditions.require(
+            sourceString.endsWith(">"),
+            "The input generic string: '$sourceString' MUST end with '>'."
+        )
 
         val type = extractType(sourceString)
         val generic = extractGeneric(sourceString)
@@ -422,7 +437,11 @@ fun fromSourceString(sourceString: String, typeResolver: CodeTypeResolverFunc): 
     return Generic.type(typeResolver.invoke(sourceString))
 }
 
-private fun fromSourceString(generic: Generic, sourceString: String, typeResolver: CodeTypeResolverFunc): Generic {
+private fun fromSourceString(
+    generic: Generic,
+    sourceString: String,
+    typeResolver: CodeTypeResolverFunc
+): Generic {
     @Suppress("NAME_SHADOWING")
     var generic = generic
 
@@ -453,7 +472,10 @@ private fun fromSourceString(generic: Generic, sourceString: String, typeResolve
 
             val base = if (isWildcard) Generic.wildcard() else Generic.type(varName)
 
-            val codeType = if (genericStr == null) typeResolver.invoke(type_) else fromSourceString("$type_<$genericStr>", typeResolver)
+            val codeType = if (genericStr == null) typeResolver.invoke(type_) else fromSourceString(
+                "$type_<$genericStr>",
+                typeResolver
+            )
 
             if (isExtends) {
                 generic = generic.of(base.`extends$`(codeType))
@@ -464,12 +486,14 @@ private fun fromSourceString(generic: Generic, sourceString: String, typeResolve
 
         } else {
 
-            if (type_ == "?") {
-                generic = generic.of(Generic.wildcard())
+            generic = if (type_ == "?") {
+                generic.of(Generic.wildcard())
             } else {
-                val codeType = if (genericStr == null) typeResolver.invoke(type_) else fromSourceString("$type_<$genericStr>", typeResolver)
+                val codeType =
+                    if (genericStr == null) typeResolver.invoke(type_)
+                    else fromSourceString("$type_<$genericStr>", typeResolver)
 
-                generic = generic.of(codeType)
+                generic.of(codeType)
             }
         }
 

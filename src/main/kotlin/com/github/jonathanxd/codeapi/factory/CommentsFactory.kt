@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -38,71 +38,92 @@ import java.lang.reflect.Type
 /**
  * @see Comments
  */
-@JvmOverloads fun comments(type: Comments.Type = Comments.Type.COMMENT, vararg comments: Comment): Comments =
-        Comments(comments.toList(), type)
+@JvmOverloads
+fun comments(type: Comments.Type = Comments.Type.COMMENT, vararg comments: Comment): Comments =
+    Comments(comments.toList(), type)
 
 /**
  * @see Comments
  */
 fun documentation(vararg comments: Comment): Comments =
-        Comments(comments.toList(), Comments.Type.DOCUMENTATION)
+    Comments(comments.toList(), Comments.Type.DOCUMENTATION)
 
 /**
  * @see Plain
  */
 fun plain(text: String): Comment =
-        Plain(text)
+    Plain(text)
 
 /**
  * @see Code
  */
 fun code(plain: String): Comment =
-        Code(Code.CodeNode.Plain(plain))
+    Code(Code.CodeNode.Plain(plain))
 
 /**
  * @see Code
  */
 fun code(part: CodePart): Comment =
-        Code(Code.CodeNode.CodeRepresentation(part))
+    Code(Code.CodeNode.CodeRepresentation(part))
 
 /**
  * @see Link
  */
-@JvmOverloads fun link(name: String? = null, url: String): Comment =
-        Link(name, Link.LinkTarget.URL(url))
+@JvmOverloads
+fun link(name: String? = null, url: String): Comment =
+    Link(name, Link.LinkTarget.URL(url))
 
 /**
  * @see Link
  */
-@JvmOverloads fun link(name: String? = null, element: Link.LinkTarget.Element): Comment =
-        Link(name, element)
+@JvmOverloads
+fun link(name: String? = null, element: Link.LinkTarget.Element): Comment =
+    Link(name, element)
 
 /**
  * @see Link
  */
-@JvmOverloads fun linkClass(name: String? = null, type: Type): Comment =
-        Link(name, Link.LinkTarget.Element.Class(type))
+@JvmOverloads
+fun linkClass(name: String? = null, type: Type): Comment =
+    Link(name, Link.LinkTarget.Element.Class(type))
 
 /**
  * @see Link
  */
-@JvmOverloads fun linkClass(name: String? = null, canonicalName: String): Comment =
-        Link(name, Link.LinkTarget.Element.Class(PlainCodeType(canonicalName, false)))
+@JvmOverloads
+fun linkClass(name: String? = null, canonicalName: String): Comment =
+    Link(name, Link.LinkTarget.Element.Class(PlainCodeType(canonicalName, false)))
 
 /**
  * @see Link
  */
-@JvmOverloads fun linkField(name: String? = null, declaringClass: Type, fieldName: String, fieldType: Type): Comment =
-        Link(name, Link.LinkTarget.Element.Field(declaringClass, fieldName, fieldType))
+@JvmOverloads
+fun linkField(
+    name: String? = null,
+    declaringClass: Type,
+    fieldName: String,
+    fieldType: Type
+): Comment =
+    Link(name, Link.LinkTarget.Element.Field(declaringClass, fieldName, fieldType))
 
 /**
  * @see Link
  */
-@JvmOverloads fun linkField(name: String? = null, declaringClass: String, fieldName: String, fieldType: Type): Comment =
-        Link(name, Link.LinkTarget.Element.Field(PlainCodeType(declaringClass, false), fieldName, fieldType))
+@JvmOverloads
+fun linkField(
+    name: String? = null,
+    declaringClass: String,
+    fieldName: String,
+    fieldType: Type
+): Comment =
+    Link(
+        name,
+        Link.LinkTarget.Element.Field(PlainCodeType(declaringClass, false), fieldName, fieldType)
+    )
 
 /**
  * @see Link
  */
-@JvmOverloads fun linkMethod(name: String? = null, methodSpec: MethodTypeSpec): Comment =
-        Link(name, Link.LinkTarget.Element.Method(methodSpec))
+@JvmOverloads
+fun linkMethod(name: String? = null, methodSpec: MethodTypeSpec): Comment =
+    Link(name, Link.LinkTarget.Element.Method(methodSpec))

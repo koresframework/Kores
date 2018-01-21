@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -38,22 +38,24 @@ import java.lang.reflect.Type
  * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or a List
  * of one of types cited above (with or without elements).
  */
-data class AnnotationProperty(override val comments: Comments,
-                              override val annotations: List<Annotation>,
-                              override val type: Type,
-                              override val name: String,
-                              val defaultValue: Any?) : Named, Typed, Annotable, ReturnTypeHolder, CommentHolder {
+data class AnnotationProperty(
+    override val comments: Comments,
+    override val annotations: List<Annotation>,
+    override val type: Type,
+    override val name: String,
+    val defaultValue: Any?
+) : Named, Typed, Annotable, ReturnTypeHolder, CommentHolder {
     override val returnType: Type
         get() = this.type
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Named.Builder<AnnotationProperty, Builder>,
-            Typed.Builder<AnnotationProperty, Builder>,
-            Annotable.Builder<AnnotationProperty, Builder>,
-            ReturnTypeHolder.Builder<AnnotationProperty, Builder>,
-            CommentHolder.Builder<AnnotationProperty, Builder> {
+        Named.Builder<AnnotationProperty, Builder>,
+        Typed.Builder<AnnotationProperty, Builder>,
+        Annotable.Builder<AnnotationProperty, Builder>,
+        ReturnTypeHolder.Builder<AnnotationProperty, Builder>,
+        CommentHolder.Builder<AnnotationProperty, Builder> {
 
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
@@ -98,8 +100,10 @@ data class AnnotationProperty(override val comments: Comments,
             return this
         }
 
-        override fun build(): AnnotationProperty = AnnotationProperty(this.comments, this.annotations,
-                this.type, this.name, this.defaultValue)
+        override fun build(): AnnotationProperty = AnnotationProperty(
+            this.comments, this.annotations,
+            this.type, this.name, this.defaultValue
+        )
 
 
         companion object {

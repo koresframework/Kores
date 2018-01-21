@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -37,15 +37,37 @@ import java.lang.reflect.TypeVariable
  * Wrapper of [CodeType] to [TypeVariable]. This class is a little complex and is not intended to be used by
  * external sources.
  */
-class GenericTypeVariable internal constructor(val type: CodeType?, private val wrapped: TypeVariable<out GenericDeclaration>?, private val wrappedType: Type?, name: String?, private val bounds: Array<Type>) : TypeVariable<GenericDeclaration> {
+class GenericTypeVariable internal constructor(
+    val type: CodeType?,
+    private val wrapped: TypeVariable<out GenericDeclaration>?,
+    private val wrappedType: Type?,
+    name: String?,
+    private val bounds: Array<Type>
+) : TypeVariable<GenericDeclaration> {
 
-    private val name: String? = name ?: (type?.canonicalName ?: if (wrapped != null) wrapped.name else wrappedType!!.typeName)
+    private val name: String? = name ?: (type?.canonicalName
+            ?: if (wrapped != null) wrapped.name else wrappedType!!.typeName)
 
-    constructor(type: CodeType?, wrapped: TypeVariable<out GenericDeclaration>?, bounds: Array<Type>) : this(type, wrapped, null, null, bounds)
+    constructor(
+        type: CodeType?,
+        wrapped: TypeVariable<out GenericDeclaration>?,
+        bounds: Array<Type>
+    ) : this(type, wrapped, null, null, bounds)
 
-    constructor(type: CodeType?, wrapped: TypeVariable<out GenericDeclaration>?, name: String?, bounds: Array<Type>) : this(type, wrapped, null, name, bounds)
+    constructor(
+        type: CodeType?,
+        wrapped: TypeVariable<out GenericDeclaration>?,
+        name: String?,
+        bounds: Array<Type>
+    ) : this(type, wrapped, null, name, bounds)
 
-    constructor(type: CodeType?, wrappedType: Type?, bounds: Array<Type>) : this(type, null, wrappedType, null, bounds)
+    constructor(type: CodeType?, wrappedType: Type?, bounds: Array<Type>) : this(
+        type,
+        null,
+        wrappedType,
+        null,
+        bounds
+    )
 
     override fun getBounds(): Array<Type> {
         return this.bounds
@@ -56,7 +78,8 @@ class GenericTypeVariable internal constructor(val type: CodeType?, private val 
     }
 
     override fun getName(): String {
-        return this.name ?: if (this.type != null) this.type.canonicalName else if (this.wrapped != null) this.wrapped.name else this.wrappedType!!.typeName
+        return this.name
+                ?: if (this.type != null) this.type.canonicalName else if (this.wrapped != null) this.wrapped.name else this.wrappedType!!.typeName
     }
 
     override fun getTypeName(): String = this.getName()

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,14 +28,16 @@
 package com.github.jonathanxd.codeapi.test.other;
 
 import com.github.jonathanxd.codeapi.CodeInstruction;
+import com.github.jonathanxd.codeapi.CodePartKt;
 import com.github.jonathanxd.codeapi.CodeSource;
 import com.github.jonathanxd.codeapi.Types;
+import com.github.jonathanxd.codeapi.common.Commons;
 import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.factory.VariableFactory;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
-import com.github.jonathanxd.codeapi.util.CodePartUtil;
-import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.codeapi.type.CodeTypes;
+import com.github.jonathanxd.iutils.collection.Collections3;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -50,7 +52,53 @@ public class ComplexIfTestUtil {
         );
 
         VariableFactory.variable(Types.STRING, "b", value);
-        Assert.assertEquals(CodeTypes.getCodeType(String.class), CodePartUtil.getType(value));
+
+        CodeInstruction value2 = Factories.tryStatement(
+                CodeSource.fromVarArgs(Literals.STRING("Hello")),
+                Collections3.listOf(Factories.catchStatement(
+                        IllegalArgumentException.class,
+                        VariableFactory.variable(IllegalArgumentException.class, "ex"),
+                        CodeSource.fromVarArgs(Literals.STRING("Hello"))
+                )),
+                CodeSource.fromVarArgs(Literals.STRING("Hello"))
+        );
+
+        CodeInstruction value3 = Factories.tryStatement(
+                CodeSource.fromVarArgs(Literals.STRING("Hello")),
+                Collections3.listOf(Factories.catchStatement(
+                        IllegalArgumentException.class,
+                        VariableFactory.variable(IllegalArgumentException.class, "ex"),
+                        CodeSource.fromVarArgs(Literals.STRING("Hello"))
+                )),
+                CodeSource.fromVarArgs(Literals.INT(9))
+        );
+
+        CodeInstruction value4 = Factories.tryStatement(
+                CodeSource.fromVarArgs(Literals.STRING("Hello")),
+                Collections3.listOf(Factories.catchStatement(
+                        IllegalArgumentException.class,
+                        VariableFactory.variable(IllegalArgumentException.class, "ex"),
+                        CodeSource.fromVarArgs(Literals.STRING("Hello"))
+                )),
+                CodeSource.fromVarArgs(Commons.invokeValueOf(Types.INTEGER_WRAPPER, Literals.INT(9)))
+        );
+
+        CodeInstruction value5 = Factories.tryStatement(
+                CodeSource.fromVarArgs(Literals.STRING("Hello")),
+                Collections3.listOf(Factories.catchStatement(
+                        IllegalArgumentException.class,
+                        VariableFactory.variable(IllegalArgumentException.class, "ex"),
+                        CodeSource.fromVarArgs(Literals.STRING("Hello"))
+                )),
+                CodeSource.empty()
+        );
+
+        Assert.assertEquals(CodeTypes.getCodeType(String.class), CodePartKt.getType(value));
+        Assert.assertEquals(CodeTypes.getCodeType(String.class), CodePartKt.getType(value2));
+        Assert.assertEquals(null, CodePartKt.getTypeOrNull(value3));
+        Assert.assertEquals(Types.OBJECT, CodePartKt.getTypeOrNull(value4));
+        Assert.assertEquals(null, CodePartKt.getTypeOrNull(value5));
+
     }
 
 

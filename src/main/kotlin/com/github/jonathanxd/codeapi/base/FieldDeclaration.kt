@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,26 +31,27 @@ import com.github.jonathanxd.codeapi.CodeElement
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.base.comment.CommentHolder
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.factory.accessStatic
 import com.github.jonathanxd.codeapi.factory.accessThis
-import com.github.jonathanxd.codeapi.util.Alias
-import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
  * Declaration of a field.
  */
-data class FieldDeclaration(override val comments: Comments,
-                            override val annotations: List<Annotation>,
-                            override val modifiers: Set<CodeModifier>,
-                            override val type: Type,
-                            override val name: String,
-                            override val innerTypes: List<TypeDeclaration>,
-                            override val value: CodeInstruction) :
-        CodeElement, FieldBase, Named, Typed,
-        ValueHolder, ModifiersHolder, Annotable, CommentHolder,
-        InnerTypesHolder {
+data class FieldDeclaration(
+    override val comments: Comments,
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val type: Type,
+    override val name: String,
+    override val innerTypes: List<TypeDeclaration>,
+    override val value: CodeInstruction
+) :
+    CodeElement, FieldBase, Named, Typed,
+    ValueHolder, ModifiersHolder, Annotable, CommentHolder,
+    InnerTypesHolder {
 
     override val localization: Type
         get() = Alias.THIS
@@ -62,14 +63,14 @@ data class FieldDeclaration(override val comments: Comments,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            FieldBase.Builder<FieldDeclaration, Builder>,
-            Named.Builder<FieldDeclaration, Builder>,
-            Typed.Builder<FieldDeclaration, Builder>,
-            ValueHolder.Builder<FieldDeclaration, Builder>,
-            ModifiersHolder.Builder<FieldDeclaration, Builder>,
-            Annotable.Builder<FieldDeclaration, Builder>,
-            CommentHolder.Builder<FieldDeclaration, Builder>,
-            InnerTypesHolder.Builder<FieldDeclaration, Builder>{
+        FieldBase.Builder<FieldDeclaration, Builder>,
+        Named.Builder<FieldDeclaration, Builder>,
+        Typed.Builder<FieldDeclaration, Builder>,
+        ValueHolder.Builder<FieldDeclaration, Builder>,
+        ModifiersHolder.Builder<FieldDeclaration, Builder>,
+        Annotable.Builder<FieldDeclaration, Builder>,
+        CommentHolder.Builder<FieldDeclaration, Builder>,
+        InnerTypesHolder.Builder<FieldDeclaration, Builder> {
 
         var comments: Comments = Comments.Absent
         var annotations: List<Annotation> = emptyList()
@@ -132,8 +133,10 @@ data class FieldDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun build(): FieldDeclaration = FieldDeclaration(this.comments, this.annotations,
-                this.modifiers, this.type, this.name, this.innerTypes, this.value)
+        override fun build(): FieldDeclaration = FieldDeclaration(
+            this.comments, this.annotations,
+            this.modifiers, this.type, this.name, this.innerTypes, this.value
+        )
 
         companion object {
             @JvmStatic

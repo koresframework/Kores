@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,13 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.jonathanxd.codeapi.util
+package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.type.*
-import com.github.jonathanxd.codeapi.type.CodeTypeResolver
-import com.github.jonathanxd.codeapi.type.NullType
-import com.github.jonathanxd.jwiutils.kt.rightOrFail
+import com.github.jonathanxd.codeapi.util.GenericResolver
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.toStr
+import com.github.jonathanxd.iutils.kt.rightOrFail
 import java.lang.reflect.Type
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
@@ -39,19 +40,23 @@ import javax.lang.model.element.TypeParameterElement
 import javax.lang.model.type.*
 import javax.lang.model.util.Elements
 
-fun TypeElement.getCodeType(elements: Elements): CodeType = TypeElementCodeType(this, elements)
+fun TypeElement.getCodeType(elements: Elements): CodeType =
+    TypeElementCodeType(this, elements)
 
 fun TypeMirror.getCodeType(elements: Elements): CodeType = this.toCodeType(false, elements)
 
 fun TypeMirror.toCodeType(isParameterized: Boolean, elements: Elements): CodeType {
 
-    fun parseIntersection(intersectionType: IntersectionType, isSuper: Boolean): Array<GenericType.Bound> =
-            intersectionType.bounds.map {
-                if (isSuper)
-                    GenericType.Super(it.toCodeType(false, elements))
-                else
-                    GenericType.Extends(it.toCodeType(false, elements))
-            }.toTypedArray()
+    fun parseIntersection(
+        intersectionType: IntersectionType,
+        isSuper: Boolean
+    ): Array<GenericType.Bound> =
+        intersectionType.bounds.map {
+            if (isSuper)
+                GenericType.Super(it.toCodeType(false, elements))
+            else
+                GenericType.Extends(it.toCodeType(false, elements))
+        }.toTypedArray()
 
     return when (this) {
         is NoType, is PrimitiveType -> when (this.kind) {
@@ -85,7 +90,14 @@ fun TypeMirror.toCodeType(isParameterized: Boolean, elements: Elements): CodeTyp
 
             generic
         }
-        is DeclaredType -> Generic.type((this.asElement() as TypeElement).getCodeType(elements)).of(*this.typeArguments.map { it.toCodeType(true, elements) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+        is DeclaredType -> Generic.type((this.asElement() as TypeElement).getCodeType(elements)).of(
+            *this.typeArguments.map {
+                it.toCodeType(
+                    true,
+                    elements
+                )
+            }.filter { !it.`is`(Types.OBJECT) }.toTypedArray()
+        )
         is ArrayType -> {
             val str = this.toString()
             val index = str.indexOf("[]")
@@ -120,7 +132,10 @@ fun TypeMirror.toCodeType(isParameterized: Boolean, elements: Elements): CodeTyp
     }
 }
 
-private fun TypeParameterElement.getType(isParameterized: Boolean = false, elements: Elements): CodeType {
+private fun TypeParameterElement.getType(
+    isParameterized: Boolean = false,
+    elements: Elements
+): CodeType {
     return (this.asType() as TypeVariable).toCodeType(isParameterized, elements)
 }
 
@@ -135,7 +150,8 @@ fun TypeElement.getCodeTypeFromTypeParameters(elements: Elements): CodeType {
     return generic
 }
 
-internal class TypeElementCodeType(val typeElement: TypeElement, val elements: Elements) : CodeType {
+internal class TypeElementCodeType(val typeElement: TypeElement, val elements: Elements) :
+    CodeType {
 
     override val isArray: Boolean
         get() = false
@@ -173,8 +189,10 @@ val TypeElement.typeName: String
 
 class ModelResolver(val elements: Elements) : GenericResolver {
 
-    override fun resolveTypeWithParameters(type: Type,
-                                           codeTypeResolver: CodeTypeResolver<*>): GenericType {
+    override fun resolveTypeWithParameters(
+        type: Type,
+        codeTypeResolver: CodeTypeResolver<*>
+    ): GenericType {
         val resolved = type.codeType
 
         val resolve: Any? = codeTypeResolver.resolve(resolved.concreteType).rightOrFail
@@ -186,16 +204,22 @@ class ModelResolver(val elements: Elements) : GenericResolver {
         throw IllegalStateException("$type must be a Javax Annotation Model TypeElement.")
     }
 
-    override fun resolveGenericTypeImplementation(superType: Type, implemented: Type,
-                                                  codeTypeResolver: CodeTypeResolver<*>): GenericType {
+    override fun resolveGenericTypeImplementation(
+        superType: Type, implemented: Type,
+        codeTypeResolver: CodeTypeResolver<*>
+    ): GenericType {
         val superCodeType = superType.codeType
 
-        val resolvedSuperType: Any? = codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail
+        val resolvedSuperType: Any? =
+            codeTypeResolver.resolve(superCodeType.concreteType).rightOrFail
 
         if (resolvedSuperType is TypeElement) {
 
             if (resolvedSuperType.superclass.kind != TypeKind.NONE
-                    && resolvedSuperType.superclass.getCodeType(elements).concreteType.`is`(implemented.concreteType)) {
+                    && resolvedSuperType.superclass.getCodeType(elements).concreteType.`is`(
+                        implemented.concreteType
+                    )
+            ) {
                 return resolvedSuperType.superclass.getCodeType(elements).asGeneric
             }
 

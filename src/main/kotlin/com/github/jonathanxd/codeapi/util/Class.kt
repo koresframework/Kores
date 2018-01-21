@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,12 +25,59 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
+@file:JvmName("ClassUtil")
+
 package com.github.jonathanxd.codeapi.util
 
-import com.github.jonathanxd.codeapi.builder.Builder
+import java.util.*
+
+private fun getAllInterfaces(base: Class<*>): List<Class<*>> {
+
+    val classes = ArrayList<Class<*>>()
+
+    val interfaces = base.interfaces
+
+    for (anInterface in interfaces) {
+        classes.add(anInterface)
+
+        classes.addAll(getAllInterfaces(anInterface))
+    }
+
+    return classes
+}
 
 /**
- * Cast from [Builder] of [T] of implicit type [S].
+ * Internal undocumented.
  */
-@Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
-inline fun <T, S : Builder<T, S>> Builder<T, S>.self() = this as S
+fun getAllSubclasses(base: Class<*>): Collection<Class<*>> {
+
+    val classes = LinkedHashSet<Class<*>>()
+
+    val superClass = base.superclass
+
+    val nextActions = ArrayList<() -> Unit>()
+
+    if (superClass != null && superClass != Any::class.java) {
+        classes.add(superClass)
+        nextActions.add { classes.addAll(getAllSubclasses(superClass)) }
+    }
+
+    val interfaces = base.interfaces
+
+    for (anInterface in interfaces) {
+        classes.add(anInterface)
+
+        nextActions.add { classes.addAll(getAllInterfaces(anInterface)) }
+    }
+
+    nextActions.forEach { it() }
+
+    return classes
+}
+
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+val Class<*>.isKotlin
+    get() = this.declaredAnnotations.any {
+        (it as java.lang.annotation.Annotation).annotationType()
+            .canonicalName.startsWith("kotlin.Metadata")
+    }

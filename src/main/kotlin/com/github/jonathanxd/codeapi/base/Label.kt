@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,7 +35,8 @@ import com.github.jonathanxd.codeapi.CodeSource
  *
  * Labels with empty name will be treated as a scope block.
  */
-data class Label(override val name: String, override val body: CodeSource) : BodyHolder, Named, CodeInstruction {
+data class Label(override val name: String, override val body: CodeSource) : BodyHolder, Named,
+    CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
@@ -43,8 +44,8 @@ data class Label(override val name: String, override val body: CodeSource) : Bod
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            BodyHolder.Builder<Label, Builder>,
-            Named.Builder<Label, Builder> {
+        BodyHolder.Builder<Label, Builder>,
+        Named.Builder<Label, Builder> {
 
         lateinit var name: String
         var body: CodeSource = CodeSource.empty()

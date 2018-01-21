@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -51,20 +51,22 @@ class ArrayCodeSource(private val parts: Array<CodeInstruction> = emptyArray()) 
     override operator fun contains(o: Any): Boolean = this.parts.any { equals(it, o) }
 
     override operator fun plus(other: CodeInstruction): CodeSource =
-            ArrayCodeSource(this.parts + other)
+        ArrayCodeSource(this.parts + other)
 
     override operator fun minus(other: CodeInstruction): CodeSource =
-            ArrayCodeSource((this.parts.toList() - other).toTypedArray())
+        ArrayCodeSource((this.parts.toList() - other).toTypedArray())
 
     override operator fun plus(other: Iterable<CodeInstruction>): CodeSource =
-            ArrayCodeSource((this.toList() + other).toTypedArray())
+        ArrayCodeSource((this.toList() + other).toTypedArray())
 
     override operator fun minus(other: Iterable<CodeInstruction>): CodeSource =
-            ArrayCodeSource(this.parts.filter { it in other }.toTypedArray())
+        ArrayCodeSource(this.parts.filter { it in other }.toTypedArray())
 
-    override fun indexOf(o: Any): Int = this.parts.indices.firstOrNull { equals(this.parts[it], o) } ?: -1
+    override fun indexOf(o: Any): Int =
+        this.parts.indices.firstOrNull { equals(this.parts[it], o) } ?: -1
 
-    override fun lastIndexOf(o: Any): Int = this.parts.indices.lastOrNull { Companion.equals(this.parts[it], o) } ?: -1
+    override fun lastIndexOf(o: Any): Int =
+        this.parts.indices.lastOrNull { Companion.equals(this.parts[it], o) } ?: -1
 
     override fun forEach(action: Consumer<in CodeInstruction>) {
         for (part in this.parts) {
@@ -74,7 +76,8 @@ class ArrayCodeSource(private val parts: Array<CodeInstruction> = emptyArray()) 
 
     override fun toArray(): Array<CodeInstruction> = this.parts.clone()
 
-    override fun spliterator(): Spliterator<CodeInstruction> = Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
+    override fun spliterator(): Spliterator<CodeInstruction> =
+        Spliterators.spliterator(this.parts.clone(), Spliterator.ORDERED)
 
     override fun iterator(): Iterator<CodeInstruction> = Iterat()
 
@@ -91,7 +94,8 @@ class ArrayCodeSource(private val parts: Array<CodeInstruction> = emptyArray()) 
 
     override fun stream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), false)
 
-    override fun parallelStream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), true)
+    override fun parallelStream(): Stream<CodeInstruction> =
+        StreamSupport.stream(this.spliterator(), true)
 
     override fun toString(): String = if (this.isEmpty) "CodeSource[]" else "CodeSource[...]"
 
@@ -109,7 +113,8 @@ class ArrayCodeSource(private val parts: Array<CodeInstruction> = emptyArray()) 
         }
     }
 
-    private inner class ListIterat internal constructor(index: Int) : ListIterator<CodeInstruction> {
+    private inner class ListIterat internal constructor(index: Int) :
+        ListIterator<CodeInstruction> {
 
         private var index = 0
 
@@ -147,13 +152,13 @@ class ArrayCodeSource(private val parts: Array<CodeInstruction> = emptyArray()) 
 
         @JvmStatic
         inline fun ArrayCodeSource(size: Int, init: (index: Int) -> CodeInstruction): CodeSource =
-                ArrayCodeSource(Array(size, { init(it) }))
+            ArrayCodeSource(Array(size, { init(it) }))
 
         /**
          * Helper method.
          */
         private fun equals(a: Any?, b: Any?): Boolean =
-                a == null && b == null || a === b || a != null && b != null && a == b
+            a == null && b == null || a === b || a != null && b != null && a == b
     }
 }
 

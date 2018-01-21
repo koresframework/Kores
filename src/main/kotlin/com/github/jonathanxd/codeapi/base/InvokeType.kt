@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.isInterface
+import com.github.jonathanxd.codeapi.base.InvokeType.*
+import com.github.jonathanxd.codeapi.type.isInterface
 import java.lang.reflect.Type
 
 /**
@@ -107,6 +107,7 @@ enum class InvokeType {
          * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
          */
         @JvmStatic
-        fun get(type: Type?) = if (type == null) INVOKE_STATIC else if (type.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+        fun get(type: Type?) =
+            if (type == null) INVOKE_STATIC else if (type.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
     }
 }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,25 +29,32 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
 import java.lang.reflect.Type
 
 /**
  * Interface declaration.
  */
-data class InterfaceDeclaration(override val outerClass: Type?,
-                                override val comments: Comments,
-                                override val annotations: List<Annotation>,
-                                override val modifiers: Set<CodeModifier>,
-                                override val specifiedName: String,
-                                override val genericSignature: GenericSignature,
-                                override val implementations: List<Type>,
-                                override val fields: List<FieldDeclaration>,
-                                override val methods: List<MethodDeclaration>,
-                                override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, ImplementationHolder {
+data class InterfaceDeclaration(
+    override val outerClass: Type?,
+    override val comments: Comments,
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val specifiedName: String,
+    override val genericSignature: GenericSignature,
+    override val implementations: List<Type>,
+    override val fields: List<FieldDeclaration>,
+    override val methods: List<MethodDeclaration>,
+    override val innerTypes: List<TypeDeclaration>
+) : TypeDeclaration, ImplementationHolder {
 
-    override val staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
+    override val staticBlock: StaticBlock =
+        StaticBlock(Comments.Absent, emptyList(), CodeSource.empty())
 
     override val isInterface: Boolean
         get() = true
@@ -65,7 +72,7 @@ data class InterfaceDeclaration(override val outerClass: Type?,
     override fun builder(): Builder = Builder(this)
 
     class Builder() : TypeDeclaration.Builder<InterfaceDeclaration, Builder>,
-            ImplementationHolder.Builder<InterfaceDeclaration, Builder> {
+        ImplementationHolder.Builder<InterfaceDeclaration, Builder> {
 
         var outerClass: Type? = null
         lateinit var specifiedName: String
@@ -148,9 +155,11 @@ data class InterfaceDeclaration(override val outerClass: Type?,
             return this
         }
 
-        override fun build() = InterfaceDeclaration(this.outerClass, this.comments, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.implementations,
-                this.fields, this.methods, this.innerTypes)
+        override fun build() = InterfaceDeclaration(
+            this.outerClass, this.comments, this.annotations, this.modifiers,
+            this.specifiedName, this.genericSignature, this.implementations,
+            this.fields, this.methods, this.innerTypes
+        )
 
         companion object {
             @JvmStatic

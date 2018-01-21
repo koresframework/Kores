@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
 /**
@@ -37,7 +36,11 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property elseStatement Else statement
  * @see IfExpr
  */
-data class IfStatement(override val expressions: List<CodeInstruction>, override val body: CodeSource, val elseStatement: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
+data class IfStatement(
+    override val expressions: List<CodeInstruction>,
+    override val body: CodeSource,
+    val elseStatement: CodeSource
+) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
@@ -45,8 +48,8 @@ data class IfStatement(override val expressions: List<CodeInstruction>, override
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            IfExpressionHolder.Builder<IfStatement, Builder>,
-            BodyHolder.Builder<IfStatement, Builder> {
+        IfExpressionHolder.Builder<IfStatement, Builder>,
+        BodyHolder.Builder<IfStatement, Builder> {
 
         var expressions: List<CodeInstruction> = emptyList()
         var body: CodeSource = CodeSource.empty()
@@ -76,7 +79,8 @@ data class IfStatement(override val expressions: List<CodeInstruction>, override
             return this
         }
 
-        override fun build(): IfStatement = IfStatement(this.expressions, this.body, this.elseStatement)
+        override fun build(): IfStatement =
+            IfStatement(this.expressions, this.body, this.elseStatement)
 
         companion object {
             @JvmStatic

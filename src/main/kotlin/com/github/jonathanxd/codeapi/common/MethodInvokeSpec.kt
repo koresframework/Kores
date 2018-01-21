@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,7 +33,8 @@ import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.Typed
 import java.lang.reflect.Type
 
-data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed, Comparable<MethodInvokeSpec> {
+data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
+    Comparable<MethodInvokeSpec> {
 
     override val type: Type
         get() = this.methodTypeSpec.type
@@ -42,7 +43,7 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
      * Human readable method invocation string.
      */
     fun toInvocationString() =
-            "${invokeType.name.toLowerCase()} ${this.methodTypeSpec.toMethodString()}"
+        "${invokeType.name.toLowerCase()} ${this.methodTypeSpec.toMethodString()}"
 
     /**
      * Invokes this method in [target].
@@ -52,8 +53,10 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
     /**
      * Invokes this method in [target] with [arguments].
      */
-    operator fun invoke(target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation
-            = MethodInvocation(this.invokeType, target, this.methodTypeSpec, arguments)
+    operator fun invoke(
+        target: CodeInstruction,
+        arguments: List<CodeInstruction>
+    ): MethodInvocation = MethodInvocation(this.invokeType, target, this.methodTypeSpec, arguments)
 
     override fun builder(): Builder = Builder(this)
 
@@ -72,7 +75,8 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
         }
 
         override fun type(value: Type): Builder {
-            this.methodTypeSpec = methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
+            this.methodTypeSpec =
+                    methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
             return this
         }
 
@@ -86,6 +90,7 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             return this
         }
 
-        override fun build(): MethodInvokeSpec = MethodInvokeSpec(this.invokeType, this.methodTypeSpec)
+        override fun build(): MethodInvokeSpec =
+            MethodInvokeSpec(this.invokeType, this.methodTypeSpec)
     }
 }

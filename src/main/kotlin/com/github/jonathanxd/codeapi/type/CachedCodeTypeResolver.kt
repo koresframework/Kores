@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,13 +30,14 @@ package com.github.jonathanxd.codeapi.type
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.iutils.`object`.Either
 import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
-import com.github.jonathanxd.jwiutils.kt.right
+import com.github.jonathanxd.iutils.kt.right
 import java.lang.reflect.Type
 
 /**
  * Caches resolutions, this class is not thread-safe and does not caches [isAssignableFrom] resolution.
  */
-class CachedCodeTypeResolver<T>(private val originalResolver: CodeTypeResolver<T>): CodeTypeResolver<T> {
+class CachedCodeTypeResolver<T>(private val originalResolver: CodeTypeResolver<T>) :
+    CodeTypeResolver<T> {
     private val resolveTypes = mutableMapOf<Type, T>()
     private val superClasses = mutableMapOf<Type, Type?>()
     private val interfaces = mutableMapOf<Type, List<Type>>()
@@ -73,9 +74,11 @@ class CachedCodeTypeResolver<T>(private val originalResolver: CodeTypeResolver<T
         }
     }
 
-    override fun isAssignableFrom(type: Type,
-                                  from: Type,
-                                  resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception> {
+    override fun isAssignableFrom(
+        type: Type,
+        from: Type,
+        resolverProvider: (Type) -> CodeTypeResolver<*>
+    ): EitherObjBoolean<Exception> {
         return this.originalResolver.isAssignableFrom(type, from, resolverProvider)
     }
 

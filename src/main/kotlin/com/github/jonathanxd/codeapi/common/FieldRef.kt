@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,19 +28,18 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.base.FieldAccess
 import com.github.jonathanxd.codeapi.base.FieldBase
-import com.github.jonathanxd.codeapi.type.CodeType
 import java.lang.reflect.Type
 
 /**
  * Field reference, this class must never appear in CodeSource.
  */
-data class FieldRef(override val localization: Type,
-                    override val target: CodeInstruction,
-                    override val type: Type,
-                    override val name: String) : FieldBase {
+data class FieldRef(
+    override val localization: Type,
+    override val target: CodeInstruction,
+    override val type: Type,
+    override val name: String
+) : FieldBase {
 
     override fun builder(): Builder = Builder(this)
 

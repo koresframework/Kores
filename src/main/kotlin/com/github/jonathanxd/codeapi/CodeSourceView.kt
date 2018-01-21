@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,20 +35,30 @@ import java.util.function.Predicate
 import java.util.function.UnaryOperator
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
+import kotlin.Any
+import kotlin.Array
+import kotlin.Boolean
+import kotlin.IllegalStateException
+import kotlin.IndexOutOfBoundsException
+import kotlin.Int
+import kotlin.NoSuchElementException
+import kotlin.String
 
-open class CodeSourceView(private val original: CodeSource,
-                          private val start: Int,
-                          private var end: Int) : MutableCodeSource() {
+open class CodeSourceView(
+    private val original: CodeSource,
+    private val start: Int,
+    private var end: Int
+) : MutableCodeSource() {
     override val size: Int
         get() = (end - start)
 
     override fun getAtIndex(index: Int): CodeInstruction = original[start + index]
 
     override fun contains(o: Any): Boolean =
-            this.any { it == o }
+        this.any { it == o }
 
     override fun containsAll(c: Collection<*>): Boolean =
-            c.all { it in this }
+        c.all { it in this }
 
     override fun plus(other: CodeInstruction): CodeSource {
         val all = this.toList() + other
@@ -101,11 +111,11 @@ open class CodeSourceView(private val original: CodeSource,
     }
 
     override fun toArray(): Array<CodeInstruction> =
-            this.toList().toTypedArray()
+        this.toList().toTypedArray()
 
 
     override fun spliterator(): Spliterator<CodeInstruction> =
-            Spliterators.spliteratorUnknownSize(this.listIterator(), Spliterator.ORDERED)
+        Spliterators.spliteratorUnknownSize(this.listIterator(), Spliterator.ORDERED)
 
     override fun subSource(fromIndex: Int, toIndex: Int): CodeSource {
         if (fromIndex < 0 || toIndex > this.size || fromIndex > toIndex)
@@ -115,32 +125,34 @@ open class CodeSourceView(private val original: CodeSource,
     }
 
     override fun toImmutable(): CodeSource =
-            super.toImmutable()
+        super.toImmutable()
 
     override fun toMutable(): MutableCodeSource =
-            super.toMutable()
+        super.toMutable()
 
     override fun iterator(): Iterator<CodeInstruction> =
-            SubIterator()
+        SubIterator()
 
     override fun listIterator(): MutableListIterator<CodeInstruction> =
-            SubIterator()
+        SubIterator()
 
     override fun listIterator(index: Int): MutableListIterator<CodeInstruction> =
-            SubIterator(index)
+        SubIterator(index)
 
     override fun stream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), false)
-    override fun parallelStream(): Stream<CodeInstruction> = StreamSupport.stream(this.spliterator(), true)
+    override fun parallelStream(): Stream<CodeInstruction> =
+        StreamSupport.stream(this.spliterator(), true)
 
-    override fun toString(): String = if (this.isEmpty) "CodeSourceView[]" else "CodeSourceView[...]"
+    override fun toString(): String =
+        if (this.isEmpty) "CodeSourceView[]" else "CodeSourceView[...]"
 
     inner class SubIterator(var index: Int = 0) : MutableListIterator<CodeInstruction> {
 
         override fun hasNext(): Boolean =
-                this.index < this@CodeSourceView.size
+            this.index < this@CodeSourceView.size
 
         override fun hasPrevious(): Boolean =
-                this.index - 1 >= 0
+            this.index - 1 >= 0
 
         override fun next(): CodeInstruction {
             if (!hasNext())
@@ -150,7 +162,7 @@ open class CodeSourceView(private val original: CodeSource,
         }
 
         override fun nextIndex(): Int =
-                this.index
+            this.index
 
 
         override fun previous(): CodeInstruction {
@@ -169,7 +181,7 @@ open class CodeSourceView(private val original: CodeSource,
         }
 
         override fun previousIndex(): Int =
-                this.index - 1
+            this.index - 1
 
         override fun remove() {
             this@CodeSourceView.remove(this.index)
@@ -348,7 +360,7 @@ open class CodeSourceView(private val original: CodeSource,
         this.checkIndex(index)
 
         val removed = this.asMutable.remove(index + this.start)
-        this.end --
+        this.end--
 
         return removed
     }
@@ -374,7 +386,7 @@ open class CodeSourceView(private val original: CodeSource,
     }
 
     private fun checkIndex(index: Int) {
-        if(index > this.size)
+        if (index > this.size)
             throw IndexOutOfBoundsException("Index: $index. Size: $size.")
     }
 

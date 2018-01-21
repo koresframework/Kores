@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -32,14 +32,19 @@ import java.lang.reflect.Type
 /**
  * Parameter part.
  */
-data class CodeParameter(override val annotations: List<Annotation>, override val modifiers: Set<CodeModifier>, override val type: Type, override val name: String) : Typed, Named, Annotable, ModifiersHolder {
+data class CodeParameter(
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val type: Type,
+    override val name: String
+) : Typed, Named, Annotable, ModifiersHolder {
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Named.Builder<CodeParameter, Builder>,
-            Typed.Builder<CodeParameter, Builder>,
-            Annotable.Builder<CodeParameter, Builder>,
-            ModifiersHolder.Builder<CodeParameter, Builder> {
+        Named.Builder<CodeParameter, Builder>,
+        Typed.Builder<CodeParameter, Builder>,
+        Annotable.Builder<CodeParameter, Builder>,
+        ModifiersHolder.Builder<CodeParameter, Builder> {
 
         var modifiers: Set<CodeModifier> = emptySet()
         var annotations: List<Annotation> = emptyList()
@@ -78,7 +83,8 @@ data class CodeParameter(override val annotations: List<Annotation>, override va
             return this
         }
 
-        override fun build(): CodeParameter = CodeParameter(this.annotations, this.modifiers, this.type, this.name)
+        override fun build(): CodeParameter =
+            CodeParameter(this.annotations, this.modifiers, this.type, this.name)
 
         companion object {
             @JvmStatic

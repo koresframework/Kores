@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.literal
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
@@ -38,7 +37,11 @@ import com.github.jonathanxd.codeapi.type.CodeType
  *
  * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
  */
-abstract class Literal protected constructor(val value: Any, override val name: String, override val type: CodeType) : CodeInstruction, Named, Typed {
+abstract class Literal protected constructor(
+    val value: Any,
+    override val name: String,
+    override val type: CodeType
+) : CodeInstruction, Named, Typed {
 
     // Compatibility
     constructor(name: String, type: CodeType) : this(name, name, type)

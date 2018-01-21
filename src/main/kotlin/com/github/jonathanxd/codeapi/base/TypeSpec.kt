@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,8 +28,9 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.type.codeType
 import com.github.jonathanxd.codeapi.util.bothMatches
-import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.util.typeDesc
 import java.lang.reflect.Type
 import java.util.*
 
@@ -39,7 +40,10 @@ import java.util.*
  * @property returnType Type of the return.
  * @property parameterTypes Type of parameters
  */
-data class TypeSpec @JvmOverloads constructor(val returnType: Type, val parameterTypes: List<Type> = emptyList()) : Typed, Comparable<TypeSpec> {
+data class TypeSpec @JvmOverloads constructor(
+    val returnType: Type,
+    val parameterTypes: List<Type> = emptyList()
+) : Typed, Comparable<TypeSpec> {
 
     override val type: Type
         get() = this.returnType
@@ -55,7 +59,7 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
      * Human readable type specification string.
      */
     fun toTypeString() =
-            "(${this.parameterTypesCodeType.map { it.canonicalName }.joinToString()})${this.returnTypeCodeType.canonicalName}"
+        "(${this.parameterTypesCodeType.map { it.canonicalName }.joinToString()})${this.returnTypeCodeType.canonicalName}"
 
 
     override fun builder(): Builder = Builder(this)
@@ -73,12 +77,17 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
      */
     fun isConreteEq(other: TypeSpec): Boolean {
         return this.returnTypeCodeType.isConcreteIdEq(other.returnTypeCodeType)
-                && this.parameterTypesCodeType.bothMatches(other.parameterTypesCodeType) { f, s -> f.isConcreteIdEq(s) }
+                && this.parameterTypesCodeType.bothMatches(other.parameterTypesCodeType) { f, s ->
+            f.isConcreteIdEq(
+                s
+            )
+        }
     }
 
     override fun compareTo(other: TypeSpec): Int {
         return if (this.returnTypeCodeType.`is`(other.returnTypeCodeType)
-                && this.parameterTypesCodeType == other.parameterTypesCodeType) 0 else 1
+                && this.parameterTypesCodeType == other.parameterTypesCodeType
+        ) 0 else 1
     }
 
     class Builder() : Typed.Builder<TypeSpec, Builder> {
@@ -122,5 +131,9 @@ data class TypeSpec @JvmOverloads constructor(val returnType: Type, val paramete
         }
 
     }
-
 }
+
+/**
+ * Convert [TypeSpec] string description
+ */
+val TypeSpec.typeDesc get() = "(${this.parameterTypes.typeDesc})${this.returnType.typeDesc}"

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -46,7 +46,7 @@ data class Concat(val concatenations: List<CodeInstruction>) : CodePart, Typed, 
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Typed.Builder<Concat, Builder> {
+        Typed.Builder<Concat, Builder> {
 
         var concatenations: List<CodeInstruction> = emptyList()
 
@@ -67,7 +67,8 @@ data class Concat(val concatenations: List<CodeInstruction>) : CodePart, Typed, 
         /**
          * See [Concat.concatenations]
          */
-        fun concatenations(vararg values: CodeInstruction): Builder = this.concatenations(values.toList())
+        fun concatenations(vararg values: CodeInstruction): Builder =
+            this.concatenations(values.toList())
 
         override fun build(): Concat = Concat(this.concatenations)
 

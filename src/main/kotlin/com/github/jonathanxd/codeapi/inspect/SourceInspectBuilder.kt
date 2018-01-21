@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -142,7 +142,13 @@ class SourceInspectBuilder<R> private constructor() {
      * Builds a [SourceInspect] with current properties.
      */
     fun build(): SourceInspect<R> {
-        return SourceInspect(this.partPredicate, this.inspectCodeSource, this.subFindPredicate, this.stopPredicate, this.mapper)
+        return SourceInspect(
+            this.partPredicate,
+            this.inspectCodeSource,
+            this.subFindPredicate,
+            this.stopPredicate,
+            this.mapper
+        )
     }
 
     companion object {

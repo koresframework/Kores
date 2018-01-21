@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -40,13 +40,21 @@ interface ValidatorManager {
     /**
      * Validates [part] and return environment used to validate.
      */
-    fun validate(part: Any, data: TypedData, environment: ValidationEnvironment? = null): ValidationEnvironment
-            = this.validate(part::class.java, part, data, environment)
+    fun validate(
+        part: Any,
+        data: TypedData,
+        environment: ValidationEnvironment? = null
+    ): ValidationEnvironment = this.validate(part::class.java, part, data, environment)
 
     /**
      * Validates [part] of type [type] and return environment used to validate.
      */
-    fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment? = null): ValidationEnvironment
+    fun <P> validate(
+        type: Class<out P>,
+        part: P,
+        data: TypedData,
+        environment: ValidationEnvironment? = null
+    ): ValidationEnvironment
 
     /**
      * Registers a custom [validator] of [CodePart] of [type].
@@ -68,13 +76,13 @@ interface ValidatorManager {
  * Registers a custom [validator] of [CodePart] of type [P].
  */
 inline fun <reified P> ValidatorManager.registerValidator(validator: Validator<P>) =
-        this.registerValidator(validator, P::class.java)
+    this.registerValidator(validator, P::class.java)
 
 /**
  * Validates [part] of type [P].
  */
 inline fun <reified P> ValidatorManager.validatePart(part: P, data: TypedData) =
-        this.validate(P::class.java, part, data)
+    this.validate(P::class.java, part, data)
 
 /**
  * Custom validator
@@ -84,7 +92,12 @@ interface Validator<in P> {
     /**
      * Validates [part] and return a list of messages.
      */
-    fun validate(part: P, data: TypedData, validatorManager: ValidatorManager, environment: ValidationEnvironment)
+    fun validate(
+        part: P,
+        data: TypedData,
+        validatorManager: ValidatorManager,
+        environment: ValidationEnvironment
+    )
 
 }
 
@@ -154,7 +167,8 @@ interface ValidationEnvironment {
 
         private val backingList = mutableListOf<ContextedValidationMessage>()
         override val context: Context = Context.create()
-        override val validationMessages: List<ContextedValidationMessage> = Collections.unmodifiableList(this.backingList)
+        override val validationMessages: List<ContextedValidationMessage> =
+            Collections.unmodifiableList(this.backingList)
         private var currentSession: Session? = null
 
         override fun addMessage(message: ValidationMessage) {
@@ -186,7 +200,8 @@ interface ValidationEnvironment {
             context.exitContext(part)
         }
 
-        override fun toString(): String = "[messages={${validationMessages.joinToString()},context=$context]"
+        override fun toString(): String =
+            "[messages={${validationMessages.joinToString()},context=$context]"
     }
 
     /**
@@ -194,8 +209,10 @@ interface ValidationEnvironment {
      *
      * @see [enterSession]
      */
-    class Session(internal val parent: Session?,
-                  val context: Context) {
+    class Session(
+        internal val parent: Session?,
+        val context: Context
+    ) {
         private val messageList: MutableList<ContextedValidationMessage> = mutableListOf()
         val messages: List<ContextedValidationMessage> get() = messageList
 
@@ -212,17 +229,17 @@ interface ValidationEnvironment {
  * Creates session to be used only within [context], this session is exited immediately after [context] invocation.
  */
 inline fun <R> ValidationEnvironment.sessionInContext(context: (session: ValidationEnvironment.Session) -> R) =
-        this.enterSession().let(context).also {
-            this.exitSession()
-        }
+    this.enterSession().let(context).also {
+        this.exitSession()
+    }
 
 /**
  * Immediately enters the inspection of [part], calls [context] and then immediately exits the inspection of [part].
  */
 inline fun <P, R> ValidationEnvironment.inspectionInContext(part: P, context: (part: P) -> R) =
-        this.enterInspectionOf(part as Any).let {
-            context(part).also { this.exitInspectionOf(part) }
-        }
+    this.enterInspectionOf(part as Any).let {
+        context(part).also { this.exitInspectionOf(part) }
+    }
 
 /**
  * Occurs when a unexpected inspection context is found.
@@ -287,19 +304,20 @@ fun List<ValidationMessage>.hasError() = this.any { it.type == ValidationMessage
 /**
  * Returns true if receiver has any [ValidationMessage] of [type][ValidationMessage.type] [ValidationMessage.Type.ERROR].
  */
-fun List<ContextedValidationMessage>.hasContextedError() = this.any { it.message.type == ValidationMessage.Type.ERROR }
+fun List<ContextedValidationMessage>.hasContextedError() =
+    this.any { it.message.type == ValidationMessage.Type.ERROR }
 
 /**
  * Creates a string representation of the [ValidationMessage]
  */
 fun ValidationMessage.toMessage(): String =
-        "ValidationMessage[${this.type.name}]: ${this.message}"
+    "ValidationMessage[${this.type.name}]: ${this.message}"
 
 /**
  * Creates a string representation of the [ContextedValidationMessage]
  */
 fun ContextedValidationMessage.toMessage(): String =
-        "ContextedValidationMessage[${this.message.type.name}]: ${this.message.message}. Context: ${this.context}"
+    "ContextedValidationMessage[${this.message.type.name}]: ${this.message.message}. Context: ${this.context}"
 
 /**
  * Prints messages registered in [ValidationEnvironment].
@@ -318,7 +336,12 @@ fun ValidationEnvironment.printMessages(printer: (String) -> Unit, includeStack:
  */
 object VoidValidatorManager : ValidatorManager {
 
-    override fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment?): ValidationEnvironment {
+    override fun <P> validate(
+        type: Class<out P>,
+        part: P,
+        data: TypedData,
+        environment: ValidationEnvironment?
+    ): ValidationEnvironment {
         val ext = data
         return object : ValidationEnvironment {
 
@@ -326,10 +349,10 @@ object VoidValidatorManager : ValidatorManager {
                 get() = ext
 
             override fun enterSession(): ValidationEnvironment.Session =
-                    ValidationEnvironment.Session(null, this.context.current())
+                ValidationEnvironment.Session(null, this.context.current())
 
             override fun exitSession(): ValidationEnvironment.Session =
-                    ValidationEnvironment.Session(null, this.context.current())
+                ValidationEnvironment.Session(null, this.context.current())
 
             override val context: Context = Context.create()
             override val validationMessages: List<ContextedValidationMessage> = emptyList()
@@ -361,17 +384,27 @@ abstract class AbstractValidatorManager : ValidatorManager {
         this.map[type] = validator
     }
 
-    override fun <P> validate(type: Class<out P>, part: P, data: TypedData, environment: ValidationEnvironment?): ValidationEnvironment {
+    override fun <P> validate(
+        type: Class<out P>,
+        part: P,
+        data: TypedData,
+        environment: ValidationEnvironment?
+    ): ValidationEnvironment {
         val env = environment ?: createEnvironment(data)
         this.getValidatorOf(type, part, data, env)
-                .validate(part, data, this, env)
+            .validate(part, data, this, env)
         return env
     }
 
     /**
      * Gets processor of [type].
      */
-    fun <P> getValidatorOf(type: Class<*>, part: P, data: TypedData, environment: ValidationEnvironment): Validator<P> {
+    fun <P> getValidatorOf(
+        type: Class<*>,
+        part: P,
+        data: TypedData,
+        environment: ValidationEnvironment
+    ): Validator<P> {
         val searchType = if (this.map.containsKey(type))
             type
         else if (type.superclass != Any::class.java && type.interfaces.isEmpty())
@@ -395,7 +428,8 @@ inline fun error(message: () -> String) = ValidationMessage(message(), Validatio
 /**
  * Creates a warning validation message.
  */
-inline fun warning(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.WARNING)
+inline fun warning(message: () -> String) =
+    ValidationMessage(message(), ValidationMessage.Type.WARNING)
 
 /**
  * Creates a info validation message.
@@ -410,4 +444,5 @@ inline fun other(message: () -> String) = ValidationMessage(message(), Validatio
 /**
  * Creates a performance validation message.
  */
-inline fun performance(message: () -> String) = ValidationMessage(message(), ValidationMessage.Type.PERFORMANCE)
+inline fun performance(message: () -> String) =
+    ValidationMessage(message(), ValidationMessage.Type.PERFORMANCE)

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.codeType
 import java.lang.reflect.Type
 
 /**
@@ -69,7 +69,8 @@ fun TypeResolver.resolveClass(name: String): Type {
 /**
  * Simple type resolver
  */
-class SimpleResolver(private val wrapped: TypeResolver, private val resolveLoadedClasses: Boolean) : TypeResolver {
+class SimpleResolver(private val wrapped: TypeResolver, private val resolveLoadedClasses: Boolean) :
+    TypeResolver {
 
     override fun resolve(name: String, isInterface: Boolean): Type {
         @Suppress("NAME_SHADOWING")

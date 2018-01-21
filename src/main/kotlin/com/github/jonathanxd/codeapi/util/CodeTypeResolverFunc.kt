@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,7 +30,8 @@ package com.github.jonathanxd.codeapi.util
 import com.github.jonathanxd.codeapi.type.CodeType
 import java.util.function.Function
 
-abstract class CodeTypeResolverFunc : (String) -> CodeType, Function<String, CodeType> /* Java compatibility */ {
+abstract class CodeTypeResolverFunc : (String) -> CodeType,
+    Function<String, CodeType> /* Java compatibility */ {
 
     override fun apply(t: String): CodeType = this.invoke(t)
 
@@ -48,17 +49,22 @@ abstract class CodeTypeResolverFunc : (String) -> CodeType, Function<String, Cod
     protected abstract fun resolve(t: String): CodeType
 
     companion object {
-        fun fromJavaFunction(func: Function<String, CodeType>): CodeTypeResolverFunc = WrappedCodeTypeResolver(func)
-        fun fromKtFunction(func: (String) -> CodeType): CodeTypeResolverFunc = WrappedCodeTypeResolver0(func)
+        fun fromJavaFunction(func: Function<String, CodeType>): CodeTypeResolverFunc =
+            WrappedCodeTypeResolver(func)
+
+        fun fromKtFunction(func: (String) -> CodeType): CodeTypeResolverFunc =
+            WrappedCodeTypeResolver0(func)
     }
 
     // Backward compatible
-    private class WrappedCodeTypeResolver(val func: Function<String, CodeType>) : CodeTypeResolverFunc() {
+    private class WrappedCodeTypeResolver(val func: Function<String, CodeType>) :
+        CodeTypeResolverFunc() {
         override fun resolve(t: String): CodeType = func.apply(t)
     }
 
     // Backward compatible
-    private class WrappedCodeTypeResolver0(val func: (String) -> CodeType) : CodeTypeResolverFunc() {
+    private class WrappedCodeTypeResolver0(val func: (String) -> CodeType) :
+        CodeTypeResolverFunc() {
         override fun resolve(t: String): CodeType = func(t)
     }
 }

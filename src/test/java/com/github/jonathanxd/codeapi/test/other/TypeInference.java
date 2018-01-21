@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,11 +33,9 @@ import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.type.CodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.GenericType;
-import com.github.jonathanxd.codeapi.util.CodeTypes;
-import com.github.jonathanxd.codeapi.util.GenericTypeInferenceUtilKt;
+import com.github.jonathanxd.codeapi.util.GenericTypeInferenceKt;
 import com.github.jonathanxd.codeapi.util.JavaResolver;
 import com.github.jonathanxd.codeapi.util.MixedResolver;
-import com.github.jonathanxd.codeapi.util.TypeVarUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -55,7 +53,7 @@ public class TypeInference {
 
         List<CodeType> typeList = new ArrayList<>();
 
-        GenericTypeInferenceUtilKt
+        GenericTypeInferenceKt
                 .getInferredType("T", type, starting, type.getDefaultResolver(), new JavaResolver(), typeList);
 
         Assert.assertTrue(typeList.size() == 1);
@@ -69,7 +67,7 @@ public class TypeInference {
 
         List<CodeType> typeList = new ArrayList<>();
 
-        GenericTypeInferenceUtilKt
+        GenericTypeInferenceKt
                 .getInferredType("T", type, starting, type.getDefaultResolver(), new JavaResolver(), typeList);
 
         Assert.assertTrue(typeList.size() == 1);
@@ -83,7 +81,7 @@ public class TypeInference {
 
         List<CodeType> typeList = new ArrayList<>();
 
-        GenericTypeInferenceUtilKt
+        GenericTypeInferenceKt
                 .getInferredType("T", type, starting, type.getDefaultResolver(), new JavaResolver(), typeList);
 
         Assert.assertTrue(typeList.size() == 1);
@@ -96,7 +94,7 @@ public class TypeInference {
         GenericType starting = Generic.type(Simple2.class);
         GenericType toInfer = Generic.type(List.class).of("T");
 
-        CodeType codeType = GenericTypeInferenceUtilKt
+        CodeType codeType = GenericTypeInferenceKt
                 .inferType(toInfer, type, starting, type.getDefaultResolver(), new MixedResolver(null));
 
         Assert.assertTrue(codeType.is(Generic.type(List.class).of(String.class)));
@@ -114,7 +112,7 @@ public class TypeInference {
                 .implementations(Generic.type(Z.class).of(String.class))
                 .build();
 
-        CodeType codeType = GenericTypeInferenceUtilKt
+        CodeType codeType = GenericTypeInferenceKt
                 .inferType(toInfer, type, Generic.type(dec), type.getDefaultResolver(), new MixedResolver(null));
 
         Assert.assertTrue(codeType.is(Generic.type(List.class).of(String.class)));

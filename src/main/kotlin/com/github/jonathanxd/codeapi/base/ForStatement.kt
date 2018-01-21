@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,7 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.common.CodeNothing
 
 /**
  * For statement.
@@ -41,10 +40,12 @@ import com.github.jonathanxd.codeapi.common.CodeNothing
  * @property forUpdate For update. (ex: `i++`, `i++. x++`)
  * @property body Body of for statement (ex: `println(i)`).
  */
-data class ForStatement(val forInit: List<CodeInstruction>,
-                        val forExpression: List<CodeInstruction>,
-                        val forUpdate: List<CodeInstruction>,
-                        override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
+data class ForStatement(
+    val forInit: List<CodeInstruction>,
+    val forExpression: List<CodeInstruction>,
+    val forUpdate: List<CodeInstruction>,
+    override val body: CodeSource
+) : IfExpressionHolder, BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
@@ -55,8 +56,8 @@ data class ForStatement(val forInit: List<CodeInstruction>,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            IfExpressionHolder.Builder<ForStatement, Builder>,
-            BodyHolder.Builder<ForStatement, Builder> {
+        IfExpressionHolder.Builder<ForStatement, Builder>,
+        BodyHolder.Builder<ForStatement, Builder> {
 
         var forInit: List<CodeInstruction> = emptyList()
         var forExpression: List<CodeInstruction> = emptyList()
@@ -71,7 +72,8 @@ data class ForStatement(val forInit: List<CodeInstruction>,
 
         override fun expressions(value: List<CodeInstruction>): Builder = this.forExpression(value)
 
-        override fun expressions(vararg values: CodeInstruction): Builder = this.forExpression(values.toList())
+        override fun expressions(vararg values: CodeInstruction): Builder =
+            this.forExpression(values.toList())
 
         /**
          * See [ForStatement.forInit]
@@ -117,7 +119,8 @@ data class ForStatement(val forInit: List<CodeInstruction>,
             return this
         }
 
-        override fun build(): ForStatement = ForStatement(this.forInit, this.forExpression, this.forUpdate, this.body)
+        override fun build(): ForStatement =
+            ForStatement(this.forInit, this.forExpression, this.forUpdate, this.body)
 
         companion object {
             @JvmStatic

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,16 +30,18 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.self
 import java.lang.reflect.Type
 
 /**
  * Static block (aka class constructors/class initializers).
  */
-data class StaticBlock(override val comments: Comments,
-                       override val innerTypes: List<TypeDeclaration>,
-                       override val body: CodeSource) : MethodDeclarationBase {
+data class StaticBlock(
+    override val comments: Comments,
+    override val innerTypes: List<TypeDeclaration>,
+    override val body: CodeSource
+) : MethodDeclarationBase {
     init {
         BodyHolder.checkBody(this)
     }

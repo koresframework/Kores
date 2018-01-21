@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,12 +33,12 @@ import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.*
+import com.github.jonathanxd.codeapi.common.CodeNothing
+import com.github.jonathanxd.codeapi.common.Void
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
 import com.github.jonathanxd.codeapi.type.PlainCodeType
-import com.github.jonathanxd.codeapi.util.Alias
 import java.lang.reflect.Type
 import java.util.*
 
@@ -72,21 +72,21 @@ fun accessSuper(): Access = Defaults.ACCESS_SUPER
  */
 @JvmOverloads
 fun annotation(visible: Boolean, type: Type, values: Map<String, Any> = emptyMap()): Annotation =
-        Annotation(type, values, visible)
+    Annotation(type, values, visible)
 
 /**
  * @see Annotation
  */
 @JvmOverloads
 fun visibleAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
-        annotation(true, type, values)
+    annotation(true, type, values)
 
 /**
  * @see Annotation
  */
 @JvmOverloads
 fun invisibleAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
-        annotation(false, type, values)
+    annotation(false, type, values)
 
 /**
  * @see Annotation
@@ -102,8 +102,14 @@ fun deprecatedAnnotation(): Annotation = visibleAnnotation(Deprecated::class.jav
  * @see Annotation
  */
 @JvmOverloads
-fun annotationProperty(comments: Comments = Comments.Absent, annotations: List<Annotation> = emptyList(), type: Type, name: String, defaultValue: Any?): AnnotationProperty =
-        AnnotationProperty(comments, annotations, type, name, defaultValue)
+fun annotationProperty(
+    comments: Comments = Comments.Absent,
+    annotations: List<Annotation> = emptyList(),
+    type: Type,
+    name: String,
+    defaultValue: Any?
+): AnnotationProperty =
+    AnnotationProperty(comments, annotations, type, name, defaultValue)
 
 
 // Arrays
@@ -111,26 +117,97 @@ fun annotationProperty(comments: Comments = Comments.Absent, annotations: List<A
 /**
  * @see ArrayConstructor
  */
-fun createArray(arrayType: Type, dimensions: List<CodeInstruction>, arguments: List<CodeInstruction>): ArrayConstructor =
-        ArrayConstructor(arrayType, dimensions, arguments)
+fun createArray(
+    arrayType: Type,
+    dimensions: List<CodeInstruction>,
+    arguments: List<CodeInstruction>
+): ArrayConstructor =
+    ArrayConstructor(arrayType, dimensions, arguments)
+
+/**
+ * @see ArrayConstructor
+ */
+fun createArray1D(arrayType: Type, arguments: List<CodeInstruction>): ArrayConstructor =
+    ArrayConstructor(arrayType, listOf(Literals.INT(arguments.size)), arguments)
+
+/**
+ * Creates array of type [arrayType] with [dimension] for receiver instructions.
+ *
+ * @see ArrayConstructor
+ */
+fun List<CodeInstruction>.createArray(
+    arrayType: Type,
+    dimensions: List<CodeInstruction>
+): ArrayConstructor =
+    ArrayConstructor(arrayType = arrayType, dimensions = dimensions, arguments = this)
+
 
 /**
  * @see ArrayStore
  */
-fun setArrayValue(arrayType: Type, target: CodeInstruction, index: CodeInstruction, valueType: Type, valueToStore: CodeInstruction): ArrayStore =
-        ArrayStore(arrayType, target, index, valueType, valueToStore)
+fun setArrayValue(
+    arrayType: Type,
+    target: CodeInstruction,
+    index: CodeInstruction,
+    valueType: Type,
+    valueToStore: CodeInstruction
+): ArrayStore =
+    ArrayStore(arrayType, target, index, valueType, valueToStore)
+
+/**
+ * Sets value at [index] of [receiver array][CodeInstruction] of type [arrayType] to [valueToStore].
+ *
+ * @see ArrayStore
+ */
+fun CodeInstruction.setArrayValue(
+    arrayType: Type,
+    index: CodeInstruction,
+    valueType: Type,
+    valueToStore: CodeInstruction
+): ArrayStore =
+    ArrayStore(
+        arrayType = arrayType,
+        target = this,
+        index = index,
+        valueType = valueType,
+        valueToStore = valueToStore
+    )
 
 /**
  * @see ArrayLoad
  */
-fun accessArrayValue(arrayType: Type, target: CodeInstruction, index: CodeInstruction, valueType: Type): ArrayLoad =
-        ArrayLoad(arrayType, target, index, valueType)
+fun accessArrayValue(
+    arrayType: Type,
+    target: CodeInstruction,
+    index: CodeInstruction,
+    valueType: Type
+): ArrayLoad =
+    ArrayLoad(arrayType, target, index, valueType)
+
+/**
+ * Accesses the value of [valueType] of [receiver array][CodeInstruction] at [index].
+ *
+ * @see ArrayLoad
+ */
+fun CodeInstruction.accessArrayValue(
+    arrayType: Type,
+    index: CodeInstruction,
+    valueType: Type
+): ArrayLoad =
+    ArrayLoad(arrayType = arrayType, target = this, index = index, valueType = valueType)
 
 /**
  * @see ArrayLength
  */
 fun arrayLength(arrayType: Type, target: CodeInstruction): ArrayLength =
-        ArrayLength(arrayType, target)
+    ArrayLength(arrayType, target)
+
+/**
+ * Accesses the length of [receiver array][CodeInstruction] of type [arrayType].
+ * @see ArrayLength
+ */
+fun CodeInstruction.arrayLength(arrayType: Type): ArrayLength =
+    ArrayLength(arrayType, target = this)
 
 // Enum
 
@@ -138,16 +215,15 @@ fun arrayLength(arrayType: Type, target: CodeInstruction): ArrayLength =
  * @see EnumEntry
  */
 fun enumEntry(name: String): EnumEntry =
-        EnumEntry.Builder.builder()
-                .name(name)
-                .build()
+    EnumEntry.Builder.builder()
+        .name(name)
+        .build()
 
 /**
  * @see EnumValue
  */
 fun enumValue(enumType: Type, enumEntry: String): EnumValue =
-        EnumValue(enumType, enumEntry)
-
+    EnumValue(enumType, enumEntry)
 
 
 // Variable
@@ -156,65 +232,112 @@ fun enumValue(enumType: Type, enumEntry: String): EnumValue =
  * @see VariableAccess
  */
 fun accessVariable(type: Type, name: String): VariableAccess =
-        VariableAccess(type, name)
+    VariableAccess(type, name)
 
 /**
  * @see VariableAccess
  */
 fun accessVariable(variable: VariableBase): VariableAccess =
-        accessVariable(variable.type, variable.name)
+    accessVariable(variable.type, variable.name)
 
 /**
  * @see VariableDefinition
  */
 fun setVariableValue(type: Type, name: String, value: CodeInstruction): VariableDefinition =
-        VariableDefinition(type, name, value)
+    VariableDefinition(type, name, value)
 
 /**
  * @see VariableDefinition
  */
 fun setVariableValue(variable: VariableBase, value: CodeInstruction): VariableDefinition =
-        VariableDefinition(variable.type, variable.name, value)
+    VariableDefinition(variable.type, variable.name, value)
 
 // Field
 
 /**
  * @see FieldAccess
  */
-fun accessField(localization: Type, target: CodeInstruction, type: Type, name: String): FieldAccess =
-        FieldAccess(localization, target, type, name)
+fun accessField(
+    localization: Type,
+    target: CodeInstruction,
+    type: Type,
+    name: String
+): FieldAccess =
+    FieldAccess(localization, target, type, name)
+
+/**
+ * Access field with [name] and [type] of [receiver][CodeInstruction] in [localization].
+ *
+ * @see FieldAccess
+ */
+fun CodeInstruction.accessField(
+    localization: Type,
+    type: Type,
+    name: String
+): FieldAccess =
+    FieldAccess(localization = localization, target = this, type = type, name = name)
 
 /**
  * @see FieldAccess
  */
 fun accessThisField(type: Type, name: String): FieldAccess =
-        accessField(Alias.THIS, accessThis(), type, name)
+    accessField(Alias.THIS, accessThis(), type, name)
 
 /**
  * @see FieldAccess
  */
 @JvmOverloads
 fun accessStaticField(localization: Type = Alias.THIS, type: Type, name: String): FieldAccess =
-        accessField(localization, accessStatic(), type, name)
+    accessField(localization, accessStatic(), type, name)
 
 /**
  * @see FieldDefinition
  */
-fun setFieldValue(localization: Type, target: CodeInstruction, type: Type, name: String, value: CodeInstruction): FieldDefinition =
-        FieldDefinition(localization, target, type, name, value)
+fun setFieldValue(
+    localization: Type,
+    target: CodeInstruction,
+    type: Type,
+    name: String,
+    value: CodeInstruction
+): FieldDefinition =
+    FieldDefinition(localization, target, type, name, value)
+
+/**
+ * Sets field [name] of [type] of [receiver][CodeInstruction] in [localization].
+ *
+ * @see FieldDefinition
+ */
+fun CodeInstruction.setFieldValue(
+    localization: Type,
+    type: Type,
+    name: String,
+    value: CodeInstruction
+): FieldDefinition =
+    FieldDefinition(
+        localization = localization,
+        target = this,
+        type = type,
+        name = name,
+        value = value
+    )
 
 /**
  * @see FieldDefinition
  */
 fun setThisFieldValue(type: Type, name: String, value: CodeInstruction): FieldDefinition =
-        setFieldValue(Alias.THIS, Access.THIS, type, name, value)
+    setFieldValue(Alias.THIS, Access.THIS, type, name, value)
 
 /**
  * @see FieldDefinition
  */
 @JvmOverloads
-fun setStaticFieldValue(localization: Type = Alias.THIS, type: Type, name: String, value: CodeInstruction): FieldDefinition =
-        setFieldValue(localization, Access.STATIC, type, name, value)
+fun setStaticFieldValue(
+    localization: Type = Alias.THIS,
+    type: Type,
+    name: String,
+    value: CodeInstruction
+): FieldDefinition =
+    setFieldValue(localization, Access.STATIC, type, name, value)
 
 /**
  * Invoke getter of a field (`get`+`capitalize(fieldName)`).
@@ -225,8 +348,37 @@ fun setStaticFieldValue(localization: Type = Alias.THIS, type: Type, name: Strin
  * @param type Type of field.
  * @param name Name of field.
  */
-fun invokeFieldGetter(invokeType: InvokeType, localization: Type, target: CodeInstruction, type: Type, name: String): MethodInvocation =
-        invoke(invokeType, localization, target, "get${name.capitalize()}", TypeSpec(type), emptyList())
+fun invokeFieldGetter(
+    invokeType: InvokeType,
+    localization: Type,
+    target: CodeInstruction,
+    type: Type,
+    name: String
+): MethodInvocation =
+    invoke(invokeType, localization, target, "get${name.capitalize()}", TypeSpec(type), emptyList())
+
+/**
+ * Invoke getter of a field (`get`+`capitalize(fieldName)`) of [receiver][CodeInstruction].
+ *
+ * @param invokeType Type of invocation
+ * @param localization Localization of getter
+ * @param type Type of field.
+ * @param name Name of field.
+ */
+fun CodeInstruction.invokeFieldGetter(
+    invokeType: InvokeType,
+    localization: Type,
+    type: Type,
+    name: String
+): MethodInvocation =
+    invoke(
+        invokeType = invokeType,
+        localization = localization,
+        target = this,
+        name = "get${name.capitalize()}",
+        spec = TypeSpec(type),
+        arguments = emptyList()
+    )
 
 /**
  * Invoke setter of a field (`set`+`capitalize(fieldName)`) with [value].
@@ -238,8 +390,47 @@ fun invokeFieldGetter(invokeType: InvokeType, localization: Type, target: CodeIn
  * @param name Name of field.
  * @param value Value to pass to setter
  */
-fun invokeFieldSetter(invokeType: InvokeType, localization: Type, target: CodeInstruction, type: Type, name: String, value: CodeInstruction): MethodInvocation =
-        invoke(invokeType, localization, target, "set${name.capitalize()}", TypeSpec(Void.type, listOf(type)), listOf(value))
+fun invokeFieldSetter(
+    invokeType: InvokeType,
+    localization: Type,
+    target: CodeInstruction,
+    type: Type,
+    name: String,
+    value: CodeInstruction
+): MethodInvocation =
+    invoke(
+        invokeType,
+        localization,
+        target,
+        "set${name.capitalize()}",
+        TypeSpec(Void.type, listOf(type)),
+        listOf(value)
+    )
+
+/**
+ * Invoke setter of a field (`set`+`capitalize(fieldName)`) of [receiver][CodeInstruction] with [value].
+ *
+ * @param invokeType Type of invocation
+ * @param localization Localization of setter
+ * @param type Type of field.
+ * @param name Name of field.
+ * @param value Value to pass to setter
+ */
+fun CodeInstruction.invokeFieldSetter(
+    invokeType: InvokeType,
+    localization: Type,
+    type: Type,
+    name: String,
+    value: CodeInstruction
+): MethodInvocation =
+    invoke(
+        invokeType = invokeType,
+        localization = localization,
+        target = this,
+        name = "set${name.capitalize()}",
+        spec = TypeSpec(Void.type, listOf(type)),
+        arguments = listOf(value)
+    )
 
 // Return
 
@@ -254,19 +445,31 @@ fun returnValue(type: Type, value: CodeInstruction) = Return(type, value)
  */
 fun returnVoid(): Return = returnValue(Void.type, Void)
 
+/**
+ * Creates a [Return] of receiver instruction of type [type].
+ */
+fun CodeInstruction.returnValue(type: Type) =
+    returnValue(type, this)
+
 // Parameter
 
 /**
  * @see CodeParameter
  */
 @JvmOverloads
-fun parameter(annotations: List<Annotation> = emptyList(), modifiers: Set<CodeModifier> = emptySet(), type: Type, name: String) = CodeParameter(annotations, modifiers, type, name)
+fun parameter(
+    annotations: List<Annotation> = emptyList(),
+    modifiers: Set<CodeModifier> = emptySet(),
+    type: Type,
+    name: String
+) = CodeParameter(annotations, modifiers, type, name)
 
 /**
  * @see CodeParameter
  */
 @JvmOverloads
-fun finalParameter(annotations: List<Annotation> = emptyList(), type: Type, name: String) = CodeParameter(annotations, EnumSet.of(CodeModifier.FINAL), type, name)
+fun finalParameter(annotations: List<Annotation> = emptyList(), type: Type, name: String) =
+    CodeParameter(annotations, EnumSet.of(CodeModifier.FINAL), type, name)
 
 // Operate
 
@@ -274,39 +477,79 @@ fun finalParameter(annotations: List<Annotation> = emptyList(), type: Type, name
  * @see Operate
  */
 fun operate(target: CodeInstruction, operation: Operator.Math, value: CodeInstruction): Operate =
-        Operate(target, operation, value)
+    Operate(target, operation, value)
 
 /**
  * Operate variable value and assign the result to the variable
  *
  * @see Operate
  */
-fun operateAndAssign(variable: VariableBase, operation: Operator.Math, value: CodeInstruction): VariableDefinition =
-        setVariableValue(variable.variableType, variable.name, operate(accessVariable(variable.variableType, variable.name), operation, value))
+fun operateAndAssign(
+    variable: VariableBase,
+    operation: Operator.Math,
+    value: CodeInstruction
+): VariableDefinition =
+    setVariableValue(
+        variable.variableType,
+        variable.name,
+        operate(accessVariable(variable.variableType, variable.name), operation, value)
+    )
 
 /**
  * Operate variable value and assign the result to the variable
  *
  * @see Operate
  */
-fun operateAndAssign(type: Type, name: String, operation: Operator.Math, value: CodeInstruction): VariableDefinition =
-        setVariableValue(type, name, operate(accessVariable(type, name), operation, value))
+fun operateAndAssign(
+    type: Type,
+    name: String,
+    operation: Operator.Math,
+    value: CodeInstruction
+): VariableDefinition =
+    setVariableValue(type, name, operate(accessVariable(type, name), operation, value))
 
 /**
  * Operate field value and assign the result to the field
  *
  * @see Operate
  */
-fun operateAndAssign(field: FieldBase, operation: Operator.Math, value: CodeInstruction): FieldDefinition =
-        setFieldValue(field.localization, field.target, field.type, field.name, operate(accessField(field.localization, field.target, field.type, field.name), operation, value))
+fun operateAndAssign(
+    field: FieldBase,
+    operation: Operator.Math,
+    value: CodeInstruction
+): FieldDefinition =
+    setFieldValue(
+        field.localization,
+        field.target,
+        field.type,
+        field.name,
+        operate(
+            accessField(field.localization, field.target, field.type, field.name),
+            operation,
+            value
+        )
+    )
 
 /**
  * Operate field value and assign the result to the field
  *
  * @see Operate
  */
-fun operateAndAssign(localization: Type, target: CodeInstruction, type: Type, name: String, operation: Operator.Math, value: CodeInstruction): FieldDefinition =
-        setFieldValue(localization, target, type, name, operate(accessField(localization, target, type, name), operation, value))
+fun operateAndAssign(
+    localization: Type,
+    target: CodeInstruction,
+    type: Type,
+    name: String,
+    operation: Operator.Math,
+    value: CodeInstruction
+): FieldDefinition =
+    setFieldValue(
+        localization,
+        target,
+        type,
+        name,
+        operate(accessField(localization, target, type, name), operation, value)
+    )
 
 // Throw
 
@@ -315,6 +558,13 @@ fun operateAndAssign(localization: Type, target: CodeInstruction, type: Type, na
  */
 fun throwException(part: CodeInstruction) = ThrowException(part)
 
+/**
+ * Throws [receiver][CodeInstruction] as exception.
+ *
+ * @see ThrowException
+ */
+fun CodeInstruction.throwThisException() = ThrowException(this)
+
 
 // Cast
 
@@ -322,22 +572,32 @@ fun throwException(part: CodeInstruction) = ThrowException(part)
  * @see Cast
  */
 fun cast(from: Type?, to: Type, part: CodeInstruction): Cast =
-        Cast(from, to, part)
+    Cast(from, to, part)
+
+/**
+ * Creates a cast of receiver from type [from] to type [to].
+ */
+fun CodeInstruction.cast(from: Type?, to: Type) =
+    cast(from, to, this)
 
 // IfExpr
 
 /**
  * @see IfExpr
  */
-fun ifExpr(expr1: CodeInstruction, operation: Operator.Conditional, expr2: CodeInstruction): IfExpr =
-        IfExpr(expr1, operation, expr2)
+fun ifExpr(
+    expr1: CodeInstruction,
+    operation: Operator.Conditional,
+    expr2: CodeInstruction
+): IfExpr =
+    IfExpr(expr1, operation, expr2)
 
 
 /**
  * @see IfExpr
  */
 fun check(expr1: CodeInstruction, operation: Operator.Conditional, expr2: CodeInstruction): IfExpr =
-        ifExpr(expr1, operation, expr2)
+    ifExpr(expr1, operation, expr2)
 
 /**
  * Helper function to create if expressions. This function converts a sequence of: [IfExpr],
@@ -359,7 +619,8 @@ fun ifExprs(vararg objects: Any): List<CodeInstruction> {
                         && any != Operators.AND
                         && any != Operators.BITWISE_INCLUSIVE_OR
                         && any != Operators.BITWISE_EXCLUSIVE_OR
-                        && any != Operators.BITWISE_AND)
+                        && any != Operators.BITWISE_AND
+                )
                     throw IllegalArgumentException("Input object is not a valid operator, it must be: OR or AND or short-circuit BITWISE_INCLUSIVE_OR, BITWISE_EXCLUSIVE_OR or BITWISE_AND. Current: $any")
 
             list.add(any as CodeInstruction)
@@ -383,9 +644,19 @@ fun ifExprs(vararg objects: Any): List<CodeInstruction> {
 fun checkNotNull(part: CodeInstruction) = ifExpr(part, Operators.NOT_EQUAL_TO, Literals.NULL)
 
 /**
+ * [IfExpr] that checks if [receiver][CodeInstruction] is not `null`
+ */
+fun CodeInstruction.checkThisNotNull() = ifExpr(this, Operators.NOT_EQUAL_TO, Literals.NULL)
+
+/**
  * [IfExpr] that checks if [part] is `null`
  */
 fun checkNull(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals.NULL)
+
+/**
+ * [IfExpr] that checks if [receiver][CodeInstruction] is `null`
+ */
+fun CodeInstruction.checkThisNull() = ifExpr(this, Operators.EQUAL_TO, Literals.NULL)
 
 /**
  * [IfExpr] that checks if [part] is `true`
@@ -393,9 +664,19 @@ fun checkNull(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals
 fun checkTrue(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals.TRUE)
 
 /**
+ * [IfExpr] that checks if [receiver][CodeInstruction] is `true`
+ */
+fun CodeInstruction.checThiskTrue() = ifExpr(this, Operators.EQUAL_TO, Literals.TRUE)
+
+/**
  * [IfExpr] that checks if [part] is `false`
  */
 fun checkFalse(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literals.FALSE)
+
+/**
+ * [IfExpr] that checks if [receiver][CodeInstruction] is `false`
+ */
+fun CodeInstruction.checkThisFalse() = ifExpr(this, Operators.EQUAL_TO, Literals.FALSE)
 
 // IfStatement
 
@@ -403,15 +684,23 @@ fun checkFalse(part: CodeInstruction) = ifExpr(part, Operators.EQUAL_TO, Literal
  * @see IfStatement
  */
 @JvmOverloads
-fun ifStatement(expressions: List<CodeInstruction>, body: CodeSource, elseStatement: CodeSource = CodeSource.empty()): IfStatement =
-        IfStatement(expressions, body, elseStatement)
+fun ifStatement(
+    expressions: List<CodeInstruction>,
+    body: CodeSource,
+    elseStatement: CodeSource = CodeSource.empty()
+): IfStatement =
+    IfStatement(expressions, body, elseStatement)
 
 /**
  * @see IfStatement
  */
 @JvmOverloads
-fun ifStatement(ifExpr: IfExpr, body: CodeSource, elseStatement: CodeSource = CodeSource.empty()): IfStatement =
-        IfStatement(listOf(ifExpr), body, elseStatement)
+fun ifStatement(
+    ifExpr: IfExpr,
+    body: CodeSource,
+    elseStatement: CodeSource = CodeSource.empty()
+): IfStatement =
+    IfStatement(listOf(ifExpr), body, elseStatement)
 
 
 // Label
@@ -421,7 +710,7 @@ fun ifStatement(ifExpr: IfExpr, body: CodeSource, elseStatement: CodeSource = Co
  */
 @JvmOverloads
 fun label(name: String, body: CodeSource = CodeSource.empty()): Label =
-        Label(name, body)
+    Label(name, body)
 
 // ControlFlow
 
@@ -430,7 +719,7 @@ fun label(name: String, body: CodeSource = CodeSource.empty()): Label =
  */
 @JvmOverloads
 fun controlFlow(type: ControlFlow.Type, at: Label? = null): ControlFlow =
-        ControlFlow(type, at)
+    ControlFlow(type, at)
 
 /**
  * `break`
@@ -461,28 +750,47 @@ fun continueFlow(at: Label? = null) = controlFlow(ControlFlow.Type.CONTINUE, at)
  */
 fun isInstanceOf(part: CodeInstruction, type: Type): InstanceOfCheck = InstanceOfCheck(part, type)
 
+/**
+ * Checks if [receiver][CodeInstruction] is instance of [type]
+ *
+ * @see InstanceOfCheck
+ */
+fun CodeInstruction.isThisInstanceOf(type: Type): InstanceOfCheck = InstanceOfCheck(this, type)
+
 // TryStatement
 
 /**
  * @see TryStatement
  */
 @JvmOverloads
-fun tryStatement(body: CodeSource, catchStatements: List<CatchStatement>, finallyStatement: CodeSource = CodeSource.empty()): TryStatement =
-        TryStatement(body, catchStatements, finallyStatement)
+fun tryStatement(
+    body: CodeSource,
+    catchStatements: List<CatchStatement>,
+    finallyStatement: CodeSource = CodeSource.empty()
+): TryStatement =
+    TryStatement(body, catchStatements, finallyStatement)
 
 // CatchStatement
 
 /**
  * @see CatchStatement
  */
-fun catchStatement(exceptionTypes: List<Type>, variable: VariableDeclaration, body: CodeSource): CatchStatement =
-        CatchStatement(exceptionTypes, variable, body)
+fun catchStatement(
+    exceptionTypes: List<Type>,
+    variable: VariableDeclaration,
+    body: CodeSource
+): CatchStatement =
+    CatchStatement(exceptionTypes, variable, body)
 
 /**
  * @see CatchStatement
  */
-fun catchStatement(exceptionType: Type, variable: VariableDeclaration, body: CodeSource): CatchStatement =
-        catchStatement(listOf(exceptionType), variable, body)
+fun catchStatement(
+    exceptionType: Type,
+    variable: VariableDeclaration,
+    body: CodeSource
+): CatchStatement =
+    catchStatement(listOf(exceptionType), variable, body)
 
 // TryWithResources
 
@@ -490,8 +798,13 @@ fun catchStatement(exceptionType: Type, variable: VariableDeclaration, body: Cod
  * @see TryWithResources
  */
 @JvmOverloads
-fun tryWithResources(variable: VariableDeclaration, body: CodeSource, catchStatements: List<CatchStatement> = emptyList(), finallyStatement: CodeSource = CodeSource.empty()): TryWithResources =
-        TryWithResources(variable, body, catchStatements, finallyStatement)
+fun tryWithResources(
+    variable: VariableDeclaration,
+    body: CodeSource,
+    catchStatements: List<CatchStatement> = emptyList(),
+    finallyStatement: CodeSource = CodeSource.empty()
+): TryWithResources =
+    TryWithResources(variable, body, catchStatements, finallyStatement)
 
 // WhileStatement
 
@@ -499,96 +812,172 @@ fun tryWithResources(variable: VariableDeclaration, body: CodeSource, catchState
  * @see [WhileStatement]
  */
 @JvmOverloads
-fun whileStatement(type: WhileStatement.Type = WhileStatement.Type.WHILE, expressions: List<CodeInstruction>, body: CodeSource): WhileStatement =
-        WhileStatement(type, expressions, body)
+fun whileStatement(
+    type: WhileStatement.Type = WhileStatement.Type.WHILE,
+    expressions: List<CodeInstruction>,
+    body: CodeSource
+): WhileStatement =
+    WhileStatement(type, expressions, body)
 
 /**
  * @see [WhileStatement]
  */
 fun doWhileStatement(expressions: List<CodeInstruction>, body: CodeSource): WhileStatement =
-        WhileStatement(WhileStatement.Type.DO_WHILE, expressions, body)
+    WhileStatement(WhileStatement.Type.DO_WHILE, expressions, body)
 
 // ForStatement
 
 /**
  * @see ForStatement
  */
-fun forStatement(forInit: CodeInstruction, forExpression: List<CodeInstruction>, forUpdate: CodeInstruction, body: CodeSource): ForStatement =
-        ForStatement(listOf(forInit), forExpression, listOf(forUpdate), body)
+fun forStatement(
+    forInit: CodeInstruction,
+    forExpression: List<CodeInstruction>,
+    forUpdate: CodeInstruction,
+    body: CodeSource
+): ForStatement =
+    ForStatement(listOf(forInit), forExpression, listOf(forUpdate), body)
 
 /**
  * @see ForStatement
  */
-fun forStatement(forInit: List<CodeInstruction>, forExpression: List<CodeInstruction>, forUpdate: List<CodeInstruction>, body: CodeSource): ForStatement =
-        ForStatement(forInit, forExpression, forUpdate, body)
+fun forStatement(
+    forInit: List<CodeInstruction>,
+    forExpression: List<CodeInstruction>,
+    forUpdate: List<CodeInstruction>,
+    body: CodeSource
+): ForStatement =
+    ForStatement(forInit, forExpression, forUpdate, body)
 
 /**
  * @see ForStatement
  */
-fun forStatement(forInit: CodeInstruction, forExpression: IfExpr, forUpdate: CodeInstruction, body: CodeSource): ForStatement =
-        forStatement(forInit, listOf(forExpression), forUpdate, body)
+fun forStatement(
+    forInit: CodeInstruction,
+    forExpression: IfExpr,
+    forUpdate: CodeInstruction,
+    body: CodeSource
+): ForStatement =
+    forStatement(forInit, listOf(forExpression), forUpdate, body)
 
 // ForEachStatement
 
 /**
  * @see ForEachStatement
  */
-fun forEachStatement(variable: VariableDeclaration, iterationType: IterationType, iterableElement: CodeInstruction, body: CodeSource): ForEachStatement =
-        ForEachStatement(variable, iterationType, iterableElement, body)
+fun forEachStatement(
+    variable: VariableDeclaration,
+    iterationType: IterationType,
+    iterableElement: CodeInstruction,
+    body: CodeSource
+): ForEachStatement =
+    ForEachStatement(variable, iterationType, iterableElement, body)
 
 /**
  * Loop elements of an iterable element.
  *
  * @see ForEachStatement
  */
-fun forEachIterable(variable: VariableDeclaration, iterableElement: CodeInstruction, body: CodeSource): ForEachStatement =
-        forEachStatement(variable, IterationType.ITERABLE_ELEMENT, iterableElement, body)
+fun forEachIterable(
+    variable: VariableDeclaration,
+    iterableElement: CodeInstruction,
+    body: CodeSource
+): ForEachStatement =
+    forEachStatement(variable, IterationType.ITERABLE_ELEMENT, iterableElement, body)
 
 /**
  * Loop elements of an array.
  *
  * @see ForEachStatement
  */
-fun forEachArray(variable: VariableDeclaration, iterableElement: CodeInstruction, body: CodeSource): ForEachStatement =
-        forEachStatement(variable, IterationType.ARRAY, iterableElement, body)
+fun forEachArray(
+    variable: VariableDeclaration,
+    iterableElement: CodeInstruction,
+    body: CodeSource
+): ForEachStatement =
+    forEachStatement(variable, IterationType.ARRAY, iterableElement, body)
 
 // Switch & Case
 
 /**
  * @see SwitchStatement
  */
-fun switchStatement(value: CodeInstruction, switchType: SwitchType, cases: List<Case>): SwitchStatement =
-        SwitchStatement(value, switchType, cases)
+fun switchStatement(
+    value: CodeInstruction,
+    switchType: SwitchType,
+    cases: List<Case>
+): SwitchStatement =
+    SwitchStatement(value, switchType, cases)
+
+/**
+ * Switch [receiver][CodeInstruction]
+ *
+ * @see SwitchStatement
+ */
+fun CodeInstruction.switchThisStatement(
+    switchType: SwitchType,
+    cases: List<Case>
+): SwitchStatement =
+    SwitchStatement(this, switchType, cases)
 
 /**
  * @see SwitchStatement
  */
 fun switchInt(value: CodeInstruction, cases: List<Case>): SwitchStatement =
-        switchStatement(value, SwitchType.NUMERIC, cases)
+    switchStatement(value, SwitchType.NUMERIC, cases)
+
+/**
+ * Case [receiver][CodeInstruction] int.
+ *
+ * @see SwitchStatement
+ */
+fun CodeInstruction.switchThisInt(cases: List<Case>): SwitchStatement =
+    switchStatement(this, SwitchType.NUMERIC, cases)
 
 /**
  * @see SwitchStatement
  */
 fun switchString(value: CodeInstruction, cases: List<Case>): SwitchStatement =
-        switchStatement(value, SwitchType.STRING, cases)
+    switchStatement(value, SwitchType.STRING, cases)
+
+/**
+ * Case [receiver][CodeInstruction] string.
+ * @see SwitchStatement
+ */
+fun CodeInstruction.switchThisString(cases: List<Case>): SwitchStatement =
+    switchStatement(this, SwitchType.STRING, cases)
 
 /**
  * @see SwitchStatement
  */
 fun switchEnum(value: CodeInstruction, cases: List<Case>): SwitchStatement =
-        switchStatement(value, SwitchType.ENUM, cases)
+    switchStatement(value, SwitchType.ENUM, cases)
+
+/**
+ * Case [receiver][CodeInstruction] enum.
+ * @see SwitchStatement
+ */
+fun CodeInstruction.switchThisEnum(cases: List<Case>): SwitchStatement =
+    switchStatement(this, SwitchType.ENUM, cases)
 
 /**
  * @see Case
  */
 fun caseStatement(value: CodeInstruction, body: CodeSource): Case =
-        Case(value, body)
+    Case(value, body)
+
+/**
+ * Case [receiver][CodeInstruction] value.
+ * @see Case
+ */
+fun CodeInstruction.caseThis(body: CodeSource): Case =
+    Case(this, body)
 
 /**
  * @see Case
  */
 fun defaultCase(body: CodeSource): Case =
-        caseStatement(CodeNothing, body)
+    caseStatement(CodeNothing, body)
 
 
 // PlainCodeType
@@ -597,21 +986,21 @@ fun defaultCase(body: CodeSource): Case =
  * @see PlainCodeType
  */
 fun plainType(name: String, isInterface: Boolean): PlainCodeType =
-        PlainCodeType(name, isInterface)
+    PlainCodeType(name, isInterface)
 
 
 /**
  * @see PlainCodeType
  */
 fun plainInterfaceType(name: String): PlainCodeType =
-        plainType(name, true)
+    plainType(name, true)
 
 
 /**
  * @see PlainCodeType
  */
 fun plainClassType(name: String): PlainCodeType =
-        plainType(name, false)
+    plainType(name, false)
 
 // TypeSpec
 
@@ -619,40 +1008,46 @@ fun plainClassType(name: String): PlainCodeType =
  * @see TypeSpec
  */
 fun typeSpec(rtype: Type) =
-        TypeSpec(rtype, emptyList())
+    TypeSpec(rtype, emptyList())
 
 /**
  * @see TypeSpec
  */
 fun typeSpec(rtype: Type, ptypes: List<Type>) =
-        TypeSpec(rtype, ptypes.toList())
+    TypeSpec(rtype, ptypes.toList())
 
 /**
  * @see TypeSpec
  */
 fun typeSpec(rtype: Type, ptype: Type) =
-        typeSpec(rtype, listOf(ptype))
+    typeSpec(rtype, listOf(ptype))
 
 /**
  * @see TypeSpec
  */
 fun typeSpec(rtype: Type, vararg ptypes: Type) =
-        typeSpec(rtype, ptypes.toList())
+    typeSpec(rtype, ptypes.toList())
 
 /**
  * @see TypeSpec
  */
 fun voidTypeSpec(vararg ptypes: Type) =
-        typeSpec(Types.VOID, ptypes.toList())
+    typeSpec(Types.VOID, ptypes.toList())
 
 /**
  * @see TypeSpec
  */
 fun constructorTypeSpec(vararg ptypes: Type) =
-        typeSpec(Types.VOID, ptypes.toList())
+    typeSpec(Types.VOID, ptypes.toList())
 
 /**
  * Creates a [Line] instance linking [value] to [line number][line].
  */
 fun line(line: Int, value: CodeInstruction): Line =
-        if (value is Typed) Line.TypedLine(line, value, value.type) else Line.NormalLine(line, value)
+    if (value is Typed) Line.TypedLine(line, value, value.type) else Line.NormalLine(line, value)
+
+/**
+ * Creates a [Line] of number [line]
+ */
+fun CodeInstruction.line(line: Int) =
+    line(line, this)

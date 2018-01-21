@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 
@@ -44,7 +43,12 @@ import com.github.jonathanxd.codeapi.common.MethodTypeSpec
  * @property iterableElement Element to iterate
  * @see IterationType
  */
-data class ForEachStatement(val variable: VariableDeclaration, val iterationType: IterationType, val iterableElement: CodeInstruction, override val body: CodeSource) : BodyHolder, CodeInstruction {
+data class ForEachStatement(
+    val variable: VariableDeclaration,
+    val iterationType: IterationType,
+    val iterableElement: CodeInstruction,
+    override val body: CodeSource
+) : BodyHolder, CodeInstruction {
     init {
         BodyHolder.checkBody(this)
     }
@@ -93,7 +97,8 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
             return this
         }
 
-        override fun build(): ForEachStatement = ForEachStatement(this.variable, this.iterationType, this.iterableElement, this.body)
+        override fun build(): ForEachStatement =
+            ForEachStatement(this.variable, this.iterationType, this.iterableElement, this.body)
 
         companion object {
             @JvmStatic
@@ -113,13 +118,16 @@ data class ForEachStatement(val variable: VariableDeclaration, val iterationType
  * @property hasNextName Name of method which returns true if has next elements.
  * @property nextMethodSpec Specification of method which returns the next element.
  */
-data class IterationType(val iteratorMethodSpec: MethodTypeSpec,
-                         val hasNextName: String,
-                         val nextMethodSpec: MethodTypeSpec) {
+data class IterationType(
+    val iteratorMethodSpec: MethodTypeSpec,
+    val hasNextName: String,
+    val nextMethodSpec: MethodTypeSpec
+) {
 
     companion object {
 
-        private val NOTHING_SPEC = MethodTypeSpec(Nothing::class.java, "", TypeSpec(Nothing::class.java))
+        private val NOTHING_SPEC =
+            MethodTypeSpec(Nothing::class.java, "", TypeSpec(Nothing::class.java))
 
         /**
          * Foreach on array. Requires special handling.
@@ -132,13 +140,18 @@ data class IterationType(val iteratorMethodSpec: MethodTypeSpec,
          */
         @JvmField
         val ITERABLE_ELEMENT = IterationType(
-                MethodTypeSpec(localization = Iterable::class.java,
-                        methodName = "iterator",
-                        typeSpec = TypeSpec(Iterator::class.java)),
-                "hasNext",
-                MethodTypeSpec(localization = Iterator::class.java,
-                        methodName = "next",
-                        typeSpec = TypeSpec(Any::class.java)))
+            MethodTypeSpec(
+                localization = Iterable::class.java,
+                methodName = "iterator",
+                typeSpec = TypeSpec(Iterator::class.java)
+            ),
+            "hasNext",
+            MethodTypeSpec(
+                localization = Iterator::class.java,
+                methodName = "next",
+                typeSpec = TypeSpec(Any::class.java)
+            )
+        )
 
     }
 

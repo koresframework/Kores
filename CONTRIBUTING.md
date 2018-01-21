@@ -9,4 +9,8 @@ We don't release features before the code generation is implemented, if you don'
 
 # Contact
 
-If you want to contact me, join to discord channel [CodeAPI](https://discord.gg/3cQWmtj) (please do not report issues here).
+If you want to contact me, join to discord channel [CodeAPI](https://discord.gg/3cQWmtj) (please do not report issues in discord).
+
+# Code Style
+
+Kotlin files follow [Kotlin Coding Conventions](http://kotlinlang.org/docs/reference/coding-conventions.html), and Java files, [Google Java Style](https://google.github.io/styleguide/javaguide.html).

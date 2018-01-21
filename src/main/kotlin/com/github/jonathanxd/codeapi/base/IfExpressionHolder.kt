@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -58,7 +58,8 @@ interface IfExpressionHolder : CodePart {
 
     override fun builder(): Builder<IfExpressionHolder, *>
 
-    interface Builder<out T : IfExpressionHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : IfExpressionHolder, S : Builder<T, S>> :
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
          * See [T.expressions]
          */

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,9 +27,7 @@
  */
 package com.github.jonathanxd.codeapi
 
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.Spliterator
+import java.util.*
 import java.util.function.Consumer
 import java.util.function.Predicate
 import java.util.function.UnaryOperator
@@ -38,7 +36,8 @@ import java.util.stream.Stream
 /**
  * A [MutableCodeSource] backing to a [ArrayList].
  */
-class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : MutableCodeSource(), Cloneable {
+class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : MutableCodeSource(),
+    Cloneable {
 
     constructor() : this(mutableListOf())
 
@@ -133,16 +132,16 @@ class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : Mu
     }
 
     override operator fun plus(other: CodeInstruction): MutableCodeSource =
-            ListCodeSource(this.backingList + other)
+        ListCodeSource(this.backingList + other)
 
     override operator fun minus(other: CodeInstruction): MutableCodeSource =
-            ListCodeSource(this.backingList - other)
+        ListCodeSource(this.backingList - other)
 
     override operator fun plus(other: Iterable<CodeInstruction>): MutableCodeSource =
-            ListCodeSource(this.backingList + other)
+        ListCodeSource(this.backingList + other)
 
     override operator fun minus(other: Iterable<CodeInstruction>): MutableCodeSource =
-            ListCodeSource(this.backingList - other)
+        ListCodeSource(this.backingList - other)
 
     override fun contains(o: Any): Boolean = this.backingList.contains(o)
 
@@ -155,7 +154,7 @@ class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : Mu
     override fun getAtIndex(index: Int): CodeInstruction = this.backingList[index]
 
     override operator fun set(index: Int, element: CodeInstruction): CodeInstruction =
-            this.backingList.set(index, element)
+        this.backingList.set(index, element)
 
     override fun indexOf(o: Any): Int = this.backingList.indexOf(o)
 
@@ -164,7 +163,7 @@ class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : Mu
     override fun listIterator(): ListIterator<CodeInstruction> = this.backingList.listIterator()
 
     override fun listIterator(index: Int): ListIterator<CodeInstruction> =
-            this.backingList.listIterator(index)
+        this.backingList.listIterator(index)
 
     override fun clone(): Any = ListCodeSource(this.backingList)
 
@@ -178,7 +177,8 @@ class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : Mu
 
     override fun hashCode(): Int = this.backingList.hashCode()
 
-    override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
+    override fun toString(): String =
+        if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
     override fun stream(): Stream<CodeInstruction> = this.backingList.stream()
 
@@ -190,8 +190,11 @@ class ListCodeSource(private val backingList: MutableList<CodeInstruction>) : Mu
 
     companion object {
         @JvmStatic
-        inline fun ListCodeSource(size: Int, init: (index: Int) -> CodeInstruction): ListCodeSource =
-                ListCodeSource(MutableList(size, init))
+        inline fun ListCodeSource(
+            size: Int,
+            init: (index: Int) -> CodeInstruction
+        ): ListCodeSource =
+            ListCodeSource(MutableList(size, init))
     }
 
 }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,33 +28,38 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.resolveQualifiedName
+import com.github.jonathanxd.codeapi.util.resolveTypeName
 import java.lang.reflect.Type
 
 /**
  * Anonymous class, in Bytecode, anonymous class can have implementations,
  * in other languages it depends on specification. (Official Java generator may comment implementations).
  */
-data class AnonymousClass(override val comments: Comments,
-                          override val outerClass: Type?,
-                          override val annotations: List<Annotation>,
-                          override val specifiedName: String,
-                          override val superClass: Type,
-                          override val implementations: List<Type>,
-                          val constructorSpec: TypeSpec,
-                          override val arguments: List<CodeInstruction>,
-                          val constructorBody: CodeSource,
-                          override val staticBlock: StaticBlock,
-                          override val fields: List<FieldDeclaration>,
-                          override val constructors: List<ConstructorDeclaration>,
-                          override val methods: List<MethodDeclaration>,
-                          override val innerTypes: List<TypeDeclaration>) : TypeDeclaration, SuperClassHolder,
-        ArgumentsHolder, ImplementationHolder, ConstructorsHolder {
+data class AnonymousClass(
+    override val comments: Comments,
+    override val outerClass: Type?,
+    override val annotations: List<Annotation>,
+    override val specifiedName: String,
+    override val superClass: Type,
+    override val implementations: List<Type>,
+    val constructorSpec: TypeSpec,
+    override val arguments: List<CodeInstruction>,
+    val constructorBody: CodeSource,
+    override val staticBlock: StaticBlock,
+    override val fields: List<FieldDeclaration>,
+    override val constructors: List<ConstructorDeclaration>,
+    override val methods: List<MethodDeclaration>,
+    override val innerTypes: List<TypeDeclaration>
+) : TypeDeclaration, SuperClassHolder,
+    ArgumentsHolder, ImplementationHolder, ConstructorsHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -81,11 +86,11 @@ data class AnonymousClass(override val comments: Comments,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            TypeDeclaration.Builder<AnonymousClass, Builder>,
-            SuperClassHolder.Builder<AnonymousClass, Builder>,
-            ArgumentsHolder.Builder<AnonymousClass, Builder>,
-            ImplementationHolder.Builder<AnonymousClass, Builder>,
-            ConstructorsHolder.Builder<AnonymousClass, Builder> {
+        TypeDeclaration.Builder<AnonymousClass, Builder>,
+        SuperClassHolder.Builder<AnonymousClass, Builder>,
+        ArgumentsHolder.Builder<AnonymousClass, Builder>,
+        ImplementationHolder.Builder<AnonymousClass, Builder>,
+        ConstructorsHolder.Builder<AnonymousClass, Builder> {
 
         var comments: Comments = Comments.Absent
         var outerClass: Type? = null
@@ -204,20 +209,20 @@ data class AnonymousClass(override val comments: Comments,
         }
 
         override fun build(): AnonymousClass = AnonymousClass(
-                this.comments,
-                this.outerClass,
-                this.annotations,
-                this.specifiedName,
-                this.superClass,
-                this.implementations,
-                this.constructorSpec,
-                this.arguments,
-                this.constructorBody,
-                this.staticBlock,
-                this.fields,
-                this.constructors,
-                this.methods,
-                this.innerTypes
+            this.comments,
+            this.outerClass,
+            this.annotations,
+            this.specifiedName,
+            this.superClass,
+            this.implementations,
+            this.constructorSpec,
+            this.arguments,
+            this.constructorBody,
+            this.staticBlock,
+            this.fields,
+            this.constructors,
+            this.methods,
+            this.innerTypes
         )
 
 

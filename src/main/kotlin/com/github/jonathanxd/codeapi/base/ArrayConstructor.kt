@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,11 +28,11 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.common.Stack
 import com.github.jonathanxd.codeapi.literal.Literals
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.self
-import com.github.jonathanxd.codeapi.util.type
+import com.github.jonathanxd.codeapi.type
+import com.github.jonathanxd.codeapi.type.codeType
 import java.lang.reflect.Type
 
 /**
@@ -46,9 +46,11 @@ import java.lang.reflect.Type
  * new String[] {"A", "B", "C"}
  * ```
  */
-data class ArrayConstructor(val arrayType: Type,
-                            val dimensions: List<CodeInstruction>,
-                            override val arguments: List<CodeInstruction>) : ArgumentsHolder, Typed, CodeInstruction {
+data class ArrayConstructor(
+    val arrayType: Type,
+    val dimensions: List<CodeInstruction>,
+    override val arguments: List<CodeInstruction>
+) : ArgumentsHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.arrayType
@@ -75,13 +77,13 @@ data class ArrayConstructor(val arrayType: Type,
                 val argument = arguments[i]
 
                 arrayStores.add(
-                        ArrayStore.Builder.builder()
-                                .arrayType(this@ArrayConstructor.arrayType)//this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
-                                .target(Stack)
-                                .index(Literals.INT(i))
-                                .valueType(argument.type)
-                                .valueToStore(argument)
-                                .build()
+                    ArrayStore.Builder.builder()
+                        .arrayType(this@ArrayConstructor.arrayType) //this@ArrayConstructor.arrayType.toArray(this@ArrayConstructor.dimensions.size)
+                        .target(Stack)
+                        .index(Literals.INT(i))
+                        .valueType(argument.type)
+                        .valueToStore(argument)
+                        .build()
                 )
             }
 
@@ -91,8 +93,8 @@ data class ArrayConstructor(val arrayType: Type,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ArgumentsHolder.Builder<ArrayConstructor, Builder>,
-            Typed.Builder<ArrayConstructor, Builder> {
+        ArgumentsHolder.Builder<ArrayConstructor, Builder>,
+        Typed.Builder<ArrayConstructor, Builder> {
 
         lateinit var arrayType: Type
         var dimensions: List<CodeInstruction> = emptyList()
@@ -135,7 +137,8 @@ data class ArrayConstructor(val arrayType: Type,
             return this
         }
 
-        override fun build(): ArrayConstructor = ArrayConstructor(this.arrayType, this.dimensions, this.arguments)
+        override fun build(): ArrayConstructor =
+            ArrayConstructor(this.arrayType, this.dimensions, this.arguments)
 
         companion object {
             @JvmStatic

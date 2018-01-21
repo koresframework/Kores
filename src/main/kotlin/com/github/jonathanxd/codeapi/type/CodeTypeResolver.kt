@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,7 +30,7 @@ package com.github.jonathanxd.codeapi.type
 import com.github.jonathanxd.codeapi.base.*
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.type.CodeTypeResolver.DefaultResolver.resolve
-import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.util.CodeTypeResolverFunc
 import com.github.jonathanxd.codeapi.util.conversion.getTypeDeclaration
 import com.github.jonathanxd.codeapi.util.conversion.toRepresentation
 import com.github.jonathanxd.codeapi.util.conversion.typeDeclaration
@@ -71,14 +71,18 @@ interface CodeTypeResolver<out T> {
      * @return True if [type] is assignable from [from].
      */
     fun isAssignableFrom(type: Type, from: Type): EitherObjBoolean<Exception> =
-            this.isAssignableFrom(type, from, Type::defaultResolver)
+        this.isAssignableFrom(type, from, Type::defaultResolver)
 
     /**
      * Checks if [type] is assignable [from] using resolvers provided by [resolverProvider]
      *
      * @return True if [type] is assignable from [from].
      */
-    fun isAssignableFrom(type: Type, from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception>
+    fun isAssignableFrom(
+        type: Type,
+        from: Type,
+        resolverProvider: (Type) -> CodeTypeResolver<*>
+    ): EitherObjBoolean<Exception>
 
     /**
      * Resolves or create [TypeDeclaration] from [type] structure and elements.
@@ -92,7 +96,7 @@ interface CodeTypeResolver<out T> {
      * and extract property value.
      */
     fun resolveFields(type: Type): Either<Exception, List<FieldDeclaration>> =
-            this.resolveTypeDeclaration(type).mapRight { it.fields }
+        this.resolveTypeDeclaration(type).mapRight { it.fields }
 
     /**
      * Resolves or create a list of all [ConstructorDeclaration] present in [type].
@@ -101,11 +105,15 @@ interface CodeTypeResolver<out T> {
      * and extract property value.
      */
     fun resolveConstructors(type: Type): Either<Exception, List<ConstructorDeclaration>> =
-            this.resolveTypeDeclaration(type).flatMapRight {
-                (it as? ConstructorsHolder)?.let {
-                    Either.right<Exception, List<ConstructorDeclaration>>(it.constructors)
-                } ?: Either.left<Exception, List<ConstructorDeclaration>>(IllegalArgumentException("Type $type is not a ConstructorHolder"))
-            }
+        this.resolveTypeDeclaration(type).flatMapRight {
+            (it as? ConstructorsHolder)?.let {
+                Either.right<Exception, List<ConstructorDeclaration>>(it.constructors)
+            } ?: Either.left<Exception, List<ConstructorDeclaration>>(
+                IllegalArgumentException(
+                    "Type $type is not a ConstructorHolder"
+                )
+            )
+        }
 
     /**
      * Resolves or create a list of all [MethodDeclaration] present in [type].
@@ -114,7 +122,7 @@ interface CodeTypeResolver<out T> {
      * and extract property value.
      */
     fun resolveMethods(type: Type): Either<Exception, List<MethodDeclaration>> =
-            this.resolveTypeDeclaration(type).mapRight { it.methods }
+        this.resolveTypeDeclaration(type).mapRight { it.methods }
 
     /**
      * Common implementation of resolver.
@@ -151,7 +159,7 @@ interface CodeTypeResolver<out T> {
 
             if (concreteType is TypeElementCodeType)
                 return Either.right(concreteType.typeElement.interfaces?.filter { it.kind != TypeKind.NONE }
-                        ?.map { it.getCodeType(concreteType.elements) }.orEmpty())
+                    ?.map { it.getCodeType(concreteType.elements) }.orEmpty())
 
             if (concreteType is ImplementationHolder)
                 return Either.right(concreteType.implementations.map { it.codeType }.toList())
@@ -162,9 +170,11 @@ interface CodeTypeResolver<out T> {
             return Either.left(IllegalArgumentException("Can't resolve super interfaces of $type: Unknown type."))
         }
 
-        override fun isAssignableFrom(type: Type,
-                                      from: Type,
-                                      resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception> {
+        override fun isAssignableFrom(
+            type: Type,
+            from: Type,
+            resolverProvider: (Type) -> CodeTypeResolver<*>
+        ): EitherObjBoolean<Exception> {
             // Should I do something like TypeInfo#isAssignableFrom for GenericTypes?
             val concreteCodeType = type.concreteType
             val concreteFrom = from.concreteType
@@ -173,43 +183,56 @@ interface CodeTypeResolver<out T> {
                 return EitherObjBoolean.right(true)
 
             if (concreteCodeType is LoadedCodeType<*> && concreteFrom is LoadedCodeType<*>)
-                return EitherObjBoolean.right(concreteCodeType.loadedType.isAssignableFrom(concreteFrom.loadedType))
+                return EitherObjBoolean.right(
+                    concreteCodeType.loadedType.isAssignableFrom(
+                        concreteFrom.loadedType
+                    )
+                )
 
             val superClass =
-                    concreteFrom.let { resolverProvider(it).getSuperclass(it) }
-                            .let {
-                                if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right?.concreteType
-                            }
+                concreteFrom.let { resolverProvider(it).getSuperclass(it) }
+                    .let {
+                        if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right?.concreteType
+                    }
 
             if (superClass != null) {
                 if (superClass.`is`(concreteCodeType)
                         ||
                         superClass.let {
-                            resolverProvider(it).isAssignableFrom(concreteCodeType, it, resolverProvider)
-                                    .let {
-                                        if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right
-                                    }
-                        }) {
+                            resolverProvider(it).isAssignableFrom(
+                                concreteCodeType,
+                                it,
+                                resolverProvider
+                            )
+                                .let {
+                                    if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right
+                                }
+                        }
+                ) {
                     return EitherObjBoolean.right(true)
                 }
             }
 
             val superinterfaces =
-                    concreteFrom.let { resolverProvider(it).getInterfaces(it) }.let {
-                        if (it.isLeft)
-                            return EitherObjBoolean.left(it.left)
-                        else
-                            it.right
-                    }
+                concreteFrom.let { resolverProvider(it).getInterfaces(it) }.let {
+                    if (it.isLeft)
+                        return EitherObjBoolean.left(it.left)
+                    else
+                        it.right
+                }
 
             if (superinterfaces.isNotEmpty()) {
                 if (superinterfaces.any { it.`is`(concreteCodeType) }
                         ||
                         superinterfaces.any {
-                            resolverProvider(it).isAssignableFrom(concreteCodeType, it, resolverProvider)
-                                    .let {
-                                        if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right
-                                    }
+                            resolverProvider(it).isAssignableFrom(
+                                concreteCodeType,
+                                it,
+                                resolverProvider
+                            )
+                                .let {
+                                    if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right
+                                }
                         }) {
                     return EitherObjBoolean.right(true)
                 }
@@ -271,11 +294,11 @@ interface CodeTypeResolver<out T> {
      */
     class Model(val elements: Elements) : CommonResolver<TypeElement?>() {
         override fun resolve(type: Type): Either<Exception, out TypeElement> =
-                ((type.concreteType as? TypeElementCodeType)?.typeElement
-                        ?: elements.getTypeElement(type.canonicalName))?.let {
-                    Either.right<Exception, TypeElement>(it)
-                }
-                ?: Either.left<Exception, TypeElement>(IllegalArgumentException("Cannot resolve '$type' in Model Elements."))
+            ((type.concreteType as? TypeElementCodeType)?.typeElement
+                    ?: elements.getTypeElement(type.canonicalName))?.let {
+                Either.right<Exception, TypeElement>(it)
+            }
+                    ?: Either.left<Exception, TypeElement>(IllegalArgumentException("Cannot resolve '$type' in Model Elements."))
     }
 
     /**
@@ -288,13 +311,15 @@ interface CodeTypeResolver<out T> {
     /**
      * CodeAPI Resolver.
      */
-    class CodeAPI(val resolverFunc: CodeTypeResolverFunc? = null) : CommonResolver<TypeDeclaration?>() {
+    class CodeAPI(val resolverFunc: CodeTypeResolverFunc? = null) :
+        CommonResolver<TypeDeclaration?>() {
 
         override fun resolve(type: Type): Either<Exception, out TypeDeclaration> =
-                ((type.concreteType as? TypeDeclaration) ?:
-                        (resolverFunc?.apply(type.canonicalName) as? TypeDeclaration))?.let {
-                    Either.right<Exception, TypeDeclaration>(it)
-                } ?: Either.left<Exception, TypeDeclaration>(IllegalArgumentException("Cannot resolve '$type' CodeAPI Declaration."))
+            ((type.concreteType as? TypeDeclaration)
+                    ?: (resolverFunc?.apply(type.canonicalName) as? TypeDeclaration))?.let {
+                Either.right<Exception, TypeDeclaration>(it)
+            }
+                    ?: Either.left<Exception, TypeDeclaration>(IllegalArgumentException("Cannot resolve '$type' CodeAPI Declaration."))
 
 
     }
@@ -343,46 +368,68 @@ interface CodeTypeResolver<out T> {
          */
         @Suppress("UNCHECKED_CAST")
         override fun resolve(type: Type): Either<Exception, out T?> =
-                resolvers.map { it.resolve(type) }.firstOrNull { it.isRight }
-                        ?: Either.left<Exception, T?>(IllegalArgumentException("None of provided resolvers was" +
-                        " able to resolve $type. Provided resolvers: '${resolvers.joinToString()}'"))
+            resolvers.map { it.resolve(type) }.firstOrNull { it.isRight }
+                    ?: Either.left<Exception, T?>(
+                        IllegalArgumentException(
+                            "None of provided resolvers was" +
+                                    " able to resolve $type. Provided resolvers: '${resolvers.joinToString()}'"
+                        )
+                    )
 
         /**
          * First non-null and [non-nothing][CodeNothing] value is returned, or `null` if no
          * valid value was found.
          */
         override fun getSuperclass(type: Type): Either<Exception, Type?> =
-                resolvers.map { it.getSuperclass(type) }
-                        .firstOrNull { it.isRight }
-                        ?: Either.left<Exception, Type?>(IllegalArgumentException("None of provided resolvers was" +
-                        " able to resolve $type super class. Provided resolvers: '${resolvers.joinToString()}'"))
+            resolvers.map { it.getSuperclass(type) }
+                .firstOrNull { it.isRight }
+                    ?: Either.left<Exception, Type?>(
+                        IllegalArgumentException(
+                            "None of provided resolvers was" +
+                                    " able to resolve $type super class. Provided resolvers: '${resolvers.joinToString()}'"
+                        )
+                    )
 
         /**
          * First bigger list is returned.
          */
         override fun getInterfaces(type: Type): Either<Exception, List<Type>> =
-                resolvers.map { it.getInterfaces(type) }
-                        .filter { it.isRight }
-                        .sortedByDescending { it.right.size }
-                        .firstOrNull()
-                        ?: Either.left<Exception, List<Type>>(IllegalArgumentException("None of provided resolvers was" +
-                        " able to resolve $type super interfaces. Provided resolvers: '${resolvers.joinToString()}'"))
+            resolvers.map { it.getInterfaces(type) }
+                .filter { it.isRight }
+                .sortedByDescending { it.right.size }
+                .firstOrNull()
+                    ?: Either.left<Exception, List<Type>>(
+                        IllegalArgumentException(
+                            "None of provided resolvers was" +
+                                    " able to resolve $type super interfaces. Provided resolvers: '${resolvers.joinToString()}'"
+                        )
+                    )
 
         /**
          * Returns true if any resolver returns true for this operation.
          */
-        override fun isAssignableFrom(type: Type,
-                                      from: Type,
-                                      resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception> =
-                resolvers.map { it.isAssignableFrom(type, from, resolverProvider) }
-                        .firstOrNull { it.isRight && it.right }
-                        ?: EitherObjBoolean.left<Exception>(IllegalArgumentException("None of provided resolvers was" +
-                        " able to resolve whether $type is assignable from $from. Provided resolvers: '${resolvers.joinToString()}'"))
+        override fun isAssignableFrom(
+            type: Type,
+            from: Type,
+            resolverProvider: (Type) -> CodeTypeResolver<*>
+        ): EitherObjBoolean<Exception> =
+            resolvers.map { it.isAssignableFrom(type, from, resolverProvider) }
+                .firstOrNull { it.isRight && it.right }
+                    ?: EitherObjBoolean.left<Exception>(
+                        IllegalArgumentException(
+                            "None of provided resolvers was" +
+                                    " able to resolve whether $type is assignable from $from. Provided resolvers: '${resolvers.joinToString()}'"
+                        )
+                    )
 
         override fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> =
             resolvers.map { it.resolveTypeDeclaration(type) }
-                    .firstOrNull { it.isRight }
-                    ?: Either.left<Exception, TypeDeclaration>(IllegalArgumentException("None of provided resolvers was" +
-                    " able to resolve TypeDeclaration representation of $type."))
+                .firstOrNull { it.isRight }
+                    ?: Either.left<Exception, TypeDeclaration>(
+                        IllegalArgumentException(
+                            "None of provided resolvers was" +
+                                    " able to resolve TypeDeclaration representation of $type."
+                        )
+                    )
     }
 }

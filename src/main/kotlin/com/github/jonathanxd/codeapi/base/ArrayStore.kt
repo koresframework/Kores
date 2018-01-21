@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -38,11 +38,13 @@ import java.lang.reflect.Type
  * @property valueType Type of value to store
  * @property valueToStore Value to store
  */
-data class ArrayStore(override val arrayType: Type,
-                      override val target: CodeInstruction,
-                      val index: CodeInstruction,
-                      val valueType: Type,
-                      val valueToStore: CodeInstruction) : ArrayAccess, ValueHolder, CodeInstruction {
+data class ArrayStore(
+    override val arrayType: Type,
+    override val target: CodeInstruction,
+    val index: CodeInstruction,
+    val valueType: Type,
+    val valueToStore: CodeInstruction
+) : ArrayAccess, ValueHolder, CodeInstruction {
 
     override val value: CodeInstruction
         get() = this.valueToStore
@@ -51,8 +53,8 @@ data class ArrayStore(override val arrayType: Type,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ArrayAccess.Builder<ArrayStore, Builder>,
-            ValueHolder.Builder<ArrayStore, Builder> {
+        ArrayAccess.Builder<ArrayStore, Builder>,
+        ValueHolder.Builder<ArrayStore, Builder> {
 
         lateinit var arrayType: Type
         lateinit var target: CodeInstruction
@@ -105,7 +107,8 @@ data class ArrayStore(override val arrayType: Type,
         }
 
 
-        override fun build(): ArrayStore = ArrayStore(this.arrayType, this.target, this.index, this.valueType, this.valueToStore)
+        override fun build(): ArrayStore =
+            ArrayStore(this.arrayType, this.target, this.index, this.valueType, this.valueToStore)
 
         companion object {
             @JvmStatic

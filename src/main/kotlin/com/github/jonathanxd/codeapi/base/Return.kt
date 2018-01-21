@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,19 +28,19 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 /**
  * Return value.
  */
-data class Return(override val type: Type, override val value: CodeInstruction) : ValueHolder, Typed, CodeInstruction {
+data class Return(override val type: Type, override val value: CodeInstruction) : ValueHolder,
+    Typed, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ValueHolder.Builder<Return, Builder>,
-            Typed.Builder<Return, Builder> {
+        ValueHolder.Builder<Return, Builder>,
+        Typed.Builder<Return, Builder> {
 
         lateinit var type: Type
         lateinit var value: CodeInstruction

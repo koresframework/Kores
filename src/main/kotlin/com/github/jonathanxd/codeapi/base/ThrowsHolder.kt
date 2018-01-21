@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -43,7 +43,7 @@ interface ThrowsHolder : CodePart {
     override fun builder(): Builder<ThrowsHolder, *>
 
     interface Builder<out T : ThrowsHolder, S : Builder<T, S>> :
-            com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [ThrowsHolder.throwsClause]

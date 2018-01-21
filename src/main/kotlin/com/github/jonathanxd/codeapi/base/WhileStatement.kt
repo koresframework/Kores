@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 
 /**
@@ -38,9 +37,11 @@ import com.github.jonathanxd.codeapi.CodeSource
  * @property expressions Expression to check to start and/or continue the loop.
  * @property body Code to execute.
  */
-data class WhileStatement(val type: Type,
-                          override val expressions: List<CodeInstruction>,
-                          override val body: CodeSource) : IfExpressionHolder, BodyHolder, CodeInstruction {
+data class WhileStatement(
+    val type: Type,
+    override val expressions: List<CodeInstruction>,
+    override val body: CodeSource
+) : IfExpressionHolder, BodyHolder, CodeInstruction {
 
     init {
         BodyHolder.checkBody(this)
@@ -49,8 +50,8 @@ data class WhileStatement(val type: Type,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            IfExpressionHolder.Builder<WhileStatement, Builder>,
-            BodyHolder.Builder<WhileStatement, Builder> {
+        IfExpressionHolder.Builder<WhileStatement, Builder>,
+        BodyHolder.Builder<WhileStatement, Builder> {
 
         lateinit var type: Type
         var expressions: List<CodeInstruction> = emptyList()
@@ -80,7 +81,8 @@ data class WhileStatement(val type: Type,
             return this
         }
 
-        override fun build(): WhileStatement = WhileStatement(this.type, this.expressions, this.body)
+        override fun build(): WhileStatement =
+            WhileStatement(this.type, this.expressions, this.body)
 
         companion object {
             @JvmStatic

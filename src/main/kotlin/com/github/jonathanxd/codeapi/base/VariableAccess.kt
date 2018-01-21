@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,13 +28,13 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.common.VariableRef
 import java.lang.reflect.Type
 
 /**
  * Access to a variable in local scope.
  */
-data class VariableAccess(override val variableType: Type, override val name: String) : VariableBase, CodeInstruction {
+data class VariableAccess(override val variableType: Type, override val name: String) :
+    VariableBase, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

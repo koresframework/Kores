@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,6 +27,11 @@
  */
 package com.github.jonathanxd.codeapi.util
 
+import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.base.BodyHolder
+import java.lang.reflect.Modifier
+import java.util.*
+
 @Suppress("NOTHING_TO_INLINE")
 inline fun String.containsBefore(str: String, before: String): Boolean {
     val findIndex = this.indexOf(str)
@@ -39,4 +44,130 @@ inline fun String.containsBefore(str: String, before: String): Boolean {
         return true
 
     return findIndex < beforeIndex
+}
+
+/**
+ * Create a String representation of the part of this [CodePart]
+ *
+ * This method doesn't throw StackOverFlow.
+ *
+ * `@top` means top declaration
+ */
+@JvmOverloads
+fun Any?.asString(simple: Boolean = true): String = toString(mutableListOf(), this, simple)
+
+private fun toString(parts: MutableList<CodePart>, part: Any?, simple: Boolean): String =
+    part.let {
+        if (it == null)
+            "null"
+        else
+            it::class.java.simpleName + StringJoiner(", ", "[", "]").let { buffer ->
+                toString(parts, it, simple, { a -> buffer.add(a) })
+                buffer.toString()
+            }
+    }
+
+private fun toString(
+    parts: MutableList<CodePart>,
+    part: Any,
+    simple: Boolean,
+    buffer: (String) -> Unit
+) {
+
+    if (part !is CodePart) {
+        buffer(part.toString())
+        return
+    }
+
+    val fields = (part::class.java.fields + part::class.java.declaredFields).distinct()
+
+    parts.add(part)
+
+    val access: List<Pair<String, Any?>> = fields.filter { !Modifier.isStatic(it.modifiers) }.map {
+        it.isAccessible = true
+        it.name to it[part]
+    }.let {
+            if (it.isEmpty()) {
+                part::class.java.methods.filter {
+                    !Modifier.isStatic(it.modifiers)
+                            && Modifier.isPublic(it.modifiers)
+                            && it.name.startsWith("get")
+                            && it.parameterCount == 0
+                            && it.returnType != Void.TYPE
+                }.map {
+                        //it.isAccessible = true
+                        it.name.substring(3).decapitalize() to it.invoke(part)
+                    }
+            } else it
+        }
+
+    access.forEach {
+        val name = it.first
+        val value = it.second
+
+        if (simple) {
+            buffer("$name = $value")
+        } else {
+            if (value is Iterable<*>) {
+                if (value is CodePart)
+                    parts.add(value)
+
+                value.forEach { vall ->
+                    buffer("$name = ${toString(parts, vall, simple)}")
+                }
+            } else {
+
+                if (parts.contains(value)) {
+                    buffer("$name = @out")
+                } else {
+                    if (value == null) {
+                        buffer("$name = null")
+                    } else {
+                        if (value is CodePart) {
+                            parts.add(value)
+                            val str = toString(parts, value, simple)
+
+                            buffer("$name = $str")
+                        } else {
+                            buffer("$name = $value")
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
+}
+
+
+/**
+ * Create a String representation of the body of this [BodyHolder]
+ *
+ * This method take care of StackOverFlow.
+ *
+ * `@top` means top declaration
+ */
+fun toString(part: BodyHolder): String = StringJoiner(", ", "[", "]").let {
+    toString(null, part, { a -> it.add(a) })
+    it.toString()
+}
+
+private fun toString(lastHolder: BodyHolder?, part: BodyHolder, buffer: (String) -> Unit) {
+    part.body.forEach {
+        if (lastHolder != null && part.body.contains(lastHolder) && it == lastHolder) {
+            buffer("@top")
+        } else {
+            if (it is BodyHolder) {
+                StringJoiner(", ", "[", "]").let { joiner ->
+                    toString(part, it, { a -> joiner.add(a) })
+                    buffer(joiner.toString())
+                }
+            } else {
+                buffer(it.toString())
+            }
+        }
+
+    }
 }

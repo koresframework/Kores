@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,9 +31,9 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.exception.ValidationException
 import com.github.jonathanxd.codeapi.sugar.SugarSyntaxProcessor
 import com.github.jonathanxd.iutils.data.TypedData
+import com.github.jonathanxd.iutils.kt.typedKeyOf
 import com.github.jonathanxd.iutils.option.Option
 import com.github.jonathanxd.iutils.option.Options
-import com.github.jonathanxd.jwiutils.kt.typedKeyOf
 
 /**
  * ProcessorManager manages all processors required to transform [Any] into [R].
@@ -88,7 +88,10 @@ interface ProcessorManager<out R> {
     /**
      * Registers a [sugarSyntaxProcessor] of [CodePart] of type: [type].
      */
-    fun <T> registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>, type: Class<T>)
+    fun <T> registerSugarSyntaxProcessor(
+        sugarSyntaxProcessor: SugarSyntaxProcessor<T>,
+        type: Class<T>
+    )
 }
 
 /**
@@ -130,7 +133,10 @@ abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
 
     protected val map = mutableMapOf<Class<*>, Processor<*>>()
 
-    inline fun <reified T> registerProcessorOfTypes(processor: Processor<T>, types: Array<Class<out T>>) {
+    inline fun <reified T> registerProcessorOfTypes(
+        processor: Processor<T>,
+        types: Array<Class<out T>>
+    ) {
         types.forEach {
             registerProcessor(processor, it)
         }
@@ -140,7 +146,10 @@ abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
         this.map[type] = processor
     }
 
-    override fun <T> registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>, type: Class<T>) {
+    override fun <T> registerSugarSyntaxProcessor(
+        sugarSyntaxProcessor: SugarSyntaxProcessor<T>,
+        type: Class<T>
+    ) {
         this.map[type] = object : Processor<T> {
             override fun process(part: T, data: TypedData, processorManager: ProcessorManager<*>) {
                 val result = sugarSyntaxProcessor.process(part, processorManager)
@@ -151,9 +160,11 @@ abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
 
     override fun <T> process(type: Class<out T>, part: T, data: TypedData): R {
 
-        if(options[VALIDATE] && !FIRST_CALL.getOrSet(data, false)) {
-            val validationEnvironment = this.validatorManager.validate(type, part,
-                    this.validatorManager.createData(), null)
+        if (options[VALIDATE] && !FIRST_CALL.getOrSet(data, false)) {
+            val validationEnvironment = this.validatorManager.validate(
+                type, part,
+                this.validatorManager.createData(), null
+            )
 
             val validate = validationEnvironment.validationMessages
 
@@ -230,18 +241,21 @@ abstract class AbstractProcessorManager<out R> : ProcessorManager<R> {
 /**
  * Registers a [sugarSyntaxProcessor] of [Any] of type: [T].
  */
-inline fun <R, reified T : Any> ProcessorManager<R>.registerSugarSyntaxProcessor(sugarSyntaxProcessor: SugarSyntaxProcessor<T>) =
-        this.registerSugarSyntaxProcessor(sugarSyntaxProcessor, T::class.java)
+inline fun <R, reified T : Any> ProcessorManager<R>.registerSugarSyntaxProcessor(
+    sugarSyntaxProcessor: SugarSyntaxProcessor<T>
+) =
+    this.registerSugarSyntaxProcessor(sugarSyntaxProcessor, T::class.java)
 
 /**
  * Registers [processor] of [Any] of type: [T].
  */
 inline fun <R, reified T : Any> ProcessorManager<R>.registerProcessor(processor: Processor<T>) =
-        this.registerProcessor(processor, T::class.java)
+    this.registerProcessor(processor, T::class.java)
 
 /**
  * Process [part] as of reified type [T]. This function is inlined, this means that type passed to [ProcessorManager.process]
  * will be the inferred type and not the the [part] type. This is useful when you want to call a specific processor
  * instead of exact processor.
  */
-inline fun <reified T> ProcessorManager<*>.processAs(part: T, data: TypedData) = this.process(T::class.java, part, data)
+inline fun <reified T> ProcessorManager<*>.processAs(part: T, data: TypedData) =
+    this.process(T::class.java, part, data)

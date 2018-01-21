@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -26,19 +26,17 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("BridgeMethodFactory")
+
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.*
-import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.comment.Comments
-import com.github.jonathanxd.codeapi.common.*
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.Alias
-import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.type.codeType
 import java.util.*
 
 /**
@@ -50,7 +48,11 @@ import java.util.*
  * @param current Method to bridge.
  * @param methodSpec Specification of the erased method to bridge.
  */
-fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodSpec: MethodTypeSpec): MethodDeclaration {
+fun bridgeMethod(
+    owner: TypeDeclaration,
+    current: MethodDeclarationBase,
+    methodSpec: MethodTypeSpec
+): MethodDeclaration {
     val parameterTypes = methodSpec.typeSpec.parameterTypes
     val currentParameters = current.parameters
 
@@ -78,11 +80,13 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodS
 
     val invokeType = if (isStatic) InvokeType.INVOKE_STATIC else InvokeType.get(owner)
 
-    var toAdd: CodeInstruction = invoke(invokeType,
-            if (isStatic) owner else Alias.THIS, if (isStatic) accessStatic() else accessThis(),
-            methodSpec.methodName,
-            TypeSpec(currentReturnType, currentParameters.map(CodeParameter::type)),
-            codeArguments)
+    var toAdd: CodeInstruction = invoke(
+        invokeType,
+        if (isStatic) owner else Alias.THIS, if (isStatic) accessStatic() else accessThis(),
+        methodSpec.methodName,
+        TypeSpec(currentReturnType, currentParameters.map(CodeParameter::type)),
+        codeArguments
+    )
 
     if (return_) {
         val returnType = methodSpec.typeSpec.returnType
@@ -94,14 +98,16 @@ fun bridgeMethod(owner: TypeDeclaration, current: MethodDeclarationBase, methodS
 
     codeModifiers.add(CodeModifier.BRIDGE)
 
-    return MethodDeclaration(Comments.Absent,
-            emptyList(),
-            codeModifiers,
-            GenericSignature.empty(),
-            methodSpec.typeSpec.returnType,
-            methodSpec.methodName,
-            codeParameters,
-            emptyList(),
-            emptyList(),
-            CodeSource.fromPart(toAdd))
+    return MethodDeclaration(
+        Comments.Absent,
+        emptyList(),
+        codeModifiers,
+        GenericSignature.empty(),
+        methodSpec.typeSpec.returnType,
+        methodSpec.methodName,
+        codeParameters,
+        emptyList(),
+        emptyList(),
+        CodeSource.fromPart(toAdd)
+    )
 }

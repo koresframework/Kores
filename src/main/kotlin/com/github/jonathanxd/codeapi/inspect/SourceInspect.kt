@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,11 +30,7 @@ package com.github.jonathanxd.codeapi.inspect
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.base.BodyHolder
-
-import java.util.ArrayList
-import java.util.function.Consumer
-import java.util.function.Function
-import java.util.function.Predicate
+import java.util.*
 
 /**
  * Utility to inspect [CodeSource].
@@ -47,11 +43,12 @@ import java.util.function.Predicate
  * @property mapper Function to map processed values to another type.
  */
 class SourceInspect<out R> internal constructor(
-        val predicate: (CodePart) -> Boolean,
-        val inspectCodeSource: Boolean,
-        val subPredicate: ((BodyHolder) -> Boolean)?,
-        val stopPredicate: (CodePart) -> Boolean,
-        val mapper: (CodePart) -> R) {
+    val predicate: (CodePart) -> Boolean,
+    val inspectCodeSource: Boolean,
+    val subPredicate: ((BodyHolder) -> Boolean)?,
+    val stopPredicate: (CodePart) -> Boolean,
+    val mapper: (CodePart) -> R
+) {
 
 
     /**

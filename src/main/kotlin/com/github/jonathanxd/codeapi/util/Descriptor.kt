@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -25,13 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-@file:JvmName("CodeTypeUtil")
+@file:JvmName("Descriptor")
 
 package com.github.jonathanxd.codeapi.util
 
 import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.codeapi.type.codeType
+import com.github.jonathanxd.iutils.description.Description
+import com.github.jonathanxd.iutils.description.DescriptionUtil
 import java.lang.reflect.Type
 
 /**
@@ -40,17 +43,15 @@ import java.lang.reflect.Type
  * @param isTypeName True to return type name, false to return qualified name.
  */
 private fun resolveInnerName(qualifiedName: String, outer: Type?, isTypeName: Boolean): String {
-    if (outer != null) {
-        outer.codeType.let { outerType ->
-            val packageName = outerType.packageName
+    outer?.codeType?.let { outerType ->
+        val packageName = outerType.packageName
 
-            // Prevent duplication of the name
-            if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
-                if (isTypeName) {
-                    return getTypeNameStr(qualifiedName, outerType)
-                } else {
-                    return getQualifiedNameStr(qualifiedName, outerType)
-                }
+        // Prevent duplication of the name
+        if (!packageName.isEmpty() && !qualifiedName.startsWith(packageName)) {
+            return if (isTypeName) {
+                getTypeNameStr(qualifiedName, outerType)
+            } else {
+                getQualifiedNameStr(qualifiedName, outerType)
             }
         }
     }
@@ -92,7 +93,7 @@ val Type.typeDesc get() = this.getTypeDesc()
 /**
  * Convert `this` [name][typeStr] to type description.
  *
- * All calls to [CodeType.javaSpecName] is delegated to this function.
+ * All calls to [CodeType.javaSpecName] are delegated to this function.
  *
  * @param typeStr String to transform in type description (should be `this` name).
  */
@@ -102,32 +103,30 @@ fun Type.getTypeDesc(typeStr: String = this.codeType.type): String {
 
     val codeType = this.codeType
 
-    if (codeType.isArray) {
-        name = codeType.arrayBaseComponent.javaSpecName
-    } else if (codeType.isPrimitive) {
-        val transform = when (typeStr) {
-            "byte" -> "B"
-            "short" -> "S"
-            "int" -> "I"
-            "char" -> "C"
-            "double" -> "D"
-            "float" -> "F"
-            "long" -> "J"
-            "boolean" -> "Z"
-            "void" -> "V"
-            else -> typeStr.replace(".", "/") // Should I throw an exception or only replace?
+    when {
+        codeType.isArray -> name = codeType.arrayBaseComponent.javaSpecName
+        codeType.isPrimitive -> {
+            return when (typeStr) {
+                "byte" -> "B"
+                "short" -> "S"
+                "int" -> "I"
+                "char" -> "C"
+                "double" -> "D"
+                "float" -> "F"
+                "long" -> "J"
+                "boolean" -> "Z"
+                "void" -> "V"
+                else -> typeStr.replace(".", "/") // Should I throw an exception or only replace?
+            }
         }
-
-        return transform
-    } else {
-        return "L" + typeStr.replace('.', '/') + ";"
+        else -> return "L" + typeStr.replace('.', '/') + ";"
     }
 
     val sb = StringBuilder()
 
     val arrayDimension = codeType.arrayDimension
 
-    for (x in 0..arrayDimension - 1)
+    for (x in 0 until arrayDimension)
         sb.append('[')
 
     return sb.toString() + name
@@ -137,11 +136,6 @@ fun Type.getTypeDesc(typeStr: String = this.codeType.type): String {
  * Convert iterable of types to string description
  */
 val Iterable<Type>.typeDesc get() = this.joinToString(separator = "") { it.typeDesc }
-
-/**
- * Convert [TypeSpec] string description
- */
-val TypeSpec.typeDesc get() = "(${this.parameterTypes.typeDesc})${this.returnType.typeDesc}"
 
 /**
  * Converts `this` type to type descriptor.
@@ -156,40 +150,67 @@ val TypeSpec.typeDesc get() = "(${this.parameterTypes.typeDesc})${this.returnTyp
  *
  * Note: `()` is only used to make the format more readable and will not be generated in descriptors.
  */
-val Type.descriptor: String get() {
-    val codeType = this.codeType
+val Type.descriptor: String
+    get() {
+        val codeType = this.codeType
 
-    if (codeType is GenericType) {
+        if (codeType is GenericType) {
 
-        val name = codeType.name
+            val name = codeType.name
 
-        val bounds = codeType.bounds
+            val bounds = codeType.bounds
 
-        if (bounds.isEmpty()) {
-            if (!codeType.isType) {
-                if (codeType.isWildcard) {
-                    return name
+            if (bounds.isEmpty()) {
+                return if (!codeType.isType) {
+                    if (codeType.isWildcard) {
+                        name
+                    } else {
+                        "T$name;"
+                    }
                 } else {
-                    return "T$name;"
+                    name + ";"
                 }
             } else {
-                return name + ";"
+                return if (!codeType.isWildcard)
+                    name + "<${bounds(codeType.isWildcard, bounds)}>;"
+                else
+                    bounds(codeType.isWildcard, bounds)
             }
-        } else {
-            return if (!codeType.isWildcard)
-                name + "<${bounds(codeType.isWildcard, bounds)}>;"
-            else
-                bounds(codeType.isWildcard, bounds)
-        }
 
-    } else {
-        return codeType.javaSpecName
+        } else {
+            return codeType.javaSpecName
+        }
     }
-}
 
 /**
  * Creates type description from
  */
 fun parametersTypeAndReturnToDesc(parameterTypes: Collection<Type>, returnType: Type): String {
     return "(${parameterTypes.typeDesc})${returnType.typeDesc}"
+}
+
+/**
+ * Resolve types of [description] using [resolver] and convert to [TypeSpec]
+ */
+fun toTypeSpec(description: Description, resolver: TypeResolver): TypeSpec {
+    val returnType = description.type
+    val parameterTypes = description.parameterTypes
+
+    return TypeSpec(
+        resolver.resolveUnknown(returnType),
+        parameterTypes.map { resolver.resolveUnknown(it) })
+
+}
+
+/**
+ * Resolve types of [desc] using [resolver] and convert to [TypeSpec]
+ */
+fun toTypeSpec(desc: String, resolver: TypeResolver): TypeSpec {
+    val parameterTypes = DescriptionUtil.getParameterTypes(desc)
+
+    val returnType = DescriptionUtil.getType(desc)
+
+    return TypeSpec(
+        resolver.resolveUnknown(returnType),
+        parameterTypes.map { resolver.resolveUnknown(it) })
 }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,9 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.*
-import com.github.jonathanxd.codeapi.common.*
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.Alias
 import java.lang.reflect.Type
 
 /**
@@ -45,34 +44,48 @@ import java.lang.reflect.Type
  * and is declared in a `class`, this must be [InvokeType.INVOKE_VIRTUAL]. Read [InvokeType] for more information.
  * @property declaration Method declaration of the code.
  */
-data class LocalCode(val declaringType: Type,
-                     val invokeType: InvokeType,
-                     val declaration: MethodDeclaration,
-                     override val innerTypes: List<TypeDeclaration>) : CodeElement, CodePart, CodeInstruction, InnerTypesHolder {
+data class LocalCode(
+    val declaringType: Type,
+    val invokeType: InvokeType,
+    val declaration: MethodDeclaration,
+    override val innerTypes: List<TypeDeclaration>
+) : CodeElement, CodePart, CodeInstruction, InnerTypesHolder {
 
     /**
      * Local code execution constructor, this constructor resolves [invokeType] based on [declaration] and
      * [declaringType].
      */
-    constructor(declaringType: CodeType, declaration: MethodDeclaration, innerTypes: List<TypeDeclaration>) :
-            this(declaringType,
-                    when {
-                        declaration.modifiers.contains(CodeModifier.STATIC) -> InvokeType.INVOKE_STATIC
-                        declaration.modifiers.contains(CodeModifier.PRIVATE) -> InvokeType.INVOKE_VIRTUAL
-                        declaringType.isInterface -> InvokeType.INVOKE_INTERFACE
-                        else -> InvokeType.INVOKE_VIRTUAL
-                    },
-                    declaration,
-                    innerTypes)
+    constructor(
+        declaringType: CodeType,
+        declaration: MethodDeclaration,
+        innerTypes: List<TypeDeclaration>
+    ) :
+            this(
+                declaringType,
+                when {
+                    declaration.modifiers.contains(CodeModifier.STATIC) -> InvokeType.INVOKE_STATIC
+                    declaration.modifiers.contains(CodeModifier.PRIVATE) -> InvokeType.INVOKE_VIRTUAL
+                    declaringType.isInterface -> InvokeType.INVOKE_INTERFACE
+                    else -> InvokeType.INVOKE_VIRTUAL
+                },
+                declaration,
+                innerTypes
+            )
 
     /**
      * Creates a invocation of this [LocalCode] with [arguments].
      */
     fun createInvocation(arguments: List<CodeInstruction>): MethodInvocation {
-        return MethodInvocation(invokeType = invokeType,
-                target = if (this.invokeType == InvokeType.INVOKE_STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS,
-                arguments = arguments,
-                spec = MethodTypeSpec(this.declaringType, this.declaration.name, this.declaration.typeSpec))
+        return MethodInvocation(
+            invokeType = invokeType,
+            target = if (this.invokeType == InvokeType.INVOKE_STATIC) Defaults.ACCESS_STATIC else Defaults.ACCESS_THIS,
+            arguments = arguments,
+            spec = MethodTypeSpec(
+                this.declaringType,
+                this.declaration.name,
+                this.declaration.typeSpec
+            )
+        )
     }
 
     /**
@@ -84,7 +97,8 @@ data class LocalCode(val declaringType: Type,
     /**
      * Method description
      */
-    val description: TypeSpec = TypeSpec(this.declaration.returnType, this.declaration.parameters.map(CodeParameter::type))
+    val description: TypeSpec =
+        TypeSpec(this.declaration.returnType, this.declaration.parameters.map(CodeParameter::type))
 
     /**
      * Method body
@@ -95,7 +109,7 @@ data class LocalCode(val declaringType: Type,
     override fun builder(): Builder = Builder(this)
 
     class Builder() : com.github.jonathanxd.codeapi.builder.Builder<LocalCode, Builder>,
-    InnerTypesHolder.Builder<LocalCode, Builder> {
+        InnerTypesHolder.Builder<LocalCode, Builder> {
 
         lateinit var declaringType: Type
         var invokeType: InvokeType? = null

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -38,9 +38,11 @@ import java.lang.reflect.Type
  * @property variable Variable to store exception.
  * @property body Body of exception handler.
  */
-data class CatchStatement(val exceptionTypes: List<Type>,
-                          val variable: VariableDeclaration,
-                          override val body: CodeSource) : BodyHolder, Typed {
+data class CatchStatement(
+    val exceptionTypes: List<Type>,
+    val variable: VariableDeclaration,
+    override val body: CodeSource
+) : BodyHolder, Typed {
 
     override val type: Type
         get() = this.variable.type
@@ -52,8 +54,8 @@ data class CatchStatement(val exceptionTypes: List<Type>,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            BodyHolder.Builder<CatchStatement, Builder>,
-            Typed.Builder<CatchStatement, Builder> {
+        BodyHolder.Builder<CatchStatement, Builder>,
+        Typed.Builder<CatchStatement, Builder> {
 
         var exceptionTypes: List<Type> = emptyList()
         lateinit var variable: VariableDeclaration
@@ -94,7 +96,8 @@ data class CatchStatement(val exceptionTypes: List<Type>,
             return this
         }
 
-        override fun build(): CatchStatement = CatchStatement(this.exceptionTypes, this.variable, this.body)
+        override fun build(): CatchStatement =
+            CatchStatement(this.exceptionTypes, this.variable, this.body)
 
         companion object {
             @JvmStatic

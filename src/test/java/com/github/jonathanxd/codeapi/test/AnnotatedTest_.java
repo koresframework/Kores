@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -39,7 +39,6 @@ import com.github.jonathanxd.codeapi.factory.Factories;
 import com.github.jonathanxd.codeapi.generic.GenericSignature;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
-import com.github.jonathanxd.codeapi.util.Modifiers;
 import com.github.jonathanxd.iutils.map.MapUtils;
 
 import org.junit.Test;
@@ -65,7 +64,7 @@ public class AnnotatedTest_ {
         PlainCodeType plainCodeType = new PlainCodeType("java.lang.invoke.MethodHandle.PolymorphicSignature", true);
 
         TypeDeclaration typeDeclaration = ClassDeclaration.Builder.Companion.builder()
-                .modifiers(Modifiers.fromJavaModifiers(Modifier.PUBLIC))
+                .modifiers(CodeModifier.fromJavaModifiers(Modifier.PUBLIC))
                 .genericSignature(GenericSignature.empty())
                 .annotations(listOf(
                         Factories.visibleAnnotation(Simple.class,

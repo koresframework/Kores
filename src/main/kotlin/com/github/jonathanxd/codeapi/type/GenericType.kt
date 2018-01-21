@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -55,8 +55,10 @@ interface GenericType : CodeType, WrapperCodeType {
     /**
      * Resolved code type.
      */
-    @Deprecated(message = "Use GenericType.type instead, this will be removed later.",
-            replaceWith = ReplaceWith("this.resolvedType"))
+    @Deprecated(
+        message = "Use GenericType.type instead, this will be removed later.",
+        replaceWith = ReplaceWith("this.resolvedType")
+    )
     val codeType: CodeType
         get() = this.resolvedType
 
@@ -165,7 +167,8 @@ interface GenericType : CodeType, WrapperCodeType {
 
     override fun builder(): Builder<GenericType, *> = GenericTypeBuilder(this)
 
-    interface Builder<out T : GenericType, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : GenericType, S : Builder<T, S>> :
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [T.name].

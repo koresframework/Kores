@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,15 +28,14 @@
 package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.Typed
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.builder.self
+import com.github.jonathanxd.codeapi.type.codeType
 import java.lang.reflect.Type
 
-/**
- * To avoid confusion with kotlin nothing
- */
+        /**
+         * To avoid confusion with kotlin nothing
+         */
 typealias CodeNothing = Nothing
 
 /**

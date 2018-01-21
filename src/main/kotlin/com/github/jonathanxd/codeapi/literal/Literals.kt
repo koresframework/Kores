@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.literal
 
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.NullType
-import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.type.codeType
 import java.lang.reflect.Type
 
 /**
@@ -118,9 +118,11 @@ object Literals {
         return ClassLiteral(type.codeType)
     }
 
-    private class SimpleLiteral internal constructor(name: String, dataType: CodeType) : Literal(name, name, dataType)
+    private class SimpleLiteral internal constructor(name: String, dataType: CodeType) :
+        Literal(name, name, dataType)
 
-    class ClassLiteral internal constructor(type: CodeType) : Literal(type, type.canonicalName, TYPE) {
+    class ClassLiteral internal constructor(type: CodeType) :
+        Literal(type, type.canonicalName, TYPE) {
         companion object {
             private val TYPE = CodeType::class.codeType
         }
@@ -190,10 +192,60 @@ object Literals {
 
     }
 
-    class StringLiteral internal constructor(val original: String) : Literal('"' + original + '"', TYPE) {
+    class StringLiteral internal constructor(val original: String) :
+        Literal('"' + original + '"', TYPE) {
         companion object {
 
             private val TYPE = String::class.codeType
         }
     }
 }
+
+@JvmName("booleanLiteral")
+fun boolean(boolean: Boolean): Literal =
+    Literals.BOOLEAN(boolean)
+
+@JvmName("charLiteral")
+fun char(char: Char): Literal =
+    Literals.CHAR(char)
+
+@JvmName("byteLiteral")
+fun byte(byte: Byte): Literal =
+    Literals.BYTE(byte)
+
+@JvmName("shortLiteral")
+fun short(short: Short): Literal =
+    Literals.SHORT(short)
+
+@JvmName("intLiteral")
+fun int(int: Int): Literal =
+    Literals.INT(int)
+
+@JvmName("floatLiteral")
+fun float(float: Float): Literal =
+    Literals.FLOAT(float)
+
+@JvmName("doubleLiteral")
+fun double(double: Double): Literal =
+    Literals.DOUBLE(double)
+
+@JvmName("longLiteral")
+fun long(long: Long): Literal =
+    Literals.LONG(long)
+
+@JvmName("stringLiteral")
+fun string(str: String): Literal =
+    Literals.STRING(str)
+
+@JvmName("typeLiteral")
+fun type(type: Type): Literal =
+    Literals.TYPE(type)
+
+fun nullLiteral(): Literal =
+    Literals.NULL
+
+fun trueLiteral(): Literal =
+    Literals.TRUE
+
+fun falseLiteral(): Literal =
+    Literals.FALSE

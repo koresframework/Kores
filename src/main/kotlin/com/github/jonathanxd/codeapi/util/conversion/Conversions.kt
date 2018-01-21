@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -39,17 +39,20 @@ import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.factory.*
 import com.github.jonathanxd.codeapi.literal.Literal
 import com.github.jonathanxd.codeapi.literal.Literals
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.fromJavaModifiers
-import com.github.jonathanxd.codeapi.util.getCodeType
+import com.github.jonathanxd.codeapi.type.codeType
+import com.github.jonathanxd.codeapi.type.getCodeType
+import com.github.jonathanxd.codeapi.util.isKotlin
 import java.lang.reflect.*
+import java.util.*
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.VariableElement
 import javax.lang.model.util.Elements
 import kotlin.reflect.KParameter
+import kotlin.reflect.full.valueParameters
 import kotlin.reflect.jvm.jvmErasure
+import kotlin.reflect.jvm.kotlinFunction
 
 
 /**
@@ -68,7 +71,12 @@ val List<Parameter>.codeParameters: List<CodeParameter>
  * Convert parameter to access to the parameter.
  */
 val Parameter.codeParameter: CodeParameter
-    get() = CodeParameter(emptyList(), fromJavaModifiers(this.modifiers), this.type.codeType, this.name)
+    get() = CodeParameter(
+        emptyList(),
+        CodeModifier.fromJavaModifiers(this.modifiers),
+        this.type.codeType,
+        this.name
+    )
 
 /**
  * Convert [CodeParameter] to variable access
@@ -128,8 +136,12 @@ val ExecutableElement.invokeType: InvokeType
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation =
-        invoke(invokeType, this.localization, target, this.methodName, this.typeSpec, arguments)
+fun MethodTypeSpec.toInvocation(
+    invokeType: InvokeType,
+    target: CodeInstruction,
+    arguments: List<CodeInstruction>
+): MethodInvocation =
+    invoke(invokeType, this.localization, target, this.methodName, this.typeSpec, arguments)
 
 
 /**
@@ -138,8 +150,18 @@ fun MethodTypeSpec.toInvocation(invokeType: InvokeType, target: CodeInstruction,
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun MethodInvokeSpec.toInvocation(target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation =
-        invoke(this.invokeType, this.methodTypeSpec.localization, target, this.methodTypeSpec.methodName, this.methodTypeSpec.typeSpec, arguments)
+fun MethodInvokeSpec.toInvocation(
+    target: CodeInstruction,
+    arguments: List<CodeInstruction>
+): MethodInvocation =
+    invoke(
+        this.invokeType,
+        this.methodTypeSpec.localization,
+        target,
+        this.methodTypeSpec.methodName,
+        this.methodTypeSpec.typeSpec,
+        arguments
+    )
 
 /**
  * Create [MethodInvocation] from [Executable]
@@ -148,30 +170,45 @@ fun MethodInvokeSpec.toInvocation(target: CodeInstruction, arguments: List<CodeI
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun Executable.toInvocation(invokeType: InvokeType?, target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation =
-        com.github.jonathanxd.codeapi.factory.invoke(invokeType ?: this.invokeType, this.declaringClass.codeType, target, this.name, this.typeSpec, arguments)
+fun Executable.toInvocation(
+    invokeType: InvokeType?,
+    target: CodeInstruction,
+    arguments: List<CodeInstruction>
+): MethodInvocation =
+    com.github.jonathanxd.codeapi.factory.invoke(
+        invokeType ?: this.invokeType,
+        this.declaringClass.codeType,
+        target,
+        this.name,
+        this.typeSpec,
+        arguments
+    )
 
 /**
  * Gets [TypeSpec] of receiver [ExecutableElement]
  */
 fun ExecutableElement.getTypeSpec(elements: Elements): TypeSpec =
-        TypeSpec(returnType = this.returnType.getCodeType(elements),
-                parameterTypes = this.parameters.map { it.asType().getCodeType(elements) })
+    TypeSpec(returnType = this.returnType.getCodeType(elements),
+        parameterTypes = this.parameters.map { it.asType().getCodeType(elements) })
 
 /**
  * Gets [MethodTypeSpec] of receiver [ExecutableElement]
  */
 fun ExecutableElement.getMethodTypeSpec(elements: Elements): MethodTypeSpec =
-        MethodTypeSpec(localization = (this.enclosingElement as TypeElement).getCodeType(elements),
-                typeSpec = this.getTypeSpec(elements),
-                methodName = this.simpleName.toString())
+    MethodTypeSpec(
+        localization = (this.enclosingElement as TypeElement).getCodeType(elements),
+        typeSpec = this.getTypeSpec(elements),
+        methodName = this.simpleName.toString()
+    )
 
 /**
  * Gets [MethodInvokeSpec] of receiver [ExecutableElement]
  */
 fun ExecutableElement.getMethodInvokeSpec(elements: Elements): MethodInvokeSpec =
-        MethodInvokeSpec(invokeType = this.invokeType,
-                methodTypeSpec = this.getMethodTypeSpec(elements))
+    MethodInvokeSpec(
+        invokeType = this.invokeType,
+        methodTypeSpec = this.getMethodTypeSpec(elements)
+    )
 
 /**
  * Create [ExecutableElement] from [Method]
@@ -180,12 +217,18 @@ fun ExecutableElement.getMethodInvokeSpec(elements: Elements): MethodInvokeSpec 
  * @param target Target variable of method invocation (for invoke_static this value is ignored, you can use [Defaults.ACCESS_STATIC]).
  * @param arguments Arguments to pass to method.
  */
-fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodeInstruction, arguments: List<CodeInstruction>, elements: Elements): MethodInvocation =
-        MethodInvocation(invokeType = invokeType ?: this.invokeType,
-                target = target,
-                spec = this.getMethodTypeSpec(elements),
-                arguments = arguments
-        )
+fun ExecutableElement.toInvocation(
+    invokeType: InvokeType?,
+    target: CodeInstruction,
+    arguments: List<CodeInstruction>,
+    elements: Elements
+): MethodInvocation =
+    MethodInvocation(
+        invokeType = invokeType ?: this.invokeType,
+        target = target,
+        spec = this.getMethodTypeSpec(elements),
+        arguments = arguments
+    )
 
 
 /**
@@ -194,11 +237,11 @@ fun ExecutableElement.toInvocation(invokeType: InvokeType?, target: CodeInstruct
  * @param target Target of the field access, null (or static access) for static access.
  */
 fun Field.toAccess(target: CodeInstruction?): FieldAccess =
-        FieldAccess.Builder.builder()
-                .localization(this.declaringClass.codeType)
-                .target(target ?: accessStatic())
-                .name(this.name)
-                .build()
+    FieldAccess.Builder.builder()
+        .localization(this.declaringClass.codeType)
+        .target(target ?: accessStatic())
+        .name(this.name)
+        .build()
 
 /**
  * Create [FieldAccess] from [VariableElement].
@@ -206,12 +249,12 @@ fun Field.toAccess(target: CodeInstruction?): FieldAccess =
  * @param target Target of the field access, null (or static access) for static access.
  */
 fun VariableElement.toAccess(target: CodeInstruction?, elements: Elements): FieldAccess =
-        FieldAccess.Builder.builder()
-                .localization((this.enclosingElement as TypeElement).getCodeType(elements))
-                .target(target ?: accessStatic())
-                .type(this.asType().getCodeType(elements))
-                .name(this.simpleName.toString())
-                .build()
+    FieldAccess.Builder.builder()
+        .localization((this.enclosingElement as TypeElement).getCodeType(elements))
+        .target(target ?: accessStatic())
+        .type(this.asType().getCodeType(elements))
+        .name(this.simpleName.toString())
+        .build()
 
 
 /**
@@ -219,35 +262,41 @@ fun VariableElement.toAccess(target: CodeInstruction?, elements: Elements): Fiel
  */
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> Class<T>.toClassDeclaration(): ClassDeclaration =
-        ClassDeclaration.Builder.builder()
-                .modifiers(fromJavaModifiers(this.modifiers))
-                .qualifiedName(this.canonicalName)
-                .superClass(this.superclass)
-                .implementations(this.interfaces.toList())
-                .build()
+    ClassDeclaration.Builder.builder()
+        .modifiers(CodeModifier.fromJavaModifiers(this.modifiers))
+        .qualifiedName(this.canonicalName)
+        .superClass(this.superclass)
+        .implementations(this.interfaces.toList())
+        .build()
 
 /**
  * Creates an [InterfaceDeclaration] from receiver [Class].
  */
 fun <T : Any> Class<T>.toInterfaceDeclaration(): InterfaceDeclaration =
-        InterfaceDeclaration.Builder.builder()
-                .modifiers(fromJavaModifiers(this.modifiers))
-                .qualifiedName(this.canonicalName)
-                .implementations(this.interfaces.toList())
-                .build()
+    InterfaceDeclaration.Builder.builder()
+        .modifiers(CodeModifier.fromJavaModifiers(this.modifiers))
+        .qualifiedName(this.canonicalName)
+        .implementations(this.interfaces.toList())
+        .build()
 
 
 /**
  * Creates an [AnnotationDeclaration] from receiver [Class].
  */
 fun <T : Any> Class<T>.toAnnotationDeclaration(): AnnotationDeclaration =
-        AnnotationDeclaration.Builder.builder()
-                .modifiers(fromJavaModifiers(this.modifiers))
-                .qualifiedName(this.canonicalName)
-                .properties(this.declaredMethods.map {
-                    AnnotationProperty(Comments.Absent, emptyList(), it.returnType.codeType, it.name, it.defaultValue)
-                })
-                .build()
+    AnnotationDeclaration.Builder.builder()
+        .modifiers(CodeModifier.fromJavaModifiers(this.modifiers))
+        .qualifiedName(this.canonicalName)
+        .properties(this.declaredMethods.map {
+            AnnotationProperty(
+                Comments.Absent,
+                emptyList(),
+                it.returnType.codeType,
+                it.name,
+                it.defaultValue
+            )
+        })
+        .build()
 
 
 /**
@@ -259,46 +308,54 @@ fun <T : Any> Class<T>.toEnumDeclaration(nameProvider: (method: Method, index: I
     val abstractMethods = this.methods.filter { Modifier.isAbstract(it.modifiers) }
 
     val enumEntries = this.declaredFields
-            .filter { it.isEnumConstant }
-            .map {
-                EnumEntry.Builder.builder().name(it.name).let {
-                    if (abstractMethods.isNotEmpty())
-                        it.methods(abstractMethods.map { it.toMethodDeclaration { index, parameter -> nameProvider(it, index, parameter) } })
-                    else it
-                }.build()
+        .filter { it.isEnumConstant }
+        .map {
+            EnumEntry.Builder.builder().name(it.name).let {
+                if (abstractMethods.isNotEmpty())
+                    it.methods(abstractMethods.map {
+                        it.toMethodDeclaration { index, parameter ->
+                            nameProvider(
+                                it,
+                                index,
+                                parameter
+                            )
+                        }
+                    })
+                else it
+            }.build()
 
-            }
+        }
 
     return EnumDeclaration.Builder.builder()
-            .modifiers(fromJavaModifiers(this.modifiers))
-            .qualifiedName(this.canonicalName)
-            .implementations(this.interfaces.map { it.codeType })
-            .entries(enumEntries)
-            .build()
+        .modifiers(CodeModifier.fromJavaModifiers(this.modifiers))
+        .qualifiedName(this.canonicalName)
+        .implementations(this.interfaces.map { it.codeType })
+        .entries(enumEntries)
+        .build()
 }
 
 /**
  * Creates a [EnumDeclaration] from receiver [Enum] class.
  */
 fun <T : Enum<T>> Class<T>.toDeclaration() =
-        this.toEnumDeclaration()
+    this.toEnumDeclaration()
 
 /**
  * Creates a [AnnotationDeclaration] from receiver [Annotation] class.
  */
 fun Class<Annotation>.toDeclaration() =
-        this.toAnnotationDeclaration()
+    this.toAnnotationDeclaration()
 
 /**
  * Creates a [ClassDeclaration] from receiver [Class] class.
  */
 fun <T : Any> Class<T>.toDeclaration() =
-        when {
-            this.isInterface -> this.toInterfaceDeclaration()
-            this.isEnum -> this.toEnumDeclaration()
-            this.isAnnotation -> this.toAnnotationDeclaration()
-            else -> this.toClassDeclaration()
-        }
+    when {
+        this.isInterface -> this.toInterfaceDeclaration()
+        this.isEnum -> this.toEnumDeclaration()
+        this.isAnnotation -> this.toAnnotationDeclaration()
+        else -> this.toClassDeclaration()
+    }
 
 
 /**
@@ -311,7 +368,11 @@ fun <T : Any> Class<T>.toDeclaration() =
  * @return [TypeDeclaration] structure from [Class].
  */
 @JvmOverloads
-fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods: Boolean = true, includeSubClasses: Boolean = true): List<TypeDeclaration> {
+fun <T : Any> Class<T>.toStructure(
+    includeFields: Boolean = true,
+    includeMethods: Boolean = true,
+    includeSubClasses: Boolean = true
+): List<TypeDeclaration> {
     val list = mutableListOf<TypeDeclaration>()
 
     val declaration: TypeDeclaration = this.toDeclaration()
@@ -321,9 +382,9 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
     if (includeSubClasses) {
         for (declaredClass in this.declaredClasses) {
             val extracted = declaredClass.toStructure(
-                    includeFields = includeFields,
-                    includeMethods = includeMethods,
-                    includeSubClasses = includeSubClasses
+                includeFields = includeFields,
+                includeMethods = includeMethods,
+                includeSubClasses = includeSubClasses
             )
 
             list += extracted.first().builder().outerClass(declaration).build()
@@ -356,19 +417,22 @@ fun <T : Any> Class<T>.toStructure(includeFields: Boolean = true, includeMethods
  */
 @Suppress("UNCHECKED_CAST")
 fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
-    //val body = this.body.toMutable()
-
     val builder = this.builder()
     val type = klass.codeType
 
-    builder.methods(this.methods + klass.methods.filter { it.isAccessibleFrom(this, true) && isValidImpl(it) }
-            .map { it.toMethodDeclaration(type) })
+    builder.methods(this.methods + klass.methods.filter {
+        it.isAccessibleFrom(
+            this,
+            true
+        ) && isValidImpl(it)
+    }.map { it.toMethodDeclaration(type) })
 
     var declaration = builder.build()
 
     if (klass.isInterface) {
         val implementer = declaration as ImplementationHolder
-        declaration = implementer.builder().implementations(implementer.implementations + type).build() as TypeDeclaration
+        declaration =
+                implementer.builder().implementations(implementer.implementations + type).build() as TypeDeclaration
     } else {
         val extender = declaration as SuperClassHolder
         declaration = extender.builder().superClass(type).build() as TypeDeclaration
@@ -385,11 +449,11 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
  * @return [FieldDeclaration] structure from [Field].
  */
 fun Field.toFieldDeclaration(): FieldDeclaration =
-        FieldDeclaration.Builder.builder()
-                .modifiers(fromJavaModifiers(this.modifiers))
-                .type(this.type.codeType)
-                .name(this.name)
-                .build()
+    FieldDeclaration.Builder.builder()
+        .modifiers(CodeModifier.fromJavaModifiers(this.modifiers))
+        .type(this.type.codeType)
+        .name(this.name)
+        .build()
 
 /**
  * Create access to this [Field].
@@ -398,12 +462,12 @@ fun Field.toFieldDeclaration(): FieldDeclaration =
  * @return [VariableAccess] to this [Field]
  */
 fun Field.createAccess(target: CodeInstruction?): FieldAccess =
-        accessField(
-                this.declaringClass.codeType,
-                target ?: Defaults.ACCESS_STATIC,
-                this.type.codeType,
-                this.name
-        )
+    accessField(
+        this.declaringClass.codeType,
+        target ?: Defaults.ACCESS_STATIC,
+        this.type.codeType,
+        this.name
+    )
 
 /**
  * Create static access to this [Field].
@@ -411,7 +475,7 @@ fun Field.createAccess(target: CodeInstruction?): FieldAccess =
  * @return **Static** [VariableAccess] to this [Field].
  */
 fun Field.createStaticAccess(): FieldAccess =
-        this.createAccess(null)
+    this.createAccess(null)
 
 // Method
 
@@ -423,17 +487,17 @@ fun Field.createStaticAccess(): FieldAccess =
  */
 @JvmOverloads
 fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): MethodDeclaration =
-        MethodDeclaration.Builder.builder()
-                .modifiers(fixModifiers(this.modifiers))
-                .name(this.name)
-                .returnType(this.returnType.codeType)
-                .parameters(this.parameters.let {
-                    it.mapIndexed { i, parameter ->
-                        parameter(type = parameter.type, name = nameProvider(i, parameter))
-                    }
-                })
-                .body(MutableCodeSource.create())
-                .build()
+    MethodDeclaration.Builder.builder()
+        .modifiers(fixModifiers(this.modifiers))
+        .name(this.name)
+        .returnType(this.returnType.codeType)
+        .parameters(this.parameters.let {
+            it.mapIndexed { i, parameter ->
+                parameter(type = parameter.type, name = nameProvider(i, parameter))
+            }
+        })
+        .body(MutableCodeSource.create())
+        .build()
 
 /**
  * Convert this [Method] structure to [MethodDeclaration] structure invoking the super class method.
@@ -443,20 +507,23 @@ fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) 
  * @return [MethodDeclaration] structure from [Method] invoking super class method.
  */
 @JvmOverloads
-fun Method.toMethodDeclaration(superClass: Type, nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): MethodDeclaration =
-        this.toMethodDeclaration(nameProvider).builder().body(
-                MutableCodeSource.create(
-                        listOf(returnValue(this.returnType,
-                                com.github.jonathanxd.codeapi.factory.invoke(
-                                        InvokeType.INVOKE_SPECIAL,
-                                        superClass,
-                                        Defaults.ACCESS_THIS,
-                                        this.name,
-                                        typeSpec(this.returnType, this.parameterTypes.toList()),
-                                        this.codeParameters.map { it.toVariableAccess() }
-                                )))
-                )
-        ).build()
+fun Method.toMethodDeclaration(
+    superClass: Type,
+    nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }
+): MethodDeclaration =
+    this.toMethodDeclaration(nameProvider).builder().body(
+        MutableCodeSource.create(
+            listOf(returnValue(this.returnType,
+                com.github.jonathanxd.codeapi.factory.invoke(
+                    InvokeType.INVOKE_SPECIAL,
+                    superClass,
+                    Defaults.ACCESS_THIS,
+                    this.name,
+                    typeSpec(this.returnType, this.parameterTypes.toList()),
+                    this.codeParameters.map { it.toVariableAccess() }
+                )))
+        )
+    ).build()
 
 
 // Constructor
@@ -469,15 +536,15 @@ fun Method.toMethodDeclaration(superClass: Type, nameProvider: (index: Int, para
  */
 @JvmOverloads
 fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
-        ConstructorDeclaration.Builder.builder()
-                .modifiers(fixModifiers(this.modifiers))
-                .parameters(this.parameters.let {
-                    it.mapIndexed { i, parameter ->
-                        parameter(type = parameter.type, name = nameProvider(i, parameter))
-                    }
-                })
-                .body(MutableCodeSource.create())
-                .build()
+    ConstructorDeclaration.Builder.builder()
+        .modifiers(fixModifiers(this.modifiers))
+        .parameters(this.parameters.let {
+            it.mapIndexed { i, parameter ->
+                parameter(type = parameter.type, name = nameProvider(i, parameter))
+            }
+        })
+        .body(MutableCodeSource.create())
+        .build()
 
 /**
  * Convert this [Constructor] structure to [ConstructorDeclaration] structure calling super constructor with [arguments].
@@ -487,25 +554,31 @@ fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int,
  * @return [ConstructorDeclaration] structure from [Constructor] calling super constructor with [arguments].
  */
 @JvmOverloads
-fun <T : Any> Constructor<T>.toConstructorDeclaration(arguments: List<CodeInstruction>, nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
-        this.toConstructorDeclaration(nameProvider).builder().body(
-                MutableCodeSource.create(
-                        listOf(
-                                invokeSuperConstructor(
-                                        this.typeSpec,
-                                        arguments
-                                )
-                        )
+fun <T : Any> Constructor<T>.toConstructorDeclaration(
+    arguments: List<CodeInstruction>,
+    nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }
+): ConstructorDeclaration =
+    this.toConstructorDeclaration(nameProvider).builder().body(
+        MutableCodeSource.create(
+            listOf(
+                invokeSuperConstructor(
+                    this.typeSpec,
+                    arguments
                 )
-        ).build()
+            )
+        )
+    ).build()
 
 
 // Parameters And Arguments
-fun KParameter.toCodeParameter(): CodeParameter = parameter(type = this.type.jvmErasure.codeType, name = this.name ?: "parameter_$index")
+fun KParameter.toCodeParameter(): CodeParameter =
+    parameter(type = this.type.jvmErasure.codeType, name = this.name ?: "parameter_$index")
 
-fun Parameter.toCodeParameter(): CodeParameter = parameter(type = this.type.codeType, name = this.name)
+fun Parameter.toCodeParameter(): CodeParameter =
+    parameter(type = this.type.codeType, name = this.name)
 
-fun KParameter.toVariableAccess() = accessVariable(this.type.jvmErasure.codeType, this.name ?: "parameter_$index")
+fun KParameter.toVariableAccess() =
+    accessVariable(this.type.jvmErasure.codeType, this.name ?: "parameter_$index")
 
 fun Parameter.toVariableAccess() = accessVariable(this.type.codeType, this.name)
 
@@ -517,7 +590,8 @@ fun CodeParameter.toVariableAccess() = accessVariable(this.type, this.name)
  * Convert this value to a literal
  */
 fun Any.toLiteral(): Literal =
-        this.toLiteralOrNull() ?: throw IllegalArgumentException("$this cannot be converted to CodeAPI Literal.")
+    this.toLiteralOrNull()
+            ?: throw IllegalArgumentException("$this cannot be converted to CodeAPI Literal.")
 
 /**
  * Convert this value to a literal
@@ -535,3 +609,125 @@ fun Any.toLiteralOrNull(): Literal? = when (this) {
     is Type -> Literals.TYPE(this)
     else -> null
 }
+
+/**
+ * Returns true if receiver [Method] is accessible from [typeDeclaration] or accessible to be [overwritten][override]
+ * from [typeDeclaration].
+ *
+ * @param override True to check if method is accessible to be overwritten by [typeDeclaration] method.
+ */
+@JvmOverloads
+fun Method.isAccessibleFrom(typeDeclaration: TypeDeclaration, override: Boolean = false): Boolean {
+    val package_ = typeDeclaration.packageName
+    val methodPackage = this.declaringClass.`package`?.name
+    val modifiers = this.modifiers
+
+    return if (Modifier.isPublic(modifiers)
+            || (override && Modifier.isProtected(modifiers))
+    )
+        true
+    else methodPackage != null && package_ == methodPackage
+}
+
+fun fixModifiers(modifiers: Int): EnumSet<CodeModifier> =
+    EnumSet.copyOf(CodeModifier.fromJavaModifiers(modifiers).let {
+        it.remove(CodeModifier.ABSTRACT)
+        return@let it
+    })
+
+/**
+ * Returns if [method] is valid for implementation.
+ */
+fun isValidImpl(method: Method) = !method.isBridge
+        && !method.isSynthetic
+        && !Modifier.isNative(method.modifiers)
+        && !Modifier.isFinal(method.modifiers)
+
+/**
+ * Checks if all elements of receiver [Iterable] is equal to elements of [other].
+ */
+fun <T : Any> Iterable<T>.isEqual(other: Iterable<*>): Boolean {
+
+    val thisIterator = this.iterator()
+    val otherIterator = other.iterator()
+
+    while (thisIterator.hasNext() && otherIterator.hasNext()) {
+        if (thisIterator.next() != otherIterator.next())
+            return false
+
+    }
+
+    return !thisIterator.hasNext() && !otherIterator.hasNext()
+}
+
+/**
+ * Gets parameter names of receiver [Method].
+ */
+val Method.parameterNames: List<String>
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.name }
+        else
+            this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.name }
+
+/**
+ * Gets kotlin parameters from receiver [Method].
+ */
+val Method.kotlinParameters: List<KParameter>?
+    get() = try {
+        this.kotlinFunction?.valueParameters
+    } catch (ex: Throwable) {
+        null
+    }
+
+/**
+ * Gets code parameters of receiver [Method].
+ */
+val Method.codeParameters: List<CodeParameter>
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.toCodeParameter() }
+        else
+            this.kotlinParameters?.map { it.toCodeParameter() }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.toCodeParameter() }
+
+/**
+ * Gets parameter names of receiver [Constructor].
+ */
+val <T : Any> Constructor<T>.parameterNames: List<String>
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.name }
+        else
+            this.kotlinParameters?.mapIndexed { i, it -> it.name ?: this.parameters[i].name }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.name }
+
+/**
+ * Gets kotlin parameter of receiver [Constructor].
+ */
+val <T : Any> Constructor<T>.kotlinParameters: List<KParameter>?
+    get() = try {
+        this.kotlinFunction?.valueParameters
+    } catch (ex: Throwable) {
+        null
+    }
+
+/**
+ * Gets code parameters of receiver [Method].
+ */
+val <T : Any> Constructor<T>.codeParameters: List<CodeParameter>
+    get() =
+        if (this.parameters.any { it.isNamePresent } || !this.declaringClass.isKotlin)
+            this.parameters.map { it.toCodeParameter() }
+        else
+            this.kotlinParameters?.map { it.toCodeParameter() }?.let {
+                if (it.size != this.parameterCount) null
+                else it
+            } ?: this.parameters.map { it.toCodeParameter() }

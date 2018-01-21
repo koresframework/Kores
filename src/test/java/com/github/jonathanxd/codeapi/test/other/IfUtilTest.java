@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,9 +30,9 @@ package com.github.jonathanxd.codeapi.test.other;
 import com.github.jonathanxd.codeapi.CodeInstruction;
 import com.github.jonathanxd.codeapi.base.IfExpr;
 import com.github.jonathanxd.codeapi.factory.Factories;
+import com.github.jonathanxd.codeapi.inspect.IfExpressionInspectKt;
 import com.github.jonathanxd.codeapi.literal.Literals;
 import com.github.jonathanxd.codeapi.operator.Operators;
-import com.github.jonathanxd.codeapi.util.IfUtilKt;
 import com.github.jonathanxd.iutils.collection.Collections3;
 
 import org.junit.Assert;
@@ -60,9 +60,9 @@ public class IfUtilTest {
         List<CodeInstruction> expressions2 =
                 Collections3.listOf(expr1, Operators.AND, expr2, Operators.AND, expr3, Operators.OR, expr4);
 
-        Assert.assertTrue(IfUtilKt.alwaysBranch(expressions, instruction -> instruction == expr1));
-        Assert.assertFalse(IfUtilKt.alwaysBranch(expressions2, instruction -> instruction == expr1));
-        Assert.assertFalse(IfUtilKt.alwaysBranch(expressions2, instruction -> instruction == expr4));
+        Assert.assertTrue(IfExpressionInspectKt.alwaysBranch(expressions, instruction -> instruction == expr1));
+        Assert.assertFalse(IfExpressionInspectKt.alwaysBranch(expressions2, instruction -> instruction == expr1));
+        Assert.assertFalse(IfExpressionInspectKt.alwaysBranch(expressions2, instruction -> instruction == expr4));
     }
 
     @Test
@@ -82,14 +82,14 @@ public class IfUtilTest {
         List<CodeInstruction> expressions =
                 Collections3.listOf(expr11, Operators.AND, expr2, Operators.AND, expr3, Operators.AND, expr4);
 
-        Assert.assertTrue(IfUtilKt.alwaysBranch(expressions, instruction -> instruction instanceof IfExpr
-                && IfUtilKt.isCheckTrueAnd((IfExpr) instruction, insn ->
+        Assert.assertTrue(IfExpressionInspectKt.alwaysBranch(expressions, instruction -> instruction instanceof IfExpr
+                && IfExpressionInspectKt.isCheckTrueAnd((IfExpr) instruction, insn ->
                 insn.equals(Factories.accessVariable(Boolean.TYPE, "a")))));
 
         Assert.assertEquals(
                 new IfExpr(Factories.accessVariable(Boolean.TYPE, "a"),
                         Operators.EQUAL_TO, Literals.TRUE),
-                IfUtilKt.removeRedundantNot(expressions).get(0));
+                IfExpressionInspectKt.removeRedundantNot(expressions).get(0));
 
     }
 
@@ -113,7 +113,7 @@ public class IfUtilTest {
         Assert.assertEquals(
                 new IfExpr(Factories.accessVariable(Boolean.TYPE, "a"),
                         Operators.EQUAL_TO, Literals.TRUE),
-                IfUtilKt.removeRedundantNot(expressions).get(0));
+                IfExpressionInspectKt.removeRedundantNot(expressions).get(0));
     }
 
     @Test
@@ -136,7 +136,7 @@ public class IfUtilTest {
         Assert.assertEquals(
                 new IfExpr(Factories.accessVariable(Boolean.TYPE, "a"),
                         Operators.EQUAL_TO, Literals.FALSE),
-                IfUtilKt.removeRedundantNot(expressions).get(0));
+                IfExpressionInspectKt.removeRedundantNot(expressions).get(0));
     }
 
 }

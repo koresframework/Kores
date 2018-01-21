@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -51,13 +51,13 @@ interface VariableBase : Named, Typed {
      * Creates access to the variable that this instance represents.
      */
     fun access(): VariableAccess =
-            VariableAccess(this.variableType, this.name)
+        VariableAccess(this.variableType, this.name)
 
     /**
      * Creates a definition of the value of the variable that this instance represents.
      */
     fun set(value: CodeInstruction): VariableDefinition =
-            VariableDefinition(this.type, this.name, value)
+        VariableDefinition(this.type, this.name, value)
 
     override val type: Type
         get() = this.variableType
@@ -65,8 +65,8 @@ interface VariableBase : Named, Typed {
     override fun builder(): Builder<VariableBase, *>
 
     interface Builder<out T : VariableBase, S : Builder<T, S>> :
-            Named.Builder<T, S>,
-            Typed.Builder<T, S> {
+        Named.Builder<T, S>,
+        Typed.Builder<T, S> {
 
         override fun type(value: Type): S = this.variableType(value)
 
@@ -79,13 +79,13 @@ interface VariableBase : Named, Typed {
          * Base this builder on [variableRef].
          */
         fun base(variableRef: VariableRef): S =
-                this.name(variableRef.name).type(variableRef.type)
+            this.name(variableRef.name).type(variableRef.type)
 
         /**
          * Base this builder on [fieldRef] (only [name] and [type]).
          */
         fun base(fieldRef: FieldRef): S =
-                this.name(fieldRef.name).type(fieldRef.type)
+            this.name(fieldRef.name).type(fieldRef.type)
 
     }
 }

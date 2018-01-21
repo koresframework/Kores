@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,8 +27,7 @@
  */
 package com.github.jonathanxd.codeapi
 
-import java.util.ArrayList
-import java.util.Comparator
+import java.util.*
 import java.util.function.Predicate
 import java.util.function.UnaryOperator
 
@@ -150,7 +149,8 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
      */
     abstract operator fun minusAssign(other: CodeInstruction)
 
-    override fun toString(): String = if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
+    override fun toString(): String =
+        if (this.isEmpty) "MutableCodeSource[]" else "MutableCodeSource[...]"
 
     companion object {
 
@@ -164,13 +164,15 @@ abstract class MutableCodeSource : CodeSource(), Cloneable {
          * Create a [MutableCodeSource] from a copy of [list].
          */
         @JvmStatic
-        fun create(list: List<CodeInstruction>): MutableCodeSource = ListCodeSource(list.toMutableList())
+        fun create(list: List<CodeInstruction>): MutableCodeSource =
+            ListCodeSource(list.toMutableList())
 
         /**
          * Create a [MutableCodeSource] delegating to [list].
          */
         @JvmStatic
-        fun createFromOriginal(list: MutableList<CodeInstruction>): MutableCodeSource = ListCodeSource(list)
+        fun createFromOriginal(list: MutableList<CodeInstruction>): MutableCodeSource =
+            ListCodeSource(list)
 
     }
 }

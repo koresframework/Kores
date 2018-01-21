@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,8 +28,7 @@
 package com.github.jonathanxd.codeapi.modify.visit
 
 import com.github.jonathanxd.iutils.data.TypedData
-import java.util.Collections
-import java.util.HashMap
+import java.util.*
 
 /**
  * Manager of visitor of part [T].
@@ -104,7 +103,8 @@ open class VisitManager<T : Any> {
     }
 
     private fun <U : Any> getNonNullVisitor(type: Class<*>): PartVisitor<U> {
-        return this.getVisitor<U>(type) ?: throw IllegalArgumentException("Required visitor of '$type' not registered!")
+        return this.getVisitor<U>(type)
+                ?: throw IllegalArgumentException("Required visitor of '$type' not registered!")
     }
 
     /**

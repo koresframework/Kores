@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,8 +28,7 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -39,10 +38,12 @@ import java.lang.reflect.Type
  * @property index Index to access
  * @property valueType Type of value
  */
-data class ArrayLoad(override val arrayType: Type,
-                     override val target: CodeInstruction,
-                     val index: CodeInstruction,
-                     val valueType: Type) : ArrayAccess, Typed, CodeInstruction {
+data class ArrayLoad(
+    override val arrayType: Type,
+    override val target: CodeInstruction,
+    val index: CodeInstruction,
+    val valueType: Type
+) : ArrayAccess, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.valueType
@@ -51,8 +52,8 @@ data class ArrayLoad(override val arrayType: Type,
 
 
     class Builder() :
-            ArrayAccess.Builder<ArrayLoad, Builder>,
-            Typed.Builder<ArrayLoad, Builder> {
+        ArrayAccess.Builder<ArrayLoad, Builder>,
+        Typed.Builder<ArrayLoad, Builder> {
 
         lateinit var arrayType: Type
         lateinit var target: CodeInstruction
@@ -94,7 +95,8 @@ data class ArrayLoad(override val arrayType: Type,
             return this
         }
 
-        override fun build(): ArrayLoad = ArrayLoad(this.arrayType, this.target, this.index, this.valueType)
+        override fun build(): ArrayLoad =
+            ArrayLoad(this.arrayType, this.target, this.index, this.valueType)
 
         companion object {
             @JvmStatic

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,13 @@
  */
 package com.github.jonathanxd.codeapi
 
-import java.util.Spliterator
+import com.github.jonathanxd.codeapi.base.*
+import com.github.jonathanxd.codeapi.inspect.SourceInspect
+import com.github.jonathanxd.codeapi.type.`is`
+import com.github.jonathanxd.codeapi.type.getCommonSuperType
+import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer
+import java.lang.reflect.Type
+import java.util.*
 import java.util.function.Consumer
 import java.util.stream.Stream
 
@@ -70,7 +76,7 @@ abstract class CodeSource : Iterable<CodeInstruction>, CodePart {
      * Gets element at index [index]. This method should only be called if the index
      * is in the bounds.
      */
-    abstract protected fun getAtIndex(index: Int): CodeInstruction
+    protected abstract fun getAtIndex(index: Int): CodeInstruction
 
     /**
      * Returns true if this [CodeSource] contains [o].
@@ -245,4 +251,394 @@ abstract class CodeSource : Iterable<CodeInstruction>, CodePart {
         }
 
     }
+}
+
+/**
+ * Insert element `toInsert` in `source` after element determined by `predicate` or at end of source if not found.
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @return `source`
+ */
+fun CodeSource.insertAfterOrEnd(
+    predicate: (CodeInstruction) -> Boolean,
+    toInsert: CodeSource
+): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    val result = this.insertAfter({ codePart ->
+        if (predicate(codePart)) {
+            any.toTrue()
+            return@insertAfter true
+        }
+
+        false
+    }, toInsert)
+
+    if (!any.get()) {
+        result.addAll(toInsert)
+    }
+
+    return result
+}
+
+/**
+ * Insert element `toInsert` in `source` before element determined by `predicate` or at end of source if not found.
+ *
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @return `source`
+ */
+fun CodeSource.insertBeforeOrEnd(
+    predicate: (CodeInstruction) -> Boolean,
+    toInsert: CodeSource
+): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    val result = this.insertBefore({ codePart ->
+        if (predicate(codePart)) {
+            any.toTrue()
+            true
+        } else false
+    }, toInsert)
+
+    if (!any.get()) {
+        result.addAll(toInsert)
+    }
+
+    return result
+}
+
+/**
+ * Insert element `toInsert` in `source` after element determined by `predicate` or at start of source if not found.
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @return `source`
+ */
+fun CodeSource.insertAfterOrStart(
+    predicate: (CodeInstruction) -> Boolean,
+    toInsert: CodeSource
+): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    val result = this.insertAfter({ codePart ->
+        if (predicate(codePart)) {
+            any.toTrue()
+            return@insertAfter true
+        }
+
+        false
+    }, toInsert)
+
+    if (!any.get()) {
+        result.addAll(0, toInsert)
+    }
+
+    return result
+}
+
+/**
+ * Insert element `toInsert` in `source` before element determined by `predicate` or at start of source if not found.
+ *
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @return `source`
+ */
+fun CodeSource.insertBeforeOrStart(
+    predicate: (CodeInstruction) -> Boolean,
+    toInsert: CodeSource
+): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    val result = this.insertBefore({ codePart ->
+        if (predicate(codePart)) {
+            any.toTrue()
+            true
+        } else false
+    }, toInsert)
+
+    if (!any.get()) {
+        result.addAll(0, toInsert)
+    }
+
+    return result
+}
+
+
+/**
+ * Insert element `toInsert` in `source` after element determined by `predicate`
+ *
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert after element determined by `predicate`
+ * @return `source`
+ */
+fun CodeSource.insertAfter(
+    predicate: (CodeInstruction) -> Boolean,
+    toInsert: CodeSource
+): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    return this.visit({ part, location, codeParts ->
+        if (any.get())
+            return@visit
+
+        if (location == Location.AFTER) {
+            if (predicate(part)) {
+                codeParts.addAll(toInsert)
+                any.set(true)
+            }
+        }
+    })
+}
+
+
+/**
+ * Insert element `toInsert` in `source` before element determined by `predicate`
+ *
+ * @param predicate Predicate to determine element
+ * @param toInsert  Element to insert before element determined by `predicate`
+ * @return `source`
+ */
+fun CodeSource.insertBefore(
+    predicate: (CodeInstruction) -> Boolean,
+    toInsert: CodeSource
+): MutableCodeSource {
+
+    val any = BooleanContainer.of(false)
+
+    return this.visit({ part, location, codeParts ->
+        if (any.get())
+            return@visit
+
+        if (location == Location.BEFORE) {
+            if (predicate(part)) {
+                codeParts.addAll(toInsert)
+                any.set(true)
+            }
+        }
+    })
+}
+
+
+/**
+ * Visit Code Source elements.
+ *
+ * This method create a new [CodeSource] and add all elements from `codeSource`
+ * before and after visits each [CodePart] of `codeSource`.
+ *
+ * When visiting process finish, it will clear `codeSource` and add all elements from new
+ * [CodeSource]
+ *
+ * @param consumer   Consumer
+ * @return Result source.
+ */
+fun CodeSource.visit(consumer: (CodeInstruction, Location, MutableCodeSource) -> Unit): MutableCodeSource {
+
+    val returnSource = ListCodeSource()
+
+    for (codePart in this) {
+        consumeIfExists(
+            codePart,
+            { codePart0 -> consumer(codePart0, Location.BEFORE, returnSource) })
+        returnSource.add(codePart)
+        consumeIfExists(
+            codePart,
+            { codePart0 -> consumer(codePart0, Location.AFTER, returnSource) })
+    }
+
+    return returnSource
+
+}
+
+
+private fun consumeIfExists(part: CodeInstruction, sourceConsumer: (CodeInstruction) -> Unit) {
+    if (part is BodyHolder) {
+        for (codePart in part.body) {
+            consumeIfExists(codePart, sourceConsumer)
+        }
+    } else {
+        sourceConsumer(part)
+    }
+}
+
+/**
+ * Find an element in a code source. (Highly recommended to use [SourceInspect] instead of this.
+ *
+ * @param predicate  Predicate.
+ * @param function   Mapper.
+ * @param U          Mapped return type.
+ * @return List of mapped parts.
+ */
+fun <U> CodeSource.find(
+    predicate: (CodeInstruction) -> Boolean,
+    function: (CodeInstruction) -> U
+): List<U> {
+    val list = ArrayList<U>()
+
+    for (codePart in this) {
+        if (codePart is CodeSource) {
+            list.addAll(this.find(predicate, function))
+        } else {
+            if (predicate(codePart)) {
+                list.add(function(codePart))
+            }
+        }
+    }
+
+    return list
+}
+
+/**
+ * Tries to determine which type this [CodeSource] leaves on stack or returns,
+ * if this `source` leaves two different types (ex, [String] and [List]), the returned type is
+ * [Any], if source leaves two different primitive types, or an object type and a primitive, `null` is returned.
+ *
+ * This function does not check if a value of the returned [Type] will be always leaved in stack because this does
+ * not do flow analysis, example of scenario that this function returns a type that may not be leaved:
+ *
+ * ```
+ * if (a) {
+ *   "Hello"
+ * } else {}
+ * ```
+ *
+ * This function will return [String], but this expression does not leave [String] in stack in all cases.
+ */
+
+
+/**
+ * Returns the type that this [CodeSource] leaves on stack.
+ *
+ * This function analyzes the last instruction of [CodeSource] and infer the type of value leaved on stack.
+ *
+ * Examples:
+ *
+ * For
+ *
+ * ```
+ * if (a == 9) {
+ *   "x"
+ * } else {
+ *   "b"
+ * }
+ * ```
+ * This returns [String]
+ *
+ * For
+ *
+ * ```
+ * if (a == 9) {
+ *   "x"
+ * } else {
+ *   Integer.valueOf(0)
+ * }
+ * ```
+ *
+ * This returns [Object]
+ *
+ * but for:
+ *
+ * ```
+ * if (a == 9) {
+ *   "x"
+ * } else {
+ * }
+ * ```
+ *
+ * This returns `null`.
+ */
+fun CodeSource.getLeaveType(): Type? {
+    return this.lastOrNull()?.safeForComparison?.getLeaveType()
+}
+
+/**
+ * Returns the type leaved in stack by this [CodeInstruction]
+ */
+fun CodeInstruction.getLeaveType(): Type? {
+    when (this) {
+        is MethodInvocation -> {
+            if (this.target.safeForComparison is New) {
+                return (this.target.safeForComparison as New).localization
+            } else {
+                val rtype = this.spec.typeSpec.returnType
+                if (!rtype.`is`(Types.VOID)) {
+                    return rtype
+                }
+            }
+        }
+        is Access -> {
+            when (this) {
+                Access.SUPER -> return Alias.SUPER
+                Access.THIS -> return Alias.THIS
+            }
+        }
+        is IfStatement -> {
+            val bType = this.body.getLeaveType()
+            val eType = this.elseStatement.getLeaveType()
+
+            return if (bType != null && eType != null) {
+                if (bType.`is`(eType))
+                    bType
+                else
+                    getCommonSuperType(bType, eType)
+            } else {
+                null
+            }
+
+        }
+        is TryStatementBase -> {
+            val btype = this.body.getLeaveType()
+            val types = this.catchStatements.map { it.body.getLeaveType() }
+            val ftype = this.finallyStatement.getLeaveType()
+
+            return if (btype != null && ftype != null && types.isNotEmpty() && types.all { it != null }) {
+                if (ftype.`is`(btype) && types.filterNotNull().all { it.`is`(btype) }) {
+                    btype
+                } else {
+                    types.filterNotNull().fold(getCommonSuperType(ftype, btype)) { a, b ->
+                        if (a == null) null
+                        else getCommonSuperType(a, b)
+                    }
+                }
+            } else {
+                null
+            }
+        }
+        is SwitchStatement -> {
+            val types = this.cases.map { it.body.getLeaveType() }
+
+            return if (types.isNotEmpty() && types.all { it != null }) {
+                types.reduce { acc, type ->
+                    if (acc == null || type == null) null
+                    else getCommonSuperType(acc, type)
+                }
+            } else {
+                null
+            }
+        }
+        is LocalCode -> return null
+        is BodyHolder -> return this.body.getLeaveType()
+        is Typed -> return this.type
+    }
+
+    return null
+}
+
+/**
+ * Location to insert element.
+ */
+enum class Location {
+    /**
+     * Insert before.
+     */
+    BEFORE,
+
+    /**
+     * Insert after.
+     */
+    AFTER
 }

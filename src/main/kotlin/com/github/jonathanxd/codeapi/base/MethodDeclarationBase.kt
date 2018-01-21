@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -38,16 +38,18 @@ import java.lang.reflect.Type
 /**
  * Method declaration
  */
-data class MethodDeclaration(override val comments: Comments,
-                             override val annotations: List<Annotation>,
-                             override val modifiers: Set<CodeModifier>,
-                             override val genericSignature: GenericSignature,
-                             override val returnType: Type,
-                             override val name: String,
-                             override val parameters: List<CodeParameter>,
-                             override val innerTypes: List<TypeDeclaration>,
-                             override val throwsClause: List<Type>,
-                             override val body: CodeSource) : MethodDeclarationBase {
+data class MethodDeclaration(
+    override val comments: Comments,
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val genericSignature: GenericSignature,
+    override val returnType: Type,
+    override val name: String,
+    override val parameters: List<CodeParameter>,
+    override val innerTypes: List<TypeDeclaration>,
+    override val throwsClause: List<Type>,
+    override val body: CodeSource
+) : MethodDeclarationBase {
     init {
         BodyHolder.checkBody(this)
     }
@@ -132,8 +134,10 @@ data class MethodDeclaration(override val comments: Comments,
             return this
         }
 
-        override fun build(): MethodDeclaration = MethodDeclaration(this.comments, this.annotations, this.modifiers, this.genericSignature,
-                this.returnType, this.name, this.parameters, this.innerTypes, this.throws, this.body)
+        override fun build(): MethodDeclaration = MethodDeclaration(
+            this.comments, this.annotations, this.modifiers, this.genericSignature,
+            this.returnType, this.name, this.parameters, this.innerTypes, this.throws, this.body
+        )
 
         companion object {
             @JvmStatic
@@ -150,7 +154,9 @@ data class MethodDeclaration(override val comments: Comments,
 /**
  * Method declaration
  */
-interface MethodDeclarationBase : CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder, GenericSignatureHolder, Annotable, Named, Typed, CommentHolder, BodyHolder, InnerTypesHolder, ThrowsHolder {
+interface MethodDeclarationBase : CodeElement, ModifiersHolder, ReturnTypeHolder, ParametersHolder,
+    GenericSignatureHolder, Annotable, Named, Typed, CommentHolder, BodyHolder, InnerTypesHolder,
+    ThrowsHolder {
 
     override val type: Type
         get() = this.returnType
@@ -163,17 +169,17 @@ interface MethodDeclarationBase : CodeElement, ModifiersHolder, ReturnTypeHolder
     override fun builder(): Builder<MethodDeclarationBase, *>
 
     interface Builder<out T : MethodDeclarationBase, S : Builder<T, S>> :
-            BodyHolder.Builder<T, S>,
-            ModifiersHolder.Builder<T, S>,
-            ReturnTypeHolder.Builder<T, S>,
-            ParametersHolder.Builder<T, S>,
-            GenericSignatureHolder.Builder<T, S>,
-            Annotable.Builder<T, S>,
-            Named.Builder<T, S>,
-            Typed.Builder<T, S>,
-            CommentHolder.Builder<T, S>,
-            InnerTypesHolder.Builder<T, S>,
-            ThrowsHolder.Builder<T, S> {
+        BodyHolder.Builder<T, S>,
+        ModifiersHolder.Builder<T, S>,
+        ReturnTypeHolder.Builder<T, S>,
+        ParametersHolder.Builder<T, S>,
+        GenericSignatureHolder.Builder<T, S>,
+        Annotable.Builder<T, S>,
+        Named.Builder<T, S>,
+        Typed.Builder<T, S>,
+        CommentHolder.Builder<T, S>,
+        InnerTypesHolder.Builder<T, S>,
+        ThrowsHolder.Builder<T, S> {
 
         override fun type(value: Type): S = this.returnType(value)
 

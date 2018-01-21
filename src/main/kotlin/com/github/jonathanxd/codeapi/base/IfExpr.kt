@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -39,9 +39,11 @@ import com.github.jonathanxd.codeapi.operator.Operator
  * @property expr2 Second expression
  * @see IfStatement
  */
-data class IfExpr(val expr1: CodeInstruction,
-                  val operation: Operator.Conditional,
-                  val expr2: CodeInstruction) : CodePart, CodeInstruction {
+data class IfExpr(
+    val expr1: CodeInstruction,
+    val operation: Operator.Conditional,
+    val expr2: CodeInstruction
+) : CodePart, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 

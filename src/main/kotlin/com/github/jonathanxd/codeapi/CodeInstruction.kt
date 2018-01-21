@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,27 @@
  */
 package com.github.jonathanxd.codeapi
 
+import com.github.jonathanxd.codeapi.base.InstructionWrapper
+
 /**
  * A source instruction.
  */
 interface CodeInstruction : CodePart
+
+/**
+ * Gets comparison safe version of a [CodeInstruction]
+ */
+val CodeInstruction.safeForComparison: CodeInstruction
+    get() = this.unwrap()
+
+/**
+ * Unwraps [CodeInstruction] if is a [InstructionWrapper] or return receiver if not.
+ *
+ * This functions recursively unwraps [InstructionWrapper], the operation is executed until
+ * `(receiver = InstructionWrapper.wrappedInstruction) is InstructionWrapper`
+ */
+tailrec fun CodeInstruction.unwrap(): CodeInstruction =
+    if (this !is InstructionWrapper)
+        this
+    else
+        this.wrappedInstruction.unwrap()

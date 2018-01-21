@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,8 +29,14 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.*
-import com.github.jonathanxd.jwiutils.kt.rightOrFail
+import com.github.jonathanxd.codeapi.util.eq
+import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.util.identityEq
+import com.github.jonathanxd.codeapi.util.typeDesc
+import com.github.jonathanxd.iutils.kt.leftOrRight
+import com.github.jonathanxd.iutils.kt.rightOrFail
+import com.github.jonathanxd.iutils.recursion.ElementUtil
+import com.github.jonathanxd.iutils.recursion.Elements
 import java.lang.reflect.Type
 
 /**
@@ -269,6 +275,19 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
     fun isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): Boolean =
         this.defaultResolver.isAssignableFrom(this, type, resolverProvider).rightOrFail
 
+    /**
+     * Returns `Either` that holds either failure exception or whether `this type` is assignable
+     * from [type].
+     */
+    fun safeIsAssignableFrom(type: Type) =
+        this.defaultResolver.isAssignableFrom(this, type)
+
+    /**
+     * Returns `Either` that holds either failure exception or whether `this type` is assignable
+     * from [type].
+     */
+    fun safeIsAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>) =
+        this.defaultResolver.isAssignableFrom(this, type, resolverProvider)
 
     /**
      * Convert this [CodeType] to a [CodeTypeArray].
@@ -290,7 +309,7 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * @param other Type to test against.
      * @return True if this [CodeType] is equals to other [CodeType].
      */
-    fun `is`(other: CodeType?): Boolean = other != null && this.compareTo(other) == 0
+    fun `is`(other: CodeType?): Boolean = this.identityEq(other)
 
     /**
      * Returns true if this [CodeType] identification is equals to other [Type] according to [is].
@@ -314,12 +333,84 @@ interface CodeType : CodePart, Comparable<CodeType>, Type {
      * Compare two identifications
      */
     override fun compareTo(other: CodeType): Int =
-            this.identification.compareTo(other.identification)
+        this.identification.compareTo(other.identification)
 
     override fun hashCode(): Int
     override fun equals(other: Any?): Boolean
 
     override fun getTypeName(): String =
-            this.toString()
+        this.toString()
 
+}
+
+/**
+ * Gets common super type of [typeA] and [typeB].
+ *
+ * This function returns a super class that both [typeA] and [typeB] extends from.
+ *
+ * If either [typeA] or [typeB] is primitive and are not equal, this function returns `null`.
+ */
+fun getCommonSuperType(typeA: Type, typeB: Type): Type? =
+    getCommonSuperTypeOrInterface(typeA, typeB)?.let {
+        if (it.isInterface) Types.OBJECT else it
+    }
+
+/**
+ * Gets common super type of [typeA] and [typeB].
+ *
+ * This function returns a class or an interface that both [typeA] and [typeB] extends from,
+ * first the function tries to get a common *super class*, and then a common *interface*.
+ *
+ * If [typeA], [typeB] or both are primitive but not equal, `null` is returned.
+ */
+fun getCommonSuperTypeOrInterface(typeA: Type, typeB: Type): Type? {
+    if (typeA.isPrimitive || typeB.isPrimitive) {
+        return if (typeA.`is`(typeB)) {
+            typeA
+        } else {
+            null
+        }
+    }
+
+    val aCodeType = typeA.codeType
+    val bCodeType = typeB.codeType
+    val isAssignableFrom: Type.(type: CodeType) -> Boolean =
+        { this.safeIsAssignableFrom(it).let { it.isRight && it.right } }
+
+    if (aCodeType.isAssignableFrom(bCodeType)) {
+        return typeA
+    } else if (bCodeType.isAssignableFrom(aCodeType)) {
+        return typeB
+    }
+
+    val getSuperType: Type.() -> Type? =
+        { this.bindedDefaultResolver.getSuperclass().mapLeft { null }.leftOrRight }
+
+    var currentSuper = aCodeType.getSuperType()
+
+    while (currentSuper != null && !currentSuper.`is`(Types.OBJECT)) {
+        if (currentSuper.isAssignableFrom(bCodeType))
+            return currentSuper
+
+        currentSuper = currentSuper.getSuperType()
+    }
+
+    val getItfs: Type.() -> List<Type> =
+        { this.bindedDefaultResolver.getInterfaces().mapLeft { emptyList<Type>() }.leftOrRight }
+
+    val itfs = Elements<Type>()
+    itfs.insertFromPair(ElementUtil.fromIterable(getItfs(aCodeType)))
+
+    while (true) {
+        val next = itfs.nextElement() ?: break
+        val nextValue = next.value
+
+        if (nextValue.isAssignableFrom(bCodeType)) {
+            return nextValue
+        }
+
+        itfs.insertFromPair(ElementUtil.fromIterable(getItfs(nextValue)))
+    }
+
+    return Types.OBJECT
 }

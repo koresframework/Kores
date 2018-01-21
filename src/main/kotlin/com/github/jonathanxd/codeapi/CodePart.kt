@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,16 @@
  */
 package com.github.jonathanxd.codeapi
 
+import com.github.jonathanxd.codeapi.base.Access
+import com.github.jonathanxd.codeapi.base.Alias
+import com.github.jonathanxd.codeapi.base.InstructionWrapper
+import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.builder.Builder
+import com.github.jonathanxd.codeapi.type.NullType
+import com.github.jonathanxd.codeapi.type.`is`
+import com.github.jonathanxd.codeapi.type.codeType
+import com.github.jonathanxd.codeapi.type.isPrimitive
+import java.lang.reflect.Type
 
 /**
  * A CodePart is an element that can exists in the source code.
@@ -47,3 +56,35 @@ interface CodePart {
         override fun build(): CodePart = self
     }
 }
+
+/**
+ * Returns true if the type of this [CodePart] is primitive
+ */
+val CodePart.isPrimitive: Boolean
+    get() = this.type.isPrimitive
+
+/**
+ * Gets the type of [CodePart]
+ */
+val CodePart.type: Type
+    get() = this.typeOrNull ?: throw IllegalArgumentException("Cannot infer type of part '$this'!")
+
+
+/**
+ * Gets the type of [CodePart] or null if receiver is not a [Typed] instance.
+ */
+val CodePart.typeOrNull: Type?
+    get() = (this as? Typed)?.type?.let {
+        if (it.`is`(NullType))
+            Types.OBJECT
+        else it
+    } ?: (this as? InstructionWrapper)?.wrappedInstruction?.also {
+        if (it == this)
+            throw IllegalStateException("InstructionWrapper wrapping itself.")
+    }?.typeOrNull ?: (this as? Access)?.let {
+        when (it) {
+            Access.THIS, Access.LOCAL, Access.STATIC -> Alias.THIS.codeType
+            Access.SUPER -> Alias.SUPER.codeType
+        }
+    } ?: (this as? CodeInstruction)?.getLeaveType() ?: (this as? CodeSource)?.getLeaveType()
+

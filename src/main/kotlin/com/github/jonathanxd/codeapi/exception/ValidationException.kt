@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -40,17 +40,36 @@ class ValidationException : RuntimeException {
     constructor(message: String) : super(message)
     constructor(cause: Throwable) : super(cause)
     constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(message: String, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean) :
+    constructor(
+        message: String,
+        cause: Throwable,
+        enableSuppression: Boolean,
+        writableStackTrace: Boolean
+    ) :
             super(message, cause, enableSuppression, writableStackTrace)
 
     constructor(message: ValidationMessage) : this(message.toMessage())
     constructor(message: ValidationMessage, cause: Throwable) : this(message.toMessage(), cause)
-    constructor(message: ValidationMessage, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean) :
+    constructor(
+        message: ValidationMessage,
+        cause: Throwable,
+        enableSuppression: Boolean,
+        writableStackTrace: Boolean
+    ) :
             super(message.toMessage(), cause, enableSuppression, writableStackTrace)
 
     constructor(message: ContextedValidationMessage) : this(message.toMessage())
-    constructor(message: ContextedValidationMessage, cause: Throwable) : this(message.toMessage(), cause)
-    constructor(message: ContextedValidationMessage, cause: Throwable, enableSuppression: Boolean, writableStackTrace: Boolean) :
+    constructor(message: ContextedValidationMessage, cause: Throwable) : this(
+        message.toMessage(),
+        cause
+    )
+
+    constructor(
+        message: ContextedValidationMessage,
+        cause: Throwable,
+        enableSuppression: Boolean,
+        writableStackTrace: Boolean
+    ) :
             super(message.toMessage(), cause, enableSuppression, writableStackTrace)
 
 }

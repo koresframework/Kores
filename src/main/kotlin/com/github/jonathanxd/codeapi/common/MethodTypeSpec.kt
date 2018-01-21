@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,10 +33,11 @@ import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.codeType
+import com.github.jonathanxd.codeapi.type.codeType
 import java.lang.reflect.Type
 
-data class MethodTypeSpec(val localization: Type, val methodName: String, val typeSpec: TypeSpec) : Typed, Comparable<MethodTypeSpec> {
+data class MethodTypeSpec(val localization: Type, val methodName: String, val typeSpec: TypeSpec) :
+    Typed, Comparable<MethodTypeSpec> {
     override val type: Type
         get() = this.typeSpec.type
 
@@ -46,19 +47,22 @@ data class MethodTypeSpec(val localization: Type, val methodName: String, val ty
      * Human readable method specification string.
      */
     fun toMethodString() =
-            "${localization.codeType.canonicalName}.$methodName${typeSpec.toTypeString()}"
+        "${localization.codeType.canonicalName}.$methodName${typeSpec.toTypeString()}"
 
     /**
      * Invokes this method in [target].
      */
     operator fun invoke(invokeType: InvokeType, target: CodeInstruction) =
-            this.invoke(invokeType, target, emptyList())
+        this.invoke(invokeType, target, emptyList())
 
     /**
      * Invokes this method in [target] with [arguments].
      */
-    operator fun invoke(invokeType: InvokeType, target: CodeInstruction, arguments: List<CodeInstruction>): MethodInvocation
-            = MethodInvocation(invokeType, target, this, arguments)
+    operator fun invoke(
+        invokeType: InvokeType,
+        target: CodeInstruction,
+        arguments: List<CodeInstruction>
+    ): MethodInvocation = MethodInvocation(invokeType, target, this, arguments)
 
     /**
      * This method will not compare the method localization.

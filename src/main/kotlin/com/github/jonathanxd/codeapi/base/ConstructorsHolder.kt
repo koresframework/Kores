@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.builder.Builder
 
 /**
  * Same as [ElementsHolder] but holds constructors.
@@ -42,7 +41,8 @@ interface ConstructorsHolder : CodePart {
 
     override fun builder(): Builder<ConstructorsHolder, *>
 
-    interface Builder<out T: ConstructorsHolder, S: Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : ConstructorsHolder, S : Builder<T, S>> :
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [ConstructorsHolder.constructors]
@@ -52,7 +52,8 @@ interface ConstructorsHolder : CodePart {
         /**
          * See [ConstructorsHolder.constructors]
          */
-        fun constructors(vararg values: ConstructorDeclaration): S = this.constructors(values.toList())
+        fun constructors(vararg values: ConstructorDeclaration): S =
+            this.constructors(values.toList())
 
         /**
          * See [ConstructorsHolder.constructors]

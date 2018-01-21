@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,13 +27,9 @@
  */
 package com.github.jonathanxd.codeapi.base
 
-import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.Types
+import com.github.jonathanxd.codeapi.*
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.common.CodeNothing
-import com.github.jonathanxd.codeapi.util.safeForComparison
-import com.github.jonathanxd.codeapi.util.self
-import com.github.jonathanxd.codeapi.util.type
 import java.lang.reflect.Type
 
 /**
@@ -42,7 +38,8 @@ import java.lang.reflect.Type
  * @property value Value to check if operating element matches, null for `default` case.
  * @property body Body of case statement.
  */
-data class Case(override val value: CodeInstruction, override val body: CodeSource) : ValueHolder, Typed, BodyHolder {
+data class Case(override val value: CodeInstruction, override val body: CodeSource) : ValueHolder,
+    Typed, BodyHolder {
 
     override val type: Type
         get() = this.value.safeForComparison.let { if (it == CodeNothing) Types.INT else it.type }
@@ -64,9 +61,9 @@ data class Case(override val value: CodeInstruction, override val body: CodeSour
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ValueHolder.Builder<Case, Builder>,
-            Typed.Builder<Case, Builder>,
-            BodyHolder.Builder<Case, Builder> {
+        ValueHolder.Builder<Case, Builder>,
+        Typed.Builder<Case, Builder>,
+        BodyHolder.Builder<Case, Builder> {
 
         var value: CodeInstruction = CodeNothing
         var body: CodeSource = CodeSource.empty()

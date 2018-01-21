@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -48,7 +48,8 @@ interface Accessor : CodeInstruction {
 
     override fun builder(): Builder<Accessor, *>
 
-    interface Builder<out T : Accessor, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : Accessor, S : Builder<T, S>> :
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [T.target]

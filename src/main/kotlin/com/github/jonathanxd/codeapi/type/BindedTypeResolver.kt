@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,8 +27,10 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.base.*
-import com.github.jonathanxd.codeapi.util.defaultResolver
+import com.github.jonathanxd.codeapi.base.ConstructorDeclaration
+import com.github.jonathanxd.codeapi.base.FieldDeclaration
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.jonathanxd.iutils.`object`.Either
 import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
 import java.lang.reflect.Type
@@ -47,12 +49,14 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
     /**
      * Resolves super class of [bindType]
      */
-    fun getSuperclass(): Either<Exception, Type?> = this.codeTypeResolver.getSuperclass(this.bindType)
+    fun getSuperclass(): Either<Exception, Type?> =
+        this.codeTypeResolver.getSuperclass(this.bindType)
 
     /**
      * Resolves super interfaces of [bindType].
      */
-    fun getInterfaces(): Either<Exception, List<Type>> = this.codeTypeResolver.getInterfaces(this.bindType)
+    fun getInterfaces(): Either<Exception, List<Type>> =
+        this.codeTypeResolver.getInterfaces(this.bindType)
 
     /**
      * Checks if [bindType] is assignable from [from] using default resolvers.
@@ -60,39 +64,42 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
      * @return True if [bindType] is assignable from [from].
      */
     fun isAssignableFrom(from: Type): EitherObjBoolean<Exception> =
-            this.isAssignableFrom(from, Type::defaultResolver)
+        this.isAssignableFrom(from, Type::defaultResolver)
 
     /**
      * Checks if [bindType] is assignable [from] using resolvers provided by [resolverProvider]
      *
      * @return True if [bindType] is assignable from [from].
      */
-    fun isAssignableFrom(from: Type, resolverProvider: (Type) -> CodeTypeResolver<*>): EitherObjBoolean<Exception> =
-            this.codeTypeResolver.isAssignableFrom(this.bindType, from, resolverProvider)
+    fun isAssignableFrom(
+        from: Type,
+        resolverProvider: (Type) -> CodeTypeResolver<*>
+    ): EitherObjBoolean<Exception> =
+        this.codeTypeResolver.isAssignableFrom(this.bindType, from, resolverProvider)
 
     /**
      * Resolves or create [TypeDeclaration] from [type] structure and elements (back call to [codeTypeResolver]).
      */
     fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> =
-            this.codeTypeResolver.resolveTypeDeclaration(type)
+        this.codeTypeResolver.resolveTypeDeclaration(type)
 
     /**
      * Resolves or create a list of all [FieldDeclaration] present in [type] (back call to [codeTypeResolver]).
      */
     fun resolveFields(type: Type): Either<Exception, List<FieldDeclaration>> =
-            this.codeTypeResolver.resolveFields(type)
+        this.codeTypeResolver.resolveFields(type)
 
     /**
      * Resolves or create a list of all [ConstructorDeclaration] present in [type]  (back call to [codeTypeResolver]).
      */
     fun resolveConstructors(type: Type): Either<Exception, List<ConstructorDeclaration>> =
-            this.codeTypeResolver.resolveConstructors(type)
+        this.codeTypeResolver.resolveConstructors(type)
 
     /**
      * Resolves or create a list of all [MethodDeclaration] present in [type] (back call to [codeTypeResolver]).
      */
     fun resolveMethods(type: Type): Either<Exception, List<MethodDeclaration>> =
-            this.codeTypeResolver.resolveMethods(type)
+        this.codeTypeResolver.resolveMethods(type)
 
     /**
      * Creates a new [BindedTypeResolver] instance 'binded' to [bindType].
@@ -102,5 +109,6 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
     /**
      * Creates a new [BindedTypeResolver] instance which delegate calls to [codeTypeResolver].
      */
-    fun <T> bindToResolver(codeTypeResolver: CodeTypeResolver<T>) = BindedTypeResolver(bindType, codeTypeResolver)
+    fun <T> bindToResolver(codeTypeResolver: CodeTypeResolver<T>) =
+        BindedTypeResolver(bindType, codeTypeResolver)
 }

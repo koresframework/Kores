@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -26,6 +26,7 @@
  *      THE SOFTWARE.
  */
 @file:JvmName("PartFactory")
+
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.ArrayCodeSource
@@ -89,5 +90,5 @@ fun whileStm() = WhileStatement.Builder.builder()
 
 fun source(ins: CodeInstruction): CodeSource = CodeSource.fromPart(ins)
 fun source(ins: CodeInstruction, vararg other: CodeInstruction): CodeSource = ArrayCodeSource(
-        Array(other.size + 1, { if(it == 0) ins else other[it - 1]})
+    Array(other.size + 1, { if (it == 0) ins else other[it - 1] })
 )

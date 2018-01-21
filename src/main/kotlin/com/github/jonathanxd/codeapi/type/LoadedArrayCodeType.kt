@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,15 +27,16 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
-
 /**
  * A [CodeTypeArray] of a [loadedType].
  *
  * @param T Type of the Class.
  */
-internal class LoadedArrayCodeType<T>(override val loadedType: Class<T>, component: LoadedCodeType<*>, dimensions: Int) : CodeTypeArray(component, dimensions), LoadedCodeType<T> {
+internal class LoadedArrayCodeType<T>(
+    override val loadedType: Class<T>,
+    component: LoadedCodeType<*>,
+    dimensions: Int
+) : CodeTypeArray(component, dimensions), LoadedCodeType<T> {
 
     override val isVirtual: Boolean
         get() = false
@@ -60,6 +61,8 @@ internal class LoadedArrayCodeType<T>(override val loadedType: Class<T>, compone
     override fun hashCode(): Int = this.hash()
 
     override val defaultResolver: CodeTypeResolver<Class<*>>
-        get() = CodeTypeResolver.Java(this.loadedType.classLoader ?: ClassLoader.getSystemClassLoader())
+        get() = CodeTypeResolver.Java(
+            this.loadedType.classLoader ?: ClassLoader.getSystemClassLoader()
+        )
 
 }

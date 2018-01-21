@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,13 +29,10 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.type.GenericType.Bound
-import com.github.jonathanxd.codeapi.util.codeType
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.toStr
 import com.github.jonathanxd.iutils.array.ArrayUtils
 import java.lang.reflect.Type
-import java.util.Arrays
+import java.util.*
 
 
 /**
@@ -57,7 +54,8 @@ import java.util.Arrays
  *
  * **Attention: All calls of the methods of [Generic] class creates a copy of the `bound` array (except the first call), if you mind performance use the [GenericTypeBuilder]**
  */
-class Generic private constructor(name: String?, codeType: CodeType?, bounds: Array<Bound>) : GenericType {
+class Generic private constructor(name: String?, codeType: CodeType?, bounds: Array<Bound>) :
+    GenericType {
 
     /**
      * Name of the generic type.
@@ -132,7 +130,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun of(bound: GenericType.Bound): Generic {
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addToArray<Bound>(this.bounds, bound))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addToArray<Bound>(this.bounds, bound)
+        )
     }
 
     /**
@@ -142,7 +144,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun of(vararg bounds: GenericType.Bound): Generic {
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray<Bound>(this.bounds, bounds))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray<Bound>(this.bounds, bounds)
+        )
     }
 
     /**
@@ -152,7 +158,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun of(s: String): Generic {
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addToArray<Bound>(this.bounds, GenericType.GenericBound(Generic(s))))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addToArray<Bound>(this.bounds, GenericType.GenericBound(Generic(s)))
+        )
     }
 
     /**
@@ -165,7 +175,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     fun of(vararg ss: String): Generic {
         val bounds = ss.map { s -> GenericType.GenericBound(Generic(s)) }.toTypedArray()
 
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds as Array<Bound>))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray(this.bounds, bounds as Array<Bound>)
+        )
     }
 
     /**
@@ -175,8 +189,10 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun of(type: Type): Generic {
-        return Generic(this.name, this.definedCodeType,
-                ArrayUtils.addToArray<Bound>(this.bounds, GenericType.GenericBound(type.codeType)))
+        return Generic(
+            this.name, this.definedCodeType,
+            ArrayUtils.addToArray<Bound>(this.bounds, GenericType.GenericBound(type.codeType))
+        )
     }
 
     /**
@@ -188,7 +204,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     fun of(vararg types: Type): Generic {
         val bounds = types.map { GenericType.GenericBound(it.codeType) }.toTypedArray()
 
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray(this.bounds, bounds)
+        )
     }
 
     /**
@@ -198,7 +218,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun `extends$`(s: String): Generic {
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addToArray(this.bounds, GenericType.Extends(Generic(s))))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addToArray(this.bounds, GenericType.Extends(Generic(s)))
+        )
     }
 
     /**
@@ -211,7 +235,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     fun `extends$`(vararg ss: String): Generic {
         val bounds = ss.map { s -> GenericType.Extends(Generic(s)) }.toTypedArray()
 
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds as Array<Bound>))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray(this.bounds, bounds as Array<Bound>)
+        )
     }
 
     /**
@@ -221,8 +249,10 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun `extends$`(type: Type): Generic {
-        return Generic(this.name, this.definedCodeType,
-                ArrayUtils.addToArray<Bound>(this.bounds, GenericType.Extends(type.codeType)))
+        return Generic(
+            this.name, this.definedCodeType,
+            ArrayUtils.addToArray<Bound>(this.bounds, GenericType.Extends(type.codeType))
+        )
     }
 
 
@@ -235,7 +265,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     fun `extends$`(vararg types: Type): Generic {
         val bounds = types.map { GenericType.Extends(it.codeType) }.toTypedArray()
 
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray<Bound>(this.bounds, bounds))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray<Bound>(this.bounds, bounds)
+        )
     }
 
     /**
@@ -245,7 +279,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun `super$`(s: String): Generic {
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addToArray<Bound>(this.bounds, GenericType.Super(Generic(s))))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addToArray<Bound>(this.bounds, GenericType.Super(Generic(s)))
+        )
     }
 
     /**
@@ -258,7 +296,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     fun `super$`(vararg ss: String): Generic {
         val bounds = ss.map { s -> GenericType.Super(Generic(s)) }.toTypedArray()
 
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray<Bound>(this.bounds, bounds))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray<Bound>(this.bounds, bounds)
+        )
     }
 
     /**
@@ -268,7 +310,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
      * @return New instance of generic type.
      */
     fun `super$`(type: Type): Generic {
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addToArray(this.bounds, GenericType.Super(type.codeType)))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addToArray(this.bounds, GenericType.Super(type.codeType))
+        )
     }
 
     /**
@@ -281,7 +327,11 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
     fun `super$`(vararg types: Type): Generic {
         val bounds = types.map { GenericType.Super(it.codeType) }.toTypedArray()
 
-        return Generic(this.name, this.definedCodeType, ArrayUtils.addAllToArray(this.bounds, bounds))
+        return Generic(
+            this.name,
+            this.definedCodeType,
+            ArrayUtils.addAllToArray(this.bounds, bounds)
+        )
     }
 
     override val isType: Boolean
@@ -320,7 +370,8 @@ class Generic private constructor(name: String?, codeType: CodeType?, bounds: Ar
             else
                 if (this.bounds.size == other.bounds.size
                         && this.name.compareTo(other.name) == 0
-                        && Arrays.equals(this.bounds, other.bounds))
+                        && Arrays.equals(this.bounds, other.bounds)
+                )
                     0
                 else -1
         else -1

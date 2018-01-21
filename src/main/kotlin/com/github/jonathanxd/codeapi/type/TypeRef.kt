@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -34,11 +34,19 @@ import java.lang.reflect.Type
 /**
  * Reference to a type, this is only intended to be used to inform outer types.
  */
-data class TypeRef(val outerType: Type?, val specifiedName: String, override val isInterface: Boolean): CodeType {
+data class TypeRef(
+    val outerType: Type?,
+    val specifiedName: String,
+    override val isInterface: Boolean
+) : CodeType {
 
-    constructor(specifiedName: String): this(null, specifiedName)
-    constructor(outerType: Type?, specifiedName: String): this(outerType, specifiedName, false)
-    constructor(specifiedName: String, isInterface: Boolean): this(null, specifiedName, isInterface)
+    constructor(specifiedName: String) : this(null, specifiedName)
+    constructor(outerType: Type?, specifiedName: String) : this(outerType, specifiedName, false)
+    constructor(specifiedName: String, isInterface: Boolean) : this(
+        null,
+        specifiedName,
+        isInterface
+    )
 
     override val canonicalName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)

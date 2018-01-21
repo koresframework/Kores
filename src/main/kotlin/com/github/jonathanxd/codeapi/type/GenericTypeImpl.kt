@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,14 +28,16 @@
 package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
 import com.github.jonathanxd.codeapi.util.toStr
 
 /**
  * Generic type implementation.
  */
-class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: Array<GenericType.Bound>) : GenericType {
+class GenericTypeImpl(
+    name: String?,
+    codeType: CodeType?,
+    override val bounds: Array<GenericType.Bound>
+) : GenericType {
 
     override val name: String
     override val resolvedType: CodeType
@@ -79,7 +81,8 @@ class GenericTypeImpl(name: String?, codeType: CodeType?, override val bounds: A
     override val isType: Boolean
         get() = !this.isWildcard && this.isType_
 
-    override fun toArray(dimensions: Int): GenericType = GenericTypeImpl(this.name, this.resolvedType.toArray(dimensions), this.bounds)
+    override fun toArray(dimensions: Int): GenericType =
+        GenericTypeImpl(this.name, this.resolvedType.toArray(dimensions), this.bounds)
 
     override fun equals(other: Any?): Boolean = this.eq(other)
     override fun hashCode(): Int = this.hash()

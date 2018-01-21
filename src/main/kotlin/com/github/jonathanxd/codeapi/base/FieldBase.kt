@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -51,21 +51,21 @@ interface FieldBase : Named, Typed {
      * Creates access to the field that this instance represents.
      */
     fun access(): FieldAccess =
-            FieldAccess(this.localization, this.target, this.type, this.name)
+        FieldAccess(this.localization, this.target, this.type, this.name)
 
     /**
      * Creates a definition of the value of the field that this instance represents.
      */
     fun set(value: CodeInstruction): FieldDefinition =
-            FieldDefinition(this.localization, this.target, this.type, this.name, value)
+        FieldDefinition(this.localization, this.target, this.type, this.name, value)
 
     override val type: Type
 
     override fun builder(): Builder<FieldBase, *>
 
     interface Builder<out T : FieldBase, S : Builder<T, S>> :
-            Named.Builder<T, S>,
-            Typed.Builder<T, S> {
+        Named.Builder<T, S>,
+        Typed.Builder<T, S> {
 
         /**
          * See [T.localization]
@@ -81,15 +81,15 @@ interface FieldBase : Named, Typed {
          * Base this builder on [variableRef].
          */
         fun base(variableRef: VariableRef): S =
-                this.name(variableRef.name).type(variableRef.type)
+            this.name(variableRef.name).type(variableRef.type)
 
         /**
          * Base this builder on [fieldRef].
          */
         fun base(fieldRef: FieldRef): S =
-                this.localization(fieldRef.localization)
-                        .target(fieldRef.target)
-                        .name(fieldRef.name)
-                        .type(fieldRef.type)
+            this.localization(fieldRef.localization)
+                .target(fieldRef.target)
+                .name(fieldRef.name)
+                .type(fieldRef.type)
     }
 }

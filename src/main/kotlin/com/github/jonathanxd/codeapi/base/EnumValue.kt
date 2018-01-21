@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -36,8 +36,10 @@ import java.lang.reflect.Type
  * @property enumType Type of enum
  * @property enumEntry Entry of enum.
  */
-data class EnumValue(val enumType: Type,
-                     val enumEntry: String) : Named, Typed, CodeInstruction {
+data class EnumValue(
+    val enumType: Type,
+    val enumEntry: String
+) : Named, Typed, CodeInstruction {
 
     override val name: String
         get() = this.enumEntry
@@ -48,8 +50,8 @@ data class EnumValue(val enumType: Type,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Named.Builder<EnumValue, Builder>,
-            Typed.Builder<EnumValue, Builder> {
+        Named.Builder<EnumValue, Builder>,
+        Typed.Builder<EnumValue, Builder> {
 
         lateinit var enumType: Type
         lateinit var enumEntry: String

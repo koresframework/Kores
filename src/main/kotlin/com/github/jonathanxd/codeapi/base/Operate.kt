@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,12 +28,11 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.common.CodeNothing
 import com.github.jonathanxd.codeapi.operator.Operator
 import com.github.jonathanxd.codeapi.operator.Operators
-import com.github.jonathanxd.codeapi.util.self
-import com.github.jonathanxd.codeapi.util.type
+import com.github.jonathanxd.codeapi.type
 import java.lang.reflect.Type
 
 /**
@@ -46,9 +45,11 @@ import java.lang.reflect.Type
  * example, if a second argument is provided for [Operators.SUBTRACT], the operation
  * will be `target-value`, otherwise, if [CodeNothing] is provided, the operation will be `-target` (or negative target).
  */
-data class Operate(val target: CodeInstruction,
-                   val operation: Operator.Math,
-                   override val value: CodeInstruction) : ValueHolder, Typed, CodeInstruction {
+data class Operate(
+    val target: CodeInstruction,
+    val operation: Operator.Math,
+    override val value: CodeInstruction
+) : ValueHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.target.type
@@ -59,8 +60,8 @@ data class Operate(val target: CodeInstruction,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ValueHolder.Builder<Operate, Builder>,
-            Typed.Builder<Operate, Builder> {
+        ValueHolder.Builder<Operate, Builder>,
+        Typed.Builder<Operate, Builder> {
 
         lateinit var target: CodeInstruction
         lateinit var operation: Operator.Math

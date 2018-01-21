@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -36,16 +36,18 @@ import java.lang.reflect.Type
  * mean that you declared a variable with null value, it means that you declared a variable without a default value,
  * for null values use `Literals.NULL`).
  */
-data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
-                               override val variableType: Type,
-                               override val name: String,
-                               override val value: CodeInstruction) : VariableBase, ValueHolder, Typed, ModifiersHolder, CodeInstruction {
+data class VariableDeclaration(
+    override val modifiers: Set<CodeModifier>,
+    override val variableType: Type,
+    override val name: String,
+    override val value: CodeInstruction
+) : VariableBase, ValueHolder, Typed, ModifiersHolder, CodeInstruction {
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            VariableBase.Builder<VariableDeclaration, Builder>,
-            ValueHolder.Builder<VariableDeclaration, Builder>,
-            ModifiersHolder.Builder<VariableDeclaration, Builder> {
+        VariableBase.Builder<VariableDeclaration, Builder>,
+        ValueHolder.Builder<VariableDeclaration, Builder>,
+        ModifiersHolder.Builder<VariableDeclaration, Builder> {
 
         lateinit var name: String
         lateinit var variableType: Type
@@ -84,7 +86,8 @@ data class VariableDeclaration(override val modifiers: Set<CodeModifier>,
          */
         fun withoutValue(): Builder = this.value(CodeNothing)
 
-        override fun build(): VariableDeclaration = VariableDeclaration(this.modifiers, this.variableType, this.name, this.value)
+        override fun build(): VariableDeclaration =
+            VariableDeclaration(this.modifiers, this.variableType, this.name, this.value)
 
         companion object {
             @JvmStatic

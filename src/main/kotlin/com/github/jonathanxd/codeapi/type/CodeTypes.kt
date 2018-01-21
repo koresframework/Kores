@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,16 +27,13 @@
  */
 @file:JvmName("CodeTypes")
 
-package com.github.jonathanxd.codeapi.util
+package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
-import com.github.jonathanxd.codeapi.type.*
+import com.github.jonathanxd.iutils.kt.rightOrFail
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
-import com.github.jonathanxd.jwiutils.kt.rightOrFail
 import java.lang.reflect.*
-import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
 val <T> Class<T>.codeType: LoadedCodeType<T>
@@ -69,13 +66,14 @@ val Type.codeType: CodeType get() = this.getType(false)
 
 val Type.asGeneric: GenericType get() = this.codeType.let { it as? GenericType ?: Generic.type(it) }
 
-val Type.toGeneric: GenericType get() = this.codeType.let {
-    when (it) {
-        is LoadedCodeType<*> -> it.loadedType.getCodeTypeFromTypeParameters()
-        is TypeDeclaration -> Generic.type(it).of(*it.genericSignature.types)
-        else -> it.defaultResolver.resolveTypeDeclaration(it).rightOrFail.asGeneric
+val Type.toGeneric: GenericType
+    get() = this.codeType.let {
+        when (it) {
+            is LoadedCodeType<*> -> it.loadedType.getCodeTypeFromTypeParameters()
+            is TypeDeclaration -> Generic.type(it).of(*it.genericSignature.types)
+            else -> it.defaultResolver.resolveTypeDeclaration(it).rightOrFail.asGeneric
+        }
     }
-}
 
 /**
  * Gets the concrete type of [CodeType], if this is a [GenericType], the property getter will try to
@@ -120,7 +118,8 @@ fun Type.getType(isParameterized: Boolean = false): CodeType {
         return this
 
     return synchronized(cache) { cache[this] } ?: when (this) {
-        is ParameterizedType -> Generic.type(this.rawType.getType(false)).of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+        is ParameterizedType -> Generic.type(this.rawType.getType(false))
+            .of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
         is GenericArrayType -> Generic.type(this.genericComponentType.getType(false))
         is TypeVariable<*> -> {
             val type = Generic.type(this.name)
@@ -184,7 +183,8 @@ fun GenericType.getType(name: String): CodeType? {
     if (!this.isType && !this.isWildcard && this.name == name)
         return this.resolvedType
     else
-        return this.resolvedType.getType(name) ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
+        return this.resolvedType.getType(name)
+                ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
 }
 
 fun GenericType.getType(name: String, inside: CodeType): CodeType? {
@@ -209,7 +209,12 @@ fun GenericType.getType(name: String, inside: CodeType): CodeType? {
 fun GenericType.applyType(typeName: String, type: CodeType): GenericType {
     val bounds = this.bounds.map {
         when (it) {
-            is GenericType.GenericBound -> GenericType.GenericBound(it.type.applyType(typeName, type))
+            is GenericType.GenericBound -> GenericType.GenericBound(
+                it.type.applyType(
+                    typeName,
+                    type
+                )
+            )
             is GenericType.Super -> GenericType.Super(it.type.applyType(typeName, type))
             is GenericType.Extends -> GenericType.Extends(it.type.applyType(typeName, type))
             else -> throw IllegalArgumentException("Illegal bound type '$it'!")
@@ -303,4 +308,5 @@ private fun <T> getJavaType0(aClass: Class<T>): LoadedCodeType<T> {
 /**
  * Compares this list of [Type] with [input type list][list]
  */
-fun List<Type>.`is`(list: List<Type>) = if (this.size != list.size) false else this.indices.all { this[it].`is`(list[it]) }
+fun List<Type>.`is`(list: List<Type>) =
+    if (this.size != list.size) false else this.indices.all { this[it].`is`(list[it]) }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,25 +28,26 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 /**
  * Defines the value of a field of type [type], name [name] in type [localization] to [value], and use [target] as instance to access
  * ([Access.Type.STATIC] for static accesses).
  */
-data class FieldDefinition(override val localization: Type,
-                           override val target: CodeInstruction,
-                           override val type: Type,
-                           override val name: String,
-                           override val value: CodeInstruction) : Accessor, FieldBase, ValueHolder, CodeInstruction {
+data class FieldDefinition(
+    override val localization: Type,
+    override val target: CodeInstruction,
+    override val type: Type,
+    override val name: String,
+    override val value: CodeInstruction
+) : Accessor, FieldBase, ValueHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Accessor.Builder<FieldDefinition, Builder>,
-            FieldBase.Builder<FieldDefinition, Builder>,
-            ValueHolder.Builder<FieldDefinition, Builder> {
+        Accessor.Builder<FieldDefinition, Builder>,
+        FieldBase.Builder<FieldDefinition, Builder>,
+        ValueHolder.Builder<FieldDefinition, Builder> {
 
         lateinit var localization: Type
         lateinit var target: CodeInstruction
@@ -87,7 +88,8 @@ data class FieldDefinition(override val localization: Type,
             return this
         }
 
-        override fun build(): FieldDefinition = FieldDefinition(this.localization, this.target, this.type, this.name, this.value)
+        override fun build(): FieldDefinition =
+            FieldDefinition(this.localization, this.target, this.type, this.name, this.value)
 
         companion object {
             @JvmStatic

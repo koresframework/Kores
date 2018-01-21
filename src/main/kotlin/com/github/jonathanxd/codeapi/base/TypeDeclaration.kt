@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -55,8 +55,9 @@ import java.lang.reflect.Type
  * }
  * ```
  */
-interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder, Annotable,
-        CommentHolder, InnerTypesHolder, ElementsHolder {
+interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder,
+    Annotable,
+    CommentHolder, InnerTypesHolder, ElementsHolder {
 
     /**
      * Outer class (null if this type is not a inner class).
@@ -92,13 +93,13 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
     override fun builder(): Builder<TypeDeclaration, *>
 
     interface Builder<out T : TypeDeclaration, S : Builder<T, S>> :
-            ModifiersHolder.Builder<T, S>,
-            QualifiedNamed.Builder<T, S>,
-            GenericSignatureHolder.Builder<T, S>,
-            Annotable.Builder<T, S>,
-            CommentHolder.Builder<T, S>,
-            InnerTypesHolder.Builder<T, S>,
-            ElementsHolder.Builder<T, S> {
+        ModifiersHolder.Builder<T, S>,
+        QualifiedNamed.Builder<T, S>,
+        GenericSignatureHolder.Builder<T, S>,
+        Annotable.Builder<T, S>,
+        CommentHolder.Builder<T, S>,
+        InnerTypesHolder.Builder<T, S>,
+        ElementsHolder.Builder<T, S> {
 
         override fun qualifiedName(value: String): S = this.specifiedName(value)
 
@@ -115,6 +116,7 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
         /**
          * Sets the name and outer type to values specified in [typeRef]
          */
-        fun base(typeRef: TypeRef): S = this.outerClass(typeRef.outerType).specifiedName(typeRef.specifiedName)
+        fun base(typeRef: TypeRef): S =
+            this.outerClass(typeRef.outerType).specifiedName(typeRef.specifiedName)
     }
 }

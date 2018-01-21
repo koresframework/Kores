@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.common
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.base.*
-import com.github.jonathanxd.codeapi.util.type
+import com.github.jonathanxd.codeapi.type
 import java.lang.reflect.Type
 
 /**
@@ -37,9 +37,11 @@ import java.lang.reflect.Type
  * @property typeSpec Signature of dynamic method.
  * @property arguments Arguments to pass to dynamic method. (may include the receiver).
  */
-data class DynamicMethodSpec(override val name: String,
-                             val typeSpec: TypeSpec,
-                             override val arguments: List<CodeInstruction>) : Typed, Named, ArgumentsHolder {
+data class DynamicMethodSpec(
+    override val name: String,
+    val typeSpec: TypeSpec,
+    override val arguments: List<CodeInstruction>
+) : Typed, Named, ArgumentsHolder {
 
     override val type: Type
         get() = this.typeSpec.returnType
@@ -55,27 +57,27 @@ data class DynamicMethodSpec(override val name: String,
      * uses [bootstrap] to bind the invocation.
      */
     operator fun invoke(bootstrap: MethodInvokeSpec) =
-            this.invoke(bootstrap, emptyList())
+        this.invoke(bootstrap, emptyList())
 
     /**
      * Creates a dynamic invocation of this dynamic method spec. The dynamic invocation
      * uses [bootstrap] (with [bootstrapArgs]) to bind the invocation.
      */
-    operator fun invoke(bootstrap: MethodInvokeSpec, bootstrapArgs: List<Any>): InvokeDynamic
-            = InvokeDynamic(bootstrap, this, bootstrapArgs)
+    operator fun invoke(bootstrap: MethodInvokeSpec, bootstrapArgs: List<Any>): InvokeDynamic =
+        InvokeDynamic(bootstrap, this, bootstrapArgs)
 
     /**
      * Human readable method string.
      */
     fun toMethodString() =
-            "$name ${typeSpec.toTypeString()}"
+        "$name ${typeSpec.toTypeString()}"
 
     override fun builder(): Builder = Builder(this)
 
 
     class Builder() : Typed.Builder<DynamicMethodSpec, Builder>,
-            Named.Builder<DynamicMethodSpec, Builder>,
-            ArgumentsHolder.Builder<DynamicMethodSpec, Builder> {
+        Named.Builder<DynamicMethodSpec, Builder>,
+        ArgumentsHolder.Builder<DynamicMethodSpec, Builder> {
 
         lateinit var name: String
         lateinit var typeSpec: TypeSpec
@@ -114,6 +116,7 @@ data class DynamicMethodSpec(override val name: String,
             return this
         }
 
-        override fun build(): DynamicMethodSpec = DynamicMethodSpec(this.name, this.typeSpec, this.arguments)
+        override fun build(): DynamicMethodSpec =
+            DynamicMethodSpec(this.name, this.typeSpec, this.arguments)
     }
 }

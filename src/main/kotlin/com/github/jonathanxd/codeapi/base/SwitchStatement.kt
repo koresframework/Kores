@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,8 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.util.self
-import com.github.jonathanxd.codeapi.util.type
+import com.github.jonathanxd.codeapi.builder.self
+import com.github.jonathanxd.codeapi.type
 import java.lang.reflect.Type
 
 /**
@@ -43,9 +43,11 @@ import java.lang.reflect.Type
  * @property switchType Type of the switch
  * @property cases Cases statements.
  */
-data class SwitchStatement(override val value: CodeInstruction,
-                           val switchType: SwitchType,
-                           val cases: List<Case>) : ValueHolder, Typed, CodeInstruction {
+data class SwitchStatement(
+    override val value: CodeInstruction,
+    val switchType: SwitchType,
+    val cases: List<Case>
+) : ValueHolder, Typed, CodeInstruction {
 
     override val type: Type
         get() = this.value.type
@@ -53,8 +55,8 @@ data class SwitchStatement(override val value: CodeInstruction,
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            ValueHolder.Builder<SwitchStatement, Builder>,
-            Typed.Builder<SwitchStatement, Builder> {
+        ValueHolder.Builder<SwitchStatement, Builder>,
+        Typed.Builder<SwitchStatement, Builder> {
 
         lateinit var value: CodeInstruction
         lateinit var switchType: SwitchType
@@ -97,7 +99,8 @@ data class SwitchStatement(override val value: CodeInstruction,
          */
         fun cases(vararg values: Case): Builder = cases(values.toList())
 
-        override fun build(): SwitchStatement = SwitchStatement(this.value, this.switchType, this.cases)
+        override fun build(): SwitchStatement =
+            SwitchStatement(this.value, this.switchType, this.cases)
 
         companion object {
             @JvmStatic

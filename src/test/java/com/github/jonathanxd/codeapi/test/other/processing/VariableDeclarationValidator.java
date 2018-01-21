@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.processor.ValidatorManager;
 import com.github.jonathanxd.iutils.data.TypedData;
 import com.github.jonathanxd.iutils.object.TypedKey;
 import com.github.jonathanxd.iutils.type.TypeParameterProvider;
-import com.github.jonathanxd.jwiutils.kt.KeyUtilKt;
+import com.github.jonathanxd.iutils.kt.KeyUtilKt;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -84,10 +84,10 @@ fun getNewName(name: String, nameds: List<Named>): String {
  */
 fun getNewFieldName(name: String, source: CodeSource): String {
     val inspect = SourceInspect.builder { codePart -> codePart is FieldDeclaration }
-            .includeSource(true)
-            .include { bodied -> bodied is CodeSource }
-            .mapTo { codePart -> codePart as FieldDeclaration }
-            .inspect(source)
+        .includeSource(true)
+        .include { bodied -> bodied is CodeSource }
+        .mapTo { codePart -> codePart as FieldDeclaration }
+        .inspect(source)
 
     var count = 0
 
@@ -108,10 +108,10 @@ fun getNewMethodName(name: String, source: CodeSource): String {
     @Suppress("NAME_SHADOWING")
     var name = name
     val inspect = SourceInspect.builder { codePart -> codePart is MethodDeclarationBase }
-            .includeSource(true)
-            .include { bodied -> bodied is CodeSource }
-            .mapTo { codePart -> codePart as MethodDeclarationBase }
-            .inspect(source)
+        .includeSource(true)
+        .include { bodied -> bodied is CodeSource }
+        .mapTo { codePart -> codePart as MethodDeclarationBase }
+        .inspect(source)
 
     var count = 0
 
@@ -135,7 +135,7 @@ fun getNewNames(name: String, amount: Int, nameds: List<Named>): List<String> {
     var name = name
     var count = 0
     while (true) {
-        if(!names.contains(name)) {
+        if (!names.contains(name)) {
             nameList.add(name)
             names.add(name)
         }
@@ -159,7 +159,7 @@ fun getNewNamesBaseOnNameList(name: String, amount: Int, nameList: List<String>)
     var name = name
     var count = 0
     while (true) {
-        if(!names.contains(name)) {
+        if (!names.contains(name)) {
             currentNameList.add(name)
             names.add(name)
         }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -41,7 +41,8 @@ typealias CodeAnnotation = Annotation
  * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or a List
  * of one of types cited above (with or without elements).
  */
-data class Annotation(override val type: Type, val values: Map<String, Any>, val visible: Boolean) : Typed {
+data class Annotation(override val type: Type, val values: Map<String, Any>, val visible: Boolean) :
+    Typed {
     override fun builder(): Builder = Builder(this)
 
     class Builder() : Typed.Builder<Annotation, Builder> {

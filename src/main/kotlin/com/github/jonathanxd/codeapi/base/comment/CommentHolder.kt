@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -39,7 +39,8 @@ interface CommentHolder : CodePart {
      */
     val comments: Comments
 
-    interface Builder<out T : CommentHolder, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : CommentHolder, S : Builder<T, S>> :
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
          * See [T.comments]

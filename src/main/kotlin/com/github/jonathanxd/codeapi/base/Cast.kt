@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -39,7 +39,8 @@ import java.lang.reflect.Type
  * @property targetType Target type
  * @property castedPart Part to cast
  */
-data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodeInstruction) : Typed, CodeInstruction {
+data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodeInstruction) :
+    Typed, CodeInstruction {
 
     override val type: Type
         get() = this.targetType
@@ -47,7 +48,7 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Typed.Builder<Cast, Builder> {
+        Typed.Builder<Cast, Builder> {
 
         var originalType: Type? = null
         lateinit var targetType: Type

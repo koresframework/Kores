@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,9 +28,8 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.self
+import com.github.jonathanxd.codeapi.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -39,7 +38,8 @@ import java.lang.reflect.Type
  * @property part Casted part
  * @property checkType Type to check if part value is instance.
  */
-data class InstanceOfCheck(val part: CodeInstruction, val checkType: Type) : Typed, CodeInstruction {
+data class InstanceOfCheck(val part: CodeInstruction, val checkType: Type) : Typed,
+    CodeInstruction {
 
     override val type: Type
         get() = Types.BOOLEAN
@@ -47,7 +47,7 @@ data class InstanceOfCheck(val part: CodeInstruction, val checkType: Type) : Typ
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Typed.Builder<InstanceOfCheck, Builder> {
+        Typed.Builder<InstanceOfCheck, Builder> {
 
         lateinit var part: CodeInstruction
         lateinit var checkType: Type

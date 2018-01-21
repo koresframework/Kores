@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,10 +31,10 @@
  */
 @file:JvmName("ImplicitCodeType")
 
-package com.github.jonathanxd.codeapi.util
+package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.CodeTypeResolver
+import com.github.jonathanxd.codeapi.util.identityEq
+import com.github.jonathanxd.codeapi.util.identityHash
 import java.lang.reflect.Type
 
 /**
@@ -128,7 +128,12 @@ val Type.identification get() = this.codeType.identification
 val Type.defaultResolver get() = this.codeType.defaultResolver
 
 /**
- * See [concreteType]
+ * See [CodeType.bindedDefaultResolver]
+ */
+val Type.bindedDefaultResolver get() = this.codeType.bindedDefaultResolver
+
+/**
+ * See [CodeType.concreteType]
  */
 val Type.concreteType get() = this.codeType.concreteType
 
@@ -151,7 +156,18 @@ fun Type.isAssignableFrom(type: Type) = this.codeType.isAssignableFrom(type)
  * See [CodeType.isAssignableFrom]
  */
 fun Type.isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>) =
-        this.codeType.isAssignableFrom(type, resolverProvider)
+    this.codeType.isAssignableFrom(type, resolverProvider)
+
+/**
+ * See [CodeType.safeIsAssignableFrom]
+ */
+fun Type.safeIsAssignableFrom(type: Type) = this.codeType.safeIsAssignableFrom(type)
+
+/**
+ * See [CodeType.safeIsAssignableFrom]
+ */
+fun Type.safeIsAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolver<*>) =
+    this.codeType.safeIsAssignableFrom(type, resolverProvider)
 
 /**
  * See [CodeType.toArray]
@@ -159,7 +175,7 @@ fun Type.isAssignableFrom(type: Type, resolverProvider: (Type) -> CodeTypeResolv
 fun Type.toArray(dimensions: Int): CodeType = this.codeType.toArray(dimensions)
 
 /**
- * See [CodeType.is]
+ * See [CodeType. is]
  */
 fun Type.`is`(another: Type?): Boolean = another != null && this.codeType.`is`(another.codeType)
 
@@ -176,9 +192,10 @@ fun Type.compareTo(other: Type): Int = this.codeType.compareTo(other.codeType)
 /**
  * See [CodeType.hashCode]
  */
-fun Type.hash(): Int = this.codeType.hashCode()
+fun Type.hash(): Int = this.codeType.identityHash()
 
 /**
  * See [CodeType.equals]
  */
-fun Type.eq(other: Any?): Boolean = (other as? Type)?.codeType?.let { this.codeType == it } ?: false
+fun Type.eq(other: Any?): Boolean =
+    (other as? Type)?.codeType?.let { this.codeType.identityEq(it) } ?: false

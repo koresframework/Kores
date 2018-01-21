@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,10 +30,12 @@ package com.github.jonathanxd.codeapi
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.JavaType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
+import com.github.jonathanxd.iutils.collection.Collections3
 import java.util.*
+import java.util.function.Supplier
 
+// Please keep this formatting.
 object Types {
-
 
     // Java.Lang
     @JvmField val OBJECT: LoadedCodeType<Any> = PredefinedType(Any::class.java)
@@ -44,8 +46,7 @@ object Types {
     @JvmField val CLASS: LoadedCodeType<Class<*>> = PredefinedType(Class::class.java)
     @JvmField val OVERRIDE: LoadedCodeType<Override> = PredefinedType(Override::class.java)
     @JvmField val STRING_BUILDER: LoadedCodeType<StringBuilder> = PredefinedType(StringBuilder::class.java)
-
-    @JvmField val VOID: LoadedCodeType<Void> = PredefinedType(Void.TYPE)
+    @JvmField val COMPARABLE: LoadedCodeType<Comparable<*>> = PredefinedType(Comparable::class.java)
 
     // Exceptions
     @JvmField val THROWABLE: LoadedCodeType<Throwable> = PredefinedType(Throwable::class.java)
@@ -62,6 +63,7 @@ object Types {
     @JvmField val LONG: LoadedCodeType<Long> = PredefinedType(java.lang.Long.TYPE)
     @JvmField val CHAR: LoadedCodeType<Char> = PredefinedType(Character.TYPE)
     @JvmField val BOOLEAN: LoadedCodeType<Boolean> = PredefinedType(java.lang.Boolean.TYPE)
+    @JvmField val VOID: LoadedCodeType<Void> = PredefinedType(Void.TYPE)
 
     // Primitive Wrapper Types
     @JvmField val BYTE_WRAPPER: LoadedCodeType<Byte> = PredefinedType(Byte::class.javaObjectType)
@@ -79,11 +81,20 @@ object Types {
     @JvmField val COLLECTION: LoadedCodeType<Collection<*>> = PredefinedType(Collection::class.java)
     @JvmField val LIST: LoadedCodeType<List<*>> = PredefinedType(List::class.java)
     @JvmField val SET: LoadedCodeType<Set<*>> = PredefinedType(Set::class.java)
+    @JvmField val MAP: LoadedCodeType<Map<*, *>> = PredefinedType(Map::class.java)
     @JvmField val DEQUE: LoadedCodeType<Deque<*>> = PredefinedType(Deque::class.java)
+    @JvmField val COMPARATOR: LoadedCodeType<Comparator<*>> = PredefinedType(Comparator::class.java)
+    @JvmField val OBJECTS: LoadedCodeType<Objects> = PredefinedType(Objects::class.java)
+    @JvmField val COLLECTIONS: LoadedCodeType<Collections> = PredefinedType(Collections::class.java)
+
+    // Java.Util.Function
+    @JvmField val SUPPLIER: LoadedCodeType<Supplier<*>> = PredefinedType(Supplier::class.java)
 
     // CodeAPI
     @JvmField val CODE_TYPE: LoadedCodeType<CodeType> = PredefinedType(CodeType::class.java)
     @JvmField val CODE_PART: LoadedCodeType<CodePart> = PredefinedType(CodePart::class.java)
+
+    @JvmField val COLLECTIONS3: LoadedCodeType<Collections3> = PredefinedType(Collections3::class.java)
 
     private class PredefinedType<T> internal constructor(tClass: Class<T>) : JavaType<T>(tClass)
 

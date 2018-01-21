@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,9 +29,6 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.Types
-import com.github.jonathanxd.codeapi.util.self
-import java.lang.reflect.Type
 
 /**
  * Try-catch-finally statement.
@@ -40,9 +37,11 @@ import java.lang.reflect.Type
  * @property catchStatements Catch clauses/exception handlers.
  * @property finallyStatement Finally block (Obs: for bytecode generation, finally blocks is always inlined).
  */
-data class TryStatement(override val body: CodeSource,
-                        override val catchStatements: List<CatchStatement>,
-                        override val finallyStatement: CodeSource) : TryStatementBase {
+data class TryStatement(
+    override val body: CodeSource,
+    override val catchStatements: List<CatchStatement>,
+    override val finallyStatement: CodeSource
+) : TryStatementBase {
     init {
         BodyHolder.checkBody(this)
     }
@@ -76,7 +75,8 @@ data class TryStatement(override val body: CodeSource,
             return this
         }
 
-        override fun build(): TryStatement = TryStatement(this.body, this.catchStatements, this.finallyStatement)
+        override fun build(): TryStatement =
+            TryStatement(this.body, this.catchStatements, this.finallyStatement)
 
         companion object {
             @JvmStatic
@@ -92,15 +92,7 @@ data class TryStatement(override val body: CodeSource,
 /**
  * Try-catch-finally statement
  */
-interface TryStatementBase : BodyHolder, Typed, CodeInstruction {
-
-    override val type: Type
-        get() {
-            if (catchStatements.isEmpty() || catchStatements.size > 1)
-                return Types.THROWABLE
-            else
-                return catchStatements.first().variable.type
-        }
+interface TryStatementBase : BodyHolder, CodeInstruction {
 
     /**
      * Exception handler statements
@@ -115,23 +107,20 @@ interface TryStatementBase : BodyHolder, Typed, CodeInstruction {
     override fun builder(): Builder<TryStatementBase, *>
 
     interface Builder<out T : TryStatementBase, S : Builder<T, S>> :
-            BodyHolder.Builder<T, S>,
-            Typed.Builder<T, S> {
-
-        override fun type(value: Type): S = self()
+        BodyHolder.Builder<T, S> {
 
         /**
-         * See [T.catchStatements]
+         * See [TryStatementBase.catchStatements]
          */
         fun catchStatements(value: List<CatchStatement>): S
 
         /**
-         * See [T.catchStatements]
+         * See [TryStatementBase.catchStatements]
          */
         fun catchStatements(vararg values: CatchStatement): S = catchStatements(values.toList())
 
         /**
-         * See [T.finallyStatement]
+         * See [TryStatementBase.finallyStatement]
          */
         fun finallyStatement(value: CodeSource): S
 

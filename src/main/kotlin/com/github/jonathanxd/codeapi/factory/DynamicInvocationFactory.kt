@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,33 +30,41 @@
 package com.github.jonathanxd.codeapi.factory
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.base.InvokeDynamic
 import com.github.jonathanxd.codeapi.base.LocalCode
-import com.github.jonathanxd.codeapi.base.MethodInvocation
-import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
-import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.base.TypeSpec
 import com.github.jonathanxd.codeapi.common.DynamicMethodSpec
-import java.lang.reflect.Type
+import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
+import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamic(bootstrap: MethodInvokeSpec, dynamicMethod: DynamicMethodSpec, args: List<Any>): InvokeDynamic =
-        InvokeDynamic(bootstrap, dynamicMethod, args)
+fun invokeDynamic(
+    bootstrap: MethodInvokeSpec,
+    dynamicMethod: DynamicMethodSpec,
+    args: List<Any>
+): InvokeDynamic =
+    InvokeDynamic(bootstrap, dynamicMethod, args)
 
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamicLambda(methodRef: MethodInvokeSpec,
-                        target: CodeInstruction,
-                        arguments: List<CodeInstruction>,
-                        baseSam: MethodTypeSpec, expectedTypes: TypeSpec): InvokeDynamic.LambdaMethodRef =
-        InvokeDynamic.LambdaMethodRef(methodRef, target, arguments, baseSam, expectedTypes)
+fun invokeDynamicLambda(
+    methodRef: MethodInvokeSpec,
+    target: CodeInstruction,
+    arguments: List<CodeInstruction>,
+    baseSam: MethodTypeSpec, expectedTypes: TypeSpec
+): InvokeDynamic.LambdaMethodRef =
+    InvokeDynamic.LambdaMethodRef(methodRef, target, arguments, baseSam, expectedTypes)
 
 /**
  * @see InvokeDynamic
  */
-fun invokeDynamicLambdaCode(baseSam: MethodTypeSpec, expectedTypes: TypeSpec, localCode: LocalCode, arguments: List<CodeInstruction>): InvokeDynamic.LambdaLocalCode =
-        InvokeDynamic.LambdaLocalCode(baseSam, expectedTypes, localCode, arguments)
+fun invokeDynamicLambdaCode(
+    baseSam: MethodTypeSpec,
+    expectedTypes: TypeSpec,
+    localCode: LocalCode,
+    arguments: List<CodeInstruction>
+): InvokeDynamic.LambdaLocalCode =
+    InvokeDynamic.LambdaLocalCode(baseSam, expectedTypes, localCode, arguments)

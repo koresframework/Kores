@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,8 +31,8 @@ import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.comment.Comments
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.util.eq
-import com.github.jonathanxd.codeapi.util.hash
+import com.github.jonathanxd.codeapi.type.eq
+import com.github.jonathanxd.codeapi.type.hash
 import com.github.jonathanxd.codeapi.util.resolveQualifiedName
 import com.github.jonathanxd.codeapi.util.resolveTypeName
 import java.lang.reflect.Type
@@ -40,20 +40,22 @@ import java.lang.reflect.Type
 /**
  * Declaration of a class.
  */
-data class ClassDeclaration(override val outerClass: Type?,
-                            override val comments: Comments,
-                            override val annotations: List<Annotation>,
-                            override val modifiers: Set<CodeModifier>,
-                            override val specifiedName: String,
-                            override val genericSignature: GenericSignature,
-                            override val superClass: Type,
-                            override val implementations: List<Type>,
-                            override val staticBlock: StaticBlock,
-                            override val fields: List<FieldDeclaration>,
-                            override val constructors: List<ConstructorDeclaration>,
-                            override val methods: List<MethodDeclaration>,
-                            override val innerTypes: List<TypeDeclaration>) : TypeDeclaration,
-        SuperClassHolder, ImplementationHolder, ConstructorsHolder {
+data class ClassDeclaration(
+    override val outerClass: Type?,
+    override val comments: Comments,
+    override val annotations: List<Annotation>,
+    override val modifiers: Set<CodeModifier>,
+    override val specifiedName: String,
+    override val genericSignature: GenericSignature,
+    override val superClass: Type,
+    override val implementations: List<Type>,
+    override val staticBlock: StaticBlock,
+    override val fields: List<FieldDeclaration>,
+    override val constructors: List<ConstructorDeclaration>,
+    override val methods: List<MethodDeclaration>,
+    override val innerTypes: List<TypeDeclaration>
+) : TypeDeclaration,
+    SuperClassHolder, ImplementationHolder, ConstructorsHolder {
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerClass)
@@ -67,9 +69,9 @@ data class ClassDeclaration(override val outerClass: Type?,
     override fun builder(): Builder = Builder(this)
 
     class Builder() : TypeDeclaration.Builder<ClassDeclaration, Builder>,
-            SuperClassHolder.Builder<ClassDeclaration, Builder>,
-            ImplementationHolder.Builder<ClassDeclaration, Builder>,
-            ConstructorsHolder.Builder<ClassDeclaration, Builder> {
+        SuperClassHolder.Builder<ClassDeclaration, Builder>,
+        ImplementationHolder.Builder<ClassDeclaration, Builder>,
+        ConstructorsHolder.Builder<ClassDeclaration, Builder> {
 
         var outerClass: Type? = null
         lateinit var specifiedName: String
@@ -170,9 +172,21 @@ data class ClassDeclaration(override val outerClass: Type?,
             return this
         }
 
-        override fun build() = ClassDeclaration(this.outerClass, this.comments, this.annotations, this.modifiers,
-                this.specifiedName, this.genericSignature, this.superClass, this.implementations, this.staticBlock,
-                this.fields, this.constructors, this.methods, this.innerTypes)
+        override fun build() = ClassDeclaration(
+            this.outerClass,
+            this.comments,
+            this.annotations,
+            this.modifiers,
+            this.specifiedName,
+            this.genericSignature,
+            this.superClass,
+            this.implementations,
+            this.staticBlock,
+            this.fields,
+            this.constructors,
+            this.methods,
+            this.innerTypes
+        )
 
         companion object {
             @JvmStatic

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,22 +28,23 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import java.lang.reflect.Type
 
 /**
  * Defines the value of variable of type [type] and name [name] to [value].
  */
-data class VariableDefinition(override val type: Type,
-                              override val name: String,
-                              override val value: CodeInstruction) : Named, Typed, ValueHolder, CodeInstruction {
+data class VariableDefinition(
+    override val type: Type,
+    override val name: String,
+    override val value: CodeInstruction
+) : Named, Typed, ValueHolder, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Named.Builder<VariableDefinition, Builder>,
-            Typed.Builder<VariableDefinition, Builder>,
-            ValueHolder.Builder<VariableDefinition, Builder> {
+        Named.Builder<VariableDefinition, Builder>,
+        Typed.Builder<VariableDefinition, Builder>,
+        ValueHolder.Builder<VariableDefinition, Builder> {
 
         lateinit var name: String
         lateinit var type: Type
@@ -70,7 +71,8 @@ data class VariableDefinition(override val type: Type,
             return this
         }
 
-        override fun build(): VariableDefinition = VariableDefinition(this.type, this.name, this.value)
+        override fun build(): VariableDefinition =
+            VariableDefinition(this.type, this.name, this.value)
 
         companion object {
             @JvmStatic

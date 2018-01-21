@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -34,7 +34,7 @@ package com.github.jonathanxd.codeapi.builder
  *
  * @param T Type of element to build.
  */
-interface Builder<out T, S: Builder<T, S>> {
+interface Builder<out T, S : Builder<T, S>> {
 
     /**
      * Build the object of type [T].
@@ -46,13 +46,19 @@ interface Builder<out T, S: Builder<T, S>> {
 }
 
 /**
+ * Cast from [Builder] of [T] of implicit type [S].
+ */
+@Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
+inline fun <T, S : Builder<T, S>> Builder<T, S>.self() = this as S
+
+/**
  * Build the object of type [T].
  *
  * @param func Consumer of builder instance.
  * @return Instance of object of type [T].
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, S: Builder<T, S>> S.build(func: S.() -> Unit): T {
+inline fun <T, S : Builder<T, S>> S.build(func: S.() -> Unit): T {
     func(this)
     return build()
 }

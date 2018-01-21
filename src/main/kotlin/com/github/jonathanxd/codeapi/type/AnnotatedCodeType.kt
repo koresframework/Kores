@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,7 +29,7 @@ package com.github.jonathanxd.codeapi.type
 
 import com.github.jonathanxd.codeapi.base.Annotation
 import com.github.jonathanxd.codeapi.base.TypeDeclaration
-import com.github.jonathanxd.codeapi.util.*
+import com.github.jonathanxd.codeapi.util.toStr
 import java.lang.reflect.Type
 
 /**
@@ -95,7 +95,8 @@ interface AnnotatedCodeType : WrapperCodeType {
 
     override fun builder(): Builder<AnnotatedCodeType, *>
 
-    interface Builder<out T : AnnotatedCodeType, S : Builder<T, S>> : com.github.jonathanxd.codeapi.builder.Builder<T, S> {
+    interface Builder<out T : AnnotatedCodeType, S : Builder<T, S>> :
+        com.github.jonathanxd.codeapi.builder.Builder<T, S> {
         /**
          * The [type] that is annotated with [annotations].
          */
@@ -115,14 +116,15 @@ interface AnnotatedCodeType : WrapperCodeType {
          * Defines [AnnotatedCodeType.annotations].
          */
         fun annotations(vararg annotations: Annotation): Builder<T, S> =
-                this.annotations(annotations.toList())
+            this.annotations(annotations.toList())
     }
 
     abstract class Abstract<out T : Abstract<T>>(
-            override val annotatedType: Type,
-            override val annotations: List<Annotation>,
-            private val factory: (type: Type, annotations: List<Annotation>) -> T) : AnnotatedCodeType,
-            CodeType by annotatedType.codeType {
+        override val annotatedType: Type,
+        override val annotations: List<Annotation>,
+        private val factory: (type: Type, annotations: List<Annotation>) -> T
+    ) : AnnotatedCodeType,
+        CodeType by annotatedType.codeType {
 
         override fun toString(): String = this.toStr()
         override fun equals(other: Any?): Boolean = this.eq(other)
@@ -131,7 +133,8 @@ interface AnnotatedCodeType : WrapperCodeType {
         override fun builder(): Builder<T, *> = BuilderImpl(this)
 
         class BuilderImpl<T : Abstract<T>>(
-                private val factory: (type: Type, annotations: List<Annotation>) -> T) : Builder<T, BuilderImpl<T>> {
+            private val factory: (type: Type, annotations: List<Annotation>) -> T
+        ) : Builder<T, BuilderImpl<T>> {
 
             lateinit var annotatedType: Type
             var annotations: List<Annotation> = mutableListOf()
@@ -163,46 +166,63 @@ interface AnnotatedCodeType : WrapperCodeType {
 
     companion object {
         fun builder(type: Type): AnnotatedCodeType.Builder<AnnotatedCodeType, *> =
-                when (type) {
-                    is TypeDeclaration -> Abstract.BuilderImpl({ c, v ->
-                        if (c is TypeDeclaration) SimpleAnnotatedWrapperCodeType(c, c, v)
-                        else SimpleAnnotatedCodeType(c, v)
-                    }).also {
-                        it.annotatedType(type)
-                    }
-                    is GenericType -> GenericAnnotatedCodeType.GenericBuilder(type)
-                    is LoadedCodeType<*> -> Abstract.BuilderImpl({ c, v -> SimpleAnnotatedLoadedCodeType<Any>(c, v) }).also {
-                        it.annotatedType(type)
-                    }
-                    is UnknownCodeType -> Abstract.BuilderImpl(::SimpleAnnotatedUnknownCodeType).also {
-                        it.annotatedType(type)
-                    }
-                    else -> Abstract.BuilderImpl(::SimpleAnnotatedCodeType).also {
-                        it.annotatedType(type)
-                    }
+            when (type) {
+                is TypeDeclaration -> Abstract.BuilderImpl({ c, v ->
+                    if (c is TypeDeclaration) SimpleAnnotatedWrapperCodeType(c, c, v)
+                    else SimpleAnnotatedCodeType(c, v)
+                }).also {
+                    it.annotatedType(type)
                 }
+                is GenericType -> GenericAnnotatedCodeType.GenericBuilder(type)
+                is LoadedCodeType<*> -> Abstract.BuilderImpl({ c, v ->
+                    SimpleAnnotatedLoadedCodeType<Any>(
+                        c,
+                        v
+                    )
+                }).also {
+                    it.annotatedType(type)
+                }
+                is UnknownCodeType -> Abstract.BuilderImpl(::SimpleAnnotatedUnknownCodeType).also {
+                    it.annotatedType(type)
+                }
+                else -> Abstract.BuilderImpl(::SimpleAnnotatedCodeType).also {
+                    it.annotatedType(type)
+                }
+            }
 
 
-        fun annotatedType(type: Type, annotations: List<Annotation>): AnnotatedCodeType = builder(type).let {
-            it.annotations(annotations)
-            it.build()
-        }
+        fun annotatedType(type: Type, annotations: List<Annotation>): AnnotatedCodeType =
+            builder(type).let {
+                it.annotations(annotations)
+                it.build()
+            }
 
     }
 
-    class SimpleAnnotatedWrapperCodeType(override val wrapped: CodeType, annotatedType: Type, annotations: List<Annotation>)
-        : Abstract<SimpleAnnotatedCodeType>(annotatedType, annotations, ::SimpleAnnotatedCodeType)
+    class SimpleAnnotatedWrapperCodeType(
+        override val wrapped: CodeType,
+        annotatedType: Type,
+        annotations: List<Annotation>
+    ) : Abstract<SimpleAnnotatedCodeType>(annotatedType, annotations, ::SimpleAnnotatedCodeType)
 
-    class SimpleAnnotatedCodeType(annotatedType: Type, annotations: List<Annotation>)
-        : Abstract<SimpleAnnotatedCodeType>(annotatedType, annotations, ::SimpleAnnotatedCodeType)
+    class SimpleAnnotatedCodeType(annotatedType: Type, annotations: List<Annotation>) :
+        Abstract<SimpleAnnotatedCodeType>(annotatedType, annotations, ::SimpleAnnotatedCodeType)
 
-    class SimpleAnnotatedUnknownCodeType(annotatedType: Type, annotations: List<Annotation>)
-        : Abstract<SimpleAnnotatedUnknownCodeType>(annotatedType, annotations, ::SimpleAnnotatedUnknownCodeType), UnknownCodeType
+    class SimpleAnnotatedUnknownCodeType(annotatedType: Type, annotations: List<Annotation>) :
+        Abstract<SimpleAnnotatedUnknownCodeType>(
+            annotatedType,
+            annotations,
+            ::SimpleAnnotatedUnknownCodeType
+        ), UnknownCodeType
 
     @Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE", "UNCHECKED_CAST")
-    class SimpleAnnotatedLoadedCodeType<T>(annotatedType: Type, annotations: List<Annotation>)
-        : Abstract<SimpleAnnotatedLoadedCodeType<T>>(annotatedType, annotations, ::SimpleAnnotatedLoadedCodeType),
-            LoadedCodeType<T> by annotatedType.codeType as LoadedCodeType<T> {
+    class SimpleAnnotatedLoadedCodeType<T>(annotatedType: Type, annotations: List<Annotation>) :
+        Abstract<SimpleAnnotatedLoadedCodeType<T>>(
+            annotatedType,
+            annotations,
+            ::SimpleAnnotatedLoadedCodeType
+        ),
+        LoadedCodeType<T> by annotatedType.codeType as LoadedCodeType<T> {
 
         override val type: String
             get() = super<LoadedCodeType>.type
@@ -231,13 +251,14 @@ interface AnnotatedCodeType : WrapperCodeType {
         override val isVirtual: Boolean
             get() = super<LoadedCodeType>.isVirtual
 
-        override fun builder(): Builder<SimpleAnnotatedLoadedCodeType<T>, *> = super<Abstract>.builder()
+        override fun builder(): Builder<SimpleAnnotatedLoadedCodeType<T>, *> =
+            super<Abstract>.builder()
     }
 
     @Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE")
-    class GenericAnnotatedCodeType(annotatedType: Type, annotations: List<Annotation>)
-        : Abstract<GenericAnnotatedCodeType>(annotatedType, annotations, ::GenericAnnotatedCodeType),
-            GenericType by annotatedType.asGeneric {
+    class GenericAnnotatedCodeType(annotatedType: Type, annotations: List<Annotation>) :
+        Abstract<GenericAnnotatedCodeType>(annotatedType, annotations, ::GenericAnnotatedCodeType),
+        GenericType by annotatedType.asGeneric {
 
         override fun builder() = GenericBuilder(this.annotatedType.asGeneric)
 
@@ -290,14 +311,15 @@ interface AnnotatedCodeType : WrapperCodeType {
             get() = super<GenericType>.isVirtual
 
         override fun compareTo(other: CodeType): Int =
-                super<GenericType>.compareTo(other)
+            super<GenericType>.compareTo(other)
 
         override fun `is`(other: CodeType?): Boolean {
             return super<GenericType>.`is`(other)
         }
 
-        class GenericBuilder(origin: GenericType) : AnnotatedCodeType.Builder<GenericAnnotatedCodeType, GenericBuilder>,
-                GenericType.Builder<GenericAnnotatedCodeType, GenericBuilder> {
+        class GenericBuilder(origin: GenericType) :
+            AnnotatedCodeType.Builder<GenericAnnotatedCodeType, GenericBuilder>,
+            GenericType.Builder<GenericAnnotatedCodeType, GenericBuilder> {
 
             var annotations: List<Annotation> = listOf()
             var backingGeneric = origin.builder()
@@ -367,7 +389,8 @@ interface AnnotatedCodeType : WrapperCodeType {
                 return this
             }
 
-            override fun build(): GenericAnnotatedCodeType = GenericAnnotatedCodeType(this.backingGeneric.build(), annotations)
+            override fun build(): GenericAnnotatedCodeType =
+                GenericAnnotatedCodeType(this.backingGeneric.build(), annotations)
         }
     }
 }

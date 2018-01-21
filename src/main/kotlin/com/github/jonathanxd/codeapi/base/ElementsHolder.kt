@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -49,7 +49,7 @@ interface ElementsHolder : InnerTypesHolder {
 
     override fun builder(): Builder<ElementsHolder, *>
 
-    interface Builder<out T: ElementsHolder, S: Builder<T, S>> : InnerTypesHolder.Builder<T, S> {
+    interface Builder<out T : ElementsHolder, S : Builder<T, S>> : InnerTypesHolder.Builder<T, S> {
 
         /**
          * See [ElementsHolder.staticBlock]

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.helper
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.base.IfExpr
 import com.github.jonathanxd.codeapi.base.IfGroup
@@ -49,7 +48,11 @@ class IfExpressionHelper private constructor() {
     /**
      * Checks if [part1] [operation] [part2].
      */
-    fun check(part1: CodeInstruction, operation: Operator.Conditional, part2: CodeInstruction): IfExpressionHelper {
+    fun check(
+        part1: CodeInstruction,
+        operation: Operator.Conditional,
+        part2: CodeInstruction
+    ): IfExpressionHelper {
         this.list.add(IfExpr(part1, operation, part2))
         return this
     }
@@ -67,9 +70,11 @@ class IfExpressionHelper private constructor() {
      */
     fun checkObjectEqual(part1: CodeInstruction, part2: CodeInstruction): IfExpressionHelper {
         return this.checkTrue(
-                invokeVirtual(Any::class.java, part1, "equals",
-                        typeSpec(Types.BOOLEAN, Types.OBJECT),
-                        listOf(part2))
+            invokeVirtual(
+                Any::class.java, part1, "equals",
+                typeSpec(Types.BOOLEAN, Types.OBJECT),
+                listOf(part2)
+            )
         )
     }
 
@@ -118,50 +123,54 @@ class IfExpressionHelper private constructor() {
     /**
      * And checks if [part1] [operation] [part2].
      */
-    fun and(part1: CodeInstruction, operation: Operator.Conditional, part2: CodeInstruction): IfExpressionHelper =
-            this.and().check(part1, operation, part2)
+    fun and(
+        part1: CodeInstruction,
+        operation: Operator.Conditional,
+        part2: CodeInstruction
+    ): IfExpressionHelper =
+        this.and().check(part1, operation, part2)
 
     /**
      * And compares [part1] and [part2] by reference.
      */
     fun andRefEqual(part1: CodeInstruction, part2: CodeInstruction): IfExpressionHelper =
-            this.and().checkRefEqual(part1, part2)
+        this.and().checkRefEqual(part1, part2)
 
     /**
      * And compares [part1] and [part2] using [Any.equals] method.
      */
     fun andObjectEqual(part1: CodeInstruction, part2: CodeInstruction): IfExpressionHelper =
-            this.and().checkObjectEqual(part1, part2)
+        this.and().checkObjectEqual(part1, part2)
 
     /**
      * And checks if [part1] is not `null`.
      */
     fun andNotNull(part1: CodeInstruction): IfExpressionHelper =
-            this.and().checkNotNull(part1)
+        this.and().checkNotNull(part1)
 
     /**
      * And checks if [part1] is `null`.
      */
     fun andNull(part1: CodeInstruction): IfExpressionHelper =
-            this.and().checkNull(part1)
+        this.and().checkNull(part1)
 
     /**
      * And checks if [part1] is `true`.
      */
     fun andTrue(part1: CodeInstruction): IfExpressionHelper =
-            this.and().checkTrue(part1)
+        this.and().checkTrue(part1)
 
     /**
      * And checks if [part1] is `false`.
      */
     fun andFalse(part1: CodeInstruction): IfExpressionHelper =
-            this.and().checkFalse(part1)
+        this.and().checkFalse(part1)
 
     /**
      * And checks if [part1] is `instanceof` [type].
      */
     fun andCheckInstance(part1: CodeInstruction, type: Type): IfExpressionHelper =
-            this.and().checkInstance(part1, type)
+        this.and().checkInstance(part1, type)
 
 
     // Or
@@ -169,52 +178,56 @@ class IfExpressionHelper private constructor() {
     /**
      * Or checks if [part1] [operation] [part2].
      */
-    fun or(part1: CodeInstruction, operation: Operator.Conditional, part2: CodeInstruction): IfExpressionHelper =
-            this.or().check(part1, operation, part2)
+    fun or(
+        part1: CodeInstruction,
+        operation: Operator.Conditional,
+        part2: CodeInstruction
+    ): IfExpressionHelper =
+        this.or().check(part1, operation, part2)
 
 
     /**
      * Or compares [part1] and [part2] by reference.
      */
     fun orRefEqual(part1: CodeInstruction, part2: CodeInstruction): IfExpressionHelper =
-            this.or().checkRefEqual(part1, part2)
+        this.or().checkRefEqual(part1, part2)
 
     /**
      * Or compares [part1] and [part2] using [Any.equals] method.
      */
     fun orObjectEqual(part1: CodeInstruction, part2: CodeInstruction): IfExpressionHelper =
-            this.or().checkObjectEqual(part1, part2)
+        this.or().checkObjectEqual(part1, part2)
 
     /**
      * Or checks if [part1] is not `null`.
      */
     fun orNotNull(part1: CodeInstruction): IfExpressionHelper =
-            this.or().checkNotNull(part1)
+        this.or().checkNotNull(part1)
 
     /**
      * Or checks if [part1] is `null`.
      */
     fun orNull(part1: CodeInstruction): IfExpressionHelper =
-            this.or().checkNull(part1)
+        this.or().checkNull(part1)
 
     /**
      * Or checks if [part1] is `true`.
      */
     fun orTrue(part1: CodeInstruction): IfExpressionHelper =
-            this.or().checkTrue(part1)
+        this.or().checkTrue(part1)
 
     /**
      * Or checks if [part1] is `false`.
      */
     fun orFalse(part1: CodeInstruction): IfExpressionHelper =
-            this.or().checkFalse(part1)
+        this.or().checkFalse(part1)
 
 
     /**
      * Or checks if [part1] is `instanceof` [type].
      */
     fun orCheckInstance(part1: CodeInstruction, type: Type): IfExpressionHelper =
-            this.or().checkInstance(part1, type)
+        this.or().checkInstance(part1, type)
 
     /**
      * Adds and expression.

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,12 +28,11 @@
 package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
-import com.github.jonathanxd.codeapi.Defaults
+import com.github.jonathanxd.codeapi.builder.self
 import com.github.jonathanxd.codeapi.common.DynamicMethodSpec
 import com.github.jonathanxd.codeapi.common.MethodInvokeSpec
 import com.github.jonathanxd.codeapi.common.MethodTypeSpec
 import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.util.self
 import java.lang.invoke.*
 import java.lang.reflect.Type
 import java.util.function.Supplier
@@ -71,7 +70,7 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
     override fun builder(): Builder<InvokeDynamicBase, *>
 
     interface Builder<out T : InvokeDynamicBase, S : Builder<T, S>> :
-            Typed.Builder<T, S> {
+        Typed.Builder<T, S> {
 
         override fun type(value: Type): S = self()
 
@@ -125,33 +124,52 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         // Dynamic method, for lambdas, the get(InstanceType, AdditionalArgs)FunctionalInterfaceType
         // The InstanceType is not needed for static [methodRef]
         override val dynamicMethod: DynamicMethodSpec
-            get() = DynamicMethodSpec(this.baseSam.methodName,
-                    this.baseSam.typeSpec.copy(returnType = this.baseSam.localization,
-                            parameterTypes =
-                            (if (this.needThis)
-                                listOf(methodRef.methodTypeSpec.localization)
-                            else emptyList()) + this.additionalArgumentsType),
-                    (if (this.needThis) listOf(target) else emptyList()) + this.arguments)
+            get() = DynamicMethodSpec(
+                this.baseSam.methodName,
+                this.baseSam.typeSpec.copy(
+                    returnType = this.baseSam.localization,
+                    parameterTypes =
+                    (if (this.needThis)
+                        listOf(methodRef.methodTypeSpec.localization)
+                    else emptyList()) + this.additionalArgumentsType
+                ),
+                (if (this.needThis) listOf(target) else emptyList()) + this.arguments
+            )
 
         override val type: Type
             get() = this.baseSam.localization
 
         override val bootstrap: MethodInvokeSpec
-            get() = MethodInvokeSpec(InvokeType.INVOKE_STATIC, MethodTypeSpec(
+            get() = MethodInvokeSpec(
+                InvokeType.INVOKE_STATIC, MethodTypeSpec(
                     localization = LambdaMetafactory::class.java,
                     methodName = "metafactory",
                     typeSpec = TypeSpec(
-                            returnType = CallSite::class.java,
-                            parameterTypes = listOf(MethodHandles.Lookup::class.java, String::class.java, MethodType::class.java, MethodType::class.java, MethodHandle::class.java, MethodType::class.java)
-                    )))
+                        returnType = CallSite::class.java,
+                        parameterTypes = listOf(
+                            MethodHandles.Lookup::class.java,
+                            String::class.java,
+                            MethodType::class.java,
+                            MethodType::class.java,
+                            MethodHandle::class.java,
+                            MethodType::class.java
+                        )
+                    )
+                )
+            )
 
         override val bootstrapArgs: List<Any>
             get() = listOf(
-                    this.currentTypes,
-                    MethodInvokeSpec(this.methodRef.invokeType,
-                            MethodTypeSpec(this.methodRef.methodTypeSpec.localization, this.methodRef.methodTypeSpec.methodName,
-                                    this.methodRef.methodTypeSpec.typeSpec)),
-                    this.expectedTypes
+                this.currentTypes,
+                MethodInvokeSpec(
+                    this.methodRef.invokeType,
+                    MethodTypeSpec(
+                        this.methodRef.methodTypeSpec.localization,
+                        this.methodRef.methodTypeSpec.methodName,
+                        this.methodRef.methodTypeSpec.typeSpec
+                    )
+                ),
+                this.expectedTypes
             )
 
         /**
@@ -174,8 +192,8 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override fun builder(): Builder<LambdaMethodRefBase, *>
 
         interface Builder<out T : LambdaMethodRefBase, S : Builder<T, S>> :
-                InvokeDynamicBase.Builder<T, S>,
-                ArgumentsHolder.Builder<T, S> {
+            InvokeDynamicBase.Builder<T, S>,
+            ArgumentsHolder.Builder<T, S> {
 
             override fun type(value: Type): S = self()
             override fun bootstrap(value: MethodInvokeSpec): S = self()
@@ -215,9 +233,13 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
             get() = this.localCode.description
 
         override val methodRef: MethodInvokeSpec
-            get() = MethodInvokeSpec(this.localCode.invokeType,
-                    MethodTypeSpec(this.localCode.declaringType, this.localCode.declaration.name,
-                            this.localCode.description))
+            get() = MethodInvokeSpec(
+                this.localCode.invokeType,
+                MethodTypeSpec(
+                    this.localCode.declaringType, this.localCode.declaration.name,
+                    this.localCode.description
+                )
+            )
 
         override val array: Boolean
             get() = false
@@ -235,8 +257,8 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
         override fun builder(): Builder<LambdaLocalCodeBase, *>
 
         interface Builder<out T : LambdaLocalCodeBase, S : Builder<T, S>> :
-                LambdaMethodRefBase.Builder<T, S>,
-                ArgumentsHolder.Builder<T, S> {
+            LambdaMethodRefBase.Builder<T, S>,
+            ArgumentsHolder.Builder<T, S> {
 
             override fun type(value: Type): S = self()
             override fun bootstrap(value: MethodInvokeSpec): S = self()
@@ -253,14 +275,16 @@ interface InvokeDynamicBase : Typed, CodeInstruction {
 
 }
 
-data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
-                         override val dynamicMethod: DynamicMethodSpec,
-                         override val bootstrapArgs: List<Any>) : InvokeDynamicBase {
+data class InvokeDynamic(
+    override val bootstrap: MethodInvokeSpec,
+    override val dynamicMethod: DynamicMethodSpec,
+    override val bootstrapArgs: List<Any>
+) : InvokeDynamicBase {
 
     override fun builder(): InvokeDynamic.Builder = InvokeDynamic.Builder(this)
 
     class Builder() :
-            InvokeDynamicBase.Builder<InvokeDynamic, Builder> {
+        InvokeDynamicBase.Builder<InvokeDynamic, Builder> {
 
         lateinit var bootstrap: MethodInvokeSpec
         lateinit var dynamic: DynamicMethodSpec
@@ -299,16 +323,18 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
 
     }
 
-    data class LambdaMethodRef(override val methodRef: MethodInvokeSpec,
-                               override val target: CodeInstruction,
-                               override val arguments: List<CodeInstruction>,
-                               override val baseSam: MethodTypeSpec,
-                               override val expectedTypes: TypeSpec) : InvokeDynamicBase.LambdaMethodRefBase {
+    data class LambdaMethodRef(
+        override val methodRef: MethodInvokeSpec,
+        override val target: CodeInstruction,
+        override val arguments: List<CodeInstruction>,
+        override val baseSam: MethodTypeSpec,
+        override val expectedTypes: TypeSpec
+    ) : InvokeDynamicBase.LambdaMethodRefBase {
 
         override fun builder(): LambdaMethodRef.Builder = LambdaMethodRef.Builder(this)
 
         class Builder() :
-                InvokeDynamicBase.LambdaMethodRefBase.Builder<LambdaMethodRef, Builder> {
+            InvokeDynamicBase.LambdaMethodRefBase.Builder<LambdaMethodRef, Builder> {
 
             lateinit var methodRef: MethodInvokeSpec
             lateinit var target: CodeInstruction
@@ -349,8 +375,10 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
                 return this
             }
 
-            override fun build(): LambdaMethodRef = LambdaMethodRef(this.methodRef, this.target, this.arguments,
-                    this.baseSam, this.expectedTypes)
+            override fun build(): LambdaMethodRef = LambdaMethodRef(
+                this.methodRef, this.target, this.arguments,
+                this.baseSam, this.expectedTypes
+            )
 
             companion object {
                 @JvmStatic
@@ -363,10 +391,12 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
         }
     }
 
-    data class LambdaLocalCode(override val baseSam: MethodTypeSpec,
-                               override val expectedTypes: TypeSpec,
-                               override val localCode: LocalCode,
-                               override val arguments: List<CodeInstruction>) : InvokeDynamicBase.LambdaLocalCodeBase {
+    data class LambdaLocalCode(
+        override val baseSam: MethodTypeSpec,
+        override val expectedTypes: TypeSpec,
+        override val localCode: LocalCode,
+        override val arguments: List<CodeInstruction>
+    ) : InvokeDynamicBase.LambdaLocalCodeBase {
 
         override val target: CodeInstruction
             get() = if (this.needThis) Access.THIS else Access.STATIC
@@ -376,7 +406,7 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
         override fun builder(): LambdaLocalCode.Builder = LambdaLocalCode.Builder(this)
 
         class Builder() :
-                InvokeDynamicBase.LambdaLocalCodeBase.Builder<LambdaLocalCode, Builder> {
+            InvokeDynamicBase.LambdaLocalCodeBase.Builder<LambdaLocalCode, Builder> {
 
             lateinit var baseSam: MethodTypeSpec
             lateinit var localCode: LocalCode
@@ -413,7 +443,8 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
                 return this
             }
 
-            override fun build(): LambdaLocalCode = LambdaLocalCode(this.baseSam, this.expectedTypes, this.localCode, this.arguments)
+            override fun build(): LambdaLocalCode =
+                LambdaLocalCode(this.baseSam, this.expectedTypes, this.localCode, this.arguments)
 
             companion object {
                 @JvmStatic
@@ -430,11 +461,15 @@ data class InvokeDynamic(override val bootstrap: MethodInvokeSpec,
 
 val InvokeDynamicBase.LambdaMethodRefBase.additionalArgumentsType: List<Type>
     get() = if (baseSam.typeSpec.parameterTypes.size !=
-            this.methodRef.methodTypeSpec.typeSpec.parameterTypes.size) {
+            this.methodRef.methodTypeSpec.typeSpec.parameterTypes.size
+    ) {
         val samSpec = baseSam.typeSpec
         val invkSpec = this.methodRef.methodTypeSpec.typeSpec
 
-        invkSpec.parameterTypes.subList(0, (invkSpec.parameterTypes.size - samSpec.parameterTypes.size))
+        invkSpec.parameterTypes.subList(
+            0,
+            (invkSpec.parameterTypes.size - samSpec.parameterTypes.size)
+        )
     } else emptyList()
 
 private val InvokeDynamicBase.LambdaMethodRefBase.needThis

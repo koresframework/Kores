@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -34,8 +34,7 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.GenericType
 import com.github.jonathanxd.codeapi.type.LoadedCodeType
 import com.github.jonathanxd.iutils.string.ToStringHelper
-import java.util.Arrays
-import java.util.Objects
+import java.util.*
 
 /**
  * Non-strict generic equality check, only works for generic types.
@@ -101,7 +100,10 @@ private fun GenericType.Bound.nonStrictEq(other: GenericType.Bound): Boolean {
 
     }
 
-    return comparator(thisType, otherType) || comparator(otherType, thisType) || thisType.`is`(other.type)
+    return comparator(thisType, otherType) || comparator(
+        otherType,
+        thisType
+    ) || thisType.`is`(other.type)
 }
 
 /**
@@ -124,9 +126,7 @@ private fun Array<out GenericType.Bound>.nonStrictEq(others: Array<out GenericTy
 /**
  * Default equals algorithm for [GenericType]
  */
-fun GenericType.eq(other: Any?): Boolean {
-    return if (other is CodeType) this.identification == other.identification else false
-}
+fun GenericType.eq(other: Any?): Boolean = this.identityEq(other)
 
 /**
  * Default hashCode algorithm for [GenericType]
@@ -160,13 +160,13 @@ fun GenericType.toStr(): String {
  * **This method is not recommended for object comparison.**
  */
 fun GenericType.toComponentString(): String =
-        ToStringHelper.defaultHelper(this::class.java.simpleName)
-                .add("name", this.name)
-                .add("isWildcard", this.isWildcard)
-                .add(if (this.isType) "codeType" else "inferredType", this.resolvedType)
-                .add("isType", this.isWildcard)
-                .add("bounds", this.bounds.map { it.toComponentString() })
-                .toString()
+    ToStringHelper.defaultHelper(this::class.java.simpleName)
+        .add("name", this.name)
+        .add("isWildcard", this.isWildcard)
+        .add(if (this.isType) "codeType" else "inferredType", this.resolvedType)
+        .add("isType", this.isWildcard)
+        .add("bounds", this.bounds.map { it.toComponentString() })
+        .toString()
 
 
 /**
@@ -175,10 +175,10 @@ fun GenericType.toComponentString(): String =
  * **This method is not recommended for object comparison.**
  */
 fun GenericType.Bound.toComponentString(): String =
-        ToStringHelper.defaultHelper(this::class.java.simpleName)
-                .add("sign", this.sign)
-                .add("type", this.type)
-                .toString()
+    ToStringHelper.defaultHelper(this::class.java.simpleName)
+        .add("sign", this.sign)
+        .add("type", this.type)
+        .toString()
 
 
 /**
@@ -186,9 +186,7 @@ fun GenericType.Bound.toComponentString(): String =
  *
  * @return Hash code.
  */
-fun CodeType.hash(): Int {
-    return this.identification.hashCode()
-}
+fun CodeType.identityHash(): Int = this.identification.hashCode()
 
 /**
  * Default equals method.
@@ -196,7 +194,22 @@ fun CodeType.hash(): Int {
  * @param obj      Object to test.
  * @return True if this [CodeType] is equals to another [CodeType].
  */
-fun CodeType.eq(obj: Any?): Boolean = obj is CodeType && this.`is`(obj)
+fun CodeType.identityEq(obj: Any?): Boolean = obj is CodeType && this.identification == obj.identification
+
+/**
+ * Default hash algorithm.
+ *
+ * @return Hash code.
+ */
+fun CodeType.hash(): Int = this.identityHash()
+
+/**
+ * Default equals method.
+ *
+ * @param obj      Object to test.
+ * @return True if this [CodeType] is equals to another [CodeType].
+ */
+fun CodeType.eq(obj: Any?): Boolean = this.identityEq(obj)
 
 /**
  * Default to string conversion for [CodeType].
@@ -209,10 +222,10 @@ fun CodeType.toStr(): String = "${this::class.java.simpleName}[${this.identifica
  * Default equality check for [LoadedCodeType], this method checks if the loaded types are equal.
  */
 fun <T> LoadedCodeType<T>.eq(obj: Any?) =
-        if (obj == null)
-            false
+    if (obj == null)
+        false
+    else
+        if (obj is LoadedCodeType<*>)
+            this.loadedType == obj.loadedType
         else
-            if (obj is LoadedCodeType<*>)
-                this.loadedType == obj.loadedType
-            else
-                (this as CodeType).eq(obj)
+            (this as CodeType).eq(obj)

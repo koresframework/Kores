@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,6 @@
  */
 package com.github.jonathanxd.codeapi.type
 
-import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.type.Primitive
 
 /**
@@ -96,7 +95,9 @@ interface LoadedCodeType<T> : CodeType {
         }
 
     override val defaultResolver: CodeTypeResolver<Class<*>>
-        get() = CodeTypeResolver.Java(this.loadedType.classLoader ?: ClassLoader.getSystemClassLoader())
+        get() = CodeTypeResolver.Java(
+            this.loadedType.classLoader ?: ClassLoader.getSystemClassLoader()
+        )
 
     fun toLoadedArray(array: Class<T>, dimensions: Int): LoadedCodeType<T> {
         return LoadedArrayCodeType(array, this, dimensions)

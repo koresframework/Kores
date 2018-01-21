@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,17 +35,19 @@ import java.lang.reflect.Type
  * Access a field of type [type], name [name] in type [localization] using [target] as instance (Use a [Access.Type.STATIC] to
  * static accesses).
  */
-data class FieldAccess(override val localization: Type,
-                       override val target: CodeInstruction,
-                       override val type: Type,
-                       override val name: String) : Accessor, Typed, Named, CodeInstruction {
+data class FieldAccess(
+    override val localization: Type,
+    override val target: CodeInstruction,
+    override val type: Type,
+    override val name: String
+) : Accessor, Typed, Named, CodeInstruction {
 
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
-            Accessor.Builder<FieldAccess, Builder>,
-            Typed.Builder<FieldAccess, Builder>,
-            Named.Builder<FieldAccess, Builder> {
+        Accessor.Builder<FieldAccess, Builder>,
+        Typed.Builder<FieldAccess, Builder>,
+        Named.Builder<FieldAccess, Builder> {
 
         lateinit var localization: Type
         lateinit var target: CodeInstruction
@@ -89,7 +91,8 @@ data class FieldAccess(override val localization: Type,
             name(ref.name)
         }
 
-        override fun build(): FieldAccess = FieldAccess(this.localization, this.target, this.type, this.name)
+        override fun build(): FieldAccess =
+            FieldAccess(this.localization, this.target, this.type, this.name)
 
         companion object {
             @JvmStatic
