@@ -98,7 +98,7 @@ import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.codeapi.type.AnnotatedCodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
-import com.github.jonathanxd.codeapi.util.CodeTypes;
+import com.github.jonathanxd.codeapi.type.CodeTypes;
 import com.github.jonathanxd.iutils.map.MapUtils;
 
 import org.jetbrains.annotations.NotNull;
