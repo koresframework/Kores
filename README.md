@@ -11,4 +11,8 @@ Class structure representation.
 
 # 4.0.0
 
-The 4.0.0 development is stopped until Kotlin Team fixes the issue with IntelliJ Plugin that causes Kotlin compiler to crash when using annotation processors.
+Ooops, I forgot to update: 4.0.0 still in development and will be released at 2nd bimester of 2018.
+
+# 4.0.0 Wiki
+
+The 4.0.0 wiki will be finished before the release, sorry for not finishing sooner.
