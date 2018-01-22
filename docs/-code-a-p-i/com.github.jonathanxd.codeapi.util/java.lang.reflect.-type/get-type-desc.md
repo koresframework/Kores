@@ -6,7 +6,7 @@
 
 Convert `this` [name](get-type-desc.md#com.github.jonathanxd.codeapi.util$getTypeDesc(java.lang.reflect.Type, kotlin.String)/typeStr) to type description.
 
-All calls to [CodeType.javaSpecName](../../com.github.jonathanxd.codeapi.type/-code-type/java-spec-name.md) is delegated to this function.
+All calls to [CodeType.javaSpecName](../../com.github.jonathanxd.codeapi.type/-code-type/java-spec-name.md) are delegated to this function.
 
 ### Parameters
 

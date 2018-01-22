@@ -4,5 +4,5 @@
 
 `LOCAL`
 
-Access to local scope
+Access to local scope.
 

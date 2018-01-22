@@ -6,7 +6,5 @@
 
 Overrides [CodeType.defaultResolver](../../com.github.jonathanxd.codeapi.type/-code-type/default-resolver.md)
 
-Default resolver.
-
-This resolver always returns `this` instance for [CodeTypeResolver.resolve](../../com.github.jonathanxd.codeapi.type/-code-type-resolver/resolve.md) method.
+Resolver of this type.
 

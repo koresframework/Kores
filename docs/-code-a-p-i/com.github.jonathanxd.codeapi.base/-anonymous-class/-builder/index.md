@@ -37,7 +37,7 @@
 | [arguments](arguments.md) | `fun arguments(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>See [T.arguments](#) |
 | [array](array.md) | `fun array(value: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): Builder`<br>See [T.array](#) |
 | [build](build.md) | `fun build(): `[`AnonymousClass`](../index.md)<br>Build the object of type [T](#). |
-| [comments](comments.md) | `fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): Builder`<br>See [T.comments](#) |
+| [comments](comments.md) | `fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): Builder`<br>See [CommentHolder.comments](#) |
 | [constructorBody](constructor-body.md) | `fun constructorBody(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [AnonymousClass.constructorBody](../constructor-body.md) |
 | [constructorSpec](constructor-spec.md) | `fun constructorSpec(value: `[`TypeSpec`](../../-type-spec/index.md)`): Builder`<br>See [AnonymousClass.constructorSpec](../constructor-spec.md) |
 | [constructors](constructors.md) | `fun constructors(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ConstructorDeclaration`](../../-constructor-declaration/index.md)`>): Builder`<br>See [ConstructorsHolder.constructors](../../-constructors-holder/constructors.md) |
@@ -47,7 +47,7 @@
 | [innerTypes](inner-types.md) | `fun innerTypes(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`TypeDeclaration`](../../-type-declaration/index.md)`>): Builder`<br>See [InnerTypesHolder.innerTypes](../../-inner-types-holder/inner-types.md) |
 | [methods](methods.md) | `fun methods(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`MethodDeclaration`](../../-method-declaration/index.md)`>): Builder`<br>See [ElementsHolder.methods](../../-elements-holder/methods.md) |
 | [modifiers](modifiers.md) | `fun modifiers(value: `[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<`[`CodeModifier`](../../-code-modifier/index.md)`>): Builder`<br>`fun modifiers(vararg values: `[`CodeModifier`](../../-code-modifier/index.md)`): Builder`<br>See [ModifiersHolder.modifiers](../../-modifiers-holder/modifiers.md) |
-| [outerClass](outer-class.md) | `fun outerClass(value: Type?): Builder`<br>See [TypeDeclaration.outerClass](../../-type-declaration/outer-class.md) |
+| [outerType](outer-type.md) | `fun outerType(value: Type?): Builder`<br>See [TypeDeclaration.outerType](../../-type-declaration/outer-type.md) |
 | [specifiedName](specified-name.md) | `fun specifiedName(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder`<br>See [TypeDeclaration.specifiedName](../../-type-declaration/specified-name.md) |
 | [staticBlock](static-block.md) | `fun staticBlock(value: `[`StaticBlock`](../../-static-block/index.md)`): Builder`<br>See [ElementsHolder.staticBlock](../../-elements-holder/static-block.md) |
 | [superClass](super-class.md) | `fun superClass(value: Type?): Builder`<br>See [T.superClass](#) |

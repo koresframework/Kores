@@ -25,9 +25,9 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`FieldDefinition`](../index.md)<br>Build the object of type [T](#). |
-| [localization](localization.md) | `fun localization(value: Type): Builder`<br>See [T.localization](#) |
+| [localization](localization.md) | `fun localization(value: Type): Builder`<br>See [Accessor.localization](../../-accessor/localization.md) |
 | [name](name.md) | `fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder` |
-| [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.target](#) |
+| [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Accessor.target](../../-accessor/target.md) |
 | [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 | [value](value.md) | `fun value(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.value](#) |
 

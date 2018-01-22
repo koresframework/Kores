@@ -10,7 +10,7 @@ Hold information about generic signatures.
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `GenericSignature(types_: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<out `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`>)`<br>Hold information about generic signatures. |
+| [&lt;init&gt;](-init-.md) | `GenericSignature(_types: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<out `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`>)`<br>Hold information about generic signatures. |
 
 ### Properties
 
@@ -30,7 +30,7 @@ Hold information about generic signatures.
 
 | Name | Summary |
 |---|---|
-| [create](create.md) | `fun create(vararg types: `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`): GenericSignature`<br>Create generic signature. |
+| [create](create.md) | `fun create(vararg types: `[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`): GenericSignature`<br>`fun create(types: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`GenericType`](../../com.github.jonathanxd.codeapi.type/-generic-type/index.md)`>): GenericSignature`<br>Create generic signature. |
 | [empty](empty.md) | `fun empty(): GenericSignature`<br>Empty generic signature. |
 
 ### Extension Functions

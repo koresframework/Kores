@@ -10,12 +10,12 @@ Node of the code.
 
 | Name | Summary |
 |---|---|
-| [CodeRepresentation](-code-representation/index.md) | `data class CodeRepresentation : CodeNode`<br>CodeAPI code representation (let generator generates the code) |
+| [CodeRepresentation](-code-representation/index.md) | `data class CodeRepresentation : CodeNode`<br>CodeAPI code representation (let generator generate the code). |
 | [Plain](-plain/index.md) | `data class Plain : CodeNode`<br>Plain code |
 
 ### Inheritors
 
 | Name | Summary |
 |---|---|
-| [CodeRepresentation](-code-representation/index.md) | `data class CodeRepresentation : CodeNode`<br>CodeAPI code representation (let generator generates the code) |
+| [CodeRepresentation](-code-representation/index.md) | `data class CodeRepresentation : CodeNode`<br>CodeAPI code representation (let generator generate the code). |
 | [Plain](-plain/index.md) | `data class Plain : CodeNode`<br>Plain code |

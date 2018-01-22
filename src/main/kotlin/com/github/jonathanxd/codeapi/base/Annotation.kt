@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -27,6 +27,13 @@
  */
 package com.github.jonathanxd.codeapi.base
 
+import com.github.jonathanxd.codeapi.type.`is`
+import com.github.jonathanxd.codeapi.type.bindedDefaultResolver
+import com.github.jonathanxd.iutils.`object`.Either
+import com.github.jonathanxd.iutils.kt.left
+import com.github.jonathanxd.iutils.kt.right
+import java.lang.annotation.RetentionPolicy
+import java.lang.reflect.AnnotatedType
 import java.lang.reflect.Type
 
 typealias CodeAnnotation = Annotation
@@ -34,14 +41,33 @@ typealias CodeAnnotation = Annotation
 /**
  * An annotation, an annotation is composed by a pair of property name and property value.
  *
- * @property visible True if this annotation is visible at runtime (may not affect all generators).
+ * # In Java
+ *
+ * [type] is the annotation type and [values] are the pairs that denote annotation properties and their
+ * respective values.
+ *
+ * Example:
+ *
+ * `Annotation(Override, emptyMap(), false)` is equal to `@Override`
+ * `Annotation(Named, mapOf("value" to "Wow"), true)` is equal to `@Named("Wow")`
+ * `Annotation(Wow, mapOf("a" to 9, "b" to 7), true)` is equal to `@Wow(a = 9, b = 7)`
+ *
+ * The [retention] is determined by the compiler, which inspects [type] and reads [Retention] annotation, but
+ * here it need to be explicitly specified (you can also use [CodeRetention.resolveRetention] to try to resolve the
+ * retention of [type]).
+ *
+ * @property retention Annotation retention, this property must match the same retention of annotation [type].
  * @property type Type of annotation.
  * @property values Map of annotation values (key is the property of annotation),
  * the Annotation value must be: [Byte], [Boolean], [Char], [Short],
  * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or a List
  * of one of types cited above (with or without elements).
  */
-data class Annotation(override val type: Type, val values: Map<String, Any>, val visible: Boolean) :
+data class Annotation(
+    override val type: Type,
+    val values: Map<String, Any>,
+    val retention: CodeRetention
+) :
     Typed {
     override fun builder(): Builder = Builder(this)
 
@@ -49,12 +75,12 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
 
         lateinit var type: Type
         var values: Map<String, Any> = emptyMap()
-        var visible: Boolean = false
+        var retention: CodeRetention = CodeRetention.CLASS
 
         constructor(defaults: Annotation) : this() {
             this.type = defaults.type
             this.values = defaults.values
-            this.visible = defaults.visible
+            this.retention = defaults.retention
         }
 
         /**
@@ -74,14 +100,14 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
         }
 
         /**
-         * See [Annotation.visible]
+         * See [Annotation.retention]
          */
-        fun visible(value: Boolean): Builder {
-            this.visible = value
+        fun retention(value: CodeRetention): Builder {
+            this.retention = value
             return this
         }
 
-        override fun build(): Annotation = Annotation(type, values, visible)
+        override fun build(): Annotation = Annotation(type, values, retention)
 
         companion object {
             @JvmStatic
@@ -93,3 +119,49 @@ data class Annotation(override val type: Type, val values: Map<String, Any>, val
 
     }
 }
+
+enum class CodeRetention {
+    /**
+     * Source retention of annotation
+     */
+    SOURCE,
+    /**
+     * Class retention of annotation
+     */
+    CLASS,
+    /**
+     * Runtime retention.
+     */
+    RUNTIME;
+
+    companion object {
+        fun resolveRetention(type: Type): Either<Exception, CodeRetention> =
+            type.bindedDefaultResolver.resolve().flatMapRight<CodeRetention> {
+                val resolved: CodeRetention? = when (it) {
+                    is AnnotatedType -> {
+                        it.getDeclaredAnnotation(java.lang.annotation.Retention::class.java)
+                            ?.let { fromPolicy(it.value) }
+                    }
+                    is TypeDeclaration -> fromAnnotable(it)
+                    else -> return@flatMapRight type.bindedDefaultResolver.resolveTypeDeclaration()
+                        .mapRight { fromAnnotable(it) }
+                }
+
+                return@flatMapRight resolved?.let { right<Exception, CodeRetention>(it) }
+                        ?: left<Exception, CodeRetention>(IllegalArgumentException("Retention of type cannot be resolved"))
+            }
+
+        private fun fromAnnotable(annotable: Annotable): CodeRetention? =
+            annotable.annotations.firstOrNull { it.type.`is`(java.lang.annotation.Retention::class.java) }?.let {
+                it.values["value"]?.let { it as? java.lang.annotation.RetentionPolicy }?.let { fromPolicy(it) }
+            }
+
+        fun fromPolicy(retentionPolicy: RetentionPolicy): CodeRetention =
+            when (retentionPolicy) {
+                RetentionPolicy.CLASS -> CLASS
+                RetentionPolicy.RUNTIME -> RUNTIME
+                else -> SOURCE
+            }
+    }
+}
+

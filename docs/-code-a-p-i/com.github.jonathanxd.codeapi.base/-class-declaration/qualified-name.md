@@ -6,9 +6,11 @@
 
 Overrides [TypeDeclaration.qualifiedName](../-type-declaration/qualified-name.md)
 
-Defined qualified name
+Qualified name of this class. If this type is an inner type, this will be the
+qualified name of [outerType](outer-type.md) + `.` + [specifiedName](specified-name.md) of this type.
 
 **Getter**
 
-Defined qualified name
+Qualified name of this class. If this type is an inner type, this will be the
+qualified name of [outerType](outer-type.md) + `.` + [specifiedName](specified-name.md) of this type.
 

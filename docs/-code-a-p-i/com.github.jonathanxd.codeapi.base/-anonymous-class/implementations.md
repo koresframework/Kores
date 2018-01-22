@@ -6,5 +6,10 @@
 
 Overrides [ImplementationHolder.implementations](../-implementation-holder/implementations.md)
 
-Implementations
+Implementations of this anonymous class, commonly a single element, but
+some generators may support multiple implementations.
 
+### Property
+
+`implementations` - Implementations of this anonymous class, commonly a single element, but
+some generators may support multiple implementations.

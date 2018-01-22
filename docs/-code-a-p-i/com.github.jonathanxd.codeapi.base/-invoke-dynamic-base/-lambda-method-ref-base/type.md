@@ -10,5 +10,5 @@ Return type of dynamic invocation
 
 **Getter**
 
-Return type of dynamic invocation
+Element type
 

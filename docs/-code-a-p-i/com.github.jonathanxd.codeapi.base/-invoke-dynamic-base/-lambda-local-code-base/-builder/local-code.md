@@ -4,5 +4,5 @@
 
 `abstract fun localCode(value: `[`LocalCode`](../../../-local-code/index.md)`): S`
 
-See T.localCode
+See [LambdaLocalCodeBase.localCode](../local-code.md)
 

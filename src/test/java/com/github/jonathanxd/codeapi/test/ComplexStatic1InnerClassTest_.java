@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -28,7 +28,6 @@
 package com.github.jonathanxd.codeapi.test;
 
 import com.github.jonathanxd.codeapi.CodeSource;
-import com.github.jonathanxd.codeapi.Types;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
@@ -47,8 +46,6 @@ import org.junit.Test;
 
 import java.util.Collections;
 
-import kotlin.collections.CollectionsKt;
-
 public class ComplexStatic1InnerClassTest_ {
     //
     public static TypeDeclaration $() {
@@ -58,7 +55,7 @@ public class ComplexStatic1InnerClassTest_ {
         TypeRef innerInnerClassRef = new TypeRef(innerClassRef, "Inner2");
 
         TypeDeclaration inner2 = ClassDeclaration.Builder.builder()
-                .outerClass(innerClassRef)
+                .outerType(innerClassRef)
                 .specifiedName("Inner2")
                 .fields()
                 .constructors()
@@ -83,7 +80,7 @@ public class ComplexStatic1InnerClassTest_ {
 
         TypeDeclaration inner = ClassDeclaration.Builder.builder()
                 .modifiers(CodeModifier.PUBLIC, CodeModifier.STATIC)
-                .outerClass(classRef)
+                .outerType(classRef)
                 .innerTypes(inner2)
                 .specifiedName("Inner")
                 .fields()

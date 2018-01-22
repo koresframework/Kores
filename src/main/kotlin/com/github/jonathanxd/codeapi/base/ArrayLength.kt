@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -30,6 +30,7 @@ package com.github.jonathanxd.codeapi.base
 import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.builder.self
+import com.github.jonathanxd.codeapi.type.isArray
 import java.lang.reflect.Type
 
 /**
@@ -37,6 +38,10 @@ import java.lang.reflect.Type
  */
 data class ArrayLength(override val arrayType: Type, override val target: CodeInstruction) :
     ArrayAccess, Typed, CodeInstruction {
+
+    init {
+        check(arrayType.isArray) { "arrayType is not an array type!" }
+    }
 
     override val type: Type
         get() = Types.INT

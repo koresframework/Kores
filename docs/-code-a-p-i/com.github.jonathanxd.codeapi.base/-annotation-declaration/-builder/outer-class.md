@@ -2,9 +2,4 @@
 
 # outerClass
 
-`var outerClass: Type?``fun outerClass(value: Type?): `[`Builder`](index.md)
-
-Overrides [Builder.outerClass](../../-type-declaration/-builder/outer-class.md)
-
-See [TypeDeclaration.outerClass](../../-type-declaration/outer-class.md)
-
+`var outerClass: Type?`

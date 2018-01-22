@@ -6,5 +6,5 @@
 
 Overrides [Builder.bootstrap](../../-invoke-dynamic-base/-builder/bootstrap.md)
 
-See [T.bootstrap](#)
+See [InvokeDynamic.bootstrap](../bootstrap.md)
 

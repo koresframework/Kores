@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,7 +35,7 @@ import com.github.jonathanxd.codeapi.CodePart
 interface CommentHolder : CodePart {
 
     /**
-     * All comments inside this holder.
+     * All comments of this element.
      */
     val comments: Comments
 
@@ -43,7 +43,7 @@ interface CommentHolder : CodePart {
         com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
-         * See [T.comments]
+         * See [CommentHolder.comments]
          */
         fun comments(value: Comments): S
 

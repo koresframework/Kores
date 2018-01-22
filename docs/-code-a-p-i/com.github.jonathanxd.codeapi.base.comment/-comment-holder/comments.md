@@ -4,5 +4,5 @@
 
 `abstract val comments: `[`Comments`](../-comments/index.md)
 
-All comments inside this holder.
+All comments of this element.
 

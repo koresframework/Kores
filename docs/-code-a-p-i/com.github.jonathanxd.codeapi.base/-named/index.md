@@ -28,9 +28,9 @@ A element that have a name.
 
 | Name | Summary |
 |---|---|
-| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Returns true if the type of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is primitive |
-| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: Type`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: Type?`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or null if receiver is not a [Typed](../-typed/index.md) instance. |
+| [isPrimitive](../../com.github.jonathanxd.codeapi/is-primitive.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Returns true if the type of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is primitive |
+| [type](../../com.github.jonathanxd.codeapi/type.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: Type`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [typeOrNull](../../com.github.jonathanxd.codeapi/type-or-null.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: Type?`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or null if receiver is not a [Typed](../-typed/index.md) instance. |
 
 ### Extension Functions
 
@@ -47,6 +47,7 @@ A element that have a name.
 |---|---|
 | [AnnotationProperty](../-annotation-property/index.md) | `data class AnnotationProperty : Named, `[`Typed`](../-typed/index.md)`, `[`Annotable`](../-annotable/index.md)`, `[`ReturnTypeHolder`](../-return-type-holder/index.md)`, `[`CommentHolder`](../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/index.md)<br>Annotation property, this is part of [AnnotationDeclaration](../-annotation-declaration/index.md). |
 | [CodeParameter](../-code-parameter/index.md) | `data class CodeParameter : `[`Typed`](../-typed/index.md)`, Named, `[`Annotable`](../-annotable/index.md)`, `[`ModifiersHolder`](../-modifiers-holder/index.md)<br>Parameter part. |
+| [DynamicMethodSpec](../../com.github.jonathanxd.codeapi.common/-dynamic-method-spec/index.md) | `data class DynamicMethodSpec : `[`Typed`](../-typed/index.md)`, Named, `[`ArgumentsHolder`](../-arguments-holder/index.md) |
 | [EnumEntry](../-enum-entry/index.md) | `data class EnumEntry : `[`Annotable`](../-annotable/index.md)`, `[`ArgumentsHolder`](../-arguments-holder/index.md)`, Named, `[`ElementsHolder`](../-elements-holder/index.md)<br>Enumeration entry. |
 | [EnumValue](../-enum-value/index.md) | `data class EnumValue : Named, `[`Typed`](../-typed/index.md)`, `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)<br>Enum value. |
 | [FieldAccess](../-field-access/index.md) | `data class FieldAccess : `[`Accessor`](../-accessor/index.md)`, `[`Typed`](../-typed/index.md)`, Named, `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)<br>Access a field of type [type](../-field-access/type.md), name [name](../-field-access/name.md) in type [localization](../-field-access/localization.md) using [target](../-field-access/target.md) as instance (Use a [Access.Type.STATIC](#) to static accesses). |

@@ -4,5 +4,5 @@
 
 | Name | Summary |
 |---|---|
-| [isRetentionRuntime](is-retention-runtime.md) | `fun AnnotationMirror.isRetentionRuntime(elements: Elements): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [getRetentionName](get-retention-name.md) | `fun AnnotationMirror.getRetentionName(elements: Elements): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`?` |
 | [toCodeAnnotation](to-code-annotation.md) | `fun AnnotationMirror.toCodeAnnotation(elements: Elements): `[`CodeAnnotation`](../../com.github.jonathanxd.codeapi.base/-code-annotation.md) |

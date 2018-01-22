@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`InvokeDynamic(type: Type, bootstrap: `[`MethodInvokeSpec`](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`, invocation: `[`MethodInvocation`](../-method-invocation/index.md)`, args: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>)`
+`InvokeDynamic(bootstrap: `[`MethodInvokeSpec`](../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`, dynamicMethod: `[`DynamicMethodSpec`](../../com.github.jonathanxd.codeapi.common/-dynamic-method-spec/index.md)`, bootstrapArgs: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>)`

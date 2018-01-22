@@ -25,9 +25,9 @@ All interfaces that have a concrete implementation and extends CodePart must pro
 
 | Name | Summary |
 |---|---|
-| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val CodePart.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Returns true if the type of this CodePart is primitive |
-| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val CodePart.type: Type`<br>Gets the type of CodePart |
-| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val CodePart.typeOrNull: Type?`<br>Gets the type of CodePart or null if receiver is not a [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) instance. |
+| [isPrimitive](../is-primitive.md) | `val CodePart.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Returns true if the type of this CodePart is primitive |
+| [type](../type.md) | `val CodePart.type: Type`<br>Gets the type of CodePart |
+| [typeOrNull](../type-or-null.md) | `val CodePart.typeOrNull: Type?`<br>Gets the type of CodePart or null if receiver is not a [Typed](../../com.github.jonathanxd.codeapi.base/-typed/index.md) instance. |
 
 ### Extension Functions
 
@@ -42,7 +42,7 @@ All interfaces that have a concrete implementation and extends CodePart must pro
 
 | Name | Summary |
 |---|---|
-| [Annotable](../../com.github.jonathanxd.codeapi.base/-annotable/index.md) | `interface Annotable : CodePart`<br>An part that hold annotations. |
+| [Annotable](../../com.github.jonathanxd.codeapi.base/-annotable/index.md) | `interface Annotable : CodePart`<br>An part that can be annotated, like methods, fields, classes, type usage, etc... |
 | [ArgumentsHolder](../../com.github.jonathanxd.codeapi.base/-arguments-holder/index.md) | `interface ArgumentsHolder : CodePart`<br>Hold arguments. |
 | [ArrayAccess](../../com.github.jonathanxd.codeapi.base/-array-access/index.md) | `interface ArrayAccess : CodePart`<br>Access to an array. |
 | [BodyHolder](../../com.github.jonathanxd.codeapi.base/-body-holder/index.md) | `interface BodyHolder : CodePart`<br>Holds a body. Example: method declarations, type declarations, static block, constructors... |

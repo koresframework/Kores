@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -40,12 +40,22 @@ import com.github.jonathanxd.codeapi.util.resolveTypeName
 import java.lang.reflect.Type
 
 /**
- * Anonymous class, in Bytecode, anonymous class can have implementations,
- * in other languages it depends on specification. (Official Java generator may comment implementations).
+ * Anonymous class, they can be defined like all other classes, but some generators may not
+ * support all definitions (like multiple [implementations]).
+ *
+ * The invocation of the constructor of the anonymous class is inlined after the anonymous class definition.
+ *
+ * @property implementations Implementations of this anonymous class, commonly a single element, but
+ * some generators may support multiple implementations.
+ * @property superClass Super class of this anonymous class. Some generators may ignore this if [implementations] have
+ * at least one type.
+ * @property constructorSpec Specification of the constructor of the anonymous class to invoke.
+ * @property constructorBody Body of the constructor of anonymous class.
+ * @property arguments Arguments to use to invoke constructor of signature specified by [constructorSpec].
  */
 data class AnonymousClass(
     override val comments: Comments,
-    override val outerClass: Type?,
+    override val outerType: Type?,
     override val annotations: List<Annotation>,
     override val specifiedName: String,
     override val superClass: Type,
@@ -62,10 +72,10 @@ data class AnonymousClass(
     ArgumentsHolder, ImplementationHolder, ConstructorsHolder {
 
     override val qualifiedName: String = specifiedName
-        get() = resolveQualifiedName(field, this.outerClass)
+        get() = resolveQualifiedName(field, this.outerType)
 
     override val type: String = specifiedName
-        get() = resolveTypeName(field, this.outerClass)
+        get() = resolveTypeName(field, this.outerType)
 
     override val array: Boolean
         get() = false
@@ -110,7 +120,7 @@ data class AnonymousClass(
 
         constructor(defaults: AnonymousClass) : this() {
             this.comments = defaults.comments
-            this.outerClass = defaults.outerClass
+            this.outerClass = defaults.outerType
             this.annotations = defaults.annotations
             this.specifiedName = defaults.specifiedName
             this.superClass = defaults.superClass
@@ -132,7 +142,7 @@ data class AnonymousClass(
         override fun array(value: Boolean): Builder = self()
         override fun genericSignature(value: GenericSignature): Builder = self()
 
-        override fun outerClass(value: Type?): Builder {
+        override fun outerType(value: Type?): Builder {
             this.outerClass = value
             return this
         }

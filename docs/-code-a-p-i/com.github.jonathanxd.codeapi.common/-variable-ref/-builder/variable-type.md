@@ -6,5 +6,5 @@
 
 Overrides [Builder.variableType](../../../com.github.jonathanxd.codeapi.base/-variable-base/-builder/variable-type.md)
 
-See [T.variableType](#)
+See [VariableBase.variableType](../../../com.github.jonathanxd.codeapi.base/-variable-base/variable-type.md)
 

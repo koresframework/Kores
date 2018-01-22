@@ -4,5 +4,5 @@
 
 `MixedResolver(elements: Elements?)`
 
-Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver.
+Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../../com.github.jonathanxd.codeapi.type/-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver.
 

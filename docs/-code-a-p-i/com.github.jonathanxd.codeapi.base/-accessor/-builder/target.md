@@ -4,5 +4,5 @@
 
 `abstract fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`
 
-See T.target
+See [Accessor.target](../target.md)
 

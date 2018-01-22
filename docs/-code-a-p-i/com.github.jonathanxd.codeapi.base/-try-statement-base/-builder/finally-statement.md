@@ -4,5 +4,5 @@
 
 `abstract fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): S`
 
-See T.finallyStatement
+See [TryStatementBase.finallyStatement](../finally-statement.md)
 

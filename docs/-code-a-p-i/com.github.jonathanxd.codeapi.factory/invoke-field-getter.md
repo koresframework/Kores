@@ -16,4 +16,16 @@ Invoke getter of a field (`get`+`capitalize(fieldName)`).
 
 `type` - Type of field.
 
+`name` - Name of field.`fun `[`CodeInstruction`](../com.github.jonathanxd.codeapi/-code-instruction.md)`.invokeFieldGetter(invokeType: `[`InvokeType`](../com.github.jonathanxd.codeapi.base/-invoke-type/index.md)`, localization: Type, type: Type, name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`MethodInvocation`](../com.github.jonathanxd.codeapi.base/-method-invocation/index.md)
+
+Invoke getter of a field (`get`+`capitalize(fieldName)`) of [receiver](../com.github.jonathanxd.codeapi/-code-instruction.md).
+
+### Parameters
+
+`invokeType` - Type of invocation
+
+`localization` - Localization of getter
+
+`type` - Type of field.
+
 `name` - Name of field.

@@ -6,5 +6,5 @@
 
 Overrides [Builder.finallyStatement](../../-try-statement-base/-builder/finally-statement.md)
 
-See [T.finallyStatement](#)
+See [TryStatementBase.finallyStatement](../../-try-statement-base/finally-statement.md)
 

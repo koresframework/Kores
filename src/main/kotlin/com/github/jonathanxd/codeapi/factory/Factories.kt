@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -71,32 +71,39 @@ fun accessSuper(): Access = Defaults.ACCESS_SUPER
  * @see Annotation
  */
 @JvmOverloads
-fun annotation(visible: Boolean, type: Type, values: Map<String, Any> = emptyMap()): Annotation =
-    Annotation(type, values, visible)
+fun annotation(retention: CodeRetention, type: Type, values: Map<String, Any> = emptyMap()): Annotation =
+    Annotation(type, values, retention)
 
 /**
  * @see Annotation
  */
 @JvmOverloads
-fun visibleAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
-    annotation(true, type, values)
+fun runtimeAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
+    annotation(CodeRetention.RUNTIME, type, values)
 
 /**
  * @see Annotation
  */
 @JvmOverloads
-fun invisibleAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
-    annotation(false, type, values)
+fun classAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
+    annotation(CodeRetention.CLASS, type, values)
 
 /**
  * @see Annotation
  */
-fun overrideAnnotation(): Annotation = visibleAnnotation(Override::class.java, mapOf())
+@JvmOverloads
+fun sourceAnnotation(type: Type, values: Map<String, Any> = emptyMap()): Annotation =
+    annotation(CodeRetention.SOURCE, type, values)
 
 /**
  * @see Annotation
  */
-fun deprecatedAnnotation(): Annotation = visibleAnnotation(Deprecated::class.java, mapOf())
+fun overrideAnnotation(): Annotation = sourceAnnotation(Override::class.java, mapOf())
+
+/**
+ * @see Annotation
+ */
+fun deprecatedAnnotation(): Annotation = sourceAnnotation(Deprecated::class.java, mapOf())
 
 /**
  * @see Annotation

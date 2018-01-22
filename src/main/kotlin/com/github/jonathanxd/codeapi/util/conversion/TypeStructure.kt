@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -37,7 +37,6 @@ import com.github.jonathanxd.iutils.`object`.Try
 import com.github.jonathanxd.iutils.array.ArrayUtils
 import com.github.jonathanxd.iutils.function.checked.supplier.CSupplier
 import com.github.jonathanxd.iutils.map.ListHashMap
-import java.lang.annotation.RetentionPolicy
 import java.lang.reflect.*
 import java.lang.reflect.Modifier
 import javax.lang.model.AnnotatedConstruct
@@ -142,7 +141,7 @@ val Class<*>.typeDeclaration: TypeDeclaration
 
         // Commons
         return builder
-            .outerClass(this.asTypeRef.outerType)
+            .outerType(this.asTypeRef.outerType)
             .genericSignature(this.genericSignature)
             .annotations(this.codeAnnotations)
             .modifiers(CodeModifier.fromJavaModifiers(this.modifiers))
@@ -241,8 +240,8 @@ val <T : Annotation> T.codeAnnotation: CodeAnnotation
     get() {
         val type = this.annotationClass.java
 
-        val visible =
-            type.getAnnotation(java.lang.annotation.Retention::class.java)?.value == RetentionPolicy.RUNTIME
+        val retention =
+            type.getAnnotation(java.lang.annotation.Retention::class.java)
 
         val map = mutableMapOf<String, Any>()
 
@@ -257,7 +256,7 @@ val <T : Annotation> T.codeAnnotation: CodeAnnotation
 
         return com.github.jonathanxd.codeapi.base.Annotation.Builder.builder()
             .type(type)
-            .visible(visible)
+            .retention(retention?.let { CodeRetention.fromPolicy(it.value) } ?: CodeRetention.CLASS)
             .values(map)
             .build()
     }
@@ -369,7 +368,7 @@ fun TypeElement.getTypeDeclaration(elements: Elements): TypeDeclaration {
 
     // Commons
     return builder
-        .outerClass(this.asTypeRef(elements).outerType)
+        .outerType(this.asTypeRef(elements).outerType)
         .annotations(this.getCodeAnnotations(elements))
         .modifiers(CodeModifier.fromJavaxModifiers(this.modifiers))
         .qualifiedName(this.qualifiedName.toString())
@@ -474,7 +473,10 @@ fun AnnotationMirror.toCodeAnnotation(elements: Elements): CodeAnnotation {
 
     val element = this.annotationType.asElement() as TypeElement
 
-    val visible = element.annotationMirrors.any { it.isRetentionRuntime(elements) }
+    val retention = element.annotationMirrors
+        .map { it.getRetentionName(elements)?.let { enumValueOf<CodeRetention>(it) } }
+        .filterNotNull()
+        .firstOrNull() ?: CodeRetention.CLASS
 
     require(element.kind == ElementKind.ANNOTATION_TYPE)
 
@@ -486,31 +488,31 @@ fun AnnotationMirror.toCodeAnnotation(elements: Elements): CodeAnnotation {
 
             val annotationValue = this.elementValues[it] ?: it.defaultValue
 
-            map.put(name, annotationValue.annotationValue(it, it.returnType, elements))
+            map[name] = annotationValue.annotationValue(it, it.returnType, elements)
         }
     }
 
     return com.github.jonathanxd.codeapi.base.Annotation.Builder.builder()
         .type(type)
-        .visible(visible)
+        .retention(retention)
         .values(map)
         .build()
 }
 
-fun AnnotationMirror.isRetentionRuntime(elements: Elements): Boolean {
+fun AnnotationMirror.getRetentionName(elements: Elements): String? {
     val type = this.annotationType.getCodeType(elements)
 
     if (type.`is`(java.lang.annotation.Retention::class.java.codeType)) {
         this.elementValues.entries.forEach { (e, v) ->
             if (e.simpleName.contentEquals("value") && v != null) {
                 (v.value as? VariableElement)?.let {
-                    return it.simpleName.contentEquals("RUNTIME")
+                    return it.simpleName.toString()
                 }
             }
         }
     }
 
-    return false
+    return null
 }
 
 fun AnnotationValue.annotationValue(
@@ -585,7 +587,7 @@ fun TypeDeclaration.toRepresentation(): TypeDeclaration {
 
     // Commons
     return builder
-        .outerClass(this.outerClass)
+        .outerType(this.outerType)
         .annotations(this.annotations.map { it.toRepresentation() })
         .genericSignature(this.genericSignature)
         .modifiers(this.modifiers.toSet())
@@ -599,7 +601,7 @@ fun TypeDeclaration.toRepresentation(): TypeDeclaration {
 fun CodeAnnotation.toRepresentation(): CodeAnnotation =
     com.github.jonathanxd.codeapi.base.Annotation.Builder.builder()
         .type(this.type.codeType)
-        .visible(this.visible)
+        .retention(this.retention)
         .values(this.values.toMap())
         .build()
 

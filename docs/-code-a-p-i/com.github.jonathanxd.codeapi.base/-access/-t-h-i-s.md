@@ -4,5 +4,7 @@
 
 `THIS`
 
-Access to this scope
+Access to this scope.
+
+Java: `this`
 

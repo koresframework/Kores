@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [comments](comments.md) | `abstract fun comments(value: `[`Comments`](../../-comments/index.md)`): S`<br>See [T.comments](comments.md) |
+| [comments](comments.md) | `abstract fun comments(value: `[`Comments`](../../-comments/index.md)`): S`<br>See [CommentHolder.comments](../comments.md) |
 
 ### Inherited Functions
 

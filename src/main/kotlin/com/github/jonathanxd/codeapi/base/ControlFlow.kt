@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -36,7 +36,7 @@ import com.github.jonathanxd.codeapi.base.ControlFlow.Type
  *
  * @property type Type of the flow control
  * @property at Label to control flow (Note: [Type.CONTINUE] goes to Start of label and [Type.BREAK] goes to end of label).
- * **Note**: [Type.CONTINUE] to a label may be unstable.
+ * **Note**: [Type.CONTINUE] to a label is dangerous.
  */
 data class ControlFlow(val type: Type, val at: Label?) : CodePart, CodeInstruction {
 

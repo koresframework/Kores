@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,6 +33,15 @@ import java.lang.reflect.Type
 /**
  * Accessor of an element. Example: field access/definition, method invocation
  * and executable code.
+ *
+ * # In Java
+ *
+ * [target] is the receiver of access.
+ *
+ * [localization] is the inferred or exact type of [target]
+ *
+ * Example: `String hello; hello.charAt(0);` The [target] is `hello`
+ * variable and [localization] is `String` class.
  */
 interface Accessor : CodeInstruction {
 
@@ -52,12 +61,12 @@ interface Accessor : CodeInstruction {
         com.github.jonathanxd.codeapi.builder.Builder<T, S> {
 
         /**
-         * See [T.target]
+         * See [Accessor.target]
          */
         fun target(value: CodeInstruction): S
 
         /**
-         * See [T.localization]
+         * See [Accessor.localization]
          */
         fun localization(value: Type): S
     }

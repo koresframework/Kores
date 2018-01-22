@@ -6,5 +6,8 @@
 
 Overrides [ArgumentsHolder.arguments](../-arguments-holder/arguments.md)
 
-Argument list
+Arguments to use to invoke constructor of signature specified by [constructorSpec](constructor-spec.md).
 
+### Property
+
+`arguments` - Arguments to use to invoke constructor of signature specified by [constructorSpec](constructor-spec.md).

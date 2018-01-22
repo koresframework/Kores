@@ -6,5 +6,5 @@
 
 Overrides [Builder.bootstrap](../../-lambda-method-ref-base/-builder/bootstrap.md)
 
-See T.bootstrap
+See [InvokeDynamic.bootstrap](../../../-invoke-dynamic/bootstrap.md)
 

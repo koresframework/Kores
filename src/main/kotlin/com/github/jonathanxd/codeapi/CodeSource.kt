@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -223,8 +223,13 @@ abstract class CodeSource : Iterable<CodeInstruction>, CodePart {
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromIterable(iterable: Iterable<CodeInstruction>): CodeSource {
-            if (iterable is Collection<CodeInstruction>)
-                return ArrayCodeSource(iterable.toTypedArray())
+            if (iterable is Collection<CodeInstruction>) {
+                return if (iterable.isEmpty()) {
+                    empty()
+                } else {
+                    ArrayCodeSource(iterable.toTypedArray())
+                }
+            }
 
             return ArrayCodeSource(iterable.toList().toTypedArray())
         }
@@ -235,8 +240,13 @@ abstract class CodeSource : Iterable<CodeInstruction>, CodePart {
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromGenericIterable(iterable: Iterable<*>): CodeSource {
-            if (iterable is Collection<*>)
-                return ArrayCodeSource((iterable as Collection<CodeInstruction>).toTypedArray())
+            if (iterable is Collection<*>) {
+                return if (iterable.isEmpty()) {
+                    empty()
+                } else {
+                    ArrayCodeSource((iterable as Collection<CodeInstruction>).toTypedArray())
+                }
+            }
 
             return ArrayCodeSource((iterable as Iterable<CodeInstruction>).toList().toTypedArray())
         }
@@ -247,6 +257,14 @@ abstract class CodeSource : Iterable<CodeInstruction>, CodePart {
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun fromCodeSourceIterable(iterable: Iterable<CodeSource>): CodeSource {
+            if (iterable is Collection<CodeSource>) {
+                return if (iterable.isEmpty()) {
+                    empty()
+                } else {
+                    ArrayCodeSource(iterable.flatMap { it }.toTypedArray())
+                }
+            }
+
             return ArrayCodeSource(iterable.flatMap { it }.toTypedArray())
         }
 

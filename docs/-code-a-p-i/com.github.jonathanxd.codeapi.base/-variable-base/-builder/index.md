@@ -10,7 +10,7 @@
 |---|---|
 | [base](base.md) | `open fun base(variableRef: `[`VariableRef`](../../../com.github.jonathanxd.codeapi.common/-variable-ref/index.md)`): S`<br>Base this builder on [variableRef](base.md#com.github.jonathanxd.codeapi.base.VariableBase.Builder$base(com.github.jonathanxd.codeapi.common.VariableRef)/variableRef).`open fun base(fieldRef: `[`FieldRef`](../../../com.github.jonathanxd.codeapi.common/-field-ref/index.md)`): S`<br>Base this builder on [fieldRef](base.md#com.github.jonathanxd.codeapi.base.VariableBase.Builder$base(com.github.jonathanxd.codeapi.common.FieldRef)/fieldRef) (only [name](../../-named/-builder/name.md) and [type](type.md)). |
 | [type](type.md) | `open fun type(value: Type): S`<br>See [T.type](type.md) |
-| [variableType](variable-type.md) | `abstract fun variableType(value: Type): S`<br>See [T.variableType](variable-type.md) |
+| [variableType](variable-type.md) | `abstract fun variableType(value: Type): S`<br>See [VariableBase.variableType](../variable-type.md) |
 
 ### Inherited Functions
 

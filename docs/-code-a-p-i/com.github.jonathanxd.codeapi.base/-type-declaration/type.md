@@ -2,23 +2,10 @@
 
 # type
 
-`open val type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+`abstract val type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Overrides [CodeType.type](../../com.github.jonathanxd.codeapi.type/-code-type/type.md)
 
-Type name, examples:
-
-[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`.
-[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`.
-`path.to.A.B` = `path.to.A$B`.
-`path.to.A.B[][]` = `path.to.A$B[][]`.
-
-**Getter**
-
-Type name, examples:
-
-[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = `java.lang.String`.
-[Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = `int`.
-`path.to.A.B` = `path.to.A$B`.
-`path.to.A.B[][]` = `path.to.A$B[][]`.
+Binary type name of this type. If this type is an inner type, this will be the
+type name of [outerType](outer-type.md) + `$` + [specifiedName](specified-name.md) of this type.
 

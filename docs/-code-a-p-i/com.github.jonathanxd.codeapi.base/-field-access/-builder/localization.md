@@ -6,5 +6,5 @@
 
 Overrides [Builder.localization](../../-accessor/-builder/localization.md)
 
-See [T.localization](#)
+See [Accessor.localization](../../-accessor/localization.md)
 

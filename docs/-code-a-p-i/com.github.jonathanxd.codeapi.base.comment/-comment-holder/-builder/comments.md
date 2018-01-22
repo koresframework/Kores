@@ -4,5 +4,5 @@
 
 `abstract fun comments(value: `[`Comments`](../../-comments/index.md)`): S`
 
-See T.comments
+See [CommentHolder.comments](../comments.md)
 

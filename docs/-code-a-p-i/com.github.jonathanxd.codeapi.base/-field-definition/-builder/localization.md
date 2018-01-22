@@ -8,5 +8,5 @@ Overrides [Builder.localization](../../-accessor/-builder/localization.md)
 
 Overrides [Builder.localization](../../-field-base/-builder/localization.md)
 
-See [T.localization](#)
+See [Accessor.localization](../../-accessor/localization.md)
 

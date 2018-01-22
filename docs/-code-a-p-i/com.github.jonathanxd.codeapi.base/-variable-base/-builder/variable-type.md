@@ -4,5 +4,5 @@
 
 `abstract fun variableType(value: Type): S`
 
-See T.variableType
+See [VariableBase.variableType](../variable-type.md)
 

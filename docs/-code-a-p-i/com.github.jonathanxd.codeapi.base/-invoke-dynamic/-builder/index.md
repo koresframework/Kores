@@ -14,26 +14,25 @@
 
 | Name | Summary |
 |---|---|
-| [args](bootstrapArgs.md) | `var bootstrapArgs: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>` |
+| [args](args.md) | `var args: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>` |
 | [bootstrap](bootstrap.md) | `lateinit var bootstrap: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md) |
-| [invocation](invocation.md) | `lateinit var invocation: `[`MethodInvocation`](../../-method-invocation/index.md) |
-| [type](type.md) | `lateinit var type: Type` |
+| [dynamic](dynamic.md) | `lateinit var dynamic: `[`DynamicMethodSpec`](../../../com.github.jonathanxd.codeapi.common/-dynamic-method-spec/index.md) |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [args](bootstrapArgs.md) | `fun bootstrapArgs(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): Builder`<br>See [T.bootstrapArgs](#) |
-| [bootstrap](bootstrap.md) | `fun bootstrap(value: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): Builder`<br>See [T.bootstrap](#) |
+| [bootstrap](bootstrap.md) | `fun bootstrap(value: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): Builder`<br>See [InvokeDynamic.bootstrap](../bootstrap.md) |
+| [bootstrapArgs](bootstrap-args.md) | `fun bootstrapArgs(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): Builder`<br>See [InvokeDynamic.bootstrapArgs](../bootstrap-args.md) |
 | [build](build.md) | `fun build(): `[`InvokeDynamic`](../index.md)<br>Build the object of type [T](#). |
-| [invocation](invocation.md) | `fun invocation(value: `[`MethodInvocation`](../../-method-invocation/index.md)`): Builder`<br>See [T.invocation](#) |
-| [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
+| [dynamicMethod](dynamic-method.md) | `fun dynamicMethod(value: `[`DynamicMethodSpec`](../../../com.github.jonathanxd.codeapi.common/-dynamic-method-spec/index.md)`): Builder`<br>See [InvokeDynamic.dynamicMethod](../dynamic-method.md) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [args](../../-invoke-dynamic-base/-builder/bootstrapArgs.md) | `open fun bootstrapArgs(vararg values: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): S`<br>See [T.bootstrapArgs](../../-invoke-dynamic-base/-builder/bootstrapArgs.md) |
+| [bootstrapArgs](../../-invoke-dynamic-base/-builder/bootstrap-args.md) | `open fun bootstrapArgs(vararg values: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`): S`<br>See [InvokeDynamic.bootstrapArgs](../bootstrap-args.md) |
+| [type](../../-invoke-dynamic-base/-builder/type.md) | `open fun type(value: Type): S`<br>See [T.type](../../-invoke-dynamic-base/-builder/type.md) |
 
 ### Companion Object Functions
 

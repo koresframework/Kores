@@ -6,5 +6,5 @@
 
 Overrides [Builder.baseSam](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/base-sam.md)
 
-See [T.baseSam](#)
+See [LambdaMethodRefBase.baseSam](#)
 

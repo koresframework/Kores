@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -34,9 +34,15 @@ import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.codeType
 
 /**
- * Aliases, only use alias in supported contexts.
+ * Type alias. They are only supported in specific contexts, which depends on the generator.
  *
- * Example of supported contexts: Method Invocation Target, Field Access Target, Local code declaring type.
+ * This commonly is used when you want to invoke methods, access fields, etc... of current class,
+ * super class or super interface, but you don't have access to this information.
+ *
+ * # In Java
+ *
+ * Type alias does not exists in Java language (because you always have access to this information),
+ * but would be something like: `this.class`, `super.class`.
  */
 sealed class Alias : CodeInstruction {
 

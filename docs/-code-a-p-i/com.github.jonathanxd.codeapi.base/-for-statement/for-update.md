@@ -2,10 +2,10 @@
 
 # forUpdate
 
-`val forUpdate: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
+`val forUpdate: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
-For update. (ex: `i++`)
+For update. (ex: `i++`, `i++. x++`)
 
 ### Property
 
-`forUpdate` - For update. (ex: `i++`)
+`forUpdate` - For update. (ex: `i++`, `i++. x++`)

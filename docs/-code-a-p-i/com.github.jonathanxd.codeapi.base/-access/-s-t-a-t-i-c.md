@@ -4,5 +4,7 @@
 
 `STATIC`
 
-Access to static scope
+Access to static scope.
+
+Java: `Class.ELEMENT`
 

@@ -2,9 +2,13 @@
 
 # type
 
-`abstract val type: Type`
+`open val type: Type`
 
 Overrides [Typed.type](../-typed/type.md)
 
 Return type of dynamic invocation
+
+**Getter**
+
+Element type
 

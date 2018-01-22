@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -29,29 +29,34 @@ package com.github.jonathanxd.codeapi.base
 
 import com.github.jonathanxd.codeapi.CodeInstruction
 
-
 /**
  * Access to a scope. Example, access to static scope of [String].
  */
 enum class Access : CodeInstruction {
 
     /**
-     * Access to local scope
+     * Access to local scope.
      */
     LOCAL,
 
     /**
-     * Access to static scope
+     * Access to static scope.
+     *
+     * Java: `Class.ELEMENT`
      */
     STATIC,
 
     /**
-     * Access to this scope
+     * Access to this scope.
+     *
+     * Java: `this`
      */
     THIS,
 
     /**
-     * Access to super class scope
+     * Access to super class scope.
+     *
+     * Java: `super`
      */
     SUPER
 

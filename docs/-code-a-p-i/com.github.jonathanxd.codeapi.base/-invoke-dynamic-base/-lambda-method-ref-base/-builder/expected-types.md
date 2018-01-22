@@ -4,5 +4,5 @@
 
 `abstract fun expectedTypes(value: `[`TypeSpec`](../../../-type-spec/index.md)`): S`
 
-See T.expectedTypes
+See [LambdaMethodRefBase.expectedTypes](../expected-types.md)
 

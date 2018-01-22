@@ -2,15 +2,14 @@
 
 # Builder
 
-`interface Builder<out T : `[`TryStatementBase`](../index.md)`, S : Builder<T, S>> : `[`Builder`](../../-body-holder/-builder/index.md)`<T, S>, `[`Builder`](../../-typed/-builder/index.md)`<T, S>`
+`interface Builder<out T : `[`TryStatementBase`](../index.md)`, S : Builder<T, S>> : `[`Builder`](../../-body-holder/-builder/index.md)`<T, S>`
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [catchStatements](catch-statements.md) | `abstract fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): S`<br>`open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [T.catchStatements](catch-statements.md) |
-| [finallyStatement](finally-statement.md) | `abstract fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): S`<br>See [T.finallyStatement](finally-statement.md) |
-| [type](type.md) | `open fun type(value: Type): S`<br>See [T.type](type.md) |
+| [catchStatements](catch-statements.md) | `abstract fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): S`<br>`open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [TryStatementBase.catchStatements](../catch-statements.md) |
+| [finallyStatement](finally-statement.md) | `abstract fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): S`<br>See [TryStatementBase.finallyStatement](../finally-statement.md) |
 
 ### Inherited Functions
 

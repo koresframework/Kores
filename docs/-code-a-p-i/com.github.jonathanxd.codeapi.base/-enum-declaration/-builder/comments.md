@@ -6,5 +6,5 @@
 
 Overrides [Builder.comments](../../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/-builder/comments.md)
 
-See [T.comments](#)
+See [CommentHolder.comments](#)
 

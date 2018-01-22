@@ -26,7 +26,7 @@
 |---|---|
 | [annotations](annotations.md) | `fun annotations(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Annotation`](../../-annotation/index.md)`>): Builder`<br>See [T.annotations](#) |
 | [build](build.md) | `fun build(): `[`AnnotationProperty`](../index.md)<br>Build the object of type [T](#). |
-| [comments](comments.md) | `fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): Builder`<br>See [T.comments](#) |
+| [comments](comments.md) | `fun comments(value: `[`Comments`](../../../com.github.jonathanxd.codeapi.base.comment/-comments/index.md)`): Builder`<br>See [CommentHolder.comments](../../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/comments.md) |
 | [defaultValue](default-value.md) | `fun defaultValue(value: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?): Builder`<br>See [AnnotationProperty.defaultValue](../default-value.md) |
 | [name](name.md) | `fun name(value: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): Builder` |
 | [returnType](return-type.md) | `fun returnType(value: Type): Builder`<br>See [T.returnType](#) |

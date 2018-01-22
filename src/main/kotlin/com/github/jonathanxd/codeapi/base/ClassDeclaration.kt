@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -41,7 +41,7 @@ import java.lang.reflect.Type
  * Declaration of a class.
  */
 data class ClassDeclaration(
-    override val outerClass: Type?,
+    override val outerType: Type?,
     override val comments: Comments,
     override val annotations: List<Annotation>,
     override val modifiers: Set<CodeModifier>,
@@ -58,10 +58,10 @@ data class ClassDeclaration(
     SuperClassHolder, ImplementationHolder, ConstructorsHolder {
 
     override val qualifiedName: String = specifiedName
-        get() = resolveQualifiedName(field, this.outerClass)
+        get() = resolveQualifiedName(field, this.outerType)
 
     override val type: String = specifiedName
-        get() = resolveTypeName(field, this.outerClass)
+        get() = resolveTypeName(field, this.outerType)
 
     override fun hashCode(): Int = this.hash()
     override fun equals(other: Any?): Boolean = this.eq(other)
@@ -90,7 +90,7 @@ data class ClassDeclaration(
         var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: ClassDeclaration) : this() {
-            this.outerClass = defaults.outerClass
+            this.outerClass = defaults.outerType
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
@@ -157,7 +157,7 @@ data class ClassDeclaration(
             return this
         }
 
-        override fun outerClass(value: Type?): Builder {
+        override fun outerType(value: Type?): Builder {
             this.outerClass = value
             return this
         }

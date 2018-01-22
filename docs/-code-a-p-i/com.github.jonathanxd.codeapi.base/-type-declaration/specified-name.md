@@ -2,7 +2,7 @@
 
 # specifiedName
 
-`open val specifiedName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+`abstract val specifiedName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
-The specified name (for inner classes this property is set to simple name of inner class)
+The specified name (for inner classes this property is the simple name of inner class)
 

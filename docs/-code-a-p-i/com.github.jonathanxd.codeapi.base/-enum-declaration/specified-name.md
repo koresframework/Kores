@@ -6,5 +6,5 @@
 
 Overrides [TypeDeclaration.specifiedName](../-type-declaration/specified-name.md)
 
-The specified name (for inner classes this property is set to simple name of inner class)
+The specified name (for inner classes this property is the simple name of inner class)
 

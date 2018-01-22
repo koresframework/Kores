@@ -26,5 +26,5 @@
 |---|---|
 | [CodeAPIResolver](../-code-a-p-i-resolver/index.md) | `class CodeAPIResolver : GenericResolver` |
 | [JavaResolver](../-java-resolver/index.md) | `class JavaResolver : GenericResolver` |
-| [MixedResolver](../-mixed-resolver/index.md) | `class MixedResolver : GenericResolver`<br>Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver. |
-| [ModelResolver](../-model-resolver/index.md) | `class ModelResolver : GenericResolver` |
+| [MixedResolver](../-mixed-resolver/index.md) | `class MixedResolver : GenericResolver`<br>Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../../com.github.jonathanxd.codeapi.type/-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver. |
+| [ModelResolver](../../com.github.jonathanxd.codeapi.type/-model-resolver/index.md) | `class ModelResolver : GenericResolver` |

@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -31,6 +31,7 @@ import com.github.jonathanxd.codeapi.CodeInstruction
 import com.github.jonathanxd.codeapi.base.Named
 import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.type.CodeType
+import java.util.*
 
 /**
  * A JVM Literal.
@@ -47,6 +48,12 @@ abstract class Literal protected constructor(
     constructor(name: String, type: CodeType) : this(name, name, type)
 
     override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
+
+    override fun hashCode(): Int =
+        Objects.hash(this.value, this.name, this.type)
+
+    override fun equals(other: Any?): Boolean =
+        other is Literal && this.value == other.value && this.name == other.name && this.type == other.type
 
     override fun toString(): String {
         return "${this::class.java.simpleName}[name=$name, type=$type]"

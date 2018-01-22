@@ -6,5 +6,5 @@
 
 Overrides [Builder.expectedTypes](../../../-invoke-dynamic-base/-lambda-method-ref-base/-builder/expected-types.md)
 
-See [T.expectedTypes](#)
+See [LambdaMethodRefBase.expectedTypes](#)
 

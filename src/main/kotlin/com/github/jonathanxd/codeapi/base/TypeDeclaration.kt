@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -35,25 +35,6 @@ import java.lang.reflect.Type
 
 /**
  * Base class of all [TypeDeclaration]s like classes, interfaces and enums, and inner classes.
- *
- * The [qualifiedName] MUST return a qualifiedName even for the inner classes, the [qualifiedName] of
- * inner classes must be: '[outerClass qualifiedName][qualifiedName] + simpleInnerName'.
- *
- * For inner types, you should implement inner logic yourself, it is not hard, inner types are only
- * classes with constructors which receives outer type as parameter and fields which stores outer instance, example:
- *
- * ```
- * class A {
- *   class B(private val outer: A) {
- *     fun doSomething() {
- *       outer.doSomething()
- *     }
- *   }
- *
- *   fun doSomething() {
- *   }
- * }
- * ```
  */
 interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSignatureHolder,
     Annotable,
@@ -62,31 +43,39 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
     /**
      * Outer class (null if this type is not a inner class).
      */
-    val outerClass: Type?
+    val outerType: Type?
 
     /**
-     * The specified name (for inner classes this property is set to simple name of inner class)
+     * The specified name (for inner classes this property is the simple name of inner class)
      */
     val specifiedName: String
-        get() = this.qualifiedName
 
     /**
-     * Defined qualified name
+     * Qualified name of this class. If this type is an inner type, this will be the
+     * qualified name of [outerType] + `.` + [specifiedName] of this type.
      */
     override val qualifiedName: String
 
+    /**
+     * Binary type name of this type. If this type is an inner type, this will be the
+     * type name of [outerType] + `$` + [specifiedName] of this type.
+     */
     override val type: String
-        get() = this.qualifiedName
 
+    /**
+     * Same as [qualifiedName].
+     */
     override val canonicalName: String
         get() = this.qualifiedName
 
+    /**
+     * Resolver of this type.
+     */
     override val defaultResolver: CodeTypeResolver<*>
         get() = CodeTypeResolver.CodeAPI(null)
 
     /**
-     * Static inner types. CodeAPI 4 only supports static types, inner logic should be
-     * manually implemented.
+     * Inner types of this type.
      */
     override val innerTypes: List<TypeDeclaration>
 
@@ -109,14 +98,14 @@ interface TypeDeclaration : ModifiersHolder, CodeType, QualifiedNamed, GenericSi
         fun specifiedName(value: String): S
 
         /**
-         * See [TypeDeclaration.outerClass]
+         * See [TypeDeclaration.outerType]
          */
-        fun outerClass(value: Type?): S
+        fun outerType(value: Type?): S
 
         /**
          * Sets the name and outer type to values specified in [typeRef]
          */
         fun base(typeRef: TypeRef): S =
-            this.outerClass(typeRef.outerType).specifiedName(typeRef.specifiedName)
+            this.outerType(typeRef.outerType).specifiedName(typeRef.specifiedName)
     }
 }

@@ -45,5 +45,6 @@ either the exception describing fail of resolution or the result of resolution.
 
 | Name | Summary |
 |---|---|
+| [CachedCodeTypeResolver](../-cached-code-type-resolver/index.md) | `class CachedCodeTypeResolver<T> : CodeTypeResolver<T>`<br>Caches resolutions, this class is not thread-safe and does not caches [isAssignableFrom](../-cached-code-type-resolver/is-assignable-from.md) resolution. |
 | [CommonResolver](-common-resolver/index.md) | `abstract class CommonResolver<out T> : CodeTypeResolver<T>`<br>Common implementation of resolver. |
 | [Multi](-multi/index.md) | `class Multi<T> : CodeTypeResolver<T?>`<br>This is a resolver which support multiple resolvers. This resolver always returns first **valid resolved value** for each operation. |

@@ -6,12 +6,14 @@
 
 Constructs an array of type [arrayType](-init-.md#com.github.jonathanxd.codeapi.base.ArrayConstructor$<init>(java.lang.reflect.Type, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))/arrayType) with dimensions [dimensions](-init-.md#com.github.jonathanxd.codeapi.base.ArrayConstructor$<init>(java.lang.reflect.Type, kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)), kotlin.collections.List((com.github.jonathanxd.codeapi.CodeInstruction)))/dimensions). Example:
 
-`new ArrayConstructor(String.class, listOf(Literals.INT(5)), emptyList()) = new String[5]`
-`new ArrayConstructor(String.class, listOf(Literals.INT(5), Literals.INT(9)), emptyList()) = new String[5][9]`
+`new ArrayConstructor(String[].class, listOf(Literals.INT(5)), emptyList()) = new String[5]`
+`new ArrayConstructor(String[].class, listOf(Literals.INT(5), Literals.INT(9)), emptyList()) = new String[5][9]`
 
 ```
-new ArrayConstructor(String.class, listOf(Literals.INT(3)), listOf(Literals.STRING("A"), Literals.STRING("B"), Literals.STRING("C"))) =
-
-new String[] {"A", "B", "C"}
+new ArrayConstructor(
+    String[].class,
+    listOf(Literals.INT(3)),
+    listOf(Literals.STRING("A"), Literals.STRING("B"), Literals.STRING("C"))
+) = new String[] {"A", "B", "C"}
 ```
 

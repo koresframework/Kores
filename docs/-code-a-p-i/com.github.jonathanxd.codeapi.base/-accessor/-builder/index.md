@@ -8,8 +8,8 @@
 
 | Name | Summary |
 |---|---|
-| [localization](localization.md) | `abstract fun localization(value: Type): S`<br>See [T.localization](localization.md) |
-| [target](target.md) | `abstract fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.target](target.md) |
+| [localization](localization.md) | `abstract fun localization(value: Type): S`<br>See [Accessor.localization](../localization.md) |
+| [target](target.md) | `abstract fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [Accessor.target](../target.md) |
 
 ### Inherited Functions
 

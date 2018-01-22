@@ -23,7 +23,7 @@
 | Name | Summary |
 |---|---|
 | [build](build.md) | `fun build(): `[`Cast`](../index.md)<br>Build the object of type [T](#). |
-| [castedPart](casted-part.md) | `fun castedPart(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Cast.castedPart](../casted-part.md) |
+| [instruction](instruction.md) | `fun instruction(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Cast.instruction](../instruction.md) |
 | [originalType](original-type.md) | `fun originalType(value: Type?): Builder`<br>See [Cast.originalType](../original-type.md) |
 | [targetType](target-type.md) | `fun targetType(value: Type): Builder`<br>See [Cast.targetType](../target-type.md) |
 | [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |

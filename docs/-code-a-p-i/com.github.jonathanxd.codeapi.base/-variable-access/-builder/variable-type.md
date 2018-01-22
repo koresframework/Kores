@@ -6,5 +6,5 @@
 
 Overrides [Builder.variableType](../../-variable-base/-builder/variable-type.md)
 
-See [T.variableType](#)
+See [VariableBase.variableType](../../-variable-base/variable-type.md)
 

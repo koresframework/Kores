@@ -6,5 +6,5 @@
 
 Overrides [Builder.localCode](../../../-invoke-dynamic-base/-lambda-local-code-base/-builder/local-code.md)
 
-See [T.localCode](#)
+See [LambdaLocalCodeBase.localCode](#)
 

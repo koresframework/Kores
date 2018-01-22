@@ -4,7 +4,7 @@
 
 `data class CodeRepresentation : `[`CodeNode`](../index.md)
 
-CodeAPI code representation (let generator generates the code)
+CodeAPI code representation (let generator generate the code).
 
 ### Parameters
 
@@ -14,7 +14,7 @@ CodeAPI code representation (let generator generates the code)
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `CodeRepresentation(representation: `[`CodePart`](../../../../com.github.jonathanxd.codeapi/-code-part/index.md)`)`<br>CodeAPI code representation (let generator generates the code) |
+| [&lt;init&gt;](-init-.md) | `CodeRepresentation(representation: `[`CodePart`](../../../../com.github.jonathanxd.codeapi/-code-part/index.md)`)`<br>CodeAPI code representation (let generator generate the code). |
 
 ### Properties
 

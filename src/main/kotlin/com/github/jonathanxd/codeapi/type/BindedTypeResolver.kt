@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -78,28 +78,28 @@ class BindedTypeResolver<out T>(val bindType: Type, val codeTypeResolver: CodeTy
         this.codeTypeResolver.isAssignableFrom(this.bindType, from, resolverProvider)
 
     /**
-     * Resolves or create [TypeDeclaration] from [type] structure and elements (back call to [codeTypeResolver]).
+     * Resolves or create [TypeDeclaration] from [bindedType] structure and elements (back call to [codeTypeResolver]).
      */
-    fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> =
-        this.codeTypeResolver.resolveTypeDeclaration(type)
+    fun resolveTypeDeclaration(): Either<Exception, TypeDeclaration> =
+        this.codeTypeResolver.resolveTypeDeclaration(this.bindType)
 
     /**
-     * Resolves or create a list of all [FieldDeclaration] present in [type] (back call to [codeTypeResolver]).
+     * Resolves or create a list of all [FieldDeclaration] present in [bindedType] (back call to [codeTypeResolver]).
      */
-    fun resolveFields(type: Type): Either<Exception, List<FieldDeclaration>> =
-        this.codeTypeResolver.resolveFields(type)
+    fun resolveFields(): Either<Exception, List<FieldDeclaration>> =
+        this.codeTypeResolver.resolveFields(this.bindType)
 
     /**
-     * Resolves or create a list of all [ConstructorDeclaration] present in [type]  (back call to [codeTypeResolver]).
+     * Resolves or create a list of all [ConstructorDeclaration] present in [bindedType]  (back call to [codeTypeResolver]).
      */
-    fun resolveConstructors(type: Type): Either<Exception, List<ConstructorDeclaration>> =
-        this.codeTypeResolver.resolveConstructors(type)
+    fun resolveConstructors(): Either<Exception, List<ConstructorDeclaration>> =
+        this.codeTypeResolver.resolveConstructors(this.bindType)
 
     /**
-     * Resolves or create a list of all [MethodDeclaration] present in [type] (back call to [codeTypeResolver]).
+     * Resolves or create a list of all [MethodDeclaration] present in [bindedType] (back call to [codeTypeResolver]).
      */
-    fun resolveMethods(type: Type): Either<Exception, List<MethodDeclaration>> =
-        this.codeTypeResolver.resolveMethods(type)
+    fun resolveMethods(): Either<Exception, List<MethodDeclaration>> =
+        this.codeTypeResolver.resolveMethods(this.bindType)
 
     /**
      * Creates a new [BindedTypeResolver] instance 'binded' to [bindType].

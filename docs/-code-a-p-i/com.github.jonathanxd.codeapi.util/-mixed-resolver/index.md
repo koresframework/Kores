@@ -4,13 +4,13 @@
 
 `class MixedResolver : `[`GenericResolver`](../-generic-resolver/index.md)
 
-Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver.
+Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../../com.github.jonathanxd.codeapi.type/-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `MixedResolver(elements: Elements?)`<br>Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver. |
+| [&lt;init&gt;](-init-.md) | `MixedResolver(elements: Elements?)`<br>Mixes [JavaResolver](../-java-resolver/index.md) with [ModelResolver](../../com.github.jonathanxd.codeapi.type/-model-resolver/index.md) and [CodeAPIResolver](../-code-a-p-i-resolver/index.md) in one resolver. |
 
 ### Properties
 

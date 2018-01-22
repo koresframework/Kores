@@ -6,5 +6,5 @@
 
 Overrides [CommentHolder.comments](../../com.github.jonathanxd.codeapi.base.comment/-comment-holder/comments.md)
 
-All comments inside this holder.
+All comments of this element.
 

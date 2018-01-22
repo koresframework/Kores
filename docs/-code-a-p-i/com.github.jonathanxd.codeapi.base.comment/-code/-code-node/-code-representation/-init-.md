@@ -4,7 +4,7 @@
 
 `CodeRepresentation(representation: `[`CodePart`](../../../../com.github.jonathanxd.codeapi/-code-part/index.md)`)`
 
-CodeAPI code representation (let generator generates the code)
+CodeAPI code representation (let generator generate the code).
 
 ### Parameters
 

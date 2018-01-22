@@ -4,8 +4,8 @@
 
 `val declaringType: Type`
 
-Declaring type of [declaration](declaration.md) ([Alias](../../com.github.jonathanxd.codeapi.util/-alias/index.md) is supported)
+Declaring type of [declaration](declaration.md) ([Alias](../-alias/index.md) is supported)
 
 ### Property
 
-`declaringType` - Declaring type of [declaration](declaration.md) ([Alias](../../com.github.jonathanxd.codeapi.util/-alias/index.md) is supported)
+`declaringType` - Declaring type of [declaration](declaration.md) ([Alias](../-alias/index.md) is supported)

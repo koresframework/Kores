@@ -4,5 +4,5 @@
 
 `abstract fun bootstrap(value: `[`MethodInvokeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-invoke-spec/index.md)`): S`
 
-See T.bootstrap
+See [InvokeDynamic.bootstrap](../../-invoke-dynamic/bootstrap.md)
 

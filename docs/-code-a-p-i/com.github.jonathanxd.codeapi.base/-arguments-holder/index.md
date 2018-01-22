@@ -30,9 +30,9 @@ Hold arguments.
 
 | Name | Summary |
 |---|---|
-| [isPrimitive](../../com.github.jonathanxd.codeapi.util/is-primitive.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Returns true if the type of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is primitive |
-| [type](../../com.github.jonathanxd.codeapi.util/type.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: Type`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
-| [typeOrNull](../../com.github.jonathanxd.codeapi.util/type-or-null.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: Type?`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or null if receiver is not a [Typed](../-typed/index.md) instance. |
+| [isPrimitive](../../com.github.jonathanxd.codeapi/is-primitive.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.isPrimitive: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)<br>Returns true if the type of this [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) is primitive |
+| [type](../../com.github.jonathanxd.codeapi/type.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.type: Type`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) |
+| [typeOrNull](../../com.github.jonathanxd.codeapi/type-or-null.md) | `val `[`CodePart`](../../com.github.jonathanxd.codeapi/-code-part/index.md)`.typeOrNull: Type?`<br>Gets the type of [CodePart](../../com.github.jonathanxd.codeapi/-code-part/index.md) or null if receiver is not a [Typed](../-typed/index.md) instance. |
 
 ### Extension Functions
 
@@ -47,8 +47,10 @@ Hold arguments.
 
 | Name | Summary |
 |---|---|
-| [AnonymousClass](../-anonymous-class/index.md) | `data class AnonymousClass : `[`TypeDeclaration`](../-type-declaration/index.md)`, `[`SuperClassHolder`](../-super-class-holder/index.md)`, ArgumentsHolder, `[`ImplementationHolder`](../-implementation-holder/index.md)`, `[`ConstructorsHolder`](../-constructors-holder/index.md)<br>Anonymous class, in Bytecode, anonymous class can have implementations, in other languages it depends on specification. (Official Java generator may comment implementations). |
+| [AnonymousClass](../-anonymous-class/index.md) | `data class AnonymousClass : `[`TypeDeclaration`](../-type-declaration/index.md)`, `[`SuperClassHolder`](../-super-class-holder/index.md)`, ArgumentsHolder, `[`ImplementationHolder`](../-implementation-holder/index.md)`, `[`ConstructorsHolder`](../-constructors-holder/index.md)<br>Anonymous class, they can be defined like all other classes, but some generators may not support all definitions (like multiple [implementations](../-anonymous-class/implementations.md)). |
 | [ArrayConstructor](../-array-constructor/index.md) | `data class ArrayConstructor : ArgumentsHolder, `[`Typed`](../-typed/index.md)`, `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)<br>Constructs an array of type [arrayType](../-array-constructor/array-type.md) with dimensions [dimensions](../-array-constructor/dimensions.md). Example: |
+| [DynamicMethodSpec](../../com.github.jonathanxd.codeapi.common/-dynamic-method-spec/index.md) | `data class DynamicMethodSpec : `[`Typed`](../-typed/index.md)`, `[`Named`](../-named/index.md)`, ArgumentsHolder` |
 | [EnumEntry](../-enum-entry/index.md) | `data class EnumEntry : `[`Annotable`](../-annotable/index.md)`, ArgumentsHolder, `[`Named`](../-named/index.md)`, `[`ElementsHolder`](../-elements-holder/index.md)<br>Enumeration entry. |
 | [LambdaLocalCodeBase](../-invoke-dynamic-base/-lambda-local-code-base/index.md) | `interface LambdaLocalCodeBase : `[`LambdaMethodRefBase`](../-invoke-dynamic-base/-lambda-method-ref-base/index.md)`, ArgumentsHolder`<br>Invocation of lambda function. |
+| [LambdaMethodRefBase](../-invoke-dynamic-base/-lambda-method-ref-base/index.md) | `interface LambdaMethodRefBase : `[`InvokeDynamicBase`](../-invoke-dynamic-base/index.md)`, ArgumentsHolder`<br>Dynamic invocation of lambda method reference. |
 | [MethodInvocation](../-method-invocation/index.md) | `data class MethodInvocation : `[`Accessor`](../-accessor/index.md)`, ArgumentsHolder, `[`Typed`](../-typed/index.md)`, `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)<br>Invokes a method. |

@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -57,7 +57,7 @@ public class ComplexInnerClassTest_ {
         TypeRef innerInnerClassRef = new TypeRef(innerClassRef, "Inner2");
 
         TypeDeclaration inner2 = ClassDeclaration.Builder.builder()
-                .outerClass(innerClassRef)
+                .outerType(innerClassRef)
                 .specifiedName("Inner2")
                 .fields()
                 .constructors(
@@ -83,7 +83,7 @@ public class ComplexInnerClassTest_ {
                 ).build();
 
         TypeDeclaration inner = ClassDeclaration.Builder.builder()
-                .outerClass(classRef)
+                .outerType(classRef)
                 .innerTypes(inner2)
                 .specifiedName("Inner")
                 .fields(

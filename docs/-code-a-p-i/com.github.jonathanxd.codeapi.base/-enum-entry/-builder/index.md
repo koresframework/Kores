@@ -45,7 +45,7 @@
 | [annotations](../../-annotable/-builder/annotations.md) | `open fun annotations(vararg values: `[`Annotation`](../../-annotation/index.md)`): S`<br>See [T.annotations](../../-annotable/-builder/annotations.md) |
 | [arguments](../../-arguments-holder/-builder/arguments.md) | `open fun arguments(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): S`<br>See [T.arguments](../../-arguments-holder/-builder/arguments.md) |
 | [fields](../../-elements-holder/-builder/fields.md) | `open fun fields(value: `[`FieldDeclaration`](../../-field-declaration/index.md)`): S`<br>`open fun fields(vararg values: `[`FieldDeclaration`](../../-field-declaration/index.md)`): S`<br>See [ElementsHolder.fields](../../-elements-holder/fields.md) |
-| [methods](../../-elements-holder/-builder/methods.md) | `open fun methods(vararg values: `[`MethodDeclaration`](../../-method-declaration/index.md)`): S`<br>`open fun methods(value: `[`MethodDeclaration`](../../-method-declaration/index.md)`): S`<br>See [ElementsHolder.methods](../../-elements-holder/methods.md) |
+| [methods](../../-elements-holder/-builder/methods.md) | `open fun methods(value: `[`MethodDeclaration`](../../-method-declaration/index.md)`): S`<br>`open fun methods(vararg values: `[`MethodDeclaration`](../../-method-declaration/index.md)`): S`<br>See [ElementsHolder.methods](../../-elements-holder/methods.md) |
 
 ### Companion Object Functions
 

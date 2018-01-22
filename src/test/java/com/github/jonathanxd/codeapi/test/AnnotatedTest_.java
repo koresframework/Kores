@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -67,7 +67,7 @@ public class AnnotatedTest_ {
                 .modifiers(CodeModifier.fromJavaModifiers(Modifier.PUBLIC))
                 .genericSignature(GenericSignature.empty())
                 .annotations(listOf(
-                        Factories.visibleAnnotation(Simple.class,
+                        Factories.runtimeAnnotation(Simple.class,
                                 MapUtils.mapOf("value", new Object[]{
                                         Factories.enumValue(MyEnum.class, "A"), Factories.enumValue(MyEnum.class, "B"), Factories.enumValue(MyEnum.class, "C")
                                 })
@@ -76,7 +76,7 @@ public class AnnotatedTest_ {
                 .qualifiedName("test.AnnotatedTestClass")
                 .fields(FieldDeclaration.Builder.Companion.builder()
                         .modifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                        .annotations(listOf(Factories.visibleAnnotation(Simple.class,
+                        .annotations(listOf(Factories.runtimeAnnotation(Simple.class,
                                 MapUtils.mapOf("value", new Object[]{
                                         Factories.enumValue(MyEnum.class, "A")
                                 }))))
@@ -87,7 +87,7 @@ public class AnnotatedTest_ {
                 .methods(
                         MethodDeclaration.Builder.builder()
                                 .modifiers(SetsKt.setOf(CodeModifier.PUBLIC, CodeModifier.STATIC))
-                                .annotations(listOf(Factories.visibleAnnotation(plainCodeType)))
+                                .annotations(listOf(Factories.runtimeAnnotation(plainCodeType)))
                                 .genericSignature(GenericSignature.empty())
                                 .name("polymorphic")
                                 .returnType(Types.OBJECT)

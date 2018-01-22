@@ -5,5 +5,5 @@
 `abstract fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): S`
 `open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`
 
-See T.catchStatements
+See [TryStatementBase.catchStatements](../catch-statements.md)
 

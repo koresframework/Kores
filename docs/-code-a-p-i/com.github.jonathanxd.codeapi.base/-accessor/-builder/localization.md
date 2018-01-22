@@ -4,5 +4,5 @@
 
 `abstract fun localization(value: Type): S`
 
-See T.localization
+See [Accessor.localization](../localization.md)
 

@@ -25,16 +25,15 @@
 |---|---|
 | [body](body.md) | `fun body(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.body](#) |
 | [build](build.md) | `fun build(): `[`TryWithResources`](../index.md)<br>Build the object of type [T](#). |
-| [catchStatements](catch-statements.md) | `fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): Builder`<br>See [T.catchStatements](#) |
-| [finallyStatement](finally-statement.md) | `fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [T.finallyStatement](#) |
+| [catchStatements](catch-statements.md) | `fun catchStatements(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CatchStatement`](../../-catch-statement/index.md)`>): Builder`<br>See [TryStatementBase.catchStatements](../../-try-statement-base/catch-statements.md) |
+| [finallyStatement](finally-statement.md) | `fun finallyStatement(value: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md)`): Builder`<br>See [TryStatementBase.finallyStatement](../../-try-statement-base/finally-statement.md) |
 | [variable](variable.md) | `fun variable(value: `[`VariableDeclaration`](../../-variable-declaration/index.md)`): Builder`<br>See [TryWithResources.variable](../variable.md) |
 
 ### Inherited Functions
 
 | Name | Summary |
 |---|---|
-| [catchStatements](../../-try-statement-base/-builder/catch-statements.md) | `open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [T.catchStatements](../../-try-statement-base/-builder/catch-statements.md) |
-| [type](../../-try-statement-base/-builder/type.md) | `open fun type(value: Type): S`<br>See [T.type](../../-try-statement-base/-builder/type.md) |
+| [catchStatements](../../-try-statement-base/-builder/catch-statements.md) | `open fun catchStatements(vararg values: `[`CatchStatement`](../../-catch-statement/index.md)`): S`<br>See [TryStatementBase.catchStatements](../../-try-statement-base/catch-statements.md) |
 
 ### Companion Object Functions
 

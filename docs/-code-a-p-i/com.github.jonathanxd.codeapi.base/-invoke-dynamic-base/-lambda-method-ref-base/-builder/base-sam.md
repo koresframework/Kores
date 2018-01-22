@@ -4,5 +4,5 @@
 
 `abstract fun baseSam(value: `[`MethodTypeSpec`](../../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`): S`
 
-See T.baseSam
+See [LambdaMethodRefBase.baseSam](../base-sam.md)
 

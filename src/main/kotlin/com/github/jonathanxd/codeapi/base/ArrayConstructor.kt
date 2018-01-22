@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,17 +33,20 @@ import com.github.jonathanxd.codeapi.common.Stack
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type
 import com.github.jonathanxd.codeapi.type.codeType
+import com.github.jonathanxd.codeapi.type.isArray
 import java.lang.reflect.Type
 
 /**
  * Constructs an array of type [arrayType] with dimensions [dimensions]. Example:
  *
- * `new ArrayConstructor(String.class, listOf(Literals.INT(5)), emptyList()) = new String[5]`
- * `new ArrayConstructor(String.class, listOf(Literals.INT(5), Literals.INT(9)), emptyList()) = new String[5][9]`
+ * `new ArrayConstructor(String[].class, listOf(Literals.INT(5)), emptyList()) = new String[5]`
+ * `new ArrayConstructor(String[].class, listOf(Literals.INT(5), Literals.INT(9)), emptyList()) = new String[5][9]`
  * ```
- * new ArrayConstructor(String.class, listOf(Literals.INT(3)), listOf(Literals.STRING("A"), Literals.STRING("B"), Literals.STRING("C"))) =
- *
- * new String[] {"A", "B", "C"}
+ * new ArrayConstructor(
+ *     String[].class,
+ *     listOf(Literals.INT(3)),
+ *     listOf(Literals.STRING("A"), Literals.STRING("B"), Literals.STRING("C"))
+ * ) = new String[] {"A", "B", "C"}
  * ```
  */
 data class ArrayConstructor(
@@ -51,6 +54,11 @@ data class ArrayConstructor(
     val dimensions: List<CodeInstruction>,
     override val arguments: List<CodeInstruction>
 ) : ArgumentsHolder, Typed, CodeInstruction {
+
+    init {
+        check(arrayType.isArray) { "arrayType is not an array type!" }
+        check(dimensions.isNotEmpty()) { "dimensions cannot be empty" }
+    }
 
     override val type: Type
         get() = this.arrayType

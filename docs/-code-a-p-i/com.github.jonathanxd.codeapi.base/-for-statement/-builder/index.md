@@ -16,8 +16,8 @@
 |---|---|
 | [body](body.md) | `var body: `[`CodeSource`](../../../com.github.jonathanxd.codeapi/-code-source/index.md) |
 | [forExpression](for-expression.md) | `var forExpression: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
-| [forInit](for-init.md) | `var forInit: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
-| [forUpdate](for-update.md) | `var forUpdate: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md) |
+| [forInit](for-init.md) | `var forInit: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
+| [forUpdate](for-update.md) | `var forUpdate: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>` |
 
 ### Functions
 
@@ -27,8 +27,8 @@
 | [build](build.md) | `fun build(): `[`ForStatement`](../index.md)<br>Build the object of type [T](#). |
 | [expressions](expressions.md) | `fun expressions(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun expressions(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.expressions](#) |
 | [forExpression](for-expression.md) | `fun forExpression(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun forExpression(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forExpression](../for-expression.md) |
-| [forInit](for-init.md) | `fun forInit(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forInit](../for-init.md) |
-| [forUpdate](for-update.md) | `fun forUpdate(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forUpdate](../for-update.md) |
+| [forInit](for-init.md) | `fun forInit(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun forInit(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forInit](../for-init.md) |
+| [forUpdate](for-update.md) | `fun forUpdate(value: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`>): Builder`<br>`fun forUpdate(vararg values: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [ForStatement.forUpdate](../for-update.md) |
 
 ### Companion Object Functions
 

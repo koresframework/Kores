@@ -25,12 +25,6 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-// Setup
-
-ext {
-    description = "Framework to generate Java code and Bytecode code."
-}
-
 shadowJar {
     dependencies {
         include(dependency("com.github.JonathanxD:JwIUtils"))
@@ -53,9 +47,9 @@ dokka {
     reportNotDocumented = false
 
     linkMapping {
-        dir = 'src/main/kotlin'
-        url = 'https://github.com/JonathanxD/CodeAPI/tree/version/4.0.0/src/main/kotlin'
-        suffix = '#L'
+        dir = "src/main/kotlin"
+        url = "https://github.com/JonathanxD/CodeAPI/tree/version/4.0.0/src/main/kotlin"
+        suffix = "#L"
     }
 }
 
@@ -96,7 +90,7 @@ dependencies {
     compile "com.github.JonathanxD.JwIUtils:JwIUtils:$iutils_version"
     compile "com.github.JonathanxD.JwIUtils:jwiutils-kt:$iutils_version"
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -108,13 +102,10 @@ test {
 }
 
 license {
-    String name = project.getName()
-    String description = project.ext.description
-
-    ext.name = "$name"
-    ext.organization = 'TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/)'
-    ext.description = "$description"
-    ext.url = "https://github.com/JonathanxD/$name"
+    ext.name = project.name
+    ext.organization = project.organization
+    ext.description = project.description
+    ext.url = project.purl
     ext.year = Calendar.getInstance().get(Calendar.YEAR)
     ext.email = 'jonathan.scripter@programmer.net'
 

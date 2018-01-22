@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -44,6 +44,7 @@ import com.github.jonathanxd.codeapi.base.Cast;
 import com.github.jonathanxd.codeapi.base.CatchStatement;
 import com.github.jonathanxd.codeapi.base.ClassDeclaration;
 import com.github.jonathanxd.codeapi.base.CodeModifier;
+import com.github.jonathanxd.codeapi.base.CodeRetention;
 import com.github.jonathanxd.codeapi.base.Concat;
 import com.github.jonathanxd.codeapi.base.ConstructorDeclaration;
 import com.github.jonathanxd.codeapi.base.ControlFlow;
@@ -98,7 +99,6 @@ import com.github.jonathanxd.codeapi.operator.Operators;
 import com.github.jonathanxd.codeapi.type.AnnotatedCodeType;
 import com.github.jonathanxd.codeapi.type.Generic;
 import com.github.jonathanxd.codeapi.type.PlainCodeType;
-import com.github.jonathanxd.codeapi.type.CodeTypes;
 import com.github.jonathanxd.iutils.map.MapUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -119,7 +119,7 @@ public class BuilderTest {
     public void annotationBuilderTest() {
         Annotation.Builder.Companion.builder()
                 .type(Test.class)
-                .visible(true)
+                .retention(CodeRetention.RUNTIME)
                 .values(MapUtils.mapOf(
                         "expected", NullPointerException.class
                 ))
@@ -213,7 +213,7 @@ public class BuilderTest {
         Cast.Builder.Companion.builder()
                 .originalType(Object.class)
                 .targetType(Integer.class)
-                .castedPart(Factories.accessVariable(Object.class, "in"))
+                .instruction(Factories.accessVariable(Object.class, "in"))
                 .build();
     }
 
@@ -596,7 +596,7 @@ public class BuilderTest {
         AnnotatedCodeType.Companion.builder(String.class)
                 .annotations(new ArrayList<>())
                 .addAnnotation(Annotation.Builder.builder()
-                        .visible(true)
+                        .retention(CodeRetention.RUNTIME)
                         .type(NotNull.class)
                         .build())
                 .build();

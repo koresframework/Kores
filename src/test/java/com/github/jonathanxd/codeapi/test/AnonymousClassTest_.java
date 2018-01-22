@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -51,7 +51,7 @@ public class AnonymousClassTest_ {
 
         predefinedTest.constructor.innerTypes(
                 AnonymousClass.Builder.builder()
-                        .outerClass(predefinedTest.getTypeRef())
+                        .outerType(predefinedTest.getTypeRef())
                         .specifiedName("AnonymousGreeter")
                         .superClass(Greeter2.class)
                         .constructorSpec(Factories.constructorTypeSpec(String.class))

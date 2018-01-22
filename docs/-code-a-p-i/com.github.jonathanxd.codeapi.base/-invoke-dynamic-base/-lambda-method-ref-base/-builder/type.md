@@ -4,7 +4,7 @@
 
 `open fun type(value: Type): S`
 
-Overrides [Builder.type](../../../-typed/-builder/type.md)
+Overrides [Builder.type](../../-builder/type.md)
 
 See T.type
 

@@ -27,9 +27,9 @@
 | [array](array.md) | `fun array(value: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): Builder`<br>See [T.array](#) |
 | [build](build.md) | `fun build(): `[`MethodInvocation`](../index.md)<br>Build the object of type [T](#). |
 | [invokeType](invoke-type.md) | `fun invokeType(value: `[`InvokeType`](../../-invoke-type/index.md)`): Builder`<br>See [MethodInvocation.invokeType](../invoke-type.md) |
-| [localization](localization.md) | `fun localization(value: Type): Builder`<br>See [T.localization](#) |
+| [localization](localization.md) | `fun localization(value: Type): Builder`<br>See [Accessor.localization](../../-accessor/localization.md) |
 | [spec](spec.md) | `fun spec(value: `[`MethodTypeSpec`](../../../com.github.jonathanxd.codeapi.common/-method-type-spec/index.md)`): Builder`<br>See [MethodInvocation.spec](../spec.md) |
-| [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [T.target](#) |
+| [target](target.md) | `fun target(value: `[`CodeInstruction`](../../../com.github.jonathanxd.codeapi/-code-instruction.md)`): Builder`<br>See [Accessor.target](../../-accessor/target.md) |
 | [type](type.md) | `fun type(value: Type): Builder`<br>See [T.type](#) |
 
 ### Inherited Functions

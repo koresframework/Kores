@@ -2,10 +2,10 @@
 
 # forInit
 
-`val forInit: `[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)
+`val forInit: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`CodeInstruction`](../../com.github.jonathanxd.codeapi/-code-instruction.md)`>`
 
-For initialization (ex: `int i = 0`).
+For initialization (ex: `int i = 0`, `int i = 0, x = 9`).
 
 ### Property
 
-`forInit` - For initialization (ex: `int i = 0`).
+`forInit` - For initialization (ex: `int i = 0`, `int i = 0, x = 9`).

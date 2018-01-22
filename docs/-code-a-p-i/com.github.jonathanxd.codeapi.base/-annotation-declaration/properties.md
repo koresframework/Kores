@@ -9,3 +9,8 @@ Properties of annotation declaration.
 ### Property
 
 `properties` - Properties of annotation declaration.
+
+**See Also**
+
+[TypeDeclaration](../-type-declaration/index.md)
+

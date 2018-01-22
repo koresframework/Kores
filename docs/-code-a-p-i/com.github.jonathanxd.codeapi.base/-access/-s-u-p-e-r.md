@@ -4,5 +4,7 @@
 
 `SUPER`
 
-Access to super class scope
+Access to super class scope.
+
+Java: `super`
 

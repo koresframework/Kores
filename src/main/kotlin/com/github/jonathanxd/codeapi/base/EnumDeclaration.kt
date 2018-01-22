@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -41,7 +41,7 @@ import java.lang.reflect.Type
  * Enum declaration.
  */
 data class EnumDeclaration(
-    override val outerClass: Type?,
+    override val outerType: Type?,
     override val comments: Comments,
     override val annotations: List<Annotation>,
     override val modifiers: Set<CodeModifier>,
@@ -59,10 +59,10 @@ data class EnumDeclaration(
 
 
     override val qualifiedName: String = specifiedName
-        get() = resolveQualifiedName(field, this.outerClass)
+        get() = resolveQualifiedName(field, this.outerType)
 
     override val type: String = specifiedName
-        get() = resolveTypeName(field, this.outerClass)
+        get() = resolveTypeName(field, this.outerType)
 
     /**
      * Gets the ordinal position of [entry]
@@ -101,7 +101,7 @@ data class EnumDeclaration(
         var entries: List<EnumEntry> = emptyList()
 
         constructor(defaults: EnumDeclaration) : this() {
-            this.outerClass = defaults.outerClass
+            this.outerClass = defaults.outerType
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
@@ -168,7 +168,7 @@ data class EnumDeclaration(
             return this
         }
 
-        override fun outerClass(value: Type?): Builder {
+        override fun outerType(value: Type?): Builder {
             this.outerClass = value
             return this
         }

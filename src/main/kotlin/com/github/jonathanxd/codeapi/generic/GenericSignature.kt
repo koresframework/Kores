@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -33,9 +33,9 @@ import java.util.*
 /**
  * Hold information about generic signatures.
  */
-class GenericSignature(private val types_: Array<out GenericType>) {
+class GenericSignature(private val _types: Array<out GenericType>) {
 
-    val types get() = types_.clone()
+    val types get() = _types.clone()
 
     /**
      * Returns true if this generic signature is empty (no types).
@@ -73,6 +73,17 @@ class GenericSignature(private val types_: Array<out GenericType>) {
         @JvmStatic
         fun create(vararg types: GenericType): GenericSignature {
             return GenericSignature(types)
+        }
+
+        /**
+         * Create generic signature.
+         *
+         * @param types Generic Types.
+         * @return New [GenericSignature] holding [GenericTypes][GenericType]
+         */
+        @JvmStatic
+        fun create(types: List<GenericType>): GenericSignature {
+            return GenericSignature(types.toTypedArray())
         }
 
         /**

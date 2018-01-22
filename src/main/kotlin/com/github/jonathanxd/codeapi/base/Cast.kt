@@ -1,9 +1,9 @@
 /*
- *      CodeAPI - Framework to generate Java code and Bytecode code. <https://github.com/JonathanxD/CodeAPI>
+ *      CodeAPI - Java source and Bytecode generation framework <https://github.com/JonathanxD/CodeAPI>
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/ & https://github.com/TheRealBuggy/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2018 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -32,14 +32,14 @@ import java.lang.reflect.Type
 
 
 /**
- * Value cast. Cast [castedPart] of type [originalType] (null if unknown) to [targetType]. Official
+ * Value cast. Cast [instruction] of type [originalType] (null if unknown) to [targetType]. Official
  * BytecodeGenerator uses the [originalType] to auto-box and auto-unbox the value.
  *
  * @property originalType Origin type
  * @property targetType Target type
- * @property castedPart Part to cast
+ * @property instruction Instruction to cast
  */
-data class Cast(val originalType: Type?, val targetType: Type, val castedPart: CodeInstruction) :
+data class Cast(val originalType: Type?, val targetType: Type, val instruction: CodeInstruction) :
     Typed, CodeInstruction {
 
     override val type: Type
@@ -57,7 +57,7 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
         constructor(defaults: Cast) : this() {
             this.originalType = defaults.originalType
             this.targetType = defaults.targetType
-            this.castedPart = defaults.castedPart
+            this.castedPart = defaults.instruction
         }
 
         override fun type(value: Type): Builder = this.targetType(value)
@@ -79,9 +79,9 @@ data class Cast(val originalType: Type?, val targetType: Type, val castedPart: C
         }
 
         /**
-         * See [Cast.castedPart]
+         * See [Cast.instruction]
          */
-        fun castedPart(value: CodeInstruction): Builder {
+        fun instruction(value: CodeInstruction): Builder {
             this.castedPart = value
             return this
         }

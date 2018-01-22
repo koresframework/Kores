@@ -19,6 +19,10 @@
 | [CODE_PART](-c-o-d-e_-p-a-r-t.md) | `val CODE_PART: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`CodePart`](../-code-part/index.md)`>` |
 | [CODE_TYPE](-c-o-d-e_-t-y-p-e.md) | `val CODE_TYPE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`CodeType`](../../com.github.jonathanxd.codeapi.type/-code-type/index.md)`>` |
 | [COLLECTION](-c-o-l-l-e-c-t-i-o-n.md) | `val COLLECTION: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)`<*>>` |
+| [COLLECTIONS](-c-o-l-l-e-c-t-i-o-n-s.md) | `val COLLECTIONS: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Collections>` |
+| [COLLECTIONS3](-c-o-l-l-e-c-t-i-o-n-s3.md) | `val COLLECTIONS3: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Collections3>` |
+| [COMPARABLE](-c-o-m-p-a-r-a-b-l-e.md) | `val COMPARABLE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Comparable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html)`<*>>` |
+| [COMPARATOR](-c-o-m-p-a-r-a-t-o-r.md) | `val COMPARATOR: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Comparator<*>>` |
 | [DEQUE](-d-e-q-u-e.md) | `val DEQUE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Deque<*>>` |
 | [DOUBLE](-d-o-u-b-l-e.md) | `val DOUBLE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Double`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)`>` |
 | [DOUBLE_WRAPPER](-d-o-u-b-l-e_-w-r-a-p-p-e-r.md) | `val DOUBLE_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Double`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)`>` |
@@ -33,7 +37,9 @@
 | [LIST](-l-i-s-t.md) | `val LIST: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<*>>` |
 | [LONG](-l-o-n-g.md) | `val LONG: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`>` |
 | [LONG_WRAPPER](-l-o-n-g_-w-r-a-p-p-e-r.md) | `val LONG_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Long`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)`>` |
+| [MAP](-m-a-p.md) | `val MAP: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Map`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)`<*, *>>` |
 | [OBJECT](-o-b-j-e-c-t.md) | `val OBJECT: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>` |
+| [OBJECTS](-o-b-j-e-c-t-s.md) | `val OBJECTS: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Objects>` |
 | [OVERRIDE](-o-v-e-r-r-i-d-e.md) | `val OVERRIDE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Override>` |
 | [RUNTIME_EXCEPTION](-r-u-n-t-i-m-e_-e-x-c-e-p-t-i-o-n.md) | `val RUNTIME_EXCEPTION: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`RuntimeException`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html)`>` |
 | [SET](-s-e-t.md) | `val SET: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)`<*>>` |
@@ -41,6 +47,7 @@
 | [SHORT_WRAPPER](-s-h-o-r-t_-w-r-a-p-p-e-r.md) | `val SHORT_WRAPPER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Short`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html)`>` |
 | [STRING](-s-t-r-i-n-g.md) | `val STRING: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`>` |
 | [STRING_BUILDER](-s-t-r-i-n-g_-b-u-i-l-d-e-r.md) | `val STRING_BUILDER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`StringBuilder`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html)`>` |
+| [SUPPLIER](-s-u-p-p-l-i-e-r.md) | `val SUPPLIER: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Supplier<*>>` |
 | [SYSTEM](-s-y-s-t-e-m.md) | `val SYSTEM: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<System>` |
 | [THROWABLE](-t-h-r-o-w-a-b-l-e.md) | `val THROWABLE: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<`[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`>` |
 | [VOID](-v-o-i-d.md) | `val VOID: `[`LoadedCodeType`](../../com.github.jonathanxd.codeapi.type/-loaded-code-type/index.md)`<Void>` |
