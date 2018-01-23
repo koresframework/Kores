@@ -235,9 +235,12 @@ enum class CodeModifier(val modifierType: ModifierType, expr_: String? = null) :
          * @return String containing all modifiers name.
          */
         @JvmStatic
-        fun toString(collection: Collection<CodeModifier>?): String {
-            return collection?.sorted()?.map { it.name.toLowerCase() }?.joinToString(" ") ?: ""
-        }
+        fun toString(collection: Collection<CodeModifier>?): String =
+            collection
+                ?.filter { it.expr.isNotEmpty() }
+                ?.sorted()
+                ?.joinToString(" ") { it.expr } ?: ""
+
 
         /**
          * Convert [CodeModifier]s to Java Modifiers flags.
