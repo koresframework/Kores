@@ -1,8 +1,10 @@
 ![Kores](https://github.com/JonathanxD/Kores/blob/version/4.0.0/Kores-base.png?raw=true)
 
-[![wercker status](https://app.wercker.com/status/5bb68f1c497f4e1cf3ff362874395e6f/s/version/4.0.0 "wercker status")](https://app.wercker.com/project/byKey/5bb68f1c497f4e1cf3ff362874395e6f)
 [![jitpack](https://jitpack.io/v/JonathanxD/Kores.svg)](https://jitpack.io/#JonathanxD/Kores)
 [![Discord](https://img.shields.io/discord/291407467286364164.svg)](https://discord.gg/3cQWmtj)
+
+[![wercker status](https://app.wercker.com/status/5bb68f1c497f4e1cf3ff362874395e6f/m/version/4.0.0 "wercker status")](https://app.wercker.com/project/byKey/5bb68f1c497f4e1cf3ff362874395e6f)
+
 
 Kores is a framework which provide to developers a way to construct bytecode and source from a common structure.
 
