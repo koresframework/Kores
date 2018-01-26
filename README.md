@@ -10,11 +10,11 @@ Kores is a framework which provide to developers a way to construct bytecode and
 
 CodeAPI 2 (old name):
 
-All projects already updated.
+All my projects is already updated.
 
 CodeAPI 3 (old name):
 
-All projects that have a Kores 4 beta.
+All my projects have a Kores 4 beta version.
 
 Kores 4 (beta):
 
