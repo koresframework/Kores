@@ -28,6 +28,7 @@
 package com.github.jonathanxd.kores.common
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.annotation.Spec
 import com.github.jonathanxd.kores.base.*
 import com.github.jonathanxd.kores.type
 import java.lang.reflect.Type
@@ -37,6 +38,7 @@ import java.lang.reflect.Type
  * @property typeSpec Signature of dynamic method.
  * @property arguments Arguments to pass to dynamic method. (may include the receiver).
  */
+@Spec
 data class DynamicMethodSpec(
     override val name: String,
     val typeSpec: TypeSpec,

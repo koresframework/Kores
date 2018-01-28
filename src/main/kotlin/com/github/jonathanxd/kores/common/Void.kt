@@ -33,9 +33,9 @@ import com.github.jonathanxd.kores.base.Typed
 import com.github.jonathanxd.kores.builder.self
 import java.lang.reflect.Type
 
-        /**
-         * To avoid confusion with java void.
-         */
+/**
+ * To avoid confusion with java void.
+ */
 typealias KoresVoid = Void
 
 /**

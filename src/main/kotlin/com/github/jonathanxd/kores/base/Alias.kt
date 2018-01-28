@@ -32,6 +32,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.koresType
+import java.lang.reflect.Type
 
 /**
  * Type alias. They are only supported in specific contexts, which depends on the generator.
@@ -47,11 +48,17 @@ import com.github.jonathanxd.kores.type.koresType
 sealed class Alias : Instruction {
 
     /**
+     * Called with current type declaration (the class that contains the alias) to resolve the real type.
+     */
+    abstract fun resolve(declaration: TypeDeclaration): Type
+
+    /**
      * Current class localization.
      *
      * **Must be manually handled.**
      */
     object THIS : Alias(), KoresType by THIS::class.koresType {
+        override fun resolve(declaration: TypeDeclaration): Type = declaration
         override fun hashCode(): Int = super.hashCode()
         override fun equals(other: Any?): Boolean = other === THIS
     }
@@ -62,6 +69,13 @@ sealed class Alias : Instruction {
      * **Must be manually handled.**
      */
     object SUPER : Alias(), KoresType by SUPER::class.koresType {
+        override fun resolve(declaration: TypeDeclaration): Type =
+            (declaration as? SuperClassHolder)?.superClass
+                    ?: throw IllegalStateException(
+                        "Alias.SUPER found in a declaration that" +
+                                " does not have super type. Declaration: $declaration"
+                    )
+
         override fun hashCode(): Int = super.hashCode()
         override fun equals(other: Any?): Boolean = other === SUPER
     }
@@ -74,6 +88,18 @@ sealed class Alias : Instruction {
      * @param n Index of implementation interfaces
      */
     data class INTERFACE(val n: Int) : Alias(), KoresType by INTERFACE::class.koresType {
+        override fun resolve(declaration: TypeDeclaration): Type =
+            (declaration as? ImplementationHolder)?.implementations?.let {
+                it.getOrNull(n) ?: throw IllegalStateException(
+                    "Interface number '$n' not found" +
+                            " in interfaces of declaration '$declaration'"
+                )
+
+            } ?: throw IllegalStateException(
+                "Alias.SUPER found in a declaration that" +
+                        " does not have super type. Declaration: $declaration"
+            )
+
         override val type: String = "${INTERFACE::class.java.canonicalName}($n)"
         override val canonicalName: String = type
 

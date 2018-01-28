@@ -28,6 +28,7 @@
 package com.github.jonathanxd.kores.common
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.annotation.Spec
 import com.github.jonathanxd.kores.base.InvokeType
 import com.github.jonathanxd.kores.base.MethodInvocation
 import com.github.jonathanxd.kores.base.TypeSpec
@@ -36,6 +37,7 @@ import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.koresType
 import java.lang.reflect.Type
 
+@Spec
 data class MethodTypeSpec(val localization: Type, val methodName: String, val typeSpec: TypeSpec) :
     Typed, Comparable<MethodTypeSpec> {
     override val type: Type

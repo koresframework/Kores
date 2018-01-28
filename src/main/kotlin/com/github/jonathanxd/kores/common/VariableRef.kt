@@ -27,14 +27,14 @@
  */
 package com.github.jonathanxd.kores.common
 
-import com.github.jonathanxd.kores.annotation.Reference
+import com.github.jonathanxd.kores.annotation.Spec
 import com.github.jonathanxd.kores.base.VariableBase
 import java.lang.reflect.Type
 
 /**
  * Reference to a Variable.
  */
-@Reference
+@Spec
 data class VariableRef(override val variableType: Type, override val name: String) : VariableBase {
 
     override fun builder(): Builder = Builder(this)

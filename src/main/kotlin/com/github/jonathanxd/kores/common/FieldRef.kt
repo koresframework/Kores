@@ -28,14 +28,14 @@
 package com.github.jonathanxd.kores.common
 
 import com.github.jonathanxd.kores.Instruction
-import com.github.jonathanxd.kores.annotation.Reference
+import com.github.jonathanxd.kores.annotation.Spec
 import com.github.jonathanxd.kores.base.FieldBase
 import java.lang.reflect.Type
 
 /**
  * Field reference
  */
-@Reference
+@Spec
 data class FieldRef(
     override val localization: Type,
     override val target: Instruction,
