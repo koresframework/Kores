@@ -190,10 +190,7 @@ interface KoresTypeResolver<out T> {
                 )
 
             val superClass =
-                concreteFrom.let { resolverProvider(it).getSuperclass(it) }
-                    .let {
-                        if (it.isLeft) return EitherObjBoolean.left(it.left) else it.right?.concreteType
-                    }
+                concreteFrom.let { resolverProvider(it).getSuperclass(it) }.rightOrNull()?.concreteType
 
             if (superClass != null) {
                 if (superClass.`is`(concreteKoresType)
@@ -214,12 +211,7 @@ interface KoresTypeResolver<out T> {
             }
 
             val superinterfaces =
-                concreteFrom.let { resolverProvider(it).getInterfaces(it) }.let {
-                    if (it.isLeft)
-                        return EitherObjBoolean.left(it.left)
-                    else
-                        it.right
-                }
+                concreteFrom.let { resolverProvider(it).getInterfaces(it) }.rightOrNull().orEmpty()
 
             if (superinterfaces.isNotEmpty()) {
                 if (superinterfaces.any { it.`is`(concreteKoresType) }

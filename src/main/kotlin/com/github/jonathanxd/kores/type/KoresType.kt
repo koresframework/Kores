@@ -256,7 +256,7 @@ interface KoresType : KoresPart, Comparable<KoresType>, Type {
      * Gets the super type of `this` [Type] using default resolver.
      */
     val superType: Type?
-        get() = this.defaultResolver.getSuperclass(this).rightOrFail
+        get() = this.defaultResolver.getSuperclass(this).rightOrNull()
 
     /**
      * Gets the super interfaces of `this` [Type] using default resolver.
