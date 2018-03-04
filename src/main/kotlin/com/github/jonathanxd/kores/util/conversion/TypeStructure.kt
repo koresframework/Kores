@@ -140,13 +140,15 @@ val Class<*>.typeDeclaration: TypeDeclaration
                 .constructors(this.constructorDeclarations)
         }
 
+        val typeRef = this.asTypeRef
+
         // Commons
         return builder
-            .outerType(this.asTypeRef.outerType)
+            .outerType(typeRef.outerType)
             .genericSignature(this.genericSignature)
             .annotations(this.koresAnnotations)
             .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-            .qualifiedName(this.canonicalName)
+            .qualifiedName(typeRef.specifiedName)
             .fields(this.fieldDeclarations)
             .methods(this.methodDeclarations)
             .innerTypes(innerTypes.map { it.typeDeclaration })
@@ -157,7 +159,7 @@ val Class<*>.typeDeclaration: TypeDeclaration
 val Class<*>.asTypeRef: TypeRef
     get() =
         if (this.enclosingClass == null)
-            TypeRef(null, this.concreteType.simpleName, this.isInterface)
+            TypeRef(null, this.concreteType.canonicalName, this.isInterface)
         else
             TypeRef(this.enclosingClass.asTypeRef, this.concreteType.simpleName, this.isInterface)
 
