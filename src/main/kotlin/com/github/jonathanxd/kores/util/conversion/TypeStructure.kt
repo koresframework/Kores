@@ -148,7 +148,7 @@ val Class<*>.typeDeclaration: TypeDeclaration
             .genericSignature(this.genericSignature)
             .annotations(this.koresAnnotations)
             .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-            .qualifiedName(typeRef.specifiedName)
+            .specifiedName(typeRef.specifiedName)
             .fields(this.fieldDeclarations)
             .methods(this.methodDeclarations)
             .innerTypes(innerTypes.map { it.typeDeclaration })
@@ -369,12 +369,14 @@ fun TypeElement.getTypeDeclaration(elements: Elements): TypeDeclaration {
             .constructors(this.getConstructorDeclarations(elements))
     }
 
+    val asTypeRef = this.asTypeRef(elements)
+
     // Commons
     return builder
-        .outerType(this.asTypeRef(elements).outerType)
+        .outerType(asTypeRef.outerType)
         .annotations(this.getKoresAnnotations(elements))
         .modifiers(KoresModifier.fromJavaxModifiers(this.modifiers))
-        .qualifiedName(this.qualifiedName.toString())
+        .specifiedName(asTypeRef.specifiedName)
         .fields(this.getFieldDeclarations(elements))
         .methods(this.getMethodDeclarations(elements))
         .innerTypes(innerTypes.map { it.getTypeDeclaration(elements) })
@@ -386,13 +388,14 @@ fun TypeElement.asTypeRef(elements: Elements): TypeRef =
     if (this.enclosingElement.kind == ElementKind.PACKAGE)
         TypeRef(
             null,
-            this.getKoresType(elements).concreteType.simpleName,
+            this.getKoresType(elements).concreteType.canonicalName,
             this.kind == ElementKind.INTERFACE
         )
     else {
         val enclosingType = this.getEnclosingType()
         TypeRef(
-            enclosingType.asTypeRef(elements), this.getKoresType(elements).concreteType.simpleName,
+            enclosingType.asTypeRef(elements),
+            this.getKoresType(elements).concreteType.simpleName,
             this.kind == ElementKind.INTERFACE
         )
     }
@@ -594,7 +597,7 @@ fun TypeDeclaration.toRepresentation(): TypeDeclaration {
         .annotations(this.annotations.map { it.toRepresentation() })
         .genericSignature(this.genericSignature)
         .modifiers(this.modifiers.toSet())
-        .qualifiedName(this.canonicalName)
+        .specifiedName(this.specifiedName)
         .fields(this.fields.map { it.toRepresentation() })
         .methods(this.methods.map { it.toRepresentation() })
         .innerTypes(innerTypes.map { it.toRepresentation() })

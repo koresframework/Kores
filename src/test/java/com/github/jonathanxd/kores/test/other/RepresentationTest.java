@@ -43,8 +43,19 @@ public class RepresentationTest {
                         .resolveTypeDeclaration();
 
         Assert.assertTrue(exceptionTypeDeclarationEither.isRight());
+
+        Either<Exception, TypeDeclaration> resolve2 = exceptionTypeDeclarationEither
+                .getRight()
+                .getBindedDefaultResolver()
+                .resolveTypeDeclaration();
+        Assert.assertTrue(resolve2.isRight());
+
+
         Assert.assertEquals(KoresTypes.getKoresType(A.class).getJavaSpecName(),
                 exceptionTypeDeclarationEither.getRight().getJavaSpecName());
+
+        Assert.assertEquals(KoresTypes.getKoresType(A.class).getJavaSpecName(),
+                resolve2.getRight().getJavaSpecName());
     }
 
     public interface A {
