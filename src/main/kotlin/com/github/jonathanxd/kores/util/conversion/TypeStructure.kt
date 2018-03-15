@@ -43,6 +43,7 @@ import java.lang.reflect.Modifier
 import javax.lang.model.AnnotatedConstruct
 import javax.lang.model.element.*
 import javax.lang.model.type.ArrayType
+import javax.lang.model.type.TypeKind
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.util.Elements
 
@@ -289,7 +290,7 @@ fun TypeElement.getTypeDeclaration(elements: Elements): TypeDeclaration {
 
     val builder: TypeDeclaration.Builder<TypeDeclaration, *> = when {
         this.kind == ElementKind.INTERFACE -> InterfaceDeclaration.Builder.builder()
-            .implementations(this.interfaces.map { it.getKoresType(elements) })
+            .implementations(this.interfaces.filterNotNone().map { it.getKoresType(elements) })
 
         this.kind == ElementKind.ANNOTATION_TYPE -> AnnotationDeclaration.Builder.builder()
             .properties(this.enclosedElements.filterIsInstance<ExecutableElement>().map {
@@ -359,13 +360,16 @@ fun TypeElement.getTypeDeclaration(elements: Elements): TypeDeclaration {
                 }
 
             EnumDeclaration.Builder.builder()
-                .implementations(this.interfaces.map { it.getKoresType(elements) })
+                .implementations(this.interfaces.filterNotNone().map { it.getKoresType(elements) })
                 .entries(enumEntries)
                 .constructors(this.getConstructorDeclarations(elements))
         }
         else -> ClassDeclaration.Builder.builder()
-            .superClass(this.superclass.getKoresType(elements))
-            .implementations(this.interfaces.map { it.getKoresType(elements) })
+            .also {
+                if (this.superclass.kind != TypeKind.NONE)
+                    it.superClass(this.superclass.getKoresType(elements))
+            }
+            .implementations(this.interfaces.filterNotNone().map { it.getKoresType(elements) })
             .constructors(this.getConstructorDeclarations(elements))
     }
 
@@ -383,6 +387,7 @@ fun TypeElement.getTypeDeclaration(elements: Elements): TypeDeclaration {
         .build()
 }
 
+private fun List<TypeMirror>.filterNotNone() = this.filter { it.kind != TypeKind.NONE }
 
 fun TypeElement.asTypeRef(elements: Elements): TypeRef =
     if (this.enclosingElement.kind == ElementKind.PACKAGE)
@@ -429,7 +434,7 @@ fun ExecutableElement.getMethodDeclaration(elements: Elements): MethodDeclaratio
         .parameters(this.parameters.map {
             parameter(type = it.asType().getKoresType(elements), name = it.simpleName.toString())
         })
-        .throwsClause(this.thrownTypes.map { it.getKoresType(elements) })
+        .throwsClause(this.thrownTypes.filterNotNone().map { it.getKoresType(elements) })
         .innerTypes(this.enclosedElements.filterIsInstance<TypeElement>().map {
             it.getTypeDeclaration(
                 elements
@@ -452,7 +457,7 @@ fun ExecutableElement.getConstructorDeclaration(elements: Elements): Constructor
         .parameters(this.parameters.map {
             parameter(type = it.asType().getKoresType(elements), name = it.simpleName.toString())
         })
-        .throwsClause(this.thrownTypes.map { it.getKoresType(elements) })
+        .throwsClause(this.thrownTypes.filterNotNone().map { it.getKoresType(elements) })
         .innerTypes(this.enclosedElements.filterIsInstance<TypeElement>().map {
             it.getTypeDeclaration(
                 elements
