@@ -293,7 +293,7 @@ private fun toTypeVar(bound: GenericType.Bound, variable: TypeVariable<*>): Type
 }
 
 /**
- * Infers code type.
+ * Infers a type for receiver type variable.
  */
 fun Type.inferType(
     variables: Array<out TypeVariable<*>>,
@@ -301,12 +301,12 @@ fun Type.inferType(
     genericType: GenericType
 ): KoresType {
     this.koresType.let {
-        if (it is LoadedKoresType<*> || it is GenericType && it.isType && it.resolvedType is LoadedKoresType<*>) {
+        if (it !is GenericType || it.isType) {
 
-            if (it is GenericType) {
-                return it.resolvedType
+            return if (it is GenericType) {
+                it.resolvedType
             } else {
-                return it
+                it
             }
         } else {
             val variable =
@@ -320,11 +320,12 @@ fun Type.inferType(
                         )
                     }
                 }
-            if (!isConflict(variables, variable)) {
-                return getType(classVariables, variable, genericType)
+
+            return if (!isConflict(variables, variable)) {
+                getType(classVariables, variable, genericType)
                         ?: throw IllegalStateException("Cannot infer type")
             } else {
-                return com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.koresType
+                com.github.jonathanxd.iutils.type.TypeUtil.from(variable)?.koresType
                         ?: Types.OBJECT
             }
 
