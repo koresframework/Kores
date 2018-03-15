@@ -27,14 +27,17 @@
  */
 package com.github.jonathanxd.kores.type
 
+import com.github.jonathanxd.iutils.kt.rightOrFail
 import com.github.jonathanxd.kores.Types
+import com.github.jonathanxd.kores.generic.GenericSignature
 import com.github.jonathanxd.kores.util.GenericResolver
 import com.github.jonathanxd.kores.util.eq
 import com.github.jonathanxd.kores.util.hash
 import com.github.jonathanxd.kores.util.toStr
-import com.github.jonathanxd.iutils.kt.rightOrFail
+import java.lang.reflect.GenericDeclaration
 import java.lang.reflect.Type
 import javax.lang.model.element.ElementKind
+import javax.lang.model.element.Parameterizable
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.TypeParameterElement
 import javax.lang.model.type.*
@@ -138,6 +141,17 @@ private fun TypeParameterElement.getType(
 ): KoresType {
     return (this.asType() as TypeVariable).toKoresType(isParameterized, elements)
 }
+
+/**
+ * Creates a [GenericSignature] from a [Parameterizable]
+ */
+fun Parameterizable.getGenericSignature(
+    isParameterized: Boolean = false,
+    elements: Elements
+): GenericSignature =
+    GenericSignature.create(*this.typeParameters.map {
+        it.getType(isParameterized, elements).asGeneric
+    }.toTypedArray())
 
 
 fun TypeElement.getKoresTypeFromTypeParameters(elements: Elements): KoresType {

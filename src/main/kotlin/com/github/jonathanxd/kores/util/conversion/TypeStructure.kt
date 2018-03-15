@@ -380,6 +380,7 @@ fun TypeElement.getTypeDeclaration(elements: Elements): TypeDeclaration {
         .outerType(asTypeRef.outerType)
         .annotations(this.getKoresAnnotations(elements))
         .modifiers(KoresModifier.fromJavaxModifiers(this.modifiers))
+        .genericSignature(this.getGenericSignature(false, elements))
         .specifiedName(asTypeRef.specifiedName)
         .fields(this.getFieldDeclarations(elements))
         .methods(this.getMethodDeclarations(elements))
@@ -431,6 +432,7 @@ fun ExecutableElement.getMethodDeclaration(elements: Elements): MethodDeclaratio
         .modifiers(KoresModifier.fromJavaxModifiers(this.modifiers))
         .name(this.simpleName.toString())
         .returnType(this.returnType.getKoresType(elements))
+        .genericSignature(this.getGenericSignature(false, elements))
         .parameters(this.parameters.map {
             parameter(type = it.asType().getKoresType(elements), name = it.simpleName.toString())
         })

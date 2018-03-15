@@ -37,6 +37,7 @@ import java.lang.reflect.GenericDeclaration
 import java.lang.reflect.Type
 import java.lang.reflect.TypeVariable
 import java.util.*
+import javax.lang.model.element.Parameterizable
 
 /**
  * Returns the [GenericType] of [Class] with its parameters.
