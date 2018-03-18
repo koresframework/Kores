@@ -122,11 +122,11 @@ fun getInferredType(
 
     val plainTypes = mutableListOf<KoresType>()
 
-    koresTypeResolver.getSuperclass(startingType).rightOrFail?.let {
+    koresTypeResolver.getSuperclass(startingType).rightOrNull()?.let {
         plainTypes += it.koresType
     }
 
-    koresTypeResolver.getInterfaces(startingType).rightOrFail.forEach {
+    koresTypeResolver.getInterfaces(startingType).rightOrNull().forEach {
         plainTypes += it.koresType
     }
 
