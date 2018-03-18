@@ -310,6 +310,9 @@ interface AnnotatedKoresType : WrapperKoresType {
         override val isVirtual: Boolean
             get() = super<GenericType>.isVirtual
 
+        override val defaultResolver: KoresTypeResolver<*>
+            get() = super<GenericType>.defaultResolver
+
         override fun compareTo(other: KoresType): Int =
             super<GenericType>.compareTo(other)
 
