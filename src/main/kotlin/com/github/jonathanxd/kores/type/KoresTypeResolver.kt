@@ -27,6 +27,8 @@
  */
 package com.github.jonathanxd.kores.type
 
+import com.github.jonathanxd.iutils.`object`.Either
+import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
 import com.github.jonathanxd.kores.base.*
 import com.github.jonathanxd.kores.common.KoresNothing
 import com.github.jonathanxd.kores.type.KoresTypeResolver.DefaultResolver.resolve
@@ -34,8 +36,6 @@ import com.github.jonathanxd.kores.util.KoresTypeResolverFunc
 import com.github.jonathanxd.kores.util.conversion.getTypeDeclaration
 import com.github.jonathanxd.kores.util.conversion.toRepresentation
 import com.github.jonathanxd.kores.util.conversion.typeDeclaration
-import com.github.jonathanxd.iutils.`object`.Either
-import com.github.jonathanxd.iutils.`object`.specialized.EitherObjBoolean
 import java.lang.reflect.Type
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeKind
@@ -190,7 +190,8 @@ interface KoresTypeResolver<out T> {
                 )
 
             val superClass =
-                concreteFrom.let { resolverProvider(it).getSuperclass(it) }.rightOrNull()?.concreteType
+                concreteFrom.let { resolverProvider(it).getSuperclass(it) }.rightOrNull()
+                    ?.concreteType
 
             if (superClass != null) {
                 if (superClass.`is`(concreteKoresType)
@@ -423,5 +424,41 @@ interface KoresTypeResolver<out T> {
                                     " able to resolve TypeDeclaration representation of $type."
                         )
                     )
+    }
+
+    class Two<out A, out B, out X>(
+        val first: KoresTypeResolver<A>,
+        val second: KoresTypeResolver<B>
+    ) : KoresTypeResolver<X> where A : X, B : X {
+        @Suppress("UNCHECKED_CAST")
+        override fun resolve(type: Type): Either<Exception, out X> =
+            (this.first.resolve(type) as Either<Exception, X>).flatMapLeft {
+                this.second.resolve(type) as Either<Exception, X>
+            }
+
+        override fun getSuperclass(type: Type): Either<Exception, Type?> =
+            this.first.getSuperclass(type).flatMapLeft {
+                this.second.getSuperclass(type)
+            }
+
+        override fun getInterfaces(type: Type): Either<Exception, List<Type>> =
+            this.first.getInterfaces(type).flatMapLeft {
+                this.second.getInterfaces(type)
+            }
+
+        override fun isAssignableFrom(
+            type: Type,
+            from: Type,
+            resolverProvider: (Type) -> KoresTypeResolver<*>
+        ): EitherObjBoolean<Exception> =
+            this.first.isAssignableFrom(type, from, resolverProvider).flatMapLeft {
+                this.second.isAssignableFrom(type, from, resolverProvider)
+            }
+
+        override fun resolveTypeDeclaration(type: Type): Either<Exception, TypeDeclaration> =
+            this.first.resolveTypeDeclaration(type).flatMapLeft {
+                this.second.resolveTypeDeclaration(type)
+            }
+
     }
 }

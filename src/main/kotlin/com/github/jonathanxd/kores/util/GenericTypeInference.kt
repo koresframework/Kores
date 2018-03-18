@@ -162,7 +162,7 @@ fun getInferredType(
                 name,
                 parameterizedType,
                 parameterSet,
-                koresTypeResolver,
+                KoresTypeResolver.Two(parameterSet.defaultResolver, koresTypeResolver),
                 genericResolver,
                 found
             )
