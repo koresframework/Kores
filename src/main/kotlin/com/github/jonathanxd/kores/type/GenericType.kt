@@ -113,6 +113,9 @@ interface GenericType : KoresType, WrapperKoresType {
     override val arrayDimension: Int
         get() = this.resolvedType.arrayDimension
 
+    override val defaultResolver: KoresTypeResolver<*>
+        get() = this.resolvedType.defaultResolver
+
     /**
      * Only determine the Wrapper type if:
      *
