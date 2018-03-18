@@ -35,6 +35,7 @@ import com.github.jonathanxd.kores.util.identityEq
 import com.github.jonathanxd.kores.util.typeDesc
 import com.github.jonathanxd.iutils.kt.leftOrRight
 import com.github.jonathanxd.iutils.kt.rightOrFail
+import com.github.jonathanxd.iutils.recursion.Element
 import com.github.jonathanxd.iutils.recursion.ElementUtil
 import com.github.jonathanxd.iutils.recursion.Elements
 import com.github.jonathanxd.iutils.type.TypeParameterProvider
@@ -415,6 +416,40 @@ fun getCommonSuperTypeOrInterface(typeA: Type, typeB: Type): Type? {
 
     return Types.OBJECT
 }
+
+/**
+ * Returns a list with all names of type variables found in generic receiver type and sub types.
+ */
+fun Type.variables(): List<String> {
+    val used = mutableListOf<String>()
+    val types = Elements<Type>()
+    types.insert(Element(this))
+
+    var type: Type? = types.nextElement()?.value
+
+    while (type != null) {
+        when (type) {
+            is GenericType -> {
+                if (!type.isType && !type.isWildcard) {
+                    used += type.name
+                }
+
+                val gen = (type.resolvedType as? GenericType)?.let(::listOf).orEmpty()
+
+                val both = gen + type.bounds.map { it.type }
+
+                if (both.isNotEmpty())
+                    types.insertFromPair(ElementUtil.fromIterable(both))
+            }
+
+        }
+
+        type = types.nextElement()?.value
+    }
+
+    return used
+}
+
 
 /**
  * Returns a [Type] of [T]. (Same [koresTypeOf] but with shorter name and [Type] return type)

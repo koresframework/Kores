@@ -648,6 +648,7 @@ fun ConstructorDeclaration.toRepresentation(): ConstructorDeclaration =
 fun MethodDeclaration.toRepresentation(): MethodDeclaration =
     MethodDeclaration.Builder.builder()
         .annotations(this.annotations.map { it.toRepresentation() })
+        .genericSignature(this.genericSignature)
         .modifiers(this.modifiers.toSet())
         .returnType(this.returnType.koresType)
         .name(this.name)
