@@ -71,7 +71,7 @@ val Type.toGeneric: GenericType
         when (it) {
             is LoadedKoresType<*> -> it.loadedType.getKoresTypeFromTypeParameters()
             is TypeDeclaration -> Generic.type(it).of(*it.genericSignature.types)
-            else -> it.defaultResolver.resolveTypeDeclaration(it).rightOrFail.asGeneric
+            else -> it.defaultResolver.resolveTypeDeclaration(it).rightOrFail.toGeneric
         }
     }
 
