@@ -28,6 +28,8 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.KoresPart
+import com.github.jonathanxd.kores.type.`is`
+import java.lang.reflect.Type
 
 /**
  * An part that can be annotated, like methods, fields, classes, type usage, etc...
@@ -38,6 +40,23 @@ interface Annotable : KoresPart {
      * Annotations
      */
     val annotations: List<Annotation>
+
+    /**
+     * Returns whether `this` [Annotable] contains an annotation of specified [type].
+     */
+    fun isAnnotationPresent(type: Type) =
+        this.annotations.any { it.type.`is`(type) }
+
+    /**
+     * Gets the annotation of type [type] if present, or null otherwise.
+     */
+    fun getDeclaredAnnotation(type: Type) =
+        this.annotations.firstOrNull { it.type.`is`(type) }
+
+    /**
+     * Gets the annotation of type [type] if present, or null otherwise.
+     */
+    fun getAnnotation(type: Type) = this.getDeclaredAnnotation(type)
 
     override fun builder(): Builder<Annotable, *>
 
@@ -55,3 +74,4 @@ interface Annotable : KoresPart {
         fun annotations(vararg values: Annotation): S = annotations(values.toList())
     }
 }
+

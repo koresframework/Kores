@@ -47,3 +47,16 @@ fun <T> TypeInfo<T>.toGeneric(): GenericType {
 
     return generic
 }
+
+fun GenericType.toTypeInfo(): TypeInfo<*> =
+    TypeInfo.builderOf<Any?>(this.type)
+        .also { bd ->
+            this.bounds.forEach {
+                if (it.type is GenericType) {
+                    bd.of((it.type as GenericType).toTypeInfo())
+                } else {
+                    bd.of(it.type.type)
+                }
+            }
+        }
+        .build()

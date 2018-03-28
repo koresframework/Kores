@@ -39,8 +39,7 @@ import com.github.jonathanxd.kores.common.MethodTypeSpec
 import com.github.jonathanxd.kores.factory.*
 import com.github.jonathanxd.kores.literal.Literal
 import com.github.jonathanxd.kores.literal.Literals
-import com.github.jonathanxd.kores.type.koresType
-import com.github.jonathanxd.kores.type.getKoresType
+import com.github.jonathanxd.kores.type.*
 import com.github.jonathanxd.kores.util.isKotlin
 import java.lang.reflect.*
 import java.util.*
@@ -731,3 +730,67 @@ val <T : Any> Constructor<T>.koresParameters: List<KoresParameter>
                 if (it.size != this.parameterCount) null
                 else it
             } ?: this.parameters.map { it.toKoresParameter() }
+
+
+/**
+ * Creates [Instruction] from [receiver type representation][Type].
+ */
+fun Type.toInstruction(): Instruction =
+    this.koresType.let {
+        when (it) {
+            is GenericType -> it.toInstruction()
+            else -> Literals.CLASS(it)
+        }
+    }
+
+/**
+ * Creates [Instruction] from [receiver generic type representation][GenericType].
+ */
+fun GenericType.toInstruction(): Instruction =
+    when {
+        this.isWildcard -> typeOf<Generic>().invokeStatic(
+            "wildcard",
+            typeSpec(typeOf<Generic>()),
+            emptyList()
+        )
+        this.isType -> typeOf<Generic>().invokeStatic(
+            "type",
+            typeSpec(typeOf<Generic>(), typeOf<Type>()),
+            listOf(this.resolvedType.toInstruction())
+        )
+        else -> typeOf<Generic>().invokeStatic(
+            "type",
+            typeSpec(typeOf<Generic>(), Types.STRING),
+            listOf(Literals.STRING(this.name))
+        )
+    }.let {
+        if (this.bounds.isEmpty()) it
+        else {
+            val args = this.bounds.toInstructions()
+
+            val arrType = GenericType.Bound::class.java.koresType.toArray(1)
+
+            invokeVirtual(
+                Generic::class.java,
+                it,
+                "of",
+                TypeSpec(Generic::class.java, listOf(arrType)),
+                listOf(createArray(arrType, listOf(Literals.INT(args.size)), args))
+            )
+        }
+    }
+
+/**
+ * Creates [Instructions][Instruction] from [bound representation array][GenericType.Bound].
+ */
+fun Array<GenericType.Bound>.toInstructions(): List<Instruction> =
+    this.map { it.toInstruction() }
+
+/**
+ * Creates [Instruction] from [bound representation][GenericType.Bound].
+ */
+fun GenericType.Bound.toInstruction(): Instruction =
+    this::class.java.invokeConstructor(
+        constructorTypeSpec(typeOf<KoresType>()),
+        listOf(this.type.toInstruction())
+    )

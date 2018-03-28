@@ -314,3 +314,21 @@ interface GenericType : KoresType, WrapperKoresType {
     }
 
 }
+
+fun GenericType.isGenericAssignableFrom(other: Type): Boolean {
+    if (this.`is`(other))
+        return true
+
+    val otherSubTypeInfos = other.asGeneric.bounds
+
+    if (otherSubTypeInfos.size == 1)
+        return this.isAssignableFrom(otherSubTypeInfos[0].type)
+
+    for (otherSubTypeInfo in otherSubTypeInfos) {
+        if (this.isAssignableFrom(otherSubTypeInfo.type.asGeneric)) {
+            return true
+        }
+    }
+
+    return false
+}

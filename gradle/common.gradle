@@ -89,6 +89,7 @@ compileTestKotlin {
 dependencies {
     compile "com.github.JonathanxD.JwIUtils:JwIUtils:$iutils_version"
     compile "com.github.JonathanxD.JwIUtils:jwiutils-kt:$iutils_version"
+    compile "com.github.JonathanxD.JwIUtils:specializations:$iutils_version"
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
