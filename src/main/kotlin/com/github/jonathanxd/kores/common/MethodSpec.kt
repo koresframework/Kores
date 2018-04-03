@@ -38,16 +38,8 @@ import com.github.jonathanxd.kores.type.koresType
 import java.lang.reflect.Type
 
 @Spec
-data class MethodTypeSpec(val localization: Type, val methodSpec: MethodSpec) :
-    Typed, Comparable<MethodTypeSpec> {
-
-    constructor(localization: Type, methodName: String, typeSpec: TypeSpec)
-            : this(localization, MethodSpec(methodName, typeSpec))
-
-    val methodName: String get() = this.methodSpec.methodName
-
-    val typeSpec: TypeSpec get() = this.methodSpec.typeSpec
-
+data class MethodSpec(val methodName: String, val typeSpec: TypeSpec) :
+    Typed, Comparable<MethodSpec> {
     override val type: Type
         get() = this.typeSpec.type
 
@@ -57,48 +49,48 @@ data class MethodTypeSpec(val localization: Type, val methodSpec: MethodSpec) :
      * Human readable method specification string.
      */
     fun toMethodString() =
-        "${localization.koresType.canonicalName}.${this.methodSpec.toMethodString()}"
+        "$methodName${typeSpec.toTypeString()}"
 
     /**
      * Invokes this method in [target].
      */
-    operator fun invoke(invokeType: InvokeType, target: Instruction) =
-        this.invoke(invokeType, target, emptyList())
+    operator fun invoke(invokeType: InvokeType, type: Type, target: Instruction) =
+        this.invoke(invokeType, type, target, emptyList())
 
     /**
      * Invokes this method in [target] with [arguments].
      */
     operator fun invoke(
         invokeType: InvokeType,
+        type: Type,
         target: Instruction,
         arguments: List<Instruction>
-    ): MethodInvocation = MethodInvocation(invokeType, target, this, arguments)
+    ): MethodInvocation = MethodInvocation(invokeType, target, this.toMethodTypeSpec(type), arguments)
 
     /**
      * This method will not compare the method localization.
      */
-    override operator fun compareTo(other: MethodTypeSpec): Int {
+    override operator fun compareTo(other: MethodSpec): Int {
         return if (this.methodName == other.methodName && this.typeSpec == other.typeSpec) 0 else 1
     }
 
-    class Builder() : Typed.Builder<MethodTypeSpec, Builder> {
-        lateinit var localization: Type
+    /**
+     * Converts this [MethodSpec] to [MethodTypeSpec]
+     */
+    fun toMethodTypeSpec(type: Type) =
+            MethodTypeSpec(type, this)
+
+    class Builder() : Typed.Builder<MethodSpec, Builder> {
         lateinit var methodName: String
         lateinit var typeSpec: TypeSpec
 
-        constructor(defaults: MethodTypeSpec) : this() {
-            this.localization = defaults.localization
+        constructor(defaults: MethodSpec) : this() {
             this.methodName = defaults.methodName
             this.typeSpec = defaults.typeSpec
         }
 
         override fun type(value: Type): Builder {
             this.typeSpec = this.typeSpec.copy(returnType = value)
-            return this
-        }
-
-        fun withLocalization(value: KoresType): Builder {
-            this.localization = value
             return this
         }
 
@@ -112,7 +104,7 @@ data class MethodTypeSpec(val localization: Type, val methodSpec: MethodSpec) :
             return this
         }
 
-        override fun build(): MethodTypeSpec = MethodTypeSpec(localization, methodName, typeSpec)
+        override fun build(): MethodSpec = MethodSpec(this.methodName, this.typeSpec)
 
     }
 }

@@ -59,7 +59,7 @@ data class TypeSpec @JvmOverloads constructor(
      * Human readable type specification string.
      */
     fun toTypeString() =
-        "(${this.parameterTypesKoresType.map { it.canonicalName }.joinToString()})${this.returnTypeKoresType.canonicalName}"
+        "(${this.parameterTypesKoresType.joinToString { it.canonicalName }})${this.returnTypeKoresType.canonicalName}"
 
 
     override fun builder(): Builder = Builder(this)
@@ -69,7 +69,8 @@ data class TypeSpec @JvmOverloads constructor(
         if (other !is TypeSpec)
             return false
 
-        return this.returnTypeKoresType.`is`(other.returnTypeKoresType) && this.parameterTypesKoresType == other.parameterTypesKoresType
+        return this.returnTypeKoresType.`is`(other.returnTypeKoresType)
+                && this.parameterTypesKoresType == other.parameterTypesKoresType
     }
 
     /**
