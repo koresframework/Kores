@@ -74,6 +74,10 @@ data class MethodTypeSpec(val localization: Type, val methodSpec: MethodSpec) :
         arguments: List<Instruction>
     ): MethodInvocation = MethodInvocation(invokeType, target, this, arguments)
 
+    fun copy(localization: Type = this.localization,
+             methodName: String = this.methodName,
+             typeSpec: TypeSpec = this.typeSpec) = MethodTypeSpec(localization, methodName, typeSpec)
+
     /**
      * This method will not compare the method localization.
      */
