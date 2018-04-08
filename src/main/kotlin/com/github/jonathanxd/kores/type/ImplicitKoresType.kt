@@ -65,7 +65,7 @@ val Type.javaSpecName get() = this.koresType.javaSpecName
 /**
  * Returns binary name of [Type]. See [KoresType.binaryName]
  */
-val Type.binaryName get() = this.koresType.javaSpecName
+val Type.binaryName get() = this.koresType.binaryName
 
 /**
  * Returns internal name of [Type]. See [KoresType.binaryName]
