@@ -333,7 +333,7 @@ fun List<Instruction>.invokeListOf(): MethodInvocation = invoke(
     localization = Types.COLLECTIONS3,
     target = Access.STATIC,
     name = "listOf",
-    spec = typeSpec(Types.LIST, Types.OBJECTS),
+    spec = typeSpec(Types.LIST, Types.OBJECT.toArray(1)),
     arguments = listOf(createArray1D(Types.OBJECT.toArray(1), this))
 )
 
@@ -347,7 +347,7 @@ fun List<Instruction>.invokeSetOf(): MethodInvocation = invoke(
     localization = Types.COLLECTIONS3,
     target = Access.STATIC,
     name = "setOf",
-    spec = typeSpec(Types.SET, Types.OBJECTS),
+    spec = typeSpec(Types.SET, Types.OBJECT.toArray(1)),
     arguments = listOf(createArray1D(Types.OBJECT.toArray(1), this))
 )
 
@@ -361,6 +361,6 @@ fun List<Instruction>.invokeMapOf(): MethodInvocation = invoke(
     localization = Types.COLLECTIONS3,
     target = Access.STATIC,
     name = "mapOf",
-    spec = typeSpec(Types.MAP, Types.OBJECTS),
+    spec = typeSpec(Types.MAP, Types.OBJECT.toArray(1)),
     arguments = listOf(createArray1D(Types.OBJECT.toArray(1), this))
 )
