@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.kores.util.conversion
 
-import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Defaults
+import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.MutableInstructions
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.*
@@ -40,6 +40,7 @@ import com.github.jonathanxd.kores.factory.*
 import com.github.jonathanxd.kores.literal.Literal
 import com.github.jonathanxd.kores.literal.Literals
 import com.github.jonathanxd.kores.type.*
+import com.github.jonathanxd.kores.util.genericSignature
 import com.github.jonathanxd.kores.util.isKotlin
 import java.lang.reflect.*
 import java.util.*
@@ -71,10 +72,10 @@ val List<Parameter>.koresParameters: List<KoresParameter>
  */
 val Parameter.koresParameter: KoresParameter
     get() = KoresParameter(
-        emptyList(),
-        KoresModifier.fromJavaModifiers(this.modifiers),
-        this.type.koresType,
-        this.name
+            emptyList(),
+            KoresModifier.fromJavaModifiers(this.modifiers),
+            this.type.koresType,
+            this.name
     )
 
 /**
@@ -136,11 +137,11 @@ val ExecutableElement.invokeType: InvokeType
  * @param arguments Arguments to pass to method.
  */
 fun MethodTypeSpec.toInvocation(
-    invokeType: InvokeType,
-    target: Instruction,
-    arguments: List<Instruction>
+        invokeType: InvokeType,
+        target: Instruction,
+        arguments: List<Instruction>
 ): MethodInvocation =
-    invoke(invokeType, this.localization, target, this.methodName, this.typeSpec, arguments)
+        invoke(invokeType, this.localization, target, this.methodName, this.typeSpec, arguments)
 
 
 /**
@@ -150,17 +151,17 @@ fun MethodTypeSpec.toInvocation(
  * @param arguments Arguments to pass to method.
  */
 fun MethodInvokeSpec.toInvocation(
-    target: Instruction,
-    arguments: List<Instruction>
+        target: Instruction,
+        arguments: List<Instruction>
 ): MethodInvocation =
-    invoke(
-        this.invokeType,
-        this.methodTypeSpec.localization,
-        target,
-        this.methodTypeSpec.methodName,
-        this.methodTypeSpec.typeSpec,
-        arguments
-    )
+        invoke(
+                this.invokeType,
+                this.methodTypeSpec.localization,
+                target,
+                this.methodTypeSpec.methodName,
+                this.methodTypeSpec.typeSpec,
+                arguments
+        )
 
 /**
  * Create [MethodInvocation] from [Executable]
@@ -170,44 +171,44 @@ fun MethodInvokeSpec.toInvocation(
  * @param arguments Arguments to pass to method.
  */
 fun Executable.toInvocation(
-    invokeType: InvokeType?,
-    target: Instruction,
-    arguments: List<Instruction>
+        invokeType: InvokeType?,
+        target: Instruction,
+        arguments: List<Instruction>
 ): MethodInvocation =
-    com.github.jonathanxd.kores.factory.invoke(
-        invokeType ?: this.invokeType,
-        this.declaringClass.koresType,
-        target,
-        this.name,
-        this.typeSpec,
-        arguments
-    )
+        com.github.jonathanxd.kores.factory.invoke(
+                invokeType ?: this.invokeType,
+                this.declaringClass.koresType,
+                target,
+                this.name,
+                this.typeSpec,
+                arguments
+        )
 
 /**
  * Gets [TypeSpec] of receiver [ExecutableElement]
  */
 fun ExecutableElement.getTypeSpec(elements: Elements): TypeSpec =
-    TypeSpec(returnType = this.returnType.getKoresType(elements),
-        parameterTypes = this.parameters.map { it.asType().getKoresType(elements) })
+        TypeSpec(returnType = this.returnType.getKoresType(elements),
+                parameterTypes = this.parameters.map { it.asType().getKoresType(elements) })
 
 /**
  * Gets [MethodTypeSpec] of receiver [ExecutableElement]
  */
 fun ExecutableElement.getMethodTypeSpec(elements: Elements): MethodTypeSpec =
-    MethodTypeSpec(
-        localization = (this.enclosingElement as TypeElement).getKoresType(elements),
-        typeSpec = this.getTypeSpec(elements),
-        methodName = this.simpleName.toString()
-    )
+        MethodTypeSpec(
+                localization = (this.enclosingElement as TypeElement).getKoresType(elements),
+                typeSpec = this.getTypeSpec(elements),
+                methodName = this.simpleName.toString()
+        )
 
 /**
  * Gets [MethodInvokeSpec] of receiver [ExecutableElement]
  */
 fun ExecutableElement.getMethodInvokeSpec(elements: Elements): MethodInvokeSpec =
-    MethodInvokeSpec(
-        invokeType = this.invokeType,
-        methodTypeSpec = this.getMethodTypeSpec(elements)
-    )
+        MethodInvokeSpec(
+                invokeType = this.invokeType,
+                methodTypeSpec = this.getMethodTypeSpec(elements)
+        )
 
 /**
  * Create [ExecutableElement] from [Method]
@@ -217,17 +218,17 @@ fun ExecutableElement.getMethodInvokeSpec(elements: Elements): MethodInvokeSpec 
  * @param arguments Arguments to pass to method.
  */
 fun ExecutableElement.toInvocation(
-    invokeType: InvokeType?,
-    target: Instruction,
-    arguments: List<Instruction>,
-    elements: Elements
+        invokeType: InvokeType?,
+        target: Instruction,
+        arguments: List<Instruction>,
+        elements: Elements
 ): MethodInvocation =
-    MethodInvocation(
-        invokeType = invokeType ?: this.invokeType,
-        target = target,
-        spec = this.getMethodTypeSpec(elements),
-        arguments = arguments
-    )
+        MethodInvocation(
+                invokeType = invokeType ?: this.invokeType,
+                target = target,
+                spec = this.getMethodTypeSpec(elements),
+                arguments = arguments
+        )
 
 
 /**
@@ -236,11 +237,11 @@ fun ExecutableElement.toInvocation(
  * @param target Target of the field access, null (or static access) for static access.
  */
 fun Field.toAccess(target: Instruction?): FieldAccess =
-    FieldAccess.Builder.builder()
-        .localization(this.declaringClass.koresType)
-        .target(target ?: accessStatic())
-        .name(this.name)
-        .build()
+        FieldAccess.Builder.builder()
+                .localization(this.declaringClass.koresType)
+                .target(target ?: accessStatic())
+                .name(this.name)
+                .build()
 
 /**
  * Create [FieldAccess] from [VariableElement].
@@ -248,12 +249,12 @@ fun Field.toAccess(target: Instruction?): FieldAccess =
  * @param target Target of the field access, null (or static access) for static access.
  */
 fun VariableElement.toAccess(target: Instruction?, elements: Elements): FieldAccess =
-    FieldAccess.Builder.builder()
-        .localization((this.enclosingElement as TypeElement).getKoresType(elements))
-        .target(target ?: accessStatic())
-        .type(this.asType().getKoresType(elements))
-        .name(this.simpleName.toString())
-        .build()
+        FieldAccess.Builder.builder()
+                .localization((this.enclosingElement as TypeElement).getKoresType(elements))
+                .target(target ?: accessStatic())
+                .type(this.asType().getKoresType(elements))
+                .name(this.simpleName.toString())
+                .build()
 
 
 /**
@@ -261,41 +262,41 @@ fun VariableElement.toAccess(target: Instruction?, elements: Elements): FieldAcc
  */
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> Class<T>.toClassDeclaration(): ClassDeclaration =
-    ClassDeclaration.Builder.builder()
-        .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-        .qualifiedName(this.canonicalName)
-        .superClass(this.superclass)
-        .implementations(this.interfaces.toList())
-        .build()
+        ClassDeclaration.Builder.builder()
+                .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
+                .qualifiedName(this.canonicalName)
+                .superClass(this.superclass)
+                .implementations(this.interfaces.toList())
+                .build()
 
 /**
  * Creates an [InterfaceDeclaration] from receiver [Class].
  */
 fun <T : Any> Class<T>.toInterfaceDeclaration(): InterfaceDeclaration =
-    InterfaceDeclaration.Builder.builder()
-        .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-        .qualifiedName(this.canonicalName)
-        .implementations(this.interfaces.toList())
-        .build()
+        InterfaceDeclaration.Builder.builder()
+                .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
+                .qualifiedName(this.canonicalName)
+                .implementations(this.interfaces.toList())
+                .build()
 
 
 /**
  * Creates an [AnnotationDeclaration] from receiver [Class].
  */
 fun <T : Any> Class<T>.toAnnotationDeclaration(): AnnotationDeclaration =
-    AnnotationDeclaration.Builder.builder()
-        .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-        .qualifiedName(this.canonicalName)
-        .properties(this.declaredMethods.map {
-            AnnotationProperty(
-                Comments.Absent,
-                emptyList(),
-                it.returnType.koresType,
-                it.name,
-                it.defaultValue
-            )
-        })
-        .build()
+        AnnotationDeclaration.Builder.builder()
+                .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
+                .qualifiedName(this.canonicalName)
+                .properties(this.declaredMethods.map {
+                    AnnotationProperty(
+                            Comments.Absent,
+                            emptyList(),
+                            it.returnType.koresType,
+                            it.name,
+                            it.defaultValue
+                    )
+                })
+                .build()
 
 
 /**
@@ -307,54 +308,54 @@ fun <T : Any> Class<T>.toEnumDeclaration(nameProvider: (method: Method, index: I
     val abstractMethods = this.methods.filter { Modifier.isAbstract(it.modifiers) }
 
     val enumEntries = this.declaredFields
-        .filter { it.isEnumConstant }
-        .map {
-            EnumEntry.Builder.builder().name(it.name).let {
-                if (abstractMethods.isNotEmpty())
-                    it.methods(abstractMethods.map {
-                        it.toMethodDeclaration { index, parameter ->
-                            nameProvider(
-                                it,
-                                index,
-                                parameter
-                            )
-                        }
-                    })
-                else it
-            }.build()
+            .filter { it.isEnumConstant }
+            .map {
+                EnumEntry.Builder.builder().name(it.name).let {
+                    if (abstractMethods.isNotEmpty())
+                        it.methods(abstractMethods.map {
+                            it.toMethodDeclaration { index, parameter ->
+                                nameProvider(
+                                        it,
+                                        index,
+                                        parameter
+                                )
+                            }
+                        })
+                    else it
+                }.build()
 
-        }
+            }
 
     return EnumDeclaration.Builder.builder()
-        .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-        .qualifiedName(this.canonicalName)
-        .implementations(this.interfaces.map { it.koresType })
-        .entries(enumEntries)
-        .build()
+            .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
+            .qualifiedName(this.canonicalName)
+            .implementations(this.interfaces.map { it.koresType })
+            .entries(enumEntries)
+            .build()
 }
 
 /**
  * Creates a [EnumDeclaration] from receiver [Enum] class.
  */
 fun <T : Enum<T>> Class<T>.toDeclaration() =
-    this.toEnumDeclaration()
+        this.toEnumDeclaration()
 
 /**
  * Creates a [AnnotationDeclaration] from receiver [Annotation] class.
  */
 fun Class<Annotation>.toDeclaration() =
-    this.toAnnotationDeclaration()
+        this.toAnnotationDeclaration()
 
 /**
  * Creates a [ClassDeclaration] from receiver [Class] class.
  */
 fun <T : Any> Class<T>.toDeclaration() =
-    when {
-        this.isInterface -> this.toInterfaceDeclaration()
-        this.isEnum -> this.toEnumDeclaration()
-        this.isAnnotation -> this.toAnnotationDeclaration()
-        else -> this.toClassDeclaration()
-    }
+        when {
+            this.isInterface -> this.toInterfaceDeclaration()
+            this.isEnum -> this.toEnumDeclaration()
+            this.isAnnotation -> this.toAnnotationDeclaration()
+            else -> this.toClassDeclaration()
+        }
 
 
 /**
@@ -368,9 +369,9 @@ fun <T : Any> Class<T>.toDeclaration() =
  */
 @JvmOverloads
 fun <T : Any> Class<T>.toStructure(
-    includeFields: Boolean = true,
-    includeMethods: Boolean = true,
-    includeSubClasses: Boolean = true
+        includeFields: Boolean = true,
+        includeMethods: Boolean = true,
+        includeSubClasses: Boolean = true
 ): List<TypeDeclaration> {
     val list = mutableListOf<TypeDeclaration>()
 
@@ -381,9 +382,9 @@ fun <T : Any> Class<T>.toStructure(
     if (includeSubClasses) {
         for (declaredClass in this.declaredClasses) {
             val extracted = declaredClass.toStructure(
-                includeFields = includeFields,
-                includeMethods = includeMethods,
-                includeSubClasses = includeSubClasses
+                    includeFields = includeFields,
+                    includeMethods = includeMethods,
+                    includeSubClasses = includeSubClasses
             )
 
             list += extracted.first().builder().outerType(declaration).build()
@@ -421,8 +422,8 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
 
     builder.methods(this.methods + klass.methods.filter {
         it.isAccessibleFrom(
-            this,
-            true
+                this,
+                true
         ) && isValidImpl(it)
     }.map { it.toMethodDeclaration(type) })
 
@@ -448,11 +449,11 @@ fun <T : TypeDeclaration> T.extend(klass: Class<*>): T {
  * @return [FieldDeclaration] structure from [Field].
  */
 fun Field.toFieldDeclaration(): FieldDeclaration =
-    FieldDeclaration.Builder.builder()
-        .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
-        .type(this.type.koresType)
-        .name(this.name)
-        .build()
+        FieldDeclaration.Builder.builder()
+                .modifiers(KoresModifier.fromJavaModifiers(this.modifiers))
+                .type(this.type.koresType)
+                .name(this.name)
+                .build()
 
 /**
  * Create access to this [Field].
@@ -461,12 +462,12 @@ fun Field.toFieldDeclaration(): FieldDeclaration =
  * @return [VariableAccess] to this [Field]
  */
 fun Field.createAccess(target: Instruction?): FieldAccess =
-    accessField(
-        this.declaringClass.koresType,
-        target ?: Defaults.ACCESS_STATIC,
-        this.type.koresType,
-        this.name
-    )
+        accessField(
+                this.declaringClass.koresType,
+                target ?: Defaults.ACCESS_STATIC,
+                this.type.koresType,
+                this.name
+        )
 
 /**
  * Create static access to this [Field].
@@ -474,7 +475,7 @@ fun Field.createAccess(target: Instruction?): FieldAccess =
  * @return **Static** [VariableAccess] to this [Field].
  */
 fun Field.createStaticAccess(): FieldAccess =
-    this.createAccess(null)
+        this.createAccess(null)
 
 // Method
 
@@ -486,17 +487,15 @@ fun Field.createStaticAccess(): FieldAccess =
  */
 @JvmOverloads
 fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): MethodDeclaration =
-    MethodDeclaration.Builder.builder()
-        .modifiers(fixModifiers(this.modifiers))
-        .name(this.name)
-        .returnType(this.returnType.koresType)
-        .parameters(this.parameters.let {
-            it.mapIndexed { i, parameter ->
-                parameter(type = parameter.type, name = nameProvider(i, parameter))
-            }
-        })
-        .body(MutableInstructions.create())
-        .build()
+        MethodDeclaration.Builder.builder()
+                .modifiers(fixModifiers(this.modifiers))
+                .genericSignature(this.genericSignature)
+                .throwsClause(this.throwExceptionTypesToKores())
+                .name(this.name)
+                .returnType(this.returnTypeToKores())
+                .parameters(this.parameterTypesToKores(nameProvider))
+                .body(MutableInstructions.create())
+                .build()
 
 /**
  * Convert this [Method] structure to [MethodDeclaration] structure invoking the super class method.
@@ -507,22 +506,22 @@ fun Method.toMethodDeclaration(nameProvider: (index: Int, parameter: Parameter) 
  */
 @JvmOverloads
 fun Method.toMethodDeclaration(
-    superClass: Type,
-    nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }
+        superClass: Type,
+        nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }
 ): MethodDeclaration =
-    this.toMethodDeclaration(nameProvider).builder().body(
-        MutableInstructions.create(
-            listOf(returnValue(this.returnType,
-                com.github.jonathanxd.kores.factory.invoke(
-                    InvokeType.INVOKE_SPECIAL,
-                    superClass,
-                    Defaults.ACCESS_THIS,
-                    this.name,
-                    typeSpec(this.returnType, this.parameterTypes.toList()),
-                    this.koresParameters.map { it.toVariableAccess() }
-                )))
-        )
-    ).build()
+        this.toMethodDeclaration(nameProvider).builder().body(
+                MutableInstructions.create(
+                        listOf(returnValue(this.returnType,
+                                com.github.jonathanxd.kores.factory.invoke(
+                                        InvokeType.INVOKE_SPECIAL,
+                                        superClass,
+                                        Defaults.ACCESS_THIS,
+                                        this.name,
+                                        typeSpec(this.returnType, this.parameterTypes.toList()),
+                                        this.koresParameters.map { it.toVariableAccess() }
+                                )))
+                )
+        ).build()
 
 
 // Constructor
@@ -535,15 +534,12 @@ fun Method.toMethodDeclaration(
  */
 @JvmOverloads
 fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): ConstructorDeclaration =
-    ConstructorDeclaration.Builder.builder()
-        .modifiers(fixModifiers(this.modifiers))
-        .parameters(this.parameters.let {
-            it.mapIndexed { i, parameter ->
-                parameter(type = parameter.type, name = nameProvider(i, parameter))
-            }
-        })
-        .body(MutableInstructions.create())
-        .build()
+        ConstructorDeclaration.Builder.builder()
+                .modifiers(fixModifiers(this.modifiers))
+                .parameters(this.parameterTypesToKores(nameProvider))
+                .throwsClause(this.throwExceptionTypesToKores())
+                .body(MutableInstructions.create())
+                .build()
 
 /**
  * Convert this [Constructor] structure to [ConstructorDeclaration] structure calling super constructor with [arguments].
@@ -554,30 +550,30 @@ fun <T : Any> Constructor<T>.toConstructorDeclaration(nameProvider: (index: Int,
  */
 @JvmOverloads
 fun <T : Any> Constructor<T>.toConstructorDeclaration(
-    arguments: List<Instruction>,
-    nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }
+        arguments: List<Instruction>,
+        nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }
 ): ConstructorDeclaration =
-    this.toConstructorDeclaration(nameProvider).builder().body(
-        MutableInstructions.create(
-            listOf(
-                invokeSuperConstructor(
-                    this.typeSpec,
-                    arguments
+        this.toConstructorDeclaration(nameProvider).builder().body(
+                MutableInstructions.create(
+                        listOf(
+                                invokeSuperConstructor(
+                                        this.typeSpec,
+                                        arguments
+                                )
+                        )
                 )
-            )
-        )
-    ).build()
+        ).build()
 
 
 // Parameters And Arguments
 fun KParameter.toKoresParameter(): KoresParameter =
-    parameter(type = this.type.jvmErasure.koresType, name = this.name ?: "parameter_$index")
+        parameter(type = this.type.jvmErasure.koresType, name = this.name ?: "parameter_$index")
 
 fun Parameter.toKoresParameter(): KoresParameter =
-    parameter(type = this.type.koresType, name = this.name)
+        parameter(type = this.type.koresType, name = this.name)
 
 fun KParameter.toVariableAccess() =
-    accessVariable(this.type.jvmErasure.koresType, this.name ?: "parameter_$index")
+        accessVariable(this.type.jvmErasure.koresType, this.name ?: "parameter_$index")
 
 fun Parameter.toVariableAccess() = accessVariable(this.type.koresType, this.name)
 
@@ -589,8 +585,8 @@ fun KoresParameter.toVariableAccess() = accessVariable(this.type, this.name)
  * Convert this value to a literal
  */
 fun Any.toLiteral(): Literal =
-    this.toLiteralOrNull()
-            ?: throw IllegalArgumentException("$this cannot be converted to Kores Literal.")
+        this.toLiteralOrNull()
+                ?: throw IllegalArgumentException("$this cannot be converted to Kores Literal.")
 
 /**
  * Convert this value to a literal
@@ -629,10 +625,10 @@ fun Method.isAccessibleFrom(typeDeclaration: TypeDeclaration, override: Boolean 
 }
 
 fun fixModifiers(modifiers: Int): EnumSet<KoresModifier> =
-    EnumSet.copyOf(KoresModifier.fromJavaModifiers(modifiers).let {
-        it.remove(KoresModifier.ABSTRACT)
-        return@let it
-    })
+        EnumSet.copyOf(KoresModifier.fromJavaModifiers(modifiers).let {
+            it.remove(KoresModifier.ABSTRACT)
+            return@let it
+        })
 
 /**
  * Returns if [method] is valid for implementation.
@@ -736,61 +732,122 @@ val <T : Any> Constructor<T>.koresParameters: List<KoresParameter>
  * Creates [Instruction] from [receiver type representation][Type].
  */
 fun Type.toInstruction(): Instruction =
-    this.koresType.let {
-        when (it) {
-            is GenericType -> it.toInstruction()
-            else -> Literals.CLASS(it)
+        this.koresType.let {
+            when (it) {
+                is GenericType -> it.toInstruction()
+                else -> Literals.CLASS(it)
+            }
         }
-    }
 
 /**
  * Creates [Instruction] from [receiver generic type representation][GenericType].
  */
 fun GenericType.toInstruction(): Instruction =
-    when {
-        this.isWildcard -> typeOf<Generic>().invokeStatic(
-            "wildcard",
-            typeSpec(typeOf<Generic>()),
-            emptyList()
-        )
-        this.isType -> typeOf<Generic>().invokeStatic(
-            "type",
-            typeSpec(typeOf<Generic>(), typeOf<Type>()),
-            listOf(this.resolvedType.toInstruction())
-        )
-        else -> typeOf<Generic>().invokeStatic(
-            "type",
-            typeSpec(typeOf<Generic>(), Types.STRING),
-            listOf(Literals.STRING(this.name))
-        )
-    }.let {
-        if (this.bounds.isEmpty()) it
-        else {
-            val args = this.bounds.toInstructions()
-
-            val arrType = GenericType.Bound::class.java.koresType.toArray(1)
-
-            invokeVirtual(
-                Generic::class.java,
-                it,
-                "of",
-                TypeSpec(Generic::class.java, listOf(arrType)),
-                listOf(createArray(arrType, listOf(Literals.INT(args.size)), args))
+        when {
+            this.isWildcard -> typeOf<Generic>().invokeStatic(
+                    "wildcard",
+                    typeSpec(typeOf<Generic>()),
+                    emptyList()
             )
+            this.isType -> typeOf<Generic>().invokeStatic(
+                    "type",
+                    typeSpec(typeOf<Generic>(), typeOf<Type>()),
+                    listOf(this.resolvedType.toInstruction())
+            )
+            else -> typeOf<Generic>().invokeStatic(
+                    "type",
+                    typeSpec(typeOf<Generic>(), Types.STRING),
+                    listOf(Literals.STRING(this.name))
+            )
+        }.let {
+            if (this.bounds.isEmpty()) it
+            else {
+                val args = this.bounds.toInstructions()
+
+                val arrType = GenericType.Bound::class.java.koresType.toArray(1)
+
+                invokeVirtual(
+                        Generic::class.java,
+                        it,
+                        "of",
+                        TypeSpec(Generic::class.java, listOf(arrType)),
+                        listOf(createArray(arrType, listOf(Literals.INT(args.size)), args))
+                )
+            }
         }
-    }
 
 /**
  * Creates [Instructions][Instruction] from [bound representation array][GenericType.Bound].
  */
 fun Array<GenericType.Bound>.toInstructions(): List<Instruction> =
-    this.map { it.toInstruction() }
+        this.map { it.toInstruction() }
 
 /**
  * Creates [Instruction] from [bound representation][GenericType.Bound].
  */
 fun GenericType.Bound.toInstruction(): Instruction =
-    this::class.java.invokeConstructor(
-        constructorTypeSpec(typeOf<KoresType>()),
-        listOf(this.type.toInstruction())
-    )
+        this::class.java.invokeConstructor(
+                constructorTypeSpec(typeOf<KoresType>()),
+                listOf(this.type.toInstruction())
+        )
+
+// Generic type conversions
+
+/**
+ * Method return type to kores (transform generic types into [Kores Generic Type][GenericType])
+ */
+fun Method.returnTypeToKores(): Type =
+        this.genericReturnType?.koresType ?: this.returnType.koresType
+
+
+/**
+ * Method parameter types to kores (transform generic types into [Kores Generic Type][GenericType])
+ */
+fun Method.parameterTypesToKores(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): List<KoresParameter> =
+        this.parameters.mapIndexed { index, parameter ->
+            val type =
+                    if (index < this.genericParameterTypes.size)
+                        this.genericParameterTypes[index].koresType
+                    else parameter.type.koresType
+
+            parameter(
+                    annotations = parameter.koresAnnotations,
+                    modifiers = KoresModifier.fromJavaModifiers(parameter.modifiers),
+                    name = nameProvider(index, parameter),
+                    type = type
+            )
+        }
+
+/**
+ * Method exception types to Kores (transform generic types into [Kores Generic Type][GenericType])
+ */
+fun Method.throwExceptionTypesToKores(): List<Type> =
+        this.genericExceptionTypes?.map { it.koresType }
+                ?: this.exceptionTypes?.map { it.koresType }.orEmpty()
+
+
+/**
+ * Constructor parameter types to Kores (transform generic types into [Kores Generic Type][GenericType])
+ */
+fun <T: Any> Constructor<T>.parameterTypesToKores(nameProvider: (index: Int, parameter: Parameter) -> String = { i, _ -> this.parameterNames[i] }): List<KoresParameter> =
+        this.parameters.mapIndexed { index, parameter ->
+            val type =
+                    if (index < this.genericParameterTypes.size)
+                        this.genericParameterTypes[index].koresType
+                    else parameter.type.koresType
+
+            parameter(
+                    annotations = parameter.koresAnnotations,
+                    modifiers = KoresModifier.fromJavaModifiers(parameter.modifiers),
+                    name = nameProvider(index, parameter),
+                    type = type
+            )
+        }
+
+/**
+ * Constructor exception type to Kores (transform generic types into [Kores Generic Type][GenericType])
+ */
+fun <T: Any> Constructor<T>.throwExceptionTypesToKores(): List<Type> =
+        this.genericExceptionTypes?.map { it.koresType }
+                ?: this.exceptionTypes?.map { it.koresType }.orEmpty()
+
