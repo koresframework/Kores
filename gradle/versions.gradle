@@ -4,4 +4,4 @@ ext.dokka_version = '0.9.18'
 ext.license_version = '0.15.0'
 ext.shadow_version = '5.1.0'
 
-ext.iutils_version = '4.16.5'
+ext.iutils_version = '4.16.5-1'
