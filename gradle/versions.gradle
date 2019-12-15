@@ -1,5 +1,5 @@
 ext.kotlin_version = '1.3.61'
-ext.dokka_version = '0.9.18'
+ext.dokka_version = '0.10.0'
 
 ext.license_version = '0.15.0'
 ext.shadow_version = '5.1.0'

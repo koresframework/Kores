@@ -22,6 +22,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url 'https://dl.bintray.com/kotlin/dokka' }
     maven { url "https://jitpack.io" }
 }
 
@@ -44,12 +45,16 @@ jar {
 dokka {
     outputFormat = 'gfm'
     outputDirectory = 'docs'
-    reportNotDocumented = false
 
-    linkMapping {
-        dir = "src/main/kotlin"
-        url = "https://github.com/JonathanxD/Kores/tree/version/4.0.0/src/main/kotlin"
-        suffix = "#L"
+    configuration {
+        reportUndocumented = false
+
+        sourceLink {
+            path = "src/main/kotlin"
+            url = "https://github.com/koresframework/Kores/tree/version/4.0.0/src/main/kotlin"
+            lineSuffix = "#L"
+        }
+
     }
 }
 
