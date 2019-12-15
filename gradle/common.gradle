@@ -43,6 +43,7 @@ jar {
 }
 
 dokka {
+    enabled = false
     outputFormat = 'gfm'
     outputDirectory = 'docs'
 
