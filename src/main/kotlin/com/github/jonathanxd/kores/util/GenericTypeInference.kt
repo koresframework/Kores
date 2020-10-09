@@ -386,7 +386,7 @@ class JavaResolver : GenericResolver {
         if (resolvedSuperType is Class<*>) {
             val superClass = resolvedSuperType
 
-            if (superClass.superclass.`is`(implemented.concreteType)) {
+            if (superClass.superclass?.`is`(implemented.concreteType) == true) {
                 return superClass.genericSuperclass.asGeneric
             }
 
