@@ -61,13 +61,13 @@ fun genericTypesToDescriptor(
         if (genericRepresentation == null)
             genericRepresentation = ""
 
-        genericRepresentation += superClass.descriptor
+        genericRepresentation += superClass.simpleBoundDescriptor
     }
 
     if (types.isNotEmpty() || anyInterfaceIsGeneric) {
         val sb = StringBuilder()
 
-        implementations.forEach { codeType -> sb.append(codeType.descriptor) }
+        implementations.forEach { codeType -> sb.append(codeType.simpleBoundDescriptor) }
 
         genericRepresentation += sb.toString()
     }
@@ -150,6 +150,25 @@ fun bounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
         val boundType = bound.type
 
         sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptor)
+
+    }
+
+    return sb.toString()
+}
+
+/**
+ * Creates simple bound descriptor, used in super class and implementations declaration
+ */
+fun simpleBounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
+
+    val sb = StringBuilder()
+
+    for (bound in bounds) {
+
+        val boundType = bound.type
+
+        sb.append(if (isWildcard) bound.sign else "")
+                .append(if (boundType is GenericType && !boundType.isType) boundType.name else boundType.descriptor)
 
     }
 

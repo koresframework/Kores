@@ -183,6 +183,52 @@ val Type.descriptor: String
     }
 
 /**
+ * Converts `this` type to simple type descriptor, which does not include extended version of bounds
+ * in their description, used for signature of implementations and super class in type declarations.
+ *
+ * A type descriptor is formatted as:
+ *
+ * - `TYPE_JAVA_SPEC` (specified by [KoresType.javaSpecName]) when receiver [Type] is not a [GenericType]
+ * - `TYPE_NAME` when receiver is a [GenericType], does not have bounds and is a wildcard (and not a type).
+ * - `(T)(TYPE_NAME);` when receiver is a [GenericType], does not have bounds and is neither a wildcard nor a type.
+ * - `TYPE_NAME;` when receiver is a [GenericType], and is a type.
+ * - `TYPE_NAME<BOUNDS>;` when receiver is a [GenericType], have bounds and the receiver is not a wildcard.
+ *
+ * Note: `()` is only used to make the format more readable and will not be generated in descriptors.
+ */
+val Type.simpleBoundDescriptor: String
+    get() {
+        val codeType = this.koresType
+
+        if (codeType is GenericType) {
+
+            val name = codeType.name
+
+            val bounds = codeType.bounds
+
+            if (bounds.isEmpty()) {
+                return if (!codeType.isType) {
+                    if (codeType.isWildcard) {
+                        name
+                    } else {
+                        "T$name;"
+                    }
+                } else {
+                    name + ";"
+                }
+            } else {
+                return if (!codeType.isWildcard)
+                    name + "<${simpleBounds(codeType.isWildcard, bounds)}>;"
+                else
+                    simpleBounds(codeType.isWildcard, bounds)
+            }
+
+        } else {
+            return codeType.javaSpecName
+        }
+    }
+
+/**
  * Creates type description from
  */
 fun parametersTypeAndReturnToDesc(parameterTypes: Collection<Type>, returnType: Type): String {
