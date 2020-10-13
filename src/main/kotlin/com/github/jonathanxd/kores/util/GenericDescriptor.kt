@@ -168,7 +168,12 @@ fun simpleBounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String 
         val boundType = bound.type
 
         sb.append(if (isWildcard) bound.sign else "")
-                .append(if (boundType is GenericType && !boundType.isType) boundType.name else boundType.descriptor)
+                .append(
+                        if (boundType is GenericType && !boundType.isType)
+                            if (boundType.isWildcard) boundType.name
+                            else "T${boundType.name};"
+                        else boundType.descriptor
+                )
 
     }
 
