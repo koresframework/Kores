@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2019 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2020 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -93,8 +93,15 @@ fun GenericSignature.genericSignatureToDescriptor(): String {
 fun Array<out GenericType>.genericTypesToDescriptor(): String {
     val sj = StringJoiner(";")
 
-    for (generic in this) {
-        sj.add(generic.genericTypeDescriptor_plain())
+    val iter = this.iterator()
+    while (iter.hasNext()) {
+        val generic = iter.next()
+        val descriptor = generic.genericTypeDescriptor_plain()
+
+        if (iter.hasNext() && descriptor.endsWith(";") && descriptor.length - 1 > 0)
+            sj.add(descriptor.substring(0 until descriptor.length-1))
+        else
+            sj.add(descriptor)
     }
 
     return "<$sj>"
