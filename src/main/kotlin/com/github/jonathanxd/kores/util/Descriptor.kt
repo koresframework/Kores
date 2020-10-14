@@ -269,7 +269,7 @@ val Type.descriptorDiscardBound: String
     get() {
         val codeType = this.koresType
 
-        return if (codeType is GenericType) {
+        return if (codeType is GenericType && !codeType.isType && codeType.bounds.isNotEmpty()) {
             val name = codeType.name
 
             if (codeType.isWildcard) "$name;"
