@@ -253,18 +253,18 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
     if (generateGenerics) {
         signatureBuilder.append('(')
 
-        this.parameters.joinTo(buffer = signatureBuilder, separator = "") { it.type.descriptor }
+        this.parameters.joinTo(buffer = signatureBuilder, separator = "") { it.type.descriptorDiscardBound }
 
         signatureBuilder.append(')')
     }
 
     if (generateGenerics) {
-        signatureBuilder.append(returnType.descriptor)
+        signatureBuilder.append(returnType.descriptorDiscardBound)
     }
 
     if (genForThrows) {
         this.throwsClause.forEach {
-            signatureBuilder.append('^').append(it.descriptor)
+            signatureBuilder.append('^').append(it.descriptorDiscardBound)
         }
     }
 
