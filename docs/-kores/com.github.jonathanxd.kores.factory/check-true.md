@@ -1,0 +1,17 @@
+//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[checkTrue](check-true.md)
+
+
+
+# checkTrue  
+[jvm]  
+Content  
+fun [checkTrue](check-true.md)(part: [Instruction](../com.github.jonathanxd.kores/-instruction/index.md)): [IfExpr](../com.github.jonathanxd.kores.base/-if-expr/index.md)  
+More info  
+
+
+[IfExpr](../com.github.jonathanxd.kores.base/-if-expr/index.md) that checks if part is true
+
+  
+
+
+

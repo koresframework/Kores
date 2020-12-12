@@ -44,7 +44,7 @@ data class MethodInvocation(
     override val target: Instruction,
     val spec: MethodTypeSpec,
     override val arguments: List<Instruction>
-) : Accessor, ArgumentsHolder, Typed, Instruction {
+) : Accessor, ArgumentsHolder, TypedInstruction {
 
     override val types: List<Type>
         get() = this.spec.typeSpec.parameterTypes

@@ -38,7 +38,7 @@ import java.lang.reflect.Type
  * used to concat values (in a future patch it will be changed to use Java 9 dynamic concatenation), in official
  * JavaSourceGenerator this will be translated into string concatenation.
  */
-data class Concat(val concatenations: List<Instruction>) : KoresPart, Typed, Instruction {
+data class Concat(val concatenations: List<Instruction>) : KoresPart, TypedInstruction {
 
     override val type: Type
         get() = Types.STRING

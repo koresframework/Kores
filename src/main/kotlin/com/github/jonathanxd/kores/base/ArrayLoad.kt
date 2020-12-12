@@ -44,7 +44,7 @@ data class ArrayLoad(
     override val target: Instruction,
     val index: Instruction,
     val valueType: Type
-) : ArrayAccess, Typed, Instruction {
+) : ArrayAccess, TypedInstruction {
 
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }

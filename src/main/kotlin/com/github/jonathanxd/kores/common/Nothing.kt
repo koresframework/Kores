@@ -29,19 +29,20 @@ package com.github.jonathanxd.kores.common
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.base.Typed
+import com.github.jonathanxd.kores.base.TypedInstruction
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.type.koresType
 import java.lang.reflect.Type
 
-        /**
-         * To avoid confusion with kotlin nothing
-         */
+/**
+ * To avoid confusion with kotlin nothing
+ */
 typealias KoresNothing = Nothing
 
 /**
  * Nothing for values (some parts may not support nothing as value).
  */
-object Nothing : Instruction, Typed {
+object Nothing : TypedInstruction {
 
     override val type: Type
         get() = Nothing::class.java.koresType

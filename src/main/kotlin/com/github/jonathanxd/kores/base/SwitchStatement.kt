@@ -47,7 +47,7 @@ data class SwitchStatement(
     override val value: Instruction,
     val switchType: SwitchType,
     val cases: List<Case>
-) : ValueHolder, Typed, Instruction {
+) : ValueHolder, TypedInstruction {
 
     override val type: Type
         get() = this.value.type

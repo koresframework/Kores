@@ -1,0 +1,12 @@
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[AnonymousClass](../index.md)/[Builder](index.md)/[Builder](-builder.md)
+
+
+
+# Builder  
+[jvm]  
+Content  
+fun [Builder](-builder.md)(defaults: [AnonymousClass](../index.md))  
+fun [Builder](-builder.md)()  
+
+
+

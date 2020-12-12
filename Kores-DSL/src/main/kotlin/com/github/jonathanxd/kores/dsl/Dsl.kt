@@ -1,5 +1,5 @@
 /*
- *      CodeAPI-DSL - Defines Kotlin DSL to create CodeAPI parts. <https://github.com/JonathanxD/Kores>
+ *      KoresAPI-DSL - Defines Kotlin DSL to create CodeAPI parts. <https://github.com/JonathanxD/Kores>
  *
  *         The MIT License (MIT)
  *

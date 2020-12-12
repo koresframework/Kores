@@ -34,7 +34,7 @@ import java.lang.reflect.Type
  * Access to a variable in local scope.
  */
 data class VariableAccess(override val variableType: Type, override val name: String) :
-    VariableBase, Instruction {
+    VariableBase, TypedInstruction {
 
     override fun builder(): Builder = Builder(this)
 

@@ -1,0 +1,11 @@
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../../index.md)/[AnnotatedKoresType](../../index.md)/[GenericAnnotatedKoresType](../index.md)/[GenericBuilder](index.md)/[backingGeneric](backing-generic.md)
+
+
+
+# backingGeneric  
+[jvm]  
+Content  
+var [backingGeneric](backing-generic.md): [GenericType.Builder](../../../-generic-type/-builder/index.md)<[GenericType](../../../-generic-type/index.md), *>  
+
+
+

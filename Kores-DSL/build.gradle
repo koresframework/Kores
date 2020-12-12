@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-    compile rootProject
-    testCompile group: 'junit', name:'junit', version: '4.11'
+    implementation rootProject
+    testImplementation group: 'junit', name:'junit', version: '4.11'
 }
 
 compileKotlin {
@@ -29,12 +29,12 @@ compileTestKotlin {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: classes) {
-    classifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from javadoc.destinationDir
 }
 
@@ -44,7 +44,7 @@ artifacts {
 }
 
 license {
-    ext.name = 'CodeAPI-DSL'
+    ext.name = 'KoresAPI-DSL'
     ext.organization = project.organization
     ext.description = 'Defines Kotlin DSL to create CodeAPI parts.'
     ext.url = project.purl

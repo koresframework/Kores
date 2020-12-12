@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.literal
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.base.Named
 import com.github.jonathanxd.kores.base.Typed
+import com.github.jonathanxd.kores.base.TypedInstruction
 import com.github.jonathanxd.kores.type.KoresType
 import java.util.*
 
@@ -40,9 +41,10 @@ import java.util.*
  */
 abstract class Literal protected constructor(
     val value: Any,
+    @Deprecated(message = "Creates confusion, this is not the name of the Literal, it is being used as value, which is wrong. Please use [Literal.value] instead. In the future, the value of this property will be the Literal type name, such as String, Int, Boolean, etc...")
     override val name: String,
     override val type: KoresType
-) : Instruction, Named, Typed {
+) : TypedInstruction, Named {
 
     // Compatibility
     constructor(name: String, type: KoresType) : this(name, name, type)
@@ -56,6 +58,6 @@ abstract class Literal protected constructor(
         other is Literal && this.value == other.value && this.name == other.name && this.type == other.type
 
     override fun toString(): String {
-        return "${this::class.java.simpleName}[name=$name, type=$type]"
+        return "${this::class.java.simpleName}[name=$name, value=$value, type=$type]"
     }
 }

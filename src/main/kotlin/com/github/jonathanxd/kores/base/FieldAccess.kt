@@ -40,7 +40,7 @@ data class FieldAccess(
     override val target: Instruction,
     override val type: Type,
     override val name: String
-) : Accessor, Typed, Named, Instruction {
+) : Accessor, TypedInstruction, Named {
 
     override fun builder(): Builder = Builder(this)
 

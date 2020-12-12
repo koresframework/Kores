@@ -186,6 +186,24 @@ fun Instruction.setArrayValue(
     )
 
 /**
+ * Sets value at [index] of [receiver array][TypedInstruction] of type [arrayType][TypedInstruction.type] to [valueToStore].
+ *
+ * @see ArrayStore
+ */
+fun TypedInstruction.setArrayValue(
+        index: Instruction,
+        valueType: Type,
+        valueToStore: Instruction
+): ArrayStore =
+        ArrayStore(
+                arrayType = this.type,
+                target = this,
+                index = index,
+                valueType = valueType,
+                valueToStore = valueToStore
+        )
+
+/**
  * @see ArrayLoad
  */
 fun accessArrayValue(
@@ -195,6 +213,15 @@ fun accessArrayValue(
     valueType: Type
 ): ArrayLoad =
     ArrayLoad(arrayType, target, index, valueType)
+
+/**
+ * @see ArrayLoad
+ */
+fun TypedInstruction.accessArrayValue(
+    index: Instruction,
+    valueType: Type
+): ArrayLoad =
+    ArrayLoad(this.type, this, index, valueType)
 
 /**
  * Accesses the value of [valueType] of [receiver array][Instruction] at [index].
@@ -220,6 +247,13 @@ fun arrayLength(arrayType: Type, target: Instruction): ArrayLength =
  */
 fun Instruction.arrayLength(arrayType: Type): ArrayLength =
     ArrayLength(arrayType, target = this)
+
+/**
+ * Accesses the length of [receiver array][Instruction] of type [arrayType].
+ * @see ArrayLength
+ */
+fun TypedInstruction.arrayLength(): ArrayLength =
+    ArrayLength(this.type, target = this)
 
 // Enum
 
@@ -261,6 +295,12 @@ fun setVariableValue(type: Type, name: String, value: Instruction): VariableDefi
 /**
  * @see VariableDefinition
  */
+fun setVariableValue(name: String, value: TypedInstruction): VariableDefinition =
+    VariableDefinition(value.type, name, value)
+
+/**
+ * @see VariableDefinition
+ */
 fun setVariableValue(variable: VariableBase, value: Instruction): VariableDefinition =
     VariableDefinition(variable.type, variable.name, value)
 
@@ -288,6 +328,17 @@ fun Instruction.accessField(
     name: String
 ): FieldAccess =
     FieldAccess(localization = localization, target = this, type = type, name = name)
+
+/**
+ * Access field with [name] and [type][TypedInstruction.type] of [receiver][Instruction] in [localization].
+ *
+ * @see FieldAccess
+ */
+fun TypedInstruction.accessField(
+    localization: Type,
+    name: String
+): FieldAccess =
+    FieldAccess(localization = localization, target = this, type = this.type, name = name)
 
 /**
  * @see FieldAccess
@@ -334,10 +385,34 @@ fun Instruction.setFieldValue(
     )
 
 /**
+ * Sets field [name] of [receiver type][TypedInstruction.type] of [receiver][TypedInstruction] in [localization].
+ *
+ * @see FieldDefinition
+ */
+fun TypedInstruction.setFieldValue(
+    localization: Type,
+    name: String,
+    value: Instruction
+): FieldDefinition =
+    FieldDefinition(
+        localization = localization,
+        target = this,
+        type = this.type,
+        name = name,
+        value = value
+    )
+
+/**
  * @see FieldDefinition
  */
 fun setThisFieldValue(type: Type, name: String, value: Instruction): FieldDefinition =
     setFieldValue(Alias.THIS, Access.THIS, type, name, value)
+
+/**
+ * @see FieldDefinition
+ */
+fun TypedInstruction.setToThisFieldValue(name: String): FieldDefinition =
+    setFieldValue(Alias.THIS, Access.THIS, this.type, name, this)
 
 /**
  * @see FieldDefinition
@@ -350,6 +425,17 @@ fun setStaticFieldValue(
     value: Instruction
 ): FieldDefinition =
     setFieldValue(localization, Access.STATIC, type, name, value)
+
+/**
+ * @see FieldDefinition
+ */
+@JvmOverloads
+fun setStaticFieldValue(
+    localization: Type = Alias.THIS,
+    name: String,
+    value: TypedInstruction
+): FieldDefinition =
+    setFieldValue(localization, Access.STATIC, value.type, name, value)
 
 /**
  * Invoke getter of a field (`get`+`capitalize(fieldName)`).
@@ -389,6 +475,28 @@ fun Instruction.invokeFieldGetter(
         target = this,
         name = "get${name.capitalize()}",
         spec = TypeSpec(type),
+        arguments = emptyList()
+    )
+
+/**
+ * Invoke getter of a field (`get`+`capitalize(fieldName)`) of [receiver][TypedInstruction] and [receiver type][TypedInstruction.type].
+ *
+ * @param invokeType Type of invocation
+ * @param localization Localization of getter
+ * @param type Type of field.
+ * @param name Name of field.
+ */
+fun TypedInstruction.invokeFieldGetter(
+    invokeType: InvokeType,
+    localization: Type,
+    name: String
+): MethodInvocation =
+    invoke(
+        invokeType = invokeType,
+        localization = localization,
+        target = this,
+        name = "get${name.capitalize()}",
+        spec = TypeSpec(this.type),
         arguments = emptyList()
     )
 
@@ -444,12 +552,41 @@ fun Instruction.invokeFieldSetter(
         arguments = listOf(value)
     )
 
+/**
+ * Invoke setter of a field (`set`+`capitalize(fieldName)`) of [receiver][Instruction] of [receiver type][Instruction.type] with [value].
+ *
+ * @param invokeType Type of invocation
+ * @param localization Localization of setter
+ * @param type Type of field.
+ * @param name Name of field.
+ * @param value Value to pass to setter
+ */
+fun TypedInstruction.invokeFieldSetter(
+    invokeType: InvokeType,
+    localization: Type,
+    name: String,
+    value: Instruction
+): MethodInvocation =
+    invoke(
+        invokeType = invokeType,
+        localization = localization,
+        target = this,
+        name = "set${name.capitalize()}",
+        spec = TypeSpec(Void.type, listOf(this.type)),
+        arguments = listOf(value)
+    )
+
 // Return
 
 /**
  * @see Return
  */
 fun returnValue(type: Type, value: Instruction) = Return(type, value)
+
+/**
+ * @see Return
+ */
+fun returnValue(value: TypedInstruction) = Return(value.type, value)
 
 /**
  * Void return (Java: `return;`)
@@ -462,6 +599,12 @@ fun returnVoid(): Return = returnValue(Void.type, Void)
  */
 fun Instruction.returnValue(type: Type) =
     returnValue(type, this)
+
+/**
+ * Creates a [Return] of receiver instruction of type [type].
+ */
+fun TypedInstruction.returnSelfValue() =
+    returnValue(this.type, this)
 
 // Parameter
 
@@ -587,10 +730,22 @@ fun cast(from: Type?, to: Type, part: Instruction): Cast =
     Cast(from, to, part)
 
 /**
+ * @see Cast
+ */
+fun cast(to: Type, part: TypedInstruction): Cast =
+    Cast(part.type, to, part)
+
+/**
  * Creates a cast of receiver from type [from] to type [to].
  */
 fun Instruction.cast(from: Type?, to: Type) =
     cast(from, to, this)
+
+/**
+ * Creates a cast of receiver from type [from] to type [to].
+ */
+fun TypedInstruction.cast(to: Type) =
+    cast(this.type, to, this)
 
 // IfExpr
 

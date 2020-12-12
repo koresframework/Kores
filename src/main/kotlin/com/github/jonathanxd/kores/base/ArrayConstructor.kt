@@ -53,7 +53,7 @@ data class ArrayConstructor(
     val arrayType: Type,
     val dimensions: List<Instruction>,
     override val arguments: List<Instruction>
-) : ArgumentsHolder, Typed, Instruction {
+) : ArgumentsHolder, TypedInstruction {
 
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }

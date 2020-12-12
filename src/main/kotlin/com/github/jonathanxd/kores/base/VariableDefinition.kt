@@ -37,7 +37,7 @@ data class VariableDefinition(
     override val type: Type,
     override val name: String,
     override val value: Instruction
-) : Named, Typed, ValueHolder, Instruction {
+) : Named, TypedInstruction, ValueHolder {
 
     override fun builder(): Builder = Builder(this)
 

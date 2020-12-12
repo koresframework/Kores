@@ -40,7 +40,7 @@ import java.lang.reflect.Type
  * @property instruction Instruction to cast
  */
 data class Cast(val originalType: Type?, val targetType: Type, val instruction: Instruction) :
-    Typed, Instruction {
+    TypedInstruction {
 
     override val type: Type
         get() = this.targetType

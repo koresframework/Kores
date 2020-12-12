@@ -1,0 +1,34 @@
+//[Kores](../index.md)/[com.github.jonathanxd.kores.util.conversion](index.md)/[extend](extend.md)
+
+
+
+# extend  
+[jvm]  
+Content  
+fun <[T](extend.md) : [TypeDeclaration](../com.github.jonathanxd.kores.base/-type-declaration/index.md)> [T](extend.md).[extend](extend.md)(klass: [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<*>): [T](extend.md)  
+More info  
+
+
+Makes the declaration [T](extend.md) extend the [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html) overriding all public/protected methods and invoking the super method.
+
+
+
+#### Return  
+
+
+The declaration extending the klass and overriding all public/protected methods.
+
+
+
+## Parameters  
+  
+jvm  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.util.conversion//extend/TypeParam(bounds=[com.github.jonathanxd.kores.base.TypeDeclaration])#java.lang.Class[*]/PointingToDeclaration/"></a>klass| <a name="com.github.jonathanxd.kores.util.conversion//extend/TypeParam(bounds=[com.github.jonathanxd.kores.base.TypeDeclaration])#java.lang.Class[*]/PointingToDeclaration/"></a><br><br>Class to extend<br><br>
+  
+  
+
+
+

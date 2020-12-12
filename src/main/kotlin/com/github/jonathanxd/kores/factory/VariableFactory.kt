@@ -31,6 +31,7 @@ package com.github.jonathanxd.kores.factory
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.base.KoresModifier
+import com.github.jonathanxd.kores.base.TypedInstruction
 import com.github.jonathanxd.kores.base.VariableDeclaration
 import com.github.jonathanxd.kores.common.KoresNothing
 import java.lang.reflect.Type
@@ -49,8 +50,24 @@ fun variable(
 /**
  * @see VariableDeclaration
  */
+fun variable(
+    modifiers: Set<KoresModifier>,
+    name: String,
+    value: TypedInstruction
+): VariableDeclaration =
+    VariableDeclaration(modifiers = modifiers, value = value, name = name, variableType = value.type)
+
+/**
+ * @see VariableDeclaration
+ */
 fun variable(type: Type, name: String, value: Instruction): VariableDeclaration =
     VariableDeclaration(modifiers = emptySet(), value = value, name = name, variableType = type)
+
+/**
+ * @see VariableDeclaration
+ */
+fun variable(name: String, value: TypedInstruction): VariableDeclaration =
+    VariableDeclaration(modifiers = emptySet(), value = value, name = name, variableType = value.type)
 
 /**
  * @see VariableDeclaration

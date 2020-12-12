@@ -37,7 +37,7 @@ import java.lang.reflect.Type
  * Access length of array [target] of type [arrayType].
  */
 data class ArrayLength(override val arrayType: Type, override val target: Instruction) :
-    ArrayAccess, Typed, Instruction {
+    ArrayAccess, TypedInstruction {
 
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }

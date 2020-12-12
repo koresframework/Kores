@@ -39,7 +39,7 @@ import java.lang.reflect.Type
 data class EnumValue(
     val enumType: Type,
     val enumEntry: String
-) : Named, Typed, Instruction {
+) : Named, TypedInstruction {
 
     override val name: String
         get() = this.enumEntry

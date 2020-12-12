@@ -274,6 +274,11 @@ val Type.descriptorDiscardBound: String
 
             if (codeType.isWildcard) "$name;"
             else "T$name;"
+        } else if (codeType is GenericType && !codeType.isType) {
+            val name = codeType.name
+
+            if (codeType.isWildcard) "$name;"
+            else "T$name;"
         } else {
             codeType.javaSpecName
         }

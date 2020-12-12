@@ -1,0 +1,70 @@
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[KoresModifier](index.md)
+
+
+
+# KoresModifier  
+ [jvm] enum [KoresModifier](index.md) : [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)<[KoresModifier](index.md)> , [KoresPart](../../com.github.jonathanxd.kores/-kores-part/index.md)
+
+Modifiers enum.
+
+   
+
+
+## Entries  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.PUBLIC///PointingToDeclaration/"></a>[PUBLIC](-p-u-b-l-i-c/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.PUBLIC///PointingToDeclaration/"></a> [jvm] [PUBLIC](-p-u-b-l-i-c/index.md)(VISIBILITY)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.PROTECTED///PointingToDeclaration/"></a>[PROTECTED](-p-r-o-t-e-c-t-e-d/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.PROTECTED///PointingToDeclaration/"></a> [jvm] [PROTECTED](-p-r-o-t-e-c-t-e-d/index.md)(VISIBILITY)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.PRIVATE///PointingToDeclaration/"></a>[PRIVATE](-p-r-i-v-a-t-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.PRIVATE///PointingToDeclaration/"></a> [jvm] [PRIVATE](-p-r-i-v-a-t-e/index.md)(VISIBILITY)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.PACKAGE_PRIVATE///PointingToDeclaration/"></a>[PACKAGE_PRIVATE](-p-a-c-k-a-g-e_-p-r-i-v-a-t-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.PACKAGE_PRIVATE///PointingToDeclaration/"></a> [jvm] [PACKAGE_PRIVATE](-p-a-c-k-a-g-e_-p-r-i-v-a-t-e/index.md)(VISIBILITY, "")  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.ABSTRACT///PointingToDeclaration/"></a>[ABSTRACT](-a-b-s-t-r-a-c-t/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.ABSTRACT///PointingToDeclaration/"></a> [jvm] [ABSTRACT](-a-b-s-t-r-a-c-t/index.md)(ABSTRACTION)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.DEFAULT///PointingToDeclaration/"></a>[DEFAULT](-d-e-f-a-u-l-t/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.DEFAULT///PointingToDeclaration/"></a> [jvm] [DEFAULT](-d-e-f-a-u-l-t/index.md)(ABSTRACTION)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.STATIC///PointingToDeclaration/"></a>[STATIC](-s-t-a-t-i-c/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.STATIC///PointingToDeclaration/"></a> [jvm] [STATIC](-s-t-a-t-i-c/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.FINAL///PointingToDeclaration/"></a>[FINAL](-f-i-n-a-l/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.FINAL///PointingToDeclaration/"></a> [jvm] [FINAL](-f-i-n-a-l/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.TRANSIENT///PointingToDeclaration/"></a>[TRANSIENT](-t-r-a-n-s-i-e-n-t/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.TRANSIENT///PointingToDeclaration/"></a> [jvm] [TRANSIENT](-t-r-a-n-s-i-e-n-t/index.md)(SERIALIZATION)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE///PointingToDeclaration/"></a>[VOLATILE](-v-o-l-a-t-i-l-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE///PointingToDeclaration/"></a> [jvm] [VOLATILE](-v-o-l-a-t-i-l-e/index.md)(CONCURRENCY)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.SYNCHRONIZED///PointingToDeclaration/"></a>[SYNCHRONIZED](-s-y-n-c-h-r-o-n-i-z-e-d/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.SYNCHRONIZED///PointingToDeclaration/"></a> [jvm] [SYNCHRONIZED](-s-y-n-c-h-r-o-n-i-z-e-d/index.md)(CONCURRENCY)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.NATIVE///PointingToDeclaration/"></a>[NATIVE](-n-a-t-i-v-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.NATIVE///PointingToDeclaration/"></a> [jvm] [NATIVE](-n-a-t-i-v-e/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.STRICTFP///PointingToDeclaration/"></a>[STRICTFP](-s-t-r-i-c-t-f-p/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.STRICTFP///PointingToDeclaration/"></a> [jvm] [STRICTFP](-s-t-r-i-c-t-f-p/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.BRIDGE///PointingToDeclaration/"></a>[BRIDGE](-b-r-i-d-g-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.BRIDGE///PointingToDeclaration/"></a> [jvm] [BRIDGE](-b-r-i-d-g-e/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.VARARGS///PointingToDeclaration/"></a>[VARARGS](-v-a-r-a-r-g-s/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.VARARGS///PointingToDeclaration/"></a> [jvm] [VARARGS](-v-a-r-a-r-g-s/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.SYNTHETIC///PointingToDeclaration/"></a>[SYNTHETIC](-s-y-n-t-h-e-t-i-c/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.SYNTHETIC///PointingToDeclaration/"></a> [jvm] [SYNTHETIC](-s-y-n-t-h-e-t-i-c/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.ANNOTATION///PointingToDeclaration/"></a>[ANNOTATION](-a-n-n-o-t-a-t-i-o-n/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.ANNOTATION///PointingToDeclaration/"></a> [jvm] [ANNOTATION](-a-n-n-o-t-a-t-i-o-n/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.ENUM///PointingToDeclaration/"></a>[ENUM](-e-n-u-m/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.ENUM///PointingToDeclaration/"></a> [jvm] [ENUM](-e-n-u-m/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.MANDATED///PointingToDeclaration/"></a>[MANDATED](-m-a-n-d-a-t-e-d/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.MANDATED///PointingToDeclaration/"></a> [jvm] [MANDATED](-m-a-n-d-a-t-e-d/index.md)(OTHER)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.OPEN///PointingToDeclaration/"></a>[OPEN](-o-p-e-n/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.OPEN///PointingToDeclaration/"></a> [jvm] [OPEN](-o-p-e-n/index.md)(MODULE)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.TRANSITIVE///PointingToDeclaration/"></a>[TRANSITIVE](-t-r-a-n-s-i-t-i-v-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.TRANSITIVE///PointingToDeclaration/"></a> [jvm] [TRANSITIVE](-t-r-a-n-s-i-t-i-v-e/index.md)(MODULE)  <br>   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.STATIC_PHASE///PointingToDeclaration/"></a>[STATIC_PHASE](-s-t-a-t-i-c_-p-h-a-s-e/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.STATIC_PHASE///PointingToDeclaration/"></a> [jvm] [STATIC_PHASE](-s-t-a-t-i-c_-p-h-a-s-e/index.md)(MODULE)  <br>   <br>
+
+
+## Types  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.Companion///PointingToDeclaration/"></a>[Companion](-companion/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.Companion///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object [Companion](-companion/index.md)  <br><br><br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier.Internal///PointingToDeclaration/"></a>[Internal](-internal/index.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.Internal///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object [Internal](-internal/index.md)  <br><br><br>
+
+
+## Functions  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[builder](../../com.github.jonathanxd.kores/-kores-part/builder.md)| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [builder](../../com.github.jonathanxd.kores/-kores-part/builder.md)(): [Builder](../../com.github.jonathanxd.kores.builder/-builder/index.md)<[KoresPart](../../com.github.jonathanxd.kores/-kores-part/index.md), *>  <br>More info  <br>This builder may or may not accept null values, it depends on implementation.  <br><br><br>
+| <a name="kotlin/Enum/compareTo/#com.github.jonathanxd.kores.base.KoresModifier/PointingToDeclaration/"></a>[compareTo](-s-t-a-t-i-c_-p-h-a-s-e/index.md#%5Bkotlin%2FEnum%2FcompareTo%2F%23com.github.jonathanxd.kores.base.KoresModifier%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Enum/compareTo/#com.github.jonathanxd.kores.base.KoresModifier/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator override fun [compareTo](-s-t-a-t-i-c_-p-h-a-s-e/index.md#%5Bkotlin%2FEnum%2FcompareTo%2F%23com.github.jonathanxd.kores.base.KoresModifier%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(other: [KoresModifier](index.md)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
+| <a name="kotlin/Enum/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Enum/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator override fun [equals](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
+| <a name="kotlin/Enum/finalize/#/PointingToDeclaration/"></a>[finalize](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Ffinalize%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Enum/finalize/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [finalize](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Ffinalize%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)()  <br><br><br>
+| <a name="kotlin/Enum/getDeclaringClass/#/PointingToDeclaration/"></a>[getDeclaringClass](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FgetDeclaringClass%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Enum/getDeclaringClass/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [getDeclaringClass](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FgetDeclaringClass%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(): [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<[KoresModifier](index.md)>  <br><br><br>
+| <a name="kotlin/Enum/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Enum/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>override fun [hashCode](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
+| <a name="kotlin/Enum/toString/#/PointingToDeclaration/"></a>[toString](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Enum/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [toString](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
+
+
+## Properties  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.base/KoresModifier/expr/#/PointingToDeclaration/"></a>[expr](expr.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier/expr/#/PointingToDeclaration/"></a> [jvm] val [expr](expr.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)Modifier name.   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier/modifierType/#/PointingToDeclaration/"></a>[modifierType](modifier-type.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier/modifierType/#/PointingToDeclaration/"></a> [jvm] val [modifierType](modifier-type.md): [ModifierType](../-modifier-type/index.md)Type of modifier.   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier/name/#/PointingToDeclaration/"></a>[name](index.md#%5Bcom.github.jonathanxd.kores.base%2FKoresModifier%2Fname%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-427383591)| <a name="com.github.jonathanxd.kores.base/KoresModifier/name/#/PointingToDeclaration/"></a> [jvm] val [name](index.md#%5Bcom.github.jonathanxd.kores.base%2FKoresModifier%2Fname%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-427383591): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)   <br>
+| <a name="com.github.jonathanxd.kores.base/KoresModifier/ordinal/#/PointingToDeclaration/"></a>[ordinal](index.md#%5Bcom.github.jonathanxd.kores.base%2FKoresModifier%2Fordinal%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-427383591)| <a name="com.github.jonathanxd.kores.base/KoresModifier/ordinal/#/PointingToDeclaration/"></a> [jvm] val [ordinal](index.md#%5Bcom.github.jonathanxd.kores.base%2FKoresModifier%2Fordinal%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-427383591): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)   <br>
+

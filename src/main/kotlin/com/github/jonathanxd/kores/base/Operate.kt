@@ -49,7 +49,7 @@ data class Operate(
     val target: Instruction,
     val operation: Operator.Math,
     override val value: Instruction
-) : ValueHolder, Typed, Instruction {
+) : ValueHolder, TypedInstruction {
 
     override val type: Type
         get() = this.target.type

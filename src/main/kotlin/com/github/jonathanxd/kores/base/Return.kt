@@ -34,7 +34,7 @@ import java.lang.reflect.Type
  * Return value.
  */
 data class Return(override val type: Type, override val value: Instruction) : ValueHolder,
-    Typed, Instruction {
+    TypedInstruction {
 
     override fun builder(): Builder = Builder(this)
 

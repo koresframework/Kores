@@ -588,6 +588,11 @@ fun Any.toLiteral(): Literal =
         this.toLiteralOrNull()
                 ?: throw IllegalArgumentException("$this cannot be converted to Kores Literal.")
 
+val Any.literal get() = this.toLiteral()
+val Any.literalOrNull get() = this.toLiteralOrNull()
+
+operator fun Any.not() = this.literal
+
 /**
  * Convert this value to a literal
  */
