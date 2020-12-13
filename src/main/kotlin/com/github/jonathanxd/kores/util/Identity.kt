@@ -34,6 +34,8 @@ import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.GenericType
 import com.github.jonathanxd.kores.type.LoadedKoresType
 import com.github.jonathanxd.iutils.string.ToStringHelper
+import com.github.jonathanxd.kores.type.koresType
+import java.lang.reflect.Type
 import java.util.*
 
 /**
@@ -222,10 +224,20 @@ fun KoresType.toStr(): String = "${this::class.java.simpleName}[${this.identific
  * Default equality check for [LoadedKoresType], this method checks if the loaded types are equal.
  */
 fun <T> LoadedKoresType<T>.eq(obj: Any?) =
-    if (obj == null)
-        false
-    else
-        if (obj is LoadedKoresType<*>)
-            this.loadedType == obj.loadedType
-        else
-            (this as KoresType).eq(obj)
+        when (obj) {
+            null -> false
+            is LoadedKoresType<*> -> this.loadedType == obj.loadedType
+            else -> (this as KoresType).eq(obj)
+        }
+
+/**
+ * Helper for checking equality of two types. Delegates to [KoresType.identityEq]
+ */
+operator fun Type.contains(other: Type) =
+        this.koresType.`is`(other.koresType)
+
+/**
+ * Helper for checking equality of two types. Delegates to [KoresType.identityEq]
+ */
+operator fun Type.contains(others: List<Type>) =
+        others.any { it.koresType.`is`(this.koresType) }
