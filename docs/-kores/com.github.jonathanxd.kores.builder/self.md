@@ -1,0 +1,17 @@
+//[Kores](../index.md)/[com.github.jonathanxd.kores.builder](index.md)/[self](self.md)
+
+
+
+# self  
+[jvm]  
+Content  
+inline fun <[T](self.md), [S](self.md) : [Builder](-builder/index.md)<[T](self.md), [S](self.md)>> [Builder](-builder/index.md)<[T](self.md), [S](self.md)>.[self](self.md)(): [S](self.md)  
+More info  
+
+
+Cast from [Builder](-builder/index.md) of [T](self.md) of implicit type [S](self.md).
+
+  
+
+
+

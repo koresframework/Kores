@@ -1,1 +1,2 @@
-rootProject.name = 'CodeAPI'
+rootProject.name = 'Kores'
+include 'Kores-DSL'

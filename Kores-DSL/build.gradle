@@ -1,0 +1,71 @@
+group 'com.github.jonathanxd'
+
+apply plugin: 'kotlin'
+apply plugin: 'license'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'JwIUtils-kt',
+                'Implementation-Version': project.version
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation rootProject
+    testImplementation group: 'junit', name:'junit', version: '4.11'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+license {
+    ext.name = 'KoresAPI-DSL'
+    ext.organization = project.organization
+    ext.description = 'Defines Kotlin DSL to create CodeAPI parts.'
+    ext.url = project.purl
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    ext.email = 'jonathan.scripter@programmer.net'
+
+    exclude "**/*.info"
+    exclude "**/*.md"
+    exclude "res/**"
+    exclude "src/main/resources/**"
+    exclude "src/test/resources/**"
+
+    header file('../LICENSE_HEADER')
+
+    sourceSets = project.sourceSets
+
+    ignoreFailures false
+    strictCheck true
+
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+        kt = 'SLASHSTAR_STYLE'
+    }
+}

@@ -1,0 +1,11 @@
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.util](../../index.md)/[KoresTypeResolverFunc](../index.md)/[Companion](index.md)/[fromKtFunction](from-kt-function.md)
+
+
+
+# fromKtFunction  
+[jvm]  
+Content  
+fun [fromKtFunction](from-kt-function.md)(func: ([String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)) -> [KoresType](../../../com.github.jonathanxd.kores.type/-kores-type/index.md)): [KoresTypeResolverFunc](../index.md)  
+
+
+

@@ -1,0 +1,12 @@
+//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ArrayInstructions](index.md)/[ArrayInstructions](-array-instructions.md)
+
+
+
+# ArrayInstructions  
+[jvm]  
+Content  
+fun [ArrayInstructions](-array-instructions.md)()  
+fun [ArrayInstructions](-array-instructions.md)(parts: [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)<[Instruction](../-instruction/index.md)> = emptyArray())  
+
+
+

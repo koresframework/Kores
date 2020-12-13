@@ -1,0 +1,17 @@
+//[Kores](../index.md)/[com.github.jonathanxd.kores.util.conversion](index.md)/[getMethodTypeSpec](get-method-type-spec.md)
+
+
+
+# getMethodTypeSpec  
+[jvm]  
+Content  
+fun [ExecutableElement](https://docs.oracle.com/javase/8/docs/api/javax/lang/model/element/ExecutableElement.html).[getMethodTypeSpec](get-method-type-spec.md)(elements: [Elements](https://docs.oracle.com/javase/8/docs/api/javax/lang/model/util/Elements.html)): [MethodTypeSpec](../com.github.jonathanxd.kores.common/-method-type-spec/index.md)  
+More info  
+
+
+Gets [MethodTypeSpec](../com.github.jonathanxd.kores.common/-method-type-spec/index.md) of receiver [ExecutableElement](https://docs.oracle.com/javase/8/docs/api/javax/lang/model/element/ExecutableElement.html)
+
+  
+
+
+

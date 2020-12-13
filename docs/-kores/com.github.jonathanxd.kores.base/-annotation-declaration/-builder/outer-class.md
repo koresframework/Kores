@@ -1,0 +1,11 @@
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[AnnotationDeclaration](../index.md)/[Builder](index.md)/[outerClass](outer-class.md)
+
+
+
+# outerClass  
+[jvm]  
+Content  
+var [outerClass](outer-class.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)? = null  
+
+
+

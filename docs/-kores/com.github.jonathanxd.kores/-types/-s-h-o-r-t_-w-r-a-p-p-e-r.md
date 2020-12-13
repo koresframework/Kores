@@ -1,0 +1,13 @@
+//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Types](index.md)/[SHORT_WRAPPER](-s-h-o-r-t_-w-r-a-p-p-e-r.md)
+
+
+
+# SHORT_WRAPPER  
+[jvm]  
+Content  
+@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  
+  
+val [SHORT_WRAPPER](-s-h-o-r-t_-w-r-a-p-p-e-r.md): [LoadedKoresType](../../com.github.jonathanxd.kores.type/-loaded-kores-type/index.md)<[Short](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html)>  
+
+
+

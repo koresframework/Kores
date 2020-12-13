@@ -1,0 +1,17 @@
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[InvokeDynamicBase](index.md)/[dynamicMethod](dynamic-method.md)
+
+
+
+# dynamicMethod  
+[jvm]  
+Content  
+abstract val [dynamicMethod](dynamic-method.md): [DynamicMethodSpec](../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md)  
+More info  
+
+
+Specification of dynamic method.
+
+  
+
+
+

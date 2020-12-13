@@ -1,0 +1,17 @@
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ArrayConstructor](../index.md)/[Builder](index.md)/[array](array.md)
+
+
+
+# array  
+[jvm]  
+Content  
+open override fun [array](array.md)(value: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)): [ArrayConstructor.Builder](index.md)  
+More info  
+
+
+See T.array
+
+  
+
+
+

@@ -1,0 +1,17 @@
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[EnumValue](../index.md)/[Builder](index.md)/[base](base.md)
+
+
+
+# base  
+[jvm]  
+Content  
+fun [base](base.md)(enum: [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)<*>): [EnumValue.Builder](index.md)  
+More info  
+
+
+Base this EnumValue on an [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html).
+
+  
+
+
+
