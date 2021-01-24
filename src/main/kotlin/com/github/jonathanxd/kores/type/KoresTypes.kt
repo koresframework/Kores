@@ -112,39 +112,74 @@ fun Class<*>.getGenericType(): GenericType {
 /**
  * Gets the [KoresType] from a [Type]. This method only works for Java Reflection Types and [KoresType].
  */
-fun Type.getType(isParameterized: Boolean = false): KoresType {
+fun Type.getType(isParameterized: Boolean = false): KoresType =
+    this.getType(previous = null, isParameterized)
+/**
+ * Gets the [KoresType] from a [Type]. This method only works for Java Reflection Types and [KoresType].
+ */
+fun Type.getType(previous: Type? = null, isParameterized: Boolean = false): KoresType {
 
     if (this is KoresType)
         return this
 
     return synchronized(cache) { cache[this] } ?: when (this) {
-        is ParameterizedType -> Generic.type(this.rawType.getType(false))
-            .of(*this.actualTypeArguments.map { it.getType(true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
-        is GenericArrayType -> Generic.type(this.genericComponentType.getType(false))
+        is ParameterizedType -> Generic.type(this.rawType.getType(this, false))
+            .of(*this.actualTypeArguments.map { it.getType(this, true) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+        is GenericArrayType -> Generic.type(this.genericComponentType.getType(this, false))
         is TypeVariable<*> -> {
             val type = Generic.type(this.name)
 
             if (isParameterized)
                 return type
 
-            type.`extends$`(*this.bounds.map { it.getType(false) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
+            type.`extends$`(*this.bounds.map { it.getType(this, false) }.filter { !it.`is`(Types.OBJECT) }.toTypedArray())
 
         }
         is WildcardType -> {
             var generic = Generic.wildcard()
 
+            fun buildIfRecursive(it: Type): Generic? {
+                if (previous != null && it is TypeVariable<*> && it.bounds.any { it === previous }) {
+                    val nBounds = it.bounds.map { type ->
+                        if (type === previous) {
+                            // TODO: Support recursive types, such as K extends Comparable<? super K>
+                            //  Currently this is not possible because Generic instance is only available when all
+                            //  bounds are already built, so there is no way to K inside Comparable<? super K>
+                            //  reference the K extends Comparable<? super K>, which will not be constructed
+                            //  until the K inside is resolved.
+                            //  this is not easy to resolve, as allowing cyclic generics may impose other problems
+                            //  with already existing systems in Kores, such as Generic Inference, Generic Translation
+                            //  and identity equality check.
+                            //  but a way to resolve that is to replace the K inside Comparable<? super K> with the
+                            //  K extends Comparable<? super K> after the Generic instance is created, as a post-processing
+                            //  task, however, Generic is immutable, so we will need a Builder for the Generic, which
+                            //  would allow self-reference to occur, as we will have the Builder before the type is built,
+                            //  then we just glue them all.
+                            Generic.type(it.name)
+                        } else {
+                            type.getType(this, false)
+                        }
+                    }.filter { !it.`is`(Types.OBJECT) }.toTypedArray()
+                    val type = Generic.type(it.name)
+
+                    return type.`extends$`(*nBounds)
+                } else {
+                    return null;
+                }
+            }
+
             this.lowerBounds.forEach {
                 if (it is Class<*> && it == Any::class.java)
                     return@forEach
 
-                generic = generic.`super$`(it.getType(false))
+                generic = buildIfRecursive(it) ?: generic.`super$`(it.getType(this, false))
             }
 
             this.upperBounds.forEach {
                 if (it is Class<*> && it == Any::class.java)
                     return@forEach
 
-                generic = generic.`extends$`(it.getType(false))
+                generic = buildIfRecursive(it) ?: generic.`extends$`(it.getType(this, false))
             }
 
             generic
