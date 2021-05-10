@@ -15,9 +15,9 @@ A source instruction.
 |  Name|  Summary| 
 |---|---|
 | <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[builder](../-kores-part/builder.md)| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [builder](../-kores-part/builder.md)(): [Builder](../../com.github.jonathanxd.kores.builder/-builder/index.md)<[KoresPart](../-kores-part/index.md), *>  <br>More info  <br>This builder may or may not accept null values, it depends on implementation.  <br><br><br>
-| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-427383591)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
+| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
+| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
+| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
 
 
 ## Inheritors  
@@ -27,15 +27,8 @@ A source instruction.
 | <a name="com.github.jonathanxd.kores.base/Access///PointingToDeclaration/"></a>[Access](../../com.github.jonathanxd.kores.base/-access/index.md)
 | <a name="com.github.jonathanxd.kores.base/Accessor///PointingToDeclaration/"></a>[Accessor](../../com.github.jonathanxd.kores.base/-accessor/index.md)
 | <a name="com.github.jonathanxd.kores.base/Alias///PointingToDeclaration/"></a>[Alias](../../com.github.jonathanxd.kores.base/-alias/index.md)
-| <a name="com.github.jonathanxd.kores.base/ArrayConstructor///PointingToDeclaration/"></a>[ArrayConstructor](../../com.github.jonathanxd.kores.base/-array-constructor/index.md)
-| <a name="com.github.jonathanxd.kores.base/ArrayLength///PointingToDeclaration/"></a>[ArrayLength](../../com.github.jonathanxd.kores.base/-array-length/index.md)
-| <a name="com.github.jonathanxd.kores.base/ArrayLoad///PointingToDeclaration/"></a>[ArrayLoad](../../com.github.jonathanxd.kores.base/-array-load/index.md)
 | <a name="com.github.jonathanxd.kores.base/ArrayStore///PointingToDeclaration/"></a>[ArrayStore](../../com.github.jonathanxd.kores.base/-array-store/index.md)
-| <a name="com.github.jonathanxd.kores.base/Cast///PointingToDeclaration/"></a>[Cast](../../com.github.jonathanxd.kores.base/-cast/index.md)
-| <a name="com.github.jonathanxd.kores.base/Concat///PointingToDeclaration/"></a>[Concat](../../com.github.jonathanxd.kores.base/-concat/index.md)
 | <a name="com.github.jonathanxd.kores.base/ControlFlow///PointingToDeclaration/"></a>[ControlFlow](../../com.github.jonathanxd.kores.base/-control-flow/index.md)
-| <a name="com.github.jonathanxd.kores.base/EnumValue///PointingToDeclaration/"></a>[EnumValue](../../com.github.jonathanxd.kores.base/-enum-value/index.md)
-| <a name="com.github.jonathanxd.kores.base/FieldAccess///PointingToDeclaration/"></a>[FieldAccess](../../com.github.jonathanxd.kores.base/-field-access/index.md)
 | <a name="com.github.jonathanxd.kores.base/FieldDefinition///PointingToDeclaration/"></a>[FieldDefinition](../../com.github.jonathanxd.kores.base/-field-definition/index.md)
 | <a name="com.github.jonathanxd.kores.base/ForEachStatement///PointingToDeclaration/"></a>[ForEachStatement](../../com.github.jonathanxd.kores.base/-for-each-statement/index.md)
 | <a name="com.github.jonathanxd.kores.base/ForStatement///PointingToDeclaration/"></a>[ForStatement](../../com.github.jonathanxd.kores.base/-for-statement/index.md)
@@ -43,27 +36,17 @@ A source instruction.
 | <a name="com.github.jonathanxd.kores.base/IfGroup///PointingToDeclaration/"></a>[IfGroup](../../com.github.jonathanxd.kores.base/-if-group/index.md)
 | <a name="com.github.jonathanxd.kores.base/IfStatement///PointingToDeclaration/"></a>[IfStatement](../../com.github.jonathanxd.kores.base/-if-statement/index.md)
 | <a name="com.github.jonathanxd.kores.base/InstanceOfCheck///PointingToDeclaration/"></a>[InstanceOfCheck](../../com.github.jonathanxd.kores.base/-instance-of-check/index.md)
-| <a name="com.github.jonathanxd.kores.base/InvokeDynamicBase///PointingToDeclaration/"></a>[InvokeDynamicBase](../../com.github.jonathanxd.kores.base/-invoke-dynamic-base/index.md)
 | <a name="com.github.jonathanxd.kores.base/Label///PointingToDeclaration/"></a>[Label](../../com.github.jonathanxd.kores.base/-label/index.md)
 | <a name="com.github.jonathanxd.kores.base/Line///PointingToDeclaration/"></a>[Line](../../com.github.jonathanxd.kores.base/-line/index.md)
 | <a name="com.github.jonathanxd.kores.base/LocalCode///PointingToDeclaration/"></a>[LocalCode](../../com.github.jonathanxd.kores.base/-local-code/index.md)
-| <a name="com.github.jonathanxd.kores.base/MethodInvocation///PointingToDeclaration/"></a>[MethodInvocation](../../com.github.jonathanxd.kores.base/-method-invocation/index.md)
 | <a name="com.github.jonathanxd.kores.base/New///PointingToDeclaration/"></a>[New](../../com.github.jonathanxd.kores.base/-new/index.md)
-| <a name="com.github.jonathanxd.kores.base/Operate///PointingToDeclaration/"></a>[Operate](../../com.github.jonathanxd.kores.base/-operate/index.md)
-| <a name="com.github.jonathanxd.kores.base/Return///PointingToDeclaration/"></a>[Return](../../com.github.jonathanxd.kores.base/-return/index.md)
 | <a name="com.github.jonathanxd.kores.base/ScopeAccess///PointingToDeclaration/"></a>[ScopeAccess](../../com.github.jonathanxd.kores.base/-scope-access/index.md)
-| <a name="com.github.jonathanxd.kores.base/SwitchStatement///PointingToDeclaration/"></a>[SwitchStatement](../../com.github.jonathanxd.kores.base/-switch-statement/index.md)
 | <a name="com.github.jonathanxd.kores.base/Synchronized///PointingToDeclaration/"></a>[Synchronized](../../com.github.jonathanxd.kores.base/-synchronized/index.md)
 | <a name="com.github.jonathanxd.kores.base/ThrowException///PointingToDeclaration/"></a>[ThrowException](../../com.github.jonathanxd.kores.base/-throw-exception/index.md)
 | <a name="com.github.jonathanxd.kores.base/TryStatementBase///PointingToDeclaration/"></a>[TryStatementBase](../../com.github.jonathanxd.kores.base/-try-statement-base/index.md)
-| <a name="com.github.jonathanxd.kores.base/VariableAccess///PointingToDeclaration/"></a>[VariableAccess](../../com.github.jonathanxd.kores.base/-variable-access/index.md)
-| <a name="com.github.jonathanxd.kores.base/VariableDeclaration///PointingToDeclaration/"></a>[VariableDeclaration](../../com.github.jonathanxd.kores.base/-variable-declaration/index.md)
-| <a name="com.github.jonathanxd.kores.base/VariableDefinition///PointingToDeclaration/"></a>[VariableDefinition](../../com.github.jonathanxd.kores.base/-variable-definition/index.md)
+| <a name="com.github.jonathanxd.kores.base/TypedInstruction///PointingToDeclaration/"></a>[TypedInstruction](../../com.github.jonathanxd.kores.base/-typed-instruction/index.md)
 | <a name="com.github.jonathanxd.kores.base/WhileStatement///PointingToDeclaration/"></a>[WhileStatement](../../com.github.jonathanxd.kores.base/-while-statement/index.md)
 | <a name="com.github.jonathanxd.kores.base.comment/Comments///PointingToDeclaration/"></a>[Comments](../../com.github.jonathanxd.kores.base.comment/-comments/index.md)
-| <a name="com.github.jonathanxd.kores.common/Nothing///PointingToDeclaration/"></a>[Nothing](../../com.github.jonathanxd.kores.common/-nothing/index.md)
-| <a name="com.github.jonathanxd.kores.common/Void///PointingToDeclaration/"></a>[Void](../../com.github.jonathanxd.kores.common/-void/index.md)
-| <a name="com.github.jonathanxd.kores.literal/Literal///PointingToDeclaration/"></a>[Literal](../../com.github.jonathanxd.kores.literal/-literal/index.md)
 | <a name="com.github.jonathanxd.kores.operator/Operator///PointingToDeclaration/"></a>[Operator](../../com.github.jonathanxd.kores.operator/-operator/index.md)
 
 

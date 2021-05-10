@@ -22,6 +22,23 @@ jvm
 
 [jvm]  
 Content  
+fun [setVariableValue](set-variable-value.md)(name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), value: [TypedInstruction](../com.github.jonathanxd.kores.base/-typed-instruction/index.md)): [VariableDefinition](../com.github.jonathanxd.kores.base/-variable-definition/index.md)  
+More info  
+
+
+## See also  
+  
+jvm  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.factory//setVariableValue/#kotlin.String#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>[com.github.jonathanxd.kores.base.VariableDefinition](../com.github.jonathanxd.kores.base/-variable-definition/index.md)| <a name="com.github.jonathanxd.kores.factory//setVariableValue/#kotlin.String#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>
+  
+  
+
+
+[jvm]  
+Content  
 fun [setVariableValue](set-variable-value.md)(variable: [VariableBase](../com.github.jonathanxd.kores.base/-variable-base/index.md), value: [Instruction](../com.github.jonathanxd.kores/-instruction/index.md)): [VariableDefinition](../com.github.jonathanxd.kores.base/-variable-definition/index.md)  
 More info  
 

@@ -22,4 +22,23 @@ jvm
   
 
 
+[jvm]  
+Content  
+@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()  
+  
+fun [setStaticFieldValue](set-static-field-value.md)(localization: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html) = Alias.THIS, name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), value: [TypedInstruction](../com.github.jonathanxd.kores.base/-typed-instruction/index.md)): [FieldDefinition](../com.github.jonathanxd.kores.base/-field-definition/index.md)  
+More info  
+
+
+## See also  
+  
+jvm  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.factory//setStaticFieldValue/#java.lang.reflect.Type#kotlin.String#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>[com.github.jonathanxd.kores.base.FieldDefinition](../com.github.jonathanxd.kores.base/-field-definition/index.md)| <a name="com.github.jonathanxd.kores.factory//setStaticFieldValue/#java.lang.reflect.Type#kotlin.String#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>
+  
+  
+
+
 

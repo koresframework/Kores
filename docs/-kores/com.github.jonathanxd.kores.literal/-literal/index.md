@@ -3,7 +3,7 @@
 
 
 # Literal  
- [jvm] abstract class [Literal](index.md) : [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), [Named](../../com.github.jonathanxd.kores.base/-named/index.md), [Typed](../../com.github.jonathanxd.kores.base/-typed/index.md)
+ [jvm] abstract class [Literal](index.md) : [TypedInstruction](../../com.github.jonathanxd.kores.base/-typed-instruction/index.md), [Named](../../com.github.jonathanxd.kores.base/-named/index.md)
 
 A JVM Literal.
 
@@ -35,7 +35,7 @@ Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
   
 |  Name|  Summary| 
 |---|---|
-| <a name="com.github.jonathanxd.kores.literal/Literal/name/#/PointingToDeclaration/"></a>[name](name.md)| <a name="com.github.jonathanxd.kores.literal/Literal/name/#/PointingToDeclaration/"></a> [jvm] open override val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)Name   <br>
+| <a name="com.github.jonathanxd.kores.literal/Literal/name/#/PointingToDeclaration/"></a>[name](name.md)| <a name="com.github.jonathanxd.kores.literal/Literal/name/#/PointingToDeclaration/"></a> [jvm] ~~open~~ ~~override~~ ~~val~~ [~~name~~](name.md)~~:~~ [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)Name   <br>
 | <a name="com.github.jonathanxd.kores.literal/Literal/type/#/PointingToDeclaration/"></a>[type](type.md)| <a name="com.github.jonathanxd.kores.literal/Literal/type/#/PointingToDeclaration/"></a> [jvm] open override val [type](type.md): [KoresType](../../com.github.jonathanxd.kores.type/-kores-type/index.md)Element type   <br>
 | <a name="com.github.jonathanxd.kores.literal/Literal/value/#/PointingToDeclaration/"></a>[value](value.md)| <a name="com.github.jonathanxd.kores.literal/Literal/value/#/PointingToDeclaration/"></a> [jvm] val [value](value.md): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)   <br>
 

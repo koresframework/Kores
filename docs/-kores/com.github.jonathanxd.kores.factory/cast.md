@@ -22,7 +22,25 @@ jvm
 
 [jvm]  
 Content  
+fun [cast](cast.md)(to: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), part: [TypedInstruction](../com.github.jonathanxd.kores.base/-typed-instruction/index.md)): [Cast](../com.github.jonathanxd.kores.base/-cast/index.md)  
+More info  
+
+
+## See also  
+  
+jvm  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.factory//cast/#java.lang.reflect.Type#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>[com.github.jonathanxd.kores.base.Cast](../com.github.jonathanxd.kores.base/-cast/index.md)| <a name="com.github.jonathanxd.kores.factory//cast/#java.lang.reflect.Type#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>
+  
+  
+
+
+[jvm]  
+Content  
 fun [Instruction](../com.github.jonathanxd.kores/-instruction/index.md).[cast](cast.md)(from: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)?, to: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Cast](../com.github.jonathanxd.kores.base/-cast/index.md)  
+fun [TypedInstruction](../com.github.jonathanxd.kores.base/-typed-instruction/index.md).[cast](cast.md)(to: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Cast](../com.github.jonathanxd.kores.base/-cast/index.md)  
 More info  
 
 

@@ -9,7 +9,7 @@
   
 |  Name|  Summary| 
 |---|---|
-| <a name="com.github.jonathanxd.kores.literal/Literal///PointingToDeclaration/"></a>[Literal](-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literal///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>abstract class [Literal](-literal/index.md) : [Instruction](../com.github.jonathanxd.kores/-instruction/index.md), [Named](../com.github.jonathanxd.kores.base/-named/index.md), [Typed](../com.github.jonathanxd.kores.base/-typed/index.md)  <br>More info  <br>A JVM Literal.  <br><br><br>
+| <a name="com.github.jonathanxd.kores.literal/Literal///PointingToDeclaration/"></a>[Literal](-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literal///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>abstract class [Literal](-literal/index.md) : [TypedInstruction](../com.github.jonathanxd.kores.base/-typed-instruction/index.md), [Named](../com.github.jonathanxd.kores.base/-named/index.md)  <br>More info  <br>A JVM Literal.  <br><br><br>
 | <a name="com.github.jonathanxd.kores.literal/Literals///PointingToDeclaration/"></a>[Literals](-literals/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object [Literals](-literals/index.md)  <br>More info  <br>[Literals](-literal/index.md) constants.  <br><br><br>
 
 

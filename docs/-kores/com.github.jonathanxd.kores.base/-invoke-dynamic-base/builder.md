@@ -6,12 +6,6 @@
 [jvm]  
 Content  
 abstract override fun [builder](builder.md)(): [InvokeDynamicBase.Builder](-builder/index.md)<[InvokeDynamicBase](index.md), *>  
-More info  
-
-
-This builder may or may not accept null values, it depends on implementation.
-
-  
 
 
 

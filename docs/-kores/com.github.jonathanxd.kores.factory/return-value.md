@@ -22,6 +22,23 @@ jvm
 
 [jvm]  
 Content  
+fun [returnValue](return-value.md)(value: [TypedInstruction](../com.github.jonathanxd.kores.base/-typed-instruction/index.md)): [Return](../com.github.jonathanxd.kores.base/-return/index.md)  
+More info  
+
+
+## See also  
+  
+jvm  
+  
+|  Name|  Summary| 
+|---|---|
+| <a name="com.github.jonathanxd.kores.factory//returnValue/#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>[com.github.jonathanxd.kores.base.Return](../com.github.jonathanxd.kores.base/-return/index.md)| <a name="com.github.jonathanxd.kores.factory//returnValue/#com.github.jonathanxd.kores.base.TypedInstruction/PointingToDeclaration/"></a>
+  
+  
+
+
+[jvm]  
+Content  
 fun [Instruction](../com.github.jonathanxd.kores/-instruction/index.md).[returnValue](return-value.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Return](../com.github.jonathanxd.kores.base/-return/index.md)  
 More info  
 

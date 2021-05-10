@@ -9,7 +9,7 @@ open override fun [getSuperclass](get-superclass.md)(type: [Type](https://docs.o
 More info  
 
 
-First non-null and [non-nothing](../../../com.github.jonathanxd.kores.common/index.md#%5Bcom.github.jonathanxd.kores.common%2FKoresNothing%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F-427383591) value is returned, or null if no valid value was found.
+First non-null and [non-nothing](../../../com.github.jonathanxd.kores.common/index.md#%5Bcom.github.jonathanxd.kores.common%2FKoresNothing%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F-1211764316) value is returned, or null if no valid value was found.
 
   
 
