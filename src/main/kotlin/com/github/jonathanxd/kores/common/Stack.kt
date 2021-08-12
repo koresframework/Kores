@@ -29,8 +29,14 @@ package com.github.jonathanxd.kores.common
 
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.literal.Literal
+import kotlinx.serialization.Serializable
+import java.lang.reflect.Type
 
 /**
  * Use JVM Stack value (is supported by `BytecodeGenerators`).
  */
-object Stack : Literal("stack", Types.OBJECT)
+@Serializable
+object Stack : Literal("stack") {
+    override val name: String = "stack"
+    override val type: Type = Types.OBJECT
+}

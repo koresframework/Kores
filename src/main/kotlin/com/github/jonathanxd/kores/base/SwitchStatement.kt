@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.type
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -43,6 +44,7 @@ import java.lang.reflect.Type
  * @property switchType Type of the switch
  * @property cases Cases statements.
  */
+@Serializable
 data class SwitchStatement(
     override val value: Instruction,
     val switchType: SwitchType,
@@ -117,6 +119,7 @@ data class SwitchStatement(
 /**
  * Switch types
  */
+@Serializable
 enum class SwitchType {
     NUMERIC,
     STRING,

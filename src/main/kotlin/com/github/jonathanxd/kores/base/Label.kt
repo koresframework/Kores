@@ -29,12 +29,14 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
+import kotlinx.serialization.Serializable
 
 /**
  * Label.
  *
  * Labels with empty name will be treated as a scope block.
  */
+@Serializable
 data class Label(override val name: String, override val body: Instructions) : BodyHolder, Named,
     Instruction {
     init {

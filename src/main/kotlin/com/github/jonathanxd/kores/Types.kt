@@ -31,6 +31,8 @@ import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.JavaType
 import com.github.jonathanxd.kores.type.LoadedKoresType
 import com.github.jonathanxd.iutils.collection.Collections3
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.util.*
 import java.util.function.Supplier
 
@@ -96,6 +98,7 @@ object Types {
 
     @JvmField val COLLECTIONS3: LoadedKoresType<Collections3> = PredefinedType(Collections3::class.java)
 
-    private class PredefinedType<T> internal constructor(tClass: Class<T>) : JavaType<T>(tClass)
+    @Serializable(with = TypeSerializer::class)
+    internal class PredefinedType<T> internal constructor(tClass: Class<T>) : JavaType<T>(tClass)
 
 }

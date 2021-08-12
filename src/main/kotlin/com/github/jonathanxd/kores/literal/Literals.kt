@@ -27,9 +27,13 @@
  */
 package com.github.jonathanxd.kores.literal
 
+import com.github.jonathanxd.kores.serialization.KoresTypeSerializer
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.NullType
 import com.github.jonathanxd.kores.type.koresType
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -39,7 +43,7 @@ object Literals {
 
     // NullLiteral
     @JvmField
-    val NULL: Literal = SimpleLiteral("null", NullType)
+    val NULL: Literal = NullLiteral
 
     // BooleanLiteral
     @JvmField
@@ -53,19 +57,19 @@ object Literals {
     // ByteLiteral
     @JvmStatic
     fun BYTE(b: Byte): Literal {
-        return ByteLiteral(b.toString())
+        return ByteLiteral(b)
     }
 
     // ShortLiteral
     @JvmStatic
     fun SHORT(s: Short): Literal {
-        return ShortLiteral(s.toString())
+        return ShortLiteral(s)
     }
 
     // IntegerLiteral
     @JvmStatic
     fun INT(i: Int): Literal {
-        return IntLiteral(i.toString())
+        return IntLiteral(i)
     }
 
     // BooleanLiteral
@@ -80,25 +84,25 @@ object Literals {
     // LongLiteral
     @JvmStatic
     fun LONG(i: Long): Literal {
-        return LongLiteral(i.toString())
+        return LongLiteral(i)
     }
 
     // FloatLiteral
     @JvmStatic
     fun FLOAT(f: Float): Literal {
-        return FloatLiteral(f.toString())
+        return FloatLiteral(f)
     }
 
     // DoubleLiteral
     @JvmStatic
     fun DOUBLE(d: Double): Literal {
-        return DoubleLiteral(d.toString())
+        return DoubleLiteral(d)
     }
 
     // CharLiteral
     @JvmStatic
     fun CHAR(c: Char): Literal {
-        return CharLiteral(c.toString())
+        return CharLiteral(c)
     }
 
     // StringLiteral
@@ -118,83 +122,141 @@ object Literals {
         return ClassLiteral(type.koresType)
     }
 
-    private class SimpleLiteral internal constructor(name: String, dataType: KoresType) :
-        Literal(name, name, dataType)
+    @Serializable
+    object NullLiteral : Literal("null") {
+        override val value: Any = "null"
+        override val name: String = "null"
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = NullType
+    }
 
-    class ClassLiteral internal constructor(type: KoresType) :
-        Literal(type, type.canonicalName, TYPE) {
+    @Serializable
+    class ClassLiteral internal constructor(@Serializable(with = KoresTypeSerializer::class) val koresType: KoresType) : Literal(koresType) {
+
+        override val name: String = this.koresType.canonicalName
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
+
         companion object {
             private val TYPE = KoresType::class.koresType
         }
 
     }
 
-    class ByteLiteral internal constructor(name: String) : Literal(name, TYPE) {
+    @Serializable
+    class ByteLiteral internal constructor(val byte: Byte) : Literal(byte) {
+        override val name: String = byte.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
+
         companion object {
             private val TYPE = java.lang.Byte.TYPE.koresType
         }
 
     }
 
-    class ShortLiteral internal constructor(name: String) : Literal(name, TYPE) {
+    @Serializable
+    class ShortLiteral internal constructor(val short: Short) : Literal(short) {
+        override val name: String = short.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
+
         companion object {
             private val TYPE = java.lang.Short.TYPE.koresType
         }
 
     }
 
-    class IntLiteral internal constructor(name: String) : Literal(name, TYPE) {
+    @Serializable
+    class IntLiteral internal constructor(val int: Int) : Literal(int) {
+        override val name: String = int.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
+
         companion object {
             private val TYPE = java.lang.Integer.TYPE.koresType
         }
 
     }
 
-    class BoolLiteral internal constructor(value: Boolean) : Literal(value.toString(), TYPE) {
-        companion object {
+    @Serializable
+    class BoolLiteral internal constructor(val bool: Boolean) : Literal(bool) {
+        override val name: String = bool.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
 
+        companion object {
             private val TYPE = java.lang.Boolean.TYPE.koresType
         }
 
     }
 
-    class LongLiteral internal constructor(name: String) : Literal(name, TYPE) {
-        companion object {
+    @Serializable
+    class LongLiteral internal constructor(val long: Long) : Literal(long) {
+        override val name: String = this.long.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
 
+        companion object {
             private val TYPE = java.lang.Long.TYPE.koresType
         }
 
     }
 
+    @Serializable
+    class FloatLiteral internal constructor(val float: Float) : Literal(float) {
+        override val name: String = this.float.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
 
-    class FloatLiteral internal constructor(name: String) : Literal(name, TYPE) {
         companion object {
-
             private val TYPE = java.lang.Float.TYPE.koresType
         }
 
     }
 
-    class DoubleLiteral internal constructor(name: String) : Literal(name, TYPE) {
-        companion object {
+    @Serializable
+    class DoubleLiteral internal constructor(val double: Double) : Literal(double) {
+        override val name: String = this.double.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
 
+        companion object {
             private val TYPE = java.lang.Double.TYPE.koresType
         }
 
     }
 
-    class CharLiteral internal constructor(name: String) : Literal(name, TYPE) {
-        companion object {
+    @Serializable
+    class CharLiteral internal constructor(val char: Char) : Literal(char) {
+        override val name: String = char.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
 
+        companion object {
             private val TYPE = java.lang.Character.TYPE.koresType
         }
 
     }
 
-    class StringLiteral internal constructor(val original: String) :
-        Literal('"' + original + '"', TYPE) {
-        companion object {
+    @Serializable
+    class StringLiteral internal constructor(val original: String) : Literal('"' + original + '"') {
+        override val name: String = this.original
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = TYPE
 
+        companion object {
             private val TYPE = String::class.koresType
         }
     }

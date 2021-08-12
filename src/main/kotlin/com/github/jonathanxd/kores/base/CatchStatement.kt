@@ -29,6 +29,8 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instructions
 import com.github.jonathanxd.kores.builder.self
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -38,8 +40,9 @@ import java.lang.reflect.Type
  * @property variable Variable to store exception.
  * @property body Body of exception handler.
  */
+@Serializable
 data class CatchStatement(
-    val exceptionTypes: List<Type>,
+    val exceptionTypes: List<@Serializable(with = TypeSerializer::class) Type>,
     val variable: VariableDeclaration,
     override val body: Instructions
 ) : BodyHolder, Typed {

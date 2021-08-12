@@ -28,12 +28,20 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Return value.
  */
-data class Return(override val type: Type, override val value: Instruction) : ValueHolder,
+@Serializable
+data class Return(
+    @SerialName("returnType")
+    @Serializable(with = TypeSerializer::class) override val type: Type,
+    override val value: Instruction
+) : ValueHolder,
     TypedInstruction {
 
     override fun builder(): Builder = Builder(this)

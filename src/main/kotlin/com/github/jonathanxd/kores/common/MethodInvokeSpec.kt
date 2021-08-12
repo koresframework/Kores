@@ -32,9 +32,11 @@ import com.github.jonathanxd.kores.annotation.Spec
 import com.github.jonathanxd.kores.base.InvokeType
 import com.github.jonathanxd.kores.base.MethodInvocation
 import com.github.jonathanxd.kores.base.Typed
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 @Spec
+@Serializable
 data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
     Comparable<MethodInvokeSpec> {
 

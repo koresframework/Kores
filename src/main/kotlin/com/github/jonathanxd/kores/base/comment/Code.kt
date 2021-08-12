@@ -28,12 +28,14 @@
 package com.github.jonathanxd.kores.base.comment
 
 import com.github.jonathanxd.kores.KoresPart
+import kotlinx.serialization.Serializable
 
 /**
  * Code comment
  *
  * @property code Code Node
  */
+@Serializable//(with = CodeSerializer::class)
 data class Code(val code: CodeNode) : Comment {
     override fun builder(): Builder = Builder(this)
 
@@ -47,6 +49,7 @@ data class Code(val code: CodeNode) : Comment {
          *
          * @param plain Code string,
          */
+        @Serializable
         data class Plain(val plain: String) : CodeNode
 
         /**
@@ -54,6 +57,7 @@ data class Code(val code: CodeNode) : Comment {
          *
          * @param representation Code representation.
          */
+        @Serializable
         data class CodeRepresentation(val representation: KoresPart) : CodeNode
 
     }

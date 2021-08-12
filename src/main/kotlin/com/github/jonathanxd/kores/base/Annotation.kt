@@ -32,6 +32,8 @@ import com.github.jonathanxd.kores.type.bindedDefaultResolver
 import com.github.jonathanxd.iutils.`object`.Either
 import com.github.jonathanxd.iutils.kt.left
 import com.github.jonathanxd.iutils.kt.right
+import com.github.jonathanxd.kores.serialization.AnnotationSerializer
+import kotlinx.serialization.Serializable
 import java.lang.annotation.RetentionPolicy
 import java.lang.reflect.AnnotatedType
 import java.lang.reflect.Type
@@ -63,6 +65,7 @@ typealias KoresAnnotation = Annotation
  * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or a List
  * of one of types cited above (with or without elements).
  */
+@Serializable(with = AnnotationSerializer::class)
 data class Annotation(
     override val type: Type,
     val values: Map<String, Any>,
@@ -120,6 +123,7 @@ data class Annotation(
     }
 }
 
+@Serializable
 enum class Retention {
     /**
      * Source retention of annotation

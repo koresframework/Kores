@@ -28,6 +28,8 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 
@@ -39,8 +41,12 @@ import java.lang.reflect.Type
  * @property targetType Target type
  * @property instruction Instruction to cast
  */
-data class Cast(val originalType: Type?, val targetType: Type, val instruction: Instruction) :
-    TypedInstruction {
+@Serializable
+data class Cast(
+    @Serializable(with = TypeSerializer::class) val originalType: Type?,
+    @Serializable(with = TypeSerializer::class) val targetType: Type,
+    val instruction: Instruction
+) : TypedInstruction {
 
     override val type: Type
         get() = this.targetType

@@ -30,13 +30,16 @@ package com.github.jonathanxd.kores.operator
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.base.Named
 import com.github.jonathanxd.iutils.string.ToStringHelper
+import kotlinx.serialization.Serializable
 
 /**
  * Operator.
  *
  * Example of operators: Increment, Decrement, Less_than, etc...
  */
-sealed class Operator(override val name: String) : Instruction, Named {
+@Serializable
+sealed class Operator : Instruction, Named {
+    abstract override val name: String
 
     override fun toString(): String {
         return ToStringHelper.defaultHelper(this::class.java.simpleName)
@@ -49,12 +52,14 @@ sealed class Operator(override val name: String) : Instruction, Named {
     /**
      * Mathematical operator
      */
-    class Math(name: String) : Operator(name)
+    @Serializable
+    class Math(override val name: String) : Operator()
 
     /**
      * Conditional operator
      */
-    class Conditional(name: String) : Operator(name)
+    @Serializable
+    class Conditional(override val name: String) : Operator()
 
     class Builder() : Named.Builder<Operator, Builder> {
 

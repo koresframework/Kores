@@ -33,10 +33,13 @@ import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.generic.GenericSignature
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.util.eq
 import com.github.jonathanxd.kores.util.hash
 import com.github.jonathanxd.kores.util.resolveQualifiedName
 import com.github.jonathanxd.kores.util.resolveTypeName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -53,13 +56,14 @@ import java.lang.reflect.Type
  * @property constructorBody Body of the constructor of anonymous class.
  * @property arguments Arguments to use to invoke constructor of signature specified by [constructorSpec].
  */
+@Serializable
 data class AnonymousClass(
     override val comments: Comments,
-    override val outerType: Type?,
+    override val outerType: @Serializable(with = TypeSerializer::class) Type?,
     override val annotations: List<Annotation>,
     override val specifiedName: String,
-    override val superClass: Type,
-    override val implementations: List<Type>,
+    override val superClass: @Serializable(with = TypeSerializer::class) Type,
+    override val implementations: List<@Serializable(with = TypeSerializer::class) Type>,
     val constructorSpec: TypeSpec,
     override val arguments: List<Instruction>,
     val constructorBody: Instructions,
@@ -74,6 +78,7 @@ data class AnonymousClass(
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)
 
+    @SerialName("anonymousClassType")
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerType)
 

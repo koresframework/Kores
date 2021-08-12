@@ -28,9 +28,12 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Types
+import com.github.jonathanxd.kores.serialization.TypeListSerializer
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.koresType
 import com.github.jonathanxd.kores.util.bothMatches
 import com.github.jonathanxd.kores.util.typeDesc
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 import java.util.*
 
@@ -40,9 +43,10 @@ import java.util.*
  * @property returnType Type of the return.
  * @property parameterTypes Type of parameters
  */
+@Serializable
 data class TypeSpec @JvmOverloads constructor(
-    val returnType: Type,
-    val parameterTypes: List<Type> = emptyList()
+    @Serializable(with = TypeSerializer::class) val returnType: Type,
+    @Serializable(with = TypeListSerializer::class) val parameterTypes: List<Type> = emptyList()
 ) : Typed, Comparable<TypeSpec> {
 
     override val type: Type

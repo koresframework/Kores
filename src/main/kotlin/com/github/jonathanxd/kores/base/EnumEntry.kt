@@ -31,6 +31,7 @@ import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.builder.self
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -39,6 +40,7 @@ import java.lang.reflect.Type
  * @property constructorSpec Enum constructor specification. Null for default enum constructor.
  * @property arguments Enum constructor arguments
  */
+@Serializable
 data class EnumEntry(
     override val annotations: List<Annotation>,
     override val name: String,

@@ -28,10 +28,12 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import kotlinx.serialization.Serializable
 
 /**
  * Access to a scope. Example, access to static scope of [String].
  */
+@Serializable
 enum class Access : Instruction {
 
     /**
@@ -62,3 +64,5 @@ enum class Access : Instruction {
 
 }
 
+@Serializable
+data class AccessContainer(val access: Access): Instruction

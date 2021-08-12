@@ -27,11 +27,14 @@
  */
 package com.github.jonathanxd.kores.base.comment
 
+import kotlinx.serialization.Serializable
+
 /**
  * Plain comment (like texts)
  *
  * @property text Text of the plain comment
  */
+@Serializable
 data class Plain(val text: String) : Comment {
 
     override fun builder(): Builder = Builder(this)

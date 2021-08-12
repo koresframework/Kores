@@ -28,10 +28,12 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import kotlinx.serialization.Serializable
 
 /**
  * Throws [value].
  */
+@Serializable
 data class ThrowException(override val value: Instruction) : Instruction, ValueHolder {
 
     override fun builder(): Builder = Builder(this)

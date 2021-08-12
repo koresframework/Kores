@@ -31,7 +31,11 @@ import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.base.Named
 import com.github.jonathanxd.kores.base.Typed
 import com.github.jonathanxd.kores.base.TypedInstruction
+import com.github.jonathanxd.kores.serialization.LiteralAnySerializer
 import com.github.jonathanxd.kores.type.KoresType
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import java.lang.reflect.Type
 import java.util.*
 
 /**
@@ -39,15 +43,14 @@ import java.util.*
  *
  * Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
  */
+@Serializable
 abstract class Literal protected constructor(
-    val value: Any,
-    @Deprecated(message = "Creates confusion, this is not the name of the Literal, it is being used as value, which is wrong. Please use [Literal.value] instead. In the future, the value of this property will be the Literal type name, such as String, Int, Boolean, etc...")
-    override val name: String,
-    override val type: KoresType
+    @Serializable(with = LiteralAnySerializer::class) open val value: Any
 ) : TypedInstruction, Named {
-
-    // Compatibility
-    constructor(name: String, type: KoresType) : this(name, name, type)
+    @Deprecated(message = "Creates confusion, this is not the name of the Literal, it is being used as value, which is wrong. Please use [Literal.value] instead. In the future, the value of this property will be the Literal type name, such as String, Int, Boolean, etc...")
+    abstract override val name: String
+    @SerialName("literalDataType")
+    abstract override val type: Type
 
     override fun builder() = throw IllegalStateException("Cannot create a builder of a Literal.")
 

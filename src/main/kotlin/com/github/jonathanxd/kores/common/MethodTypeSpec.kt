@@ -33,13 +33,18 @@ import com.github.jonathanxd.kores.base.InvokeType
 import com.github.jonathanxd.kores.base.MethodInvocation
 import com.github.jonathanxd.kores.base.TypeSpec
 import com.github.jonathanxd.kores.base.Typed
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.koresType
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 @Spec
-data class MethodTypeSpec(val localization: Type, val methodSpec: MethodSpec) :
-    Typed, Comparable<MethodTypeSpec> {
+@Serializable
+data class MethodTypeSpec(
+    @Serializable(with = TypeSerializer::class) val localization: Type,
+    val methodSpec: MethodSpec
+) : Typed, Comparable<MethodTypeSpec> {
 
     constructor(localization: Type, methodName: String, typeSpec: TypeSpec)
             : this(localization, MethodSpec(methodName, typeSpec))

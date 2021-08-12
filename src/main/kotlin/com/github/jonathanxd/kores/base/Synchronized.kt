@@ -29,12 +29,14 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
+import kotlinx.serialization.Serializable
 
 /**
  * Synchronized statement. Locks resources to thread access.
  *
  * @property instruction Part to lock access.
  */
+@Serializable
 class Synchronized(val instruction: Instruction, override val body: Instructions) : BodyHolder,
     Instruction {
 

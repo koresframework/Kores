@@ -31,6 +31,7 @@ import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.KoresPart
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.builder.self
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -38,6 +39,7 @@ import java.lang.reflect.Type
  * used to concat values (in a future patch it will be changed to use Java 9 dynamic concatenation), in official
  * JavaSourceGenerator this will be translated into string concatenation.
  */
+@Serializable
 data class Concat(val concatenations: List<Instruction>) : KoresPart, TypedInstruction {
 
     override val type: Type

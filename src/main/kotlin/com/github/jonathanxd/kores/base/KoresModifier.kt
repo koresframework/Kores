@@ -29,6 +29,7 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.KoresPart
 import com.github.jonathanxd.kores.base.ModifierType.*
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Member
 import java.lang.reflect.Modifier
 
@@ -40,6 +41,7 @@ private typealias JavaxModifier = javax.lang.model.element.Modifier
  * @property modifierType Type of modifier.
  * @property expr Modifier name.
  */
+@Serializable
 enum class KoresModifier(val modifierType: ModifierType, expr_: String? = null) : KoresPart {
 
     PUBLIC(VISIBILITY), PROTECTED(VISIBILITY), PRIVATE(VISIBILITY), PACKAGE_PRIVATE(VISIBILITY, ""),
@@ -345,6 +347,7 @@ enum class KoresModifier(val modifierType: ModifierType, expr_: String? = null) 
 /**
  * Modifier type enum.
  */
+@Serializable
 enum class ModifierType {
 
     /**

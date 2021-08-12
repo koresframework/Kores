@@ -37,6 +37,11 @@ import com.github.jonathanxd.kores.common.KoresNothing
 import java.lang.reflect.Type
 
 /**
+ *
+ * ```java
+ * [modifiers] [type] [name] = [value];
+ * ```
+ *
  * @see VariableDeclaration
  */
 fun variable(
@@ -48,6 +53,11 @@ fun variable(
     VariableDeclaration(modifiers = modifiers, value = value, name = name, variableType = type)
 
 /**
+ *
+ * ```java
+ * [modifiers] var [name] = [value];
+ * ```
+ *
  * @see VariableDeclaration
  */
 fun variable(
@@ -58,18 +68,30 @@ fun variable(
     VariableDeclaration(modifiers = modifiers, value = value, name = name, variableType = value.type)
 
 /**
+ * ```java
+ * [type] [name] = [value];
+ * ```
+ *
  * @see VariableDeclaration
  */
 fun variable(type: Type, name: String, value: Instruction): VariableDeclaration =
     VariableDeclaration(modifiers = emptySet(), value = value, name = name, variableType = type)
 
 /**
+ * ```java
+ * var [name] = [value];
+ * ```
+ *
  * @see VariableDeclaration
  */
 fun variable(name: String, value: TypedInstruction): VariableDeclaration =
     VariableDeclaration(modifiers = emptySet(), value = value, name = name, variableType = value.type)
 
 /**
+ * ```java
+ * [type] [name];
+ * ```
+ *
  * @see VariableDeclaration
  */
 fun variable(type: Type, name: String): VariableDeclaration =

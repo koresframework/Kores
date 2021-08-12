@@ -31,6 +31,7 @@ import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.annotation.Spec
 import com.github.jonathanxd.kores.base.*
 import com.github.jonathanxd.kores.type
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -39,6 +40,7 @@ import java.lang.reflect.Type
  * @property arguments Arguments to pass to dynamic method. (may include the receiver).
  */
 @Spec
+@Serializable
 data class DynamicMethodSpec(
     override val name: String,
     val typeSpec: TypeSpec,

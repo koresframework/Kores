@@ -30,24 +30,28 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instructions
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.generic.GenericSignature
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.eq
 import com.github.jonathanxd.kores.type.hash
 import com.github.jonathanxd.kores.util.resolveQualifiedName
 import com.github.jonathanxd.kores.util.resolveTypeName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 
 /**
  * Enum declaration.
  */
+@Serializable
 data class EnumDeclaration(
-    override val outerType: Type?,
+    @Serializable(with = TypeSerializer::class) override val outerType: Type?,
     override val comments: Comments,
     override val annotations: List<Annotation>,
     override val modifiers: Set<KoresModifier>,
     override val specifiedName: String,
     override val genericSignature: GenericSignature,
-    override val implementations: List<Type>,
+    override val implementations: List<@Serializable(with = TypeSerializer::class) Type>,
     override val entries: List<EnumEntry>,
     override val staticBlock: StaticBlock,
     override val fields: List<FieldDeclaration>,
@@ -61,6 +65,7 @@ data class EnumDeclaration(
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)
 
+    @SerialName("enumDeclarationType")
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerType)
 

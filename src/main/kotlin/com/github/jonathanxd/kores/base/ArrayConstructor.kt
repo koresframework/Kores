@@ -31,9 +31,11 @@ import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.common.Stack
 import com.github.jonathanxd.kores.literal.Literals
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type
 import com.github.jonathanxd.kores.type.isArray
 import com.github.jonathanxd.kores.type.koresType
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -49,8 +51,9 @@ import java.lang.reflect.Type
  * ) = new String[] {"A", "B", "C"}
  * ```
  */
+@Serializable
 data class ArrayConstructor(
-    val arrayType: Type,
+    @Serializable(with = TypeSerializer::class) val arrayType: Type,
     val dimensions: List<Instruction>,
     override val arguments: List<Instruction>
 ) : ArgumentsHolder, TypedInstruction {

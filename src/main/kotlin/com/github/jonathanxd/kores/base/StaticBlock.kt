@@ -32,11 +32,13 @@ import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.generic.GenericSignature
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Static block (aka class constructors/class initializers).
  */
+@Serializable
 data class StaticBlock(
     override val comments: Comments,
     override val innerTypes: List<TypeDeclaration>,

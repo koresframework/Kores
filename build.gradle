@@ -13,11 +13,12 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:$license_version"
         classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 
 }
 
 group 'com.github.jonathanxd'
-version '4.0.2.base'
+version '4.0.3.base'
 
 apply from: 'gradle/common.gradle'

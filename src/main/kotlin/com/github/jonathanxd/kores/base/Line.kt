@@ -30,13 +30,17 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Base class of line mapping. Line mapping behaves differently for different
  * generators.
  */
+@Serializable
 sealed class Line : Instruction, ValueHolder, InstructionWrapper {
 
     /**
@@ -66,9 +70,11 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
     /**
      * A [Line] which extends [Typed].
      */
+    @Serializable
     data class TypedLine(
         override val line: Int,
         override val value: Instruction,
+        @SerialName("lineInstructionType")
         override val type: Type
     ) : Line(), Typed {
 
@@ -111,6 +117,7 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
     /**
      * A Line which does extends [Line]
      */
+    @Serializable
     data class NormalLine(override val line: Int, override val value: Instruction) : Line() {
         override fun builder() = Builder(this)
 

@@ -28,16 +28,21 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Defines the value of a field of type [type], name [name] in type [localization] to [value], and use [target] as instance to access
  * ([Access.STATIC] for static accesses).
  */
+@Serializable
 data class FieldDefinition(
-    override val localization: Type,
+    @Serializable(with = TypeSerializer::class) override val localization: Type,
     override val target: Instruction,
-    override val type: Type,
+    @SerialName("fieldDefinitionType")
+    @Serializable(with = TypeSerializer::class) override val type: Type,
     override val name: String,
     override val value: Instruction
 ) : Accessor, FieldBase, ValueHolder, Instruction {

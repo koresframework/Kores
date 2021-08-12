@@ -30,6 +30,8 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.builder.self
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -38,8 +40,11 @@ import java.lang.reflect.Type
  * @property part Casted part
  * @property checkType Type to check if part value is instance.
  */
-data class InstanceOfCheck(val part: Instruction, val checkType: Type) : Typed,
-    Instruction {
+@Serializable
+data class InstanceOfCheck(
+    val part: Instruction,
+    @Serializable(with = TypeSerializer::class) val checkType: Type
+) : Typed, Instruction {
 
     override val type: Type
         get() = Types.BOOLEAN

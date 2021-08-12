@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.*
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.common.KoresNothing
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -38,6 +39,7 @@ import java.lang.reflect.Type
  * @property value Value to check if operating element matches, null for `default` case.
  * @property body Body of case statement.
  */
+@Serializable
 data class Case(override val value: Instruction, override val body: Instructions) : ValueHolder,
     Typed, BodyHolder {
 

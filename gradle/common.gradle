@@ -2,6 +2,7 @@ apply plugin: 'idea'
 
 // Programming Language
 apply plugin: 'kotlin'
+apply plugin: 'kotlinx-serialization'
 apply plugin: 'java'
 
 // Documentation
@@ -93,7 +94,12 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinx_serialization_version"
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
+    /*testImplementation "org.jetbrains.kotlinx:kotlinx-serialization-hocon:$kotlinx_serialization_version"*/
+    testImplementation "org.jetbrains.kotlinx:kotlinx-serialization-cbor:$kotlinx_serialization_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-serialization-properties:$kotlinx_serialization_version"
     testImplementation group: 'junit', name: 'junit', version: '4.11'
 }
 

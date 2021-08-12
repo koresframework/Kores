@@ -27,15 +27,18 @@
  */
 package com.github.jonathanxd.kores.base
 
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Parameter part.
  */
+@Serializable
 data class KoresParameter(
     override val annotations: List<Annotation>,
     override val modifiers: Set<KoresModifier>,
-    override val type: Type,
+    @Serializable(with = TypeSerializer::class) override val type: Type,
     override val name: String
 ) : Typed, Named, Annotable, ModifiersHolder {
     override fun builder(): Builder = Builder(this)

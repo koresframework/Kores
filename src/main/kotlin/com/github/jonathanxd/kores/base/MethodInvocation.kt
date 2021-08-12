@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.common.MethodTypeSpec
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -39,6 +40,7 @@ import java.lang.reflect.Type
  * you must to pass a [New] instance, for super constructor or this constructors you must to pass either an [Alias] or an
  * [Access] to `this` context.
  */
+@Serializable
 data class MethodInvocation(
     val invokeType: InvokeType,
     override val target: Instruction,

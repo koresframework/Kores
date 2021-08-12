@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.kores
 
+import kotlinx.serialization.Serializable
 import java.util.Comparator
 import java.util.Spliterator
 import java.util.Spliterators
@@ -44,6 +45,7 @@ import kotlin.Int
 import kotlin.NoSuchElementException
 import kotlin.String
 
+@Serializable
 open class InstructionsView(
     private val original: Instructions,
     private val start: Int,

@@ -29,7 +29,9 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.builder.self
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.isArray
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -39,11 +41,12 @@ import java.lang.reflect.Type
  * @property index Index to access
  * @property valueType Type of value
  */
+@Serializable
 data class ArrayLoad(
-    override val arrayType: Type,
+    @Serializable(with = TypeSerializer::class) override val arrayType: Type,
     override val target: Instruction,
     val index: Instruction,
-    val valueType: Type
+    @Serializable(with = TypeSerializer::class) val valueType: Type
 ) : ArrayAccess, TypedInstruction {
 
     init {

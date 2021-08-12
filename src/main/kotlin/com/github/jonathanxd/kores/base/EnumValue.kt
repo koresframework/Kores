@@ -28,6 +28,7 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -36,6 +37,7 @@ import java.lang.reflect.Type
  * @property enumType Type of enum
  * @property enumEntry Entry of enum.
  */
+@Serializable
 data class EnumValue(
     val enumType: Type,
     val enumEntry: String

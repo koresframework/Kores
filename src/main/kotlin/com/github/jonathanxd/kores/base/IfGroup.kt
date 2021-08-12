@@ -29,12 +29,14 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.KoresPart
+import kotlinx.serialization.Serializable
 
 /**
  * Group of if expressions.
  *
  * @property expressions Same rules of [IfExpressionHolder.expressions] applies to [expressions].
  */
+@Serializable
 data class IfGroup(override val expressions: List<Instruction>) : KoresPart, IfExpressionHolder,
     Instruction {
 

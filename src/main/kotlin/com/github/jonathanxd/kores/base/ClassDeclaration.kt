@@ -31,24 +31,28 @@ import com.github.jonathanxd.kores.Instructions
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.generic.GenericSignature
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.eq
 import com.github.jonathanxd.kores.type.hash
 import com.github.jonathanxd.kores.util.resolveQualifiedName
 import com.github.jonathanxd.kores.util.resolveTypeName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Declaration of a class.
  */
+@Serializable
 data class ClassDeclaration(
-    override val outerType: Type?,
+    @Serializable(with = TypeSerializer::class) override val outerType: Type?,
     override val comments: Comments,
     override val annotations: List<Annotation>,
     override val modifiers: Set<KoresModifier>,
     override val specifiedName: String,
     override val genericSignature: GenericSignature,
-    override val superClass: Type,
-    override val implementations: List<Type>,
+    @Serializable(with = TypeSerializer::class) override val superClass: Type,
+    override val implementations: List<@Serializable(with = TypeSerializer::class) Type>,
     override val staticBlock: StaticBlock,
     override val fields: List<FieldDeclaration>,
     override val constructors: List<ConstructorDeclaration>,
@@ -60,6 +64,7 @@ data class ClassDeclaration(
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)
 
+    @SerialName("classDeclarationType")
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerType)
 

@@ -29,6 +29,8 @@ package com.github.jonathanxd.kores.base.comment
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.KoresPart
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 
 /**
  * Hold a list of comments.
@@ -36,7 +38,11 @@ import com.github.jonathanxd.kores.KoresPart
  * @property comments Comment list
  * @property type Type of comments entry.
  */
-data class Comments(val comments: List<Comment>, val type: Type) : KoresPart, Instruction {
+@Serializable
+data class Comments(
+    val comments: List<Comment>,
+    val type: Type
+) : KoresPart, Instruction {
 
     /**
      * Returns true if this [Comments] instance is [Absent]. Absent comment is not the same as
@@ -55,6 +61,7 @@ data class Comments(val comments: List<Comment>, val type: Type) : KoresPart, In
     /**
      * Comment type
      */
+    @Serializable
     enum class Type {
         /**
          * A simple comment.

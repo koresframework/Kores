@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.KoresPart
 import com.github.jonathanxd.kores.base.ControlFlow.Type
+import kotlinx.serialization.Serializable
 
 /**
  * Control the flow of a statement.
@@ -38,6 +39,7 @@ import com.github.jonathanxd.kores.base.ControlFlow.Type
  * @property at Label to control flow (Note: [Type.CONTINUE] goes to Start of label and [Type.BREAK] goes to end of label).
  * **Note**: [Type.CONTINUE] to a label is dangerous.
  */
+@Serializable
 data class ControlFlow(val type: Type, val at: Label?) : KoresPart, Instruction {
 
     override fun builder(): Builder = Builder(this)

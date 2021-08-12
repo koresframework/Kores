@@ -28,13 +28,18 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Access to a variable in local scope.
  */
-data class VariableAccess(override val variableType: Type, override val name: String) :
-    VariableBase, TypedInstruction {
+@Serializable
+data class VariableAccess(
+    @Serializable(with = TypeSerializer::class) override val variableType: Type,
+    override val name: String
+) : VariableBase, TypedInstruction {
 
     override fun builder(): Builder = Builder(this)
 

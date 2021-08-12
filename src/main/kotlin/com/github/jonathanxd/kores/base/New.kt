@@ -29,12 +29,15 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.KoresPart
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Represents the construction of type, used to invoke constructor methods. (not `super` constructor or `this` constructor).
  */
-data class New(val localization: Type) : KoresPart, Instruction {
+@Serializable
+data class New(@Serializable(with = TypeSerializer::class) val localization: Type) : KoresPart, Instruction {
 
     override fun builder(): Builder = Builder(this)
 

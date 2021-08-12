@@ -40,6 +40,7 @@ import com.github.jonathanxd.kores.literal.Literals
 import com.github.jonathanxd.kores.operator.Operator
 import com.github.jonathanxd.kores.operator.Operators
 import com.github.jonathanxd.kores.type.PlainKoresType
+import com.github.jonathanxd.kores.type.typeOf
 import java.lang.reflect.Type
 import java.util.*
 
@@ -279,6 +280,13 @@ fun enumValue(enumType: Type, enumEntry: String): EnumValue =
  */
 fun accessVariable(type: Type, name: String): VariableAccess =
     VariableAccess(type, name)
+
+/**
+ * @see VariableAccess
+ */
+inline fun <reified T> accessVariable(name: String): VariableAccess =
+    VariableAccess(typeOf<T>(), name)
+
 
 /**
  * @see VariableAccess
@@ -622,9 +630,38 @@ fun parameter(
 /**
  * @see KoresParameter
  */
+inline fun <reified P> parameter(
+    annotations: List<Annotation> = emptyList(),
+    modifiers: Set<KoresModifier> = emptySet(),
+    name: String
+) = KoresParameter(annotations, modifiers, typeOf<P>(), name)
+
+/**
+ * @see KoresParameter
+ */
+inline fun <reified P> parameter(
+    name: String
+) = KoresParameter(emptyList(), EnumSet.noneOf(KoresModifier::class.java), typeOf<P>(), name)
+
+
+/**
+ * @see KoresParameter
+ */
 @JvmOverloads
 fun finalParameter(annotations: List<Annotation> = emptyList(), type: Type, name: String) =
     KoresParameter(annotations, EnumSet.of(KoresModifier.FINAL), type, name)
+
+/**
+ * @see KoresParameter
+ */
+inline fun <reified P> finalParameter(annotations: List<Annotation> = emptyList(), name: String) =
+    KoresParameter(annotations, EnumSet.of(KoresModifier.FINAL), typeOf<P>(), name)
+
+/**
+ * @see KoresParameter
+ */
+inline fun <reified P> finalParameter(name: String) =
+    KoresParameter(emptyList(), EnumSet.of(KoresModifier.FINAL), typeOf<P>(), name)
 
 // Operate
 

@@ -29,7 +29,9 @@ package com.github.jonathanxd.kores.type
 
 import com.github.jonathanxd.kores.base.Annotation
 import com.github.jonathanxd.kores.base.TypeDeclaration
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.util.toStr
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -215,6 +217,7 @@ interface AnnotatedKoresType : WrapperKoresType {
             ::SimpleAnnotatedUnknownKoresType
         ), UnknownKoresType
 
+    @Serializable(with = TypeSerializer::class)
     @Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE", "UNCHECKED_CAST")
     class SimpleAnnotatedLoadedKoresType<T>(annotatedType: Type, annotations: List<Annotation>) :
         Abstract<SimpleAnnotatedLoadedKoresType<T>>(

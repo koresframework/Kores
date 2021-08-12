@@ -29,6 +29,9 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.base.comment.CommentHolder
 import com.github.jonathanxd.kores.base.comment.Comments
+import com.github.jonathanxd.kores.serialization.AnnotationAnySerializer
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -38,12 +41,13 @@ import java.lang.reflect.Type
  * [Int], [Long], [Float], [Double], [String], [Type], [EnumValue], other [Annotation] or a List
  * of one of types cited above (with or without elements).
  */
+@Serializable
 data class AnnotationProperty(
     override val comments: Comments,
     override val annotations: List<Annotation>,
-    override val type: Type,
+    @Serializable(with = TypeSerializer::class) override val type: Type,
     override val name: String,
-    val defaultValue: Any?
+    @Serializable(with = AnnotationAnySerializer::class) val defaultValue: Any?
 ) : Named, Typed, Annotable, ReturnTypeHolder, CommentHolder {
     override val returnType: Type
         get() = this.type

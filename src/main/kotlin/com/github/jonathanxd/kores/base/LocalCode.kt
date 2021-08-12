@@ -29,7 +29,9 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.*
 import com.github.jonathanxd.kores.common.MethodTypeSpec
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.KoresType
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -44,8 +46,9 @@ import java.lang.reflect.Type
  * and is declared in a `class`, this must be [InvokeType.INVOKE_VIRTUAL]. Read [InvokeType] for more information.
  * @property declaration Method declaration of the code.
  */
+@Serializable
 data class LocalCode(
-    val declaringType: Type,
+    @Serializable(with = TypeSerializer::class) val declaringType: Type,
     val invokeType: InvokeType,
     val declaration: MethodDeclaration,
     override val innerTypes: List<TypeDeclaration>

@@ -30,14 +30,19 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.builder.self
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.isArray
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Access length of array [target] of type [arrayType].
  */
-data class ArrayLength(override val arrayType: Type, override val target: Instruction) :
-    ArrayAccess, TypedInstruction {
+@Serializable
+data class ArrayLength(
+    @Serializable(with = TypeSerializer::class) override val arrayType: Type,
+    override val target: Instruction
+) : ArrayAccess, TypedInstruction {
 
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }

@@ -27,7 +27,57 @@
  */
 package com.github.jonathanxd.kores.util
 
+import com.github.jonathanxd.kores.base.KoresParameter
 import com.github.jonathanxd.kores.base.MethodDeclaration
+import com.github.jonathanxd.kores.factory.koresParameter
+import com.github.jonathanxd.kores.factory.parameter
 import com.github.jonathanxd.kores.type.typeOf
 
 inline fun <reified R> MethodDeclaration.Builder.returnType() = returnType(typeOf<R>())
+
+fun MethodDeclaration.Builder.parametersVararg(vararg parameters: KoresParameter) =
+    parameters(parameters.toList())
+
+inline fun <reified P1> MethodDeclaration.Builder.parameters1(name: String) =
+    parameters(listOf(koresParameter().type(typeOf<P1>()).name(name).build()))
+
+inline fun <reified P1, reified P2> MethodDeclaration.Builder.parameters2(name1: String, name2: String) =
+    parameters(listOf(
+        parameter(type = typeOf<P1>(), name = name1),
+        parameter(type = typeOf<P2>(), name = name2),
+    ))
+
+inline fun <reified P1, reified P2, reified P3> MethodDeclaration.Builder.parameters3(name1: String, name2: String, name3: String) =
+    parameters(listOf(
+        parameter(type = typeOf<P1>(), name = name1),
+        parameter(type = typeOf<P2>(), name = name2),
+        parameter(type = typeOf<P3>(), name = name3),
+    ))
+
+inline fun <reified P1, reified P2, reified P3, reified P4> MethodDeclaration.Builder.parameters4(
+    name1: String,
+    name2: String,
+    name3: String,
+    name4: String
+) =
+    parameters(listOf(
+        parameter(type = typeOf<P1>(), name = name1),
+        parameter(type = typeOf<P2>(), name = name2),
+        parameter(type = typeOf<P3>(), name = name3),
+        parameter(type = typeOf<P4>(), name = name4),
+    ))
+
+inline fun <reified P1, reified P2, reified P3, reified P4, reified P5> MethodDeclaration.Builder.parameters5(
+    name1: String,
+    name2: String,
+    name3: String,
+    name4: String,
+    name5: String
+) =
+    parameters(listOf(
+        parameter(type = typeOf<P1>(), name = name1),
+        parameter(type = typeOf<P2>(), name = name2),
+        parameter(type = typeOf<P3>(), name = name3),
+        parameter(type = typeOf<P4>(), name = name4),
+        parameter(type = typeOf<P5>(), name = name5),
+    ))

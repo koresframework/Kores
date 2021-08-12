@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.kores
 
+import kotlinx.serialization.Serializable
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Predicate
@@ -36,6 +37,7 @@ import java.util.stream.Stream
 /**
  * A [MutableInstructions] backing to a [ArrayList].
  */
+@Serializable
 class ListInstructions(private val backingList: MutableList<Instruction>) : MutableInstructions(),
     Cloneable {
 

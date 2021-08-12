@@ -32,12 +32,15 @@ import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.generic.GenericSignature
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 
 /**
  * Instance constructor declaration.
  */
+@Serializable
 data class ConstructorDeclaration(
     override val comments: Comments,
     override val annotations: List<Annotation>,
@@ -45,7 +48,7 @@ data class ConstructorDeclaration(
     override val genericSignature: GenericSignature,
     override val parameters: List<KoresParameter>,
     override val innerTypes: List<TypeDeclaration>,
-    override val throwsClause: List<Type>,
+    override val throwsClause: List<@Serializable(with = TypeSerializer::class) Type>,
     override val body: Instructions
 ) : MethodDeclarationBase {
 

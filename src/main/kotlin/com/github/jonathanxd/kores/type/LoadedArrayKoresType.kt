@@ -27,11 +27,15 @@
  */
 package com.github.jonathanxd.kores.type
 
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
+
 /**
  * A [ArrayKoresType] of a [loadedType].
  *
  * @param T Type of the Class.
  */
+@Serializable(with = TypeSerializer::class)
 internal class LoadedArrayKoresType<T>(
     override val loadedType: Class<T>,
     component: LoadedKoresType<*>,

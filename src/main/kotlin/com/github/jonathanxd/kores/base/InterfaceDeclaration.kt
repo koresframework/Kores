@@ -35,6 +35,7 @@ import com.github.jonathanxd.kores.util.eq
 import com.github.jonathanxd.kores.util.hash
 import com.github.jonathanxd.kores.util.resolveQualifiedName
 import com.github.jonathanxd.kores.util.resolveTypeName
+import kotlinx.serialization.SerialName
 import java.lang.reflect.Type
 
 /**
@@ -62,6 +63,7 @@ data class InterfaceDeclaration(
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)
 
+    @SerialName("interfaceDeclarationType")
     override val type: String = specifiedName
         get() = resolveTypeName(field, this.outerType)
 

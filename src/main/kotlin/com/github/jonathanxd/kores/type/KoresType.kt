@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.kores.type
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.jonathanxd.kores.KoresPart
 import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.util.eq
@@ -219,6 +220,7 @@ interface KoresType : KoresPart, Comparable<KoresType>, Type {
      * Example, if is a `String[]`, returns [String], if is `Integer[][][]`
      * returns [Integer], the Java equivalent method returns: `Integer[][]`.
      */
+    @get:JsonIgnore
     val arrayBaseComponent: KoresType
         get() = if (this.isArray) throw IllegalStateException("arrayBaseComponent not implemented") else this
 
@@ -228,6 +230,7 @@ interface KoresType : KoresPart, Comparable<KoresType>, Type {
      * Example, if is a `String[]`, returns [String], if is `Integer[][][]`
      * returns `Integer[][]`.
      */
+    @get:JsonIgnore
     val arrayComponent: KoresType
         get() = if (this.isArray) throw IllegalStateException("arrayComponent not implemented") else this
 

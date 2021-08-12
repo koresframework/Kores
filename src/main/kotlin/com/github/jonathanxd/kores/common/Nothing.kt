@@ -32,6 +32,7 @@ import com.github.jonathanxd.kores.base.Typed
 import com.github.jonathanxd.kores.base.TypedInstruction
 import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.type.koresType
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -42,6 +43,7 @@ typealias KoresNothing = Nothing
 /**
  * Nothing for values (some parts may not support nothing as value).
  */
+@Serializable
 object Nothing : TypedInstruction {
 
     override val type: Type

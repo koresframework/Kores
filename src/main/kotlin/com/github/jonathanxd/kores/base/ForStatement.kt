@@ -29,6 +29,7 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
+import kotlinx.serialization.Serializable
 
 /**
  * For statement.
@@ -40,6 +41,7 @@ import com.github.jonathanxd.kores.Instructions
  * @property forUpdate For update. (ex: `i++`, `i++. x++`)
  * @property body Body of for statement (ex: `println(i)`).
  */
+@Serializable
 data class ForStatement(
     val forInit: List<Instruction>,
     val forExpression: List<Instruction>,

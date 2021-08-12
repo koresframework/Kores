@@ -27,11 +27,14 @@
  */
 package com.github.jonathanxd.kores.type
 
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.util.toStr
+import kotlinx.serialization.Serializable
 
 /**
  * Java class [KoresType].
  */
+@Serializable(with = TypeSerializer::class)
 open class JavaType<T> constructor(override val loadedType: Class<T>) : LoadedKoresType<T> {
 
 

@@ -28,12 +28,20 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Access to an inner or outer scope.
  */
-class ScopeAccess(val type: Type, val scope: Scope) : Instruction {
+@Serializable
+class ScopeAccess(
+    @SerialName("scopeAccessType")
+    @Serializable(with = TypeSerializer::class) val type: Type,
+    val scope: Scope
+) : Instruction {
 
     companion object {
         @JvmStatic
@@ -41,6 +49,7 @@ class ScopeAccess(val type: Type, val scope: Scope) : Instruction {
     }
 }
 
+@Serializable
 enum class Scope {
     OUTER
 }

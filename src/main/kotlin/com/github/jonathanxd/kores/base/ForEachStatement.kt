@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
 import com.github.jonathanxd.kores.common.MethodTypeSpec
+import kotlinx.serialization.Serializable
 
 /**
  * For each statement.
@@ -43,6 +44,7 @@ import com.github.jonathanxd.kores.common.MethodTypeSpec
  * @property iterableElement Element to iterate
  * @see IterationType
  */
+@Serializable
 data class ForEachStatement(
     val variable: VariableDeclaration,
     val iterationType: IterationType,
@@ -118,6 +120,7 @@ data class ForEachStatement(
  * @property hasNextName Name of method which returns true if has next elements.
  * @property nextMethodSpec Specification of method which returns the next element.
  */
+@Serializable
 data class IterationType(
     val iteratorMethodSpec: MethodTypeSpec,
     val hasNextName: String,

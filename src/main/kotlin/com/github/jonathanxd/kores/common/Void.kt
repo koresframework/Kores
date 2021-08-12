@@ -32,6 +32,7 @@ import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.Typed
 import com.github.jonathanxd.kores.base.TypedInstruction
 import com.github.jonathanxd.kores.builder.self
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -42,6 +43,7 @@ typealias KoresVoid = Void
 /**
  * Void instance for void returns and void values.
  */
+@Serializable
 object Void : TypedInstruction {
 
     override val type: Type

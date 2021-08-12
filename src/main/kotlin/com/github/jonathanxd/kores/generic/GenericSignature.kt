@@ -27,13 +27,16 @@
  */
 package com.github.jonathanxd.kores.generic
 
+import com.github.jonathanxd.kores.serialization.TypeSerializer
 import com.github.jonathanxd.kores.type.GenericType
+import kotlinx.serialization.Serializable
 import java.util.*
 
 /**
  * Hold information about generic signatures.
  */
-class GenericSignature(private val _types: Array<out GenericType>) {
+@Serializable
+class GenericSignature(private val _types: Array<out @Serializable(with = TypeSerializer::class) GenericType>) {
 
     val types get() = _types.clone()
 

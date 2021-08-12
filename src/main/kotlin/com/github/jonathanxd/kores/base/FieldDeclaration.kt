@@ -35,16 +35,19 @@ import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.common.KoresNothing
 import com.github.jonathanxd.kores.factory.accessStatic
 import com.github.jonathanxd.kores.factory.accessThis
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Declaration of a field.
  */
+@Serializable
 data class FieldDeclaration(
     override val comments: Comments,
     override val annotations: List<Annotation>,
     override val modifiers: Set<KoresModifier>,
-    override val type: Type,
+    @Serializable(with = TypeSerializer::class) override val type: Type,
     override val name: String,
     override val innerTypes: List<TypeDeclaration>,
     override val value: Instruction

@@ -32,6 +32,7 @@ import com.github.jonathanxd.kores.inspect.InstructionsInspect
 import com.github.jonathanxd.kores.type.`is`
 import com.github.jonathanxd.kores.type.getCommonSuperType
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 import java.util.*
 import java.util.function.Consumer
@@ -43,6 +44,7 @@ import java.util.stream.Stream
  * @see ArrayInstructions
  * @see MutableInstructions
  */
+@Serializable
 abstract class Instructions : Iterable<Instruction>, KoresPart {
 
     /**

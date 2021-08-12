@@ -29,6 +29,7 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.base.InvokeType.*
 import com.github.jonathanxd.kores.type.isInterface
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -43,6 +44,7 @@ import java.lang.reflect.Type
  * behavior.
  *
  */
+@Serializable
 enum class InvokeType {
 
     /**

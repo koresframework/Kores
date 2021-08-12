@@ -32,7 +32,10 @@ import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.common.DynamicMethodSpec
 import com.github.jonathanxd.kores.common.MethodInvokeSpec
 import com.github.jonathanxd.kores.common.MethodTypeSpec
+import com.github.jonathanxd.kores.serialization.BootstrapArgListSerializer
+import com.github.jonathanxd.kores.serialization.BootstrapArgSerializer
 import com.github.jonathanxd.kores.type.KoresType
+import kotlinx.serialization.Serializable
 import java.lang.invoke.*
 import java.lang.reflect.Type
 import java.util.function.Supplier
@@ -65,6 +68,7 @@ interface InvokeDynamicBase : TypedInstruction {
      * Bootstrap method Arguments, must be an [String], [Int],
      * [Long], [Float], [Double], [KoresType] or [MethodInvokeSpec].
      */
+    @Serializable(with = BootstrapArgListSerializer::class)
     val bootstrapArgs: List<Any>
 
     override fun builder(): Builder<InvokeDynamicBase, *>
@@ -275,10 +279,11 @@ interface InvokeDynamicBase : TypedInstruction {
 
 }
 
+@Serializable
 data class InvokeDynamic(
     override val bootstrap: MethodInvokeSpec,
     override val dynamicMethod: DynamicMethodSpec,
-    override val bootstrapArgs: List<Any>
+    override val bootstrapArgs: List<@Serializable(with = BootstrapArgSerializer::class) Any>
 ) : InvokeDynamicBase {
 
     override fun builder(): InvokeDynamic.Builder = InvokeDynamic.Builder(this)
@@ -323,6 +328,7 @@ data class InvokeDynamic(
 
     }
 
+    @Serializable
     data class LambdaMethodRef(
         override val methodRef: MethodInvokeSpec,
         override val target: Instruction,
@@ -391,6 +397,7 @@ data class InvokeDynamic(
         }
     }
 
+    @Serializable
     data class LambdaLocalCode(
         override val baseSam: MethodTypeSpec,
         override val expectedTypes: TypeSpec,

@@ -29,6 +29,7 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
+import kotlinx.serialization.Serializable
 
 /**
  * Try-catch-finally statement.
@@ -37,6 +38,7 @@ import com.github.jonathanxd.kores.Instructions
  * @property catchStatements Catch clauses/exception handlers.
  * @property finallyStatement Finally block (Obs: for bytecode generation, finally blocks is always inlined).
  */
+@Serializable
 data class TryStatement(
     override val body: Instructions,
     override val catchStatements: List<CatchStatement>,

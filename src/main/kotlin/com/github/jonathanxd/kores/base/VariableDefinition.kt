@@ -28,13 +28,18 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Defines the value of variable of type [type] and name [name] to [value].
  */
+@Serializable
 data class VariableDefinition(
-    override val type: Type,
+    @SerialName("variableDefinitionType")
+    @Serializable(with = TypeSerializer::class) override val type: Type,
     override val name: String,
     override val value: Instruction
 ) : Named, TypedInstruction, ValueHolder {

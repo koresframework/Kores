@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.kores
 
+import kotlinx.serialization.Serializable
 import java.util.*
 import java.util.function.Consumer
 import java.util.stream.Stream
@@ -37,6 +38,7 @@ import java.util.stream.StreamSupport
  *
  * @see MutableInstructions
  */
+@Serializable
 class ArrayInstructions(private val parts: Array<Instruction> = emptyArray()) : Instructions() {
 
     constructor() : this(emptyArray())

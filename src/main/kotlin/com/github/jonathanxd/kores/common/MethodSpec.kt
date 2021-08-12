@@ -35,9 +35,11 @@ import com.github.jonathanxd.kores.base.TypeSpec
 import com.github.jonathanxd.kores.base.Typed
 import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.koresType
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 @Spec
+@Serializable
 data class MethodSpec(val methodName: String, val typeSpec: TypeSpec) :
     Typed, Comparable<MethodSpec> {
     override val type: Type

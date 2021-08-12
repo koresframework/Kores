@@ -30,6 +30,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.KoresPart
 import com.github.jonathanxd.kores.operator.Operator
+import kotlinx.serialization.Serializable
 
 /**
  * Condition evaluation.
@@ -39,6 +40,7 @@ import com.github.jonathanxd.kores.operator.Operator
  * @property expr2 Second expression
  * @see IfStatement
  */
+@Serializable
 data class IfExpr(
     val expr1: Instruction,
     val operation: Operator.Conditional,

@@ -32,6 +32,7 @@ package com.github.jonathanxd.kores.base
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.type.KoresType
 import com.github.jonathanxd.kores.type.koresType
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -45,6 +46,7 @@ import java.lang.reflect.Type
  * Type alias does not exists in Java language (because you always have access to this information),
  * but would be something like: `this.class`, `super.class`.
  */
+@Serializable
 sealed class Alias : Instruction {
 
     /**
@@ -57,6 +59,7 @@ sealed class Alias : Instruction {
      *
      * **Must be manually handled.**
      */
+    @Serializable
     object THIS : Alias(), KoresType by THIS::class.koresType {
         override fun resolve(declaration: TypeDeclaration): Type = declaration
         override fun hashCode(): Int = super.hashCode()
@@ -68,6 +71,7 @@ sealed class Alias : Instruction {
      *
      * **Must be manually handled.**
      */
+    @Serializable
     object SUPER : Alias(), KoresType by SUPER::class.koresType {
         override fun resolve(declaration: TypeDeclaration): Type =
             (declaration as? SuperClassHolder)?.superClass
@@ -87,6 +91,7 @@ sealed class Alias : Instruction {
      *
      * @param n Index of implementation interfaces
      */
+    @Serializable
     data class INTERFACE(val n: Int) : Alias(), KoresType by INTERFACE::class.koresType {
         override fun resolve(declaration: TypeDeclaration): Type =
             (declaration as? ImplementationHolder)?.implementations?.let {

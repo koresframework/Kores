@@ -29,6 +29,8 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.common.KoresNothing
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -36,9 +38,10 @@ import java.lang.reflect.Type
  * mean that you declared a variable with null value, it means that you declared a variable without a default value,
  * for null values use `Literals.NULL`).
  */
+@Serializable
 data class VariableDeclaration(
     override val modifiers: Set<KoresModifier>,
-    override val variableType: Type,
+    @Serializable(with = TypeSerializer::class) override val variableType: Type,
     override val name: String,
     override val value: Instruction
 ) : VariableBase, ValueHolder, TypedInstruction, ModifiersHolder {

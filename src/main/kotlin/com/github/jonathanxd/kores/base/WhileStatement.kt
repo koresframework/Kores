@@ -29,6 +29,8 @@ package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.Instructions
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 
 /**
  * While statement
@@ -37,8 +39,9 @@ import com.github.jonathanxd.kores.Instructions
  * @property expressions Expression to check to start and/or continue the loop.
  * @property body Code to execute.
  */
+@Serializable
 data class WhileStatement(
-    val type: Type,
+    val type: WhileStatement.Type,
     override val expressions: List<Instruction>,
     override val body: Instructions
 ) : IfExpressionHolder, BodyHolder, Instruction {
@@ -53,7 +56,7 @@ data class WhileStatement(
         IfExpressionHolder.Builder<WhileStatement, Builder>,
         BodyHolder.Builder<WhileStatement, Builder> {
 
-        lateinit var type: Type
+        lateinit var type: WhileStatement.Type
         var expressions: List<Instruction> = emptyList()
         var body: Instructions = Instructions.empty()
 
@@ -94,6 +97,7 @@ data class WhileStatement(
 
     }
 
+    @Serializable
     enum class Type {
         /**
          * While statement. First check expressions and then run the code if expressions succeeded.

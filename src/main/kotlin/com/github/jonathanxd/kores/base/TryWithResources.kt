@@ -28,6 +28,8 @@
 package com.github.jonathanxd.kores.base
 
 import com.github.jonathanxd.kores.Instructions
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 
 /**
  * Try-with-resources
@@ -37,6 +39,7 @@ import com.github.jonathanxd.kores.Instructions
  * @property catchStatements Catch clauses/Exception handlers
  * @property finallyStatement Finally statement (in bytecode generator the finally statement is inlined).
  */
+@Serializable
 data class TryWithResources(
     val variable: VariableDeclaration,
     override val body: Instructions,

@@ -27,6 +27,7 @@
  */
 package com.github.jonathanxd.kores
 
+import kotlinx.serialization.Serializable
 import java.util.*
 import java.util.function.Predicate
 import java.util.function.UnaryOperator
@@ -34,6 +35,7 @@ import java.util.function.UnaryOperator
 /**
  * A mutable [Instructions] backing to a [ArrayList] instead of to an [Array].
  */
+@Serializable
 abstract class MutableInstructions : Instructions(), Cloneable {
 
     /**

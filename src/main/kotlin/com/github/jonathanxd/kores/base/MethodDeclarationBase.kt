@@ -33,21 +33,24 @@ import com.github.jonathanxd.kores.Types
 import com.github.jonathanxd.kores.base.comment.CommentHolder
 import com.github.jonathanxd.kores.base.comment.Comments
 import com.github.jonathanxd.kores.generic.GenericSignature
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
  * Method declaration
  */
+@Serializable
 data class MethodDeclaration(
     override val comments: Comments,
     override val annotations: List<Annotation>,
     override val modifiers: Set<KoresModifier>,
     override val genericSignature: GenericSignature,
-    override val returnType: Type,
+    @Serializable(with = TypeSerializer::class) override val returnType: Type,
     override val name: String,
     override val parameters: List<KoresParameter>,
     override val innerTypes: List<TypeDeclaration>,
-    override val throwsClause: List<Type>,
+    override val throwsClause: List<@Serializable(with = TypeSerializer::class) Type>,
     override val body: Instructions
 ) : MethodDeclarationBase {
     init {

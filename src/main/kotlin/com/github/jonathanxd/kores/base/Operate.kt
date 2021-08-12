@@ -33,6 +33,7 @@ import com.github.jonathanxd.kores.common.KoresNothing
 import com.github.jonathanxd.kores.operator.Operator
 import com.github.jonathanxd.kores.operator.Operators
 import com.github.jonathanxd.kores.type
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -45,6 +46,7 @@ import java.lang.reflect.Type
  * example, if a second argument is provided for [Operators.SUBTRACT], the operation
  * will be `target-value`, otherwise, if [KoresNothing] is provided, the operation will be `-target` (or negative target).
  */
+@Serializable
 data class Operate(
     val target: Instruction,
     val operation: Operator.Math,

@@ -28,6 +28,8 @@
 package com.github.jonathanxd.kores.base.comment
 
 import com.github.jonathanxd.kores.common.MethodTypeSpec
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
@@ -36,6 +38,7 @@ import java.lang.reflect.Type
  * @property name Title/name of link (null to default)
  * @property target Link target.
  */
+@Serializable
 data class Link(val name: String?, val target: LinkTarget) : Comment {
 
     override fun builder(): Builder = Builder(this)
@@ -55,6 +58,7 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
              *
              * @param type Class type.
              */
+            @Serializable
             data class Class(val type: Type) : Element
 
             /**
@@ -62,6 +66,7 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
              *
              * @param spec Method specification
              */
+            @Serializable
             data class Method(val spec: MethodTypeSpec) : Element
 
             /**
@@ -71,7 +76,12 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
              * @param name Field name.
              * @param type Field type.
              */
-            data class Field(val declaringClass: Type, val name: String, val type: Type) : Element
+            @Serializable
+            data class Field(
+                @Serializable(with = TypeSerializer::class) val declaringClass: Type,
+                val name: String,
+                @Serializable(with = TypeSerializer::class) val type: Type
+            ) : Element
 
         }
 
@@ -80,6 +90,7 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
          *
          * @param url Website url
          */
+        @Serializable
         data class URL(val url: String) : LinkTarget
     }
 
