@@ -1,7 +1,11 @@
-group 'com.github.jonathanxd'
+group 'com.github.koresframework'
 
 apply plugin: 'kotlin'
 apply plugin: 'license'
+
+apply plugin: 'maven-publish'
+
+version '4.0.6.base'
 
 jar {
     manifest {
@@ -67,5 +71,22 @@ license {
     mapping {
         java = 'SLASHSTAR_STYLE'
         kt = 'SLASHSTAR_STYLE'
+    }
+}
+
+
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url = "$buildDir/repo"
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.kotlin
+
+            artifact sourcesJar
+        }
     }
 }
