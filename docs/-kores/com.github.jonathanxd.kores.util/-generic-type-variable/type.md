@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](../index.md)/[GenericTypeVariable](index.md)/[type](type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.util](../index.md)/[GenericTypeVariable](index.md)/[type](type.md)
 
+# type
 
-
-# type  
-[jvm]  
-Content  
-val [type](type.md): [KoresType](../../com.github.jonathanxd.kores.type/-kores-type/index.md)?  
-
-
-
+[jvm]\
+val [type](type.md): [KoresType](../../com.github.jonathanxd.kores.type/-kores-type/index.md)?

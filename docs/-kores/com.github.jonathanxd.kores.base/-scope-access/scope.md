@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ScopeAccess](index.md)/[scope](scope.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ScopeAccess](index.md)/[scope](scope.md)
 
+# scope
 
-
-# scope  
-[jvm]  
-Content  
-val [scope](scope.md): [Scope](../-scope/index.md)  
-
-
-
+[jvm]\
+val [scope](scope.md): [Scope](../-scope/index.md)

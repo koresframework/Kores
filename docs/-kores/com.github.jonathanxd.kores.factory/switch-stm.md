@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[switchStm](switch-stm.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[switchStm](switch-stm.md)
 
+# switchStm
 
-
-# switchStm  
-[jvm]  
-Content  
-fun [switchStm](switch-stm.md)(): [SwitchStatement.Builder](../com.github.jonathanxd.kores.base/-switch-statement/-builder/index.md)  
-
-
-
+[jvm]\
+fun [switchStm](switch-stm.md)(): [SwitchStatement.Builder](../com.github.jonathanxd.kores.base/-switch-statement/-builder/index.md)

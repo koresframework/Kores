@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[size](size.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[size](size.md)
 
+# size
 
-
-# size  
-[jvm]  
-Content  
-abstract val [size](size.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-More info  
-
+[jvm]\
+abstract val [size](size.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Size of source.
-
-  
-
-
-

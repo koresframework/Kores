@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[hashCode](hash-code.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[hashCode](hash-code.md)
 
+# hashCode
 
-
-# hashCode  
-[jvm]  
-Content  
-abstract override fun [hashCode](hash-code.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-
-
-
+[jvm]\
+abstract override fun [hashCode](hash-code.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

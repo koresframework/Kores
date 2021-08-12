@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[AnnotatedKoresType](index.md)/[annotatedType](annotated-type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[AnnotatedKoresType](index.md)/[annotatedType](annotated-type.md)
 
+# annotatedType
 
-
-# annotatedType  
-[jvm]  
-Content  
-abstract val [annotatedType](annotated-type.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)  
-More info  
-
+[jvm]\
+abstract val [annotatedType](annotated-type.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)
 
 The type that is annotated with [annotations](annotations.md). (May be this).
-
-  
-
-
-

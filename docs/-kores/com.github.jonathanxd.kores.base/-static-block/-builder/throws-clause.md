@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[StaticBlock](../index.md)/[Builder](index.md)/[throwsClause](throws-clause.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[StaticBlock](../index.md)/[Builder](index.md)/[throwsClause](throws-clause.md)
 
+# throwsClause
 
-
-# throwsClause  
-[jvm]  
-Content  
-open override fun [throwsClause](throws-clause.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)>): [StaticBlock.Builder](index.md)  
-More info  
-
+[jvm]\
+open override fun [throwsClause](throws-clause.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)>): [StaticBlock.Builder](index.md)
 
 See [ThrowsHolder.throwsClause](../../-throws-holder/throws-clause.md)
-
-  
-
-
-

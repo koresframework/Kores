@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[Generic](index.md)/[bounds](bounds.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[Generic](index.md)/[bounds](bounds.md)
 
+# bounds
 
-
-# bounds  
-[jvm]  
-Content  
-open override val [bounds](bounds.md): [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)<[GenericType.Bound](../-generic-type/-bound/index.md)>  
-More info  
-
+[jvm]\
+open override val [bounds](bounds.md): [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)<[GenericType.Bound](../-generic-type/-bound/index.md)>
 
 Generic bounds.
-
-  
-
-
-

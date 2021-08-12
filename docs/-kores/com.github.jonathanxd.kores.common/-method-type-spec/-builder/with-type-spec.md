@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../../index.md)/[MethodTypeSpec](../index.md)/[Builder](index.md)/[withTypeSpec](with-type-spec.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.common](../../index.md)/[MethodTypeSpec](../index.md)/[Builder](index.md)/[withTypeSpec](with-type-spec.md)
 
+# withTypeSpec
 
-
-# withTypeSpec  
-[jvm]  
-Content  
-fun [withTypeSpec](with-type-spec.md)(value: [TypeSpec](../../../com.github.jonathanxd.kores.base/-type-spec/index.md)): [MethodTypeSpec.Builder](index.md)  
-
-
-
+[jvm]\
+fun [withTypeSpec](with-type-spec.md)(value: [TypeSpec](../../../com.github.jonathanxd.kores.base/-type-spec/index.md)): [MethodTypeSpec.Builder](index.md)

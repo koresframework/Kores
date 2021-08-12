@@ -1,17 +1,8 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.type](index.md)/[isPrimitive](is-primitive.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](index.md)/[isPrimitive](is-primitive.md)
 
+# isPrimitive
 
-
-# isPrimitive  
-[jvm]  
-Content  
-val [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[isPrimitive](is-primitive.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
-
+[jvm]\
+val [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[isPrimitive](is-primitive.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 See [KoresType.isPrimitive](-kores-type/is-primitive.md)
-
-  
-
-
-

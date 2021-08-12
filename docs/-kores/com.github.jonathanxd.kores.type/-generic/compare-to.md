@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[Generic](index.md)/[compareTo](compare-to.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[Generic](index.md)/[compareTo](compare-to.md)
 
+# compareTo
 
-
-# compareTo  
-[jvm]  
-Content  
-open operator override fun [compareTo](compare-to.md)(other: [KoresType](../-kores-type/index.md)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-More info  
-
+[jvm]\
+open operator override fun [compareTo](compare-to.md)(other: [KoresType](../-kores-type/index.md)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Compare two identifications
-
-  
-
-
-

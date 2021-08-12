@@ -1,56 +1,48 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.literal](../index.md)/[Literals](index.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.literal](../index.md)/[Literals](index.md)
 
+# Literals
 
-
-# Literals  
- [jvm] object [Literals](index.md)
+[jvm]\
+object [Literals](index.md)
 
 [Literals](../-literal/index.md) constants.
 
-   
+## Types
 
-
-## Types  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.literal/Literals.BoolLiteral///PointingToDeclaration/"></a>[BoolLiteral](-bool-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.BoolLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [BoolLiteral](-bool-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.ByteLiteral///PointingToDeclaration/"></a>[ByteLiteral](-byte-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.ByteLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [ByteLiteral](-byte-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.CharLiteral///PointingToDeclaration/"></a>[CharLiteral](-char-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.CharLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [CharLiteral](-char-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.ClassLiteral///PointingToDeclaration/"></a>[ClassLiteral](-class-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.ClassLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [ClassLiteral](-class-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.DoubleLiteral///PointingToDeclaration/"></a>[DoubleLiteral](-double-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.DoubleLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [DoubleLiteral](-double-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.FloatLiteral///PointingToDeclaration/"></a>[FloatLiteral](-float-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.FloatLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [FloatLiteral](-float-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.IntLiteral///PointingToDeclaration/"></a>[IntLiteral](-int-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.IntLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [IntLiteral](-int-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.LongLiteral///PointingToDeclaration/"></a>[LongLiteral](-long-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.LongLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [LongLiteral](-long-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.ShortLiteral///PointingToDeclaration/"></a>[ShortLiteral](-short-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.ShortLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [ShortLiteral](-short-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals.StringLiteral///PointingToDeclaration/"></a>[StringLiteral](-string-literal/index.md)| <a name="com.github.jonathanxd.kores.literal/Literals.StringLiteral///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class [StringLiteral](-string-literal/index.md) : [Literal](../-literal/index.md)  <br><br><br>
+| [BoolLiteral](-bool-literal/index.md) | [jvm]<br>class [BoolLiteral](-bool-literal/index.md) : [Literal](../-literal/index.md) |
+| [ByteLiteral](-byte-literal/index.md) | [jvm]<br>class [ByteLiteral](-byte-literal/index.md) : [Literal](../-literal/index.md) |
+| [CharLiteral](-char-literal/index.md) | [jvm]<br>class [CharLiteral](-char-literal/index.md) : [Literal](../-literal/index.md) |
+| [ClassLiteral](-class-literal/index.md) | [jvm]<br>class [ClassLiteral](-class-literal/index.md) : [Literal](../-literal/index.md) |
+| [DoubleLiteral](-double-literal/index.md) | [jvm]<br>class [DoubleLiteral](-double-literal/index.md) : [Literal](../-literal/index.md) |
+| [FloatLiteral](-float-literal/index.md) | [jvm]<br>class [FloatLiteral](-float-literal/index.md) : [Literal](../-literal/index.md) |
+| [IntLiteral](-int-literal/index.md) | [jvm]<br>class [IntLiteral](-int-literal/index.md) : [Literal](../-literal/index.md) |
+| [LongLiteral](-long-literal/index.md) | [jvm]<br>class [LongLiteral](-long-literal/index.md) : [Literal](../-literal/index.md) |
+| [NullLiteral](-null-literal/index.md) | [jvm]<br>object [NullLiteral](-null-literal/index.md) : [Literal](../-literal/index.md) |
+| [ShortLiteral](-short-literal/index.md) | [jvm]<br>class [ShortLiteral](-short-literal/index.md) : [Literal](../-literal/index.md) |
+| [StringLiteral](-string-literal/index.md) | [jvm]<br>class [StringLiteral](-string-literal/index.md) : [Literal](../-literal/index.md) |
 
+## Functions
 
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.literal/Literals/BOOLEAN/#kotlin.Boolean/PointingToDeclaration/"></a>[BOOLEAN](-b-o-o-l-e-a-n.md)| <a name="com.github.jonathanxd.kores.literal/Literals/BOOLEAN/#kotlin.Boolean/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [BOOLEAN](-b-o-o-l-e-a-n.md)(b: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/BYTE/#kotlin.Byte/PointingToDeclaration/"></a>[BYTE](-b-y-t-e.md)| <a name="com.github.jonathanxd.kores.literal/Literals/BYTE/#kotlin.Byte/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [BYTE](-b-y-t-e.md)(b: [Byte](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/CHAR/#kotlin.Char/PointingToDeclaration/"></a>[CHAR](-c-h-a-r.md)| <a name="com.github.jonathanxd.kores.literal/Literals/CHAR/#kotlin.Char/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [CHAR](-c-h-a-r.md)(c: [Char](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/CLASS/#java.lang.reflect.Type/PointingToDeclaration/"></a>[CLASS](-c-l-a-s-s.md)| <a name="com.github.jonathanxd.kores.literal/Literals/CLASS/#java.lang.reflect.Type/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [CLASS](-c-l-a-s-s.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/DOUBLE/#kotlin.Double/PointingToDeclaration/"></a>[DOUBLE](-d-o-u-b-l-e.md)| <a name="com.github.jonathanxd.kores.literal/Literals/DOUBLE/#kotlin.Double/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [DOUBLE](-d-o-u-b-l-e.md)(d: [Double](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/FLOAT/#kotlin.Float/PointingToDeclaration/"></a>[FLOAT](-f-l-o-a-t.md)| <a name="com.github.jonathanxd.kores.literal/Literals/FLOAT/#kotlin.Float/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [FLOAT](-f-l-o-a-t.md)(f: [Float](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/INT/#kotlin.Int/PointingToDeclaration/"></a>[INT](-i-n-t.md)| <a name="com.github.jonathanxd.kores.literal/Literals/INT/#kotlin.Int/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [INT](-i-n-t.md)(i: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/LONG/#kotlin.Long/PointingToDeclaration/"></a>[LONG](-l-o-n-g.md)| <a name="com.github.jonathanxd.kores.literal/Literals/LONG/#kotlin.Long/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [LONG](-l-o-n-g.md)(i: [Long](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/SHORT/#kotlin.Short/PointingToDeclaration/"></a>[SHORT](-s-h-o-r-t.md)| <a name="com.github.jonathanxd.kores.literal/Literals/SHORT/#kotlin.Short/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [SHORT](-s-h-o-r-t.md)(s: [Short](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/STRING/#kotlin.String/PointingToDeclaration/"></a>[STRING](-s-t-r-i-n-g.md)| <a name="com.github.jonathanxd.kores.literal/Literals/STRING/#kotlin.String/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [STRING](-s-t-r-i-n-g.md)(s: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [Literal](../-literal/index.md)  <br><br><br>
-| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/TYPE/#java.lang.reflect.Type/PointingToDeclaration/"></a>[TYPE](-t-y-p-e.md)| <a name="com.github.jonathanxd.kores.literal/Literals/TYPE/#java.lang.reflect.Type/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  <br>  <br>fun [TYPE](-t-y-p-e.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Literal](../-literal/index.md)  <br><br><br>
+| [BOOLEAN](-b-o-o-l-e-a-n.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [BOOLEAN](-b-o-o-l-e-a-n.md)(b: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)): [Literal](../-literal/index.md) |
+| [BYTE](-b-y-t-e.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [BYTE](-b-y-t-e.md)(b: [Byte](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte/index.html)): [Literal](../-literal/index.md) |
+| [CHAR](-c-h-a-r.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [CHAR](-c-h-a-r.md)(c: [Char](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html)): [Literal](../-literal/index.md) |
+| [CLASS](-c-l-a-s-s.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [CLASS](-c-l-a-s-s.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Literal](../-literal/index.md) |
+| [DOUBLE](-d-o-u-b-l-e.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [DOUBLE](-d-o-u-b-l-e.md)(d: [Double](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)): [Literal](../-literal/index.md) |
+| [FLOAT](-f-l-o-a-t.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [FLOAT](-f-l-o-a-t.md)(f: [Float](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)): [Literal](../-literal/index.md) |
+| [INT](-i-n-t.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [INT](-i-n-t.md)(i: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [Literal](../-literal/index.md) |
+| [LONG](-l-o-n-g.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [LONG](-l-o-n-g.md)(i: [Long](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)): [Literal](../-literal/index.md) |
+| [SHORT](-s-h-o-r-t.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [SHORT](-s-h-o-r-t.md)(s: [Short](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html)): [Literal](../-literal/index.md) |
+| [STRING](-s-t-r-i-n-g.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [STRING](-s-t-r-i-n-g.md)(s: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [Literal](../-literal/index.md) |
+| [TYPE](-t-y-p-e.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [TYPE](-t-y-p-e.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Literal](../-literal/index.md) |
 
+## Properties
 
-## Properties  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.literal/Literals/FALSE/#/PointingToDeclaration/"></a>[FALSE](-f-a-l-s-e.md)| <a name="com.github.jonathanxd.kores.literal/Literals/FALSE/#/PointingToDeclaration/"></a> [jvm] @[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  <br>  <br>val [FALSE](-f-a-l-s-e.md): [Literal](../-literal/index.md)   <br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/NULL/#/PointingToDeclaration/"></a>[NULL](-n-u-l-l.md)| <a name="com.github.jonathanxd.kores.literal/Literals/NULL/#/PointingToDeclaration/"></a> [jvm] @[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  <br>  <br>val [NULL](-n-u-l-l.md): [Literal](../-literal/index.md)   <br>
-| <a name="com.github.jonathanxd.kores.literal/Literals/TRUE/#/PointingToDeclaration/"></a>[TRUE](-t-r-u-e.md)| <a name="com.github.jonathanxd.kores.literal/Literals/TRUE/#/PointingToDeclaration/"></a> [jvm] @[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  <br>  <br>val [TRUE](-t-r-u-e.md): [Literal](../-literal/index.md)   <br>
-
+| [FALSE](-f-a-l-s-e.md) | [jvm]<br>@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()<br>val [FALSE](-f-a-l-s-e.md): [Literal](../-literal/index.md) |
+| [NULL](-n-u-l-l.md) | [jvm]<br>@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()<br>val [NULL](-n-u-l-l.md): [Literal](../-literal/index.md) |
+| [TRUE](-t-r-u-e.md) | [jvm]<br>@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()<br>val [TRUE](-t-r-u-e.md): [Literal](../-literal/index.md) |

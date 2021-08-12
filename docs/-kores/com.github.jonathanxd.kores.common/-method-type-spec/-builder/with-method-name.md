@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../../index.md)/[MethodTypeSpec](../index.md)/[Builder](index.md)/[withMethodName](with-method-name.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.common](../../index.md)/[MethodTypeSpec](../index.md)/[Builder](index.md)/[withMethodName](with-method-name.md)
 
+# withMethodName
 
-
-# withMethodName  
-[jvm]  
-Content  
-fun [withMethodName](with-method-name.md)(value: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [MethodTypeSpec.Builder](index.md)  
-
-
-
+[jvm]\
+fun [withMethodName](with-method-name.md)(value: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [MethodTypeSpec.Builder](index.md)

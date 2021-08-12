@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[InstructionsView](../index.md)/[SubIterator](index.md)/[add](add.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[InstructionsView](../index.md)/[SubIterator](index.md)/[add](add.md)
 
+# add
 
-
-# add  
-[jvm]  
-Content  
-open override fun [add](add.md)(element: [Instruction](../../-instruction/index.md))  
-
-
-
+[jvm]\
+open override fun [add](add.md)(element: [Instruction](../../-instruction/index.md))

@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ClassDeclaration](../index.md)/[Builder](index.md)/[fields](fields.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ClassDeclaration](../index.md)/[Builder](index.md)/[fields](fields.md)
 
+# fields
 
-
-# fields  
-[jvm]  
-Content  
-open override fun [fields](fields.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[FieldDeclaration](../../-field-declaration/index.md)>): [ClassDeclaration.Builder](index.md)  
-More info  
-
+[jvm]\
+open override fun [fields](fields.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[FieldDeclaration](../../-field-declaration/index.md)>): [ClassDeclaration.Builder](index.md)
 
 See [ElementsHolder.fields](../../-elements-holder/fields.md)
 
-  
-
-
-[jvm]  
-Content  
-var [fields](fields.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[FieldDeclaration](../../-field-declaration/index.md)>  
-
-
-
+[jvm]\
+var [fields](fields.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[FieldDeclaration](../../-field-declaration/index.md)>

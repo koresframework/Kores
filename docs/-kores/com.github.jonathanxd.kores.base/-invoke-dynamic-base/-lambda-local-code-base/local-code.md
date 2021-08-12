@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InvokeDynamicBase](../index.md)/[LambdaLocalCodeBase](index.md)/[localCode](local-code.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InvokeDynamicBase](../index.md)/[LambdaLocalCodeBase](index.md)/[localCode](local-code.md)
 
+# localCode
 
-
-# localCode  
-[jvm]  
-Content  
-abstract val [localCode](local-code.md): [LocalCode](../../-local-code/index.md)  
-More info  
-
+[jvm]\
+abstract val [localCode](local-code.md): [LocalCode](../../-local-code/index.md)
 
 Local method to invoke
-
-  
-
-
-

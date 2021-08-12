@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ArrayLoad](index.md)/[ArrayLoad](-array-load.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ArrayLoad](index.md)/[ArrayLoad](-array-load.md)
 
+# ArrayLoad
 
-
-# ArrayLoad  
-[jvm]  
-Content  
-fun [ArrayLoad](-array-load.md)(arrayType: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), target: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), index: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), valueType: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html))  
-
-
-
+[jvm]\
+fun [ArrayLoad](-array-load.md)(arrayType: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), target: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), index: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), valueType: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html))

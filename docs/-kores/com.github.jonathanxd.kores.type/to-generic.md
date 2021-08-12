@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.type](index.md)/[toGeneric](to-generic.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](index.md)/[toGeneric](to-generic.md)
 
+# toGeneric
 
-
-# toGeneric  
-[jvm]  
-Content  
-val [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[toGeneric](to-generic.md): [GenericType](-generic-type/index.md)  
-
-
-
+[jvm]\
+val [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[toGeneric](to-generic.md): [GenericType](-generic-type/index.md)

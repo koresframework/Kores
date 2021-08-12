@@ -41,6 +41,7 @@ class LiteralSerialTest {
     fun testSerialization() {
         val literal = Literals.STRING("Hello World")
         val format = Json {
+            classDiscriminator = "_type"
             serializersModule = koresSerializerModule
         }
         val json = format.encodeToString(literal)

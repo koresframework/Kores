@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[iterator](iterator.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[iterator](iterator.md)
 
+# iterator
 
-
-# iterator  
-[jvm]  
-Content  
-abstract operator override fun [iterator](iterator.md)(): [Iterator](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterator/index.html)<[Instruction](../-instruction/index.md)>  
-More info  
-
+[jvm]\
+abstract operator override fun [iterator](iterator.md)(): [Iterator](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterator/index.html)<[Instruction](../-instruction/index.md)>
 
 Creates an [Iterator](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterator/index.html) that iterates elements of this [Instructions](index.md).
-
-  
-
-
-

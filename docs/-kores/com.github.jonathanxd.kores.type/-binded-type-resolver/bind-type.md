@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[BindedTypeResolver](index.md)/[bindType](bind-type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[BindedTypeResolver](index.md)/[bindType](bind-type.md)
 
+# bindType
 
-
-# bindType  
-[jvm]  
-Content  
-val [bindType](bind-type.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)  
-
-
-
+[jvm]\
+val [bindType](bind-type.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)

@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[AnnotatedKoresType](../index.md)/[GenericAnnotatedKoresType](index.md)/[isVirtual](is-virtual.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[AnnotatedKoresType](../index.md)/[GenericAnnotatedKoresType](index.md)/[isVirtual](is-virtual.md)
 
+# isVirtual
 
-
-# isVirtual  
-[jvm]  
-Content  
-open override val [isVirtual](is-virtual.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
-
+[jvm]\
+open override val [isVirtual](is-virtual.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if is a Virtual Type (Virtual Types = Types that were not loaded by JVM)
-
-  
-
-
-

@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ArrayInstructions](index.md)/[stream](stream.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ArrayInstructions](index.md)/[stream](stream.md)
 
+# stream
 
-
-# stream  
-[jvm]  
-Content  
-open override fun [stream](stream.md)(): [Stream](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html)<[Instruction](../-instruction/index.md)>  
-More info  
-
+[jvm]\
+open override fun [stream](stream.md)(): [Stream](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html)<[Instruction](../-instruction/index.md)>
 
 Creates a [Stream](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html) of this [Instructions](../-instructions/index.md).
-
-  
-
-
-

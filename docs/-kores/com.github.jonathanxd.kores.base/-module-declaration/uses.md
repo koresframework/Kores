@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ModuleDeclaration](index.md)/[uses](uses.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ModuleDeclaration](index.md)/[uses](uses.md)
 
+# uses
 
-
-# uses  
-[jvm]  
-Content  
-val [uses](uses.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[ModuleReference](../-module-reference/index.md)>  
-
-
-
+[jvm]\
+val [uses](uses.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[ModuleReference](../-module-reference/index.md)>

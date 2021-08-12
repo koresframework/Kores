@@ -1,28 +1,13 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[MutableInstructions](index.md)/[add](add.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[MutableInstructions](index.md)/[add](add.md)
 
+# add
 
+[jvm]\
+abstract fun [add](add.md)(instruction: [Instruction](../-instruction/index.md)): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
-# add  
-[jvm]  
-Content  
-abstract fun [add](add.md)(instruction: [Instruction](../-instruction/index.md)): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
+Adds [instruction](add.md) to list.
 
+[jvm]\
+abstract fun [add](add.md)(index: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), element: [Instruction](../-instruction/index.md))
 
-Adds instruction to list.
-
-  
-
-
-[jvm]  
-Content  
-abstract fun [add](add.md)(index: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), element: [Instruction](../-instruction/index.md))  
-More info  
-
-
-Adds element at index.
-
-  
-
-
-
+Adds [element](add.md) at [index](add.md).

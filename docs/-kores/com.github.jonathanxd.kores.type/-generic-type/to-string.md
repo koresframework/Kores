@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[toString](to-string.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[toString](to-string.md)
 
+# toString
 
-
-# toString  
-[jvm]  
-Content  
-abstract override fun [toString](to-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-
-
-
+[jvm]\
+abstract override fun [toString](to-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

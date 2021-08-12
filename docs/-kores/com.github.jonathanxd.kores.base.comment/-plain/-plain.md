@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base.comment](../index.md)/[Plain](index.md)/[Plain](-plain.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base.comment](../index.md)/[Plain](index.md)/[Plain](-plain.md)
 
+# Plain
 
-
-# Plain  
-[jvm]  
-Content  
-fun [Plain](-plain.md)(text: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html))  
-
-
-
+[jvm]\
+fun [Plain](-plain.md)(text: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html))

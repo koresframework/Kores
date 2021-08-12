@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[WrapperKoresType](index.md)/[wrapped](wrapped.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[WrapperKoresType](index.md)/[wrapped](wrapped.md)
 
+# wrapped
 
-
-# wrapped  
-[jvm]  
-Content  
-abstract val [wrapped](wrapped.md): [KoresType](../-kores-type/index.md)  
-More info  
-
+[jvm]\
+abstract val [wrapped](wrapped.md): [KoresType](../-kores-type/index.md)
 
 Wrapped code type.
-
-  
-
-
-

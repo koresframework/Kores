@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[MethodInvocation](../index.md)/[Builder](index.md)/[target](target.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[MethodInvocation](../index.md)/[Builder](index.md)/[target](target.md)
 
+# target
 
-
-# target  
-[jvm]  
-Content  
-open override fun [target](target.md)(value: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [MethodInvocation.Builder](index.md)  
-More info  
-
+[jvm]\
+open override fun [target](target.md)(value: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [MethodInvocation.Builder](index.md)
 
 See [Accessor.target](../../-accessor/target.md)
 
-  
-
-
-[jvm]  
-Content  
-lateinit var [target](target.md): [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)  
-
-
-
+[jvm]\
+lateinit var [target](target.md): [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)

@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[WhileStatement](index.md)/[body](body.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[WhileStatement](index.md)/[body](body.md)
 
+# body
 
-
-# body  
-[jvm]  
-Content  
-open override val [body](body.md): [Instructions](../../com.github.jonathanxd.kores/-instructions/index.md)  
-
-
-
+[jvm]\
+open override val [body](body.md): [Instructions](../../com.github.jonathanxd.kores/-instructions/index.md)

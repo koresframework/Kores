@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[LocalCode](../index.md)/[Builder](index.md)/[declaration](declaration.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[LocalCode](../index.md)/[Builder](index.md)/[declaration](declaration.md)
 
+# declaration
 
-
-# declaration  
-[jvm]  
-Content  
-fun [declaration](declaration.md)(value: [MethodDeclaration](../../-method-declaration/index.md)): [LocalCode.Builder](index.md)  
-More info  
-
+[jvm]\
+fun [declaration](declaration.md)(value: [MethodDeclaration](../../-method-declaration/index.md)): [LocalCode.Builder](index.md)
 
 See [LocalCode.declaration](../declaration.md)
 
-  
-
-
-[jvm]  
-Content  
-lateinit var [declaration](declaration.md): [MethodDeclaration](../../-method-declaration/index.md)  
-
-
-
+[jvm]\
+lateinit var [declaration](declaration.md): [MethodDeclaration](../../-method-declaration/index.md)

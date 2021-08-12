@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[resolvedType](resolved-type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[resolvedType](resolved-type.md)
 
+# resolvedType
 
-
-# resolvedType  
-[jvm]  
-Content  
-abstract val [resolvedType](resolved-type.md): [KoresType](../-kores-type/index.md)  
-More info  
-
+[jvm]\
+abstract val [resolvedType](resolved-type.md): [KoresType](../-kores-type/index.md)
 
 Resolved code type.
-
-  
-
-
-

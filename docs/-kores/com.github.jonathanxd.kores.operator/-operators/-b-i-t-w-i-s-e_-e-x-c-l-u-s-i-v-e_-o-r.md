@@ -1,13 +1,9 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.operator](../index.md)/[Operators](index.md)/[BITWISE_EXCLUSIVE_OR](-b-i-t-w-i-s-e_-e-x-c-l-u-s-i-v-e_-o-r.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.operator](../index.md)/[Operators](index.md)/[BITWISE_EXCLUSIVE_OR](-b-i-t-w-i-s-e_-e-x-c-l-u-s-i-v-e_-o-r.md)
 
+# BITWISE_EXCLUSIVE_OR
 
+[jvm]\
 
-# BITWISE_EXCLUSIVE_OR  
-[jvm]  
-Content  
-@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  
-  
-val [BITWISE_EXCLUSIVE_OR](-b-i-t-w-i-s-e_-e-x-c-l-u-s-i-v-e_-o-r.md): [Operator.Math](../-operator/-math/index.md)  
+@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()
 
-
-
+val [BITWISE_EXCLUSIVE_OR](-b-i-t-w-i-s-e_-e-x-c-l-u-s-i-v-e_-o-r.md): [Operator.Math](../-operator/-math/index.md)

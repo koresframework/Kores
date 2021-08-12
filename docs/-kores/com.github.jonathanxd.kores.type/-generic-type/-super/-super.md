@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[GenericType](../index.md)/[Super](index.md)/[Super](-super.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[GenericType](../index.md)/[Super](index.md)/[Super](-super.md)
 
+# Super
 
-
-# Super  
-[jvm]  
-Content  
-fun [Super](-super.md)(type: [KoresType](../../-kores-type/index.md))  
-
-
-
+[jvm]\
+fun [Super](-super.md)(type: [KoresType](../../-kores-type/index.md))

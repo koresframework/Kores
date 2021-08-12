@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.literal](index.md)/[nullLiteral](null-literal.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.literal](index.md)/[nullLiteral](null-literal.md)
 
+# nullLiteral
 
-
-# nullLiteral  
-[jvm]  
-Content  
-fun [nullLiteral](null-literal.md)(): [Literal](-literal/index.md)  
-
-
-
+[jvm]\
+fun [nullLiteral](null-literal.md)(): [Literal](-literal/index.md)

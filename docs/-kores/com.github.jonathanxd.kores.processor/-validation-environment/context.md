@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidationEnvironment](index.md)/[context](context.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidationEnvironment](index.md)/[context](context.md)
 
+# context
 
-
-# context  
-[jvm]  
-Content  
-abstract val [context](context.md): Context  
-More info  
-
+[jvm]\
+abstract val [context](context.md): Context
 
 Current context.
-
-  
-
-
-

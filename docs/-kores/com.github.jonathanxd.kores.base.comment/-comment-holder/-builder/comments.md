@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base.comment](../../index.md)/[CommentHolder](../index.md)/[Builder](index.md)/[comments](comments.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base.comment](../../index.md)/[CommentHolder](../index.md)/[Builder](index.md)/[comments](comments.md)
 
+# comments
 
-
-# comments  
-[jvm]  
-Content  
-abstract fun [comments](comments.md)(value: [Comments](../../-comments/index.md)): [S](index.md)  
-More info  
-
+[jvm]\
+abstract fun [comments](comments.md)(value: [Comments](../../-comments/index.md)): [S](index.md)
 
 See [CommentHolder.comments](../comments.md)
-
-  
-
-
-

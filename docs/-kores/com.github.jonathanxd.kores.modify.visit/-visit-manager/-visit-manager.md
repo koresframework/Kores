@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.modify.visit](../index.md)/[VisitManager](index.md)/[VisitManager](-visit-manager.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.modify.visit](../index.md)/[VisitManager](index.md)/[VisitManager](-visit-manager.md)
 
+# VisitManager
 
-
-# VisitManager  
-[jvm]  
-Content  
-fun [VisitManager](-visit-manager.md)()  
-
-
-
+[jvm]\
+fun [VisitManager](-visit-manager.md)()

@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[koresParameter](kores-parameter.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[koresParameter](kores-parameter.md)
 
+# koresParameter
 
-
-# koresParameter  
-[jvm]  
-Content  
-fun [koresParameter](kores-parameter.md)(): [KoresParameter.Builder](../com.github.jonathanxd.kores.base/-kores-parameter/-builder/index.md)  
-
-
-
+[jvm]\
+fun [koresParameter](kores-parameter.md)(): [KoresParameter.Builder](../com.github.jonathanxd.kores.base/-kores-parameter/-builder/index.md)

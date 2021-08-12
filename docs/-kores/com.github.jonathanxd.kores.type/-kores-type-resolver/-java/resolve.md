@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[KoresTypeResolver](../index.md)/[Java](index.md)/[resolve](resolve.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[KoresTypeResolver](../index.md)/[Java](index.md)/[resolve](resolve.md)
 
+# resolve
 
+[jvm]\
+open override fun [resolve](resolve.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): Either<[Exception](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html), out [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<*>>
 
-# resolve  
-[jvm]  
-Content  
-open override fun [resolve](resolve.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): Either<[Exception](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html), out [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<*>>  
-More info  
-
-
-Resolves type to [T](../index.md)
-
-  
-
-
-
+Resolves [type](resolve.md) to [T](../index.md)

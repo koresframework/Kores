@@ -2,7 +2,7 @@ ext.kotlin_version = '1.5.21'
 ext.kotlinx_serialization_version = '1.2.2'
 ext.dokka_version = '1.5.0'
 
-ext.license_version = '0.15.0'
+ext.license_version = '0.16.1'
 ext.shadow_version = '6.1.0'
 
 ext.iutils_version = '4.16.5-1'

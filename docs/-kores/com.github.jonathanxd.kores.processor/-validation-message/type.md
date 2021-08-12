@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidationMessage](index.md)/[type](type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidationMessage](index.md)/[type](type.md)
 
+# type
 
-
-# type  
-[jvm]  
-Content  
-val [type](type.md): [ValidationMessage.Type](-type/index.md)  
-
-
-
+[jvm]\
+val [type](type.md): [ValidationMessage.Type](-type/index.md)

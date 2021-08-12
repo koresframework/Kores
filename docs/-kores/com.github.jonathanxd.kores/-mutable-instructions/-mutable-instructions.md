@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[MutableInstructions](index.md)/[MutableInstructions](-mutable-instructions.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[MutableInstructions](index.md)/[MutableInstructions](-mutable-instructions.md)
 
+# MutableInstructions
 
-
-# MutableInstructions  
-[jvm]  
-Content  
-fun [MutableInstructions](-mutable-instructions.md)()  
-
-
-
+[jvm]\
+fun [MutableInstructions](-mutable-instructions.md)()

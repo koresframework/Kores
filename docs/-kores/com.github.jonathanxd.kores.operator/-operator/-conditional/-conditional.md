@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.operator](../../index.md)/[Operator](../index.md)/[Conditional](index.md)/[Conditional](-conditional.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.operator](../../index.md)/[Operator](../index.md)/[Conditional](index.md)/[Conditional](-conditional.md)
 
+# Conditional
 
-
-# Conditional  
-[jvm]  
-Content  
-fun [Conditional](-conditional.md)(name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html))  
-
-
-
+[jvm]\
+fun [Conditional](-conditional.md)(name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html))

@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[KoresPart](../index.md)/[SelfBuilder](index.md)/[SelfBuilder](-self-builder.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[KoresPart](../index.md)/[SelfBuilder](index.md)/[SelfBuilder](-self-builder.md)
 
+# SelfBuilder
 
-
-# SelfBuilder  
-[jvm]  
-Content  
-fun [SelfBuilder](-self-builder.md)(self: [KoresPart](../index.md))  
-
-
-
+[jvm]\
+fun [SelfBuilder](-self-builder.md)(self: [KoresPart](../index.md))

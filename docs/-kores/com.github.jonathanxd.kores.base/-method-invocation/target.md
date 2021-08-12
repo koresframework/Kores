@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[MethodInvocation](index.md)/[target](target.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[MethodInvocation](index.md)/[target](target.md)
 
+# target
 
-
-# target  
-[jvm]  
-Content  
-open override val [target](target.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)  
-
-
-
+[jvm]\
+open override val [target](target.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)

@@ -1,21 +1,10 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[type](type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericType](index.md)/[type](type.md)
 
+# type
 
-
-# type  
-[jvm]  
-Content  
-open override val [type](type.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+open override val [type](type.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Type name, examples:
 
-
-
 [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = java.lang.String. [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = int. path.to.A.B = path.to.A$B. path.to.A.B[][] = path.to.A$B[][].
-
-  
-
-
-

@@ -1,25 +1,12 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[Generic](index.md)/[wrapperType](wrapper-type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[Generic](index.md)/[wrapperType](wrapper-type.md)
 
+# wrapperType
 
-
-# wrapperType  
-[jvm]  
-Content  
-open override val [wrapperType](wrapper-type.md): [KoresType](../-kores-type/index.md)?  
-More info  
-
+[jvm]\
+open override val [wrapperType](wrapper-type.md): [KoresType](../-kores-type/index.md)?
 
 Only determine the Wrapper type if:
 
-
-
 isKoresType && bounds.isEmpty
 
-
-
 Because int<T> is invalid.
-
-  
-
-
-

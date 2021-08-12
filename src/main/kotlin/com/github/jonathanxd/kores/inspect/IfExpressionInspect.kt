@@ -179,8 +179,8 @@ fun IfExpr.getRuntimeBooleanEqCheck(): EqCheck? {
     if (op != Operators.NOT_EQUAL_TO && op != Operators.EQUAL_TO)
         return null
 
-    if (constant != null && (constant.value == "true" || constant.value == "false")) {
-        val bConstant = ((constant.value as String).toBoolean())
+    if (constant != null && (constant.value == true || constant.value == false)) {
+        val bConstant = constant.value as Boolean
         val boolValue =
             if (op == Operators.NOT_EQUAL_TO) !bConstant
             else bConstant

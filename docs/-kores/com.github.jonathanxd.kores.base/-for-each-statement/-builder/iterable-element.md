@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ForEachStatement](../index.md)/[Builder](index.md)/[iterableElement](iterable-element.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ForEachStatement](../index.md)/[Builder](index.md)/[iterableElement](iterable-element.md)
 
+# iterableElement
 
-
-# iterableElement  
-[jvm]  
-Content  
-fun [iterableElement](iterable-element.md)(value: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [ForEachStatement.Builder](index.md)  
-More info  
-
+[jvm]\
+fun [iterableElement](iterable-element.md)(value: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [ForEachStatement.Builder](index.md)
 
 See [ForEachStatement.iterableElement](../iterable-element.md)
 
-  
-
-
-[jvm]  
-Content  
-lateinit var [iterableElement](iterable-element.md): [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)  
-
-
-
+[jvm]\
+lateinit var [iterableElement](iterable-element.md): [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)

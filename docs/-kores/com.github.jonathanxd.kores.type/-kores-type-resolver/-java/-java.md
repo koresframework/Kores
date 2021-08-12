@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[KoresTypeResolver](../index.md)/[Java](index.md)/[Java](-java.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[KoresTypeResolver](../index.md)/[Java](index.md)/[Java](-java.md)
 
+# Java
 
-
-# Java  
-[jvm]  
-Content  
-fun [Java](-java.md)(classLoader: [ClassLoader](https://docs.oracle.com/javase/8/docs/api/java/lang/ClassLoader.html))  
-
-
-
+[jvm]\
+fun [Java](-java.md)(classLoader: [ClassLoader](https://docs.oracle.com/javase/8/docs/api/java/lang/ClassLoader.html))

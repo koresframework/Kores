@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](../index.md)/[GenericTypeVariable](index.md)/[getGenericDeclaration](get-generic-declaration.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.util](../index.md)/[GenericTypeVariable](index.md)/[getGenericDeclaration](get-generic-declaration.md)
 
+# getGenericDeclaration
 
-
-# getGenericDeclaration  
-[jvm]  
-Content  
-open override fun [getGenericDeclaration](get-generic-declaration.md)(): [GenericDeclaration](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/GenericDeclaration.html)?  
-
-
-
+[jvm]\
+open override fun [getGenericDeclaration](get-generic-declaration.md)(): [GenericDeclaration](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/GenericDeclaration.html)?

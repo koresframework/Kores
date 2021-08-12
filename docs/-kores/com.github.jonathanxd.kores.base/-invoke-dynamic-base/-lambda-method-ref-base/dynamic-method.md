@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InvokeDynamicBase](../index.md)/[LambdaMethodRefBase](index.md)/[dynamicMethod](dynamic-method.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InvokeDynamicBase](../index.md)/[LambdaMethodRefBase](index.md)/[dynamicMethod](dynamic-method.md)
 
+# dynamicMethod
 
-
-# dynamicMethod  
-[jvm]  
-Content  
-open override val [dynamicMethod](dynamic-method.md): [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md)  
-More info  
-
+[jvm]\
+open override val [dynamicMethod](dynamic-method.md): [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md)
 
 Specification of dynamic method.
-
-  
-
-
-

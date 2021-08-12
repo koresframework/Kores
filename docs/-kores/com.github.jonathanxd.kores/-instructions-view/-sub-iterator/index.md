@@ -1,33 +1,27 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[InstructionsView](../index.md)/[SubIterator](index.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[InstructionsView](../index.md)/[SubIterator](index.md)
 
+# SubIterator
 
+[jvm]\
+inner class [SubIterator](index.md)(**index**: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)) : [MutableListIterator](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/index.html)<[Instruction](../../-instruction/index.md)>
 
-# SubIterator  
- [jvm] inner class [SubIterator](index.md)(**index**: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)) : [MutableListIterator](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/index.html)<[Instruction](../../-instruction/index.md)>    
+## Functions
 
-
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/add/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[add](add.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/add/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [add](add.md)(element: [Instruction](../../-instruction/index.md))  <br><br><br>
-| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="kotlin.collections/Iterator/forEachRemaining/#java.util.function.Consumer[com.github.jonathanxd.kores.Instruction]/PointingToDeclaration/"></a>[forEachRemaining](index.md#%5Bkotlin.collections%2FIterator%2FforEachRemaining%2F%23java.util.function.Consumer%5Bcom.github.jonathanxd.kores.Instruction%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin.collections/Iterator/forEachRemaining/#java.util.function.Consumer[com.github.jonathanxd.kores.Instruction]/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [forEachRemaining](index.md#%5Bkotlin.collections%2FIterator%2FforEachRemaining%2F%23java.util.function.Consumer%5Bcom.github.jonathanxd.kores.Instruction%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(p0: [Consumer](https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html)<in [Instruction](../../-instruction/index.md)>)  <br><br><br>
-| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/hasNext/#/PointingToDeclaration/"></a>[hasNext](has-next.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/hasNext/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator override fun [hasNext](has-next.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/hasPrevious/#/PointingToDeclaration/"></a>[hasPrevious](has-previous.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/hasPrevious/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [hasPrevious](has-previous.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/next/#/PointingToDeclaration/"></a>[next](next.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/next/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator override fun [next](next.md)(): [Instruction](../../-instruction/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/nextIndex/#/PointingToDeclaration/"></a>[nextIndex](next-index.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/nextIndex/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [nextIndex](next-index.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/previous/#/PointingToDeclaration/"></a>[previous](previous.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/previous/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [previous](previous.md)(): [Instruction](../../-instruction/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/previousIndex/#/PointingToDeclaration/"></a>[previousIndex](previous-index.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/previousIndex/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [previousIndex](previous-index.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/remove/#/PointingToDeclaration/"></a>[remove](remove.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/remove/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [remove](remove.md)()  <br><br><br>
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/set/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[set](set.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/set/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [set](set.md)(element: [Instruction](../../-instruction/index.md))  <br><br><br>
-| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
+| [add](add.md) | [jvm]<br>open override fun [add](add.md)(element: [Instruction](../../-instruction/index.md)) |
+| [forEachRemaining](index.md#-1261245060%2FFunctions%2F-1216412040) | [jvm]<br>open fun [forEachRemaining](index.md#-1261245060%2FFunctions%2F-1216412040)(p0: [Consumer](https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html)<in [Instruction](../../-instruction/index.md)>) |
+| [hasNext](has-next.md) | [jvm]<br>open operator override fun [hasNext](has-next.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [hasPrevious](has-previous.md) | [jvm]<br>open override fun [hasPrevious](has-previous.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [next](next.md) | [jvm]<br>open operator override fun [next](next.md)(): [Instruction](../../-instruction/index.md) |
+| [nextIndex](next-index.md) | [jvm]<br>open override fun [nextIndex](next-index.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
+| [previous](previous.md) | [jvm]<br>open override fun [previous](previous.md)(): [Instruction](../../-instruction/index.md) |
+| [previousIndex](previous-index.md) | [jvm]<br>open override fun [previousIndex](previous-index.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
+| [remove](remove.md) | [jvm]<br>open override fun [remove](remove.md)() |
+| [set](set.md) | [jvm]<br>open override fun [set](set.md)(element: [Instruction](../../-instruction/index.md)) |
 
+## Properties
 
-## Properties  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/index/#/PointingToDeclaration/"></a>[index](--index--.md)| <a name="com.github.jonathanxd.kores/InstructionsView.SubIterator/index/#/PointingToDeclaration/"></a> [jvm] var [index](--index--.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = 0   <br>
-
+| [index](--index--.md) | [jvm]<br>var [index](--index--.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = 0 |

@@ -1,21 +1,10 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericTypeBuilder](index.md)/[addExtendsBound](add-extends-bound.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[GenericTypeBuilder](index.md)/[addExtendsBound](add-extends-bound.md)
 
+# addExtendsBound
 
-
-# addExtendsBound  
-[jvm]  
-Content  
-open override fun [addExtendsBound](add-extends-bound.md)(value: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [GenericType.Builder](../-generic-type/-builder/index.md)<[GenericType](../-generic-type/index.md), [GenericTypeBuilder](index.md)>  
-More info  
-
+[jvm]\
+open override fun [addExtendsBound](add-extends-bound.md)(value: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [GenericType.Builder](../-generic-type/-builder/index.md)<[GenericType](../-generic-type/index.md), [GenericTypeBuilder](index.md)>
 
 Adds a extends bound.
 
-
-
 **Note: This method is used to denote the bound of a generic type.**
-
-  
-
-
-

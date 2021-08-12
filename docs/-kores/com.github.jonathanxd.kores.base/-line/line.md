@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Line](index.md)/[line](line.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Line](index.md)/[line](line.md)
 
+# line
 
-
-# line  
-[jvm]  
-Content  
-abstract val [line](line.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-More info  
-
+[jvm]\
+abstract val [line](line.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Line index
-
-  
-
-
-

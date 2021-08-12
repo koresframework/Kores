@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodInvokeSpec](index.md)/[toInvocationString](to-invocation-string.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodInvokeSpec](index.md)/[toInvocationString](to-invocation-string.md)
 
+# toInvocationString
 
-
-# toInvocationString  
-[jvm]  
-Content  
-fun [toInvocationString](to-invocation-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+fun [toInvocationString](to-invocation-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Human readable method invocation string.
-
-  
-
-
-

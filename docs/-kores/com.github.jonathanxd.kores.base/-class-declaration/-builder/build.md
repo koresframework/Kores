@@ -1,24 +1,12 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ClassDeclaration](../index.md)/[Builder](index.md)/[build](build.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ClassDeclaration](../index.md)/[Builder](index.md)/[build](build.md)
 
+# build
 
-
-# build  
-[jvm]  
-Content  
-open override fun [build](build.md)(): [ClassDeclaration](../index.md)  
-More info  
-
+[jvm]\
+open override fun [build](build.md)(): [ClassDeclaration](../index.md)
 
 Build the object of type T.
 
-
-
-#### Return  
-
+#### Return
 
 Instance of object of type T.
-
-  
-
-
-

@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[PlainKoresType](index.md)/[superinterfaces](superinterfaces.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[PlainKoresType](index.md)/[superinterfaces](superinterfaces.md)
 
+# superinterfaces
 
-
-# superinterfaces  
-[jvm]  
-Content  
-open override val [superinterfaces](superinterfaces.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)>  
-More info  
-
+[jvm]\
+open override val [superinterfaces](superinterfaces.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)>
 
 Super interfaces
-
-  
-
-
-

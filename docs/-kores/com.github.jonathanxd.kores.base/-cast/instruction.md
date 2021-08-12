@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Cast](index.md)/[instruction](instruction.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Cast](index.md)/[instruction](instruction.md)
 
+# instruction
 
-
-# instruction  
-[jvm]  
-Content  
-val [instruction](instruction.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)  
-
-
-
+[jvm]\
+val [instruction](instruction.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)

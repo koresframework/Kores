@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Case](index.md)/[isDefault](is-default.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Case](index.md)/[isDefault](is-default.md)
 
+# isDefault
 
-
-# isDefault  
-[jvm]  
-Content  
-val [isDefault](is-default.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
-
+[jvm]\
+val [isDefault](is-default.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 Is case default
-
-  
-
-
-

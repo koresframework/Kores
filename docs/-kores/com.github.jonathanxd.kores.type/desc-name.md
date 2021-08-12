@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.type](index.md)/[descName](desc-name.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](index.md)/[descName](desc-name.md)
 
+# descName
 
-
-# descName  
-[jvm]  
-Content  
-val [KoresType](-kores-type/index.md).[descName](desc-name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-
-
-
+[jvm]\
+val [KoresType](-kores-type/index.md).[descName](desc-name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

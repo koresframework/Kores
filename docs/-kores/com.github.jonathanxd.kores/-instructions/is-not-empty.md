@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[isNotEmpty](is-not-empty.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[isNotEmpty](is-not-empty.md)
 
+# isNotEmpty
 
-
-# isNotEmpty  
-[jvm]  
-Content  
-val [isNotEmpty](is-not-empty.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
-
+[jvm]\
+val [isNotEmpty](is-not-empty.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if is not empty, false otherwise.
-
-  
-
-
-

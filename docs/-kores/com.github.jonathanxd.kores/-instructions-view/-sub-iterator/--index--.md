@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[InstructionsView](../index.md)/[SubIterator](index.md)/[index](--index--.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[InstructionsView](../index.md)/[SubIterator](index.md)/[index](--index--.md)
 
+# index
 
-
-# index  
-[jvm]  
-Content  
-var [index](--index--.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = 0  
-
-
-
+[jvm]\
+var [index](--index--.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = 0

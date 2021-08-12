@@ -1,11 +1,6 @@
-//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base.comment](../../../index.md)/[Comments](../../index.md)/[Type](../index.md)/[DOCUMENTATION](index.md)/[ordinal](ordinal.md)
+//[Kores](../../../../../index.md)/[com.github.jonathanxd.kores.base.comment](../../../index.md)/[Comments](../../index.md)/[Type](../index.md)/[DOCUMENTATION](index.md)/[ordinal](ordinal.md)
 
+# ordinal
 
-
-# ordinal  
-[jvm]  
-Content  
-val [ordinal](ordinal.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-
-
-
+[jvm]\
+val [ordinal](ordinal.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

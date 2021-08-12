@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[TypeDeclaration](index.md)/[canonicalName](canonical-name.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[TypeDeclaration](index.md)/[canonicalName](canonical-name.md)
 
+# canonicalName
 
-
-# canonicalName  
-[jvm]  
-Content  
-open override val [canonicalName](canonical-name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+open override val [canonicalName](canonical-name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Same as [qualifiedName](qualified-name.md).
-
-  
-
-
-

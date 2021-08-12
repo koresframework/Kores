@@ -1,34 +1,20 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[leftShift](left-shift.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[leftShift](left-shift.md)
 
+# leftShift
 
-
-# leftShift  
-[jvm]  
-Content  
-fun [leftShift](left-shift.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  
-More info  
-
+[jvm]\
+fun [leftShift](left-shift.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)
 
 Bitwise left shift (<<).
 
-
-
-#### Return  
-
+#### Return
 
 This.
 
+## Parameters
 
+jvm
 
-## Parameters  
-  
-jvm  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/leftShift/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>value| <a name="com.github.jonathanxd.kores.helper/OperateHelper/leftShift/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a><br><br>2nd value to operate.<br><br>
-  
-  
-
-
-
+| value | 2nd value to operate. |

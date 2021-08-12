@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.util](index.md)/[isNonReifiedType](is-non-reified-type.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](index.md)/[isNonReifiedType](is-non-reified-type.md)
 
+# isNonReifiedType
 
-
-# isNonReifiedType  
-[jvm]  
-Content  
-fun [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[isNonReifiedType](is-non-reified-type.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-
-
-
+[jvm]\
+fun [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[isNonReifiedType](is-non-reified-type.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

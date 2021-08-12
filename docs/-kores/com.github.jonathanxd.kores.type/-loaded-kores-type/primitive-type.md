@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[LoadedKoresType](index.md)/[primitiveType](primitive-type.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[LoadedKoresType](index.md)/[primitiveType](primitive-type.md)
 
+# primitiveType
 
-
-# primitiveType  
-[jvm]  
-Content  
-open override val [primitiveType](primitive-type.md): [KoresType](../-kores-type/index.md)?  
-More info  
-
+[jvm]\
+open override val [primitiveType](primitive-type.md): [KoresType](../-kores-type/index.md)?
 
 Primitive type.
-
-  
-
-
-

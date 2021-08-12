@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[MethodInvocation](index.md)/[spec](spec.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[MethodInvocation](index.md)/[spec](spec.md)
 
+# spec
 
-
-# spec  
-[jvm]  
-Content  
-val [spec](spec.md): [MethodTypeSpec](../../com.github.jonathanxd.kores.common/-method-type-spec/index.md)  
-
-
-
+[jvm]\
+val [spec](spec.md): [MethodTypeSpec](../../com.github.jonathanxd.kores.common/-method-type-spec/index.md)

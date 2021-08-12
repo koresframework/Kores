@@ -1,32 +1,21 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[KoresModifier](../index.md)/[VOLATILE](index.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[KoresModifier](../index.md)/[VOLATILE](index.md)
 
+# VOLATILE
 
+[jvm]\
+[VOLATILE](index.md)(CONCURRENCY)
 
-# VOLATILE  
- [jvm] [VOLATILE](index.md)(CONCURRENCY)  
-   
+## Functions
 
-
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[builder](../../../com.github.jonathanxd.kores/-kores-part/builder.md)| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [builder](../../../com.github.jonathanxd.kores/-kores-part/builder.md)(): [Builder](../../../com.github.jonathanxd.kores.builder/-builder/index.md)<[KoresPart](../../../com.github.jonathanxd.kores/-kores-part/index.md), *>  <br>More info  <br>This builder may or may not accept null values, it depends on implementation.  <br><br><br>
-| <a name="kotlin/Enum/clone/#/PointingToDeclaration/"></a>[clone](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fclone%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/clone/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>protected fun [clone](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fclone%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)  <br><br><br>
-| <a name="kotlin/Enum/compareTo/#com.github.jonathanxd.kores.base.KoresModifier/PointingToDeclaration/"></a>[compareTo](../-s-t-a-t-i-c_-p-h-a-s-e/index.md#%5Bkotlin%2FEnum%2FcompareTo%2F%23com.github.jonathanxd.kores.base.KoresModifier%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/compareTo/#com.github.jonathanxd.kores.base.KoresModifier/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator override fun [compareTo](../-s-t-a-t-i-c_-p-h-a-s-e/index.md#%5Bkotlin%2FEnum%2FcompareTo%2F%23com.github.jonathanxd.kores.base.KoresModifier%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [KoresModifier](../index.md)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Enum/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator override fun [equals](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="kotlin/Enum/finalize/#/PointingToDeclaration/"></a>[finalize](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Ffinalize%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/finalize/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [finalize](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Ffinalize%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)()  <br><br><br>
-| <a name="kotlin/Enum/getDeclaringClass/#/PointingToDeclaration/"></a>[getDeclaringClass](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FgetDeclaringClass%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/getDeclaringClass/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [getDeclaringClass](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FgetDeclaringClass%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<[KoresModifier](../index.md)>  <br><br><br>
-| <a name="kotlin/Enum/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>override fun [hashCode](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Enum/toString/#/PointingToDeclaration/"></a>[toString](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [toString](../../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
+| [builder](../../../com.github.jonathanxd.kores/-kores-part/builder.md) | [jvm]<br>open fun [builder](../../../com.github.jonathanxd.kores/-kores-part/builder.md)(): [Builder](../../../com.github.jonathanxd.kores.builder/-builder/index.md)<[KoresPart](../../../com.github.jonathanxd.kores/-kores-part/index.md), *><br>This builder may or may not accept null values, it depends on implementation. |
 
+## Properties
 
-## Properties  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/expr/#/PointingToDeclaration/"></a>[expr](expr.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/expr/#/PointingToDeclaration/"></a> [jvm] val [expr](expr.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)Modifier name.   <br>
-| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/modifierType/#/PointingToDeclaration/"></a>[modifierType](modifier-type.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/modifierType/#/PointingToDeclaration/"></a> [jvm] val [modifierType](modifier-type.md): [ModifierType](../../-modifier-type/index.md)Type of modifier.   <br>
-| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/name/#/PointingToDeclaration/"></a>[name](name.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/name/#/PointingToDeclaration/"></a> [jvm] val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)   <br>
-| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/ordinal/#/PointingToDeclaration/"></a>[ordinal](ordinal.md)| <a name="com.github.jonathanxd.kores.base/KoresModifier.VOLATILE/ordinal/#/PointingToDeclaration/"></a> [jvm] val [ordinal](ordinal.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)   <br>
-
+| [expr](expr.md) | [jvm]<br>val [expr](expr.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Modifier name. |
+| [modifierType](modifier-type.md) | [jvm]<br>val [modifierType](modifier-type.md): [ModifierType](../../-modifier-type/index.md)<br>Type of modifier. |
+| [name](name.md) | [jvm]<br>val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [ordinal](ordinal.md) | [jvm]<br>val [ordinal](ordinal.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |

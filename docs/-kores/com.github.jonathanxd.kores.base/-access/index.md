@@ -1,42 +1,30 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Access](index.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Access](index.md)
 
+# Access
 
-
-# Access  
- [jvm] enum [Access](index.md) : [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)<[Access](index.md)> , [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)
+[jvm]\
+enum [Access](index.md) : [Enum](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html)<[Access](index.md)> , [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)
 
 Access to a scope. Example, access to static scope of [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html).
 
-   
+## Entries
 
-
-## Entries  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/Access.LOCAL///PointingToDeclaration/"></a>[LOCAL](-l-o-c-a-l/index.md)| <a name="com.github.jonathanxd.kores.base/Access.LOCAL///PointingToDeclaration/"></a> [jvm] [LOCAL](-l-o-c-a-l/index.md)()  <br>Access to local scope.   <br>
-| <a name="com.github.jonathanxd.kores.base/Access.STATIC///PointingToDeclaration/"></a>[STATIC](-s-t-a-t-i-c/index.md)| <a name="com.github.jonathanxd.kores.base/Access.STATIC///PointingToDeclaration/"></a> [jvm] [STATIC](-s-t-a-t-i-c/index.md)()  <br>Access to static scope.   <br>
-| <a name="com.github.jonathanxd.kores.base/Access.THIS///PointingToDeclaration/"></a>[THIS](-t-h-i-s/index.md)| <a name="com.github.jonathanxd.kores.base/Access.THIS///PointingToDeclaration/"></a> [jvm] [THIS](-t-h-i-s/index.md)()  <br>Access to this scope.   <br>
-| <a name="com.github.jonathanxd.kores.base/Access.SUPER///PointingToDeclaration/"></a>[SUPER](-s-u-p-e-r/index.md)| <a name="com.github.jonathanxd.kores.base/Access.SUPER///PointingToDeclaration/"></a> [jvm] [SUPER](-s-u-p-e-r/index.md)()  <br>Access to super class scope.   <br>
+| [SUPER](-s-u-p-e-r/index.md) | [jvm]<br>[SUPER](-s-u-p-e-r/index.md)()<br>Access to super class scope. |
+| [THIS](-t-h-i-s/index.md) | [jvm]<br>[THIS](-t-h-i-s/index.md)()<br>Access to this scope. |
+| [STATIC](-s-t-a-t-i-c/index.md) | [jvm]<br>[STATIC](-s-t-a-t-i-c/index.md)()<br>Access to static scope. |
+| [LOCAL](-l-o-c-a-l/index.md) | [jvm]<br>[LOCAL](-l-o-c-a-l/index.md)()<br>Access to local scope. |
 
+## Functions
 
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[builder](../../com.github.jonathanxd.kores/-kores-part/builder.md)| <a name="com.github.jonathanxd.kores/KoresPart/builder/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [builder](../../com.github.jonathanxd.kores/-kores-part/builder.md)(): [Builder](../../com.github.jonathanxd.kores.builder/-builder/index.md)<[KoresPart](../../com.github.jonathanxd.kores/-kores-part/index.md), *>  <br>More info  <br>This builder may or may not accept null values, it depends on implementation.  <br><br><br>
-| <a name="kotlin/Enum/compareTo/#com.github.jonathanxd.kores.base.Access/PointingToDeclaration/"></a>[compareTo](-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FcompareTo%2F%23com.github.jonathanxd.kores.base.Access%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/compareTo/#com.github.jonathanxd.kores.base.Access/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator override fun [compareTo](-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FcompareTo%2F%23com.github.jonathanxd.kores.base.Access%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Access](index.md)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Enum/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator override fun [equals](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="kotlin/Enum/finalize/#/PointingToDeclaration/"></a>[finalize](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Ffinalize%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/finalize/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [finalize](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2Ffinalize%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)()  <br><br><br>
-| <a name="kotlin/Enum/getDeclaringClass/#/PointingToDeclaration/"></a>[getDeclaringClass](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FgetDeclaringClass%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/getDeclaringClass/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [getDeclaringClass](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FgetDeclaringClass%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<[Access](index.md)>  <br><br><br>
-| <a name="kotlin/Enum/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>override fun [hashCode](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Enum/toString/#/PointingToDeclaration/"></a>[toString](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Enum/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [toString](../../com.github.jonathanxd.kores.util/-state/-r-e-q-u-i-r-e_-s-u-p-e-r/index.md#%5Bkotlin%2FEnum%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
+| [builder](../../com.github.jonathanxd.kores/-kores-part/builder.md) | [jvm]<br>open fun [builder](../../com.github.jonathanxd.kores/-kores-part/builder.md)(): [Builder](../../com.github.jonathanxd.kores.builder/-builder/index.md)<[KoresPart](../../com.github.jonathanxd.kores/-kores-part/index.md), *><br>This builder may or may not accept null values, it depends on implementation. |
 
+## Properties
 
-## Properties  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/Access/name/#/PointingToDeclaration/"></a>[name](index.md#%5Bcom.github.jonathanxd.kores.base%2FAccess%2Fname%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-1211764316)| <a name="com.github.jonathanxd.kores.base/Access/name/#/PointingToDeclaration/"></a> [jvm] val [name](index.md#%5Bcom.github.jonathanxd.kores.base%2FAccess%2Fname%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-1211764316): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)   <br>
-| <a name="com.github.jonathanxd.kores.base/Access/ordinal/#/PointingToDeclaration/"></a>[ordinal](index.md#%5Bcom.github.jonathanxd.kores.base%2FAccess%2Fordinal%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-1211764316)| <a name="com.github.jonathanxd.kores.base/Access/ordinal/#/PointingToDeclaration/"></a> [jvm] val [ordinal](index.md#%5Bcom.github.jonathanxd.kores.base%2FAccess%2Fordinal%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F-1211764316): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)   <br>
-
+| [name](index.md#1953233384%2FProperties%2F-1216412040) | [jvm]<br>val [name](index.md#1953233384%2FProperties%2F-1216412040): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [ordinal](index.md#33145942%2FProperties%2F-1216412040) | [jvm]<br>val [ordinal](index.md#33145942%2FProperties%2F-1216412040): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |

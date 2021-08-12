@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[GenericType](../index.md)/[GenericBound](index.md)/[GenericBound](-generic-bound.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[GenericType](../index.md)/[GenericBound](index.md)/[GenericBound](-generic-bound.md)
 
+# GenericBound
 
-
-# GenericBound  
-[jvm]  
-Content  
-fun [GenericBound](-generic-bound.md)(type: [KoresType](../../-kores-type/index.md))  
-
-
-
+[jvm]\
+fun [GenericBound](-generic-bound.md)(type: [KoresType](../../-kores-type/index.md))

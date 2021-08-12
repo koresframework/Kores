@@ -1,19 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[IterationType](../index.md)/[Companion](index.md)/[ARRAY](-a-r-r-a-y.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[IterationType](../index.md)/[Companion](index.md)/[ARRAY](-a-r-r-a-y.md)
 
+# ARRAY
 
+[jvm]\
 
-# ARRAY  
-[jvm]  
-Content  
-@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  
-  
-val [ARRAY](-a-r-r-a-y.md): [IterationType](../index.md)  
-More info  
+@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()
 
+val [ARRAY](-a-r-r-a-y.md): [IterationType](../index.md)
 
 Foreach on array. Requires special handling.
-
-  
-
-
-

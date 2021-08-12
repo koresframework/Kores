@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[InvokeDynamic](index.md)/[bootstrap](bootstrap.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[InvokeDynamic](index.md)/[bootstrap](bootstrap.md)
 
+# bootstrap
 
-
-# bootstrap  
-[jvm]  
-Content  
-open override val [bootstrap](bootstrap.md): [MethodInvokeSpec](../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)  
-More info  
-
+[jvm]\
+open override val [bootstrap](bootstrap.md): [MethodInvokeSpec](../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)
 
 Bootstrap method invocation specification.
-
-  
-
-
-

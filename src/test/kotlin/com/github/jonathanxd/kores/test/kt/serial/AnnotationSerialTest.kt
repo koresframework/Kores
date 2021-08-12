@@ -55,6 +55,7 @@ class AnnotationSerialTest {
             retention = Retention.RUNTIME
         )
         val format = Json {
+            classDiscriminator = "_type"
             serializersModule = koresSerializerModule
             prettyPrint = false
         }

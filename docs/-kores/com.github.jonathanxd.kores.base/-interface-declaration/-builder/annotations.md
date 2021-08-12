@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InterfaceDeclaration](../index.md)/[Builder](index.md)/[annotations](annotations.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InterfaceDeclaration](../index.md)/[Builder](index.md)/[annotations](annotations.md)
 
+# annotations
 
-
-# annotations  
-[jvm]  
-Content  
-open override fun [annotations](annotations.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Annotation](../../-annotation/index.md)>): [InterfaceDeclaration.Builder](index.md)  
-More info  
-
+[jvm]\
+open override fun [annotations](annotations.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Annotation](../../-annotation/index.md)>): [InterfaceDeclaration.Builder](index.md)
 
 See T.annotations
 
-  
-
-
-[jvm]  
-Content  
-var [annotations](annotations.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Annotation](../../-annotation/index.md)>  
-
-
-
+[jvm]\
+var [annotations](annotations.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Annotation](../../-annotation/index.md)>

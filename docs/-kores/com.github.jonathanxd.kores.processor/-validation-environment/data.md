@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidationEnvironment](index.md)/[data](data.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidationEnvironment](index.md)/[data](data.md)
 
+# data
 
-
-# data  
-[jvm]  
-Content  
-abstract val [data](data.md): TypedData  
-More info  
-
+[jvm]\
+abstract val [data](data.md): TypedData
 
 Data
-
-  
-
-
-

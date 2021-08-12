@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[fieldAccess](field-access.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[fieldAccess](field-access.md)
 
+# fieldAccess
 
-
-# fieldAccess  
-[jvm]  
-Content  
-fun [fieldAccess](field-access.md)(): [FieldAccess.Builder](../com.github.jonathanxd.kores.base/-field-access/-builder/index.md)  
-
-
-
+[jvm]\
+fun [fieldAccess](field-access.md)(): [FieldAccess.Builder](../com.github.jonathanxd.kores.base/-field-access/-builder/index.md)

@@ -1,12 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodTypeSpec](index.md)/[MethodTypeSpec](-method-type-spec.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodTypeSpec](index.md)/[MethodTypeSpec](-method-type-spec.md)
 
+# MethodTypeSpec
 
+[jvm]\
+fun [MethodTypeSpec](-method-type-spec.md)(localization: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), methodName: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), typeSpec: [TypeSpec](../../com.github.jonathanxd.kores.base/-type-spec/index.md))
 
-# MethodTypeSpec  
-[jvm]  
-Content  
-fun [MethodTypeSpec](-method-type-spec.md)(localization: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), methodName: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), typeSpec: [TypeSpec](../../com.github.jonathanxd.kores.base/-type-spec/index.md))  
-fun [MethodTypeSpec](-method-type-spec.md)(localization: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), methodSpec: [MethodSpec](../-method-spec/index.md))  
-
-
-
+fun [MethodTypeSpec](-method-type-spec.md)(localization: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), methodSpec: [MethodSpec](../-method-spec/index.md))

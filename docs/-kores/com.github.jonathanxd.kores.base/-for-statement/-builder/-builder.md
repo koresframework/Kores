@@ -1,12 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ForStatement](../index.md)/[Builder](index.md)/[Builder](-builder.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ForStatement](../index.md)/[Builder](index.md)/[Builder](-builder.md)
 
+# Builder
 
+[jvm]\
+fun [Builder](-builder.md)(defaults: [ForStatement](../index.md))
 
-# Builder  
-[jvm]  
-Content  
-fun [Builder](-builder.md)(defaults: [ForStatement](../index.md))  
-fun [Builder](-builder.md)()  
-
-
-
+fun [Builder](-builder.md)()

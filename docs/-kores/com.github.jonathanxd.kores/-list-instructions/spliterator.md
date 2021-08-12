@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ListInstructions](index.md)/[spliterator](spliterator.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ListInstructions](index.md)/[spliterator](spliterator.md)
 
+# spliterator
 
-
-# spliterator  
-[jvm]  
-Content  
-open override fun [spliterator](spliterator.md)(): [Spliterator](https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html)<[Instruction](../-instruction/index.md)>  
-More info  
-
+[jvm]\
+open override fun [spliterator](spliterator.md)(): [Spliterator](https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html)<[Instruction](../-instruction/index.md)>
 
 Creates a [Spliterator](https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html) from elements of this [Instructions](../-instructions/index.md).
-
-  
-
-
-

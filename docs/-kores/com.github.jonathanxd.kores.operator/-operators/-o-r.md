@@ -1,13 +1,9 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.operator](../index.md)/[Operators](index.md)/[OR](-o-r.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.operator](../index.md)/[Operators](index.md)/[OR](-o-r.md)
 
+# OR
 
+[jvm]\
 
-# OR  
-[jvm]  
-Content  
-@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  
-  
-val [OR](-o-r.md): [Operator.Conditional](../-operator/-conditional/index.md)  
+@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()
 
-
-
+val [OR](-o-r.md): [Operator.Conditional](../-operator/-conditional/index.md)

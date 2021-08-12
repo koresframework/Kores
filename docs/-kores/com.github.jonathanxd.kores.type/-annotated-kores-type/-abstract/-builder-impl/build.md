@@ -1,24 +1,12 @@
-//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../../index.md)/[AnnotatedKoresType](../../index.md)/[Abstract](../index.md)/[BuilderImpl](index.md)/[build](build.md)
+//[Kores](../../../../../index.md)/[com.github.jonathanxd.kores.type](../../../index.md)/[AnnotatedKoresType](../../index.md)/[Abstract](../index.md)/[BuilderImpl](index.md)/[build](build.md)
 
+# build
 
-
-# build  
-[jvm]  
-Content  
-open override fun [build](build.md)(): [T](index.md)  
-More info  
-
+[jvm]\
+open override fun [build](build.md)(): [T](index.md)
 
 Build the object of type [T](index.md).
 
-
-
-#### Return  
-
+#### Return
 
 Instance of object of type [T](index.md).
-
-  
-
-
-

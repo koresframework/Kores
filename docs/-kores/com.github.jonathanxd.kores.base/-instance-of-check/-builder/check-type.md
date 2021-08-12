@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InstanceOfCheck](../index.md)/[Builder](index.md)/[checkType](check-type.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InstanceOfCheck](../index.md)/[Builder](index.md)/[checkType](check-type.md)
 
+# checkType
 
-
-# checkType  
-[jvm]  
-Content  
-fun [checkType](check-type.md)(value: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [InstanceOfCheck.Builder](index.md)  
-More info  
-
+[jvm]\
+fun [checkType](check-type.md)(value: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [InstanceOfCheck.Builder](index.md)
 
 See [InstanceOfCheck.checkType](../check-type.md)
 
-  
-
-
-[jvm]  
-Content  
-lateinit var [checkType](check-type.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)  
-
-
-
+[jvm]\
+lateinit var [checkType](check-type.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)

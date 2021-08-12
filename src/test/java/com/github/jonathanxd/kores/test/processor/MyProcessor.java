@@ -132,7 +132,7 @@ public class MyProcessor implements ProcessorManager<String> {
         }
 
         if (type == Literals.StringLiteral.class) {
-            return ((Literals.StringLiteral) part).getName();
+            return ((Literals.StringLiteral) part).getValue().toString();
         }
 
         throw new IllegalArgumentException("Cannot process type: " + type + " (part: " + part + ", data: " + data + ")");

@@ -1,24 +1,12 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[neg](neg.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[neg](neg.md)
 
+# neg
 
-
-# neg  
-[jvm]  
-Content  
-fun [neg](neg.md)(): [OperateHelper](index.md)  
-More info  
-
+[jvm]\
+fun [neg](neg.md)(): [OperateHelper](index.md)
 
 Negate value.
 
-
-
-#### Return  
-
+#### Return
 
 This.
-
-  
-
-
-

@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base.comment](../index.md)/[Code](index.md)/[Code](-code.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base.comment](../index.md)/[Code](index.md)/[Code](-code.md)
 
+# Code
 
-
-# Code  
-[jvm]  
-Content  
-fun [Code](-code.md)(code: [Code.CodeNode](-code-node/index.md))  
-
-
-
+[jvm]\
+fun [Code](-code.md)(code: [Code.CodeNode](-code-node/index.md))

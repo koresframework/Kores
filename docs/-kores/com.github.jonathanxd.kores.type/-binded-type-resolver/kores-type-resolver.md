@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[BindedTypeResolver](index.md)/[koresTypeResolver](kores-type-resolver.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[BindedTypeResolver](index.md)/[koresTypeResolver](kores-type-resolver.md)
 
+# koresTypeResolver
 
-
-# koresTypeResolver  
-[jvm]  
-Content  
-val [koresTypeResolver](kores-type-resolver.md): [KoresTypeResolver](../-kores-type-resolver/index.md)<[T](index.md)>  
-
-
-
+[jvm]\
+val [koresTypeResolver](kores-type-resolver.md): [KoresTypeResolver](../-kores-type-resolver/index.md)<[T](index.md)>

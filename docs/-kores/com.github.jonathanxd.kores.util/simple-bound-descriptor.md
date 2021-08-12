@@ -1,25 +1,14 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.util](index.md)/[simpleBoundDescriptor](simple-bound-descriptor.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](index.md)/[simpleBoundDescriptor](simple-bound-descriptor.md)
 
+# simpleBoundDescriptor
 
-
-# simpleBoundDescriptor  
-[jvm]  
-Content  
-val [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[simpleBoundDescriptor](simple-bound-descriptor.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+val [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html).[simpleBoundDescriptor](simple-bound-descriptor.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Converts this type to simple type descriptor, which does not include extended version of bounds in their description, used for signature of implementations and super class in type declarations.
-
-
 
 A type descriptor is formatted as:
 
 <ul><li>TYPE_JAVA_SPEC (specified by [KoresType.javaSpecName](../com.github.jonathanxd.kores.type/-kores-type/java-spec-name.md)) when receiver [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html) is not a [GenericType](../com.github.jonathanxd.kores.type/-generic-type/index.md)</li><li>TYPE_NAME when receiver is a [GenericType](../com.github.jonathanxd.kores.type/-generic-type/index.md), does not have bounds and is a wildcard (and not a type).</li><li>(T)(TYPE_NAME); when receiver is a [GenericType](../com.github.jonathanxd.kores.type/-generic-type/index.md), does not have bounds and is neither a wildcard nor a type.</li><li>TYPE_NAME; when receiver is a [GenericType](../com.github.jonathanxd.kores.type/-generic-type/index.md), and is a type.</li><li>TYPE_NAME<BOUNDS>; when receiver is a [GenericType](../com.github.jonathanxd.kores.type/-generic-type/index.md), have bounds and the receiver is not a wildcard.</li></ul>
 
 Note: () is only used to make the format more readable and will not be generated in descriptors.
-
-  
-
-
-

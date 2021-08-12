@@ -1,40 +1,32 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)
 
+# OperateHelper
 
-
-# OperateHelper  
- [jvm] class [OperateHelper](index.md)
+[jvm]\
+class [OperateHelper](index.md)
 
 Operator helper.
 
-   
+## Types
 
-
-## Types  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper.Companion///PointingToDeclaration/"></a>[Companion](-companion/index.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper.Companion///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object [Companion](-companion/index.md)  <br><br><br>
+| [Companion](-companion/index.md) | [jvm]<br>object [Companion](-companion/index.md) |
 
+## Functions
 
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/build/#/PointingToDeclaration/"></a>[build](build.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/build/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [build](build.md)(): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/divide/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[divide](divide.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/divide/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [divide](divide.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Multiply (/)  <br><br><br>
-| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/leftShift/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[leftShift](left-shift.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/leftShift/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [leftShift](left-shift.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Bitwise left shift (<<).  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/logicalShiftRight/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[logicalShiftRight](logical-shift-right.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/logicalShiftRight/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [logicalShiftRight](logical-shift-right.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Bitwise logical shift right (>>>).  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/multiply/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[multiply](multiply.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/multiply/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [multiply](multiply.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Multiply (*)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/neg/#/PointingToDeclaration/"></a>[neg](neg.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/neg/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [neg](neg.md)(): [OperateHelper](index.md)  <br>More info  <br>Negate value.  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/not/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[not](not.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/not/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [not](not.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Bitwise not (~).  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/or/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[or](or.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/or/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [or](or.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Inclusive or (&amp;).  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/plus/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[plus](plus.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/plus/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>operator fun [plus](plus.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Plus (+).  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/remainder/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[remainder](remainder.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/remainder/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [remainder](remainder.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Remainder (%)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/shiftRight/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[shiftRight](shift-right.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/shiftRight/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [shiftRight](shift-right.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Bitwise shift right (>>).  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/subtract/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[subtract](subtract.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/subtract/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [subtract](subtract.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Subtract (-).  <br><br><br>
-| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/xor/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[xor](xor.md)| <a name="com.github.jonathanxd.kores.helper/OperateHelper/xor/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [xor](xor.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  <br>More info  <br>Exclusive or (&#94;).  <br><br><br>
-
+| [build](build.md) | [jvm]<br>fun [build](build.md)(): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md) |
+| [divide](divide.md) | [jvm]<br>fun [divide](divide.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Multiply (/) |
+| [leftShift](left-shift.md) | [jvm]<br>fun [leftShift](left-shift.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Bitwise left shift (<<). |
+| [logicalShiftRight](logical-shift-right.md) | [jvm]<br>fun [logicalShiftRight](logical-shift-right.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Bitwise logical shift right (>>>). |
+| [multiply](multiply.md) | [jvm]<br>fun [multiply](multiply.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Multiply (*) |
+| [neg](neg.md) | [jvm]<br>fun [neg](neg.md)(): [OperateHelper](index.md)<br>Negate value. |
+| [not](not.md) | [jvm]<br>fun [not](not.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Bitwise not (~). |
+| [or](or.md) | [jvm]<br>fun [or](or.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Inclusive or (&amp;). |
+| [plus](plus.md) | [jvm]<br>operator fun [plus](plus.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Plus (+). |
+| [remainder](remainder.md) | [jvm]<br>fun [remainder](remainder.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Remainder (%) |
+| [shiftRight](shift-right.md) | [jvm]<br>fun [shiftRight](shift-right.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Bitwise shift right (>>). |
+| [subtract](subtract.md) | [jvm]<br>fun [subtract](subtract.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Subtract (-). |
+| [xor](xor.md) | [jvm]<br>fun [xor](xor.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)<br>Exclusive or (&#94;). |

@@ -1,34 +1,20 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[divide](divide.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[divide](divide.md)
 
+# divide
 
-
-# divide  
-[jvm]  
-Content  
-fun [divide](divide.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  
-More info  
-
+[jvm]\
+fun [divide](divide.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)
 
 Multiply (/)
 
-
-
-#### Return  
-
+#### Return
 
 This.
 
+## Parameters
 
+jvm
 
-## Parameters  
-  
-jvm  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/divide/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>value| <a name="com.github.jonathanxd.kores.helper/OperateHelper/divide/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a><br><br>2nd value to divide.<br><br>
-  
-  
-
-
-
+| value | 2nd value to divide. |

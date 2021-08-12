@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Line](index.md)/[value](value.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Line](index.md)/[value](value.md)
 
+# value
 
-
-# value  
-[jvm]  
-Content  
-abstract override val [value](value.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)  
-More info  
-
+[jvm]\
+abstract override val [value](value.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)
 
 Instruction mapped to line
-
-  
-
-
-

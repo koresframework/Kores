@@ -1,41 +1,33 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ControlFlow](../index.md)/[Builder](index.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ControlFlow](../index.md)/[Builder](index.md)
 
+# Builder
 
+[jvm]\
+class [Builder](index.md) : [Builder](../../../com.github.jonathanxd.kores.builder/-builder/index.md)<[ControlFlow](../index.md), [ControlFlow.Builder](index.md)>
 
-# Builder  
- [jvm] class [Builder](index.md) : [Builder](../../../com.github.jonathanxd.kores.builder/-builder/index.md)<[ControlFlow](../index.md), [ControlFlow.Builder](index.md)>    
+## Constructors
 
-
-## Constructors  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/Builder/#com.github.jonathanxd.kores.base.ControlFlow/PointingToDeclaration/"></a>[Builder](-builder.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/Builder/#com.github.jonathanxd.kores.base.ControlFlow/PointingToDeclaration/"></a> [jvm] fun [Builder](-builder.md)(defaults: [ControlFlow](../index.md))   <br>
+| [Builder](-builder.md) | [jvm]<br>fun [Builder](-builder.md)(defaults: [ControlFlow](../index.md)) |
 
+## Types
 
-## Types  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder.Companion///PointingToDeclaration/"></a>[Companion](-companion/index.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder.Companion///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object [Companion](-companion/index.md)  <br><br><br>
+| [Companion](-companion/index.md) | [jvm]<br>object [Companion](-companion/index.md) |
 
+## Functions
 
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/at/#com.github.jonathanxd.kores.base.Label?/PointingToDeclaration/"></a>[at](at.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/at/#com.github.jonathanxd.kores.base.Label?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [at](at.md)(value: [Label](../../-label/index.md)?): [ControlFlow.Builder](index.md)  <br>More info  <br>See [ControlFlow.at](../at.md)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/build/#/PointingToDeclaration/"></a>[build](build.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/build/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [build](build.md)(): [ControlFlow](../index.md)  <br>More info  <br>Build the object of type T.  <br><br><br>
-| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/type/#com.github.jonathanxd.kores.base.ControlFlow.Type/PointingToDeclaration/"></a>[type](type.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/type/#com.github.jonathanxd.kores.base.ControlFlow.Type/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [type](type.md)(value: [ControlFlow.Type](../-type/index.md)): [ControlFlow.Builder](index.md)  <br>More info  <br>See [ControlFlow.type](../type.md)  <br><br><br>
+| [at](at.md) | [jvm]<br>fun [at](at.md)(value: [Label](../../-label/index.md)?): [ControlFlow.Builder](index.md)<br>See [ControlFlow.at](../at.md) |
+| [build](build.md) | [jvm]<br>open override fun [build](build.md)(): [ControlFlow](../index.md)<br>Build the object of type T. |
+| [type](type.md) | [jvm]<br>fun [type](type.md)(value: [ControlFlow.Type](../-type/index.md)): [ControlFlow.Builder](index.md)<br>See [ControlFlow.type](../type.md) |
 
+## Properties
 
-## Properties  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/at/#/PointingToDeclaration/"></a>[at](at.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/at/#/PointingToDeclaration/"></a> [jvm] var [at](at.md): [Label](../../-label/index.md)? = null   <br>
-| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/type/#/PointingToDeclaration/"></a>[type](type.md)| <a name="com.github.jonathanxd.kores.base/ControlFlow.Builder/type/#/PointingToDeclaration/"></a> [jvm] lateinit var [type](type.md): [ControlFlow.Type](../-type/index.md)   <br>
-
+| [at](at.md) | [jvm]<br>var [at](at.md): [Label](../../-label/index.md)? = null |
+| [type](type.md) | [jvm]<br>lateinit var [type](type.md): [ControlFlow.Type](../-type/index.md) |

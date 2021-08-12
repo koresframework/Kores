@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ModuleDeclaration](index.md)/[name](name.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ModuleDeclaration](index.md)/[name](name.md)
 
+# name
 
-
-# name  
-[jvm]  
-Content  
-open override val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-
-
-
+[jvm]\
+open override val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)

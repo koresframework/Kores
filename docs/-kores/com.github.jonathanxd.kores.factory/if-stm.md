@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[ifStm](if-stm.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[ifStm](if-stm.md)
 
+# ifStm
 
-
-# ifStm  
-[jvm]  
-Content  
-fun [ifStm](if-stm.md)(): [IfStatement.Builder](../com.github.jonathanxd.kores.base/-if-statement/-builder/index.md)  
-
-
-
+[jvm]\
+fun [ifStm](if-stm.md)(): [IfStatement.Builder](../com.github.jonathanxd.kores.base/-if-statement/-builder/index.md)

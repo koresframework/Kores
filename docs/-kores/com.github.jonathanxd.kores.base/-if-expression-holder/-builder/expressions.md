@@ -1,18 +1,10 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[IfExpressionHolder](../index.md)/[Builder](index.md)/[expressions](expressions.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[IfExpressionHolder](../index.md)/[Builder](index.md)/[expressions](expressions.md)
 
+# expressions
 
+[jvm]\
+abstract fun [expressions](expressions.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)>): [S](index.md)
 
-# expressions  
-[jvm]  
-Content  
-abstract fun [expressions](expressions.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)>): [S](index.md)  
-open fun [expressions](expressions.md)(vararg values: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [S](index.md)  
-More info  
-
+open fun [expressions](expressions.md)(vararg values: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [S](index.md)
 
 See T.expressions
-
-  
-
-
-

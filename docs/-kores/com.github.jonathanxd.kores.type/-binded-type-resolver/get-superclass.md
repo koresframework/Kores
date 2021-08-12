@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[BindedTypeResolver](index.md)/[getSuperclass](get-superclass.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[BindedTypeResolver](index.md)/[getSuperclass](get-superclass.md)
 
+# getSuperclass
 
-
-# getSuperclass  
-[jvm]  
-Content  
-fun [getSuperclass](get-superclass.md)(): Either<[Exception](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html), [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)?>  
-More info  
-
+[jvm]\
+fun [getSuperclass](get-superclass.md)(): Either<[Exception](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html), [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)?>
 
 Resolves super class of [bindType](bind-type.md)
-
-  
-
-
-

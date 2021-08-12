@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[EnumDeclaration](index.md)/[comments](comments.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[EnumDeclaration](index.md)/[comments](comments.md)
 
+# comments
 
-
-# comments  
-[jvm]  
-Content  
-open override val [comments](comments.md): [Comments](../../com.github.jonathanxd.kores.base.comment/-comments/index.md)  
-More info  
-
+[jvm]\
+open override val [comments](comments.md): [Comments](../../com.github.jonathanxd.kores.base.comment/-comments/index.md)
 
 All comments of this element.
-
-  
-
-
-

@@ -1,34 +1,20 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[logicalShiftRight](logical-shift-right.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[logicalShiftRight](logical-shift-right.md)
 
+# logicalShiftRight
 
-
-# logicalShiftRight  
-[jvm]  
-Content  
-fun [logicalShiftRight](logical-shift-right.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  
-More info  
-
+[jvm]\
+fun [logicalShiftRight](logical-shift-right.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)
 
 Bitwise logical shift right (>>>).
 
-
-
-#### Return  
-
+#### Return
 
 This.
 
+## Parameters
 
+jvm
 
-## Parameters  
-  
-jvm  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/logicalShiftRight/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>value| <a name="com.github.jonathanxd.kores.helper/OperateHelper/logicalShiftRight/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a><br><br>2nd value to operate.<br><br>
-  
-  
-
-
-
+| value | 2nd value to operate. |

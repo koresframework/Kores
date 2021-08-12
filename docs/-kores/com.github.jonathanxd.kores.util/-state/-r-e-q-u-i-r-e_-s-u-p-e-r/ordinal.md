@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.util](../../index.md)/[State](../index.md)/[REQUIRE_SUPER](index.md)/[ordinal](ordinal.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.util](../../index.md)/[State](../index.md)/[REQUIRE_SUPER](index.md)/[ordinal](ordinal.md)
 
+# ordinal
 
-
-# ordinal  
-[jvm]  
-Content  
-val [ordinal](ordinal.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-
-
-
+[jvm]\
+val [ordinal](ordinal.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)

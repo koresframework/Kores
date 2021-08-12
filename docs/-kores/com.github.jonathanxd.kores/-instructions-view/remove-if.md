@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[InstructionsView](index.md)/[removeIf](remove-if.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[InstructionsView](index.md)/[removeIf](remove-if.md)
 
+# removeIf
 
+[jvm]\
+open override fun [removeIf](remove-if.md)(filter: [Predicate](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html)<in [Instruction](../-instruction/index.md)>): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
-# removeIf  
-[jvm]  
-Content  
-open override fun [removeIf](remove-if.md)(filter: [Predicate](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html)<in [Instruction](../-instruction/index.md)>): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
-
-
-Removes all [Instruction](../-instruction/index.md)s that matches filter.
-
-  
-
-
-
+Removes all [Instruction](../-instruction/index.md)s that matches [filter](remove-if.md).

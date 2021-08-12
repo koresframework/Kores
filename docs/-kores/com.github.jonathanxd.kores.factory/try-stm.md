@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[tryStm](try-stm.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[tryStm](try-stm.md)
 
+# tryStm
 
-
-# tryStm  
-[jvm]  
-Content  
-fun [tryStm](try-stm.md)(): [TryStatement.Builder](../com.github.jonathanxd.kores.base/-try-statement/-builder/index.md)  
-
-
-
+[jvm]\
+fun [tryStm](try-stm.md)(): [TryStatement.Builder](../com.github.jonathanxd.kores.base/-try-statement/-builder/index.md)

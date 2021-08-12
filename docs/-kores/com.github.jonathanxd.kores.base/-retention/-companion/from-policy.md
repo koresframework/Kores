@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[Retention](../index.md)/[Companion](index.md)/[fromPolicy](from-policy.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[Retention](../index.md)/[Companion](index.md)/[fromPolicy](from-policy.md)
 
+# fromPolicy
 
-
-# fromPolicy  
-[jvm]  
-Content  
-fun [fromPolicy](from-policy.md)(retentionPolicy: [RetentionPolicy](https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/RetentionPolicy.html)): [Retention](../index.md)  
-
-
-
+[jvm]\
+fun [fromPolicy](from-policy.md)(retentionPolicy: [RetentionPolicy](https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/RetentionPolicy.html)): [Retention](../index.md)

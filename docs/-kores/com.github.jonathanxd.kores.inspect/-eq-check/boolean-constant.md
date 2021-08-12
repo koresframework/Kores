@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.inspect](../index.md)/[EqCheck](index.md)/[booleanConstant](boolean-constant.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.inspect](../index.md)/[EqCheck](index.md)/[booleanConstant](boolean-constant.md)
 
+# booleanConstant
 
-
-# booleanConstant  
-[jvm]  
-Content  
-val [booleanConstant](boolean-constant.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-
-
-
+[jvm]\
+val [booleanConstant](boolean-constant.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

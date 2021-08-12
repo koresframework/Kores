@@ -1,19 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[Instructions](../index.md)/[Companion](index.md)/[fromVarArgs](from-var-args.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[Instructions](../index.md)/[Companion](index.md)/[fromVarArgs](from-var-args.md)
 
+# fromVarArgs
 
+[jvm]\
 
-# fromVarArgs  
-[jvm]  
-Content  
-@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  
-  
-fun [fromVarArgs](from-var-args.md)(vararg parts: [Instruction](../../-instruction/index.md)): [Instructions](../index.md)  
-More info  
+@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()
 
+fun [fromVarArgs](from-var-args.md)(vararg parts: [Instruction](../../-instruction/index.md)): [Instructions](../index.md)
 
-Creates a immutable [Instructions](../index.md) with all elements of vararg parts.
-
-  
-
-
-
+Creates a immutable [Instructions](../index.md) with all elements of vararg [parts](from-var-args.md).

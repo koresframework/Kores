@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.sugar](../index.md)/[SugarSyntaxProcessor](index.md)/[SugarSyntaxProcessor](-sugar-syntax-processor.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.sugar](../index.md)/[SugarSyntaxProcessor](index.md)/[SugarSyntaxProcessor](-sugar-syntax-processor.md)
 
+# SugarSyntaxProcessor
 
-
-# SugarSyntaxProcessor  
-[jvm]  
-Content  
-fun [SugarSyntaxProcessor](-sugar-syntax-processor.md)()  
-
-
-
+[jvm]\
+fun [SugarSyntaxProcessor](-sugar-syntax-processor.md)()

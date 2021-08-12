@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[KoresModifier](../index.md)/[ABSTRACT](index.md)/[modifierType](modifier-type.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[KoresModifier](../index.md)/[ABSTRACT](index.md)/[modifierType](modifier-type.md)
 
+# modifierType
 
-
-# modifierType  
-[jvm]  
-Content  
-val [modifierType](modifier-type.md): [ModifierType](../../-modifier-type/index.md)  
-
-
-
+[jvm]\
+val [modifierType](modifier-type.md): [ModifierType](../../-modifier-type/index.md)

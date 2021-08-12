@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[enumDec](enum-dec.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[enumDec](enum-dec.md)
 
+# enumDec
 
-
-# enumDec  
-[jvm]  
-Content  
-fun [enumDec](enum-dec.md)(): [EnumDeclaration.Builder](../com.github.jonathanxd.kores.base/-enum-declaration/-builder/index.md)  
-
-
-
+[jvm]\
+fun [enumDec](enum-dec.md)(): [EnumDeclaration.Builder](../com.github.jonathanxd.kores.base/-enum-declaration/-builder/index.md)

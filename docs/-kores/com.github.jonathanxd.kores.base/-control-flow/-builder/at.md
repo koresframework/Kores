@@ -1,22 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ControlFlow](../index.md)/[Builder](index.md)/[at](at.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[ControlFlow](../index.md)/[Builder](index.md)/[at](at.md)
 
+# at
 
-
-# at  
-[jvm]  
-Content  
-fun [at](at.md)(value: [Label](../../-label/index.md)?): [ControlFlow.Builder](index.md)  
-More info  
-
+[jvm]\
+fun [at](at.md)(value: [Label](../../-label/index.md)?): [ControlFlow.Builder](index.md)
 
 See [ControlFlow.at](../at.md)
 
-  
-
-
-[jvm]  
-Content  
-var [at](at.md): [Label](../../-label/index.md)? = null  
-
-
-
+[jvm]\
+var [at](at.md): [Label](../../-label/index.md)? = null

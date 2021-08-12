@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ArrayConstructor](index.md)/[ArrayConstructor](-array-constructor.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ArrayConstructor](index.md)/[ArrayConstructor](-array-constructor.md)
 
+# ArrayConstructor
 
-
-# ArrayConstructor  
-[jvm]  
-Content  
-fun [ArrayConstructor](-array-constructor.md)(arrayType: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), dimensions: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)>, arguments: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)>)  
-
-
-
+[jvm]\
+fun [ArrayConstructor](-array-constructor.md)(arrayType: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html), dimensions: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)>, arguments: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)>)

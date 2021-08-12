@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidatorManager](index.md)/[createData](create-data.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ValidatorManager](index.md)/[createData](create-data.md)
 
+# createData
 
-
-# createData  
-[jvm]  
-Content  
-open fun [createData](create-data.md)(): TypedData  
-More info  
-
+[jvm]\
+open fun [createData](create-data.md)(): TypedData
 
 Creates default TypedData instance.
-
-  
-
-
-

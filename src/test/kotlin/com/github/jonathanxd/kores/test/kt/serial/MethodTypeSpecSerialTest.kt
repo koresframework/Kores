@@ -49,6 +49,7 @@ class MethodTypeSpecSerialTest {
         )
 
         val format = Json {
+            classDiscriminator = "_type"
             serializersModule = koresSerializerModule
             prettyPrint = false
         }

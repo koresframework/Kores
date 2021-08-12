@@ -1,17 +1,8 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.processor](index.md)/[performance](performance.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](index.md)/[performance](performance.md)
 
+# performance
 
-
-# performance  
-[jvm]  
-Content  
-inline fun [performance](performance.md)(message: () -> [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [ValidationMessage](-validation-message/index.md)  
-More info  
-
+[jvm]\
+inline fun [performance](performance.md)(message: () -> [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [ValidationMessage](-validation-message/index.md)
 
 Creates a performance validation message.
-
-  
-
-
-

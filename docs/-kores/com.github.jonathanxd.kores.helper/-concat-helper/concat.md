@@ -1,28 +1,13 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[ConcatHelper](index.md)/[concat](concat.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[ConcatHelper](index.md)/[concat](concat.md)
 
+# concat
 
+[jvm]\
+fun [concat](concat.md)(codePart: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [ConcatHelper](index.md)
 
-# concat  
-[jvm]  
-Content  
-fun [concat](concat.md)(codePart: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [ConcatHelper](index.md)  
-More info  
+Concatenate [codePart](concat.md).
 
+[jvm]\
+fun [concat](concat.md)(str: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [ConcatHelper](index.md)
 
-Concatenate codePart.
-
-  
-
-
-[jvm]  
-Content  
-fun [concat](concat.md)(str: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [ConcatHelper](index.md)  
-More info  
-
-
-Concatenate str.
-
-  
-
-
-
+Concatenate [str](concat.md).

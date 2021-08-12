@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Provide](index.md)/[service](service.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Provide](index.md)/[service](service.md)
 
+# service
 
-
-# service  
-[jvm]  
-Content  
-val [service](service.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)  
-
-
-
+[jvm]\
+val [service](service.md): [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)

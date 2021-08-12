@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ValueHolder](index.md)/[value](value.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ValueHolder](index.md)/[value](value.md)
 
+# value
 
-
-# value  
-[jvm]  
-Content  
-abstract val [value](value.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)  
-More info  
-
+[jvm]\
+abstract val [value](value.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)
 
 Value
-
-  
-
-
-

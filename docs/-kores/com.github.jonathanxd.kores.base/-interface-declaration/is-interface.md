@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[InterfaceDeclaration](index.md)/[isInterface](is-interface.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[InterfaceDeclaration](index.md)/[isInterface](is-interface.md)
 
+# isInterface
 
-
-# isInterface  
-[jvm]  
-Content  
-open override val [isInterface](is-interface.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-More info  
-
+[jvm]\
+open override val [isInterface](is-interface.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
 
 True if this KoresType is a interface type.
-
-  
-
-
-

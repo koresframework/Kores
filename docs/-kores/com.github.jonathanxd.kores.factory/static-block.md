@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[staticBlock](static-block.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[staticBlock](static-block.md)
 
+# staticBlock
 
-
-# staticBlock  
-[jvm]  
-Content  
-fun [staticBlock](static-block.md)(): [StaticBlock.Builder](../com.github.jonathanxd.kores.base/-static-block/-builder/index.md)  
-
-
-
+[jvm]\
+fun [staticBlock](static-block.md)(): [StaticBlock.Builder](../com.github.jonathanxd.kores.base/-static-block/-builder/index.md)

@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base.comment](../index.md)/[CommentHolder](index.md)/[comments](comments.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base.comment](../index.md)/[CommentHolder](index.md)/[comments](comments.md)
 
+# comments
 
-
-# comments  
-[jvm]  
-Content  
-abstract val [comments](comments.md): [Comments](../-comments/index.md)  
-More info  
-
+[jvm]\
+abstract val [comments](comments.md): [Comments](../-comments/index.md)
 
 All comments of this element.
-
-  
-
-
-

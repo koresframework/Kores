@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.annotation](../index.md)/[Spec](index.md)/[Spec](-spec.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.annotation](../index.md)/[Spec](index.md)/[Spec](-spec.md)
 
+# Spec
 
-
-# Spec  
-[jvm]  
-Content  
-fun [Spec](-spec.md)()  
-
-
-
+[jvm]\
+fun [Spec](-spec.md)()

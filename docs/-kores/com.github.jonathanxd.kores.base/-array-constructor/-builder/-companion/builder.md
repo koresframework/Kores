@@ -1,16 +1,13 @@
-//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../../index.md)/[ArrayConstructor](../../index.md)/[Builder](../index.md)/[Companion](index.md)/[builder](builder.md)
+//[Kores](../../../../../index.md)/[com.github.jonathanxd.kores.base](../../../index.md)/[ArrayConstructor](../../index.md)/[Builder](../index.md)/[Companion](index.md)/[builder](builder.md)
 
+# builder
 
+[jvm]\
 
-# builder  
-[jvm]  
-Content  
-@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  
-  
-fun [builder](builder.md)(): [ArrayConstructor.Builder](../index.md)  
-@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  
-  
-fun [builder](builder.md)(defaults: [ArrayConstructor](../../index.md)): [ArrayConstructor.Builder](../index.md)  
+@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()
 
+fun [builder](builder.md)(): [ArrayConstructor.Builder](../index.md)
 
+@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()
 
+fun [builder](builder.md)(defaults: [ArrayConstructor](../../index.md)): [ArrayConstructor.Builder](../index.md)

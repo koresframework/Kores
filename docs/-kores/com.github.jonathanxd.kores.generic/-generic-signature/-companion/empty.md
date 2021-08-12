@@ -1,26 +1,15 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.generic](../../index.md)/[GenericSignature](../index.md)/[Companion](index.md)/[empty](empty.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.generic](../../index.md)/[GenericSignature](../index.md)/[Companion](index.md)/[empty](empty.md)
 
+# empty
 
+[jvm]\
 
-# empty  
-[jvm]  
-Content  
-@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  
-  
-fun [empty](empty.md)(): [GenericSignature](../index.md)  
-More info  
+@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()
 
+fun [empty](empty.md)(): [GenericSignature](../index.md)
 
 Empty generic signature.
 
-
-
-#### Return  
-
+#### Return
 
 Empty [GenericSignature](../index.md).
-
-  
-
-
-

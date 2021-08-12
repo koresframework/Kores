@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.util](index.md)/[isKotlin](is-kotlin.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](index.md)/[isKotlin](is-kotlin.md)
 
+# isKotlin
 
-
-# isKotlin  
-[jvm]  
-Content  
-val [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<*>.[isKotlin](is-kotlin.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-
-
-
+[jvm]\
+val [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)<*>.[isKotlin](is-kotlin.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

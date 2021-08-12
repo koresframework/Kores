@@ -1,13 +1,9 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Types](index.md)/[COLLECTION](-c-o-l-l-e-c-t-i-o-n.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Types](index.md)/[COLLECTION](-c-o-l-l-e-c-t-i-o-n.md)
 
+# COLLECTION
 
+[jvm]\
 
-# COLLECTION  
-[jvm]  
-Content  
-@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()  
-  
-val [COLLECTION](-c-o-l-l-e-c-t-i-o-n.md): [LoadedKoresType](../../com.github.jonathanxd.kores.type/-loaded-kores-type/index.md)<[Collection](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)<*>>  
+@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()
 
-
-
+val [COLLECTION](-c-o-l-l-e-c-t-i-o-n.md): [LoadedKoresType](../../com.github.jonathanxd.kores.type/-loaded-kores-type/index.md)<[Collection](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)<*>>

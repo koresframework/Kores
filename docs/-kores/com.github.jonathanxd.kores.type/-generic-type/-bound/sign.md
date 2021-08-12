@@ -1,24 +1,12 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[GenericType](../index.md)/[Bound](index.md)/[sign](sign.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.type](../../index.md)/[GenericType](../index.md)/[Bound](index.md)/[sign](sign.md)
 
+# sign
 
-
-# sign  
-[jvm]  
-Content  
-abstract val [sign](sign.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+abstract val [sign](sign.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Symbol of this bound.
 
-
-
-#### Return  
-
+#### Return
 
 Symbol of this bound.
-
-  
-
-
-

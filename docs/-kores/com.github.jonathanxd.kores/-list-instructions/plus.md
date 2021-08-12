@@ -1,28 +1,13 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ListInstructions](index.md)/[plus](plus.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[ListInstructions](index.md)/[plus](plus.md)
 
+# plus
 
+[jvm]\
+open operator override fun [plus](plus.md)(other: [Instruction](../-instruction/index.md)): [MutableInstructions](../-mutable-instructions/index.md)
 
-# plus  
-[jvm]  
-Content  
-open operator override fun [plus](plus.md)(other: [Instruction](../-instruction/index.md)): [MutableInstructions](../-mutable-instructions/index.md)  
-More info  
+Adds [other](plus.md) to this [Instructions](../-instructions/index.md).
 
+[jvm]\
+open operator override fun [plus](plus.md)(other: [Iterable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)<[Instruction](../-instruction/index.md)>): [MutableInstructions](../-mutable-instructions/index.md)
 
-Adds other to this [Instructions](../-instructions/index.md).
-
-  
-
-
-[jvm]  
-Content  
-open operator override fun [plus](plus.md)(other: [Iterable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)<[Instruction](../-instruction/index.md)>): [MutableInstructions](../-mutable-instructions/index.md)  
-More info  
-
-
-Adds all [Instruction](../-instruction/index.md) of other to this [Instructions](../-instructions/index.md)
-
-  
-
-
-
+Adds all [Instruction](../-instruction/index.md) of [other](plus.md) to this [Instructions](../-instructions/index.md)

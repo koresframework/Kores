@@ -1,34 +1,20 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[xor](xor.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.helper](../index.md)/[OperateHelper](index.md)/[xor](xor.md)
 
+# xor
 
-
-# xor  
-[jvm]  
-Content  
-fun [xor](xor.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)  
-More info  
-
+[jvm]\
+fun [xor](xor.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [OperateHelper](index.md)
 
 Exclusive or (&#94;).
 
-
-
-#### Return  
-
+#### Return
 
 This.
 
+## Parameters
 
+jvm
 
-## Parameters  
-  
-jvm  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.helper/OperateHelper/xor/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a>value| <a name="com.github.jonathanxd.kores.helper/OperateHelper/xor/#com.github.jonathanxd.kores.Instruction/PointingToDeclaration/"></a><br><br>2nd value to operate.<br><br>
-  
-  
-
-
-
+| value | 2nd value to operate. |

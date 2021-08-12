@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ModuleDeclaration](index.md)/[moduleReference](module-reference.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[ModuleDeclaration](index.md)/[moduleReference](module-reference.md)
 
+# moduleReference
 
-
-# moduleReference  
-[jvm]  
-Content  
-val [moduleReference](module-reference.md): [ModuleReference](../-module-reference/index.md)  
-More info  
-
+[jvm]\
+val [moduleReference](module-reference.md): [ModuleReference](../-module-reference/index.md)
 
 Module reference.
-
-  
-
-
-

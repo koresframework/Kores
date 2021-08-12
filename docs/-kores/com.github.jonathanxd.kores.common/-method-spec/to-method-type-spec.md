@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodSpec](index.md)/[toMethodTypeSpec](to-method-type-spec.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodSpec](index.md)/[toMethodTypeSpec](to-method-type-spec.md)
 
+# toMethodTypeSpec
 
-
-# toMethodTypeSpec  
-[jvm]  
-Content  
-fun [toMethodTypeSpec](to-method-type-spec.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [MethodTypeSpec](../-method-type-spec/index.md)  
-More info  
-
+[jvm]\
+fun [toMethodTypeSpec](to-method-type-spec.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [MethodTypeSpec](../-method-type-spec/index.md)
 
 Converts this [MethodSpec](index.md) to [MethodTypeSpec](../-method-type-spec/index.md)
-
-  
-
-
-

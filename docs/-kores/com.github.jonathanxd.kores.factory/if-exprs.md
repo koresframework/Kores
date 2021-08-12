@@ -1,41 +1,26 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[ifExprs](if-exprs.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[ifExprs](if-exprs.md)
 
+# ifExprs
 
-
-# ifExprs  
-[jvm]  
-Content  
-fun [ifExprs](if-exprs.md)(vararg objects: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../com.github.jonathanxd.kores/-instruction/index.md)>  
-More info  
-
+[jvm]\
+fun [ifExprs](if-exprs.md)(vararg objects: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../com.github.jonathanxd.kores/-instruction/index.md)>
 
 Helper function to create if expressions. This function converts a sequence of: [IfExpr](../com.github.jonathanxd.kores.base/-if-expr/index.md), [Operator](../com.github.jonathanxd.kores.operator/-operator/index.md), [IfGroup](../com.github.jonathanxd.kores.base/-if-group/index.md), [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html) and [KoresPart](../com.github.jonathanxd.kores/-kores-part/index.md) into a list of expressions (which for the three first types no conversion is done), if a [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html) is found, it will be converted to a [IfGroup](../com.github.jonathanxd.kores.base/-if-group/index.md). If a [KoresPart](../com.github.jonathanxd.kores/-kores-part/index.md) is found it will be converted to a [IfExpr](../com.github.jonathanxd.kores.base/-if-expr/index.md) that checks if the codePart is equal to true.
 
-
-
-#### Return  
-
+#### Return
 
 Sequence of if expressions.
 
+## Parameters
 
+jvm
 
-## Parameters  
-  
-jvm  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.factory//ifExprs/#kotlin.Array[kotlin.Any]/PointingToDeclaration/"></a>objects| <a name="com.github.jonathanxd.kores.factory//ifExprs/#kotlin.Array[kotlin.Any]/PointingToDeclaration/"></a><br><br>Sequence of operations.<br><br>
-  
+| objects | Sequence of operations. |
 
+#### Throws
 
-#### Throws  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.factory//ifExprs/#kotlin.Array[kotlin.Any]/PointingToDeclaration/"></a>[kotlin.IllegalArgumentException](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html)| <a name="com.github.jonathanxd.kores.factory//ifExprs/#kotlin.Array[kotlin.Any]/PointingToDeclaration/"></a><br><br>If an element is not of a valid type.<br><br>
-  
-
-
-
+| [kotlin.IllegalArgumentException](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html) | If an element is not of a valid type. |

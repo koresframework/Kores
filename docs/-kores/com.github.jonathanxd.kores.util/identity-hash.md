@@ -1,24 +1,12 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.util](index.md)/[identityHash](identity-hash.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](index.md)/[identityHash](identity-hash.md)
 
+# identityHash
 
-
-# identityHash  
-[jvm]  
-Content  
-fun [KoresType](../com.github.jonathanxd.kores.type/-kores-type/index.md).[identityHash](identity-hash.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  
-More info  
-
+[jvm]\
+fun [KoresType](../com.github.jonathanxd.kores.type/-kores-type/index.md).[identityHash](identity-hash.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
 
 Default hash algorithm.
 
-
-
-#### Return  
-
+#### Return
 
 Hash code.
-
-  
-
-
-

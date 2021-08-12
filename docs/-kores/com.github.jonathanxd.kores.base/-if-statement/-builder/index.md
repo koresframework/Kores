@@ -1,43 +1,35 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[IfStatement](../index.md)/[Builder](index.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[IfStatement](../index.md)/[Builder](index.md)
 
+# Builder
 
+[jvm]\
+class [Builder](index.md) : [IfExpressionHolder.Builder](../../-if-expression-holder/-builder/index.md)<[IfStatement](../index.md), [IfStatement.Builder](index.md)> , [BodyHolder.Builder](../../-body-holder/-builder/index.md)<[IfStatement](../index.md), [IfStatement.Builder](index.md)>
 
-# Builder  
- [jvm] class [Builder](index.md) : [IfExpressionHolder.Builder](../../-if-expression-holder/-builder/index.md)<[IfStatement](../index.md), [IfStatement.Builder](index.md)> , [BodyHolder.Builder](../../-body-holder/-builder/index.md)<[IfStatement](../index.md), [IfStatement.Builder](index.md)>    
+## Constructors
 
-
-## Constructors  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/Builder/#com.github.jonathanxd.kores.base.IfStatement/PointingToDeclaration/"></a>[Builder](-builder.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/Builder/#com.github.jonathanxd.kores.base.IfStatement/PointingToDeclaration/"></a> [jvm] fun [Builder](-builder.md)(defaults: [IfStatement](../index.md))   <br>
+| [Builder](-builder.md) | [jvm]<br>fun [Builder](-builder.md)(defaults: [IfStatement](../index.md)) |
 
+## Types
 
-## Types  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder.Companion///PointingToDeclaration/"></a>[Companion](-companion/index.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder.Companion///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object [Companion](-companion/index.md)  <br><br><br>
+| [Companion](-companion/index.md) | [jvm]<br>object [Companion](-companion/index.md) |
 
+## Functions
 
-## Functions  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/body/#com.github.jonathanxd.kores.Instructions/PointingToDeclaration/"></a>[body](body.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/body/#com.github.jonathanxd.kores.Instructions/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [body](body.md)(value: [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md)): [IfStatement.Builder](index.md)  <br>More info  <br>See T.  <br><br><br>
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/build/#/PointingToDeclaration/"></a>[build](build.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/build/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open override fun [build](build.md)(): [IfStatement](../index.md)  <br>More info  <br>Build the object of type T.  <br><br><br>
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/elseStatement/#com.github.jonathanxd.kores.Instructions/PointingToDeclaration/"></a>[elseStatement](else-statement.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/elseStatement/#com.github.jonathanxd.kores.Instructions/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>fun [elseStatement](else-statement.md)(value: [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md)): [IfStatement.Builder](index.md)  <br>More info  <br>See [IfStatement.elseStatement](../else-statement.md)  <br><br><br>
-| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[equals](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/equals/#kotlin.Any?/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open operator fun [equals](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(other: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  <br><br><br>
-| <a name="com.github.jonathanxd.kores.base/IfExpressionHolder.Builder/expressions/#kotlin.Array[com.github.jonathanxd.kores.Instruction]/PointingToDeclaration/"></a>[expressions](../../-if-expression-holder/-builder/expressions.md)| <a name="com.github.jonathanxd.kores.base/IfExpressionHolder.Builder/expressions/#kotlin.Array[com.github.jonathanxd.kores.Instruction]/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [expressions](../../-if-expression-holder/-builder/expressions.md)(vararg values: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [IfStatement.Builder](index.md)  <br>open override fun [expressions](expressions.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)>): [IfStatement.Builder](index.md)  <br>More info  <br>See T.  <br><br><br>
-| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[hashCode](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/hashCode/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [hashCode](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)  <br><br><br>
-| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[toString](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)| <a name="kotlin/Any/toString/#/PointingToDeclaration/"></a>[jvm]  <br>Content  <br>open fun [toString](../../../com.github.jonathanxd.kores.util/-simple-resolver/index.md#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F-1211764316)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  <br><br><br>
+| [body](body.md) | [jvm]<br>open override fun [body](body.md)(value: [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md)): [IfStatement.Builder](index.md)<br>See T. |
+| [build](build.md) | [jvm]<br>open override fun [build](build.md)(): [IfStatement](../index.md)<br>Build the object of type T. |
+| [elseStatement](else-statement.md) | [jvm]<br>fun [elseStatement](else-statement.md)(value: [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md)): [IfStatement.Builder](index.md)<br>See [IfStatement.elseStatement](../else-statement.md) |
+| [expressions](../../-if-expression-holder/-builder/expressions.md) | [jvm]<br>open fun [expressions](../../-if-expression-holder/-builder/expressions.md)(vararg values: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [IfStatement.Builder](index.md)<br>open override fun [expressions](expressions.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)>): [IfStatement.Builder](index.md)<br>See T. |
 
+## Properties
 
-## Properties  
-  
-|  Name|  Summary| 
+| Name | Summary |
 |---|---|
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/body/#/PointingToDeclaration/"></a>[body](body.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/body/#/PointingToDeclaration/"></a> [jvm] var [body](body.md): [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md)   <br>
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/elseStatement/#/PointingToDeclaration/"></a>[elseStatement](else-statement.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/elseStatement/#/PointingToDeclaration/"></a> [jvm] var [elseStatement](else-statement.md): [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md)   <br>
-| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/expressions/#/PointingToDeclaration/"></a>[expressions](expressions.md)| <a name="com.github.jonathanxd.kores.base/IfStatement.Builder/expressions/#/PointingToDeclaration/"></a> [jvm] var [expressions](expressions.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)>   <br>
-
+| [body](body.md) | [jvm]<br>var [body](body.md): [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md) |
+| [elseStatement](else-statement.md) | [jvm]<br>var [elseStatement](else-statement.md): [Instructions](../../../com.github.jonathanxd.kores/-instructions/index.md) |
+| [expressions](expressions.md) | [jvm]<br>var [expressions](expressions.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)> |

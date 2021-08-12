@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[toImmutable](to-immutable.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../index.md)/[Instructions](index.md)/[toImmutable](to-immutable.md)
 
+# toImmutable
 
-
-# toImmutable  
-[jvm]  
-Content  
-open fun [toImmutable](to-immutable.md)(): [Instructions](index.md)  
-More info  
-
+[jvm]\
+open fun [toImmutable](to-immutable.md)(): [Instructions](index.md)
 
 Creates a immutable [Instructions](index.md) with elements of this [Instructions](index.md).
-
-  
-
-
-

@@ -1,28 +1,13 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.util.conversion](index.md)/[kotlinParameters](kotlin-parameters.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.util.conversion](index.md)/[kotlinParameters](kotlin-parameters.md)
 
+# kotlinParameters
 
-
-# kotlinParameters  
-[jvm]  
-Content  
-val [Method](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html).[kotlinParameters](kotlin-parameters.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[KParameter](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)>?  
-More info  
-
+[jvm]\
+val [Method](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html).[kotlinParameters](kotlin-parameters.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[KParameter](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)>?
 
 Gets kotlin parameters from receiver [Method](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html).
 
-  
-
-
-[jvm]  
-Content  
-val <[T](kotlin-parameters.md) : [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)> [Constructor](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Constructor.html)<[T](kotlin-parameters.md)>.[kotlinParameters](kotlin-parameters.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[KParameter](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)>?  
-More info  
-
+[jvm]\
+val <[T](kotlin-parameters.md) : [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)> [Constructor](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Constructor.html)<[T](kotlin-parameters.md)>.[kotlinParameters](kotlin-parameters.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[KParameter](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html)>?
 
 Gets kotlin parameter of receiver [Constructor](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Constructor.html).
-
-  
-
-
-

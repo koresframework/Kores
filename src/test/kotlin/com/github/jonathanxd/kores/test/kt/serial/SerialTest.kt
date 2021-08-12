@@ -39,6 +39,7 @@ class SerialTest {
     fun testSerialization() {
         val code = Code(Code.CodeNode.Plain("Hello World"))
         val format = Json {
+            classDiscriminator = "_type"
             serializersModule = koresSerializerModule
         }
         val json = format.encodeToString(code)

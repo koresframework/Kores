@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodSpec](index.md)/[typeSpec](type-spec.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[MethodSpec](index.md)/[typeSpec](type-spec.md)
 
+# typeSpec
 
-
-# typeSpec  
-[jvm]  
-Content  
-val [typeSpec](type-spec.md): [TypeSpec](../../com.github.jonathanxd.kores.base/-type-spec/index.md)  
-
-
-
+[jvm]\
+val [typeSpec](type-spec.md): [TypeSpec](../../com.github.jonathanxd.kores.base/-type-spec/index.md)

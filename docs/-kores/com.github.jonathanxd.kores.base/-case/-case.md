@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Case](index.md)/[Case](-case.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Case](index.md)/[Case](-case.md)
 
+# Case
 
-
-# Case  
-[jvm]  
-Content  
-fun [Case](-case.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), body: [Instructions](../../com.github.jonathanxd.kores/-instructions/index.md))  
-
-
-
+[jvm]\
+fun [Case](-case.md)(value: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), body: [Instructions](../../com.github.jonathanxd.kores/-instructions/index.md))

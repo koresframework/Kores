@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[FieldBase](index.md)/[access](access.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[FieldBase](index.md)/[access](access.md)
 
+# access
 
-
-# access  
-[jvm]  
-Content  
-open fun [access](access.md)(): [FieldAccess](../-field-access/index.md)  
-More info  
-
+[jvm]\
+open fun [access](access.md)(): [FieldAccess](../-field-access/index.md)
 
 Creates access to the field that this instance represents.
-
-  
-
-
-

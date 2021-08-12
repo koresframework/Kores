@@ -1,19 +1,11 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[Instructions](../index.md)/[Companion](index.md)/[fromPart](from-part.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores](../../index.md)/[Instructions](../index.md)/[Companion](index.md)/[fromPart](from-part.md)
 
+# fromPart
 
+[jvm]\
 
-# fromPart  
-[jvm]  
-Content  
-@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()  
-  
-fun [fromPart](from-part.md)(part: [Instruction](../../-instruction/index.md)): [Instructions](../index.md)  
-More info  
+@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()
 
+fun [fromPart](from-part.md)(part: [Instruction](../../-instruction/index.md)): [Instructions](../index.md)
 
-Creates a immutable [Instructions](../index.md) with a single part.
-
-  
-
-
-
+Creates a immutable [Instructions](../index.md) with a single [part](from-part.md).

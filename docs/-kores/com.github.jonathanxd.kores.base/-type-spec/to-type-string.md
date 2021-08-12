@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[TypeSpec](index.md)/[toTypeString](to-type-string.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[TypeSpec](index.md)/[toTypeString](to-type-string.md)
 
+# toTypeString
 
-
-# toTypeString  
-[jvm]  
-Content  
-fun [toTypeString](to-type-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+fun [toTypeString](to-type-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Human readable type specification string.
-
-  
-
-
-

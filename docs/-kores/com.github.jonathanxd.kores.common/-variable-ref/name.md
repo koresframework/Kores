@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[VariableRef](index.md)/[name](name.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.common](../index.md)/[VariableRef](index.md)/[name](name.md)
 
+# name
 
-
-# name  
-[jvm]  
-Content  
-open override val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+open override val [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Variable name
-
-  
-
-
-

@@ -1,17 +1,8 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.processor](index.md)/[other](other.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](index.md)/[other](other.md)
 
+# other
 
-
-# other  
-[jvm]  
-Content  
-inline fun [other](other.md)(message: () -> [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [ValidationMessage](-validation-message/index.md)  
-More info  
-
+[jvm]\
+inline fun [other](other.md)(message: () -> [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [ValidationMessage](-validation-message/index.md)
 
 Creates a other validation message.
-
-  
-
-
-

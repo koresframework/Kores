@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[KoresType](index.md)/[identification](identification.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.type](../index.md)/[KoresType](index.md)/[identification](identification.md)
 
+# identification
 
-
-# identification  
-[jvm]  
-Content  
-open val [identification](identification.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)  
-More info  
-
+[jvm]\
+open val [identification](identification.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
 Unique string identification, this property may be used for equality comparison, normal types, array types and generic types have different identifications, if a generic type represent a single [KoresType](index.md) without any bound, then the identification will be the same as the single [KoresType](index.md).
-
-  
-
-
-

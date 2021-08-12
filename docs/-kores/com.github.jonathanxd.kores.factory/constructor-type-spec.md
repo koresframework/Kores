@@ -1,23 +1,14 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[constructorTypeSpec](constructor-type-spec.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[constructorTypeSpec](constructor-type-spec.md)
 
+# constructorTypeSpec
 
+[jvm]\
+fun [constructorTypeSpec](constructor-type-spec.md)(vararg ptypes: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [TypeSpec](../com.github.jonathanxd.kores.base/-type-spec/index.md)
 
-# constructorTypeSpec  
-[jvm]  
-Content  
-fun [constructorTypeSpec](constructor-type-spec.md)(vararg ptypes: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [TypeSpec](../com.github.jonathanxd.kores.base/-type-spec/index.md)  
-More info  
+## See also
 
+jvm
 
-## See also  
-  
-jvm  
-  
-|  Name|  Summary| 
+| | |
 |---|---|
-| <a name="com.github.jonathanxd.kores.factory//constructorTypeSpec/#kotlin.Array[java.lang.reflect.Type]/PointingToDeclaration/"></a>[com.github.jonathanxd.kores.base.TypeSpec](../com.github.jonathanxd.kores.base/-type-spec/index.md)| <a name="com.github.jonathanxd.kores.factory//constructorTypeSpec/#kotlin.Array[java.lang.reflect.Type]/PointingToDeclaration/"></a>
-  
-  
-
-
-
+| [com.github.jonathanxd.kores.base.TypeSpec](../com.github.jonathanxd.kores.base/-type-spec/index.md) |  |

@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Line](index.md)/[wrappedInstruction](wrapped-instruction.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../index.md)/[Line](index.md)/[wrappedInstruction](wrapped-instruction.md)
 
+# wrappedInstruction
 
-
-# wrappedInstruction  
-[jvm]  
-Content  
-open override val [wrappedInstruction](wrapped-instruction.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)  
-More info  
-
+[jvm]\
+open override val [wrappedInstruction](wrapped-instruction.md): [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)
 
 Wrapped instruction instance.
-
-  
-
-
-

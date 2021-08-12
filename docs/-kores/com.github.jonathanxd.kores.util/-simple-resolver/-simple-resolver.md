@@ -1,11 +1,6 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](../index.md)/[SimpleResolver](index.md)/[SimpleResolver](-simple-resolver.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.util](../index.md)/[SimpleResolver](index.md)/[SimpleResolver](-simple-resolver.md)
 
+# SimpleResolver
 
-
-# SimpleResolver  
-[jvm]  
-Content  
-fun [SimpleResolver](-simple-resolver.md)(wrapped: [TypeResolver](../-type-resolver/index.md), resolveLoadedClasses: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html))  
-
-
-
+[jvm]\
+fun [SimpleResolver](-simple-resolver.md)(wrapped: [TypeResolver](../-type-resolver/index.md), resolveLoadedClasses: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html))

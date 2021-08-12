@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[classDec](class-dec.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.factory](index.md)/[classDec](class-dec.md)
 
+# classDec
 
-
-# classDec  
-[jvm]  
-Content  
-fun [classDec](class-dec.md)(): [ClassDeclaration.Builder](../com.github.jonathanxd.kores.base/-class-declaration/-builder/index.md)  
-
-
-
+[jvm]\
+fun [classDec](class-dec.md)(): [ClassDeclaration.Builder](../com.github.jonathanxd.kores.base/-class-declaration/-builder/index.md)

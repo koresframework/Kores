@@ -1,11 +1,6 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InvokeDynamic](../index.md)/[Builder](index.md)/[dynamic](dynamic.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[InvokeDynamic](../index.md)/[Builder](index.md)/[dynamic](dynamic.md)
 
+# dynamic
 
-
-# dynamic  
-[jvm]  
-Content  
-lateinit var [dynamic](dynamic.md): [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md)  
-
-
-
+[jvm]\
+lateinit var [dynamic](dynamic.md): [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md)

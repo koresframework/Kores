@@ -1,11 +1,6 @@
-//[Kores](../index.md)/[com.github.jonathanxd.kores.util](index.md)/[containsBefore](contains-before.md)
+//[Kores](../../index.md)/[com.github.jonathanxd.kores.util](index.md)/[containsBefore](contains-before.md)
 
+# containsBefore
 
-
-# containsBefore  
-[jvm]  
-Content  
-inline fun [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html).[containsBefore](contains-before.md)(str: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), before: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)  
-
-
-
+[jvm]\
+inline fun [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html).[containsBefore](contains-before.md)(str: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), before: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)

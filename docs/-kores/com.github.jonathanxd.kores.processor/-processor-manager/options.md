@@ -1,17 +1,8 @@
-//[Kores](../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ProcessorManager](index.md)/[options](options.md)
+//[Kores](../../../index.md)/[com.github.jonathanxd.kores.processor](../index.md)/[ProcessorManager](index.md)/[options](options.md)
 
+# options
 
-
-# options  
-[jvm]  
-Content  
-abstract val [options](options.md): Options  
-More info  
-
+[jvm]\
+abstract val [options](options.md): Options
 
 Options of generator
-
-  
-
-
-

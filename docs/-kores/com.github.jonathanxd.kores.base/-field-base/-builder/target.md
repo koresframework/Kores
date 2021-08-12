@@ -1,17 +1,8 @@
-//[Kores](../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[FieldBase](../index.md)/[Builder](index.md)/[target](target.md)
+//[Kores](../../../../index.md)/[com.github.jonathanxd.kores.base](../../index.md)/[FieldBase](../index.md)/[Builder](index.md)/[target](target.md)
 
+# target
 
-
-# target  
-[jvm]  
-Content  
-abstract fun [target](target.md)(value: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [S](index.md)  
-More info  
-
+[jvm]\
+abstract fun [target](target.md)(value: [Instruction](../../../com.github.jonathanxd.kores/-instruction/index.md)): [S](index.md)
 
 See T.target
-
-  
-
-
-
