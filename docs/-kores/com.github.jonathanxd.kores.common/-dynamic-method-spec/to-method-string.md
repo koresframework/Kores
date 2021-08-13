@@ -5,4 +5,4 @@
 [jvm]\
 fun [toMethodString](to-method-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
-Human readable method string.
+Human-readable method string.

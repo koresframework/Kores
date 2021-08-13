@@ -5,7 +5,7 @@ apply plugin: 'license'
 
 apply plugin: 'maven-publish'
 
-version '4.1.1.base'
+version '4.1.2.base'
 
 jar {
     manifest {
@@ -25,11 +25,11 @@ dependencies {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

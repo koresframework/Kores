@@ -5,4 +5,4 @@
 [jvm]\
 fun [toInvocationString](to-invocation-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
 
-Human readable method invocation string.
+Human-readable method invocation string.

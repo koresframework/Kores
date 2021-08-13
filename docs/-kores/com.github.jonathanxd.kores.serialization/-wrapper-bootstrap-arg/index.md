@@ -20,3 +20,7 @@ sealed class [WrapperBootstrapArg](index.md)
 | [CharBootstrapArg](../-char-bootstrap-arg/index.md) |
 | [StringBootstrapArg](../-string-bootstrap-arg/index.md) |
 | [MethodInvokeSpecArg](../-method-invoke-spec-arg/index.md) |
+| [FieldAccessHandleSpecArg](../-field-access-handle-spec-arg/index.md) |
+| [MethodInvokeHandleSpecArg](../-method-invoke-handle-spec-arg/index.md) |
+| [TypeSpecArg](../-type-spec-arg/index.md) |
+| [DynamicConstantSpecArg](../-dynamic-constant-spec-arg/index.md) |

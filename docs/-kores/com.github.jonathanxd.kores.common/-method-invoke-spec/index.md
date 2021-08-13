@@ -18,7 +18,7 @@ data class [MethodInvokeSpec](index.md)(**invokeType**: [InvokeType](../../com.g
 | [builder](builder.md) | [jvm]<br>open override fun [builder](builder.md)(): [MethodInvokeSpec.Builder](-builder/index.md)<br>This builder may or may not accept null values, it depends on implementation. |
 | [compareTo](compare-to.md) | [jvm]<br>open operator override fun [compareTo](compare-to.md)(other: [MethodInvokeSpec](index.md)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
 | [invoke](invoke.md) | [jvm]<br>operator fun [invoke](invoke.md)(target: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)): [MethodInvocation](../../com.github.jonathanxd.kores.base/-method-invocation/index.md)<br>Invokes this method in [target](invoke.md).<br>[jvm]<br>operator fun [invoke](invoke.md)(target: [Instruction](../../com.github.jonathanxd.kores/-instruction/index.md), arguments: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.github.jonathanxd.kores/-instruction/index.md)>): [MethodInvocation](../../com.github.jonathanxd.kores.base/-method-invocation/index.md)<br>Invokes this method in [target](invoke.md) with [arguments](invoke.md). |
-| [toInvocationString](to-invocation-string.md) | [jvm]<br>fun [toInvocationString](to-invocation-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Human readable method invocation string. |
+| [toInvocationString](to-invocation-string.md) | [jvm]<br>fun [toInvocationString](to-invocation-string.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)<br>Human-readable method invocation string. |
 
 ## Properties
 

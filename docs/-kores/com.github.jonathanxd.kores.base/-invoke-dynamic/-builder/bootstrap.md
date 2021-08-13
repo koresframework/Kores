@@ -3,9 +3,9 @@
 # bootstrap
 
 [jvm]\
-open override fun [bootstrap](bootstrap.md)(value: [MethodInvokeSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)): [InvokeDynamic.Builder](index.md)
+open override fun [bootstrap](bootstrap.md)(value: [MethodInvokeHandleSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/index.md)): [InvokeDynamic.Builder](index.md)
 
 See [InvokeDynamic.bootstrap](../bootstrap.md)
 
 [jvm]\
-lateinit var [bootstrap](bootstrap.md): [MethodInvokeSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)
+lateinit var [bootstrap](bootstrap.md): [MethodInvokeHandleSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/index.md)

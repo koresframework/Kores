@@ -21,7 +21,7 @@ class [Builder](index.md) : [InvokeDynamicBase.Builder](../../-invoke-dynamic-ba
 
 | Name | Summary |
 |---|---|
-| [bootstrap](bootstrap.md) | [jvm]<br>open override fun [bootstrap](bootstrap.md)(value: [MethodInvokeSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)): [InvokeDynamic.Builder](index.md)<br>See [InvokeDynamic.bootstrap](../bootstrap.md) |
+| [bootstrap](bootstrap.md) | [jvm]<br>open override fun [bootstrap](bootstrap.md)(value: [MethodInvokeHandleSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/index.md)): [InvokeDynamic.Builder](index.md)<br>open fun [bootstrap](../../-invoke-dynamic-base/-builder/bootstrap.md)(value: [MethodInvokeSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)): [InvokeDynamic.Builder](index.md)<br>See [InvokeDynamic.bootstrap](../bootstrap.md) |
 | [bootstrapArgs](bootstrap-args.md) | [jvm]<br>open override fun [bootstrapArgs](bootstrap-args.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)>): [InvokeDynamic.Builder](index.md)<br>open fun [bootstrapArgs](../../-invoke-dynamic-base/-builder/bootstrap-args.md)(vararg values: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)): [InvokeDynamic.Builder](index.md)<br>See [InvokeDynamic.bootstrapArgs](../bootstrap-args.md) |
 | [build](build.md) | [jvm]<br>open override fun [build](build.md)(): [InvokeDynamic](../index.md)<br>Build the object of type T. |
 | [dynamicMethod](dynamic-method.md) | [jvm]<br>open override fun [dynamicMethod](dynamic-method.md)(value: [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md)): [InvokeDynamic.Builder](index.md)<br>See [InvokeDynamic.dynamicMethod](../dynamic-method.md) |
@@ -32,5 +32,5 @@ class [Builder](index.md) : [InvokeDynamicBase.Builder](../../-invoke-dynamic-ba
 | Name | Summary |
 |---|---|
 | [args](args.md) | [jvm]<br>var [args](args.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)> |
-| [bootstrap](bootstrap.md) | [jvm]<br>lateinit var [bootstrap](bootstrap.md): [MethodInvokeSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md) |
+| [bootstrap](bootstrap.md) | [jvm]<br>lateinit var [bootstrap](bootstrap.md): [MethodInvokeHandleSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/index.md) |
 | [dynamic](dynamic.md) | [jvm]<br>lateinit var [dynamic](dynamic.md): [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md) |

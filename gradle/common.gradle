@@ -20,7 +20,7 @@ license {
 
 defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 16
 
 repositories {
     mavenCentral()
@@ -83,11 +83,11 @@ artifacts {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
 
 dependencies {

@@ -5,7 +5,7 @@
 [jvm]\
 interface [UnknownKoresType](index.md) : [KoresType](../-kores-type/index.md)
 
-A Code Type that is not known by Kores. These types are commonly those defined by the user to refer to classes that are not loaded by the JVM and isn't defined by Kores, or will be defined later. [UnknownKoresType](index.md) is not the same as [TypeRef](../-type-ref/index.md). The [TypeRef](../-type-ref/index.md) is intended to reference Korestype declarations before them is created. [UnknownKoresType](index.md) is intended to reference a type that is unknown to either JVM and Kores.
+A Code Type that is not known by Kores. These types are commonly those defined by the user to refer to classes that are not loaded by the JVM and isn't defined by Kores, or will be defined later. [UnknownKoresType](index.md) is not the same as [TypeRef](../-type-ref/index.md). The [TypeRef](../-type-ref/index.md) is intended to reference KoresType declarations before they are created. [UnknownKoresType](index.md) is intended to reference a type that is unknown to either JVM or Kores.
 
 ## Functions
 

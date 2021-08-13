@@ -3,6 +3,6 @@
 # bootstrap
 
 [jvm]\
-open override val [bootstrap](bootstrap.md): [MethodInvokeSpec](../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md)
+open override val [bootstrap](bootstrap.md): [MethodInvokeHandleSpec](../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/index.md)
 
 Bootstrap method invocation specification.

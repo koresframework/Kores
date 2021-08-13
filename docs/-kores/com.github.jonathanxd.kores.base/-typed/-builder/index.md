@@ -41,7 +41,12 @@ interface [Builder](index.md)<out [T](index.md) : [Typed](../index.md), [S](inde
 | [TypeSpec](../../-type-spec/-builder/index.md) |
 | [VariableBase](../../-variable-base/-builder/index.md) |
 | [VariableDefinition](../../-variable-definition/-builder/index.md) |
+| [DynamicConstantSpec](../../../com.github.jonathanxd.kores.common/-dynamic-constant-spec/-builder/index.md) |
 | [DynamicMethodSpec](../../../com.github.jonathanxd.kores.common/-dynamic-method-spec/-builder/index.md) |
+| [FieldAccessHandleSpec](../../../com.github.jonathanxd.kores.common/-field-access-handle-spec/-builder/index.md) |
+| [FieldSpec](../../../com.github.jonathanxd.kores.common/-field-spec/-builder/index.md) |
+| [FieldTypeSpec](../../../com.github.jonathanxd.kores.common/-field-type-spec/-builder/index.md) |
+| [MethodInvokeHandleSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/-builder/index.md) |
 | [MethodInvokeSpec](../../../com.github.jonathanxd.kores.common/-method-invoke-spec/-builder/index.md) |
 | [MethodSpec](../../../com.github.jonathanxd.kores.common/-method-spec/-builder/index.md) |
 | [MethodTypeSpec](../../../com.github.jonathanxd.kores.common/-method-type-spec/-builder/index.md) |

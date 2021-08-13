@@ -42,7 +42,12 @@ A element that can have a type.
 | [TypeSpec](../-type-spec/index.md) |
 | [TypedInstruction](../-typed-instruction/index.md) |
 | [VariableBase](../-variable-base/index.md) |
+| [DynamicConstantSpec](../../com.github.jonathanxd.kores.common/-dynamic-constant-spec/index.md) |
 | [DynamicMethodSpec](../../com.github.jonathanxd.kores.common/-dynamic-method-spec/index.md) |
+| [FieldAccessHandleSpec](../../com.github.jonathanxd.kores.common/-field-access-handle-spec/index.md) |
+| [FieldSpec](../../com.github.jonathanxd.kores.common/-field-spec/index.md) |
+| [FieldTypeSpec](../../com.github.jonathanxd.kores.common/-field-type-spec/index.md) |
+| [MethodInvokeHandleSpec](../../com.github.jonathanxd.kores.common/-method-invoke-handle-spec/index.md) |
 | [MethodInvokeSpec](../../com.github.jonathanxd.kores.common/-method-invoke-spec/index.md) |
 | [MethodSpec](../../com.github.jonathanxd.kores.common/-method-spec/index.md) |
 | [MethodTypeSpec](../../com.github.jonathanxd.kores.common/-method-type-spec/index.md) |
