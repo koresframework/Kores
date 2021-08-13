@@ -30,7 +30,7 @@ package com.github.jonathanxd.kores.type
 /**
  * A Code Type that is not known by Kores. These types are commonly those defined by the user to refer to classes
  * that are not loaded by the JVM and isn't defined by Kores, or will be defined later.
- * [UnknownKoresType] is not the same as [TypeRef]. The [TypeRef] is intended to reference Korestype declarations before them
- * is created. [UnknownKoresType] is intended to reference a type that is unknown to either JVM and Kores.
+ * [UnknownKoresType] is not the same as [TypeRef]. The [TypeRef] is intended to reference KoresType declarations before they
+ * are created. [UnknownKoresType] is intended to reference a type that is unknown to either JVM or Kores.
  */
 interface UnknownKoresType : KoresType

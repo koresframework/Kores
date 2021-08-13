@@ -64,6 +64,38 @@ private val cache = WeakValueHashMap<Type, KoresType>()
 
 val Type.koresType: KoresType get() = this.getType(false)
 
+/**
+ * Tries to resolve the KoresType of the current type.
+ *
+ * Kores is only able to resolve types of the following kinds:
+ *
+ * - [Class]
+ * - [ParameterizedType] (with [Class])
+ * - [TypeDeclaration]
+ * - [GenericType]
+ * - [KoresType] subtypes like [TypeDeclaration]
+ */
+val Type.koresTypeOrNull: KoresType?
+    get() = try {
+        this.getType(false)
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+
+/**
+ * Tries to resolve the KoresType of the current type.
+ *
+ * Kores is only able to resolve types of the following kinds:
+ *
+ * - [Class]
+ * - [ParameterizedType] (with [Class])
+ * - [TypeDeclaration]
+ * - [GenericType]
+ * - [KoresType] subtypes like [TypeDeclaration]
+ */
+val Type.koresTypeOrFail: Result<KoresType>
+    get() = this.getTypeOrFail(false)
+
 val Type.asGeneric: GenericType get() = this.koresType.let { it as? GenericType ?: Generic.type(it) }
 
 val Type.toGeneric: GenericType
@@ -114,6 +146,13 @@ fun Class<*>.getGenericType(): GenericType {
  */
 fun Type.getType(isParameterized: Boolean = false): KoresType =
     this.getType(previous = null, isParameterized)
+
+/**
+ * Gets the [KoresType] from a [Type]. This method only works for Java Reflection Types and [KoresType].
+ */
+fun Type.getTypeOrFail(isParameterized: Boolean = false): Result<KoresType> =
+    this.getTypeOrFail(previous = null, isParameterized)
+
 /**
  * Gets the [KoresType] from a [Type]. This method only works for Java Reflection Types and [KoresType].
  */
@@ -194,6 +233,137 @@ fun Type.getType(previous: Type? = null, isParameterized: Boolean = false): Kore
     }
 }
 
+/**
+ * Gets the [KoresType] from a [Type]. This method only works for Java Reflection Types and [KoresType].
+ */
+fun Type.getTypeOrFail(previous: Type? = null, isParameterized: Boolean = false): Result<KoresType> {
+
+    if (this is KoresType)
+        return Result.success(this)
+
+    val sync = synchronized(cache) { cache[this]?.let { Result.success(it) } }
+    val wn = when (this) {
+        is ParameterizedType ->
+            this.rawType.getTypeOrFail(this, false)
+                .map { Generic.type(it) }
+                .map {
+                    val mapped = this.actualTypeArguments.map {
+                        it.getTypeOrFail(this, true)
+                    }
+
+                    for (map in mapped) {
+                        if (map.isFailure)
+                            return Result.failure(map.exceptionOrNull()!!)
+                    }
+                    val newMapped = mapped.map { it.getOrThrow() }
+
+                    Result.success(it.of(*newMapped.filter { !it.`is`(Types.OBJECT) }.toTypedArray()))
+                }.flatten()
+        is GenericArrayType -> this.genericComponentType.getTypeOrFail(this, false).map { Generic.type(it) }
+        is TypeVariable<*> -> {
+            val type = Generic.type(this.name)
+
+            if (isParameterized)
+                return Result.success(type)
+
+            val mapped = this.bounds.map {
+                it.getTypeOrFail(this, false)
+            }
+
+            for (map in mapped) {
+                if (map.isFailure)
+                    return Result.failure(map.exceptionOrNull()!!)
+            }
+            val newMapped = mapped.map { it.getOrThrow() }.filter { !it.`is`(Types.OBJECT) }
+
+            Result.success(type.`extends$`(*newMapped.toTypedArray()))
+        }
+        is WildcardType -> {
+            var generic = Generic.wildcard()
+
+            fun buildIfRecursive(it: Type): Result<Generic>? {
+                if (previous != null && it is TypeVariable<*> && it.bounds.any { it === previous }) {
+                    val nBounds = it.bounds.map { type ->
+                        if (type === previous) {
+                            // TODO: Support recursive types, such as K extends Comparable<? super K>
+                            //  Currently this is not possible because Generic instance is only available when all
+                            //  bounds are already built, so there is no way to K inside Comparable<? super K>
+                            //  reference the K extends Comparable<? super K>, which will not be constructed
+                            //  until the K inside is resolved.
+                            //  this is not easy to resolve, as allowing cyclic generics may impose other problems
+                            //  with already existing systems in Kores, such as Generic Inference, Generic Translation
+                            //  and identity equality check.
+                            //  but a way to resolve that is to replace the K inside Comparable<? super K> with the
+                            //  K extends Comparable<? super K> after the Generic instance is created, as a post-processing
+                            //  task, however, Generic is immutable, so we will need a Builder for the Generic, which
+                            //  would allow self-reference to occur, as we will have the Builder before the type is built,
+                            //  then we just glue them all.
+                            Result.success(Generic.type(it.name))
+                        } else {
+                            type.getTypeOrFail(this, false)
+                        }
+                    }
+
+                    for (b in nBounds) {
+                        if (b.isFailure)
+                            return Result.failure(b.exceptionOrNull()!!)
+                    }
+
+                    val newBounds = nBounds.map { it.getOrThrow() }.filter { !it.`is`(Types.OBJECT) }.toTypedArray()
+                    val type = Generic.type(it.name)
+
+                    return Result.success(type.`extends$`(*newBounds))
+                } else {
+                    return null
+                }
+            }
+
+            this.lowerBounds.forEach {
+                if (it is Class<*> && it == Any::class.java)
+                    return@forEach
+
+                val r = buildIfRecursive(it)?.map {
+                    it
+                } ?: it.getTypeOrFail(this, false).map { generic.`super$`(it) }
+
+                if (r.isFailure)
+                    return Result.failure(r.exceptionOrNull()!!)
+
+                generic = r.getOrThrow()
+            }
+
+            this.upperBounds.forEach {
+                if (it is Class<*> && it == Any::class.java)
+                    return@forEach
+
+                val r = buildIfRecursive(it)?.map {
+                    it
+                } ?: it.getTypeOrFail(this, false).map { generic.`extends$`(it) }
+
+                if (r.isFailure)
+                    return Result.failure(r.exceptionOrNull()!!)
+
+                generic = r.getOrThrow()
+            }
+
+            Result.success(generic)
+        }
+        is Class<*> -> this.koresType.let {
+            Result.success(it)
+        }
+        else -> Result.failure(IllegalArgumentException("Cannot convert '$this' to KoresType."))
+    }.let {
+        if (it.isSuccess) synchronized(cache) { cache[this] = it.getOrNull() }
+        it
+    }
+
+    return sync ?: wn
+}
+
+private fun <T> Result<Result<T>>.flatten(): Result<T> =
+    if (this.isFailure) Result.failure(this.exceptionOrNull()!!)
+    else if (this.isSuccess && this.getOrThrow().isFailure) Result.failure(this.getOrThrow().exceptionOrNull()!!)
+    else Result.success(this.getOrThrow().getOrThrow())
 
 fun KoresType.getType(name: String): KoresType? {
     if (this is GenericType)
@@ -219,7 +389,7 @@ fun GenericType.getType(name: String): KoresType? {
         return this.resolvedType
     else
         return this.resolvedType.getType(name)
-                ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
+            ?: this.bounds.firstOrNull { it.type.getType(name) != null }?.type
 }
 
 fun GenericType.getType(name: String, inside: KoresType): KoresType? {
