@@ -5,7 +5,7 @@ apply plugin: 'license'
 
 apply plugin: 'maven-publish'
 
-version '4.1.2.base'
+version '4.1.4.base'
 
 jar {
     manifest {
@@ -85,6 +85,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.kotlin
+            artifactId 'kores-dsl'
 
             artifact sourcesJar
         }

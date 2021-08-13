@@ -140,14 +140,14 @@ license {
 
 publishing {
     repositories {
-        /*maven {
+        maven {
             name = "Local"
             // change to point to your repo, e.g. http://my.org/repo
             url = "$buildDir/repo"
-        }*/
+        }
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/koresframework/Kores"
+            url = "https://maven.pkg.github.com/koresframework/kores"
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
@@ -157,6 +157,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.kotlin
+            artifactId 'kores'
 
             artifact sourcesJar
         }
