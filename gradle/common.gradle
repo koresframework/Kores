@@ -22,10 +22,8 @@ defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
 
 sourceCompatibility = 16
 
-def userNameProp = project.findProperty("USERNAME")
-def patProp = project.findProperty("TOKEN")
-def GITHUB_USERNAME = (userNameProp == null || userNameProp.isEmpty()) ? System.getenv("USERNAME") : userNameProp
-def GITHUB_PAT = (patProp == null || patProp.isEmpty()) ? System.getenv("TOKEN") : patProp
+def GITHUB_USERNAME = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
+def GITHUB_PAT = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
 
 repositories {
     mavenCentral()
