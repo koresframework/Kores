@@ -19,7 +19,7 @@ buildscript {
 }
 
 group 'com.github.koresframework'
-version '4.1.10.base'
+version '4.1.11.base'
 
 apply from: 'gradle/common.gradle'
 
