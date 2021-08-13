@@ -33,6 +33,7 @@ import com.github.jonathanxd.kores.base.Annotation
 import com.github.jonathanxd.kores.base.Retention
 import com.github.jonathanxd.kores.base.comment.*
 import com.github.jonathanxd.kores.common.DynamicMethodSpec
+import com.github.jonathanxd.kores.common.MethodInvokeHandleSpec
 import com.github.jonathanxd.kores.common.MethodInvokeSpec
 import com.github.jonathanxd.kores.common.MethodTypeSpec
 import com.github.jonathanxd.kores.generic.GenericSignature
@@ -657,6 +658,19 @@ fun instanceOfCheck(
  */
 fun invokeDynamic(
     bootstrap: MethodInvokeSpec,
+    dynamicMethod: DynamicMethodSpec,
+    bootstrapArgs: List<Any>
+) = InvokeDynamic(
+    MethodInvokeHandleSpec(bootstrap.invokeType.toDynamicInvokeType(), bootstrap.methodTypeSpec),
+    dynamicMethod,
+    bootstrapArgs
+)
+
+/**
+ * @see InvokeDynamic
+ */
+fun invokeDynamic(
+    bootstrap: MethodInvokeHandleSpec,
     dynamicMethod: DynamicMethodSpec,
     bootstrapArgs: List<Any>
 ) = InvokeDynamic(

@@ -85,12 +85,12 @@ interface InvokeDynamicBase : TypedInstruction {
     /**
      * Bootstrap method invocation specification.
      */
-    val bootstrap: MethodInvokeSpec
+    val bootstrap: MethodInvokeHandleSpec
 
     /**
      * The [Type] that declares the [bootstrap method][bootstrap].
      *
-     * This is the same value provided via [MethodTypeSpec] to the [bootstrap].[methodTypeSpec][MethodInvokeSpec.methodTypeSpec].
+     * This is the same value provided via [MethodTypeSpec] to the [bootstrap].[methodTypeSpec][MethodInvokeHandleSpec.methodTypeSpec].
      */
     val bootstrapLocalization: Type
         get() = this.bootstrap.methodTypeSpec.localization
@@ -135,7 +135,13 @@ interface InvokeDynamicBase : TypedInstruction {
         /**
          * See [InvokeDynamic.bootstrap]
          */
-        fun bootstrap(value: MethodInvokeSpec): S
+        fun bootstrap(value: MethodInvokeSpec): S =
+            bootstrap(MethodInvokeHandleSpec(value.invokeType.toDynamicInvokeType(), value.methodTypeSpec))
+
+        /**
+         * See [InvokeDynamic.bootstrap]
+         */
+        fun bootstrap(value: MethodInvokeHandleSpec): S
 
         /**
          * See [InvokeDynamic.dynamicMethod]
@@ -197,9 +203,9 @@ interface InvokeDynamicBase : TypedInstruction {
         override val type: Type
             get() = this.baseSam.localization
 
-        override val bootstrap: MethodInvokeSpec
-            get() = MethodInvokeSpec(
-                InvokeType.INVOKE_STATIC, MethodTypeSpec(
+        override val bootstrap: MethodInvokeHandleSpec
+            get() = MethodInvokeHandleSpec(
+                DynamicInvokeType.INVOKE_STATIC, MethodTypeSpec(
                     localization = LambdaMetafactory::class.java,
                     methodName = "metafactory",
                     typeSpec = TypeSpec(
@@ -254,7 +260,7 @@ interface InvokeDynamicBase : TypedInstruction {
             ArgumentsHolder.Builder<T, S> {
 
             override fun type(value: Type): S = self()
-            override fun bootstrap(value: MethodInvokeSpec): S = self()
+            override fun bootstrap(value: MethodInvokeHandleSpec): S = self()
             override fun bootstrapArgs(value: List<Any>): S = self()
             override fun array(value: Boolean): S = self()
             override fun dynamicMethod(value: DynamicMethodSpec): S = self()
@@ -335,7 +341,7 @@ interface InvokeDynamicBase : TypedInstruction {
 
 @Serializable
 data class InvokeDynamic(
-    override val bootstrap: MethodInvokeSpec,
+    override val bootstrap: MethodInvokeHandleSpec,
     override val dynamicMethod: DynamicMethodSpec,
     override val bootstrapArgs: List<@Serializable(with = BootstrapArgSerializer::class) Any>
 ) : InvokeDynamicBase {
@@ -345,7 +351,7 @@ data class InvokeDynamic(
     class Builder() :
         InvokeDynamicBase.Builder<InvokeDynamic, Builder> {
 
-        lateinit var bootstrap: MethodInvokeSpec
+        lateinit var bootstrap: MethodInvokeHandleSpec
         lateinit var dynamic: DynamicMethodSpec
         var args: List<Any> = emptyList()
 
@@ -355,7 +361,7 @@ data class InvokeDynamic(
             this.args = defaults.bootstrapArgs
         }
 
-        override fun bootstrap(value: MethodInvokeSpec): Builder {
+        override fun bootstrap(value: MethodInvokeHandleSpec): Builder {
             this.bootstrap = value
             return this
         }

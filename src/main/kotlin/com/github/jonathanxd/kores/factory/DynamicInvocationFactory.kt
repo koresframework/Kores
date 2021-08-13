@@ -34,6 +34,7 @@ import com.github.jonathanxd.kores.base.InvokeDynamic
 import com.github.jonathanxd.kores.base.LocalCode
 import com.github.jonathanxd.kores.base.TypeSpec
 import com.github.jonathanxd.kores.common.DynamicMethodSpec
+import com.github.jonathanxd.kores.common.MethodInvokeHandleSpec
 import com.github.jonathanxd.kores.common.MethodInvokeSpec
 import com.github.jonathanxd.kores.common.MethodTypeSpec
 
@@ -42,6 +43,16 @@ import com.github.jonathanxd.kores.common.MethodTypeSpec
  */
 fun invokeDynamic(
     bootstrap: MethodInvokeSpec,
+    dynamicMethod: DynamicMethodSpec,
+    args: List<Any>
+): InvokeDynamic =
+    InvokeDynamic(MethodInvokeHandleSpec(bootstrap.invokeType.toDynamicInvokeType(), bootstrap.methodTypeSpec), dynamicMethod, args)
+
+/**
+ * @see InvokeDynamic
+ */
+fun invokeDynamic(
+    bootstrap: MethodInvokeHandleSpec,
     dynamicMethod: DynamicMethodSpec,
     args: List<Any>
 ): InvokeDynamic =

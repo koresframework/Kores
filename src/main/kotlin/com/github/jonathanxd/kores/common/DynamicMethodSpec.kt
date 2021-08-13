@@ -73,10 +73,17 @@ data class DynamicMethodSpec(
      * uses [bootstrap] (with [bootstrapArgs]) to bind the invocation.
      */
     operator fun invoke(bootstrap: MethodInvokeSpec, bootstrapArgs: List<Any>): InvokeDynamic =
+        InvokeDynamic(MethodInvokeHandleSpec(bootstrap.invokeType.toDynamicInvokeType(), bootstrap.methodTypeSpec), this, bootstrapArgs)
+
+    /**
+     * Creates a dynamic invocation of this dynamic method spec. The dynamic invocation
+     * uses [bootstrap] (with [bootstrapArgs]) to bind the invocation.
+     */
+    operator fun invoke(bootstrap: MethodInvokeHandleSpec, bootstrapArgs: List<Any>): InvokeDynamic =
         InvokeDynamic(bootstrap, this, bootstrapArgs)
 
     /**
-     * Human readable method string.
+     * Human-readable method string.
      */
     fun toMethodString() =
         "$name ${typeSpec.toTypeString()}"
