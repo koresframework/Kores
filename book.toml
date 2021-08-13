@@ -1,0 +1,14 @@
+[book]
+authors = ["JonathanxD", "FireflyLang"]
+language = "en"
+multilingual = false
+src = "book/src"
+title = "Kores Framework Book"
+
+[build]
+build-dir = "book-build"
+
+[output.html]
+mathjax-support = true
+default-theme = "navy"
+edit-url-template = "https://github.com/koresframework/Kores/edit/main/book/{path}"

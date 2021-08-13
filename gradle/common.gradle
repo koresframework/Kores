@@ -140,9 +140,18 @@ license {
 
 publishing {
     repositories {
-        maven {
+        /*maven {
+            name = "Local"
             // change to point to your repo, e.g. http://my.org/repo
             url = "$buildDir/repo"
+        }*/
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/koresframework/Kores"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
         }
     }
     publications {
