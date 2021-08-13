@@ -10,7 +10,6 @@ Kores bytecode generation module tries to generate bytecode as close as possible
 
 ## Projects that uses Kores
 
-
 - [EventSys](https://github.com/ProjectSandstone/EventSys)
     - A dynamic property base event system written on top of Kores
 
@@ -22,3 +21,9 @@ Kores bytecode generation module tries to generate bytecode as close as possible
 
 - [FireflyLang Compiler](https://github.com/FireflyLang/firefly-compiler)
   - A proof-of-concept language that implements type-reification, traits, rules, and so on.
+
+## Applications
+
+Kores could be used in compilers, runtime code generators, compile-time code generators (and mixed generators through the common AST). However, Kores is not focused on providing instrumentation of already compiled classes. There was an attempt to provide this functionality through [Kores-BytecodeReader](https://github.com/koresframework/Kores-BytecodeReader) but maintenance and implementation stopped to focus on code generation.
+
+Also, Kores AST could be serialized and deserialized using [Kotlinx Serialization Library](https://github.com/Kotlin/kotlinx.serialization), providing easy way to compilers store and retrieve metadata about classes, including method inlining and Type Reification without Bytecode Manipulation.
