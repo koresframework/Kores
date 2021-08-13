@@ -7,6 +7,42 @@
 
 Kores is a framework which provide to developers a way to construct bytecode and source from a common structure.
 
+## How to use Kores
+
+Kores is now using [GitHub Packages](https://github.com/orgs/koresframework/packages?repo_name=Kores) to distribute its binary files instead of [jitpack.io](https://jitpack.io) (because jitpack still not support all JDK versions and sometimes `jitpack.yml` simply do not work).
+
+In order to be able to download Kores Artifacts, you will need to configure your global `$HOME/.gradle/gradle.properties` to store your username and a [PAT](https://github.com/settings/tokens) with `read:packages` permission:
+
+```properties
+USERNAME=GITHUB_USERNAME
+TOKEN=PAT
+```
+
+Then configure your `build.gradle` as the following:
+
+```gradle
+def GITHUB_USERNAME = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
+def GITHUB_PAT = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://maven.pkg.github.com/jonathanxd/jwiutils"
+        credentials {
+            username = GITHUB_USERNAME
+            password = GITHUB_PAT
+        }
+    }
+    maven {
+        url "https://maven.pkg.github.com/koresframework/kores"
+        credentials {
+            username = GITHUB_USERNAME
+            password = GITHUB_PAT
+        }
+    }
+}
+```
+
 ## Projects using Kores
 
 CodeAPI 2 (old name):

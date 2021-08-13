@@ -22,11 +22,21 @@ defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
 
 sourceCompatibility = 16
 
+def GITHUB_USERNAME = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
+def GITHUB_PAT = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
+
 repositories {
     mavenCentral()
-    jcenter()
+    // jcenter()
     maven { url 'https://dl.bintray.com/kotlin/dokka' }
-    maven { url "https://jitpack.io" }
+    // maven { url "https://jitpack.io" }
+    maven {
+        url "https://maven.pkg.github.com/jonathanxd/jwiutils"
+        credentials {
+            username = GITHUB_USERNAME
+            password = GITHUB_PAT
+        }
+    }
 }
 
 shadowJar {
@@ -91,9 +101,9 @@ compileTestKotlin {
 }
 
 dependencies {
-    implementation "com.github.JonathanxD.JwIUtils:JwIUtils:$iutils_version"
-    implementation "com.github.JonathanxD.JwIUtils:jwiutils-kt:$iutils_version"
-    implementation "com.github.JonathanxD.JwIUtils:specializations:$iutils_version"
+    implementation "com.github.jonathanxd:jwiutils:$iutils_version"
+    implementation "com.github.jonathanxd:jwiutils-kt:$iutils_version"
+    implementation "com.github.jonathanxd:specializations:$iutils_version"
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

@@ -5,7 +5,7 @@ apply plugin: 'license'
 
 apply plugin: 'maven-publish'
 
-version '4.1.4.base'
+version '4.1.7.base'
 
 jar {
     manifest {
@@ -16,7 +16,13 @@ jar {
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
+    maven {
+        url "https://maven.pkg.github.com/jonathanxd/jwiutils"
+        credentials {
+            username = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
+            password = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -80,6 +86,14 @@ publishing {
         maven {
             // change to point to your repo, e.g. http://my.org/repo
             url = "$buildDir/repo"
+        }
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/koresframework/kores"
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
         }
     }
     publications {
