@@ -41,6 +41,10 @@ repositories {
         }
     }
 }
+
+dependencies {
+    implementation "com.github.koresframework:kores:4.1.9.base" // Replace 4.1.9.base with the preferred version
+}
 ```
 
 ## Projects using Kores

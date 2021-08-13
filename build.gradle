@@ -19,6 +19,33 @@ buildscript {
 }
 
 group 'com.github.koresframework'
-version '4.1.9.base'
+version '4.1.10.base'
 
 apply from: 'gradle/common.gradle'
+
+
+publishing {
+    repositories {
+        maven {
+            name = "Local"
+            // change to point to your repo, e.g. http://my.org/repo
+            url = "$buildDir/repo"
+        }
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/koresframework/kores"
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.kotlin
+            artifactId 'kores'
+
+            artifact sourcesJar
+        }
+    }
+}
