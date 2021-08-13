@@ -47,6 +47,8 @@ dependencies {
 }
 ```
 
+This is only needed because **GitHub** still not support unauthenticated artifact access.
+
 ## Projects using Kores
 
 CodeAPI 2 (old name):
