@@ -35,9 +35,14 @@ import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
- * @property name Name of dynamic method
- * @property typeSpec Signature of dynamic method.
- * @property arguments Arguments to pass to dynamic method. (may include the receiver).
+ * This class specifies a dynamic method to invoke.
+ *
+ * Read more at [InvokeDynamicBase].
+ *
+ * @see InvokeDynamicBase
+ * @property name Name of the dynamic method to resolve.
+ * @property typeSpec Signature of dynamic method to resolve.
+ * @property arguments Arguments to pass to resolved dynamic method. (may include the receiver).
  */
 @Spec
 @Serializable

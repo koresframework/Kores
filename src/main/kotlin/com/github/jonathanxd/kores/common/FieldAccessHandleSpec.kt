@@ -27,74 +27,76 @@
  */
 package com.github.jonathanxd.kores.common
 
-import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.annotation.Spec
+import com.github.jonathanxd.kores.base.FieldAccessKind
+import com.github.jonathanxd.kores.base.InvokeDynamicBase
 import com.github.jonathanxd.kores.base.InvokeType
-import com.github.jonathanxd.kores.base.MethodInvocation
 import com.github.jonathanxd.kores.base.Typed
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
+/**
+ * Specify a field access or definition in [InvokeDynamicBase.bootstrapArgs].
+ */
 @Spec
 @Serializable
-data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
-    Comparable<MethodInvokeSpec> {
+data class FieldAccessHandleSpec(val accessKind: FieldAccessKind, val fieldTypeSpec: FieldTypeSpec) : Typed,
+    Comparable<FieldAccessHandleSpec> {
+
 
     override val type: Type
-        get() = this.methodTypeSpec.type
+        get() = this.fieldTypeSpec.type
 
     /**
      * Human-readable method invocation string.
      */
     fun toInvocationString() =
-        "${invokeType.name.lowercase()} ${this.methodTypeSpec.toMethodString()}"
+        "${accessKind.name.lowercase()} ${this.fieldTypeSpec.toFieldString()}"
 
-    /**
-     * Invokes this method in [target].
-     */
-    operator fun invoke(target: Instruction) = this.invoke(target, emptyList())
-
-    /**
-     * Invokes this method in [target] with [arguments].
-     */
-    operator fun invoke(
-        target: Instruction,
-        arguments: List<Instruction>
-    ): MethodInvocation = MethodInvocation(this.invokeType, target, this.methodTypeSpec, arguments)
 
     override fun builder(): Builder = Builder(this)
 
-    override fun compareTo(other: MethodInvokeSpec): Int {
-        return this.methodTypeSpec.compareTo(other.methodTypeSpec)
+    override fun compareTo(other: FieldAccessHandleSpec): Int {
+        return this.fieldTypeSpec.compareTo(other.fieldTypeSpec)
     }
 
-    class Builder() : Typed.Builder<MethodInvokeSpec, Builder> {
+    class Builder() : Typed.Builder<FieldAccessHandleSpec, Builder> {
 
-        lateinit var invokeType: InvokeType
-        lateinit var methodTypeSpec: MethodTypeSpec
+        lateinit var accessKind: FieldAccessKind
+        lateinit var fieldTypeSpec: FieldTypeSpec
 
-        constructor(defaults: MethodInvokeSpec) : this() {
-            this.invokeType = defaults.invokeType
-            this.methodTypeSpec = defaults.methodTypeSpec
+        constructor(defaults: FieldAccessHandleSpec) : this() {
+            this.accessKind = defaults.accessKind
+            this.fieldTypeSpec = defaults.fieldTypeSpec
         }
 
         override fun type(value: Type): Builder {
-            this.methodTypeSpec =
-                    methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
+            this.fieldTypeSpec =
+                    fieldTypeSpec.copy(fieldType = value)
             return this
         }
 
-        fun withInvokeType(value: InvokeType): Builder {
-            this.invokeType = value
+        fun withAccessKind(value: FieldAccessKind): Builder {
+            this.accessKind = value
             return this
         }
 
-        fun withMethodTypeSpec(value: MethodTypeSpec): Builder {
-            this.methodTypeSpec = value
+        fun accessKind(value: FieldAccessKind): Builder {
+            this.accessKind = value
             return this
         }
 
-        override fun build(): MethodInvokeSpec =
-            MethodInvokeSpec(this.invokeType, this.methodTypeSpec)
+        fun withFieldTypeSpec(value: FieldTypeSpec): Builder {
+            this.fieldTypeSpec = value
+            return this
+        }
+
+        fun fieldTypeSpec(value: FieldTypeSpec): Builder {
+            this.fieldTypeSpec = value
+            return this
+        }
+
+        override fun build(): FieldAccessHandleSpec =
+            FieldAccessHandleSpec(this.accessKind, this.fieldTypeSpec)
     }
 }

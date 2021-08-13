@@ -29,16 +29,18 @@ package com.github.jonathanxd.kores.common
 
 import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.annotation.Spec
-import com.github.jonathanxd.kores.base.InvokeType
-import com.github.jonathanxd.kores.base.MethodInvocation
-import com.github.jonathanxd.kores.base.Typed
+import com.github.jonathanxd.kores.base.*
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
+/**
+ * Specify a method invocation in [InvokeDynamicBase.bootstrapArgs]. This is a richer version of [MethodInvokeSpec]
+ * only used in [`invokedynamic`][InvokeDynamicBase].
+ */
 @Spec
 @Serializable
-data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
-    Comparable<MethodInvokeSpec> {
+data class MethodInvokeHandleSpec(val invokeType: DynamicInvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
+    Comparable<MethodInvokeHandleSpec> {
 
     override val type: Type
         get() = this.methodTypeSpec.type
@@ -60,20 +62,20 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
     operator fun invoke(
         target: Instruction,
         arguments: List<Instruction>
-    ): MethodInvocation = MethodInvocation(this.invokeType, target, this.methodTypeSpec, arguments)
+    ): MethodInvocation = MethodInvocation(this.invokeType.toInvokeType(), target, this.methodTypeSpec, arguments)
 
     override fun builder(): Builder = Builder(this)
 
-    override fun compareTo(other: MethodInvokeSpec): Int {
+    override fun compareTo(other: MethodInvokeHandleSpec): Int {
         return this.methodTypeSpec.compareTo(other.methodTypeSpec)
     }
 
-    class Builder() : Typed.Builder<MethodInvokeSpec, Builder> {
+    class Builder() : Typed.Builder<MethodInvokeHandleSpec, Builder> {
 
-        lateinit var invokeType: InvokeType
+        lateinit var invokeType: DynamicInvokeType
         lateinit var methodTypeSpec: MethodTypeSpec
 
-        constructor(defaults: MethodInvokeSpec) : this() {
+        constructor(defaults: MethodInvokeHandleSpec) : this() {
             this.invokeType = defaults.invokeType
             this.methodTypeSpec = defaults.methodTypeSpec
         }
@@ -85,6 +87,21 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
         }
 
         fun withInvokeType(value: InvokeType): Builder {
+            this.invokeType = value.toDynamicInvokeType()
+            return this
+        }
+
+        fun invokeType(value: InvokeType): Builder {
+            this.invokeType = value.toDynamicInvokeType()
+            return this
+        }
+
+        fun withInvokeType(value: DynamicInvokeType): Builder {
+            this.invokeType = value
+            return this
+        }
+
+        fun invokeType(value: DynamicInvokeType): Builder {
             this.invokeType = value
             return this
         }
@@ -94,7 +111,12 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             return this
         }
 
-        override fun build(): MethodInvokeSpec =
-            MethodInvokeSpec(this.invokeType, this.methodTypeSpec)
+        fun methodTypeSpec(value: MethodTypeSpec): Builder {
+            this.methodTypeSpec = value
+            return this
+        }
+
+        override fun build(): MethodInvokeHandleSpec =
+            MethodInvokeHandleSpec(this.invokeType, this.methodTypeSpec)
     }
 }

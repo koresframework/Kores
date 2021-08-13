@@ -27,8 +27,8 @@
  */
 package com.github.jonathanxd.kores.serialization
 
-import com.github.jonathanxd.kores.common.MethodInvokeSpec
-import com.github.jonathanxd.kores.common.MethodTypeSpec
+import com.github.jonathanxd.kores.base.TypeSpec
+import com.github.jonathanxd.kores.common.*
 import com.github.jonathanxd.kores.type.KoresType
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -39,8 +39,7 @@ import kotlinx.serialization.encoding.Encoder
 import java.lang.reflect.Type
 
 /**
- * Bootstrap method Arguments, must be an [String], [Int],
- * [Long], [Float], [Double], [KoresType] or [MethodInvokeSpec].
+ * Bootstrap method Arguments as specified in [com.github.jonathanxd.kores.base.InvokeDynamicBase.bootstrapArgs].
  */
 object BootstrapArgSerializer : KSerializer<Any> {
     private val ser = WrapperBootstrapArg.serializer()
@@ -68,8 +67,13 @@ private fun Any.toSerializableObj(): WrapperBootstrapArg =
         is String -> StringBootstrapArg(this)
         is Type -> TypeBootstrapArg(this)
         is MethodInvokeSpec -> MethodInvokeSpecArg(this)
-        else -> throw IllegalArgumentException("Invalid obj '$this' in KoresAnnotation declaration.")
+        is FieldAccessHandleSpec -> FieldAccessHandleSpecArg(this)
+        is MethodInvokeHandleSpec -> MethodInvokeHandleSpecArg(this)
+        is TypeSpec -> TypeSpecArg(this)
+        is DynamicConstantSpec -> DynamicConstantSpecArg(this)
+        else -> throw IllegalArgumentException("Invalid obj '$this' in Kores InvokeDynamic Bootstrap Args declaration.")
     }
+
 
 private fun WrapperBootstrapArg.toBootstrapArgObj(): Any =
     when(this) {
@@ -84,6 +88,10 @@ private fun WrapperBootstrapArg.toBootstrapArgObj(): Any =
         is StringBootstrapArg -> this.value
         is TypeBootstrapArg -> this.value
         is MethodInvokeSpecArg -> this.value
+        is FieldAccessHandleSpecArg -> this.value
+        is MethodInvokeHandleSpecArg -> this.value
+        is TypeSpecArg -> this.value
+        is DynamicConstantSpecArg -> this.value
     }
 
 @Serializable
@@ -132,3 +140,19 @@ data class StringBootstrapArg(val value: String): WrapperBootstrapArg()
 @Serializable
 @SerialName("MethodTypeSpec")
 data class MethodInvokeSpecArg(val value: MethodInvokeSpec): WrapperBootstrapArg()
+
+@Serializable
+@SerialName("FieldAccessHandleSpec")
+data class FieldAccessHandleSpecArg(val value: FieldAccessHandleSpec): WrapperBootstrapArg()
+
+@Serializable
+@SerialName("MethodInvokeHandleSpec")
+data class MethodInvokeHandleSpecArg(val value: MethodInvokeHandleSpec): WrapperBootstrapArg()
+
+@Serializable
+@SerialName("TypeSpec")
+data class TypeSpecArg(val value: TypeSpec): WrapperBootstrapArg()
+
+@Serializable
+@SerialName("DynamicConstantSpec")
+data class DynamicConstantSpecArg(val value: DynamicConstantSpec): WrapperBootstrapArg()

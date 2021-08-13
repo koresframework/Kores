@@ -27,10 +27,7 @@
  */
 package com.github.jonathanxd.kores.common
 
-import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.annotation.Spec
-import com.github.jonathanxd.kores.base.InvokeType
-import com.github.jonathanxd.kores.base.MethodInvocation
 import com.github.jonathanxd.kores.base.TypeSpec
 import com.github.jonathanxd.kores.base.Typed
 import com.github.jonathanxd.kores.serialization.TypeSerializer
@@ -41,91 +38,87 @@ import java.lang.reflect.Type
 
 @Spec
 @Serializable
-data class MethodTypeSpec(
+data class FieldTypeSpec(
     @Serializable(with = TypeSerializer::class) val localization: Type,
-    val methodSpec: MethodSpec
-) : Typed, Comparable<MethodTypeSpec> {
+    val fieldSpec: FieldSpec
+) : Typed, Comparable<FieldTypeSpec> {
 
-    constructor(localization: Type, methodName: String, typeSpec: TypeSpec)
-            : this(localization, MethodSpec(methodName, typeSpec))
+    constructor(localization: Type, fieldName: String, fieldType: Type)
+            : this(localization, FieldSpec(fieldName, fieldType))
 
-    val methodName: String get() = this.methodSpec.methodName
+    val fieldName: String get() = this.fieldSpec.fieldName
 
-    val typeSpec: TypeSpec get() = this.methodSpec.typeSpec
+    val fieldType: Type get() = this.fieldSpec.fieldType
 
     override val type: Type
-        get() = this.typeSpec.type
+        get() = this.fieldType
 
     override fun builder(): Builder = Builder(this)
 
     /**
-     * Human readable method specification string.
+     * Human-readable method specification string.
      */
-    fun toMethodString() =
-        "${localization.koresType.canonicalName}.${this.methodSpec.toMethodString()}"
-
-    /**
-     * Invokes this method in [target].
-     */
-    operator fun invoke(invokeType: InvokeType, target: Instruction) =
-        this.invoke(invokeType, target, emptyList())
-
-    /**
-     * Invokes this method in [target] with [arguments].
-     */
-    operator fun invoke(
-        invokeType: InvokeType,
-        target: Instruction,
-        arguments: List<Instruction>
-    ): MethodInvocation = MethodInvocation(invokeType, target, this, arguments)
+    fun toFieldString() =
+        "${localization.koresType.canonicalName}.${this.fieldSpec.toFieldString()}"
 
     fun copy(localization: Type = this.localization,
-             methodName: String = this.methodName,
-             typeSpec: TypeSpec = this.typeSpec) = MethodTypeSpec(localization, methodName, typeSpec)
-
-    fun copy(localization: Type = this.localization,
-             methodName: String = this.methodName,
-             type: Type = this.typeSpec.returnType) = MethodTypeSpec(localization, methodName, this.typeSpec.copy(returnType = type))
+             fieldName: String = this.fieldName,
+             fieldType: Type = this.fieldType) = FieldTypeSpec(localization, fieldName, fieldType)
 
     /**
      * This method will not compare the method localization.
      */
-    override operator fun compareTo(other: MethodTypeSpec): Int {
-        return if (this.methodName == other.methodName && this.typeSpec == other.typeSpec) 0 else 1
+    override operator fun compareTo(other: FieldTypeSpec): Int {
+        return if (this.localization == other.localization && this.fieldSpec == other.fieldSpec) 0 else 1
     }
 
-    class Builder() : Typed.Builder<MethodTypeSpec, Builder> {
+    class Builder() : Typed.Builder<FieldTypeSpec, Builder> {
         lateinit var localization: Type
-        lateinit var methodName: String
-        lateinit var typeSpec: TypeSpec
+        lateinit var fieldName: String
+        lateinit var fieldType: Type
 
-        constructor(defaults: MethodTypeSpec) : this() {
+        constructor(defaults: FieldTypeSpec) : this() {
             this.localization = defaults.localization
-            this.methodName = defaults.methodName
-            this.typeSpec = defaults.typeSpec
+            this.fieldName = defaults.fieldName
+            this.fieldType = defaults.fieldType
         }
 
         override fun type(value: Type): Builder {
-            this.typeSpec = this.typeSpec.copy(returnType = value)
+            this.fieldType = value
             return this
         }
 
-        fun withLocalization(value: KoresType): Builder {
+        fun withLocalization(value: Type): Builder {
             this.localization = value
             return this
         }
 
-        fun withMethodName(value: String): Builder {
-            this.methodName = value
+        fun localization(value: Type): Builder {
+            this.localization = value
             return this
         }
 
-        fun withTypeSpec(value: TypeSpec): Builder {
-            this.typeSpec = value
+        fun withFieldName(value: String): Builder {
+            this.fieldName = value
             return this
         }
 
-        override fun build(): MethodTypeSpec = MethodTypeSpec(localization, methodName, typeSpec)
+        fun fieldName(value: String): Builder {
+            this.fieldName = value
+            return this
+        }
+
+        fun withFieldType(value: Type): Builder {
+            this.fieldType = value
+            return this
+        }
+
+        fun fieldType(value: Type): Builder {
+            this.fieldType = value
+            return this
+        }
+
+        override fun build(): FieldTypeSpec = FieldTypeSpec(localization, fieldName, fieldType)
 
     }
 }

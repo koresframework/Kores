@@ -33,19 +33,10 @@ import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
- * Type of the invocation. In JVM, the invocation type depends on where the element is declared and
- * which modifiers it has. [INVOKE_VIRTUAL] is used to invoke instance methods in `class`es, [INVOKE_INTERFACE]
- * is used to invoke interface methods in `interface`s, a special opcode is required for methods declared
- * in `interface` because JVM needs to resolve the position of the method in the method table. [INVOKE_STATIC] is used
- * for invocation of static methods, does not matter where it is declared or if it is private. [INVOKE_SPECIAL] is used to invoke
- * constructors, super constructors and for private methods, for private methods,
- * [INVOKE_SPECIAL] is required because [INVOKE_VIRTUAL] will always call the method of `current class`, which
- * is bad for private methods, because class inheritance can hide the private method and can cause a unexpected
- * behavior.
- *
+ * TODO Documentation
  */
 @Serializable
-enum class InvokeType {
+enum class DynamicInvokeType {
 
     /**
      * Static method invocation.
@@ -65,6 +56,11 @@ enum class InvokeType {
      * - Super constructor invocation. (or this constructor invocation).
      */
     INVOKE_SPECIAL,
+
+    /**
+     * Special invocation of constructors.
+     */
+    NEW_INVOKE_SPECIAL,
 
     /**
      * Interface method invocation.
@@ -93,30 +89,23 @@ enum class InvokeType {
     fun isSpecial() = this == INVOKE_SPECIAL
 
     /**
+     * Returns true if the InvokeType is [NEW_INVOKE_SPECIAL].
+     *
+     * @return True if the InvokeType is [NEW_INVOKE_SPECIAL].
+     */
+    fun isNewSpecial() = this == NEW_INVOKE_SPECIAL
+
+    /**
      * Returns true if the InvokeType is [INVOKE_INTERFACE].
      *
      * @return True if the InvokeType is [INVOKE_INTERFACE].
      */
     fun isInterface() = this == INVOKE_INTERFACE
 
-    fun toDynamicInvokeType(): DynamicInvokeType = when(this) {
-        INVOKE_STATIC -> DynamicInvokeType.INVOKE_STATIC
-        INVOKE_VIRTUAL -> DynamicInvokeType.INVOKE_VIRTUAL
-        INVOKE_SPECIAL -> DynamicInvokeType.INVOKE_SPECIAL
-        INVOKE_INTERFACE -> DynamicInvokeType.INVOKE_INTERFACE
-    }
-
-    companion object {
-
-        /**
-         * Get InvokeType corresponding to the [type]. If [type] is null, [INVOKE_STATIC], if [type]
-         * [com.github.jonathanxd.kores.util.isInterface], [INVOKE_INTERFACE], if not, [INVOKE_VIRTUAL].
-         *
-         * @param type Type
-         * @return [INVOKE_STATIC] if null, [INVOKE_INTERFACE] if is is an interface, or is not an interface [INVOKE_VIRTUAL]
-         */
-        @JvmStatic
-        fun get(type: Type?) =
-            if (type == null) INVOKE_STATIC else if (type.isInterface) INVOKE_INTERFACE else INVOKE_VIRTUAL
+    fun toInvokeType(): InvokeType = when(this) {
+        INVOKE_STATIC -> InvokeType.INVOKE_STATIC
+        INVOKE_VIRTUAL -> InvokeType.INVOKE_VIRTUAL
+        INVOKE_SPECIAL, NEW_INVOKE_SPECIAL -> InvokeType.INVOKE_SPECIAL
+        INVOKE_INTERFACE -> InvokeType.INVOKE_INTERFACE
     }
 }

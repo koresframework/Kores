@@ -27,74 +27,74 @@
  */
 package com.github.jonathanxd.kores.common
 
-import com.github.jonathanxd.kores.Instruction
 import com.github.jonathanxd.kores.annotation.Spec
-import com.github.jonathanxd.kores.base.InvokeType
-import com.github.jonathanxd.kores.base.MethodInvocation
-import com.github.jonathanxd.kores.base.Typed
+import com.github.jonathanxd.kores.base.*
+import com.github.jonathanxd.kores.serialization.TypeSerializer
+import com.github.jonathanxd.kores.type.canonicalName
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
+/**
+ * Specification of a field for [InvokeDynamicBase.bootstrapArgs].
+ */
 @Spec
 @Serializable
-data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
-    Comparable<MethodInvokeSpec> {
-
+data class FieldSpec(val fieldName: String, @Serializable(with = TypeSerializer::class) val fieldType: Type) :
+    Typed, Comparable<FieldSpec> {
     override val type: Type
-        get() = this.methodTypeSpec.type
-
-    /**
-     * Human-readable method invocation string.
-     */
-    fun toInvocationString() =
-        "${invokeType.name.lowercase()} ${this.methodTypeSpec.toMethodString()}"
-
-    /**
-     * Invokes this method in [target].
-     */
-    operator fun invoke(target: Instruction) = this.invoke(target, emptyList())
-
-    /**
-     * Invokes this method in [target] with [arguments].
-     */
-    operator fun invoke(
-        target: Instruction,
-        arguments: List<Instruction>
-    ): MethodInvocation = MethodInvocation(this.invokeType, target, this.methodTypeSpec, arguments)
+        get() = this.fieldType
 
     override fun builder(): Builder = Builder(this)
 
-    override fun compareTo(other: MethodInvokeSpec): Int {
-        return this.methodTypeSpec.compareTo(other.methodTypeSpec)
+    /**
+     * Human-readable method specification string.
+     */
+    fun toFieldString() =
+        "$fieldName:${fieldType.canonicalName}"
+
+    /**
+     * This method will not compare the method localization.
+     */
+    override operator fun compareTo(other: FieldSpec): Int {
+        return if (this.fieldName == other.fieldName && this.fieldType == other.fieldType) 0 else 1
     }
 
-    class Builder() : Typed.Builder<MethodInvokeSpec, Builder> {
+    /**
+     * Converts this [FieldSpec] to [MethodTypeSpec]
+     */
+    fun toFieldTypeSpec(type: Type) =
+            FieldTypeSpec(type, this)
 
-        lateinit var invokeType: InvokeType
-        lateinit var methodTypeSpec: MethodTypeSpec
+    class Builder() : Typed.Builder<FieldSpec, Builder> {
+        lateinit var fieldName: String
+        lateinit var fieldType: Type
 
-        constructor(defaults: MethodInvokeSpec) : this() {
-            this.invokeType = defaults.invokeType
-            this.methodTypeSpec = defaults.methodTypeSpec
+        constructor(defaults: FieldSpec) : this() {
+            this.fieldName = defaults.fieldName
+            this.fieldType = defaults.fieldType
         }
 
         override fun type(value: Type): Builder {
-            this.methodTypeSpec =
-                    methodTypeSpec.copy(typeSpec = methodTypeSpec.typeSpec.copy(returnType = value))
+            this.fieldType = value
             return this
         }
 
-        fun withInvokeType(value: InvokeType): Builder {
-            this.invokeType = value
+        fun withFieldName(value: String): Builder {
+            this.fieldName = value
             return this
         }
 
-        fun withMethodTypeSpec(value: MethodTypeSpec): Builder {
-            this.methodTypeSpec = value
+        fun fieldName(value: String): Builder {
+            this.fieldName = value
             return this
         }
 
-        override fun build(): MethodInvokeSpec =
-            MethodInvokeSpec(this.invokeType, this.methodTypeSpec)
+        fun withFieldType(value: Type): Builder {
+            this.fieldType = value
+            return this
+        }
+
+        override fun build(): FieldSpec = FieldSpec(this.fieldName, this.fieldType)
+
     }
 }

@@ -32,6 +32,9 @@ import com.github.jonathanxd.kores.builder.self
 import com.github.jonathanxd.kores.common.DynamicMethodSpec
 import com.github.jonathanxd.kores.common.MethodInvokeSpec
 import com.github.jonathanxd.kores.common.MethodTypeSpec
+import com.github.jonathanxd.kores.common.FieldAccessHandleSpec
+import com.github.jonathanxd.kores.common.MethodInvokeHandleSpec
+import com.github.jonathanxd.kores.common.DynamicConstantSpec
 import com.github.jonathanxd.kores.serialization.BootstrapArgListSerializer
 import com.github.jonathanxd.kores.serialization.BootstrapArgSerializer
 import com.github.jonathanxd.kores.type.KoresType
@@ -41,10 +44,35 @@ import java.lang.reflect.Type
 import java.util.function.Supplier
 
 /**
- * A dynamic invocation of a method.
+ * Represents a dynamic invocation of a method. The mechanism of a dynamic invocation is very simple, when JVM encounters an
+ * `invokedynamic` instruction, it calls the [bootstrap] method (which is a static method defined in [bootstrapLocalization])
+ * to resolve the [target method][dynamicMethod]. Once resolved, the [target method][dynamicMethod] keeps linked to the
+ * call-site and there is no way to revert this. Subsequent calls are routed to the resolved method without invoking the bootstrap.
+ * This allows optimizations to take in place (like the JIT compiler optimizations).
  *
- * Note: this class does not extends [MethodInvocation] because it is not
- * a normal invocation.
+ * The [dynamicMethod] corresponds to the dynamic method that need to be resolved, it contains important information about
+ * the method that need to be resolved. The [DynamicMethodSpec.name] and [DynamicMethodSpec.typeSpec] (which are provided as
+ * [String] and [MethodType], respectively) are available to the bootstrap method, but [DynamicMethodSpec.arguments] is not,
+ * as specified in the documentation of the property.
+ *
+ * Additional information can be provided through [bootstrapArgs] and are passed as the last argument of the
+ * [bootstrap method][bootstrap]. The last parameter of [bootstrap method][bootstrap] can be a vararg, an [Array] of [Any],
+ * or various parameters of the types accepted by bootstrap methods as specified in JVM Specification and in the
+ * [java.lang.invoke] package documentation. The known allowed parameter types are:
+ * - Literal Constants
+ *   - [Int], [Float], [Long], [Double], [String] (it includes [dynamic constant][DynamicConstantSpec]).
+ * - Type Constants
+ *   - [Type]/[Class]
+ * - Field and Method specification
+ *   - [MethodHandle]
+ * - Descriptors
+ *   - [MethodType]/[TypeDescriptor] (since Java 12)
+ *
+ *
+ * ### Relevant documents
+ * - [Java Virtual Machine Support for Non-Java Languages](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/multiple-language-support.html)
+ * - [Understanding Java method invocation with invokedynamic](https://blogs.oracle.com/javamagazine/understanding-java-method-invocation-with-invokedynamic)
+ * - [Chapter 6. The Java Virtual Machine Instruction Set#invokedynamic](https://docs.oracle.com/javase/specs/jvms/se16/html/jvms-6.html#jvms-6.5.invokedynamic)
  */
 interface InvokeDynamicBase : TypedInstruction {
 
@@ -60,13 +88,39 @@ interface InvokeDynamicBase : TypedInstruction {
     val bootstrap: MethodInvokeSpec
 
     /**
-     * Specification of dynamic method.
+     * The [Type] that declares the [bootstrap method][bootstrap].
+     *
+     * This is the same value provided via [MethodTypeSpec] to the [bootstrap].[methodTypeSpec][MethodInvokeSpec.methodTypeSpec].
+     */
+    val bootstrapLocalization: Type
+        get() = this.bootstrap.methodTypeSpec.localization
+
+    /**
+     * Specification of the method to invoke dynamically. This information is used by the [bootstrap method][bootstrap]
+     * to resolve the target invocation method.
+     *
+     * Arguments provided to [DynamicMethodSpec] are passed to the method resolved by the [bootstrap].
      */
     val dynamicMethod: DynamicMethodSpec
 
     /**
-     * Bootstrap method Arguments, must be an [String], [Int],
-     * [Long], [Float], [Double], [KoresType] or [MethodInvokeSpec].
+     * Bootstrap method Arguments, must be one of the following types:
+     * - [String]
+     * - [Int],
+     * - [Long]
+     * - [Float]
+     * - [Double]
+     * - [KoresType]/[Type]
+     * - [MethodInvokeSpec] (normally translated into [MethodHandle] at runtime, by the JVM)
+     * - [FieldAccessHandleSpec] (normally translated into [MethodHandle] at runtime, by the JVM)
+     * - [MethodInvokeHandleSpec] (normally translated into [MethodHandle] at runtime, by the JVM)
+     * - [TypeSpec] (normally translated into [MethodType] at runtime, by the JVM)
+     * - [DynamicConstantSpec] (as specified in [JEP 309](https://openjdk.java.net/jeps/309), translated into a constant).
+     *
+     * This is the value provided to the bootstrap method which resolves the target method to invoke. Those values
+     * are stored in the **ConstantPool** and are not provided to the target method.
+     *
+     * Arguments that must be provided to the target method must be provided in the [dynamicMethod] specification.
      */
     @Serializable(with = BootstrapArgListSerializer::class)
     val bootstrapArgs: List<Any>
