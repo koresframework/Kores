@@ -42,7 +42,8 @@ import java.lang.reflect.Type
  * @see InvokeDynamicBase
  * @property name Name of the dynamic method to resolve.
  * @property typeSpec Signature of dynamic method to resolve.
- * @property arguments Arguments to pass to resolved dynamic method. (may include the receiver).
+ * @property arguments Arguments to pass to resolved dynamic method (may include the receiver).
+ * These values are not available to the boostrap method, only to the resolved dynamic method.
  */
 @Spec
 @Serializable
