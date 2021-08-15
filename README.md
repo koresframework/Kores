@@ -1,5 +1,7 @@
 ![Kores](https://github.com/JonathanxD/Kores/blob/version/4.0.0/Kores-base.png?raw=true)
 
+[![Documentation](https://img.shields.io/badge/Documentation-blue)](http://koresframework.github.io/Kores/)
+![MIT License](https://img.shields.io/badge/License-MIT-green)
 [![jitpack](https://jitpack.io/v/JonathanxD/Kores.svg)](https://jitpack.io/#JonathanxD/Kores)
 [![Discord](https://img.shields.io/discord/291407467286364164.svg)](https://discord.gg/3cQWmtj)
 [![Actions](https://img.shields.io/github/workflow/status/koresframework/Kores/Gradle%20Package)](https://github.com/koresframework/Kores/actions)
