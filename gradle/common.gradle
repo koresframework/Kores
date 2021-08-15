@@ -57,7 +57,7 @@ jar {
 
 tasks.dokkaGfm.configure {
     enabled = true
-    outputDirectory = rootDir.toPath().resolve("docs").toFile()
+    outputDirectory = rootDir.toPath().resolve("kdocs").toFile()
 
     dokkaSourceSets {
         named("main") {

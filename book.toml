@@ -6,7 +6,7 @@ src = "book/src"
 title = "Kores Framework Book"
 
 [build]
-build-dir = "book/html"
+build-dir = "docs"
 
 [output.html]
 mathjax-support = true
