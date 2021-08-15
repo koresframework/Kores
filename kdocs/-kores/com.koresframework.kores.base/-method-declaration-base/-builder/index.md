@@ -1,0 +1,32 @@
+//[Kores](../../../../index.md)/[com.koresframework.kores.base](../../index.md)/[MethodDeclarationBase](../index.md)/[Builder](index.md)
+
+# Builder
+
+[jvm]\
+interface [Builder](index.md)<out [T](index.md) : [MethodDeclarationBase](../index.md), [S](index.md) : [MethodDeclarationBase.Builder](index.md)<[T](index.md), [S](index.md)>> : [BodyHolder.Builder](../../-body-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [ModifiersHolder.Builder](../../-modifiers-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [ReturnTypeHolder.Builder](../../-return-type-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [ParametersHolder.Builder](../../-parameters-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [GenericSignatureHolder.Builder](../../-generic-signature-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [Annotable.Builder](../../-annotable/-builder/index.md)<[T](index.md), [S](index.md)> , [Named.Builder](../../-named/-builder/index.md)<[T](index.md), [S](index.md)> , [Typed.Builder](../../-typed/-builder/index.md)<[T](index.md), [S](index.md)> , [CommentHolder.Builder](../../../com.koresframework.kores.base.comment/-comment-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [InnerTypesHolder.Builder](../../-inner-types-holder/-builder/index.md)<[T](index.md), [S](index.md)> , [ThrowsHolder.Builder](../../-throws-holder/-builder/index.md)<[T](index.md), [S](index.md)>
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [annotations](../../-annotable/-builder/annotations.md) | [jvm]<br>open fun [annotations](../../-annotable/-builder/annotations.md)(vararg values: [Annotation](../../-annotation/index.md)): [S](index.md)<br>abstract fun [annotations](../../-annotable/-builder/annotations.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Annotation](../../-annotation/index.md)>): [S](index.md)<br>See T. |
+| [body](../../-body-holder/-builder/body.md) | [jvm]<br>abstract fun [body](../../-body-holder/-builder/body.md)(value: [Instructions](../../../com.koresframework.kores/-instructions/index.md)): [S](index.md)<br>See T. |
+| [build](../../../com.koresframework.kores.builder/-builder/build.md) | [jvm]<br>abstract fun [build](../../../com.koresframework.kores.builder/-builder/build.md)(): [T](index.md)<br>Build the object of type [T](../../../com.koresframework.kores.builder/-builder/index.md). |
+| [comments](../../../com.koresframework.kores.base.comment/-comment-holder/-builder/comments.md) | [jvm]<br>abstract fun [comments](../../../com.koresframework.kores.base.comment/-comment-holder/-builder/comments.md)(value: [Comments](../../../com.koresframework.kores.base.comment/-comments/index.md)): [S](index.md)<br>See [CommentHolder.comments](../../../com.koresframework.kores.base.comment/-comment-holder/comments.md) |
+| [genericSignature](../../-generic-signature-holder/-builder/generic-signature.md) | [jvm]<br>abstract fun [genericSignature](../../-generic-signature-holder/-builder/generic-signature.md)(value: [GenericSignature](../../../com.koresframework.kores.generic/-generic-signature/index.md)): [S](index.md)<br>See T. |
+| [innerTypes](../../-inner-types-holder/-builder/inner-types.md) | [jvm]<br>open fun [innerTypes](../../-inner-types-holder/-builder/inner-types.md)(vararg values: [TypeDeclaration](../../-type-declaration/index.md)): [S](index.md)<br>abstract fun [innerTypes](../../-inner-types-holder/-builder/inner-types.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[TypeDeclaration](../../-type-declaration/index.md)>): [S](index.md)<br>See [InnerTypesHolder.innerTypes](../../-inner-types-holder/inner-types.md) |
+| [modifiers](../../-modifiers-holder/-builder/modifiers.md) | [jvm]<br>open fun [modifiers](../../-modifiers-holder/-builder/modifiers.md)(vararg values: [KoresModifier](../../-kores-modifier/index.md)): [S](index.md)<br>abstract fun [modifiers](../../-modifiers-holder/-builder/modifiers.md)(value: [Set](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)<[KoresModifier](../../-kores-modifier/index.md)>): [S](index.md)<br>See [ModifiersHolder.modifiers](../../-modifiers-holder/modifiers.md) |
+| [name](../../-named/-builder/name.md) | [jvm]<br>abstract fun [name](../../-named/-builder/name.md)(value: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [S](index.md) |
+| [parameters](../../-parameters-holder/-builder/parameters.md) | [jvm]<br>open fun [parameters](../../-parameters-holder/-builder/parameters.md)(vararg values: [KoresParameter](../../-kores-parameter/index.md)): [S](index.md)<br>abstract fun [parameters](../../-parameters-holder/-builder/parameters.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[KoresParameter](../../-kores-parameter/index.md)>): [S](index.md)<br>See T. |
+| [publicModifier](../../-modifiers-holder/-builder/public-modifier.md) | [jvm]<br>open fun [publicModifier](../../-modifiers-holder/-builder/public-modifier.md)(): [S](index.md)<br>Sets modifiers to [KoresModifier.PUBLIC](../../-kores-modifier/-p-u-b-l-i-c/index.md). |
+| [returnType](../../-return-type-holder/-builder/return-type.md) | [jvm]<br>abstract fun [returnType](../../-return-type-holder/-builder/return-type.md)(value: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [S](index.md)<br>See T. |
+| [throwsClause](../../-throws-holder/-builder/throws-clause.md) | [jvm]<br>open fun [throwsClause](../../-throws-holder/-builder/throws-clause.md)(vararg values: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [S](index.md)<br>abstract fun [throwsClause](../../-throws-holder/-builder/throws-clause.md)(value: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)>): [S](index.md)<br>See [ThrowsHolder.throwsClause](../../-throws-holder/throws-clause.md) |
+| [type](type.md) | [jvm]<br>open override fun [type](type.md)(value: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [S](index.md)<br>See T. |
+
+## Inheritors
+
+| Name |
+|---|
+| [ConstructorDeclaration](../../-constructor-declaration/-builder/index.md) |
+| [MethodDeclaration](../../-method-declaration/-builder/index.md) |
+| [StaticBlock](../../-static-block/-builder/index.md) |

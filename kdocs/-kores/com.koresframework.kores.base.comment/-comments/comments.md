@@ -1,0 +1,6 @@
+//[Kores](../../../index.md)/[com.koresframework.kores.base.comment](../index.md)/[Comments](index.md)/[comments](comments.md)
+
+# comments
+
+[jvm]\
+val [comments](comments.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Comment](../-comment/index.md)>

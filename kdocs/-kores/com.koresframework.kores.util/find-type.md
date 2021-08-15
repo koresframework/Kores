@@ -1,0 +1,13 @@
+//[Kores](../../index.md)/[com.koresframework.kores.util](index.md)/[findType](find-type.md)
+
+# findType
+
+[jvm]\
+fun [findType](find-type.md)(typeVariables: [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)<out [TypeVariable](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/TypeVariable.html)<*>>?, name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [KoresType](../com.koresframework.kores.type/-kores-type/index.md)?
+
+Finds the [TypeVariable](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/TypeVariable.html) that has name [name](find-type.md) and return the [KoresType](../com.koresframework.kores.type/-kores-type/index.md) of found [TypeVariable](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/TypeVariable.html).
+
+[jvm]\
+fun [findType](find-type.md)(signature: [GenericSignature](../com.koresframework.kores.generic/-generic-signature/index.md)?, name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)): [KoresType](../com.koresframework.kores.type/-kores-type/index.md)?
+
+Finds the [GenericType](../com.koresframework.kores.type/-generic-type/index.md) that has name [name](find-type.md) and return the [KoresType](../com.koresframework.kores.type/-kores-type/index.md) of found [GenericType](../com.koresframework.kores.type/-generic-type/index.md).

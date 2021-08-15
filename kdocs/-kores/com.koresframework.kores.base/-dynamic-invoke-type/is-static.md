@@ -1,0 +1,12 @@
+//[Kores](../../../index.md)/[com.koresframework.kores.base](../index.md)/[DynamicInvokeType](index.md)/[isStatic](is-static.md)
+
+# isStatic
+
+[jvm]\
+fun [isStatic](is-static.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+
+Returns true if the InvokeType is [INVOKE_STATIC](-i-n-v-o-k-e_-s-t-a-t-i-c/index.md).
+
+#### Return
+
+True if the InvokeType is [INVOKE_STATIC](-i-n-v-o-k-e_-s-t-a-t-i-c/index.md).

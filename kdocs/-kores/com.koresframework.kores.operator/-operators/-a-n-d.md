@@ -1,0 +1,9 @@
+//[Kores](../../../index.md)/[com.koresframework.kores.operator](../index.md)/[Operators](index.md)/[AND](-a-n-d.md)
+
+# AND
+
+[jvm]\
+
+@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()
+
+val [AND](-a-n-d.md): [Operator.Conditional](../-operator/-conditional/index.md)

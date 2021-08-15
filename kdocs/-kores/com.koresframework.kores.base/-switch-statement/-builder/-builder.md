@@ -1,0 +1,8 @@
+//[Kores](../../../../index.md)/[com.koresframework.kores.base](../../index.md)/[SwitchStatement](../index.md)/[Builder](index.md)/[Builder](-builder.md)
+
+# Builder
+
+[jvm]\
+fun [Builder](-builder.md)(defaults: [SwitchStatement](../index.md))
+
+fun [Builder](-builder.md)()

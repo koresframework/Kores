@@ -1,0 +1,8 @@
+//[Kores](../../../../../index.md)/[com.koresframework.kores.base](../../../index.md)/[Line](../../index.md)/[TypedLine](../index.md)/[Builder](index.md)/[Builder](-builder.md)
+
+# Builder
+
+[jvm]\
+fun [Builder](-builder.md)(defaults: [Line.TypedLine](../index.md))
+
+fun [Builder](-builder.md)()

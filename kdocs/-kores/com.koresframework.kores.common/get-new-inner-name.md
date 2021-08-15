@@ -1,0 +1,8 @@
+//[Kores](../../index.md)/[com.koresframework.kores.common](index.md)/[getNewInnerName](get-new-inner-name.md)
+
+# getNewInnerName
+
+[jvm]\
+fun [getNewInnerName](get-new-inner-name.md)(name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), typeDeclaration: [TypeDeclaration](../com.koresframework.kores.base/-type-declaration/index.md)): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+
+Gets a new name for inner class, this function always try to return a name that is not in use by other class in [typeDeclaration](get-new-inner-name.md).

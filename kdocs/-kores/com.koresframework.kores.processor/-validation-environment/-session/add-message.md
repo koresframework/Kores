@@ -1,0 +1,6 @@
+//[Kores](../../../../index.md)/[com.koresframework.kores.processor](../../index.md)/[ValidationEnvironment](../index.md)/[Session](index.md)/[addMessage](add-message.md)
+
+# addMessage
+
+[jvm]\
+fun [addMessage](add-message.md)(message: [ContextedValidationMessage](../../-contexted-validation-message/index.md))

@@ -1,0 +1,6 @@
+//[Kores](../../../index.md)/[com.koresframework.kores.base](../index.md)/[ControlFlow](index.md)/[ControlFlow](-control-flow.md)
+
+# ControlFlow
+
+[jvm]\
+fun [ControlFlow](-control-flow.md)(type: [ControlFlow.Type](-type/index.md), at: [Label](../-label/index.md)?)

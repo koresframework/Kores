@@ -1,0 +1,6 @@
+//[Kores](../../../../../index.md)/[com.koresframework.kores.literal](../../../index.md)/[Literals](../../index.md)/[ShortLiteral](../index.md)/[Companion](index.md)
+
+# Companion
+
+[jvm]\
+object [Companion](index.md)

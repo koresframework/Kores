@@ -1,0 +1,8 @@
+//[Kores](../../../../index.md)/[com.koresframework.kores.type](../../index.md)/[KoresTypeResolver](../index.md)/[Multi](index.md)/[resolveTypeDeclaration](resolve-type-declaration.md)
+
+# resolveTypeDeclaration
+
+[jvm]\
+open override fun [resolveTypeDeclaration](resolve-type-declaration.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): Either<[Exception](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html), [TypeDeclaration](../../../com.koresframework.kores.base/-type-declaration/index.md)>
+
+Resolves or create [TypeDeclaration](../../../com.koresframework.kores.base/-type-declaration/index.md) from [type](resolve-type-declaration.md) structure and elements.

@@ -1,0 +1,12 @@
+//[Kores](../../../../index.md)/[com.koresframework.kores.base](../../index.md)/[IfStatement](../index.md)/[Builder](index.md)/[build](build.md)
+
+# build
+
+[jvm]\
+open override fun [build](build.md)(): [IfStatement](../index.md)
+
+Build the object of type T.
+
+#### Return
+
+Instance of object of type T.

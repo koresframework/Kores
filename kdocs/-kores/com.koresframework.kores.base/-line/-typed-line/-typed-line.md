@@ -1,0 +1,6 @@
+//[Kores](../../../../index.md)/[com.koresframework.kores.base](../../index.md)/[Line](../index.md)/[TypedLine](index.md)/[TypedLine](-typed-line.md)
+
+# TypedLine
+
+[jvm]\
+fun [TypedLine](-typed-line.md)(line: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), value: [Instruction](../../../com.koresframework.kores/-instruction/index.md), type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html))

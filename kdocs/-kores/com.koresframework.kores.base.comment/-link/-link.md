@@ -1,0 +1,6 @@
+//[Kores](../../../index.md)/[com.koresframework.kores.base.comment](../index.md)/[Link](index.md)/[Link](-link.md)
+
+# Link
+
+[jvm]\
+fun [Link](-link.md)(name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)?, target: [Link.LinkTarget](-link-target/index.md))
