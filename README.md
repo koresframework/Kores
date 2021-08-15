@@ -45,7 +45,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.github.koresframework:kores:4.1.9.base" // Replace 4.1.9.base with the preferred version
+    implementation "com.koresframework:kores:4.2.1.base" // Replace the version with the latest or a preferred one
 }
 ```
 

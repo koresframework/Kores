@@ -56,9 +56,9 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.koresframework:kores:4.1.11.base")
-    implementation("com.github.koresframework:kores-bytecodewriter:4.1.10.bytecode.4")
-    implementation("com.github.koresframework:kores-sourcewriter:4.1.11.source.2")
+    implementation("com.koresframework:kores:4.2.1.base")
+    implementation("com.koresframework:kores-bytecodewriter:4.2.1.bytecode")
+    implementation("com.koresframework:kores-sourcewriter:4.2.1.source")
 }
 ```
 
