@@ -1,11 +1,11 @@
-group 'com.github.koresframework'
+group 'com.koresframework'
 
 apply plugin: 'kotlin'
 apply plugin: 'license'
 
 apply plugin: 'maven-publish'
 
-version '4.1.11.base'
+version '4.2.1.base'
 
 jar {
     manifest {
