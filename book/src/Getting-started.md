@@ -429,3 +429,11 @@ Even though there is a bunch of JVM Languages, like [Scala](https://www.scala-la
 However, some implementation details are abstracted away in Kores, like anonymous classes and non-static inner classes, as they carry a synthetic constructor that receives the enclosing class (outer type) instance. The other thing that is abstracted is switch-case translation, which have two outcomes: LookupSwitch and TableSwitch, Kores-BytecodeWriter is the one that decides which one to generate. Synthetic method generation for generic classes, concatenation indify, Nest Based Access Control, Lambda InvokeDynamic and Synthetic Methods Generation are also some of the other things that are abstracted and generated automatically by Kores-BytecodeWriter. But all of them are Java-related.
 
 Things that other languages implements, like **inline functions**, **reified generics**, **traits**, **multi-dispatch** are not covered by Kores, instead, other projects that depends on Kores are being developed to cover these cases. This is possible through **Kores Visitors** and the **Builder Pattern** implemented in Kores, which allows you to clone a **Kores AST object**, modify it and build it again. We will be talking about this feature later.
+
+#### Kores vs Truffle
+
+Truffle is a language implementation framework, which aims the GraalVM ecosystem, Kores is an AST for generating Java source code and JVM Bytecode, as well as building the ground for Structure Analysis, Unification of Java Annotation Processor Environment and Java Reflection library, Compilers Implementation, Runtime Code Generators and Compile-Time Code generation.
+
+Kores is a powerful framework to implement JVM Languages, and is being used to implement the [Firefly Language](https://github.com/fireflylang). With Kores, it is very fast to have a functional prototype, the first [Firefly Compiler](https://github.com/FireflyLang/firefly-compiler) prototype was written in 1 day. But extra work is needed in order to implement non-standard features (such as inline methods) because the JVM foundation is around Java, even with the nice `invokedynamic` instruction.
+
+I don't have enough background in Truffle to make any assumptions about it being better or not for language implementation.
