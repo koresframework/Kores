@@ -76,7 +76,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-task testSourcesJar(type: Jar, dependsOn: classes) {
+task testSourcesJar(type: Jar, dependsOn: testClasses) {
     archiveClassifier.set('sources')
     from sourceSets.test.allSource
 }
