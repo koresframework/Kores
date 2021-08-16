@@ -51,3 +51,15 @@ deploy:
       - .gradle
   only:
     - tags
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r docs/* .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
