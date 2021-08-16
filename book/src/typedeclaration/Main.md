@@ -129,3 +129,5 @@ fun anonymousClassUse(): TypeDeclaration {
     }
 }
 ```
+
+**Anonymous Classes are not yet supported, see [#1](https://gitlab.com/Kores/Kores/-/issues/1) for more information.
