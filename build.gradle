@@ -63,5 +63,11 @@ publishing {
 
             artifact sourcesJar
         }
+        mavenTest(MavenPublication) {
+            artifactId 'kores-test'
+
+            artifact testSourcesJar
+            artifact testJar
+        }
     }
 }

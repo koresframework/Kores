@@ -76,6 +76,11 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+task testSourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.test.allSource
+}
+
 task javadocJar(type: Jar, dependsOn: dokkaGfm) {
     archiveClassifier.set('javadoc')
     from javadoc.destinationDir

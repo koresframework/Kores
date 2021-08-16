@@ -18,8 +18,126 @@ val otherNameFieldDeclaration = nameFieldDeclaration.builder()
 
 The value produced by the `build` function is guaranteed to produce a new value of the same type as before, in other words, the old value (`nameFieldDeclaration` in this case) keeps unchanged while the new one has the changes applied to it.
 
-**It does not mean that values are immutable**, even though all `KoresPart` are `data classes` with `val` properties that cannot be changed, values provided to `KoresPart` may change, list `List` of `arguments`, or `List` of parameters, or the `MutableInstructions` data type.
+## Mutability
 
-This allows users to increment data in `KoresPart` without the need to create a new instance for every change, and to propagate the change to all other instances that uses your object. However, Kores always uses types that seems to be immutable at the first look, for example, `MethodInvocation` receives a `List<Instruction>` of arguments, you can provide a `MutableList<Instruction>`, but when trying to retrieve the value, you will receive a value of `List<Instruction>` type, you can safely cast it to `MutableList<*>` as Kores does not copy lists, it just stores the provided value.
+Kores does not enforce immutability, **builders** produces a new instance that reuses the value of the original one, only replacing the changed values.
 
-Doing **casts into mutable types** is only safe if you can prove that those values still mutable at the moment of the casting.
+This means that you can provide mutable values to `KoresParts` and manipulate this mutable value. It allows data to be incremented in `KoresPart` without the need to recreate the instance for every change.
+
+For example:
+
+```kotlin
+val arguments = mutableListOf<Instruction>()
+val methodInvocation = invokeStatic(
+    Types.INTEGER_WRAPPER,
+    Access.STATIC,
+    "compare",
+    typeSpec(Types.INT, Types.INT, Types.INT),
+    arguments
+)
+
+val methodInvocation2 = methodInvocation.builder().build()
+
+arguments.add(Literals.INT(10))
+arguments.add(Literals.INT(11))
+```
+
+Changes to the `arguments` are reflected in the `methodInvocation` as well as in `methodInvocation2`.
+
+### Avoiding the change reflection
+
+There is some approaches that can be done in order to prevent the changes made to one value being reflected on another one. One of the approaches is copying the mutable values into a new (mutable or immutable) one:
+
+```kotlin
+val arguments = mutableListOf<Instruction>()
+val methodInvocation = invokeStatic(
+    Types.INTEGER_WRAPPER,
+    Access.STATIC,
+    "compare",
+    typeSpec(Types.INT, Types.INT, Types.INT),
+    arguments
+)
+val methodInvocation2 = methodInvocation.builder()
+    .arguments(methodInvocation.arguments.toList())
+    .build()
+
+arguments.add(Literals.INT(10))
+arguments.add(Literals.INT(11))
+```
+
+Also, adding new values to the list using the kotlin `+` operator will cause the list to be copied:
+
+```kotlin
+val arguments = mutableListOf<Instruction>()
+val methodInvocation = invokeStatic(
+    Types.INTEGER_WRAPPER,
+    Access.STATIC,
+    "compare",
+    typeSpec(Types.INT, Types.INT, Types.INT),
+    arguments
+)
+val methodInvocation2 = methodInvocation.builder()
+    .arguments(methodInvocation.arguments + Literals.INT(1) + Literals.INT(2))
+    .build()
+
+arguments.add(Literals.INT(10))
+arguments.add(Literals.INT(11))
+```
+
+## AST modifications
+
+The **builder pattern** is also used in order to apply modifications to the AST without losing data in the process. We will be talking about this mechanism later.
+
+## Factories
+
+Kores also provides some factories functions to build AST objects without using the builder pattern, for example, for parameters:
+
+```kotlin
+val parameter = parameter(type = Types.STRING, name = "name")
+```
+
+For invocation and field access:
+
+```kotlin
+val out = accessStaticField(Types.SYSTEM, typeOf<PrintStream>(), "out")
+
+invokeVirtual(typeOf<PrintStream>(), out, "println", typeSpec(Types.VOID, Types.OBJECT), listOf(Literals.STRING("Hello World!"))) 
+```
+
+Also, there are factories for the builders:
+
+```kotlin
+val nameGetter = methodDec().build {
+    modifiers = setOf(KoresModifier.PUBLIC)
+    returnType = Types.STRING
+    name = "getName"
+    parameters = emptyList()
+    body = MutableInstructions.create(listOf(
+        accessThisField(Types.STRING, "name")
+    ))
+}
+```
+
+And some `inline` functions for fast prototyping:
+
+```kotlin
+accessVariable<String>("name") // Inline with reified type
+```
+
+```kotlin
+val sumMethod = methodDec().build {
+    publicModifier()
+    returnType = typeOf<Int>() // Inline with reified type
+    name = "sum"
+    parameters2<Int, Int>("a", "b") // Inline with reified type
+    body = MutableInstructions.create(listOf(
+        returnValue(operate(
+            accessVariable<Int>("a"), // Inline with reified type
+            Operators.ADD,
+            accessVariable<Int>("b") // Inline with reified type
+        ))
+    ))
+}
+```
+
+> Do not confuse Kores `typeOf` with Kotlin `typeOf`, the Kores one resides in `com.koresframework.kores.type` package, the Kotlin's one in `kotlin.reflect` package.
