@@ -43,5 +43,11 @@ deploy:
   image: gradle:jdk16
   script:
     - 'gradle publishAllPublicationsToGitLabRepository'
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
   only:
     - tags
