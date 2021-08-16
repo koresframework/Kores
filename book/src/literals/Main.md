@@ -57,3 +57,5 @@ val coordConst = DynamicConstantSpec(
 
 Literals.DYNAMIC_CONSTANT(coordConst)
 ```
+
+Dynamic literals are computed by a `boostrap`, using the same mechanism as `invokedynamic`.

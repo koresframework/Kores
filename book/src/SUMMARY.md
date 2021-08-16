@@ -1,6 +1,7 @@
 # Kores Framework
 - [What is](What-is.md)
 - [Getting Started](Getting-started.md)
+- [Builder Model](builder/Main.md)
 - [Classes]()
 - [Literals](literals/Main.md)
 - [Invocations](invocations/Main.md)
@@ -9,3 +10,4 @@
   - [Invoke Interface](invocations/Invoke-Interface.md)
   - [Invoke Special](invocations/Invoke-Special.md)
   - [Invoke Dynamic](invocations/Invoke-Dynamic.md)
+- [Variable Declaration and Access](variable/Main.md)

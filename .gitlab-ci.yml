@@ -56,6 +56,9 @@ deploy:
 pages:
   stage: deploy
   script:
+    - curl -L https://github.com/rust-lang/mdBook/releases/download/v0.4.12/mdbook-v0.4.12-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+    - chmod +x ./mdbook
+    - ./mdbook build
     - mkdir .public
     - cp -r docs/* .public
     - mv .public public
