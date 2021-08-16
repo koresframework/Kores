@@ -29,12 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.builder.self
-import com.koresframework.kores.common.DynamicMethodSpec
-import com.koresframework.kores.common.MethodInvokeSpec
-import com.koresframework.kores.common.MethodTypeSpec
-import com.koresframework.kores.common.FieldAccessHandleSpec
-import com.koresframework.kores.common.MethodInvokeHandleSpec
-import com.koresframework.kores.common.DynamicConstantSpec
+import com.koresframework.kores.common.*
 import com.koresframework.kores.serialization.BootstrapArgListSerializer
 import com.koresframework.kores.serialization.BootstrapArgSerializer
 import com.koresframework.kores.type.KoresType
@@ -46,14 +41,17 @@ import java.util.function.Supplier
 /**
  * Represents a dynamic invocation of a method. The mechanism of a dynamic invocation is very simple, when JVM encounters an
  * `invokedynamic` instruction, it calls the [bootstrap] method (which is a static method defined in [bootstrapLocalization])
- * to resolve the [target method][dynamicMethod]. Once resolved, the [target method][dynamicMethod] keeps linked to the
+ * to resolve the [target method][dynamicDescriptor]. Once resolved, the [target method/type][dynamicDescriptor] keeps linked to the
  * call-site and there is no way to revert this. Subsequent calls are routed to the resolved method without invoking the bootstrap.
  * This allows optimizations to take in place (like the JIT compiler optimizations).
  *
- * The [dynamicMethod] corresponds to the dynamic method that need to be resolved, it contains important information about
- * the method that need to be resolved. The [DynamicMethodSpec.name] and [DynamicMethodSpec.typeSpec] (which are provided as
+ * The [dynamicDescriptor] corresponds to the dynamic method that need to be resolved (or the type of a dynamic constants),
+ * it contains important information about the method or constant that need to be resolved.
+ * For method resolution, the [DynamicMethodSpec.name] and [DynamicMethodSpec.typeSpec] (which are provided as
  * [String] and [MethodType], respectively) are available to the bootstrap method, but [DynamicMethodSpec.arguments] is not,
- * as specified in the documentation of the property.
+ * as specified in the documentation of the property. For constant resolution, the [DynamicTypeSpec.name] and [DynamicTypeSpec.type]
+ * are provided to the bootstrap method, but [DynamicTypeSpec.arguments] is not, and since constants are resolved by the bootstrap method,
+ * those values are not used.
  *
  * Additional information can be provided through [bootstrapArgs] and are passed as the last argument of the
  * [bootstrap method][bootstrap]. The last parameter of [bootstrap method][bootstrap] can be a vararg, an [Array] of [Any],
@@ -80,7 +78,7 @@ interface InvokeDynamicBase : TypedInstruction {
      * Return type of dynamic invocation
      */
     override val type: Type
-        get() = dynamicMethod.type
+        get() = dynamicDescriptor.type
 
     /**
      * Bootstrap method invocation specification.
@@ -96,12 +94,13 @@ interface InvokeDynamicBase : TypedInstruction {
         get() = this.bootstrap.methodTypeSpec.localization
 
     /**
-     * Specification of the method to invoke dynamically. This information is used by the [bootstrap method][bootstrap]
-     * to resolve the target invocation method.
+     * Specification of a method or constant type to resolve dynamically. This information is used by the [bootstrap method][bootstrap]
+     * to resolve the target invocation method, or the target constant.
      *
-     * Arguments provided to [DynamicMethodSpec] are passed to the method resolved by the [bootstrap].
+     * Arguments provided to [DynamicDescriptor] are passed to the method resolved by the [bootstrap]. This does not apply
+     * to dynamic constants, as they are resolved by the bootstrap and there is no target method to pass those values.
      */
-    val dynamicMethod: DynamicMethodSpec
+    val dynamicDescriptor: DynamicDescriptor
 
     /**
      * Bootstrap method Arguments, must be one of the following types:
@@ -120,7 +119,7 @@ interface InvokeDynamicBase : TypedInstruction {
      * This is the value provided to the bootstrap method which resolves the target method to invoke. Those values
      * are stored in the **ConstantPool** and are not provided to the target method.
      *
-     * Arguments that must be provided to the target method must be provided in the [dynamicMethod] specification.
+     * Arguments that must be provided to the target method must be provided in the [dynamicDescriptor] specification.
      */
     @Serializable(with = BootstrapArgListSerializer::class)
     val bootstrapArgs: List<Any>
@@ -133,28 +132,28 @@ interface InvokeDynamicBase : TypedInstruction {
         override fun type(value: Type): S = self()
 
         /**
-         * See [InvokeDynamic.bootstrap]
+         * See [InvokeDynamicBase.bootstrap]
          */
         fun bootstrap(value: MethodInvokeSpec): S =
             bootstrap(MethodInvokeHandleSpec(value.invokeType.toDynamicInvokeType(), value.methodTypeSpec))
 
         /**
-         * See [InvokeDynamic.bootstrap]
+         * See [InvokeDynamicBase.bootstrap]
          */
         fun bootstrap(value: MethodInvokeHandleSpec): S
 
         /**
-         * See [InvokeDynamic.dynamicMethod]
+         * See [InvokeDynamicBase.dynamicDescriptor]
          */
-        fun dynamicMethod(value: DynamicMethodSpec): S
+        fun dynamicDescriptor(value: DynamicDescriptor): S
 
         /**
-         * See [InvokeDynamic.bootstrapArgs]
+         * See [InvokeDynamicBase.bootstrapArgs]
          */
         fun bootstrapArgs(value: List<Any>): S
 
         /**
-         * See [InvokeDynamic.bootstrapArgs]
+         * See [InvokeDynamicBase.bootstrapArgs]
          */
         fun bootstrapArgs(vararg values: Any): S = bootstrapArgs(values.toList())
     }
@@ -180,14 +179,14 @@ interface InvokeDynamicBase : TypedInstruction {
         override val arguments: List<Instruction>
 
         override val types: List<Type>
-            get() = this.dynamicMethod.types
+            get() = this.dynamicDescriptor.types
 
         override val array: Boolean
             get() = false
 
         // Dynamic method, for lambdas, the get(InstanceType, AdditionalArgs)FunctionalInterfaceType
         // The InstanceType is not needed for static [methodRef]
-        override val dynamicMethod: DynamicMethodSpec
+        override val dynamicDescriptor: DynamicMethodSpec
             get() = DynamicMethodSpec(
                 this.baseSam.methodName,
                 this.baseSam.typeSpec.copy(
@@ -263,7 +262,7 @@ interface InvokeDynamicBase : TypedInstruction {
             override fun bootstrap(value: MethodInvokeHandleSpec): S = self()
             override fun bootstrapArgs(value: List<Any>): S = self()
             override fun array(value: Boolean): S = self()
-            override fun dynamicMethod(value: DynamicMethodSpec): S = self()
+            override fun dynamicDescriptor(value: DynamicDescriptor): S = self()
 
             /**
              * See [LambdaMethodRefBase.methodRef]
@@ -327,7 +326,7 @@ interface InvokeDynamicBase : TypedInstruction {
             override fun type(value: Type): S = self()
             override fun bootstrap(value: MethodInvokeSpec): S = self()
             override fun bootstrapArgs(value: List<Any>): S = self()
-            override fun dynamicMethod(value: DynamicMethodSpec): S = self()
+            override fun dynamicDescriptor(value: DynamicDescriptor): S = self()
             override fun methodRef(value: MethodInvokeSpec): S = self()
 
             /**
@@ -342,22 +341,22 @@ interface InvokeDynamicBase : TypedInstruction {
 @Serializable
 data class InvokeDynamic(
     override val bootstrap: MethodInvokeHandleSpec,
-    override val dynamicMethod: DynamicMethodSpec,
+    override val dynamicDescriptor: DynamicDescriptor,
     override val bootstrapArgs: List<@Serializable(with = BootstrapArgSerializer::class) Any>
 ) : InvokeDynamicBase {
 
-    override fun builder(): InvokeDynamic.Builder = InvokeDynamic.Builder(this)
+    override fun builder(): Builder = Builder(this)
 
     class Builder() :
         InvokeDynamicBase.Builder<InvokeDynamic, Builder> {
 
         lateinit var bootstrap: MethodInvokeHandleSpec
-        lateinit var dynamic: DynamicMethodSpec
+        lateinit var dynamic: DynamicDescriptor
         var args: List<Any> = emptyList()
 
         constructor(defaults: InvokeDynamic) : this() {
             this.bootstrap = defaults.bootstrap
-            this.dynamic = defaults.dynamicMethod
+            this.dynamic = defaults.dynamicDescriptor
             this.args = defaults.bootstrapArgs
         }
 
@@ -366,7 +365,7 @@ data class InvokeDynamic(
             return this
         }
 
-        override fun dynamicMethod(value: DynamicMethodSpec): Builder {
+        override fun dynamicDescriptor(value: DynamicDescriptor): Builder {
             this.dynamic = value
             return this
         }

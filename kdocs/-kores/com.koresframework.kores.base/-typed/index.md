@@ -43,7 +43,9 @@ A element that can have a type.
 | [TypedInstruction](../-typed-instruction/index.md) |
 | [VariableBase](../-variable-base/index.md) |
 | [DynamicConstantSpec](../../com.koresframework.kores.common/-dynamic-constant-spec/index.md) |
+| [DynamicDescriptor](../../com.koresframework.kores.common/-dynamic-descriptor/index.md) |
 | [DynamicMethodSpec](../../com.koresframework.kores.common/-dynamic-method-spec/index.md) |
+| [DynamicTypeSpec](../../com.koresframework.kores.common/-dynamic-type-spec/index.md) |
 | [FieldAccessHandleSpec](../../com.koresframework.kores.common/-field-access-handle-spec/index.md) |
 | [FieldSpec](../../com.koresframework.kores.common/-field-spec/index.md) |
 | [FieldTypeSpec](../../com.koresframework.kores.common/-field-type-spec/index.md) |

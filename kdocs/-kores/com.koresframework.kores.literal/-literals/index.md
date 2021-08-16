@@ -16,6 +16,7 @@ object [Literals](index.md)
 | [CharLiteral](-char-literal/index.md) | [jvm]<br>class [CharLiteral](-char-literal/index.md) : [Literal](../-literal/index.md) |
 | [ClassLiteral](-class-literal/index.md) | [jvm]<br>class [ClassLiteral](-class-literal/index.md) : [Literal](../-literal/index.md) |
 | [DoubleLiteral](-double-literal/index.md) | [jvm]<br>class [DoubleLiteral](-double-literal/index.md) : [Literal](../-literal/index.md) |
+| [DynamicConstantLiteral](-dynamic-constant-literal/index.md) | [jvm]<br>class [DynamicConstantLiteral](-dynamic-constant-literal/index.md) : [Literal](../-literal/index.md) |
 | [FloatLiteral](-float-literal/index.md) | [jvm]<br>class [FloatLiteral](-float-literal/index.md) : [Literal](../-literal/index.md) |
 | [IntLiteral](-int-literal/index.md) | [jvm]<br>class [IntLiteral](-int-literal/index.md) : [Literal](../-literal/index.md) |
 | [LongLiteral](-long-literal/index.md) | [jvm]<br>class [LongLiteral](-long-literal/index.md) : [Literal](../-literal/index.md) |
@@ -32,6 +33,7 @@ object [Literals](index.md)
 | [CHAR](-c-h-a-r.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [CHAR](-c-h-a-r.md)(c: [Char](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html)): [Literal](../-literal/index.md) |
 | [CLASS](-c-l-a-s-s.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [CLASS](-c-l-a-s-s.md)(type: [Type](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Type.html)): [Literal](../-literal/index.md) |
 | [DOUBLE](-d-o-u-b-l-e.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [DOUBLE](-d-o-u-b-l-e.md)(d: [Double](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html)): [Literal](../-literal/index.md) |
+| [DYNAMIC_CONSTANT](-d-y-n-a-m-i-c_-c-o-n-s-t-a-n-t.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [DYNAMIC_CONSTANT](-d-y-n-a-m-i-c_-c-o-n-s-t-a-n-t.md)(spec: [DynamicConstantSpec](../../com.koresframework.kores.common/-dynamic-constant-spec/index.md)): [Literal](../-literal/index.md) |
 | [FLOAT](-f-l-o-a-t.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [FLOAT](-f-l-o-a-t.md)(f: [Float](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)): [Literal](../-literal/index.md) |
 | [INT](-i-n-t.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [INT](-i-n-t.md)(i: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [Literal](../-literal/index.md) |
 | [LONG](-l-o-n-g.md) | [jvm]<br>@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html)()<br>fun [LONG](-l-o-n-g.md)(i: [Long](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html)): [Literal](../-literal/index.md) |

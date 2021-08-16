@@ -42,7 +42,9 @@ interface [Builder](index.md)<out [T](index.md) : [Typed](../index.md), [S](inde
 | [VariableBase](../../-variable-base/-builder/index.md) |
 | [VariableDefinition](../../-variable-definition/-builder/index.md) |
 | [DynamicConstantSpec](../../../com.koresframework.kores.common/-dynamic-constant-spec/-builder/index.md) |
+| [DynamicDescriptor](../../../com.koresframework.kores.common/-dynamic-descriptor/-builder/index.md) |
 | [DynamicMethodSpec](../../../com.koresframework.kores.common/-dynamic-method-spec/-builder/index.md) |
+| [DynamicTypeSpec](../../../com.koresframework.kores.common/-dynamic-type-spec/-builder/index.md) |
 | [FieldAccessHandleSpec](../../../com.koresframework.kores.common/-field-access-handle-spec/-builder/index.md) |
 | [FieldSpec](../../../com.koresframework.kores.common/-field-spec/-builder/index.md) |
 | [FieldTypeSpec](../../../com.koresframework.kores.common/-field-type-spec/-builder/index.md) |

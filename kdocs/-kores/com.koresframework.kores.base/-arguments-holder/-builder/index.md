@@ -24,3 +24,4 @@ interface [Builder](index.md)<out [T](index.md) : [ArgumentsHolder](../index.md)
 | [InvokeDynamicBase.LambdaLocalCodeBase](../../-invoke-dynamic-base/-lambda-local-code-base/-builder/index.md) |
 | [MethodInvocation](../../-method-invocation/-builder/index.md) |
 | [DynamicMethodSpec](../../../com.koresframework.kores.common/-dynamic-method-spec/-builder/index.md) |
+| [DynamicTypeSpec](../../../com.koresframework.kores.common/-dynamic-type-spec/-builder/index.md) |

@@ -42,3 +42,4 @@ Example of literals: Strings, Ints, Doubles, Longs, Types, etc.
 | [Literals](../-literals/-double-literal/index.md) |
 | [Literals](../-literals/-char-literal/index.md) |
 | [Literals](../-literals/-string-literal/index.md) |
+| [Literals](../-literals/-dynamic-constant-literal/index.md) |

@@ -107,6 +107,7 @@ val koresSerializerModule = SerializersModule {
         subclass(Literals.DoubleLiteral::class)
         subclass(Literals.CharLiteral::class)
         subclass(Literals.StringLiteral::class)
+        subclass(Literals.DynamicConstantLiteral::class)
 
         //
     }
@@ -146,6 +147,7 @@ val koresSerializerModule = SerializersModule {
         subclass(Literals.DoubleLiteral::class)
         subclass(Literals.CharLiteral::class)
         subclass(Literals.StringLiteral::class)
+        subclass(Literals.DynamicConstantLiteral::class)
     }
 
     // Type

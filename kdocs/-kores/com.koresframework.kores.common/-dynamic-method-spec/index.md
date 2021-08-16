@@ -3,7 +3,7 @@
 # DynamicMethodSpec
 
 [jvm]\
-data class [DynamicMethodSpec](index.md)(**name**: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), **typeSpec**: [TypeSpec](../../com.koresframework.kores.base/-type-spec/index.md), **arguments**: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.koresframework.kores/-instruction/index.md)>) : [Typed](../../com.koresframework.kores.base/-typed/index.md), [Named](../../com.koresframework.kores.base/-named/index.md), [ArgumentsHolder](../../com.koresframework.kores.base/-arguments-holder/index.md)
+data class [DynamicMethodSpec](index.md)(**name**: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), **typeSpec**: [TypeSpec](../../com.koresframework.kores.base/-type-spec/index.md), **arguments**: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[Instruction](../../com.koresframework.kores/-instruction/index.md)>) : [DynamicDescriptor](../-dynamic-descriptor/index.md), [Typed](../../com.koresframework.kores.base/-typed/index.md), [Named](../../com.koresframework.kores.base/-named/index.md), [ArgumentsHolder](../../com.koresframework.kores.base/-arguments-holder/index.md)
 
 This class specifies a dynamic method to invoke.
 
@@ -27,7 +27,7 @@ jvm
 
 | Name | Summary |
 |---|---|
-| [Builder](-builder/index.md) | [jvm]<br>class [Builder](-builder/index.md) : [Typed.Builder](../../com.koresframework.kores.base/-typed/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> , [Named.Builder](../../com.koresframework.kores.base/-named/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> , [ArgumentsHolder.Builder](../../com.koresframework.kores.base/-arguments-holder/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> |
+| [Builder](-builder/index.md) | [jvm]<br>class [Builder](-builder/index.md) : [DynamicDescriptor.Builder](../-dynamic-descriptor/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> , [Typed.Builder](../../com.koresframework.kores.base/-typed/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> , [Named.Builder](../../com.koresframework.kores.base/-named/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> , [ArgumentsHolder.Builder](../../com.koresframework.kores.base/-arguments-holder/-builder/index.md)<[DynamicMethodSpec](index.md), [DynamicMethodSpec.Builder](-builder/index.md)> |
 
 ## Functions
 

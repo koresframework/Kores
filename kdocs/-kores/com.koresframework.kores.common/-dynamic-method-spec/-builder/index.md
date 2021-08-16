@@ -3,7 +3,7 @@
 # Builder
 
 [jvm]\
-class [Builder](index.md) : [Typed.Builder](../../../com.koresframework.kores.base/-typed/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)> , [Named.Builder](../../../com.koresframework.kores.base/-named/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)> , [ArgumentsHolder.Builder](../../../com.koresframework.kores.base/-arguments-holder/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)>
+class [Builder](index.md) : [DynamicDescriptor.Builder](../../-dynamic-descriptor/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)> , [Typed.Builder](../../../com.koresframework.kores.base/-typed/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)> , [Named.Builder](../../../com.koresframework.kores.base/-named/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)> , [ArgumentsHolder.Builder](../../../com.koresframework.kores.base/-arguments-holder/-builder/index.md)<[DynamicMethodSpec](../index.md), [DynamicMethodSpec.Builder](index.md)>
 
 ## Constructors
 

@@ -43,6 +43,8 @@ A element that have a name.
 | [QualifiedNamed](../-qualified-named/index.md) |
 | [VariableBase](../-variable-base/index.md) |
 | [VariableDefinition](../-variable-definition/index.md) |
+| [DynamicDescriptor](../../com.koresframework.kores.common/-dynamic-descriptor/index.md) |
 | [DynamicMethodSpec](../../com.koresframework.kores.common/-dynamic-method-spec/index.md) |
+| [DynamicTypeSpec](../../com.koresframework.kores.common/-dynamic-type-spec/index.md) |
 | [Literal](../../com.koresframework.kores.literal/-literal/index.md) |
 | [Operator](../../com.koresframework.kores.operator/-operator/index.md) |

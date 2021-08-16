@@ -38,3 +38,4 @@ Hold arguments.
 | [InvokeDynamicBase](../-invoke-dynamic-base/-lambda-local-code-base/index.md) |
 | [MethodInvocation](../-method-invocation/index.md) |
 | [DynamicMethodSpec](../../com.koresframework.kores.common/-dynamic-method-spec/index.md) |
+| [DynamicTypeSpec](../../com.koresframework.kores.common/-dynamic-type-spec/index.md) |

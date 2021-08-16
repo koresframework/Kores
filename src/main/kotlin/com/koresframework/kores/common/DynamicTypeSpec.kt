@@ -35,13 +35,13 @@ import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
 /**
- *  This class specifies a dynamic method to provide to the bootstrap method (in its third argument).
+ * This class specifies a type to provide to the bootstrap method (in its third argument).
  *
  * Read more at [InvokeDynamicBase].
  *
  * @see InvokeDynamicBase
- * @property name Name of the dynamic method to resolve. This is the second argument of a bootstrap method (after the Lookup)
- * @property typeSpec Signature of dynamic method to resolve. This is the third argument of a bootstrap method.
+ * @property name Name of the dynamic method to resolve. This is the second argument of a bootstrap method (after the Lookup).
+ * @property type The type to provide to the boostrap method. This is the third argument of a bootstrap method.
  * @property arguments Arguments to pass to resolved dynamic method (may include the receiver).
  * These values are not available to the boostrap method, only to the resolved dynamic method.
  * Also, Dynamic Constant does not have arguments to receive, since the bootstrap method **must** return the
@@ -49,14 +49,11 @@ import java.lang.reflect.Type
  */
 @Spec
 @Serializable
-data class DynamicMethodSpec(
+data class DynamicTypeSpec(
     override val name: String,
-    val typeSpec: TypeSpec,
+    override val type: Type,
     override val arguments: List<Instruction>
 ) : DynamicDescriptor(), Typed, Named, ArgumentsHolder {
-
-    override val type: Type
-        get() = this.typeSpec.returnType
 
     override val array: Boolean
         get() = false
@@ -89,28 +86,28 @@ data class DynamicMethodSpec(
      * Human-readable method string.
      */
     fun toMethodString() =
-        "$name ${typeSpec.toTypeString()}"
+        "$name $type"
 
     override fun builder(): Builder = Builder(this)
 
 
-    class Builder() : DynamicDescriptor.Builder<DynamicMethodSpec, Builder>,
-        Typed.Builder<DynamicMethodSpec, Builder>,
-        Named.Builder<DynamicMethodSpec, Builder>,
-        ArgumentsHolder.Builder<DynamicMethodSpec, Builder> {
+    class Builder() : DynamicDescriptor.Builder<DynamicTypeSpec, Builder>,
+        Typed.Builder<DynamicTypeSpec, Builder>,
+        Named.Builder<DynamicTypeSpec, Builder>,
+        ArgumentsHolder.Builder<DynamicTypeSpec, Builder> {
 
         lateinit var name: String
-        lateinit var typeSpec: TypeSpec
+        lateinit var type: Type
         var arguments: List<Instruction> = emptyList()
 
-        constructor(defaults: DynamicMethodSpec) : this() {
+        constructor(defaults: DynamicTypeSpec) : this() {
             this.name = defaults.name
-            this.typeSpec = defaults.typeSpec
+            this.type = defaults.type
             this.arguments = defaults.arguments
         }
 
         override fun type(value: Type): Builder {
-            this.typeSpec = this.typeSpec.copy(returnType = value)
+            this.type = value
             return this
         }
 
@@ -128,15 +125,7 @@ data class DynamicMethodSpec(
             return this
         }
 
-        /**
-         * See [DynamicMethodSpec.typeSpec]
-         */
-        fun typeSpec(value: TypeSpec): Builder {
-            this.typeSpec = value
-            return this
-        }
-
-        override fun build(): DynamicMethodSpec =
-            DynamicMethodSpec(this.name, this.typeSpec, this.arguments)
+        override fun build(): DynamicTypeSpec =
+            DynamicTypeSpec(this.name, this.type, this.arguments)
     }
 }

@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.literal
 
+import com.koresframework.kores.common.DynamicConstantSpec
 import com.koresframework.kores.serialization.KoresTypeSerializer
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.KoresType
@@ -120,6 +121,11 @@ object Literals {
     @JvmStatic
     fun TYPE(type: Type): Literal {
         return ClassLiteral(type.koresType)
+    }
+
+    @JvmStatic
+    fun DYNAMIC_CONSTANT(spec: DynamicConstantSpec): Literal {
+        return DynamicConstantLiteral(spec)
     }
 
     @Serializable
@@ -260,6 +266,14 @@ object Literals {
             private val TYPE = String::class.koresType
         }
     }
+
+    @Serializable
+    class DynamicConstantLiteral internal constructor(val spec: DynamicConstantSpec) : Literal(spec) {
+        override val name: String = this.spec.toString()
+        @SerialName("literalDataType")
+        @Serializable(with = TypeSerializer::class)
+        override val type: Type = spec.constantType
+    }
 }
 
 @JvmName("booleanLiteral")
@@ -301,6 +315,10 @@ fun string(str: String): Literal =
 @JvmName("typeLiteral")
 fun type(type: Type): Literal =
     Literals.TYPE(type)
+
+@JvmName("dynamicConstantLiteral")
+fun constantLiteral(spec: DynamicConstantSpec): Literal =
+    Literals.DYNAMIC_CONSTANT(spec)
 
 fun nullLiteral(): Literal =
     Literals.NULL

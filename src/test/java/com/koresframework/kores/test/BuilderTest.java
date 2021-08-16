@@ -101,17 +101,6 @@ import com.koresframework.kores.type.Generic;
 import com.koresframework.kores.type.PlainKoresType;
 import com.github.jonathanxd.iutils.map.MapUtils;
 
-import com.koresframework.kores.base.*;
-import com.koresframework.kores.base.comment.Code;
-import com.koresframework.kores.base.comment.Comments;
-import com.koresframework.kores.base.comment.Link;
-import com.koresframework.kores.base.comment.Plain;
-import com.koresframework.kores.common.DynamicMethodSpec;
-import com.koresframework.kores.common.MethodInvokeSpec;
-import com.koresframework.kores.common.Nothing;
-import com.koresframework.kores.type.AnnotatedKoresType;
-import com.koresframework.kores.type.Generic;
-import com.koresframework.kores.type.PlainKoresType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
@@ -563,7 +552,7 @@ public class BuilderTest {
     public void invokeDynamicBuilderTest() {
         InvokeDynamic.Builder.Companion.builder()
                 .type(Void.TYPE)
-                .dynamicMethod(new DynamicMethodSpec("helloWorld",
+                .dynamicDescriptor(new DynamicMethodSpec("helloWorld",
                         Factories.typeSpec(Void.TYPE, String.class),
                         Collections.singletonList(Literals.STRING("World"))))
                 .bootstrap(new MethodInvokeSpec(InvokeType.INVOKE_STATIC, InvocationsTest_.BOOTSTRAP_SPEC))

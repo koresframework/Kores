@@ -5,7 +5,7 @@ apply plugin: 'license'
 
 apply plugin: 'maven-publish'
 
-version '4.2.1.base'
+version '4.2.2.base'
 
 jar {
     manifest {

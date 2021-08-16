@@ -30,5 +30,7 @@ interface [Builder](index.md)<out [T](index.md) : [Named](../index.md), [S](inde
 | [QualifiedNamed](../../-qualified-named/-builder/index.md) |
 | [VariableBase](../../-variable-base/-builder/index.md) |
 | [VariableDefinition](../../-variable-definition/-builder/index.md) |
+| [DynamicDescriptor](../../../com.koresframework.kores.common/-dynamic-descriptor/-builder/index.md) |
 | [DynamicMethodSpec](../../../com.koresframework.kores.common/-dynamic-method-spec/-builder/index.md) |
+| [DynamicTypeSpec](../../../com.koresframework.kores.common/-dynamic-type-spec/-builder/index.md) |
 | [Operator](../../../com.koresframework.kores.operator/-operator/-builder/index.md) |

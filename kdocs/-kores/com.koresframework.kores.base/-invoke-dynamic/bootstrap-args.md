@@ -11,4 +11,4 @@ Bootstrap method Arguments, must be one of the following types:
 
 This is the value provided to the bootstrap method which resolves the target method to invoke. Those values are stored in the **ConstantPool** and are not provided to the target method.
 
-Arguments that must be provided to the target method must be provided in the [dynamicMethod](dynamic-method.md) specification.
+Arguments that must be provided to the target method must be provided in the [dynamicDescriptor](dynamic-descriptor.md) specification.

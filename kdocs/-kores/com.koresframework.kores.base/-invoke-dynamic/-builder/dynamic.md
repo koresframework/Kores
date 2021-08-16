@@ -3,4 +3,4 @@
 # dynamic
 
 [jvm]\
-lateinit var [dynamic](dynamic.md): [DynamicMethodSpec](../../../com.koresframework.kores.common/-dynamic-method-spec/index.md)
+lateinit var [dynamic](dynamic.md): [DynamicDescriptor](../../../com.koresframework.kores.common/-dynamic-descriptor/index.md)
