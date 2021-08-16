@@ -5,23 +5,25 @@ apply plugin: 'license'
 
 apply plugin: 'maven-publish'
 
-version '4.2.2.base'
-
 jar {
     manifest {
-        attributes 'Implementation-Title': 'JwIUtils-kt',
+        attributes 'Implementation-Title': 'Kores-DSL',
                 'Implementation-Version': project.version
     }
 }
 
 repositories {
     mavenCentral()
-    maven {
+    /*maven {
         url "https://maven.pkg.github.com/jonathanxd/jwiutils"
         credentials {
             username = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
             password = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
         }
+    }*/
+    maven {
+        name "gitlab-maven"
+        url "https://gitlab.com/api/v4/projects/28895078/packages/maven"
     }
 }
 
@@ -84,6 +86,7 @@ license {
 publishing {
     repositories {
         maven {
+            name = "Local"
             // change to point to your repo, e.g. http://my.org/repo
             url = "$buildDir/repo"
         }
@@ -93,6 +96,23 @@ publishing {
             credentials {
                 username = System.getenv("USERNAME")
                 password = System.getenv("TOKEN")
+            }
+        }
+        maven {
+            name = "GitLab"
+            url "https://gitlab.com/api/v4/projects/28894889/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                def ciToken = System.getenv("CI_JOB_TOKEN")
+                if (ciToken != null && !ciToken.isEmpty()) {
+                    name = "Job-Token"
+                    value = System.getenv("CI_JOB_TOKEN")
+                } else {
+                    name = "Private-Token"
+                    value = project.findProperty("GITLAB_TOKEN") ?: System.getenv("GITLAB_TOKEN")
+                }
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
             }
         }
     }

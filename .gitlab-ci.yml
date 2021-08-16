@@ -38,3 +38,10 @@ test:
     paths:
       - build
       - .gradle
+
+deploy:
+  image: gradle:jdk16
+  script:
+    - 'gradle publishAllPublicationsToGitLabRepository'
+  only:
+    - tags

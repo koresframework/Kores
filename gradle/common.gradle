@@ -30,12 +30,16 @@ repositories {
     // jcenter()
     maven { url 'https://dl.bintray.com/kotlin/dokka' }
     // maven { url "https://jitpack.io" }
-    maven {
+    /*maven {
         url "https://maven.pkg.github.com/jonathanxd/jwiutils"
         credentials {
             username = GITHUB_USERNAME
             password = GITHUB_PAT
         }
+    }*/
+    maven {
+        name "gitlab-maven"
+        url "https://gitlab.com/api/v4/projects/28895078/packages/maven"
     }
 }
 
