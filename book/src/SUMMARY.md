@@ -1,3 +1,11 @@
 # Kores Framework
 - [What is](What-is.md)
 - [Getting Started](Getting-started.md)
+- [Classes]()
+- [Literals](literals/Main.md)
+- [Invocations](invocations/Main.md)
+  - [Invoke Static](invocations/Invoke-Static.md)
+  - [Invoke Virtual](invocations/Invoke-Virtual.md)
+  - [Invoke Interface](invocations/Invoke-Interface.md)
+  - [Invoke Special](invocations/Invoke-Special.md)
+  - [Invoke Dynamic](invocations/Invoke-Dynamic.md)

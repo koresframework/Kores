@@ -6,6 +6,8 @@
         <title>Kores Framework Book</title>
         <meta name="robots" content="noindex" />
         <!-- Custom HTML head -->
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,7 +80,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="What-is.html"><strong aria-hidden="true">1.</strong> What is</a></li><li class="chapter-item expanded "><a href="Getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="What-is.html"><strong aria-hidden="true">1.</strong> What is</a></li><li class="chapter-item expanded "><a href="Getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Classes</div></li><li class="chapter-item expanded "><a href="literals/Main.html"><strong aria-hidden="true">4.</strong> Literals</a></li><li class="chapter-item expanded "><a href="invocations/Main.html"><strong aria-hidden="true">5.</strong> Invocations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="invocations/Invoke-Static.html"><strong aria-hidden="true">5.1.</strong> Invoke Static</a></li><li class="chapter-item expanded "><a href="invocations/Invoke-Virtual.html"><strong aria-hidden="true">5.2.</strong> Invoke Virtual</a></li><li class="chapter-item expanded "><a href="invocations/Invoke-Interface.html"><strong aria-hidden="true">5.3.</strong> Invoke Interface</a></li><li class="chapter-item expanded "><a href="invocations/Invoke-Special.html"><strong aria-hidden="true">5.4.</strong> Invoke Special</a></li><li class="chapter-item expanded "><a href="invocations/Invoke-Dynamic.html"><strong aria-hidden="true">5.5.</strong> Invoke Dynamic</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -86,6 +88,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
+                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -532,6 +535,62 @@ println(personName)
 <p>Truffle is a language implementation framework, which aims the GraalVM ecosystem, Kores is an AST for generating Java source code and JVM Bytecode, as well as building the ground for Structure Analysis, Unification of Java Annotation Processor Environment and Java Reflection library, Compilers Implementation, Runtime Code Generators and Compile-Time Code generation.</p>
 <p>Kores is a powerful framework to implement JVM Languages, and is being used to implement the <a href="https://github.com/fireflylang">Firefly Language</a>. With Kores, it is very fast to have a functional prototype, the first <a href="https://github.com/FireflyLang/firefly-compiler">Firefly Compiler</a> prototype was written in 1 day. But extra work is needed in order to implement non-standard features (such as inline methods) because the JVM foundation is around Java, even with the nice <code>invokedynamic</code> instruction.</p>
 <p>I don't have enough background in Truffle to make any assumptions about it being better or not for language implementation.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="literals"><a class="header" href="#literals">Literals</a></h1>
+<p>Literals are the most basic unit in Kores, they are commonly loaded into the stack through the <code>ldc</code> instruction.</p>
+<h2 id="types-of-literals"><a class="header" href="#types-of-literals">Types of Literals</a></h2>
+<ul>
+<li>Boolean</li>
+<li>Byte</li>
+<li>Char</li>
+<li>Short</li>
+<li>Int</li>
+<li>Long</li>
+<li>Float</li>
+<li>Double</li>
+<li>String</li>
+<li>Type/Class</li>
+<li>Dynamic Constant</li>
+</ul>
+<p>Also, there is a special value that Kores treats like literals: the <code>null</code> value.</p>
+<h2 id="example-of-literals-use"><a class="header" href="#example-of-literals-use">Example of literals use</a></h2>
+<pre><code class="language-kotlin">val str = Literals.STRING(&quot;Hello World&quot;)
+val number1 = Literals.INT(1)
+val trueBool = Literals.TRUE
+val long10 = Literals.LONG(10)
+val nullLiteral = Literals.NULL
+</code></pre>
+<h2 id="dynamic-constant"><a class="header" href="#dynamic-constant">Dynamic Constant</a></h2>
+<p>The dynamic constant is a more advanced Literal, we will be talking about this feature later, but let's see an example of <code>Dynamic Constant</code> literal use:</p>
+<pre><code class="language-kotlin">data class Coord(val x: Double, val y: Double)
+
+object MyConstBootstrap {
+    @JvmStatic
+    fun coordBootstrap(lookup: MethodHandles.Lookup, name: String, type: Class&lt;*&gt;, vararg args: Any): Coord {
+        return Coord(x = 150.0, y = 150.0)
+    }
+}
+
+val constantBoostrapSpec = MethodTypeSpec(
+    typeOf&lt;MyConstBootstrap&gt;(),
+    &quot;coordBootstrap&quot;,
+    typeSpec(typeOf&lt;Coord&gt;(), typeOf&lt;MethodHandles.Lookup&gt;(), typeOf&lt;String&gt;, typeOf&lt;Class&gt;, typeOf&lt;Array&lt;Any&gt;&gt;())
+)
+
+val coordConst = DynamicConstantSpec(
+    &quot;coord&quot;,
+    typeOf&lt;Coord&gt;(),
+    MethodInvokeHandleSpec(DynamicInvokeType.INVOKE_STATIC, constantBoostrapSpec),
+    Collections.emptyList()
+)
+
+Literals.DYNAMIC_CONSTANT(coordConst)
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="invocations"><a class="header" href="#invocations">Invocations</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="invoke-static"><a class="header" href="#invoke-static">Invoke Static</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="invoke-virtual"><a class="header" href="#invoke-virtual">Invoke Virtual</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="invoke-interface"><a class="header" href="#invoke-interface">Invoke Interface</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="invoke-special"><a class="header" href="#invoke-special">Invoke Special</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="invokedynamic"><a class="header" href="#invokedynamic">InvokeDynamic</a></h1>
 
                     </main>
 
