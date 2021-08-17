@@ -16,7 +16,7 @@ val otherNameFieldDeclaration = nameFieldDeclaration.builder()
     .build()
 ```
 
-The value produced by the `build` function is guaranteed to produce a new value of the same type as before, in other words, the old value (`nameFieldDeclaration` in this case) keeps unchanged while the new one has the changes applied to it.
+The `build` function is guaranteed to produce a new value of the same type as before, in other words, the old value (`nameFieldDeclaration` in this case) keeps unchanged while the new one has the changes applied to it.
 
 ## Mutability
 
