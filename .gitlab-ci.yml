@@ -9,8 +9,6 @@
 
 image: gradle:jdk16
 
-include:
-    - template: Security/SAST.gitlab-ci.yml
 
 # Disable the Gradle daemon for Continuous Integration servers as correctness
 # is usually a priority over speed in CI environments. Using a fresh
