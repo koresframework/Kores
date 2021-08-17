@@ -3,66 +3,28 @@ In this guide we will be using Kores base library and Kores-BytecodeWriter and K
 
 ## Dependencies
 
-Kores uses GitHub packages to provide artifacts, and since [Github does not support unauthenticated downloads yet](https://github.community/t/download-from-github-package-registry-without-authentication/14407/129), you will need to generate a [Personal Access Token (PAT)](https://github.com/settings/tokens) with `read:packages` permission and configure it in `gradle.properties` inside `$HOME/.gradle/gradle.properties`:
+Kores uses GitLab Packages to provide artifacts (because [Github does not support unauthenticated downloads yet](https://github.community/t/download-from-github-package-registry-without-authentication/14407/129) and jitpack does not support recent jdks):
 
-```properties
-USERNAME=GITHUB_USERNAME
-TOKEN=PAT
-```
-
-Then configure the `build.gradle` to include Kores Repositories and dependecies:
+Then configure the `build.gradle.kts` to include Kores Repositories and dependecies:
 
 ```gradle
-def GITHUB_USERNAME = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
-def GITHUB_PAT = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
-
 repositories {
     mavenCentral()
-    maven {
-        url "https://maven.pkg.github.com/jonathanxd/jwiutils"
-        credentials {
-            username = GITHUB_USERNAME
-            password = GITHUB_PAT
-        }
-    }
-    maven {
-        url "https://maven.pkg.github.com/jonathanxd/bytecodedisassembler"
-        credentials {
-            username = GITHUB_USERNAME
-            password = GITHUB_PAT
-        }
-    }
-    maven {
-        url "https://maven.pkg.github.com/koresframework/kores"
-        credentials {
-            username = GITHUB_USERNAME
-            password = GITHUB_PAT
-        }
-    }
-    maven {
-        url "https://maven.pkg.github.com/koresframework/kores-bytecodewriter"
-        credentials {
-            username = GITHUB_USERNAME
-            password = GITHUB_PAT
-        }
-    }
-    maven {
-        url "https://maven.pkg.github.com/koresframework/kores-sourcewriter"
-        credentials {
-            username = GITHUB_USERNAME
-            password = GITHUB_PAT
-        }
-    }
+    maven(url = "https://gitlab.com/api/v4/projects/28895078/packages/maven")
+    maven(url = "https://gitlab.com/api/v4/projects/28905629/packages/maven")
+    maven(url = "https://gitlab.com/api/v4/projects/28894889/packages/maven")
+    maven(url = "https://gitlab.com/api/v4/projects/28905266/packages/maven")
+    maven(url = "https://gitlab.com/api/v4/projects/28905428/packages/maven")
 }
 
 dependencies {
-    implementation("com.koresframework:kores:4.2.1.base")
-    implementation("com.koresframework:kores-bytecodewriter:4.2.1.bytecode")
-    implementation("com.koresframework:kores-sourcewriter:4.2.1.source")
+    implementation("com.koresframework:kores:4.2.4.base")
+    implementation("com.koresframework:kores-bytecodewriter:4.2.4.bytecode")
+    implementation("com.koresframework:kores-sourcewriter:4.2.4.source")
 }
 ```
 
-> Kores team (that consists of only one member) is studying alternatives to artifact publication (jitpack is not an option until OpenJDK 17 support). At the moment, only Github packages is supported. Jitpack support was not entirely dropped, but since it is not able to build some modules (because now Kores requires Java 16 at least), we are not officially using it.
+> GitHub Packages and Jitpack support was not entirely dropped, at the moment we are just not using them because of their limitations, such as GitHub not allowing unauthenticated artifact download and JitPack not supporting all JDKs.
 
 ## Your first class
 
