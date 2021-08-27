@@ -1,0 +1,10 @@
+types = ["mdbook", "dokka"]
+
+[index]
+group = "com.koresframework.kores"
+
+[mdbook]
+path = "docs/"
+
+[dokka]
+path = "dokka/"
