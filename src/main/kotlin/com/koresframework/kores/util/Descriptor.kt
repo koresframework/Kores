@@ -32,6 +32,7 @@ package com.koresframework.kores.util
 import com.github.jonathanxd.iutils.description.Description
 import com.github.jonathanxd.iutils.description.DescriptionUtil
 import com.koresframework.kores.base.TypeSpec
+import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.type.GenericType
 import com.koresframework.kores.type.KoresType
 import com.koresframework.kores.type.koresType
@@ -181,6 +182,57 @@ val Type.descriptor: String
             return codeType.javaSpecName
         }
     }
+
+/**
+ * Converts `this` type to type descriptor.
+ *
+ * A type descriptor is formatted as:
+ *
+ * - `TYPE_JAVA_SPEC` (specified by [KoresType.javaSpecName]) when receiver [Type] is not a [GenericType]
+ * - `TYPE_NAME` when receiver is a [GenericType], does not have bounds and is a wildcard (and not a type).
+ * - `(T)(TYPE_NAME);` when receiver is a [GenericType], does not have bounds and is neither a wildcard nor a type.
+ * - `TYPE_NAME;` when receiver is a [GenericType], and is a type.
+ * - `TYPE_NAME<BOUNDS>;` when receiver is a [GenericType], have bounds and the receiver is not a wildcard.
+ *
+ * Note: `()` is only used to make the format more readable and will not be generated in descriptors.
+ *
+ * This variant of function discards bounds of known generic types. This is used to generate generic signatures for methods
+ * in class file.
+ */
+fun Type.descriptorDiscardKnown(sig: GenericSignature): String {
+    val codeType = this.koresType
+
+    if (codeType is GenericType) {
+
+        val name = codeType.name
+
+        val bounds = codeType.bounds
+
+        val isKnown = sig.types.any { it.name == name && it.isType == codeType.isType && it.isWildcard == codeType.isWildcard }
+
+        if (bounds.isEmpty()) {
+            return if (!codeType.isType) {
+                if (codeType.isWildcard) {
+                    name
+                } else {
+                    "T$name;"
+                }
+            } else {
+                name + ";"
+            }
+        } else {
+            return if (isKnown) "T$name;"
+            else if (!codeType.isWildcard)
+                name + "<${boundsDiscardKnown(codeType.isWildcard, bounds, sig)}>;"
+            else
+                boundsDiscardKnown(codeType.isWildcard, bounds, sig)
+        }
+
+    } else {
+        return codeType.javaSpecName
+    }
+}
+
 
 /**
  * Converts `this` type to simple type descriptor, which does not include extended version of bounds

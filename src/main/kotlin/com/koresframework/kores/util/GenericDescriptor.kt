@@ -157,6 +157,25 @@ fun bounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
 }
 
 /**
+ * Creates bound descriptor
+ */
+fun boundsDiscardKnown(isWildcard: Boolean, bounds: Array<GenericType.Bound>, sig: GenericSignature): String {
+
+    val sb = StringBuilder()
+
+    for (bound in bounds) {
+
+        val boundType = bound.type
+
+        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptorDiscardKnown(sig))
+
+    }
+
+    return sb.toString()
+}
+
+
+/**
  * Creates simple bound descriptor, used in super class and implementations declaration
  */
 fun simpleBounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
@@ -271,6 +290,57 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
     return if (signatureBuilder.isNotEmpty()) signatureBuilder.toString() else null
 
 }
+
+/**
+ * Creates method descriptor from receiver.
+ *
+ * The method descriptor is the result concatenation method generic [signature descriptor][genericTypeToDescriptor],
+ * parameter types and return type [Type descriptor][descriptor].
+ */
+fun MethodDeclarationBase.methodClassfileGenericSignature(): String? {
+
+    val returnType = this.returnType
+
+    val signatureBuilder = StringBuilder()
+
+    val methodSignature = this.genericSignature
+
+    val genForThrows = this.throwsClause.any { it.isNonReifiedType() }
+
+    val generateGenerics = methodSignature.isNotEmpty
+            || this.parameters.any { it.type.isNonReifiedType() }
+            || returnType.isNonReifiedType()
+            || genForThrows
+
+
+    if (generateGenerics && methodSignature.isNotEmpty) {
+        signatureBuilder.append(methodSignature.types.genericTypesToDescriptor())
+    }
+
+    if (generateGenerics) {
+        signatureBuilder.append('(')
+
+        this.parameters.joinTo(buffer = signatureBuilder, separator = "") {
+            it.type.descriptorDiscardKnown(methodSignature)
+        }
+
+        signatureBuilder.append(')')
+    }
+
+    if (generateGenerics) {
+        signatureBuilder.append(returnType.descriptorDiscardKnown(methodSignature))
+    }
+
+    if (genForThrows) {
+        this.throwsClause.forEach {
+            signatureBuilder.append('^').append(it.descriptorDiscardKnown(methodSignature))
+        }
+    }
+
+    return if (signatureBuilder.isNotEmpty()) signatureBuilder.toString() else null
+
+}
+
 
 /**
  * Infer bound of generic types using types specified in [signature holder][holder]
