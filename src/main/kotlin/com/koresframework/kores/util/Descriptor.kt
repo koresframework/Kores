@@ -196,10 +196,9 @@ val Type.descriptor: String
  *
  * Note: `()` is only used to make the format more readable and will not be generated in descriptors.
  *
- * This variant of function discards bounds of known generic types. This is used to generate generic signatures for methods
- * in class file.
+ * This variant of function discards bounds of known generic types.
  */
-fun Type.descriptorDiscardKnown(sig: GenericSignature): String {
+fun Type.descriptorDiscardKnown(sig: List<GenericSignature>): String {
     val codeType = this.koresType
 
     if (codeType is GenericType) {
@@ -208,7 +207,7 @@ fun Type.descriptorDiscardKnown(sig: GenericSignature): String {
 
         val bounds = codeType.bounds
 
-        val isKnown = sig.types.any { it.name == name && it.isType == codeType.isType && it.isWildcard == codeType.isWildcard }
+        val isKnown = sig.any { it.types.any { it.name == name && it.isType == codeType.isType && it.isWildcard == codeType.isWildcard } }
 
         if (bounds.isEmpty()) {
             return if (!codeType.isType) {
@@ -226,6 +225,54 @@ fun Type.descriptorDiscardKnown(sig: GenericSignature): String {
                 name + "<${boundsDiscardKnown(codeType.isWildcard, bounds, sig)}>;"
             else
                 boundsDiscardKnown(codeType.isWildcard, bounds, sig)
+        }
+
+    } else {
+        return codeType.javaSpecName
+    }
+}
+
+/**
+ * Converts `this` type to type descriptor.
+ *
+ * A type descriptor is formatted as:
+ *
+ * - `TYPE_JAVA_SPEC` (specified by [KoresType.javaSpecName]) when receiver [Type] is not a [GenericType]
+ * - `TYPE_NAME` when receiver is a [GenericType], does not have bounds and is a wildcard (and not a type).
+ * - `(T)(TYPE_NAME);` when receiver is a [GenericType], does not have bounds and is neither a wildcard nor a type.
+ * - `TYPE_NAME;` when receiver is a [GenericType], and is a type.
+ * - `TYPE_NAME<BOUNDS>;` when receiver is a [GenericType], have bounds and the receiver is not a wildcard.
+ *
+ * Note: `()` is only used to make the format more readable and will not be generated in descriptors.
+ *
+ * This variant of function discards bounds of generic types. This is used to generate generic signatures for methods
+ * in class file.
+ */
+internal fun Type.descriptorForSignatures(): String {
+    val codeType = this.koresType
+
+    if (codeType is GenericType) {
+
+        val name = codeType.name
+
+        val bounds = codeType.bounds
+
+        if (bounds.isEmpty()) {
+            return if (!codeType.isType) {
+                if (codeType.isWildcard) {
+                    name
+                } else {
+                    "T$name;"
+                }
+            } else {
+                name + ";"
+            }
+        } else {
+            return if (!codeType.isType && !codeType.isWildcard) "T$name;"
+            else if (!codeType.isWildcard)
+                name + "<${boundsDiscardForSignature(codeType.isWildcard, bounds)}>;"
+            else
+                boundsDiscardForSignature(codeType.isWildcard, bounds)
         }
 
     } else {

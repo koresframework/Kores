@@ -159,7 +159,7 @@ fun bounds(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
 /**
  * Creates bound descriptor
  */
-fun boundsDiscardKnown(isWildcard: Boolean, bounds: Array<GenericType.Bound>, sig: GenericSignature): String {
+fun boundsDiscardKnown(isWildcard: Boolean, bounds: Array<GenericType.Bound>, sig: List<GenericSignature>): String {
 
     val sb = StringBuilder()
 
@@ -173,6 +173,25 @@ fun boundsDiscardKnown(isWildcard: Boolean, bounds: Array<GenericType.Bound>, si
 
     return sb.toString()
 }
+
+/**
+ * Creates bound descriptor
+ */
+fun boundsDiscardForSignature(isWildcard: Boolean, bounds: Array<GenericType.Bound>): String {
+
+    val sb = StringBuilder()
+
+    for (bound in bounds) {
+
+        val boundType = bound.type
+
+        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptorForSignatures())
+
+    }
+
+    return sb.toString()
+}
+
 
 
 /**
@@ -297,6 +316,57 @@ fun MethodDeclarationBase.methodGenericSignature(): String? {
  * The method descriptor is the result concatenation method generic [signature descriptor][genericTypeToDescriptor],
  * parameter types and return type [Type descriptor][descriptor].
  */
+fun MethodDeclarationBase.methodClassfileGenericSignature(signatures: List<GenericSignature> = emptyList()): String? {
+
+    val returnType = this.returnType
+
+    val signatureBuilder = StringBuilder()
+
+    val methodSignature = this.genericSignature
+    val allSignatures = signatures + methodSignature
+
+    val genForThrows = this.throwsClause.any { it.isNonReifiedType() }
+
+    val generateGenerics = methodSignature.isNotEmpty
+            || this.parameters.any { it.type.isNonReifiedType() }
+            || returnType.isNonReifiedType()
+            || genForThrows
+
+
+    if (generateGenerics && methodSignature.isNotEmpty) {
+        signatureBuilder.append(methodSignature.types.genericTypesToDescriptor())
+    }
+
+    if (generateGenerics) {
+        signatureBuilder.append('(')
+
+        this.parameters.joinTo(buffer = signatureBuilder, separator = "") {
+            it.type.descriptorDiscardKnown(allSignatures)
+        }
+
+        signatureBuilder.append(')')
+    }
+
+    if (generateGenerics) {
+        signatureBuilder.append(returnType.descriptorDiscardKnown(allSignatures))
+    }
+
+    if (genForThrows) {
+        this.throwsClause.forEach {
+            signatureBuilder.append('^').append(it.descriptorDiscardKnown(allSignatures))
+        }
+    }
+
+    return if (signatureBuilder.isNotEmpty()) signatureBuilder.toString() else null
+
+}
+
+/**
+ * Creates method descriptor from receiver.
+ *
+ * The method descriptor is the result concatenation method generic [signature descriptor][genericTypeToDescriptor],
+ * parameter types and return type [Type descriptor][descriptor].
+ */
 fun MethodDeclarationBase.methodClassfileGenericSignature(): String? {
 
     val returnType = this.returnType
@@ -321,19 +391,19 @@ fun MethodDeclarationBase.methodClassfileGenericSignature(): String? {
         signatureBuilder.append('(')
 
         this.parameters.joinTo(buffer = signatureBuilder, separator = "") {
-            it.type.descriptorDiscardKnown(methodSignature)
+            it.type.descriptorForSignatures()
         }
 
         signatureBuilder.append(')')
     }
 
     if (generateGenerics) {
-        signatureBuilder.append(returnType.descriptorDiscardKnown(methodSignature))
+        signatureBuilder.append(returnType.descriptorForSignatures())
     }
 
     if (genForThrows) {
         this.throwsClause.forEach {
-            signatureBuilder.append('^').append(it.descriptorDiscardKnown(methodSignature))
+            signatureBuilder.append('^').append(it.descriptorForSignatures())
         }
     }
 
