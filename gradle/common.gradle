@@ -71,6 +71,10 @@ tasks.dokkaGfm.configure {
     }
 }
 
+tasks.dokkaHtml.configure {
+    outputDirectory = rootDir.toPath().resolve("dokka").toFile()
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('sources')
     from sourceSets.main.allSource
