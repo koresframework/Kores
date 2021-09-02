@@ -185,7 +185,7 @@ fun boundsDiscardForSignature(isWildcard: Boolean, bounds: Array<GenericType.Bou
 
         val boundType = bound.type
 
-        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptorForSignatures())
+        sb.append(if (isWildcard) bound.sign else "").append(boundType.descriptorForSignatures)
 
     }
 
@@ -391,19 +391,19 @@ fun MethodDeclarationBase.methodClassfileGenericSignature(): String? {
         signatureBuilder.append('(')
 
         this.parameters.joinTo(buffer = signatureBuilder, separator = "") {
-            it.type.descriptorForSignatures()
+            it.type.descriptorForSignatures
         }
 
         signatureBuilder.append(')')
     }
 
     if (generateGenerics) {
-        signatureBuilder.append(returnType.descriptorForSignatures())
+        signatureBuilder.append(returnType.descriptorForSignatures)
     }
 
     if (genForThrows) {
         this.throwsClause.forEach {
-            signatureBuilder.append('^').append(it.descriptorForSignatures())
+            signatureBuilder.append('^').append(it.descriptorForSignatures)
         }
     }
 

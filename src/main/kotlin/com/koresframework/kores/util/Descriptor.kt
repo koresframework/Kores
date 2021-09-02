@@ -248,7 +248,7 @@ fun Type.descriptorDiscardKnown(sig: List<GenericSignature>): String {
  * This variant of function discards bounds of generic types. This is used to generate generic signatures for methods
  * in class file.
  */
-internal fun Type.descriptorForSignatures(): String {
+val Type.descriptorForSignatures: String get() {
     val codeType = this.koresType
 
     if (codeType is GenericType) {
