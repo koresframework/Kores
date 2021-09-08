@@ -30,6 +30,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type
 import kotlinx.serialization.SerialName
@@ -42,6 +43,8 @@ import java.lang.reflect.Type
  */
 @Serializable
 sealed class Line : Instruction, ValueHolder, InstructionWrapper {
+
+    override val data: KoresData = KoresData()
 
     /**
      * Line index
@@ -83,9 +86,10 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
         class Builder() : Line.Builder<TypedLine, Builder>,
             Typed.Builder<TypedLine, Builder> {
 
-            lateinit var type: Type
+            override var data: KoresData = KoresData()
+            override lateinit var type: Type
             var line: Int = -1
-            lateinit var value: Instruction
+            override lateinit var value: Instruction
 
             constructor(defaults: TypedLine) : this() {
                 this.type = defaults.type
@@ -109,7 +113,7 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
                 return this
             }
 
-            override fun build(): TypedLine = TypedLine(this.line, this.value, this.type)
+            override fun buildBasic(): TypedLine = TypedLine(this.line, this.value, this.type)
         }
 
     }
@@ -123,8 +127,9 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
 
         class Builder() : Line.Builder<NormalLine, Builder> {
 
+            override var data: KoresData = KoresData()
             var line: Int = -1
-            lateinit var value: Instruction
+            override lateinit var value: Instruction
 
             constructor(defaults: NormalLine) : this() {
                 this.line = defaults.line
@@ -141,7 +146,7 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
                 return this
             }
 
-            override fun build(): NormalLine = NormalLine(this.line, this.value)
+            override fun buildBasic(): NormalLine = NormalLine(this.line, this.value)
         }
     }
 }

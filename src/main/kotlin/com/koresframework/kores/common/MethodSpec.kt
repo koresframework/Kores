@@ -33,6 +33,7 @@ import com.koresframework.kores.base.InvokeType
 import com.koresframework.kores.base.MethodInvocation
 import com.koresframework.kores.base.TypeSpec
 import com.koresframework.kores.base.Typed
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.type.KoresType
 import com.koresframework.kores.type.koresType
 import kotlinx.serialization.Serializable
@@ -42,6 +43,9 @@ import java.lang.reflect.Type
 @Serializable
 data class MethodSpec(val methodName: String, val typeSpec: TypeSpec) :
     Typed, Comparable<MethodSpec> {
+
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.typeSpec.type
 
@@ -83,8 +87,13 @@ data class MethodSpec(val methodName: String, val typeSpec: TypeSpec) :
             MethodTypeSpec(type, this)
 
     class Builder() : Typed.Builder<MethodSpec, Builder> {
+        override var data: KoresData = KoresData()
         lateinit var methodName: String
         lateinit var typeSpec: TypeSpec
+
+        override var type: Type
+            get() = this.typeSpec.type
+            set(value) { this.typeSpec = this.typeSpec.copy(returnType = value) }
 
         constructor(defaults: MethodSpec) : this() {
             this.methodName = defaults.methodName
@@ -106,7 +115,7 @@ data class MethodSpec(val methodName: String, val typeSpec: TypeSpec) :
             return this
         }
 
-        override fun build(): MethodSpec = MethodSpec(this.methodName, this.typeSpec)
+        override fun buildBasic(): MethodSpec = MethodSpec(this.methodName, this.typeSpec)
 
     }
 }

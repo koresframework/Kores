@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instructions
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.util.eq
 import com.koresframework.kores.util.hash
@@ -54,6 +55,8 @@ data class InterfaceDeclaration(
     override val innerTypes: List<TypeDeclaration>
 ) : TypeDeclaration, ImplementationHolder {
 
+    override val data: KoresData = KoresData()
+
     override val staticBlock: StaticBlock =
         StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
 
@@ -76,21 +79,26 @@ data class InterfaceDeclaration(
     class Builder() : TypeDeclaration.Builder<InterfaceDeclaration, Builder>,
         ImplementationHolder.Builder<InterfaceDeclaration, Builder> {
 
-        var outerClass: Type? = null
-        lateinit var specifiedName: String
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
+        override var data: KoresData = KoresData()
+        override var outerType: Type? = null
+        override lateinit var specifiedName: String
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
 
-        var fields: List<FieldDeclaration> = emptyList()
-        var methods: List<MethodDeclaration> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
+        override var fields: List<FieldDeclaration> = emptyList()
+        override var methods: List<MethodDeclaration> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
 
-        var modifiers: Set<KoresModifier> = emptySet()
-        var genericSignature: GenericSignature = GenericSignature.empty()
-        var implementations: List<Type> = emptyList()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override var genericSignature: GenericSignature = GenericSignature.empty()
+        override var implementations: List<Type> = emptyList()
+
+        override var staticBlock: StaticBlock
+            get() = StaticBlock.Builder.builder().build()
+            set(value) {}
 
         constructor(defaults: InterfaceDeclaration) : this() {
-            this.outerClass = defaults.outerType
+            this.outerType = defaults.outerType
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
@@ -104,61 +112,8 @@ data class InterfaceDeclaration(
             this.implementations = defaults.implementations
         }
 
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
-
-        override fun staticBlock(value: StaticBlock): Builder = self()
-
-        override fun fields(value: List<FieldDeclaration>): Builder {
-            this.fields = value
-            return this
-        }
-
-        override fun methods(value: List<MethodDeclaration>): Builder {
-            this.methods = value
-            return this
-        }
-
-        override fun innerTypes(value: List<TypeDeclaration>): Builder {
-            this.innerTypes = value
-            return this
-        }
-
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = value
-            return this
-        }
-
-        override fun genericSignature(value: GenericSignature): Builder {
-            this.genericSignature = value
-            return this
-        }
-
-        override fun specifiedName(value: String): Builder {
-            this.specifiedName = value
-            return this
-        }
-
-        override fun outerType(value: Type?): Builder {
-            this.outerClass = value
-            return this
-        }
-
-        override fun implementations(value: List<Type>): Builder {
-            this.implementations = value
-            return this
-        }
-
-        override fun build() = InterfaceDeclaration(
-            this.outerClass, this.comments, this.annotations, this.modifiers,
+        override fun buildBasic() = InterfaceDeclaration(
+            this.outerType, this.comments, this.annotations, this.modifiers,
             this.specifiedName, this.genericSignature, this.implementations,
             this.fields, this.methods, this.innerTypes
         )

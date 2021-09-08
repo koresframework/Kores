@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -44,14 +45,17 @@ data class Return(
 ) : ValueHolder,
     TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
         ValueHolder.Builder<Return, Builder>,
         Typed.Builder<Return, Builder> {
 
-        lateinit var type: Type
-        lateinit var value: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var type: Type
+        override lateinit var value: Instruction
 
         constructor(defaults: Return) : this() {
             this.type = defaults.type
@@ -68,7 +72,7 @@ data class Return(
             return this
         }
 
-        override fun build(): Return = Return(this.type, this.value)
+        override fun buildBasic(): Return = Return(this.type, this.value)
 
         companion object {
             @JvmStatic

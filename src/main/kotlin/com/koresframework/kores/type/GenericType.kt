@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.KoresPart
 import com.koresframework.kores.util.descriptor
 import com.koresframework.kores.util.eq
 import java.lang.reflect.Type
@@ -161,7 +162,7 @@ interface GenericType : KoresType, WrapperKoresType {
     override fun builder(): Builder<GenericType, *> = GenericTypeBuilder(this)
 
     interface Builder<out T : GenericType, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
 
         /**
          * See [T.name].

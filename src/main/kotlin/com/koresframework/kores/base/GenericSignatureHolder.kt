@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.generic.GenericSignature
 
 /**
@@ -43,11 +44,16 @@ interface GenericSignatureHolder : KoresPart {
     override fun builder(): Builder<GenericSignatureHolder, *>
 
     interface Builder<out T : GenericSignatureHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var genericSignature: GenericSignature
 
         /**
          * See [T.genericSignature]
          */
-        fun genericSignature(value: GenericSignature): S //default: empty
+        fun genericSignature(value: GenericSignature): S {//default: empty
+            this.genericSignature = value
+            return self()
+        }
     }
 }

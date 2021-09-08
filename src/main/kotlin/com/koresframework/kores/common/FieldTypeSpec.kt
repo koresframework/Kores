@@ -30,6 +30,7 @@ package com.koresframework.kores.common
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.TypeSpec
 import com.koresframework.kores.base.Typed
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.KoresType
 import com.koresframework.kores.type.koresType
@@ -42,6 +43,8 @@ data class FieldTypeSpec(
     @Serializable(with = TypeSerializer::class) val localization: Type,
     val fieldSpec: FieldSpec
 ) : Typed, Comparable<FieldTypeSpec> {
+
+    override val data: KoresData = KoresData()
 
     constructor(localization: Type, fieldName: String, fieldType: Type)
             : this(localization, FieldSpec(fieldName, fieldType))
@@ -73,19 +76,18 @@ data class FieldTypeSpec(
     }
 
     class Builder() : Typed.Builder<FieldTypeSpec, Builder> {
+        override var data: KoresData = KoresData()
         lateinit var localization: Type
         lateinit var fieldName: String
         lateinit var fieldType: Type
+        override var type: Type
+            get() = this.fieldType
+            set(value) { this.fieldType = value }
 
         constructor(defaults: FieldTypeSpec) : this() {
             this.localization = defaults.localization
             this.fieldName = defaults.fieldName
             this.fieldType = defaults.fieldType
-        }
-
-        override fun type(value: Type): Builder {
-            this.fieldType = value
-            return this
         }
 
         fun withLocalization(value: Type): Builder {
@@ -118,7 +120,7 @@ data class FieldTypeSpec(
             return this
         }
 
-        override fun build(): FieldTypeSpec = FieldTypeSpec(localization, fieldName, fieldType)
+        override fun buildBasic(): FieldTypeSpec = FieldTypeSpec(localization, fieldName, fieldType)
 
     }
 }

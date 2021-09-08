@@ -27,6 +27,8 @@
  */
 package com.koresframework.kores.base.comment
 
+import com.koresframework.kores.KoresPart
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -37,10 +39,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Plain(val text: String) : Comment {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.koresframework.kores.builder.Builder<Plain, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<Plain, Builder>, KoresPart.PartBuilder<Plain, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var text: String
 
         constructor(defaults: Plain) : this() {
@@ -55,7 +60,7 @@ data class Plain(val text: String) : Comment {
             return this
         }
 
-        override fun build(): Plain = Plain(this.text)
+        override fun buildBasic(): Plain = Plain(this.text)
 
         companion object {
             @JvmStatic

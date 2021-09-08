@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 
 /**
  * Parameter holder
@@ -42,11 +43,16 @@ interface ParametersHolder : KoresPart {
     override fun builder(): Builder<ParametersHolder, *>
 
     interface Builder<out T : ParametersHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+        var parameters: List<KoresParameter>
+
         /**
          * See [T.parameters]
          */
-        fun parameters(value: List<KoresParameter>): S
+        fun parameters(value: List<KoresParameter>): S {
+            this.parameters = value
+            return self()
+        }
 
         /**
          * See [T.parameters]

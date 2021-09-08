@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -60,9 +61,13 @@ enum class Access : Instruction {
      *
      * Java: `super`
      */
-    SUPER
+    SUPER;
+
+    override val data: KoresData = KoresData()
 
 }
 
 @Serializable
-data class AccessContainer(val access: Access): Instruction
+data class AccessContainer(val access: Access): Instruction {
+    override val data: KoresData = KoresData()
+}

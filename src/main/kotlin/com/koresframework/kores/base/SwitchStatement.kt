@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.type
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -51,6 +52,7 @@ data class SwitchStatement(
     val cases: List<Case>
 ) : ValueHolder, TypedInstruction {
 
+    override val data: KoresData = KoresData()
     override val type: Type
         get() = this.value.type
 
@@ -60,9 +62,14 @@ data class SwitchStatement(
         ValueHolder.Builder<SwitchStatement, Builder>,
         Typed.Builder<SwitchStatement, Builder> {
 
-        lateinit var value: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var value: Instruction
         lateinit var switchType: SwitchType
         var cases: List<Case> = emptyList()
+
+        override var type: Type
+            get() = this.value.type
+            set(value) {}
 
         constructor(defaults: SwitchStatement) : this() {
             this.value = defaults.value
@@ -101,7 +108,7 @@ data class SwitchStatement(
          */
         fun cases(vararg values: Case): Builder = cases(values.toList())
 
-        override fun build(): SwitchStatement =
+        override fun buildBasic(): SwitchStatement =
             SwitchStatement(this.value, this.switchType, this.cases)
 
         companion object {

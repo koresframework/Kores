@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.base
 
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -41,6 +42,8 @@ data class KoresParameter(
     @Serializable(with = TypeSerializer::class) override val type: Type,
     override val name: String
 ) : Typed, Named, Annotable, ModifiersHolder {
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -49,10 +52,11 @@ data class KoresParameter(
         Annotable.Builder<KoresParameter, Builder>,
         ModifiersHolder.Builder<KoresParameter, Builder> {
 
-        var modifiers: Set<KoresModifier> = emptySet()
-        var annotations: List<Annotation> = emptyList()
-        lateinit var name: String
-        lateinit var type: Type
+        override var data: KoresData = KoresData()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override var annotations: List<Annotation> = emptyList()
+        override lateinit var name: String
+        override lateinit var type: Type
 
         constructor(defaults: KoresParameter) : this() {
             this.modifiers = defaults.modifiers
@@ -61,32 +65,7 @@ data class KoresParameter(
             this.type = defaults.type
         }
 
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = modifiers
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
-        override fun annotations(vararg values: Annotation): Builder {
-            this.annotations = values.toList()
-            return this
-        }
-
-        override fun build(): KoresParameter =
+        override fun buildBasic(): KoresParameter =
             KoresParameter(this.annotations, this.modifiers, this.type, this.name)
 
         companion object {

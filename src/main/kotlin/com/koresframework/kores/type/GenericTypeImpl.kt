@@ -28,6 +28,7 @@
 package com.koresframework.kores.type
 
 import com.koresframework.kores.Types
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.util.toStr
 
 /**
@@ -38,6 +39,8 @@ class GenericTypeImpl(
     codeType: KoresType?,
     override val bounds: Array<GenericType.Bound>
 ) : GenericType {
+
+    override val data: KoresData = KoresData()
 
     override val name: String
     override val resolvedType: KoresType

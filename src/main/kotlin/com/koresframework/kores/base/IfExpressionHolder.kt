@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.operator.Operators
 
 /**
@@ -59,11 +60,17 @@ interface IfExpressionHolder : KoresPart {
     override fun builder(): Builder<IfExpressionHolder, *>
 
     interface Builder<out T : IfExpressionHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var expressions: List<Instruction>
+
         /**
          * See [T.expressions]
          */
-        fun expressions(value: List<Instruction>): S
+        fun expressions(value: List<Instruction>): S {
+            this.expressions = value
+            return self()
+        }
 
         /**
          * See [T.expressions]
@@ -74,7 +81,7 @@ interface IfExpressionHolder : KoresPart {
     companion object {
         fun check(part: Instruction) {
             if (!(part is IfExpr || part === Operators.AND || part === Operators.OR)) {
-                throw IllegalArgumentException("Accept only IfExpr and Operators AND & OR. Current: " + part)
+                throw IllegalArgumentException("Accept only IfExpr and Operators AND & OR. Current: $part")
             }
         }
     }

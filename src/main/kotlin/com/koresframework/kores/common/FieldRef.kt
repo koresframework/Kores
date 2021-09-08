@@ -30,6 +30,7 @@ package com.koresframework.kores.common
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.FieldBase
+import com.koresframework.kores.data.KoresData
 import java.lang.reflect.Type
 
 /**
@@ -43,14 +44,18 @@ data class FieldRef(
     override val name: String
 ) : FieldBase {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() : FieldBase.Builder<FieldRef, Builder> {
 
-        lateinit var name: String
-        lateinit var type: Type
-        lateinit var localization: Type
-        lateinit var target: Instruction
+        override var data: KoresData = KoresData()
+
+        override lateinit var name: String
+        override lateinit var type: Type
+        override lateinit var localization: Type
+        override lateinit var target: Instruction
 
         constructor(defaults: FieldRef) : this() {
             this.name = defaults.name
@@ -59,27 +64,7 @@ data class FieldRef(
             this.target = defaults.target
         }
 
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun localization(value: Type): Builder {
-            this.localization = value
-            return this
-        }
-
-        override fun target(value: Instruction): Builder {
-            this.target = value
-            return this
-        }
-
-        override fun build(): FieldRef = FieldRef(localization, target, type, name)
+        override fun buildBasic(): FieldRef = FieldRef(localization, target, type, name)
 
         companion object {
             @JvmStatic

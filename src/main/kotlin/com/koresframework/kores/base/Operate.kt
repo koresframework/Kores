@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.KoresNothing
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.operator.Operator
 import com.koresframework.kores.operator.Operators
 import com.koresframework.kores.type
@@ -53,6 +54,8 @@ data class Operate(
     override val value: Instruction
 ) : ValueHolder, TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.target.type
 
@@ -65,9 +68,14 @@ data class Operate(
         ValueHolder.Builder<Operate, Builder>,
         Typed.Builder<Operate, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var target: Instruction
         lateinit var operation: Operator.Math
-        var value: Instruction = KoresNothing
+        override var value: Instruction = KoresNothing
+
+        override var type: Type
+            get() = this.target.type
+            set(value) {}
 
         constructor(defaults: Operate) : this() {
             this.target = defaults.target
@@ -98,7 +106,7 @@ data class Operate(
             return this
         }
 
-        override fun build(): Operate = Operate(this.target, this.operation, this.value)
+        override fun buildBasic(): Operate = Operate(this.target, this.operation, this.value)
 
         companion object {
             @JvmStatic

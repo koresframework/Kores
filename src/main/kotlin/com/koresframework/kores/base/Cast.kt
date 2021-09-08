@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -48,6 +49,8 @@ data class Cast(
     val instruction: Instruction
 ) : TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.targetType
 
@@ -56,9 +59,14 @@ data class Cast(
     class Builder() :
         Typed.Builder<Cast, Builder> {
 
+        override var data: KoresData = KoresData()
         var originalType: Type? = null
         lateinit var targetType: Type
         lateinit var castedPart: Instruction
+
+        override var type: Type
+            get() = this.targetType
+            set(value) { this.targetType = value }
 
         constructor(defaults: Cast) : this() {
             this.originalType = defaults.originalType
@@ -92,7 +100,7 @@ data class Cast(
             return this
         }
 
-        override fun build(): Cast = Cast(this.originalType, this.targetType, this.castedPart)
+        override fun buildBasic(): Cast = Cast(this.originalType, this.targetType, this.castedPart)
 
         companion object {
             @JvmStatic

@@ -31,6 +31,7 @@ import com.koresframework.kores.Instructions
 import com.koresframework.kores.Types
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.generic.GenericSignature
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -44,6 +45,8 @@ data class StaticBlock(
     override val innerTypes: List<TypeDeclaration>,
     override val body: Instructions
 ) : MethodDeclarationBase {
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -73,9 +76,39 @@ data class StaticBlock(
 
     class Builder() : MethodDeclarationBase.Builder<StaticBlock, Builder> {
 
-        var comments: Comments = Comments.Absent
-        var innerTypes: List<TypeDeclaration> = emptyList()
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override var comments: Comments = Comments.Absent
+        override var innerTypes: List<TypeDeclaration> = emptyList()
+        override var body: Instructions = Instructions.empty()
+
+        override var returnType: Type
+            get() = RETURN_TYPE
+            set(value) {}
+
+        override var parameters: List<KoresParameter>
+            get() = emptyList()
+            set(value) {}
+
+        override var throwsClause: List<Type>
+            get() = emptyList()
+            set(value) {}
+
+        override var annotations: List<Annotation>
+            get() = emptyList()
+            set(value) {}
+
+        override var genericSignature: GenericSignature
+            get() = GenericSignature.empty()
+            set(value) {}
+
+        override var name: String
+            get() = NAME
+            set(value) {}
+
+        override var modifiers: Set<KoresModifier>
+            get() = MODIFIERS
+            set(value) {}
+
 
         constructor(defaults: StaticBlock) : this() {
             this.comments = defaults.comments
@@ -110,7 +143,7 @@ data class StaticBlock(
 
         override fun genericSignature(value: GenericSignature): Builder = self()
 
-        override fun build(): StaticBlock = StaticBlock(this.comments, this.innerTypes, this.body)
+        override fun buildBasic(): StaticBlock = StaticBlock(this.comments, this.innerTypes, this.body)
 
         companion object {
             @JvmStatic

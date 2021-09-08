@@ -30,6 +30,8 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Types
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.dataFrom
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.isArray
 import kotlinx.serialization.Serializable
@@ -44,6 +46,8 @@ data class ArrayLength(
     override val target: Instruction
 ) : ArrayAccess, TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }
     }
@@ -57,27 +61,20 @@ data class ArrayLength(
         ArrayAccess.Builder<ArrayLength, Builder>,
         Typed.Builder<ArrayLength, Builder> {
 
-        lateinit var arrayType: Type
-        lateinit var target: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var arrayType: Type
+        override lateinit var target: Instruction
+
+        override var type: Type
+            get() = this.arrayType
+            set(value) { this.arrayType = value }
 
         constructor(defaults: ArrayLength) : this() {
             this.arrayType = defaults.arrayType
             this.target = defaults.target
         }
 
-        override fun type(value: Type): Builder = self()
-
-        override fun arrayType(value: Type): Builder {
-            this.arrayType = value
-            return this
-        }
-
-        override fun target(value: Instruction): Builder {
-            this.target = value
-            return this
-        }
-
-        override fun build(): ArrayLength = ArrayLength(this.arrayType, this.target)
+        override fun buildBasic(): ArrayLength = ArrayLength(this.arrayType, this.target)
 
         companion object {
             @JvmStatic

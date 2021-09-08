@@ -30,6 +30,8 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instructions
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.dataFrom
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.type.isConcreteIdEq
 import com.koresframework.kores.util.eq
@@ -41,6 +43,7 @@ import kotlinx.serialization.Serializable
 import java.lang.annotation.ElementType
 import java.lang.annotation.RetentionPolicy
 import java.lang.reflect.Type
+import kotlin.reflect.KMutableProperty
 
 /**
  * Annotation declaration.
@@ -61,6 +64,7 @@ data class AnnotationDeclaration(
     override val innerTypes: List<TypeDeclaration>
 ) : TypeDeclaration {
 
+    override val data: KoresData = KoresData()
     override val methods: List<MethodDeclaration> = emptyList()
     override val staticBlock: StaticBlock =
         StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
@@ -81,20 +85,28 @@ data class AnnotationDeclaration(
 
     class Builder() : TypeDeclaration.Builder<AnnotationDeclaration, Builder> {
 
-        var outerClass: Type? = null
-        lateinit var specifiedName: String
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
+        override var data: KoresData = KoresData()
+        override var outerType: Type? = null
+        override lateinit var specifiedName: String
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
+        override var fields: List<FieldDeclaration> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
 
-        var fields: List<FieldDeclaration> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
-
-        var modifiers: Set<KoresModifier> = emptySet()
-        var genericSignature: GenericSignature = GenericSignature.empty()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override var genericSignature: GenericSignature = GenericSignature.empty()
         var properties: List<AnnotationProperty> = emptyList()
 
+        override var methods: List<MethodDeclaration>
+            get() = emptyList()
+            set(value) {}
+
+        override var staticBlock: StaticBlock
+            get() = StaticBlock.Builder.builder().build()
+            set(value) {}
+
         constructor(defaults: AnnotationDeclaration) : this() {
-            this.outerClass = defaults.outerType
+            this.outerType = defaults.outerType
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
@@ -107,49 +119,8 @@ data class AnnotationDeclaration(
             this.properties = defaults.properties
         }
 
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
         override fun staticBlock(value: StaticBlock): Builder = self()
-
-        override fun fields(value: List<FieldDeclaration>): Builder {
-            this.fields = value
-            return this
-        }
-
         override fun methods(value: List<MethodDeclaration>): Builder = self()
-
-        override fun innerTypes(value: List<TypeDeclaration>): Builder {
-            this.innerTypes = value
-            return this
-        }
-
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = value
-            return this
-        }
-
-        override fun genericSignature(value: GenericSignature): Builder {
-            this.genericSignature = value
-            return this
-        }
-
-        override fun specifiedName(value: String): Builder {
-            this.specifiedName = value
-            return this
-        }
-
-        override fun outerType(value: Type?): Builder {
-            this.outerClass = value
-            return this
-        }
 
         /**
          * See [AnnotationDeclaration.properties]
@@ -198,8 +169,8 @@ data class AnnotationDeclaration(
                     .build()
             )
 
-        override fun build() = AnnotationDeclaration(
-            this.comments, this.outerClass, this.annotations, this.modifiers,
+        override fun buildBasic(): AnnotationDeclaration = AnnotationDeclaration(
+            this.comments, this.outerType, this.annotations, this.modifiers,
             this.specifiedName, this.genericSignature, this.properties, this.fields, this.innerTypes
         )
 

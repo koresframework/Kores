@@ -27,7 +27,9 @@
  */
 package com.koresframework.kores.base.comment
 
+import com.koresframework.kores.KoresPart
 import com.koresframework.kores.common.MethodTypeSpec
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -40,6 +42,8 @@ import java.lang.reflect.Type
  */
 @Serializable
 data class Link(val name: String?, val target: LinkTarget) : Comment {
+
+    override val data: KoresData = KoresData()
 
     override fun builder(): Builder = Builder(this)
 
@@ -94,8 +98,9 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
         data class URL(val url: String) : LinkTarget
     }
 
-    class Builder() : com.koresframework.kores.builder.Builder<Link, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<Link, Builder>, KoresPart.PartBuilder<Link, Builder> {
 
+        override var data: KoresData = KoresData()
         var name: String? = null
         lateinit var target: LinkTarget
 
@@ -120,7 +125,7 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
             return this
         }
 
-        override fun build(): Link = Link(this.name, this.target)
+        override fun buildBasic(): Link = Link(this.name, this.target)
 
         companion object {
             @JvmStatic

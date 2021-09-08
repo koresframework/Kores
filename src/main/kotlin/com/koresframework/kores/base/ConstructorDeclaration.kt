@@ -31,6 +31,7 @@ import com.koresframework.kores.Instructions
 import com.koresframework.kores.Types
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
@@ -52,6 +53,8 @@ data class ConstructorDeclaration(
     override val body: Instructions
 ) : MethodDeclarationBase {
 
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -66,14 +69,23 @@ data class ConstructorDeclaration(
 
     class Builder() : MethodDeclarationBase.Builder<ConstructorDeclaration, Builder> {
 
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
-        var modifiers: Set<KoresModifier> = emptySet()
-        var genericSignature: GenericSignature = GenericSignature.empty()
-        var parameters: List<KoresParameter> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
-        var throws: List<Type> = emptyList()
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override var genericSignature: GenericSignature = GenericSignature.empty()
+        override var parameters: List<KoresParameter> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
+        override var throwsClause: List<Type> = emptyList()
+        override var body: Instructions = Instructions.empty()
+
+        override var name: String
+            get() = "<init>"
+            set(value) {}
+
+        override var returnType: Type
+            get() = Types.VOID
+            set(value) {}
 
         constructor(defaults: ConstructorDeclaration) : this() {
             this.comments = defaults.comments
@@ -82,7 +94,7 @@ data class ConstructorDeclaration(
             this.genericSignature = defaults.genericSignature
             this.parameters = defaults.parameters
             this.innerTypes = defaults.innerTypes
-            this.throws = defaults.throwsClause
+            this.throwsClause = defaults.throwsClause
             this.body = defaults.body
         }
 
@@ -116,7 +128,7 @@ data class ConstructorDeclaration(
         }
 
         override fun throwsClause(value: List<Type>): Builder {
-            this.throws = value
+            this.throwsClause = value
             return this
         }
 
@@ -131,14 +143,14 @@ data class ConstructorDeclaration(
         }
 
 
-        override fun build(): ConstructorDeclaration = ConstructorDeclaration(
+        override fun buildBasic(): ConstructorDeclaration = ConstructorDeclaration(
             this.comments,
             this.annotations,
             this.modifiers,
             this.genericSignature,
             this.parameters,
             this.innerTypes,
-            this.throws,
+            this.throwsClause,
             this.body
         )
 

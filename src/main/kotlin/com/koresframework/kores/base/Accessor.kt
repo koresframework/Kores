@@ -28,6 +28,8 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -58,16 +60,26 @@ interface Accessor : Instruction {
     override fun builder(): Builder<Accessor, *>
 
     interface Builder<out T : Accessor, S : Builder<T, S>> :
+        KoresPart.PartBuilder<T, S>,
         com.koresframework.kores.builder.Builder<T, S> {
+
+        var target: Instruction
+        var localization: Type
 
         /**
          * See [Accessor.target]
          */
-        fun target(value: Instruction): S
+        fun target(value: Instruction): S {
+            this.target = value
+            return self()
+        }
 
         /**
          * See [Accessor.localization]
          */
-        fun localization(value: Type): S
+        fun localization(value: Type): S {
+            this.localization = value
+            return self()
+        }
     }
 }

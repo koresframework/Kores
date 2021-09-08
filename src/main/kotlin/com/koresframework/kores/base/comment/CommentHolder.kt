@@ -28,6 +28,8 @@
 package com.koresframework.kores.base.comment
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
+import kotlin.reflect.KMutableProperty
 
 /**
  * Hold comments and documentation.
@@ -42,10 +44,15 @@ interface CommentHolder : KoresPart {
     interface Builder<out T : CommentHolder, S : Builder<T, S>> :
         com.koresframework.kores.builder.Builder<T, S> {
 
+        var comments: Comments
+
         /**
          * See [CommentHolder.comments]
          */
-        fun comments(value: Comments): S
+        fun comments(value: Comments): S {
+            this.comments = value
+            return self()
+        }
 
     }
 

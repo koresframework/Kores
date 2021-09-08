@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
 import com.koresframework.kores.base.ModifierType.*
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Member
 import java.lang.reflect.Modifier
@@ -60,6 +61,8 @@ enum class KoresModifier(val modifierType: ModifierType, expr_: String? = null) 
     STATIC_PHASE(MODULE);
 
     val expr: String = expr_ ?: this.name.toLowerCase()
+    override val data: KoresData = KoresData()
+
 
     companion object {
         /**

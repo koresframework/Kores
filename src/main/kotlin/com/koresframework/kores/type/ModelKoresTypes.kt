@@ -29,6 +29,7 @@ package com.koresframework.kores.type
 
 import com.github.jonathanxd.iutils.kt.rightOrFail
 import com.koresframework.kores.Types
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.util.GenericResolver
 import com.koresframework.kores.util.eq
@@ -166,6 +167,8 @@ fun TypeElement.getKoresTypeFromTypeParameters(elements: Elements): KoresType {
 
 internal class TypeElementKoresType(val typeElement: TypeElement, val elements: Elements) :
     KoresType {
+
+    override val data: KoresData = KoresData()
 
     override val isArray: Boolean
         get() = false

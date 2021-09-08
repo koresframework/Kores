@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -43,11 +44,16 @@ interface SuperClassHolder : KoresPart {
     override fun builder(): Builder<SuperClassHolder, *>
 
     interface Builder<out T : SuperClassHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var superClass: Type?
 
         /**
          * See [T.superClass]
          */
-        fun superClass(value: Type?): S
+        fun superClass(value: Type?): S {
+            this.superClass = value
+            return self()
+        }
     }
 }

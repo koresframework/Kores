@@ -33,6 +33,7 @@ import com.koresframework.kores.base.InvokeType
 import com.koresframework.kores.base.MethodInvocation
 import com.koresframework.kores.base.TypeSpec
 import com.koresframework.kores.base.Typed
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.KoresType
 import com.koresframework.kores.type.koresType
@@ -45,6 +46,8 @@ data class MethodTypeSpec(
     @Serializable(with = TypeSerializer::class) val localization: Type,
     val methodSpec: MethodSpec
 ) : Typed, Comparable<MethodTypeSpec> {
+
+    override val data: KoresData = KoresData()
 
     constructor(localization: Type, methodName: String, typeSpec: TypeSpec)
             : this(localization, MethodSpec(methodName, typeSpec))
@@ -95,9 +98,14 @@ data class MethodTypeSpec(
     }
 
     class Builder() : Typed.Builder<MethodTypeSpec, Builder> {
+        override var data: KoresData = KoresData()
         lateinit var localization: Type
         lateinit var methodName: String
         lateinit var typeSpec: TypeSpec
+
+        override var type: Type
+            get() = this.typeSpec.type
+            set(value) {this.typeSpec = this.typeSpec.copy(returnType = value)}
 
         constructor(defaults: MethodTypeSpec) : this() {
             this.localization = defaults.localization
@@ -125,7 +133,7 @@ data class MethodTypeSpec(
             return this
         }
 
-        override fun build(): MethodTypeSpec = MethodTypeSpec(localization, methodName, typeSpec)
+        override fun buildBasic(): MethodTypeSpec = MethodTypeSpec(localization, methodName, typeSpec)
 
     }
 }

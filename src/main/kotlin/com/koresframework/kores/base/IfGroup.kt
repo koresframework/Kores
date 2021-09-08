@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -40,27 +41,19 @@ import kotlinx.serialization.Serializable
 data class IfGroup(override val expressions: List<Instruction>) : KoresPart, IfExpressionHolder,
     Instruction {
 
+    override val data: KoresData = KoresData()
     override fun builder(): Builder = Builder(this)
 
     class Builder() : IfExpressionHolder.Builder<IfGroup, Builder> {
 
-        var expressions: List<Instruction> = emptyList()
+        override var data: KoresData = KoresData()
+        override var expressions: List<Instruction> = emptyList()
 
         constructor(defaults: IfGroup) : this() {
             this.expressions = defaults.expressions
         }
 
-        override fun expressions(value: List<Instruction>): Builder {
-            this.expressions = value
-            return this
-        }
-
-        override fun expressions(vararg values: Instruction): Builder {
-            this.expressions = values.toList()
-            return this
-        }
-
-        override fun build(): IfGroup = IfGroup(this.expressions)
+        override fun buildBasic(): IfGroup = IfGroup(this.expressions)
 
         companion object {
             @JvmStatic

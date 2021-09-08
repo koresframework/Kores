@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instructions
 import com.koresframework.kores.base.comment.Comments
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.eq
@@ -61,6 +62,7 @@ data class EnumDeclaration(
 ) : TypeDeclaration,
     ImplementationHolder, EntryHolder, ConstructorsHolder {
 
+    override val data: KoresData = KoresData()
 
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)
@@ -89,24 +91,25 @@ data class EnumDeclaration(
         EntryHolder.Builder<EnumDeclaration, Builder>,
         ConstructorsHolder.Builder<EnumDeclaration, Builder> {
 
-        var outerClass: Type? = null
-        lateinit var specifiedName: String
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
+        override var data: KoresData = KoresData()
+        override var outerType: Type? = null
+        override lateinit var specifiedName: String
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
 
-        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
-        var fields: List<FieldDeclaration> = emptyList()
-        var constructors: List<ConstructorDeclaration> = emptyList()
-        var methods: List<MethodDeclaration> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
+        override var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
+        override var fields: List<FieldDeclaration> = emptyList()
+        override var constructors: List<ConstructorDeclaration> = emptyList()
+        override var methods: List<MethodDeclaration> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
 
-        var modifiers: Set<KoresModifier> = emptySet()
-        var genericSignature: GenericSignature = GenericSignature.empty()
-        var implementations: List<Type> = emptyList()
-        var entries: List<EnumEntry> = emptyList()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override var genericSignature: GenericSignature = GenericSignature.empty()
+        override var implementations: List<Type> = emptyList()
+        override var entries: List<EnumEntry> = emptyList()
 
         constructor(defaults: EnumDeclaration) : this() {
-            this.outerClass = defaults.outerType
+            this.outerType = defaults.outerType
             this.specifiedName = defaults.specifiedName
             this.comments = defaults.comments
             this.annotations = defaults.annotations
@@ -123,73 +126,8 @@ data class EnumDeclaration(
             this.entries = defaults.entries
         }
 
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
-        override fun staticBlock(value: StaticBlock): Builder {
-            this.staticBlock = value
-            return this
-        }
-
-        override fun fields(value: List<FieldDeclaration>): Builder {
-            this.fields = value
-            return this
-        }
-
-        override fun constructors(value: List<ConstructorDeclaration>): Builder {
-            this.constructors = value
-            return this
-        }
-
-        override fun methods(value: List<MethodDeclaration>): Builder {
-            this.methods = value
-            return this
-        }
-
-        override fun innerTypes(value: List<TypeDeclaration>): Builder {
-            this.innerTypes = value
-            return this
-        }
-
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = value
-            return this
-        }
-
-        override fun genericSignature(value: GenericSignature): Builder {
-            this.genericSignature = value
-            return this
-        }
-
-        override fun specifiedName(value: String): Builder {
-            this.specifiedName = value
-            return this
-        }
-
-        override fun outerType(value: Type?): Builder {
-            this.outerClass = value
-            return this
-        }
-
-        override fun implementations(value: List<Type>): Builder {
-            this.implementations = value
-            return this
-        }
-
-        override fun entries(value: List<EnumEntry>): Builder {
-            this.entries = value
-            return this
-        }
-
-        override fun build() = EnumDeclaration(
-            this.outerClass,
+        override fun buildBasic() = EnumDeclaration(
+            this.outerType,
             this.comments,
             this.annotations,
             this.modifiers,

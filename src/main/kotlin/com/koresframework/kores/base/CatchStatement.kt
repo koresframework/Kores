@@ -28,7 +28,10 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.Types
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.getLeaveType
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -47,6 +50,8 @@ data class CatchStatement(
     override val body: Instructions
 ) : BodyHolder, Typed {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.variable.type
 
@@ -60,9 +65,14 @@ data class CatchStatement(
         BodyHolder.Builder<CatchStatement, Builder>,
         Typed.Builder<CatchStatement, Builder> {
 
+        override var data: KoresData = KoresData()
         var exceptionTypes: List<Type> = emptyList()
         lateinit var variable: VariableDeclaration
-        var body: Instructions = Instructions.empty()
+        override var body: Instructions = Instructions.empty()
+
+        override var type: Type
+            get() = body.getLeaveType() ?: Types.VOID
+            set(value) {}
 
         constructor(defaults: CatchStatement) : this() {
             this.exceptionTypes = defaults.exceptionTypes
@@ -99,7 +109,7 @@ data class CatchStatement(
             return this
         }
 
-        override fun build(): CatchStatement =
+        override fun buildBasic(): CatchStatement =
             CatchStatement(this.exceptionTypes, this.variable, this.body)
 
         companion object {

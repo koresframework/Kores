@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.common.KoresNothing
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -45,6 +46,8 @@ data class VariableDeclaration(
     override val name: String,
     override val value: Instruction
 ) : VariableBase, ValueHolder, TypedInstruction, ModifiersHolder {
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -52,10 +55,11 @@ data class VariableDeclaration(
         ValueHolder.Builder<VariableDeclaration, Builder>,
         ModifiersHolder.Builder<VariableDeclaration, Builder> {
 
-        lateinit var name: String
-        lateinit var variableType: Type
-        var value: Instruction = KoresNothing
-        var modifiers: Set<KoresModifier> = emptySet()
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
+        override lateinit var variableType: Type
+        override var value: Instruction = KoresNothing
+        override var modifiers: Set<KoresModifier> = emptySet()
 
         constructor(defaults: VariableDeclaration) : this() {
             this.name = defaults.name
@@ -89,7 +93,7 @@ data class VariableDeclaration(
          */
         fun withoutValue(): Builder = this.value(KoresNothing)
 
-        override fun build(): VariableDeclaration =
+        override fun buildBasic(): VariableDeclaration =
             VariableDeclaration(this.modifiers, this.variableType, this.name, this.value)
 
         companion object {

@@ -29,6 +29,7 @@ package com.koresframework.kores.common
 
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.*
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.canonicalName
 import kotlinx.serialization.Serializable
@@ -41,6 +42,8 @@ import java.lang.reflect.Type
 @Serializable
 data class FieldSpec(val fieldName: String, @Serializable(with = TypeSerializer::class) val fieldType: Type) :
     Typed, Comparable<FieldSpec> {
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.fieldType
 
@@ -66,17 +69,17 @@ data class FieldSpec(val fieldName: String, @Serializable(with = TypeSerializer:
             FieldTypeSpec(type, this)
 
     class Builder() : Typed.Builder<FieldSpec, Builder> {
+        override var data: KoresData = KoresData()
         lateinit var fieldName: String
         lateinit var fieldType: Type
+
+        override var type: Type
+            get() = this.fieldType
+            set(value) { this.fieldType = value }
 
         constructor(defaults: FieldSpec) : this() {
             this.fieldName = defaults.fieldName
             this.fieldType = defaults.fieldType
-        }
-
-        override fun type(value: Type): Builder {
-            this.fieldType = value
-            return this
         }
 
         fun withFieldName(value: String): Builder {
@@ -94,7 +97,7 @@ data class FieldSpec(val fieldName: String, @Serializable(with = TypeSerializer:
             return this
         }
 
-        override fun build(): FieldSpec = FieldSpec(this.fieldName, this.fieldType)
+        override fun buildBasic(): FieldSpec = FieldSpec(this.fieldName, this.fieldType)
 
     }
 }

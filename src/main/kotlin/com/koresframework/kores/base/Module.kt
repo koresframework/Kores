@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.base
 
+import com.koresframework.kores.data.KoresData
 import java.lang.reflect.Type
 
 /**
@@ -35,11 +36,13 @@ import java.lang.reflect.Type
  * @property name Qualified name of module.
  */
 data class ModuleReference(override val name: String) : Named {
+    override val data: KoresData = KoresData()
 
     override fun builder(): Builder = Builder()
 
     class Builder() : Named.Builder<ModuleReference, Builder> {
-        lateinit var name: String
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
 
         constructor(defaults: ModuleReference) : this() {
             this.name = defaults.name
@@ -50,7 +53,7 @@ data class ModuleReference(override val name: String) : Named {
             return this
         }
 
-        override fun build(): ModuleReference = ModuleReference(this.name)
+        override fun buildBasic(): ModuleReference = ModuleReference(this.name)
 
         companion object {
             @JvmStatic
@@ -86,6 +89,8 @@ data class ModuleDeclaration(
     val provides: List<Provide>
 ) : Named, ModifiersHolder {
 
+    override val data: KoresData = KoresData()
+
 
     /**
      * Module reference.
@@ -97,8 +102,9 @@ data class ModuleDeclaration(
     class Builder() : Named.Builder<ModuleDeclaration, Builder>,
         ModifiersHolder.Builder<ModuleDeclaration, Builder> {
 
-        var modifiers: Set<KoresModifier> = emptySet()
-        lateinit var name: String
+        override var data: KoresData = KoresData()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override lateinit var name: String
         var version: String? = null
         var requires: List<Require> = emptyList()
         var exports: List<Export> = emptyList()
@@ -115,16 +121,6 @@ data class ModuleDeclaration(
             this.opens = defaults.opens
             this.uses = defaults.uses
             this.provides = defaults.provides
-        }
-
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = value
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
         }
 
         /**
@@ -242,7 +238,7 @@ data class ModuleDeclaration(
         })
 
 
-        override fun build(): ModuleDeclaration = ModuleDeclaration(
+        override fun buildBasic(): ModuleDeclaration = ModuleDeclaration(
             this.modifiers, this.name, this.version, this.requires,
             this.exports, this.opens, this.uses, this.provides
         )

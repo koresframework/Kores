@@ -30,6 +30,7 @@ package com.koresframework.kores.common
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.*
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -41,6 +42,8 @@ import java.lang.reflect.Type
 @Serializable
 data class MethodInvokeHandleSpec(val invokeType: DynamicInvokeType, val methodTypeSpec: MethodTypeSpec) : Typed,
     Comparable<MethodInvokeHandleSpec> {
+
+    override val data: KoresData = KoresData()
 
     override val type: Type
         get() = this.methodTypeSpec.type
@@ -72,8 +75,13 @@ data class MethodInvokeHandleSpec(val invokeType: DynamicInvokeType, val methodT
 
     class Builder() : Typed.Builder<MethodInvokeHandleSpec, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var invokeType: DynamicInvokeType
         lateinit var methodTypeSpec: MethodTypeSpec
+
+        override var type: Type
+            get() = this.methodTypeSpec.type
+            set(value) { this.methodTypeSpec = this.methodTypeSpec.copy(type = value) }
 
         constructor(defaults: MethodInvokeHandleSpec) : this() {
             this.invokeType = defaults.invokeType
@@ -116,7 +124,7 @@ data class MethodInvokeHandleSpec(val invokeType: DynamicInvokeType, val methodT
             return this
         }
 
-        override fun build(): MethodInvokeHandleSpec =
+        override fun buildBasic(): MethodInvokeHandleSpec =
             MethodInvokeHandleSpec(this.invokeType, this.methodTypeSpec)
     }
 }

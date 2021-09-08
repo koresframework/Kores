@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 
@@ -41,10 +42,12 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class WhileStatement(
-    val type: WhileStatement.Type,
+    val type: Type,
     override val expressions: List<Instruction>,
     override val body: Instructions
 ) : IfExpressionHolder, BodyHolder, Instruction {
+
+    override val data: KoresData = KoresData()
 
     init {
         BodyHolder.checkBody(this)
@@ -56,9 +59,10 @@ data class WhileStatement(
         IfExpressionHolder.Builder<WhileStatement, Builder>,
         BodyHolder.Builder<WhileStatement, Builder> {
 
-        lateinit var type: WhileStatement.Type
-        var expressions: List<Instruction> = emptyList()
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        lateinit var type: Type
+        override var expressions: List<Instruction> = emptyList()
+        override var body: Instructions = Instructions.empty()
 
         constructor(defaults: WhileStatement) : this() {
             this.type = defaults.type
@@ -74,17 +78,7 @@ data class WhileStatement(
             return this
         }
 
-        override fun body(value: Instructions): Builder {
-            this.body = value
-            return this
-        }
-
-        override fun expressions(value: List<Instruction>): Builder {
-            this.expressions = value
-            return this
-        }
-
-        override fun build(): WhileStatement =
+        override fun buildBasic(): WhileStatement =
             WhileStatement(this.type, this.expressions, this.body)
 
         companion object {

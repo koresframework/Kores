@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -39,9 +40,12 @@ import java.lang.reflect.Type
 @Serializable
 data class New(@Serializable(with = TypeSerializer::class) val localization: Type) : KoresPart, Instruction {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.koresframework.kores.builder.Builder<New, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<New, Builder>, KoresPart.PartBuilder<New, Builder> {
+        override var data: KoresData = KoresData()
         lateinit var localization: Type
 
         constructor(defaults: New) : this() {
@@ -56,7 +60,7 @@ data class New(@Serializable(with = TypeSerializer::class) val localization: Typ
             return this
         }
 
-        override fun build(): New = New(this.localization)
+        override fun buildBasic(): New = New(this.localization)
 
         companion object {
             @JvmStatic

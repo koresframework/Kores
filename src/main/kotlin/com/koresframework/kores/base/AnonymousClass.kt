@@ -32,6 +32,8 @@ import com.koresframework.kores.Instructions
 import com.koresframework.kores.Types
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.dataFrom
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.util.eq
@@ -75,6 +77,7 @@ data class AnonymousClass(
 ) : TypeDeclaration, SuperClassHolder,
     ArgumentsHolder, ImplementationHolder, ConstructorsHolder {
 
+    override val data: KoresData = KoresData()
     override val qualifiedName: String = specifiedName
         get() = resolveQualifiedName(field, this.outerType)
 
@@ -107,25 +110,34 @@ data class AnonymousClass(
         ImplementationHolder.Builder<AnonymousClass, Builder>,
         ConstructorsHolder.Builder<AnonymousClass, Builder> {
 
-        var comments: Comments = Comments.Absent
-        var outerClass: Type? = null
-        var annotations: List<Annotation> = emptyList()
-        lateinit var specifiedName: String
-        var superClass: Type = Types.OBJECT
-        var implementations: List<Type> = emptyList()
+        override var data: KoresData = KoresData()
+        override var comments: Comments = Comments.Absent
+        override var outerType: Type? = null
+        override var annotations: List<Annotation> = emptyList()
+        override lateinit var specifiedName: String
+        override var superClass: Type? = Types.OBJECT
+        override var implementations: List<Type> = emptyList()
         lateinit var constructorSpec: TypeSpec
-        var arguments: List<Instruction> = emptyList()
+        override var arguments: List<Instruction> = emptyList()
         lateinit var constructorBody: Instructions
 
-        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
-        var fields: List<FieldDeclaration> = emptyList()
-        var constructors: List<ConstructorDeclaration> = emptyList()
-        var methods: List<MethodDeclaration> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
+        override var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
+        override var fields: List<FieldDeclaration> = emptyList()
+        override var constructors: List<ConstructorDeclaration> = emptyList()
+        override var methods: List<MethodDeclaration> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
+
+        override var modifiers: Set<KoresModifier>
+            get() = emptySet()
+            set(value) {}
+
+        override var genericSignature: GenericSignature
+            get() = GenericSignature.empty()
+            set(value) {}
 
         constructor(defaults: AnonymousClass) : this() {
             this.comments = defaults.comments
-            this.outerClass = defaults.outerType
+            this.outerType = defaults.outerType
             this.annotations = defaults.annotations
             this.specifiedName = defaults.specifiedName
             this.superClass = defaults.superClass
@@ -147,66 +159,6 @@ data class AnonymousClass(
         override fun array(value: Boolean): Builder = self()
         override fun genericSignature(value: GenericSignature): Builder = self()
 
-        override fun outerType(value: Type?): Builder {
-            this.outerClass = value
-            return this
-        }
-
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
-        override fun staticBlock(value: StaticBlock): Builder {
-            this.staticBlock = value
-            return this
-        }
-
-        override fun fields(value: List<FieldDeclaration>): Builder {
-            this.fields = value
-            return this
-        }
-
-        override fun constructors(value: List<ConstructorDeclaration>): Builder {
-            this.constructors = value
-            return this
-        }
-
-        override fun methods(value: List<MethodDeclaration>): Builder {
-            this.methods = value
-            return this
-        }
-
-        override fun innerTypes(value: List<TypeDeclaration>): Builder {
-            this.innerTypes = value
-            return this
-        }
-
-        override fun superClass(value: Type?): Builder {
-            this.superClass = value!!
-            return this
-        }
-
-        override fun implementations(value: List<Type>): Builder {
-            this.implementations = value
-            return this
-        }
-
-        override fun arguments(value: List<Instruction>): Builder {
-            this.arguments = value
-            return this
-        }
-
-        override fun specifiedName(value: String): Builder {
-            this.specifiedName = value
-            return this
-        }
-
         /**
          * See [AnonymousClass.constructorSpec]
          */
@@ -223,12 +175,12 @@ data class AnonymousClass(
             return this
         }
 
-        override fun build(): AnonymousClass = AnonymousClass(
+        override fun buildBasic(): AnonymousClass = AnonymousClass(
             this.comments,
-            this.outerClass,
+            this.outerType,
             this.annotations,
             this.specifiedName,
-            this.superClass,
+            this.superClass ?: Types.OBJECT,
             this.implementations,
             this.constructorSpec,
             this.arguments,

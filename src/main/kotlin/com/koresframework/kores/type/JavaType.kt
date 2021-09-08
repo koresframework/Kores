@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.util.toStr
 import kotlinx.serialization.Serializable
@@ -37,6 +38,7 @@ import kotlinx.serialization.Serializable
 @Serializable(with = TypeSerializer::class)
 open class JavaType<T> constructor(override val loadedType: Class<T>) : LoadedKoresType<T> {
 
+    override val data: KoresData = KoresData()
 
     override fun equals(other: Any?): Boolean = this.eq(other)
     override fun hashCode(): Int = this.hash()

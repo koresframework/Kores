@@ -32,6 +32,7 @@ import com.koresframework.kores.base.FieldAccessKind
 import com.koresframework.kores.base.InvokeDynamicBase
 import com.koresframework.kores.base.InvokeType
 import com.koresframework.kores.base.Typed
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -43,6 +44,7 @@ import java.lang.reflect.Type
 data class FieldAccessHandleSpec(val accessKind: FieldAccessKind, val fieldTypeSpec: FieldTypeSpec) : Typed,
     Comparable<FieldAccessHandleSpec> {
 
+    override val data: KoresData = KoresData()
 
     override val type: Type
         get() = this.fieldTypeSpec.type
@@ -62,8 +64,13 @@ data class FieldAccessHandleSpec(val accessKind: FieldAccessKind, val fieldTypeS
 
     class Builder() : Typed.Builder<FieldAccessHandleSpec, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var accessKind: FieldAccessKind
         lateinit var fieldTypeSpec: FieldTypeSpec
+
+        override var type: Type
+            get() = this.fieldTypeSpec.type
+            set(value) { this.fieldTypeSpec = this.fieldTypeSpec.copy(fieldType = value )}
 
         constructor(defaults: FieldAccessHandleSpec) : this() {
             this.accessKind = defaults.accessKind
@@ -96,7 +103,7 @@ data class FieldAccessHandleSpec(val accessKind: FieldAccessKind, val fieldTypeS
             return this
         }
 
-        override fun build(): FieldAccessHandleSpec =
+        override fun buildBasic(): FieldAccessHandleSpec =
             FieldAccessHandleSpec(this.accessKind, this.fieldTypeSpec)
     }
 }

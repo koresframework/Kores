@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Types
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -46,6 +47,8 @@ data class InstanceOfCheck(
     @Serializable(with = TypeSerializer::class) val checkType: Type
 ) : Typed, Instruction {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = Types.BOOLEAN
 
@@ -54,8 +57,13 @@ data class InstanceOfCheck(
     class Builder() :
         Typed.Builder<InstanceOfCheck, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var part: Instruction
         lateinit var checkType: Type
+
+        override var type: Type
+            get() = Types.BOOLEAN
+            set(value) {}
 
         constructor(defaults: InstanceOfCheck) : this() {
             this.part = defaults.part
@@ -80,7 +88,7 @@ data class InstanceOfCheck(
             return this
         }
 
-        override fun build(): InstanceOfCheck = InstanceOfCheck(this.part, this.checkType)
+        override fun buildBasic(): InstanceOfCheck = InstanceOfCheck(this.part, this.checkType)
 
         companion object {
             @JvmStatic

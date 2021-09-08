@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -44,6 +45,8 @@ data class TryStatement(
     override val catchStatements: List<CatchStatement>,
     override val finallyStatement: Instructions
 ) : TryStatementBase {
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -52,7 +55,8 @@ data class TryStatement(
 
     class Builder() : TryStatementBase.Builder<TryStatement, Builder> {
 
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override var body: Instructions = Instructions.empty()
         var catchStatements: List<CatchStatement> = emptyList()
         var finallyStatement: Instructions = Instructions.empty()
 
@@ -77,7 +81,7 @@ data class TryStatement(
             return this
         }
 
-        override fun build(): TryStatement =
+        override fun buildBasic(): TryStatement =
             TryStatement(this.body, this.catchStatements, this.finallyStatement)
 
         companion object {

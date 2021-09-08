@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Types
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeListSerializer
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.koresType
@@ -49,6 +50,8 @@ data class TypeSpec @JvmOverloads constructor(
     @Serializable(with = TypeListSerializer::class) val parameterTypes: List<Type> = emptyList()
 ) : Typed, Comparable<TypeSpec> {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.returnType
 
@@ -60,7 +63,7 @@ data class TypeSpec @JvmOverloads constructor(
     }
 
     /**
-     * Human readable type specification string.
+     * Human-readable type specification string.
      */
     fun toTypeString() =
         "(${this.parameterTypesKoresType.joinToString { it.canonicalName }})${this.returnTypeKoresType.canonicalName}"
@@ -80,7 +83,7 @@ data class TypeSpec @JvmOverloads constructor(
     /**
      * Returns true if concrete types of this spec is same as concrete types of [other] spec.
      */
-    fun isConreteEq(other: TypeSpec): Boolean {
+    fun isConcreteEq(other: TypeSpec): Boolean {
         return this.returnTypeKoresType.isConcreteIdEq(other.returnTypeKoresType)
                 && this.parameterTypesKoresType.bothMatches(other.parameterTypesKoresType) { f, s ->
             f.isConcreteIdEq(
@@ -97,8 +100,13 @@ data class TypeSpec @JvmOverloads constructor(
 
     class Builder() : Typed.Builder<TypeSpec, Builder> {
 
+        override var data: KoresData = KoresData()
         var returnType: Type = Types.VOID
         var parameterTypes: List<Type> = emptyList()
+
+        override var type: Type
+            get() = Types.VOID
+            set(value) {}
 
         constructor(defaults: TypeSpec) : this() {
             this.returnType = defaults.returnType
@@ -125,7 +133,7 @@ data class TypeSpec @JvmOverloads constructor(
             return this
         }
 
-        override fun build(): TypeSpec = TypeSpec(returnType, parameterTypes)
+        override fun buildBasic(): TypeSpec = TypeSpec(returnType, parameterTypes)
 
         companion object {
             @JvmStatic

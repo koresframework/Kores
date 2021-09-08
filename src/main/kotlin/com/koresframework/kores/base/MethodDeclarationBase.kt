@@ -32,6 +32,7 @@ import com.koresframework.kores.Instructions
 import com.koresframework.kores.Types
 import com.koresframework.kores.base.comment.CommentHolder
 import com.koresframework.kores.base.comment.Comments
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
@@ -53,6 +54,9 @@ data class MethodDeclaration(
     override val throwsClause: List<@Serializable(with = TypeSerializer::class) Type>,
     override val body: Instructions
 ) : MethodDeclarationBase {
+
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -63,16 +67,17 @@ data class MethodDeclaration(
 
         // vars
 
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
-        var modifiers: Set<KoresModifier> = emptySet()
-        var genericSignature: GenericSignature = GenericSignature.empty()
-        var returnType: Type = Types.VOID
-        lateinit var name: String
-        var parameters: List<KoresParameter> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
-        var throws: List<Type> = emptyList()
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override var genericSignature: GenericSignature = GenericSignature.empty()
+        override var returnType: Type = Types.VOID
+        override lateinit var name: String
+        override var parameters: List<KoresParameter> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
+        override var throwsClause: List<Type> = emptyList()
+        override var body: Instructions = Instructions.empty()
 
         constructor(defaults: MethodDeclaration) : this() {
             this.comments = defaults.comments
@@ -83,63 +88,13 @@ data class MethodDeclaration(
             this.name = defaults.name
             this.parameters = defaults.parameters
             this.innerTypes = defaults.innerTypes
-            this.throws = defaults.throwsClause
+            this.throwsClause = defaults.throwsClause
             this.body = defaults.body
         }
 
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = value
-            return this
-        }
-
-        override fun returnType(value: Type): Builder {
-            this.returnType = value
-            return this
-        }
-
-        override fun parameters(value: List<KoresParameter>): Builder {
-            this.parameters = value
-            return this
-        }
-
-        override fun innerTypes(value: List<TypeDeclaration>): Builder {
-            this.innerTypes = value
-            return this
-        }
-
-        override fun body(value: Instructions): Builder {
-            this.body = value
-            return this
-        }
-
-        override fun throwsClause(value: List<Type>): Builder {
-            this.throws = value
-            return this
-        }
-
-        override fun genericSignature(value: GenericSignature): Builder {
-            this.genericSignature = value
-            return this
-        }
-
-        override fun build(): MethodDeclaration = MethodDeclaration(
+        override fun buildBasic(): MethodDeclaration = MethodDeclaration(
             this.comments, this.annotations, this.modifiers, this.genericSignature,
-            this.returnType, this.name, this.parameters, this.innerTypes, this.throws, this.body
+            this.returnType, this.name, this.parameters, this.innerTypes, this.throwsClause, this.body
         )
 
         companion object {
@@ -183,6 +138,12 @@ interface MethodDeclarationBase : KoresElement, ModifiersHolder, ReturnTypeHolde
         CommentHolder.Builder<T, S>,
         InnerTypesHolder.Builder<T, S>,
         ThrowsHolder.Builder<T, S> {
+
+        override var returnType: Type
+
+        override var type: Type
+            get() = this.returnType
+            set(value) { this.returnType = value }
 
         override fun type(value: Type): S = this.returnType(value)
 

@@ -28,6 +28,7 @@
 package com.koresframework.kores.common
 
 import com.koresframework.kores.Types
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.literal.Literal
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -37,6 +38,7 @@ import java.lang.reflect.Type
  */
 @Serializable
 object Stack : Literal("stack") {
+    override val data: KoresData = KoresData()
     override val name: String = "stack"
     override val type: Type = Types.OBJECT
 }

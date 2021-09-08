@@ -29,6 +29,7 @@ package com.koresframework.kores.base.comment
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 
@@ -43,6 +44,8 @@ data class Comments(
     val comments: List<Comment>,
     val type: Type
 ) : KoresPart, Instruction {
+
+    override val data: KoresData = KoresData()
 
     /**
      * Returns true if this [Comments] instance is [Absent]. Absent comment is not the same as
@@ -74,8 +77,9 @@ data class Comments(
         DOCUMENTATION
     }
 
-    class Builder() : com.koresframework.kores.builder.Builder<Comments, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<Comments, Builder>, KoresPart.PartBuilder<Comments, Builder> {
 
+        override var data: KoresData = KoresData()
         var comments: List<Comment> = emptyList()
         lateinit var type: Type
 
@@ -105,7 +109,7 @@ data class Comments(
             return this
         }
 
-        override fun build(): Comments = Comments(this.comments, this.type)
+        override fun buildBasic(): Comments = Comments(this.comments, this.type)
 
         companion object {
             @JvmStatic

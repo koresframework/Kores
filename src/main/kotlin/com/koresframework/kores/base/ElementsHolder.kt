@@ -27,6 +27,8 @@
  */
 package com.koresframework.kores.base
 
+import com.koresframework.kores.builder.self
+
 /**
  * Holder of some elements.
  */
@@ -51,15 +53,25 @@ interface ElementsHolder : InnerTypesHolder {
 
     interface Builder<out T : ElementsHolder, S : Builder<T, S>> : InnerTypesHolder.Builder<T, S> {
 
+        var staticBlock: StaticBlock
+        var fields: List<FieldDeclaration>
+        var methods: List<MethodDeclaration>
+
         /**
          * See [ElementsHolder.staticBlock]
          */
-        fun staticBlock(value: StaticBlock): S
+        fun staticBlock(value: StaticBlock): S {
+            this.staticBlock = value
+            return self()
+        }
 
         /**
          * See [ElementsHolder.fields]
          */
-        fun fields(value: List<FieldDeclaration>): S
+        fun fields(value: List<FieldDeclaration>): S {
+            this.fields = value
+            return self()
+        }
 
         /**
          * See [ElementsHolder.fields]
@@ -74,7 +86,10 @@ interface ElementsHolder : InnerTypesHolder {
         /**
          * See [ElementsHolder.methods]
          */
-        fun methods(value: List<MethodDeclaration>): S
+        fun methods(value: List<MethodDeclaration>): S {
+            this.methods = value
+            return self()
+        }
 
         /**
          * See [ElementsHolder.methods]

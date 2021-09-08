@@ -28,6 +28,7 @@
 package com.koresframework.kores.base.comment
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -37,6 +38,8 @@ import kotlinx.serialization.Serializable
  */
 @Serializable//(with = CodeSerializer::class)
 data class Code(val code: CodeNode) : Comment {
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     /**
@@ -62,8 +65,9 @@ data class Code(val code: CodeNode) : Comment {
 
     }
 
-    class Builder() : com.koresframework.kores.builder.Builder<Code, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<Code, Builder>, KoresPart.PartBuilder<Code, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var code: CodeNode
 
         constructor(defaults: Code) : this() {
@@ -78,7 +82,7 @@ data class Code(val code: CodeNode) : Comment {
             return this
         }
 
-        override fun build(): Code = Code(this.code)
+        override fun buildBasic(): Code = Code(this.code)
 
         companion object {
             @JvmStatic

@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -47,6 +48,8 @@ data class FieldDefinition(
     override val value: Instruction
 ) : Accessor, FieldBase, ValueHolder, Instruction {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -54,11 +57,12 @@ data class FieldDefinition(
         FieldBase.Builder<FieldDefinition, Builder>,
         ValueHolder.Builder<FieldDefinition, Builder> {
 
-        lateinit var localization: Type
-        lateinit var target: Instruction
-        lateinit var type: Type
-        lateinit var name: String
-        lateinit var value: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var localization: Type
+        override lateinit var target: Instruction
+        override lateinit var type: Type
+        override lateinit var name: String
+        override lateinit var value: Instruction
 
         constructor(defaults: FieldDefinition) : this() {
             this.localization = defaults.localization
@@ -69,31 +73,14 @@ data class FieldDefinition(
         }
 
         override fun localization(value: Type): Builder {
-            this.localization = value
-            return this
+            return super<Accessor.Builder>.localization(value)
         }
 
         override fun target(value: Instruction): Builder {
-            this.target = value
-            return this
+            return super<Accessor.Builder>.target(value)
         }
 
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun value(value: Instruction): Builder {
-            this.value = value
-            return this
-        }
-
-        override fun build(): FieldDefinition =
+        override fun buildBasic(): FieldDefinition =
             FieldDefinition(this.localization, this.target, this.type, this.name, this.value)
 
         companion object {

@@ -27,11 +27,11 @@
  */
 package com.koresframework.kores.common
 
-import com.koresframework.kores.Instruction
 import com.koresframework.kores.Types
 import com.koresframework.kores.base.Typed
 import com.koresframework.kores.base.TypedInstruction
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -46,16 +46,23 @@ typealias KoresVoid = Void
 @Serializable
 object Void : TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = Types.VOID
 
     override fun builder(): Builder = Builder
 
     object Builder : Typed.Builder<Void, Builder> {
+        override var data: KoresData = KoresData()
+
+        override var type: Type
+            get() = Types.VOID
+            set(value) {}
 
         override fun type(value: Type): Builder = self()
 
-        override fun build(): Void = Void
+        override fun buildBasic(): Void = Void
     }
 
 }

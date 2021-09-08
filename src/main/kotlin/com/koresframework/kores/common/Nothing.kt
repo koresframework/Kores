@@ -31,6 +31,7 @@ import com.koresframework.kores.Instruction
 import com.koresframework.kores.base.Typed
 import com.koresframework.kores.base.TypedInstruction
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.type.koresType
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -46,6 +47,8 @@ typealias KoresNothing = Nothing
 @Serializable
 object Nothing : TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = Nothing::class.java.koresType
 
@@ -53,9 +56,14 @@ object Nothing : TypedInstruction {
 
     object Builder : Typed.Builder<Nothing, Builder> {
 
+        override var data: KoresData = KoresData()
         override fun type(value: Type): Builder = self()
 
-        override fun build(): Nothing = Nothing
+        override var type: Type
+            get() = Nothing::class.java.koresType
+            set(value) {}
+
+        override fun buildBasic(): Nothing = Nothing
     }
 
 }

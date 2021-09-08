@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -42,6 +43,8 @@ class ScopeAccess(
     @Serializable(with = TypeSerializer::class) val type: Type,
     val scope: Scope
 ) : Instruction {
+
+    override val data: KoresData = KoresData()
 
     companion object {
         @JvmStatic

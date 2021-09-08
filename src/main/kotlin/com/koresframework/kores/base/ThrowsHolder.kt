@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -43,12 +44,17 @@ interface ThrowsHolder : KoresPart {
     override fun builder(): Builder<ThrowsHolder, *>
 
     interface Builder<out T : ThrowsHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var throwsClause: List<Type>
 
         /**
          * See [ThrowsHolder.throwsClause]
          */
-        fun throwsClause(value: List<Type>): S
+        fun throwsClause(value: List<Type>): S {
+            this.throwsClause = value
+            return self()
+        }
 
         /**
          * See [ThrowsHolder.throwsClause]

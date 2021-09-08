@@ -30,6 +30,8 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.Stack
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.dataFrom
 import com.koresframework.kores.literal.Literals
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type
@@ -57,6 +59,8 @@ data class ArrayConstructor(
     val dimensions: List<Instruction>,
     override val arguments: List<Instruction>
 ) : ArgumentsHolder, TypedInstruction {
+
+    override val data: KoresData = KoresData()
 
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }
@@ -107,9 +111,14 @@ data class ArrayConstructor(
         ArgumentsHolder.Builder<ArrayConstructor, Builder>,
         Typed.Builder<ArrayConstructor, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var arrayType: Type
         var dimensions: List<Instruction> = emptyList()
-        var arguments: List<Instruction> = emptyList()
+        override var arguments: List<Instruction> = emptyList()
+
+        override var type: Type
+            get() = this.arrayType
+            set(value) { this.arrayType = value }
 
         constructor(defaults: ArrayConstructor) : this() {
             this.arrayType = defaults.arrayType
@@ -148,7 +157,7 @@ data class ArrayConstructor(
             return this
         }
 
-        override fun build(): ArrayConstructor =
+        override fun buildBasic(): ArrayConstructor =
             ArrayConstructor(this.arrayType, this.dimensions, this.arguments)
 
         companion object {

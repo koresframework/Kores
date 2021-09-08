@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -54,11 +55,16 @@ interface ArgumentsHolder : KoresPart {
     override fun builder(): Builder<ArgumentsHolder, *>
 
     interface Builder<out T : ArgumentsHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+        var arguments: List<Instruction>
+
         /**
          * See [T.arguments]
          */
-        fun arguments(value: List<Instruction>): S
+        fun arguments(value: List<Instruction>): S {
+            this.arguments = value
+            return self()
+        }
 
         /**
          * See [T.arguments]

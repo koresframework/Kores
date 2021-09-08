@@ -25,45 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.koresframework.kores.base
+package com.koresframework.kores.serialization
 
-import com.koresframework.kores.KoresPart
-import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.SerData
+import com.koresframework.kores.data.Key
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.data.SerKey
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
-/**
- * Same as [ElementsHolder] but holds constructors.
- */
-interface ConstructorsHolder : KoresPart {
+object KeySerializer : KSerializer<SerKey> {
+    private val ser = String.serializer()
 
-    /**
-     * Constructor declarations
-     */
-    val constructors: List<ConstructorDeclaration>
+    override val descriptor: SerialDescriptor = ser.descriptor
 
-    override fun builder(): Builder<ConstructorsHolder, *>
+    override fun deserialize(decoder: Decoder): SerKey {
+        return SerKey(ser.deserialize(decoder))
+    }
 
-    interface Builder<out T : ConstructorsHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
-
-        var constructors: List<ConstructorDeclaration>
-
-        /**
-         * See [ConstructorsHolder.constructors]
-         */
-        fun constructors(value: List<ConstructorDeclaration>): S {
-            this.constructors = value
-            return self()
-        }
-
-        /**
-         * See [ConstructorsHolder.constructors]
-         */
-        fun constructors(vararg values: ConstructorDeclaration): S =
-            this.constructors(values.toList())
-
-        /**
-         * See [ConstructorsHolder.constructors]
-         */
-        fun constructors(value: ConstructorDeclaration): S = this.constructors(listOf(value))
+    override fun serialize(encoder: Encoder, value: SerKey) {
+        ser.serialize(encoder, value.name)
     }
 }

@@ -31,6 +31,7 @@ import com.koresframework.kores.Types
 import com.koresframework.kores.type.GenericType.Bound
 import com.koresframework.kores.util.toStr
 import com.github.jonathanxd.iutils.array.ArrayUtils
+import com.koresframework.kores.data.KoresData
 import java.lang.reflect.Type
 import java.util.*
 
@@ -56,6 +57,8 @@ import java.util.*
  */
 class Generic private constructor(name: String?, codeType: KoresType?, bounds: Array<Bound>) :
     GenericType {
+
+    override val data: KoresData = KoresData()
 
     /**
      * Name of the generic type.

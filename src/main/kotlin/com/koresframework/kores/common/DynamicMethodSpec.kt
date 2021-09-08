@@ -30,6 +30,7 @@ package com.koresframework.kores.common
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.*
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.type
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -54,6 +55,8 @@ data class DynamicMethodSpec(
     val typeSpec: TypeSpec,
     override val arguments: List<Instruction>
 ) : DynamicDescriptor(), Typed, Named, ArgumentsHolder {
+
+    override val data: KoresData = KoresData()
 
     override val type: Type
         get() = this.typeSpec.returnType
@@ -99,9 +102,16 @@ data class DynamicMethodSpec(
         Named.Builder<DynamicMethodSpec, Builder>,
         ArgumentsHolder.Builder<DynamicMethodSpec, Builder> {
 
-        lateinit var name: String
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
         lateinit var typeSpec: TypeSpec
-        var arguments: List<Instruction> = emptyList()
+        override var arguments: List<Instruction> = emptyList()
+
+        override var type: Type
+            get() = this.typeSpec.type
+            set(value) {
+                this.typeSpec = this.typeSpec.copy(returnType = value)
+            }
 
         constructor(defaults: DynamicMethodSpec) : this() {
             this.name = defaults.name
@@ -136,7 +146,7 @@ data class DynamicMethodSpec(
             return this
         }
 
-        override fun build(): DynamicMethodSpec =
+        override fun buildBasic(): DynamicMethodSpec =
             DynamicMethodSpec(this.name, this.typeSpec, this.arguments)
     }
 }

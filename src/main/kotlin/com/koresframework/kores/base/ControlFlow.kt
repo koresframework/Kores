@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
 import com.koresframework.kores.base.ControlFlow.Type
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -42,10 +43,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ControlFlow(val type: Type, val at: Label?) : KoresPart, Instruction {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.koresframework.kores.builder.Builder<ControlFlow, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<ControlFlow, Builder>, KoresPart.PartBuilder<ControlFlow, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var type: Type
         var at: Label? = null
 
@@ -70,7 +74,7 @@ data class ControlFlow(val type: Type, val at: Label?) : KoresPart, Instruction 
             return this
         }
 
-        override fun build(): ControlFlow = ControlFlow(this.type, this.at)
+        override fun buildBasic(): ControlFlow = ControlFlow(this.type, this.at)
 
         companion object {
             @JvmStatic

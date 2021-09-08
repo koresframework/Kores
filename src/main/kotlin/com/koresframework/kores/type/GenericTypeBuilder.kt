@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.data.KoresData
 import java.lang.reflect.Type
 
 /**
@@ -60,6 +61,7 @@ import java.lang.reflect.Type
  */
 class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder> {
 
+    override var data: KoresData = KoresData()
     var name: String? = null
     var type: KoresType? = null
     var bounds: MutableList<GenericType.Bound> = mutableListOf()
@@ -129,7 +131,7 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
         return this
     }
 
-    override fun build(): GenericType = GenericTypeImpl(
+    override fun buildBasic(): GenericType = GenericTypeImpl(
         name = this.name,
         codeType = this.type,
         bounds = this.bounds.toTypedArray()

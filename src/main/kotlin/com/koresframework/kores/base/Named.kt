@@ -28,6 +28,8 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
+import kotlin.reflect.KMutableProperty
 
 /**
  * A element that have a name.
@@ -42,7 +44,13 @@ interface Named : KoresPart {
     override fun builder(): Builder<Named, *>
 
     interface Builder<out T : Named, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
-        fun name(value: String): S
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var name: String
+
+        fun name(value: String): S {
+            this.name = value
+            return self()
+        }
     }
 }

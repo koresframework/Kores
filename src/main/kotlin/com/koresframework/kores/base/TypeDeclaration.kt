@@ -28,10 +28,12 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.base.comment.CommentHolder
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.type.KoresType
 import com.koresframework.kores.type.KoresTypeResolver
 import com.koresframework.kores.type.TypeRef
 import java.lang.reflect.Type
+import kotlin.reflect.KMutableProperty
 
 /**
  * Base class of all [TypeDeclaration]s like classes, interfaces and enums, and inner classes.
@@ -90,17 +92,30 @@ interface TypeDeclaration : ModifiersHolder, KoresType, QualifiedNamed, GenericS
         InnerTypesHolder.Builder<T, S>,
         ElementsHolder.Builder<T, S> {
 
+        var specifiedName: String
+        var outerType: Type?
+
+        override var qualifiedName: String
+            get() = this.specifiedName
+            set(value) { this.specifiedName = value }
+
         override fun qualifiedName(value: String): S = this.specifiedName(value)
 
         /**
          * See [TypeDeclaration.specifiedName]
          */
-        fun specifiedName(value: String): S
+        fun specifiedName(value: String): S {
+            this.specifiedName = value
+            return self()
+        }
 
         /**
          * See [TypeDeclaration.outerType]
          */
-        fun outerType(value: Type?): S
+        fun outerType(value: Type?): S {
+            this.outerType = value
+            return self()
+        }
 
         /**
          * Sets the name and outer type to values specified in [typeRef]

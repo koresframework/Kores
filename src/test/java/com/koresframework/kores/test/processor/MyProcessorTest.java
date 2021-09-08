@@ -31,6 +31,7 @@ import com.koresframework.kores.KoresPart;
 import com.koresframework.kores.base.VariableAccess;
 import com.koresframework.kores.base.VariableDeclaration;
 import com.koresframework.kores.builder.Builder;
+import com.koresframework.kores.data.KoresData;
 import com.koresframework.kores.exception.ValidationException;
 import com.koresframework.kores.literal.Literals;
 
@@ -79,9 +80,16 @@ public class MyProcessorTest {
         MyProcessor myProcessor = new MyProcessor();
 
         myProcessor.process(new KoresPart() {
+            final KoresData data = new KoresData();
             @NotNull
             @Override
-            public Builder<KoresPart, ?> builder() {
+            public KoresData getData() {
+                return data;
+            }
+
+            @NotNull
+            @Override
+            public KoresPart.PartBuilder<KoresPart, ?> builder() {
                 return KoresPart.DefaultImpls.builder(this);
             }
         });

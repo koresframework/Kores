@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.*
 import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.KoresNothing
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -42,6 +43,8 @@ import java.lang.reflect.Type
 @Serializable
 data class Case(override val value: Instruction, override val body: Instructions) : ValueHolder,
     Typed, BodyHolder {
+
+    override val data: KoresData = KoresData()
 
     override val type: Type
         get() = this.value.safeForComparison.let { if (it == KoresNothing) Types.INT else it.type }
@@ -67,8 +70,13 @@ data class Case(override val value: Instruction, override val body: Instructions
         Typed.Builder<Case, Builder>,
         BodyHolder.Builder<Case, Builder> {
 
-        var value: Instruction = KoresNothing
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override var value: Instruction = KoresNothing
+        override var body: Instructions = Instructions.empty()
+
+        override var type: Type
+            get() = body.getLeaveType() ?: Types.VOID
+            set(value) {}
 
         constructor(defaults: Case) : this() {
             this.value = defaults.value
@@ -95,7 +103,7 @@ data class Case(override val value: Instruction, override val body: Instructions
             return this
         }
 
-        override fun build(): Case = Case(this.value, this.body)
+        override fun buildBasic(): Case = Case(this.value, this.body)
 
         companion object {
             @JvmStatic

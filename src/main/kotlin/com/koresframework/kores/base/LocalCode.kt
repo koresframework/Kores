@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.*
 import com.koresframework.kores.common.MethodTypeSpec
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.KoresType
 import kotlinx.serialization.Serializable
@@ -53,6 +54,8 @@ data class LocalCode(
     val declaration: MethodDeclaration,
     override val innerTypes: List<TypeDeclaration>
 ) : KoresElement, KoresPart, Instruction, InnerTypesHolder {
+
+    override val data: KoresData = KoresData()
 
     /**
      * Local code execution constructor, this constructor resolves [invokeType] based on [declaration] and
@@ -114,10 +117,12 @@ data class LocalCode(
     class Builder() : com.koresframework.kores.builder.Builder<LocalCode, Builder>,
         InnerTypesHolder.Builder<LocalCode, Builder> {
 
+        override var data: KoresData = KoresData()
+
         lateinit var declaringType: Type
         var invokeType: InvokeType? = null
         lateinit var declaration: MethodDeclaration
-        var innerTypes: List<TypeDeclaration> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: LocalCode) : this() {
             this.declaringType = defaults.declaringType
@@ -151,7 +156,7 @@ data class LocalCode(
             return this
         }
 
-        override fun build(): LocalCode {
+        override fun buildBasic(): LocalCode {
             return (this.declaringType as? KoresType)?.let {
                 LocalCode(it, this.declaration, this.innerTypes)
             } ?: LocalCode(this.declaringType, this.invokeType!!, this.declaration, this.innerTypes)

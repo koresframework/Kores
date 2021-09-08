@@ -30,6 +30,7 @@ package com.koresframework.kores.common
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.*
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.type
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -54,6 +55,8 @@ data class DynamicTypeSpec(
     override val type: Type,
     override val arguments: List<Instruction>
 ) : DynamicDescriptor(), Typed, Named, ArgumentsHolder {
+
+    override val data: KoresData = KoresData()
 
     override val array: Boolean
         get() = false
@@ -96,9 +99,10 @@ data class DynamicTypeSpec(
         Named.Builder<DynamicTypeSpec, Builder>,
         ArgumentsHolder.Builder<DynamicTypeSpec, Builder> {
 
-        lateinit var name: String
-        lateinit var type: Type
-        var arguments: List<Instruction> = emptyList()
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
+        override lateinit var type: Type
+        override var arguments: List<Instruction> = emptyList()
 
         constructor(defaults: DynamicTypeSpec) : this() {
             this.name = defaults.name
@@ -106,26 +110,11 @@ data class DynamicTypeSpec(
             this.arguments = defaults.arguments
         }
 
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun arguments(value: List<Instruction>): Builder {
-            this.arguments = value
-            return this
-        }
-
         override fun array(value: Boolean): Builder {
             return this
         }
 
-        override fun build(): DynamicTypeSpec =
+        override fun buildBasic(): DynamicTypeSpec =
             DynamicTypeSpec(this.name, this.type, this.arguments)
     }
 }

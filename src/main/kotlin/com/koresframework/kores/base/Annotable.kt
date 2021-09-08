@@ -28,8 +28,10 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.type.`is`
 import java.lang.reflect.Type
+import kotlin.reflect.KMutableProperty
 
 /**
  * An part that can be annotated, like methods, fields, classes, type usage, etc...
@@ -61,12 +63,17 @@ interface Annotable : KoresPart {
     override fun builder(): Builder<Annotable, *>
 
     interface Builder<out T : Annotable, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var annotations: List<Annotation>
 
         /**
          * See [T.annotations]
          */
-        fun annotations(value: List<Annotation>): S
+        fun annotations(value: List<Annotation>): S {
+            this.annotations = value
+            return self()
+        }
 
         /**
          * See [T.annotations]

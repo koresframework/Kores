@@ -31,6 +31,7 @@ import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -52,6 +53,8 @@ data class EnumEntry(
     override val innerTypes: List<TypeDeclaration>
 ) : Annotable, ArgumentsHolder, Named, ElementsHolder {
 
+    override val data: KoresData = KoresData()
+
     override val types: List<Type>
         get() = this.constructorSpec?.parameterTypes ?: emptyList()
 
@@ -66,15 +69,16 @@ data class EnumEntry(
         Named.Builder<EnumEntry, Builder>,
         ElementsHolder.Builder<EnumEntry, Builder> {
 
-        var annotations: List<Annotation> = emptyList()
-        lateinit var name: String
+        override var data: KoresData = KoresData()
+        override var annotations: List<Annotation> = emptyList()
+        override lateinit var name: String
         var constructorSpec: TypeSpec? = null
-        var arguments: List<Instruction> = emptyList()
+        override var arguments: List<Instruction> = emptyList()
 
-        var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
-        var fields: List<FieldDeclaration> = emptyList()
-        var methods: List<MethodDeclaration> = emptyList()
-        var innerTypes: List<TypeDeclaration> = emptyList()
+        override var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
+        override var fields: List<FieldDeclaration> = emptyList()
+        override var methods: List<MethodDeclaration> = emptyList()
+        override var innerTypes: List<TypeDeclaration> = emptyList()
 
         constructor(defaults: EnumEntry) : this() {
             this.annotations = defaults.annotations
@@ -135,7 +139,7 @@ data class EnumEntry(
             return this
         }
 
-        override fun build(): EnumEntry = EnumEntry(
+        override fun buildBasic(): EnumEntry = EnumEntry(
             this.annotations, this.name, this.constructorSpec, this.arguments, this.staticBlock,
             this.fields, this.methods, this.innerTypes
         )

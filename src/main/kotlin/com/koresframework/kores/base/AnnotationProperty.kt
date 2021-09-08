@@ -29,6 +29,8 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.base.comment.CommentHolder
 import com.koresframework.kores.base.comment.Comments
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.dataFrom
 import com.koresframework.kores.serialization.AnnotationAnySerializer
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
@@ -49,6 +51,7 @@ data class AnnotationProperty(
     override val name: String,
     @Serializable(with = AnnotationAnySerializer::class) val defaultValue: Any?
 ) : Named, Typed, Annotable, ReturnTypeHolder, CommentHolder {
+    override val data: KoresData = KoresData()
     override val returnType: Type
         get() = this.type
 
@@ -61,32 +64,22 @@ data class AnnotationProperty(
         ReturnTypeHolder.Builder<AnnotationProperty, Builder>,
         CommentHolder.Builder<AnnotationProperty, Builder> {
 
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
-        lateinit var name: String
-        lateinit var type: Type
+        override var data = KoresData()
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
+        override lateinit var name: String
+        override lateinit var type: Type
         var defaultValue: Any? = null
+
+        override var returnType: Type
+            get() = this.type
+            set(value) { this.type = value }
 
         constructor(defaults: AnnotationProperty) : this() {
             this.annotations = defaults.annotations
             this.name = defaults.name
             this.type = defaults.type
             this.defaultValue = defaults.defaultValue
-        }
-
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
         }
 
         override fun annotations(value: List<Annotation>): Builder {
@@ -104,11 +97,10 @@ data class AnnotationProperty(
             return this
         }
 
-        override fun build(): AnnotationProperty = AnnotationProperty(
+        override fun buildBasic(): AnnotationProperty = AnnotationProperty(
             this.comments, this.annotations,
             this.type, this.name, this.defaultValue
         )
-
 
         companion object {
             @JvmStatic

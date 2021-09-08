@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.type.isArray
 import kotlinx.serialization.Serializable
@@ -49,6 +50,7 @@ data class ArrayStore(
     @Serializable(with = TypeSerializer::class) val valueType: Type,
     val valueToStore: Instruction
 ) : ArrayAccess, ValueHolder, Instruction {
+    override val data: KoresData = KoresData()
 
     init {
         check(arrayType.isArray) { "arrayType is not an array type!" }
@@ -64,11 +66,16 @@ data class ArrayStore(
         ArrayAccess.Builder<ArrayStore, Builder>,
         ValueHolder.Builder<ArrayStore, Builder> {
 
-        lateinit var arrayType: Type
-        lateinit var target: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var arrayType: Type
+        override lateinit var target: Instruction
         lateinit var index: Instruction
         lateinit var valueType: Type
         lateinit var valueToStore: Instruction
+
+        override var value: Instruction
+            get() = this.valueToStore
+            set(value) { this.valueToStore = value }
 
         constructor(defaults: ArrayStore) : this() {
             this.arrayType = defaults.arrayType
@@ -115,7 +122,7 @@ data class ArrayStore(
         }
 
 
-        override fun build(): ArrayStore =
+        override fun buildBasic(): ArrayStore =
             ArrayStore(this.arrayType, this.target, this.index, this.valueType, this.valueToStore)
 
         companion object {

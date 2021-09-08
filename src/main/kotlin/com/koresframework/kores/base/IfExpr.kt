@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.operator.Operator
 import kotlinx.serialization.Serializable
 
@@ -47,10 +48,13 @@ data class IfExpr(
     val expr2: Instruction
 ) : KoresPart, Instruction {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
-    class Builder() : com.koresframework.kores.builder.Builder<IfExpr, Builder> {
+    class Builder() : com.koresframework.kores.builder.Builder<IfExpr, Builder>, KoresPart.PartBuilder<IfExpr, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var expr1: Instruction
         lateinit var operation: Operator.Conditional
         lateinit var expr2: Instruction
@@ -85,8 +89,7 @@ data class IfExpr(
             return this
         }
 
-
-        override fun build(): IfExpr = IfExpr(this.expr1, this.operation, this.expr2)
+        override fun buildBasic(): IfExpr = IfExpr(this.expr1, this.operation, this.expr2)
 
         companion object {
             @JvmStatic

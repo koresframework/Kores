@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -48,6 +49,8 @@ data class ForStatement(
     val forUpdate: List<Instruction>,
     override val body: Instructions
 ) : IfExpressionHolder, BodyHolder, Instruction {
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -61,10 +64,15 @@ data class ForStatement(
         IfExpressionHolder.Builder<ForStatement, Builder>,
         BodyHolder.Builder<ForStatement, Builder> {
 
+        override var data: KoresData = KoresData()
         var forInit: List<Instruction> = emptyList()
         var forExpression: List<Instruction> = emptyList()
         var forUpdate: List<Instruction> = emptyList()
-        var body: Instructions = Instructions.empty()
+        override var body: Instructions = Instructions.empty()
+
+        override var expressions: List<Instruction>
+            get() = this.forExpression
+            set(value) { this.forExpression = value }
 
         constructor(defaults: ForStatement) : this() {
             this.forInit = defaults.forInit
@@ -121,7 +129,7 @@ data class ForStatement(
             return this
         }
 
-        override fun build(): ForStatement =
+        override fun buildBasic(): ForStatement =
             ForStatement(this.forInit, this.forExpression, this.forUpdate, this.body)
 
         companion object {

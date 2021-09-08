@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -40,11 +41,13 @@ import kotlinx.serialization.Serializable
 class Synchronized(val instruction: Instruction, override val body: Instructions) : BodyHolder,
     Instruction {
 
+    override val data: KoresData = KoresData()
     override fun builder(): Builder = Builder(this)
 
     class Builder() : BodyHolder.Builder<Synchronized, Builder> {
+        override var data: KoresData = KoresData()
         lateinit var instruction: Instruction
-        var body: Instructions = Instructions.empty()
+        override var body: Instructions = Instructions.empty()
 
         constructor(defaults: Synchronized) : this() {
             this.instruction = defaults.instruction
@@ -64,7 +67,7 @@ class Synchronized(val instruction: Instruction, override val body: Instructions
             return this
         }
 
-        override fun build(): Synchronized =
+        override fun buildBasic(): Synchronized =
             Synchronized(this.instruction, this.body)
 
         companion object {

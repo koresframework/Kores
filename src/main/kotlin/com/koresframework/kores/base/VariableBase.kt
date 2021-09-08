@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.FieldRef
 import com.koresframework.kores.common.VariableRef
 import java.lang.reflect.Type
@@ -68,12 +69,21 @@ interface VariableBase : Named, Typed {
         Named.Builder<T, S>,
         Typed.Builder<T, S> {
 
+        var variableType: Type
+
+        override var type: Type
+            get() = this.variableType
+            set(value) { this.variableType = value }
+
         override fun type(value: Type): S = this.variableType(value)
 
         /**
          * See [VariableBase.variableType]
          */
-        fun variableType(value: Type): S
+        fun variableType(value: Type): S {
+            this.variableType = value
+            return self()
+        }
 
         /**
          * Base this builder on [variableRef].

@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -49,16 +50,25 @@ interface ArrayAccess : KoresPart {
     override fun builder(): Builder<ArrayAccess, *>
 
     interface Builder<out T : ArrayAccess, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+        var target: Instruction
+        var arrayType: Type
+
         /**
          * See [T.target]
          */
-        fun target(value: Instruction): S
+        fun target(value: Instruction): S {
+            this.target = value
+            return self()
+        }
 
         /**
          * See [T.arrayType]
          */
-        fun arrayType(value: Type): S
+        fun arrayType(value: Type): S {
+            this.arrayType = value
+            return self()
+        }
 
     }
 

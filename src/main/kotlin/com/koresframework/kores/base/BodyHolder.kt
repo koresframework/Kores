@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.builder.self
 
 /**
  * Holds a body. Example: method declarations, type declarations, static block, constructors...
@@ -43,12 +44,17 @@ interface BodyHolder : KoresPart {
     override fun builder(): Builder<BodyHolder, *>
 
     interface Builder<out T : BodyHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var body: Instructions
 
         /**
          * See [T.body]
          */
-        fun body(value: Instructions): S //default: empty
+        fun body(value: Instructions): S {//default: empty
+            this.body = value
+            return self()
+        }
     }
 
     companion object {

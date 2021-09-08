@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
 import com.koresframework.kores.common.MethodTypeSpec
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -51,6 +52,9 @@ data class ForEachStatement(
     val iterableElement: Instruction,
     override val body: Instructions
 ) : BodyHolder, Instruction {
+
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -59,10 +63,11 @@ data class ForEachStatement(
 
     class Builder() : BodyHolder.Builder<ForEachStatement, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var variable: VariableDeclaration
         lateinit var iterationType: IterationType
         lateinit var iterableElement: Instruction
-        var body: Instructions = Instructions.empty()
+        override var body: Instructions = Instructions.empty()
 
         constructor(defaults: ForEachStatement) : this() {
             this.variable = defaults.variable
@@ -94,12 +99,8 @@ data class ForEachStatement(
             return this
         }
 
-        override fun body(value: Instructions): Builder {
-            this.body = value
-            return this
-        }
 
-        override fun build(): ForEachStatement =
+        override fun buildBasic(): ForEachStatement =
             ForEachStatement(this.variable, this.iterationType, this.iterableElement, this.body)
 
         companion object {

@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -43,6 +44,8 @@ data class IfStatement(
     override val body: Instructions,
     val elseStatement: Instructions
 ) : IfExpressionHolder, BodyHolder, Instruction {
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -53,8 +56,9 @@ data class IfStatement(
         IfExpressionHolder.Builder<IfStatement, Builder>,
         BodyHolder.Builder<IfStatement, Builder> {
 
-        var expressions: List<Instruction> = emptyList()
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override var expressions: List<Instruction> = emptyList()
+        override var body: Instructions = Instructions.empty()
         var elseStatement: Instructions = Instructions.empty()
 
         constructor(defaults: IfStatement) : this() {
@@ -71,17 +75,7 @@ data class IfStatement(
             return this
         }
 
-        override fun expressions(value: List<Instruction>): Builder {
-            this.expressions = value
-            return this
-        }
-
-        override fun body(value: Instructions): Builder {
-            this.body = value
-            return this
-        }
-
-        override fun build(): IfStatement =
+        override fun buildBasic(): IfStatement =
             IfStatement(this.expressions, this.body, this.elseStatement)
 
         companion object {

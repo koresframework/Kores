@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -40,30 +41,21 @@ data class VariableAccess(
     @Serializable(with = TypeSerializer::class) override val variableType: Type,
     override val name: String
 ) : VariableBase, TypedInstruction {
-
+    override val data: KoresData = KoresData()
     override fun builder(): Builder = Builder(this)
 
     class Builder() : VariableBase.Builder<VariableAccess, Builder> {
 
-        lateinit var name: String
-        lateinit var variableType: Type
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
+        override lateinit var variableType: Type
 
         constructor(defaults: VariableAccess) : this() {
             this.name = defaults.name
             this.variableType = defaults.variableType
         }
 
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun variableType(value: Type): Builder {
-            this.variableType = value
-            return this
-        }
-
-        override fun build(): VariableAccess = VariableAccess(this.variableType, this.name)
+        override fun buildBasic(): VariableAccess = VariableAccess(this.variableType, this.name)
 
         companion object {
             @JvmStatic

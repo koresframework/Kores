@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
 
 /**
@@ -43,11 +44,17 @@ interface ImplementationHolder : KoresPart {
     override fun builder(): Builder<ImplementationHolder, *>
 
     interface Builder<out T : ImplementationHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var implementations: List<Type>
+
         /**
          * See [T.implementations]
          */
-        fun implementations(value: List<Type>): S
+        fun implementations(value: List<Type>): S {
+            this.implementations = value
+            return self()
+        }
 
         /**
          * See [T.implementations]

@@ -27,6 +27,8 @@
  */
 package com.koresframework.kores.base
 
+import com.koresframework.kores.builder.self
+
 /**
  * A part that have a qualified name.
  */
@@ -43,8 +45,16 @@ interface QualifiedNamed : Named {
     override fun builder(): Builder<QualifiedNamed, *>
 
     interface Builder<out T : QualifiedNamed, S : Builder<T, S>> : Named.Builder<T, S> {
+        var qualifiedName: String
+        override var name: String
+            get() = this.qualifiedName
+            set(value) { this.qualifiedName = value }
+
         override fun name(value: String): S = this.qualifiedName(value)
 
-        fun qualifiedName(value: String): S
+        fun qualifiedName(value: String): S {
+            this.qualifiedName = value
+            return self()
+        }
     }
 }

@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -43,6 +44,8 @@ data class EnumValue(
     val enumEntry: String
 ) : Named, TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override val name: String
         get() = this.enumEntry
 
@@ -55,16 +58,22 @@ data class EnumValue(
         Named.Builder<EnumValue, Builder>,
         Typed.Builder<EnumValue, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var enumType: Type
         lateinit var enumEntry: String
+
+        override var name: String
+            get() = this.enumEntry
+            set(value) { this.enumEntry = value }
+
+        override var type: Type
+            get() = this.enumType
+            set(value) { this.enumType = value }
 
         constructor(defaults: EnumValue) : this() {
             this.enumType = defaults.enumType
             this.enumEntry = defaults.enumEntry
         }
-
-        override fun name(value: String): Builder = this.enumEntry(value)
-        override fun type(value: Type): Builder = this.enumType(value)
 
         /**
          * See [EnumValue.enumType]
@@ -87,7 +96,7 @@ data class EnumValue(
          */
         fun base(enum: Enum<*>): Builder = this.enumType(enum::class.java).enumEntry(enum.name)
 
-        override fun build(): EnumValue = EnumValue(this.enumType, this.enumEntry)
+        override fun buildBasic(): EnumValue = EnumValue(this.enumType, this.enumEntry)
 
         companion object {
             @JvmStatic

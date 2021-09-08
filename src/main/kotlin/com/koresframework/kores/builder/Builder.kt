@@ -43,6 +43,10 @@ interface Builder<out T, S : Builder<T, S>> {
      */
     fun build(): T
 
+    /**
+     * Construct the object without applying post-build transformation.
+     */
+    fun buildBasic(): T
 }
 
 /**

@@ -31,6 +31,7 @@ import com.koresframework.kores.Instruction
 import com.koresframework.kores.base.Named
 import com.koresframework.kores.base.Typed
 import com.koresframework.kores.base.TypedInstruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.LiteralAnySerializer
 import com.koresframework.kores.type.KoresType
 import kotlinx.serialization.SerialName
@@ -47,6 +48,8 @@ import java.util.*
 abstract class Literal protected constructor(
     @Serializable(with = LiteralAnySerializer::class) open val value: Any
 ) : TypedInstruction, Named {
+    override val data: KoresData = KoresData()
+
     @Deprecated(message = "Creates confusion, this is not the name of the Literal, it is being used as value, which is wrong. Please use [Literal.value] instead. In the future, the value of this property will be the Literal type name, such as String, Int, Boolean, etc...")
     abstract override val name: String
     @SerialName("literalDataType")

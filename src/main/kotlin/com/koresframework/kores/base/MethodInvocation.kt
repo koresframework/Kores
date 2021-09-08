@@ -30,6 +30,7 @@ package com.koresframework.kores.base
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.MethodTypeSpec
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -48,6 +49,7 @@ data class MethodInvocation(
     override val arguments: List<Instruction>
 ) : Accessor, ArgumentsHolder, TypedInstruction {
 
+    override val data: KoresData = KoresData()
     override val types: List<Type>
         get() = this.spec.typeSpec.parameterTypes
 
@@ -73,10 +75,19 @@ data class MethodInvocation(
         ArgumentsHolder.Builder<MethodInvocation, Builder>,
         Typed.Builder<MethodInvocation, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var invokeType: InvokeType
-        lateinit var target: Instruction
+        override lateinit var target: Instruction
         lateinit var spec: MethodTypeSpec
-        var arguments: List<Instruction> = emptyList()
+        override var arguments: List<Instruction> = emptyList()
+
+        override var localization: Type
+            get() = this.spec.localization
+            set(value) {}
+
+        override var type: Type
+            get() = this.spec.typeSpec.returnType
+            set(value) {}
 
         constructor(defaults: MethodInvocation) : this() {
             this.invokeType = defaults.invokeType
@@ -119,7 +130,7 @@ data class MethodInvocation(
             return this
         }
 
-        override fun build(): MethodInvocation =
+        override fun buildBasic(): MethodInvocation =
             MethodInvocation(this.invokeType, this.target, this.spec, this.arguments)
 
         companion object {

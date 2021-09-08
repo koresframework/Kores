@@ -27,8 +27,10 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.KoresPart
 import com.koresframework.kores.base.Annotation
 import com.koresframework.kores.base.TypeDeclaration
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.util.toStr
 import kotlinx.serialization.Serializable
@@ -98,7 +100,7 @@ interface AnnotatedKoresType : WrapperKoresType {
     override fun builder(): Builder<AnnotatedKoresType, *>
 
     interface Builder<out T : AnnotatedKoresType, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
         /**
          * The [type] that is annotated with [annotations].
          */
@@ -138,6 +140,8 @@ interface AnnotatedKoresType : WrapperKoresType {
             private val factory: (type: Type, annotations: List<Annotation>) -> T
         ) : Builder<T, BuilderImpl<T>> {
 
+            override var data: KoresData = KoresData()
+
             lateinit var annotatedType: Type
             var annotations: List<Annotation> = mutableListOf()
 
@@ -161,7 +165,7 @@ interface AnnotatedKoresType : WrapperKoresType {
                 return this
             }
 
-            override fun build(): T = factory(this.annotatedType, annotations)
+            override fun buildBasic(): T = factory(this.annotatedType, annotations)
         }
     }
 
@@ -169,19 +173,19 @@ interface AnnotatedKoresType : WrapperKoresType {
     companion object {
         fun builder(type: Type): AnnotatedKoresType.Builder<AnnotatedKoresType, *> =
             when (type) {
-                is TypeDeclaration -> Abstract.BuilderImpl({ c, v ->
+                is TypeDeclaration -> Abstract.BuilderImpl { c, v ->
                     if (c is TypeDeclaration) SimpleAnnotatedWrapperKoresType(c, c, v)
                     else SimpleAnnotatedKoresType(c, v)
-                }).also {
+                }.also {
                     it.annotatedType(type)
                 }
                 is GenericType -> GenericAnnotatedKoresType.GenericBuilder(type)
-                is LoadedKoresType<*> -> Abstract.BuilderImpl({ c, v ->
+                is LoadedKoresType<*> -> Abstract.BuilderImpl { c, v ->
                     SimpleAnnotatedLoadedKoresType<Any>(
                         c,
                         v
                     )
-                }).also {
+                }.also {
                     it.annotatedType(type)
                 }
                 is UnknownKoresType -> Abstract.BuilderImpl(::SimpleAnnotatedUnknownKoresType).also {
@@ -327,6 +331,7 @@ interface AnnotatedKoresType : WrapperKoresType {
             AnnotatedKoresType.Builder<GenericAnnotatedKoresType, GenericBuilder>,
             GenericType.Builder<GenericAnnotatedKoresType, GenericBuilder> {
 
+            override var data: KoresData = KoresData()
             var annotations: List<Annotation> = listOf()
             var backingGeneric = origin.builder()
 
@@ -395,7 +400,7 @@ interface AnnotatedKoresType : WrapperKoresType {
                 return this
             }
 
-            override fun build(): GenericAnnotatedKoresType =
+            override fun buildBasic(): GenericAnnotatedKoresType =
                 GenericAnnotatedKoresType(this.backingGeneric.build(), annotations)
         }
     }

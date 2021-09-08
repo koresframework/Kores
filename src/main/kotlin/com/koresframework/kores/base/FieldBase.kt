@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.FieldRef
 import com.koresframework.kores.common.VariableRef
 import java.lang.reflect.Type
@@ -67,15 +68,24 @@ interface FieldBase : Named, Typed {
         Named.Builder<T, S>,
         Typed.Builder<T, S> {
 
+        var localization: Type
+        var target: Instruction
+
         /**
          * See [T.localization]
          */
-        fun localization(value: Type): S
+        fun localization(value: Type): S {
+            this.localization = value
+            return self()
+        }
 
         /**
          * See [T.target]
          */
-        fun target(value: Instruction): S
+        fun target(value: Instruction): S {
+            this.target = value
+            return self()
+        }
 
         /**
          * Base this builder on [variableRef].

@@ -31,6 +31,7 @@ import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
 import com.koresframework.kores.Types
 import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -42,6 +43,8 @@ import java.lang.reflect.Type
 @Serializable
 data class Concat(val concatenations: List<Instruction>) : KoresPart, TypedInstruction {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = Types.STRING
 
@@ -50,7 +53,12 @@ data class Concat(val concatenations: List<Instruction>) : KoresPart, TypedInstr
     class Builder() :
         Typed.Builder<Concat, Builder> {
 
+        override var data: KoresData = KoresData()
         var concatenations: List<Instruction> = emptyList()
+
+        override var type: Type
+            get() = Types.STRING
+            set(value) {}
 
         constructor(defaults: Concat) : this() {
             this.concatenations = defaults.concatenations
@@ -72,7 +80,7 @@ data class Concat(val concatenations: List<Instruction>) : KoresPart, TypedInstr
         fun concatenations(vararg values: Instruction): Builder =
             this.concatenations(values.toList())
 
-        override fun build(): Concat = Concat(this.concatenations)
+        override fun buildBasic(): Concat = Concat(this.concatenations)
 
         companion object {
             @JvmStatic

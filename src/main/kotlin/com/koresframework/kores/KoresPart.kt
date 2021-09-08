@@ -32,6 +32,8 @@ import com.koresframework.kores.base.Alias
 import com.koresframework.kores.base.InstructionWrapper
 import com.koresframework.kores.base.Typed
 import com.koresframework.kores.builder.Builder
+import com.koresframework.kores.builder.self
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.type.NullType
 import com.koresframework.kores.type.`is`
 import com.koresframework.kores.type.isPrimitive
@@ -48,12 +50,41 @@ import java.lang.reflect.Type
 interface KoresPart {
 
     /**
+     * Stores additional information about the part.
+     *
+     * This is commonly used by compilers in order to store important information, this information
+     * can be used by Kores Generators, such as **BytecodeGenerator** and **SourceGenerator** and by inspection
+     * logics.
+     */
+    val data: KoresData
+
+    /**
      * This builder may or may not accept null values, it depends on implementation.
      */
-    fun builder(): Builder<KoresPart, *> = SelfBuilder(this)
+    fun builder(): PartBuilder<KoresPart, *> = SelfBuilder(this)
 
-    class SelfBuilder(val self: KoresPart) : Builder<KoresPart, SelfBuilder> {
-        override fun build(): KoresPart = self
+    interface PartBuilder<out T: KoresPart, S: PartBuilder<T, S>> : Builder<T, S> {
+        var data: KoresData
+
+        fun withData(data: KoresData): S = data(data)
+
+        fun data(data: KoresData): S {
+            this.data = data
+            return self()
+        }
+
+        override fun build(): T =
+            buildBasic()
+                .dataFrom(data)
+
+    }
+
+    class SelfBuilder(val self: KoresPart) : PartBuilder<KoresPart, SelfBuilder> {
+        override var data = KoresData()
+
+        override fun data(data: KoresData): SelfBuilder = this
+        override fun build(): KoresPart = buildBasic().dataFrom(this.data)
+        override fun buildBasic(): KoresPart = self
     }
 }
 
@@ -88,3 +119,7 @@ val KoresPart.typeOrNull: Type?
         }
     } ?: (this as? Instruction)?.getLeaveType() ?: (this as? Instructions)?.getLeaveType()
 
+fun <K: KoresPart> K.dataFrom(data: KoresData): K {
+    this.data.from(data)
+    return this
+}

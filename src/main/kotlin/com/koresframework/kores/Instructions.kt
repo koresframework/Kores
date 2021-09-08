@@ -32,6 +32,7 @@ import com.koresframework.kores.inspect.InstructionsInspect
 import com.koresframework.kores.type.`is`
 import com.koresframework.kores.type.getCommonSuperType
 import com.github.jonathanxd.iutils.container.primitivecontainers.BooleanContainer
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 import java.util.*
@@ -46,6 +47,8 @@ import java.util.stream.Stream
  */
 @Serializable
 abstract class Instructions : Iterable<Instruction>, KoresPart {
+
+    override val data: KoresData = KoresData()
 
     /**
      * Size of source.

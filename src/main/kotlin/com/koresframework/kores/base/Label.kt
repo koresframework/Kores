@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -39,6 +40,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Label(override val name: String, override val body: Instructions) : BodyHolder, Named,
     Instruction {
+
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -49,8 +53,9 @@ data class Label(override val name: String, override val body: Instructions) : B
         BodyHolder.Builder<Label, Builder>,
         Named.Builder<Label, Builder> {
 
-        lateinit var name: String
-        var body: Instructions = Instructions.empty()
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
+        override var body: Instructions = Instructions.empty()
 
         constructor(defaults: Label) : this() {
             this.name = defaults.name
@@ -67,7 +72,7 @@ data class Label(override val name: String, override val body: Instructions) : B
             return this
         }
 
-        override fun build(): Label = Label(this.name, this.body)
+        override fun buildBasic(): Label = Label(this.name, this.body)
 
         companion object {
             @JvmStatic

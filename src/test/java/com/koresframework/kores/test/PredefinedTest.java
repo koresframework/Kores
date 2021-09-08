@@ -55,7 +55,7 @@ public final class PredefinedTest {
 
 
     public TypeRef getTypeRef() {
-        return new TypeRef(classDeclaration.getOuterClass(), classDeclaration.getSpecifiedName());
+        return new TypeRef(classDeclaration.getOuterType(), classDeclaration.getSpecifiedName());
     }
 
     public static PredefinedTest create(String name) {

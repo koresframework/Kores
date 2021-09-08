@@ -29,6 +29,7 @@ package com.koresframework.kores.common
 
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.Typed
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.BootstrapArgSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -51,6 +52,8 @@ data class DynamicConstantSpec(
     val bootstrapArgs: List<@Serializable(with = BootstrapArgSerializer::class) Any>
 ) : Typed, Comparable<DynamicConstantSpec> {
 
+    override val data: KoresData = KoresData()
+
     override val type: Type
         get() = this.constantType
 
@@ -71,22 +74,21 @@ data class DynamicConstantSpec(
 
     class Builder() : Typed.Builder<DynamicConstantSpec, Builder> {
 
+        override var data: KoresData = KoresData()
         lateinit var constantName: String
         lateinit var descriptor: Type
         lateinit var bootstrapMethod: MethodInvokeHandleSpec
         lateinit var bootstrapArgs: List<Any>
 
+        override var type: Type
+            get() = this.descriptor
+            set(value) { this.descriptor = value }
 
         constructor(defaults: DynamicConstantSpec) : this() {
             this.constantName = defaults.constantName
             this.descriptor = defaults.constantType
             this.bootstrapMethod = defaults.bootstrapMethod
             this.bootstrapArgs = defaults.bootstrapArgs
-        }
-
-        override fun type(value: Type): Builder {
-            this.descriptor = value
-            return this
         }
 
         fun constantName(value: String): Builder {
@@ -109,7 +111,7 @@ data class DynamicConstantSpec(
             return this
         }
 
-        override fun build(): DynamicConstantSpec =
+        override fun buildBasic(): DynamicConstantSpec =
             DynamicConstantSpec(this.constantName, this.descriptor, this.bootstrapMethod, this.bootstrapArgs)
     }
 }

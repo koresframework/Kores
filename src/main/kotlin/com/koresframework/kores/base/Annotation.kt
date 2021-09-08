@@ -32,11 +32,14 @@ import com.koresframework.kores.type.bindedDefaultResolver
 import com.github.jonathanxd.iutils.`object`.Either
 import com.github.jonathanxd.iutils.kt.left
 import com.github.jonathanxd.iutils.kt.right
+import com.koresframework.kores.data.KoresData
+import com.koresframework.kores.dataFrom
 import com.koresframework.kores.serialization.AnnotationSerializer
 import kotlinx.serialization.Serializable
 import java.lang.annotation.RetentionPolicy
 import java.lang.reflect.AnnotatedType
 import java.lang.reflect.Type
+import kotlin.reflect.KMutableProperty
 
 typealias KoresAnnotation = Annotation
 
@@ -72,11 +75,15 @@ data class Annotation(
     val retention: Retention
 ) :
     Typed {
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() : Typed.Builder<Annotation, Builder> {
 
-        lateinit var type: Type
+        override var data: KoresData = KoresData()
+        override lateinit var type: Type
+
         var values: Map<String, Any> = emptyMap()
         var retention: Retention = Retention.CLASS
 
@@ -84,14 +91,6 @@ data class Annotation(
             this.type = defaults.type
             this.values = defaults.values
             this.retention = defaults.retention
-        }
-
-        /**
-         * See [Annotation.type]
-         */
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
         }
 
         /**
@@ -110,7 +109,7 @@ data class Annotation(
             return this
         }
 
-        override fun build(): Annotation = Annotation(type, values, retention)
+        override fun buildBasic(): Annotation = Annotation(type, values, retention)
 
         companion object {
             @JvmStatic

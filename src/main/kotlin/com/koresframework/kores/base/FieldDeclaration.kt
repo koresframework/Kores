@@ -33,6 +33,7 @@ import com.koresframework.kores.base.comment.CommentHolder
 import com.koresframework.kores.base.comment.Comments
 import com.koresframework.kores.builder.self
 import com.koresframework.kores.common.KoresNothing
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.factory.accessStatic
 import com.koresframework.kores.factory.accessThis
 import com.koresframework.kores.serialization.TypeSerializer
@@ -56,6 +57,8 @@ data class FieldDeclaration(
     ValueHolder, ModifiersHolder, Annotable, CommentHolder,
     InnerTypesHolder {
 
+    override val data: KoresData = KoresData()
+
     override val localization: Type
         get() = Alias.THIS
 
@@ -75,13 +78,22 @@ data class FieldDeclaration(
         CommentHolder.Builder<FieldDeclaration, Builder>,
         InnerTypesHolder.Builder<FieldDeclaration, Builder> {
 
-        var comments: Comments = Comments.Absent
-        var annotations: List<Annotation> = emptyList()
-        var modifiers: Set<KoresModifier> = emptySet()
-        lateinit var type: Type
-        lateinit var name: String
-        var innerTypes: List<TypeDeclaration> = emptyList()
-        var value: Instruction = KoresNothing
+        override var data: KoresData = KoresData()
+        override var comments: Comments = Comments.Absent
+        override var annotations: List<Annotation> = emptyList()
+        override var modifiers: Set<KoresModifier> = emptySet()
+        override lateinit var type: Type
+        override lateinit var name: String
+        override var innerTypes: List<TypeDeclaration> = emptyList()
+        override var value: Instruction = KoresNothing
+
+        override var localization: Type
+            get() = Alias.THIS
+            set(value) {}
+
+        override var target: Instruction
+            get() = if (this.modifiers.contains(KoresModifier.STATIC)) accessStatic() else accessThis()
+            set(value) {}
 
         constructor(defaults: FieldDeclaration) : this() {
             this.comments = defaults.comments
@@ -91,39 +103,6 @@ data class FieldDeclaration(
             this.name = defaults.name
             this.innerTypes = defaults.innerTypes
             this.value = defaults.value
-        }
-
-        override fun localization(value: Type): Builder = self()
-        override fun target(value: Instruction): Builder = self()
-
-        override fun comments(value: Comments): Builder {
-            this.comments = value
-            return this
-        }
-
-        override fun annotations(value: List<Annotation>): Builder {
-            this.annotations = value
-            return this
-        }
-
-        override fun modifiers(value: Set<KoresModifier>): Builder {
-            this.modifiers = value
-            return this
-        }
-
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun value(value: Instruction): Builder {
-            this.value = value
-            return this
         }
 
         /**
@@ -136,7 +115,7 @@ data class FieldDeclaration(
             return this
         }
 
-        override fun build(): FieldDeclaration = FieldDeclaration(
+        override fun buildBasic(): FieldDeclaration = FieldDeclaration(
             this.comments, this.annotations,
             this.modifiers, this.type, this.name, this.innerTypes, this.value
         )

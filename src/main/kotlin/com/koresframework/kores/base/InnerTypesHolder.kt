@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 
 /**
  * A holder of inner types
@@ -42,12 +43,17 @@ interface InnerTypesHolder : KoresPart {
     override fun builder(): Builder<InnerTypesHolder, *>
 
     interface Builder<out T : InnerTypesHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var innerTypes: List<TypeDeclaration>
 
         /**
          * See [InnerTypesHolder.innerTypes]
          */
-        fun innerTypes(value: List<TypeDeclaration>): S
+        fun innerTypes(value: List<TypeDeclaration>): S {
+            this.innerTypes = value
+            return self()
+        }
 
         /**
          * See [InnerTypesHolder.innerTypes]

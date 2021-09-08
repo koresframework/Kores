@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.data.KoresData
 import java.lang.reflect.Type
 
 /**
@@ -38,6 +39,8 @@ open class PlainKoresType @JvmOverloads constructor(
     val superclass_: () -> Type? = { throw IllegalStateException("No super class provider") },
     val superinterfaces_: () -> List<Type> = { throw IllegalStateException("No super interfaces provider") }
 ) : UnknownKoresType, InheritanceProvider {
+
+    override val data: KoresData = KoresData()
 
     override val canonicalName: String get() = this.type
 

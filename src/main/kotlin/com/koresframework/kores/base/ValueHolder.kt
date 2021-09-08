@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 
 /**
  * Value holder part
@@ -43,12 +44,17 @@ interface ValueHolder : KoresPart {
     override fun builder(): Builder<ValueHolder, *>
 
     interface Builder<out T : ValueHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var value: Instruction
 
         /**
          * See [T.value]
          */
-        fun value(value: Instruction): S
+        fun value(value: Instruction): S {
+            this.value = value
+            return self()
+        }
 
     }
 }

@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 
 /**
  * Enum entry holder
@@ -42,11 +43,17 @@ interface EntryHolder : KoresPart {
     override fun builder(): Builder<EntryHolder, *>
 
     interface Builder<out T : EntryHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var entries: List<EnumEntry>
+
         /**
          * See [T.entries]
          */
-        fun entries(value: List<EnumEntry>): S
+        fun entries(value: List<EnumEntry>): S {
+            this.entries = value
+            return self()
+        }
 
         /**
          * See [T.entries]

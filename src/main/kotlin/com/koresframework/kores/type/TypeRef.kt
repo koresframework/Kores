@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.util.resolveQualifiedName
 import com.koresframework.kores.util.resolveTypeName
 import java.lang.reflect.Type
@@ -40,6 +41,7 @@ data class TypeRef(
     override val isInterface: Boolean
 ) : KoresType {
 
+    override val data: KoresData = KoresData()
     constructor(specifiedName: String) : this(null, specifiedName)
     constructor(outerType: Type?, specifiedName: String) : this(outerType, specifiedName, false)
     constructor(specifiedName: String, isInterface: Boolean) : this(

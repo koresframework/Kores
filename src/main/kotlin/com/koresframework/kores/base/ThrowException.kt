@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -36,11 +37,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ThrowException(override val value: Instruction) : Instruction, ValueHolder {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() : ValueHolder.Builder<ThrowException, Builder> {
 
-        lateinit var value: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var value: Instruction
 
         constructor(defaults: ThrowException) : this() {
             this.value = defaults.value
@@ -51,7 +55,7 @@ data class ThrowException(override val value: Instruction) : Instruction, ValueH
             return this
         }
 
-        override fun build(): ThrowException = ThrowException(this.value)
+        override fun buildBasic(): ThrowException = ThrowException(this.value)
 
         companion object {
             @JvmStatic

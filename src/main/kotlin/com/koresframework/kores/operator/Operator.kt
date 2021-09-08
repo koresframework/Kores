@@ -30,6 +30,7 @@ package com.koresframework.kores.operator
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.base.Named
 import com.github.jonathanxd.iutils.string.ToStringHelper
+import com.koresframework.kores.data.KoresData
 import kotlinx.serialization.Serializable
 
 /**
@@ -39,6 +40,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 sealed class Operator : Instruction, Named {
+    override val data: KoresData = KoresData()
     abstract override val name: String
 
     override fun toString(): String {
@@ -63,7 +65,8 @@ sealed class Operator : Instruction, Named {
 
     class Builder() : Named.Builder<Operator, Builder> {
 
-        lateinit var name: String
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
 
         constructor(defaults: Operator) : this() {
             this.name = defaults.name
@@ -74,7 +77,7 @@ sealed class Operator : Instruction, Named {
             return this
         }
 
-        override fun build(): Operator {
+        override fun buildBasic(): Operator {
             return Operators.knownOperators[this.name]
                     ?: throw IllegalArgumentException("Cannot find operator: $name")
         }

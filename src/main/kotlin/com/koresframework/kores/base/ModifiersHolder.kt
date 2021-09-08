@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 
 /**
  * A element that have modifiers.
@@ -49,12 +50,17 @@ interface ModifiersHolder : KoresPart {
     override fun builder(): Builder<ModifiersHolder, *>
 
     interface Builder<out T : ModifiersHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var modifiers: Set<KoresModifier>
 
         /**
          * See [ModifiersHolder.modifiers]
          */
-        fun modifiers(value: Set<KoresModifier>): S
+        fun modifiers(value: Set<KoresModifier>): S {
+            this.modifiers = value
+            return self()
+        }
 
         /**
          * See [ModifiersHolder.modifiers]

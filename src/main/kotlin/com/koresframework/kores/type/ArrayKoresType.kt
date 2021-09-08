@@ -27,6 +27,7 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.util.toStr
 
 /**
@@ -34,6 +35,8 @@ import com.koresframework.kores.util.toStr
  */
 internal open class ArrayKoresType(val component: KoresType, override val arrayDimension: Int) :
     KoresType, WrapperKoresType {
+
+    override val data: KoresData = KoresData()
 
     override val wrapped: KoresType
         get() = this.component

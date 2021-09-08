@@ -28,7 +28,9 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
+import kotlin.reflect.KMutableProperty
 
 /**
  * A element that can have a type.
@@ -43,11 +45,16 @@ interface Typed : KoresPart {
     override fun builder(): Builder<Typed, *>
 
     interface Builder<out T : Typed, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var type: Type
 
         /**
          * See [T.type]
          */
-        fun type(value: Type): S
+        fun type(value: Type): S {
+            this.type = value
+            return self()
+        }
     }
 }

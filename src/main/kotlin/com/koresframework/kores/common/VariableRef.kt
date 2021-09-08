@@ -29,6 +29,7 @@ package com.koresframework.kores.common
 
 import com.koresframework.kores.annotation.Spec
 import com.koresframework.kores.base.VariableBase
+import com.koresframework.kores.data.KoresData
 import java.lang.reflect.Type
 
 /**
@@ -37,33 +38,26 @@ import java.lang.reflect.Type
 @Spec
 data class VariableRef(override val variableType: Type, override val name: String) : VariableBase {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() : VariableBase.Builder<VariableRef, Builder> {
 
-        lateinit var name: String
-        lateinit var type: Type
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
+        override lateinit var type: Type
+
+        override var variableType: Type
+            get() = this.type
+            set(value) { this.type = value }
 
         constructor(defaults: VariableRef) : this() {
             this.name = defaults.name
             this.type = defaults.variableType
         }
 
-        override fun type(value: Type): Builder {
-            return this.variableType(value)
-        }
-
-        override fun name(value: String): Builder {
-            this.name = name
-            return this
-        }
-
-        override fun variableType(value: Type): Builder {
-            this.type = type
-            return this
-        }
-
-        override fun build(): VariableRef = VariableRef(this.type, this.name)
+        override fun buildBasic(): VariableRef = VariableRef(this.type, this.name)
 
         companion object {
             @JvmStatic

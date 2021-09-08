@@ -28,7 +28,9 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.KoresPart
+import com.koresframework.kores.builder.self
 import java.lang.reflect.Type
+import kotlin.reflect.KMutableProperty
 
 /**
  * Return type holder part
@@ -43,11 +45,16 @@ interface ReturnTypeHolder : KoresPart {
     override fun builder(): Builder<ReturnTypeHolder, *>
 
     interface Builder<out T : ReturnTypeHolder, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S> {
+        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+
+        var returnType: Type
 
         /**
          * See [T.returnType]
          */
-        fun returnType(value: Type): S
+        fun returnType(value: Type): S {
+            this.returnType = value
+            return self()
+        }
     }
 }

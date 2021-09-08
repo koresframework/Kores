@@ -35,7 +35,7 @@ import com.koresframework.kores.builder.Builder
  */
 interface Comment : KoresPart {
 
-    override fun builder(): Builder<Comment, *>
+    override fun builder(): KoresPart.PartBuilder<Comment, *>
 
 }
 

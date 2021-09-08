@@ -27,10 +27,14 @@
  */
 package com.koresframework.kores.type
 
+import com.koresframework.kores.data.KoresData
+
 /**
  * Null code type.
  */
 object NullType : KoresType {
+
+    override val data: KoresData = KoresData()
 
     override val type: String
         get() = "null"

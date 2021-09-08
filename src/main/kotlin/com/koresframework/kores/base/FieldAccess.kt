@@ -29,6 +29,7 @@ package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
 import com.koresframework.kores.common.FieldRef
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
@@ -45,6 +46,8 @@ data class FieldAccess(
     override val name: String
 ) : Accessor, TypedInstruction, Named {
 
+    override val data: KoresData = KoresData()
+
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -52,36 +55,17 @@ data class FieldAccess(
         Typed.Builder<FieldAccess, Builder>,
         Named.Builder<FieldAccess, Builder> {
 
-        lateinit var localization: Type
-        lateinit var target: Instruction
-        lateinit var type: Type
-        lateinit var name: String
+        override var data: KoresData = KoresData()
+        override lateinit var localization: Type
+        override lateinit var target: Instruction
+        override lateinit var type: Type
+        override lateinit var name: String
 
         constructor(defaults: FieldAccess) : this() {
             this.localization = defaults.localization
             this.target = defaults.target
             this.type = defaults.type
             this.name = defaults.name
-        }
-
-        override fun localization(value: Type): Builder {
-            this.localization = value
-            return this
-        }
-
-        override fun target(value: Instruction): Builder {
-            this.target = value
-            return this
-        }
-
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
         }
 
         /**
@@ -94,7 +78,7 @@ data class FieldAccess(
             name(ref.name)
         }
 
-        override fun build(): FieldAccess =
+        override fun buildBasic(): FieldAccess =
             FieldAccess(this.localization, this.target, this.type, this.name)
 
         companion object {

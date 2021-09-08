@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instructions
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.Serializable
 
@@ -46,6 +47,8 @@ data class TryWithResources(
     override val catchStatements: List<CatchStatement>,
     override val finallyStatement: Instructions
 ) : TryStatementBase {
+    override val data: KoresData = KoresData()
+
     init {
         BodyHolder.checkBody(this)
     }
@@ -54,8 +57,10 @@ data class TryWithResources(
 
     class Builder() : TryStatementBase.Builder<TryWithResources, Builder> {
 
+        override var data: KoresData = KoresData()
+
         lateinit var variable: VariableDeclaration
-        var body: Instructions = Instructions.empty()
+        override var body: Instructions = Instructions.empty()
         var catchStatements: List<CatchStatement> = emptyList()
         var finallyStatement: Instructions = Instructions.empty()
 
@@ -89,7 +94,7 @@ data class TryWithResources(
             return this
         }
 
-        override fun build(): TryWithResources =
+        override fun buildBasic(): TryWithResources =
             TryWithResources(this.variable, this.body, this.catchStatements, this.finallyStatement)
 
         companion object {

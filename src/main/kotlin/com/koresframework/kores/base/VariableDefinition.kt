@@ -28,6 +28,7 @@
 package com.koresframework.kores.base
 
 import com.koresframework.kores.Instruction
+import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -44,6 +45,7 @@ data class VariableDefinition(
     override val value: Instruction
 ) : Named, TypedInstruction, ValueHolder {
 
+    override val data: KoresData = KoresData()
     override fun builder(): Builder = Builder(this)
 
     class Builder() :
@@ -51,9 +53,10 @@ data class VariableDefinition(
         Typed.Builder<VariableDefinition, Builder>,
         ValueHolder.Builder<VariableDefinition, Builder> {
 
-        lateinit var name: String
-        lateinit var type: Type
-        lateinit var value: Instruction
+        override var data: KoresData = KoresData()
+        override lateinit var name: String
+        override lateinit var type: Type
+        override lateinit var value: Instruction
 
         constructor(defaults: VariableDefinition) : this() {
             this.name = defaults.name
@@ -61,22 +64,7 @@ data class VariableDefinition(
             this.value = defaults.value
         }
 
-        override fun name(value: String): Builder {
-            this.name = value
-            return this
-        }
-
-        override fun type(value: Type): Builder {
-            this.type = value
-            return this
-        }
-
-        override fun value(value: Instruction): Builder {
-            this.value = value
-            return this
-        }
-
-        override fun build(): VariableDefinition =
+        override fun buildBasic(): VariableDefinition =
             VariableDefinition(this.type, this.name, this.value)
 
         companion object {
