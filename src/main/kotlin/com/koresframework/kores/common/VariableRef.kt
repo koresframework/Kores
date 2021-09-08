@@ -55,6 +55,8 @@ data class VariableRef(override val variableType: Type, override val name: Strin
         constructor(defaults: VariableRef) : this() {
             this.name = defaults.name
             this.type = defaults.variableType
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): VariableRef = VariableRef(this.type, this.name)

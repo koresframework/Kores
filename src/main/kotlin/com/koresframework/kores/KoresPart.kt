@@ -55,6 +55,15 @@ interface KoresPart {
      * This is commonly used by compilers in order to store important information, this information
      * can be used by Kores Generators, such as **BytecodeGenerator** and **SourceGenerator** and by inspection
      * logics.
+     *
+     * ## Mutable
+     *
+     * Unlikely other data stored in [KoresPart], [KoresData] is a mutable structure, which allows data to be stored
+     * without the need to create a new instance.
+     *
+     * ## Thread-safe
+     *
+     * [KoresData] is a thread-safe structure backed by a **thread-safe concurrent map implementation**.
      */
     val data: KoresData
 
@@ -66,6 +75,7 @@ interface KoresPart {
     interface PartBuilder<out T: KoresPart, S: PartBuilder<T, S>> : Builder<T, S> {
         var data: KoresData
 
+        fun fromData(data: KoresData): S = data(data)
         fun withData(data: KoresData): S = data(data)
 
         fun data(data: KoresData): S {
@@ -81,6 +91,10 @@ interface KoresPart {
 
     class SelfBuilder(val self: KoresPart) : PartBuilder<KoresPart, SelfBuilder> {
         override var data = KoresData()
+
+        init {
+            this.fromData(self.data)
+        }
 
         override fun data(data: KoresData): SelfBuilder = this
         override fun build(): KoresPart = buildBasic().dataFrom(this.data)

@@ -72,6 +72,8 @@ data class Cast(
             this.originalType = defaults.originalType
             this.targetType = defaults.targetType
             this.castedPart = defaults.instruction
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder = this.targetType(value)

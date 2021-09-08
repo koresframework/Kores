@@ -115,6 +115,8 @@ data class ClassDeclaration(
             this.genericSignature = defaults.genericSignature
             this.superClass = defaults.superClass
             this.implementations = defaults.implementations
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic() = ClassDeclaration(

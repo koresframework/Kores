@@ -83,6 +83,8 @@ data class ArrayStore(
             this.index = defaults.index
             this.valueType = defaults.valueType
             this.valueToStore = defaults.valueToStore
+
+            this.fromData(defaults.data)
         }
 
         override fun value(value: Instruction): Builder = this.valueToStore(value)

@@ -68,6 +68,8 @@ data class InstanceOfCheck(
         constructor(defaults: InstanceOfCheck) : this() {
             this.part = defaults.part
             this.checkType = defaults.checkType
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder = self()

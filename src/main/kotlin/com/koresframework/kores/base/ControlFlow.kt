@@ -56,6 +56,8 @@ data class ControlFlow(val type: Type, val at: Label?) : KoresPart, Instruction 
         constructor(defaults: ControlFlow) : this() {
             this.type = defaults.type
             this.at = defaults.at
+
+            this.fromData(defaults.data)
         }
 
         /**

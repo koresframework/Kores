@@ -81,6 +81,8 @@ data class Case(override val value: Instruction, override val body: Instructions
         constructor(defaults: Case) : this() {
             this.value = defaults.value
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder = self()

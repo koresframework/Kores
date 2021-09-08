@@ -60,6 +60,10 @@ object Void : TypedInstruction {
             get() = Types.VOID
             set(value) {}
 
+        init {
+            this.fromData(Void.data)
+        }
+
         override fun type(value: Type): Builder = self()
 
         override fun buildBasic(): Void = Void

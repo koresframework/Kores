@@ -48,6 +48,8 @@ data class ThrowException(override val value: Instruction) : Instruction, ValueH
 
         constructor(defaults: ThrowException) : this() {
             this.value = defaults.value
+
+            this.fromData(defaults.data)
         }
 
         override fun value(value: Instruction): Builder {

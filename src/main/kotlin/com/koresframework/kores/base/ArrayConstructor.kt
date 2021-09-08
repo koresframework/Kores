@@ -124,6 +124,8 @@ data class ArrayConstructor(
             this.arrayType = defaults.arrayType
             this.dimensions = defaults.dimensions
             this.arguments = defaults.arguments
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder = this.arrayType(value)

@@ -62,6 +62,8 @@ data class FieldRef(
             this.type = defaults.type
             this.localization = defaults.localization
             this.target = defaults.target
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): FieldRef = FieldRef(localization, target, type, name)

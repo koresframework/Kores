@@ -91,6 +91,8 @@ data class EnumEntry(
             this.methods = defaults.methods
             this.innerTypes = defaults.innerTypes
 
+            this.fromData(defaults.data)
+
         }
 
         override fun array(value: Boolean): Builder = self()

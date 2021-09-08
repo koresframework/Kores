@@ -63,6 +63,8 @@ data class IfExpr(
             this.expr1 = defaults.expr1
             this.operation = defaults.operation
             this.expr2 = defaults.expr2
+
+            this.fromData(defaults.data)
         }
 
         /**

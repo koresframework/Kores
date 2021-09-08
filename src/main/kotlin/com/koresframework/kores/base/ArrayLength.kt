@@ -72,6 +72,8 @@ data class ArrayLength(
         constructor(defaults: ArrayLength) : this() {
             this.arrayType = defaults.arrayType
             this.target = defaults.target
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): ArrayLength = ArrayLength(this.arrayType, this.target)

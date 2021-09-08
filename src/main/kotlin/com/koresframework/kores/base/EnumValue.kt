@@ -73,6 +73,8 @@ data class EnumValue(
         constructor(defaults: EnumValue) : this() {
             this.enumType = defaults.enumType
             this.enumEntry = defaults.enumEntry
+
+            this.fromData(defaults.data)
         }
 
         /**

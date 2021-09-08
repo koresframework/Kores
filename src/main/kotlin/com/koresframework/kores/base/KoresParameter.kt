@@ -63,6 +63,8 @@ data class KoresParameter(
             this.annotations = defaults.annotations
             this.name = defaults.name
             this.type = defaults.type
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): KoresParameter =

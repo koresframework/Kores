@@ -110,6 +110,8 @@ data class InterfaceDeclaration(
             this.modifiers = defaults.modifiers
             this.genericSignature = defaults.genericSignature
             this.implementations = defaults.implementations
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic() = InterfaceDeclaration(

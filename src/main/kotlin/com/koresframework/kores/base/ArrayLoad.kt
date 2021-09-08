@@ -82,6 +82,8 @@ data class ArrayLoad(
             this.target = defaults.target
             this.index = defaults.index
             this.valueType = defaults.valueType
+
+            this.fromData(defaults.data)
         }
 
         /**

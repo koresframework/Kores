@@ -62,6 +62,8 @@ data class VariableDefinition(
             this.name = defaults.name
             this.type = defaults.type
             this.value = defaults.value
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): VariableDefinition =

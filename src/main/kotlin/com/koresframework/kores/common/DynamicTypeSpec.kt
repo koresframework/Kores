@@ -108,6 +108,8 @@ data class DynamicTypeSpec(
             this.name = defaults.name
             this.type = defaults.type
             this.arguments = defaults.arguments
+
+            this.fromData(defaults.data)
         }
 
         override fun array(value: Boolean): Builder {

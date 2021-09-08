@@ -78,6 +78,8 @@ data class CatchStatement(
             this.exceptionTypes = defaults.exceptionTypes
             this.variable = defaults.variable
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         @Suppress("UNCHECKED_CAST")

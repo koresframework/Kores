@@ -53,6 +53,8 @@ data class VariableAccess(
         constructor(defaults: VariableAccess) : this() {
             this.name = defaults.name
             this.variableType = defaults.variableType
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): VariableAccess = VariableAccess(this.variableType, this.name)

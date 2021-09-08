@@ -107,6 +107,8 @@ data class Link(val name: String?, val target: LinkTarget) : Comment {
         constructor(defaults: Link) : this() {
             this.name = defaults.name
             this.target = defaults.target
+
+            this.fromData(defaults.data)
         }
 
         /**

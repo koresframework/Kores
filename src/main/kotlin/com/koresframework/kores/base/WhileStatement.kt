@@ -68,6 +68,8 @@ data class WhileStatement(
             this.type = defaults.type
             this.expressions = defaults.expressions
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         /**

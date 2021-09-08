@@ -50,6 +50,8 @@ data class Plain(val text: String) : Comment {
 
         constructor(defaults: Plain) : this() {
             this.text = defaults.text
+
+            this.fromData(defaults.data)
         }
 
         /**

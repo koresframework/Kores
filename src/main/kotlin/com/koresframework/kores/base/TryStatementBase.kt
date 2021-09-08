@@ -64,6 +64,8 @@ data class TryStatement(
             this.body = defaults.body
             this.catchStatements = defaults.catchStatements
             this.finallyStatement = defaults.finallyStatement
+
+            this.fromData(defaults.data)
         }
 
         override fun body(value: Instructions): Builder {

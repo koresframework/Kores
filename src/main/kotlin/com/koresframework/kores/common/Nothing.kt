@@ -59,6 +59,10 @@ object Nothing : TypedInstruction {
         override var data: KoresData = KoresData()
         override fun type(value: Type): Builder = self()
 
+        init {
+            this.fromData(Nothing.data)
+        }
+
         override var type: Type
             get() = Nothing::class.java.koresType
             set(value) {}

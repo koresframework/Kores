@@ -89,6 +89,8 @@ data class DynamicConstantSpec(
             this.descriptor = defaults.constantType
             this.bootstrapMethod = defaults.bootstrapMethod
             this.bootstrapArgs = defaults.bootstrapArgs
+
+            this.fromData(defaults.data)
         }
 
         fun constantName(value: String): Builder {

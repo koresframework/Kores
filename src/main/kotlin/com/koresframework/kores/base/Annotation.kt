@@ -91,6 +91,7 @@ data class Annotation(
             this.type = defaults.type
             this.values = defaults.values
             this.retention = defaults.retention
+            this.fromData(defaults.data)
         }
 
         /**

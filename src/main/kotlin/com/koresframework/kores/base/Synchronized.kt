@@ -52,6 +52,8 @@ class Synchronized(val instruction: Instruction, override val body: Instructions
         constructor(defaults: Synchronized) : this() {
             this.instruction = defaults.instruction
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         /**

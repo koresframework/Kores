@@ -60,6 +60,8 @@ data class Return(
         constructor(defaults: Return) : this() {
             this.type = defaults.type
             this.value = defaults.value
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder {

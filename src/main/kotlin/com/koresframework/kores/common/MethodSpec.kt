@@ -98,6 +98,8 @@ data class MethodSpec(val methodName: String, val typeSpec: TypeSpec) :
         constructor(defaults: MethodSpec) : this() {
             this.methodName = defaults.methodName
             this.typeSpec = defaults.typeSpec
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder {

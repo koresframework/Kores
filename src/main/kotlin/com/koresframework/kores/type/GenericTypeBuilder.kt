@@ -73,6 +73,8 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
             this.type = defaults.resolvedType
 
         this.bounds = defaults.bounds.toMutableList()
+
+        this.fromData(defaults.data)
     }
 
 

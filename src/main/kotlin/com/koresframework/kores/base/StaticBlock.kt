@@ -114,6 +114,8 @@ data class StaticBlock(
             this.comments = defaults.comments
             this.innerTypes = defaults.innerTypes
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         override fun name(value: String): Builder = self()

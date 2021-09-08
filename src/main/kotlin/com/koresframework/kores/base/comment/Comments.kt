@@ -86,6 +86,8 @@ data class Comments(
         constructor(defaults: Comments) : this() {
             this.comments = defaults.comments
             this.type = defaults.type
+
+            this.fromData(defaults.data)
         }
 
         /**

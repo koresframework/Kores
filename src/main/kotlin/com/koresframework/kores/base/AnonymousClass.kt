@@ -152,6 +152,7 @@ data class AnonymousClass(
             this.methods = defaults.methods
             this.innerTypes = defaults.innerTypes
 
+            this.fromData(defaults.data)
         }
 
         override fun modifiers(value: Set<KoresModifier>): Builder = self()

@@ -124,6 +124,8 @@ data class EnumDeclaration(
             this.genericSignature = defaults.genericSignature
             this.implementations = defaults.implementations
             this.entries = defaults.entries
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic() = EnumDeclaration(

@@ -66,6 +66,8 @@ data class VariableDeclaration(
             this.variableType = defaults.variableType
             this.value = defaults.value
             this.modifiers = defaults.modifiers
+
+            this.fromData(defaults.data)
         }
 
         override fun name(value: String): Builder {

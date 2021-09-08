@@ -96,6 +96,8 @@ data class ConstructorDeclaration(
             this.innerTypes = defaults.innerTypes
             this.throwsClause = defaults.throwsClause
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         override fun name(value: String): Builder = self()

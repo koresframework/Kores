@@ -51,6 +51,8 @@ data class IfGroup(override val expressions: List<Instruction>) : KoresPart, IfE
 
         constructor(defaults: IfGroup) : this() {
             this.expressions = defaults.expressions
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): IfGroup = IfGroup(this.expressions)

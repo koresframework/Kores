@@ -75,6 +75,8 @@ data class FieldAccessHandleSpec(val accessKind: FieldAccessKind, val fieldTypeS
         constructor(defaults: FieldAccessHandleSpec) : this() {
             this.accessKind = defaults.accessKind
             this.fieldTypeSpec = defaults.fieldTypeSpec
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder {

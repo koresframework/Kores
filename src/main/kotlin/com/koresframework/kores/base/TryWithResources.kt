@@ -69,6 +69,8 @@ data class TryWithResources(
             this.body = defaults.body
             this.catchStatements = defaults.catchStatements
             this.finallyStatement = defaults.finallyStatement
+
+            this.fromData(defaults.data)
         }
 
         /**

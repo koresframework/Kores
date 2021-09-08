@@ -65,6 +65,8 @@ data class IfStatement(
             this.expressions = defaults.expressions
             this.body = defaults.body
             this.elseStatement = defaults.elseStatement
+
+            this.fromData(defaults.data)
         }
 
         /**

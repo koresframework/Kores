@@ -148,6 +148,8 @@ interface AnnotatedKoresType : WrapperKoresType {
             constructor(defaults: Abstract<T>) : this(defaults.factory) {
                 this.annotatedType = defaults.annotatedType
                 this.annotations = defaults.annotations
+
+                this.fromData(defaults.data)
             }
 
             override fun annotatedType(type: Type): BuilderImpl<T> {

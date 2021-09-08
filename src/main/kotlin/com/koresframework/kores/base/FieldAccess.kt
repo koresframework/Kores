@@ -66,6 +66,8 @@ data class FieldAccess(
             this.target = defaults.target
             this.type = defaults.type
             this.name = defaults.name
+
+            this.fromData(defaults.data)
         }
 
         /**

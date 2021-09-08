@@ -129,6 +129,8 @@ data class LocalCode(
             this.invokeType = defaults.invokeType
             this.declaration = defaults.declaration
             this.innerTypes = defaults.innerTypes
+
+            this.fromData(defaults.data)
         }
 
         /**

@@ -94,6 +94,8 @@ data class MethodInvocation(
             this.target = defaults.target
             this.spec = defaults.spec
             this.arguments = defaults.arguments
+
+            this.fromData(defaults.data)
         }
 
         override fun array(value: Boolean): Builder = self()

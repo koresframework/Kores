@@ -90,6 +90,8 @@ data class MethodDeclaration(
             this.innerTypes = defaults.innerTypes
             this.throwsClause = defaults.throwsClause
             this.body = defaults.body
+
+            this.fromData(defaults.data)
         }
 
         override fun buildBasic(): MethodDeclaration = MethodDeclaration(

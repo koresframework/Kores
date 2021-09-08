@@ -73,6 +73,8 @@ data class ForEachStatement(
             this.variable = defaults.variable
             this.iterationType = defaults.iterationType
             this.iterableElement = defaults.iterableElement
+
+            this.fromData(defaults.data)
         }
 
         /**

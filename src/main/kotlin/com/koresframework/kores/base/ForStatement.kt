@@ -78,6 +78,8 @@ data class ForStatement(
             this.forInit = defaults.forInit
             this.forExpression = defaults.forExpression
             this.forUpdate = defaults.forUpdate
+
+            this.fromData(defaults.data)
         }
 
         override fun expressions(value: List<Instruction>): Builder = this.forExpression(value)

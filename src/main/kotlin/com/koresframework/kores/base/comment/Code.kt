@@ -72,6 +72,8 @@ data class Code(val code: CodeNode) : Comment {
 
         constructor(defaults: Code) : this() {
             this.code = defaults.code
+
+            this.fromData(defaults.data)
         }
 
         /**

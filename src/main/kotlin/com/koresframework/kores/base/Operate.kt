@@ -81,6 +81,8 @@ data class Operate(
             this.target = defaults.target
             this.operation = defaults.operation
             this.value = defaults.value
+
+            this.fromData(defaults.data)
         }
 
         override fun type(value: Type): Builder = self()

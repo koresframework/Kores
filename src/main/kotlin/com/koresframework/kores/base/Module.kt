@@ -121,6 +121,8 @@ data class ModuleDeclaration(
             this.opens = defaults.opens
             this.uses = defaults.uses
             this.provides = defaults.provides
+
+            this.fromData(defaults.data)
         }
 
         /**

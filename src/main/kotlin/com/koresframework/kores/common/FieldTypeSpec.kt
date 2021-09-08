@@ -88,6 +88,8 @@ data class FieldTypeSpec(
             this.localization = defaults.localization
             this.fieldName = defaults.fieldName
             this.fieldType = defaults.fieldType
+
+            this.fromData(defaults.data)
         }
 
         fun withLocalization(value: Type): Builder {
