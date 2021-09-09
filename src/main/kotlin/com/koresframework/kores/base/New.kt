@@ -51,7 +51,7 @@ data class New(@Serializable(with = TypeSerializer::class) val localization: Typ
         constructor(defaults: New) : this() {
             this.localization = defaults.localization
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

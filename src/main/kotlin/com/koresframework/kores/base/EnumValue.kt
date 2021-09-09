@@ -74,7 +74,7 @@ data class EnumValue(
             this.enumType = defaults.enumType
             this.enumEntry = defaults.enumEntry
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

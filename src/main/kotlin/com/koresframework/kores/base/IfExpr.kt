@@ -64,7 +64,7 @@ data class IfExpr(
             this.operation = defaults.operation
             this.expr2 = defaults.expr2
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

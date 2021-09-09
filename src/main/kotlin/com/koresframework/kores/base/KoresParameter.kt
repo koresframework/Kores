@@ -64,7 +64,7 @@ data class KoresParameter(
             this.name = defaults.name
             this.type = defaults.type
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic(): KoresParameter =

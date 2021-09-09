@@ -81,7 +81,7 @@ data class FieldSpec(val fieldName: String, @Serializable(with = TypeSerializer:
             this.fieldName = defaults.fieldName
             this.fieldType = defaults.fieldType
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         fun withFieldName(value: String): Builder {

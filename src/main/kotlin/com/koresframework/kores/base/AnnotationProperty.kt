@@ -81,7 +81,7 @@ data class AnnotationProperty(
             this.type = defaults.type
             this.defaultValue = defaults.defaultValue
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun annotations(value: List<Annotation>): Builder {

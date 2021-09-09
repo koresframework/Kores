@@ -61,7 +61,7 @@ data class Label(override val name: String, override val body: Instructions) : B
             this.name = defaults.name
             this.body = defaults.body
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun name(value: String): Builder {

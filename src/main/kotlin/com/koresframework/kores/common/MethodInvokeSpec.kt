@@ -85,7 +85,7 @@ data class MethodInvokeSpec(val invokeType: InvokeType, val methodTypeSpec: Meth
             this.invokeType = defaults.invokeType
             this.methodTypeSpec = defaults.methodTypeSpec
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder {

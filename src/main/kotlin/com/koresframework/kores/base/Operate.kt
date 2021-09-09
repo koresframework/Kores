@@ -82,7 +82,7 @@ data class Operate(
             this.operation = defaults.operation
             this.value = defaults.value
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder = self()

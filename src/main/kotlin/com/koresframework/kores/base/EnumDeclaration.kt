@@ -125,7 +125,7 @@ data class EnumDeclaration(
             this.implementations = defaults.implementations
             this.entries = defaults.entries
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic() = EnumDeclaration(

@@ -90,7 +90,7 @@ data class DynamicConstantSpec(
             this.bootstrapMethod = defaults.bootstrapMethod
             this.bootstrapArgs = defaults.bootstrapArgs
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         fun constantName(value: String): Builder {

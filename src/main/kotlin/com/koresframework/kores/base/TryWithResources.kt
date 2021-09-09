@@ -70,7 +70,7 @@ data class TryWithResources(
             this.catchStatements = defaults.catchStatements
             this.finallyStatement = defaults.finallyStatement
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

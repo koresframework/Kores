@@ -69,7 +69,7 @@ data class WhileStatement(
             this.expressions = defaults.expressions
             this.body = defaults.body
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

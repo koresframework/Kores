@@ -135,7 +135,7 @@ sealed class Line : Instruction, ValueHolder, InstructionWrapper {
                 this.line = defaults.line
                 this.value = defaults.value
 
-                this.fromData(defaults.data)
+                this.from(defaults)
             }
 
             override fun line(value: Int): Builder {

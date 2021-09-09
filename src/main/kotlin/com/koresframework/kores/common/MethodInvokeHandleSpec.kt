@@ -87,7 +87,7 @@ data class MethodInvokeHandleSpec(val invokeType: DynamicInvokeType, val methodT
             this.invokeType = defaults.invokeType
             this.methodTypeSpec = defaults.methodTypeSpec
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder {

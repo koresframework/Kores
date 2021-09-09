@@ -118,7 +118,7 @@ data class DynamicMethodSpec(
             this.typeSpec = defaults.typeSpec
             this.arguments = defaults.arguments
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder {

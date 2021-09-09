@@ -130,7 +130,7 @@ data class LocalCode(
             this.declaration = defaults.declaration
             this.innerTypes = defaults.innerTypes
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

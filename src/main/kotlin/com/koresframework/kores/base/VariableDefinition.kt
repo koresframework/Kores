@@ -63,7 +63,7 @@ data class VariableDefinition(
             this.type = defaults.type
             this.value = defaults.value
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic(): VariableDefinition =

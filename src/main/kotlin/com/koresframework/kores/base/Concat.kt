@@ -63,7 +63,7 @@ data class Concat(val concatenations: List<Instruction>) : KoresPart, TypedInstr
         constructor(defaults: Concat) : this() {
             this.concatenations = defaults.concatenations
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder = self()

@@ -66,7 +66,7 @@ data class IfStatement(
             this.body = defaults.body
             this.elseStatement = defaults.elseStatement
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

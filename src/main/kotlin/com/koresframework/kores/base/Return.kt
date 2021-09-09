@@ -61,7 +61,7 @@ data class Return(
             this.type = defaults.type
             this.value = defaults.value
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder {

@@ -112,7 +112,7 @@ data class TypeSpec @JvmOverloads constructor(
             this.returnType = defaults.returnType
             this.parameterTypes = defaults.parameterTypes
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder {

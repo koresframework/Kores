@@ -118,7 +118,7 @@ data class AnnotationDeclaration(
             this.genericSignature = defaults.genericSignature
             this.properties = defaults.properties
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun staticBlock(value: StaticBlock): Builder = self()

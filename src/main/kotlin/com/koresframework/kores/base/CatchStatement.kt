@@ -79,7 +79,7 @@ data class CatchStatement(
             this.variable = defaults.variable
             this.body = defaults.body
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         @Suppress("UNCHECKED_CAST")

@@ -91,7 +91,7 @@ data class MethodDeclaration(
             this.throwsClause = defaults.throwsClause
             this.body = defaults.body
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic(): MethodDeclaration = MethodDeclaration(

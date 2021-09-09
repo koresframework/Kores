@@ -446,7 +446,7 @@ data class InvokeDynamic(
             this.dynamicDescriptor = defaults.dynamicDescriptor
             this.bootstrapArgs = defaults.bootstrapArgs
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic(): InvokeDynamic = InvokeDynamic(this.bootstrap, this.dynamicDescriptor, this.bootstrapArgs)

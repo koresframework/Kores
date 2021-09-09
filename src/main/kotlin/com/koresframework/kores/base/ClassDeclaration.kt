@@ -116,7 +116,7 @@ data class ClassDeclaration(
             this.superClass = defaults.superClass
             this.implementations = defaults.implementations
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic() = ClassDeclaration(

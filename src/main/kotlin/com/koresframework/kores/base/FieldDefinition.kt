@@ -71,7 +71,7 @@ data class FieldDefinition(
             this.name = defaults.name
             this.value = defaults.value
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun localization(value: Type): Builder {

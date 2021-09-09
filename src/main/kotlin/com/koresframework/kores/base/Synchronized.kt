@@ -53,7 +53,7 @@ class Synchronized(val instruction: Instruction, override val body: Instructions
             this.instruction = defaults.instruction
             this.body = defaults.body
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

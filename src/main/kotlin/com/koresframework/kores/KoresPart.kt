@@ -75,6 +75,16 @@ interface KoresPart {
     interface PartBuilder<out T: KoresPart, S: PartBuilder<T, S>> : Builder<T, S> {
         var data: KoresData
 
+        override fun from(defaults: @UnsafeVariance T): S {
+            this.data = defaults.data
+            return super.from(defaults)
+         }
+
+        override fun fromBuilder(defaults: S): S {
+            this.data = defaults.data
+            return super.fromBuilder(defaults)
+        }
+
         fun fromData(data: KoresData): S = data(data)
         fun withData(data: KoresData): S = data(data)
 
@@ -93,7 +103,7 @@ interface KoresPart {
         override var data = KoresData()
 
         init {
-            this.fromData(self.data)
+            this.from(self)
         }
 
         override fun data(data: KoresData): SelfBuilder = this

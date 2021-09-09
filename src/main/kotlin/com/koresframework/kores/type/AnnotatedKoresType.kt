@@ -30,6 +30,7 @@ package com.koresframework.kores.type
 import com.koresframework.kores.KoresPart
 import com.koresframework.kores.base.Annotation
 import com.koresframework.kores.base.TypeDeclaration
+import com.koresframework.kores.builder.self
 import com.koresframework.kores.data.KoresData
 import com.koresframework.kores.serialization.TypeSerializer
 import com.koresframework.kores.util.toStr
@@ -99,22 +100,33 @@ interface AnnotatedKoresType : WrapperKoresType {
 
     override fun builder(): Builder<AnnotatedKoresType, *>
 
-    interface Builder<out T : AnnotatedKoresType, S : Builder<T, S>> :
-        com.koresframework.kores.builder.Builder<T, S>, KoresPart.PartBuilder<T, S> {
+    interface Builder<out T : AnnotatedKoresType, S : Builder<T, S>> : KoresPart.PartBuilder<T, S> {
+        var annotatedType: Type
+        var annotations: List<Annotation>
+
         /**
          * The [type] that is annotated with [annotations].
          */
-        fun annotatedType(type: Type): Builder<T, S>
+        fun annotatedType(type: Type): Builder<T, S> {
+            this.annotatedType = type
+            return self()
+        }
 
         /**
          * Adds an [Annotation] to [AnnotatedKoresType.annotations].
          */
-        fun addAnnotation(annotation: Annotation): Builder<T, S>
+        fun addAnnotation(annotation: Annotation): Builder<T, S> {
+            this.annotations += annotation
+            return self()
+        }
 
         /**
          * Defines [AnnotatedKoresType.annotations].
          */
-        fun annotations(annotations: List<Annotation>): Builder<T, S>
+        fun annotations(annotations: List<Annotation>): Builder<T, S> {
+            this.annotations = annotations
+            return self()
+        }
 
         /**
          * Defines [AnnotatedKoresType.annotations].
@@ -142,14 +154,14 @@ interface AnnotatedKoresType : WrapperKoresType {
 
             override var data: KoresData = KoresData()
 
-            lateinit var annotatedType: Type
-            var annotations: List<Annotation> = mutableListOf()
+            override lateinit var annotatedType: Type
+            override var annotations: List<Annotation> = mutableListOf()
 
             constructor(defaults: Abstract<T>) : this(defaults.factory) {
                 this.annotatedType = defaults.annotatedType
                 this.annotations = defaults.annotations
 
-                this.fromData(defaults.data)
+                this.from(defaults as T)
             }
 
             override fun annotatedType(type: Type): BuilderImpl<T> {
@@ -181,7 +193,7 @@ interface AnnotatedKoresType : WrapperKoresType {
                 }.also {
                     it.annotatedType(type)
                 }
-                is GenericType -> GenericAnnotatedKoresType.GenericBuilder(type)
+                is GenericType -> GenericAnnotatedKoresType.GenericBuilder(type, emptyList())
                 is LoadedKoresType<*> -> Abstract.BuilderImpl { c, v ->
                     SimpleAnnotatedLoadedKoresType<Any>(
                         c,
@@ -269,7 +281,7 @@ interface AnnotatedKoresType : WrapperKoresType {
         Abstract<GenericAnnotatedKoresType>(annotatedType, annotations, ::GenericAnnotatedKoresType),
         GenericType by annotatedType.asGeneric {
 
-        override fun builder() = GenericBuilder(this.annotatedType.asGeneric)
+        override fun builder() = GenericBuilder(this.annotatedType.asGeneric, this.annotations)
 
         override val wrapped: KoresType
             get() = super<GenericType>.wrapped
@@ -329,13 +341,17 @@ interface AnnotatedKoresType : WrapperKoresType {
             return super<GenericType>.`is`(other)
         }
 
-        class GenericBuilder(origin: GenericType) :
+        class GenericBuilder(origin: GenericType, annotations: List<Annotation>) :
             AnnotatedKoresType.Builder<GenericAnnotatedKoresType, GenericBuilder>,
             GenericType.Builder<GenericAnnotatedKoresType, GenericBuilder> {
 
             override var data: KoresData = KoresData()
-            var annotations: List<Annotation> = listOf()
+            override var annotations: List<Annotation> = annotations.toList()
             var backingGeneric = origin.builder()
+
+            override var annotatedType: Type
+                get() = backingGeneric.build()
+                set(value) { this.backingGeneric = value.asGeneric.builder() }
 
             override fun annotatedType(type: Type): Builder<GenericAnnotatedKoresType, GenericBuilder> {
                 this.backingGeneric = type.asGeneric.builder()

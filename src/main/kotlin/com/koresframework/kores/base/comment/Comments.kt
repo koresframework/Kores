@@ -87,7 +87,7 @@ data class Comments(
             this.comments = defaults.comments
             this.type = defaults.type
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

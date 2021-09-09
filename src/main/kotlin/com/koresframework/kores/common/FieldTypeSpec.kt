@@ -89,7 +89,7 @@ data class FieldTypeSpec(
             this.fieldName = defaults.fieldName
             this.fieldType = defaults.fieldType
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         fun withLocalization(value: Type): Builder {

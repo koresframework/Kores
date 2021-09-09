@@ -112,7 +112,7 @@ data class MethodTypeSpec(
             this.methodName = defaults.methodName
             this.typeSpec = defaults.typeSpec
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder {

@@ -74,7 +74,7 @@ data class ForEachStatement(
             this.iterationType = defaults.iterationType
             this.iterableElement = defaults.iterableElement
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

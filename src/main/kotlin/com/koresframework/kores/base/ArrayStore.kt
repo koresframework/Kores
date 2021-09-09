@@ -84,7 +84,7 @@ data class ArrayStore(
             this.valueType = defaults.valueType
             this.valueToStore = defaults.valueToStore
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun value(value: Instruction): Builder = this.valueToStore(value)

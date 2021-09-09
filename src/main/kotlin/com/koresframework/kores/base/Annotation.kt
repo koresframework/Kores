@@ -88,10 +88,13 @@ data class Annotation(
         var retention: Retention = Retention.CLASS
 
         constructor(defaults: Annotation) : this() {
-            this.type = defaults.type
+            this.from(defaults)
+        }
+
+        override fun from(defaults: Annotation): Builder {
             this.values = defaults.values
             this.retention = defaults.retention
-            this.fromData(defaults.data)
+            return super.from(defaults)
         }
 
         /**

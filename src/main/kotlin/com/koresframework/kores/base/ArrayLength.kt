@@ -73,7 +73,7 @@ data class ArrayLength(
             this.arrayType = defaults.arrayType
             this.target = defaults.target
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun buildBasic(): ArrayLength = ArrayLength(this.arrayType, this.target)

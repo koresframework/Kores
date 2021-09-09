@@ -74,7 +74,7 @@ class GenericTypeBuilder() : GenericType.Builder<GenericType, GenericTypeBuilder
 
         this.bounds = defaults.bounds.toMutableList()
 
-        this.fromData(defaults.data)
+        this.from(defaults)
     }
 
 

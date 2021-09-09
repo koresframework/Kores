@@ -104,7 +104,7 @@ data class FieldDeclaration(
             this.innerTypes = defaults.innerTypes
             this.value = defaults.value
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**

@@ -76,7 +76,7 @@ data class SwitchStatement(
             this.switchType = defaults.switchType
             this.cases = defaults.cases
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun type(value: Type): Builder = self()

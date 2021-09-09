@@ -71,7 +71,7 @@ sealed class Operator : Instruction, Named {
         constructor(defaults: Operator) : this() {
             this.name = defaults.name
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         override fun name(value: String): Builder {

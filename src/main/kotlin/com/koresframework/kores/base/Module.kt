@@ -122,7 +122,7 @@ data class ModuleDeclaration(
             this.uses = defaults.uses
             this.provides = defaults.provides
 
-            this.fromData(defaults.data)
+            this.from(defaults)
         }
 
         /**
