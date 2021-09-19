@@ -457,7 +457,7 @@ fun Type.variables(): List<String> {
 inline fun <reified T> typeOf(): Type = koresTypeOf<T>()
 
 /**
- * Returns a [KoresType] of [T]. (Same as [T]`::class.java.codeType`)
+ * Returns a [KoresType] of [T]. (Same as [T]`::class.java.koresType`)
  */
 inline fun <reified T> koresTypeOf(): KoresType = T::class.java.koresType
 
@@ -468,3 +468,283 @@ inline fun <reified T> koresTypeOf(): KoresType = T::class.java.koresType
  */
 inline fun <reified T> genericTypeOf(): GenericType =
     object : TypeParameterProvider<T>() {}.type.koresType.asGeneric
+
+// Multi
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1> typesOf1(): Array<out Type> =
+    koresTypesOf1<T1>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2> typesOf2(): Array<out Type> =
+    koresTypesOf2<T1, T2>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3> typesOf3(): Array<out Type> =
+    koresTypesOf3<T1, T2, T3>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4> typesOf4(): Array<out Type> =
+    koresTypesOf4<T1, T2, T3, T4>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5> typesOf5(): Array<out Type> =
+    koresTypesOf5<T1, T2, T3, T4, T5>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6> typesOf6(): Array<out Type> =
+    koresTypesOf6<T1, T2, T3, T4, T5, T6>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7> typesOf7(): Array<out Type> =
+    koresTypesOf7<T1, T2, T3, T4, T5, T6, T7>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8> typesOf8(): Array<out Type> =
+    koresTypesOf8<T1, T2, T3, T4, T5, T6, T7, T8>()
+
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9> typesOf9(): Array<out Type> =
+    koresTypesOf9<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10> typesOf10(): Array<out Type> =
+    koresTypesOf10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
+
+// koresTypesOf
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1> koresTypesOf1(): Array<out KoresType> =
+    arrayOf(T1::class.java.koresType)
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2> koresTypesOf2(): Array<out KoresType> =
+    arrayOf(T1::class.java.koresType, T2::class.java.koresType)
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3> koresTypesOf3(): Array<out KoresType> =
+    arrayOf(T1::class.java.koresType, T2::class.java.koresType, T3::class.java.koresType)
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4> koresTypesOf4(): Array<out KoresType> =
+    arrayOf(T1::class.java.koresType, T2::class.java.koresType, T3::class.java.koresType, T4::class.java.koresType)
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5> koresTypesOf5(): Array<out KoresType> =
+    arrayOf(T1::class.java.koresType, T2::class.java.koresType, T3::class.java.koresType, T4::class.java.koresType, T5::class.java.koresType)
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6> koresTypesOf6(): Array<out KoresType> =
+    arrayOf(
+        T1::class.java.koresType,
+        T2::class.java.koresType,
+        T3::class.java.koresType,
+        T4::class.java.koresType,
+        T5::class.java.koresType,
+        T6::class.java.koresType
+    )
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7> koresTypesOf7(): Array<out KoresType> =
+    arrayOf(
+        T1::class.java.koresType,
+        T2::class.java.koresType,
+        T3::class.java.koresType,
+        T4::class.java.koresType,
+        T5::class.java.koresType,
+        T6::class.java.koresType,
+        T7::class.java.koresType
+    )
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8> koresTypesOf8(): Array<out KoresType> =
+    arrayOf(
+        T1::class.java.koresType,
+        T2::class.java.koresType,
+        T3::class.java.koresType,
+        T4::class.java.koresType,
+        T5::class.java.koresType,
+        T6::class.java.koresType,
+        T7::class.java.koresType,
+        T8::class.java.koresType
+    )
+
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9> koresTypesOf9(): Array<out KoresType> =
+    arrayOf(
+        T1::class.java.koresType,
+        T2::class.java.koresType,
+        T3::class.java.koresType,
+        T4::class.java.koresType,
+        T5::class.java.koresType,
+        T6::class.java.koresType,
+        T7::class.java.koresType,
+        T8::class.java.koresType,
+        T9::class.java.koresType
+    )
+
+/**
+ * Returns an array of [KoresType] of `T*`. (Same as `T::class.java.koresType`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10> koresTypesOf10(): Array<out KoresType> =
+    arrayOf(
+        T1::class.java.koresType,
+        T2::class.java.koresType,
+        T3::class.java.koresType,
+        T4::class.java.koresType,
+        T5::class.java.koresType,
+        T6::class.java.koresType,
+        T7::class.java.koresType,
+        T8::class.java.koresType,
+        T9::class.java.koresType,
+        T10::class.java.koresType
+    )
+
+
+// GenericKoresTypesOf
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1> genericTypesOf1(): Array<out GenericType> =
+    arrayOf(genericTypeOf<T1>())
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2> genericTypesOf2(): Array<out GenericType> =
+    arrayOf(genericTypeOf<T1>(), genericTypeOf<T2>())
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3> genericTypesOf3(): Array<out GenericType> =
+    arrayOf(genericTypeOf<T1>(), genericTypeOf<T2>(), genericTypeOf<T3>())
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4> genericTypesOf4(): Array<out GenericType> =
+    arrayOf(genericTypeOf<T1>(), genericTypeOf<T2>(), genericTypeOf<T3>(), genericTypeOf<T4>())
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5> genericTypesOf5(): Array<out GenericType> =
+    arrayOf(genericTypeOf<T1>(), genericTypeOf<T2>(), genericTypeOf<T3>(), genericTypeOf<T4>(), genericTypeOf<T5>())
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6> genericTypesOf6(): Array<out GenericType> =
+    arrayOf(
+        genericTypeOf<T1>(),
+        genericTypeOf<T2>(),
+        genericTypeOf<T3>(),
+        genericTypeOf<T4>(),
+        genericTypeOf<T5>(),
+        genericTypeOf<T6>()
+    )
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7> genericTypesOf7(): Array<out GenericType> =
+    arrayOf(
+        genericTypeOf<T1>(),
+        genericTypeOf<T2>(),
+        genericTypeOf<T3>(),
+        genericTypeOf<T4>(),
+        genericTypeOf<T5>(),
+        genericTypeOf<T6>(),
+        genericTypeOf<T7>()
+    )
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8> genericTypesOf8(): Array<out GenericType> =
+    arrayOf(
+        genericTypeOf<T1>(),
+        genericTypeOf<T2>(),
+        genericTypeOf<T3>(),
+        genericTypeOf<T4>(),
+        genericTypeOf<T5>(),
+        genericTypeOf<T6>(),
+        genericTypeOf<T7>(),
+        genericTypeOf<T8>()
+    )
+
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9> genericTypesOf9(): Array<out GenericType> =
+    arrayOf(
+        genericTypeOf<T1>(),
+        genericTypeOf<T2>(),
+        genericTypeOf<T3>(),
+        genericTypeOf<T4>(),
+        genericTypeOf<T5>(),
+        genericTypeOf<T6>(),
+        genericTypeOf<T7>(),
+        genericTypeOf<T8>(),
+        genericTypeOf<T9>()
+    )
+
+/**
+ * Returns an array of [GenericType] of `T*`. (Same as `arrayOf(genericTypeOf<T..>(), ...)`)
+ */
+inline fun <reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9, reified T10> genericTypesOf10(): Array<out GenericType> =
+    arrayOf(
+        genericTypeOf<T1>(),
+        genericTypeOf<T2>(),
+        genericTypeOf<T3>(),
+        genericTypeOf<T4>(),
+        genericTypeOf<T5>(),
+        genericTypeOf<T6>(),
+        genericTypeOf<T7>(),
+        genericTypeOf<T8>(),
+        genericTypeOf<T9>(),
+        genericTypeOf<T10>()
+    )

@@ -34,6 +34,9 @@ import com.koresframework.kores.generic.GenericSignature
 import com.koresframework.kores.type.*
 import com.github.jonathanxd.iutils.condition.Conditions
 import com.github.jonathanxd.iutils.type.TypeUtil
+import com.koresframework.genericparser.*
+import com.koresframework.genericparser.parser.VisitorGenericRepresentationParser
+import kotlinx.coroutines.runBlocking
 import java.lang.reflect.Type
 import java.util.*
 import java.util.regex.Pattern
@@ -492,7 +495,8 @@ fun GenericSignature.toSourceString(): String {
 /**
  * Convert generic type to string.
  */
-fun GenericType.toSourceString(): String {
+@JvmOverloads
+fun GenericType.toSourceString(nameGenerator: (Type) -> String = {it.canonicalName}): String {
 
     val sb = StringBuilder()
 
@@ -520,9 +524,11 @@ fun GenericType.toSourceString(): String {
             val extendsOrSuper = bound.sign == "+" || bound.sign == "-"
 
             if (bound.sign == "+") {
-                sb.append(" extends ")
+                if (i == 0) sb.append(" extends ")
+                else sb.append(" ")
             } else if (bound.sign == "-") {
-                sb.append(" super ")
+                if (i == 0) sb.append(" super ")
+                else sb.append(" ")
             } else {
                 if (i == 0) {
                     sb.append("<")
@@ -532,9 +538,9 @@ fun GenericType.toSourceString(): String {
             val type = bound.type
 
             if (type is GenericType) {
-                sb.append(type.toSourceString())
+                sb.append(type.toSourceString(nameGenerator))
             } else {
-                sb.append(type.canonicalName)
+                sb.append(nameGenerator(type))
             }
 
             if (!extendsOrSuper && !hasNext) {
@@ -553,6 +559,105 @@ fun GenericType.toSourceString(): String {
     return sb.toString()
 }
 
+fun genericContainerFactory(func: KoresTypeResolverFunc) = ContainerFactory {
+    when (it) {
+        is WildcardTypeOrName.Wildcard -> Generic.wildcard()
+        is WildcardTypeOrName.Name -> Generic.type(it.name)
+        is WildcardTypeOrName.Type -> Generic.type(func.invoke(it.type))
+    }
+}
+
+fun genericAddBoundFunction() = AddBoundFunction<Generic> { root, kind, toBound ->
+    when (kind) {
+        BoundKind.Of -> root.of(toBound)
+        BoundKind.Super -> root.`super$`(toBound)
+        BoundKind.Extends -> root.`extends$`(toBound)
+    }
+}
+
+/**
+ * Parse [generic signature source string][String] and construct [GenericSignature].
+ *
+ * @param sourceString Source string.
+ * @return Construct a [GenericSignature] from `generic signature source string`;
+ */
+fun genericSignatureFromSourceString(sourceString: String): GenericSignature {
+    return genericSignatureFromSourceString(sourceString) { s ->
+        try {
+            TypeUtil.resolveClass<Any>(s).koresType
+        } catch (e: Exception) {
+            PlainKoresType(s, false)
+        }
+    }
+}
+
+
+/**
+ * Parse [generic signature source string][String] and construct [GenericSignature].
+ *
+ * @param sourceString Source string.
+ * @return Construct a [GenericSignature] from `generic signature source string`;
+ */
+fun genericSignatureFromSourceString(sourceString: String, classLoader: ClassLoader? = null): GenericSignature {
+    return genericSignatureFromSourceString(sourceString) { s ->
+        try {
+            resolveClass<Any>(s, classLoader).koresType
+        } catch (e: Exception) {
+            PlainKoresType(s, false)
+        }
+    }
+}
+
+/**
+ * Parse [generic signature source string][String] and construct [GenericSignature].
+ *
+ * @param sourceString Source string.
+ * @return Construct a [GenericSignature] from `generic signature source string`;
+ */
+fun genericSignatureFromSourceString(sourceString: String, typeResolver: (String) -> KoresType): GenericSignature {
+    return genericSignatureFromSourceString(sourceString, KoresTypeResolverFunc.fromKtFunction(typeResolver))
+}
+
+/**
+ * Parse [generic signature source string][String] and construct [GenericSignature].
+ *
+ * @param sourceString Source string.
+ * @return Construct a [GenericSignature] from `generic signature source string`;
+ */
+fun genericSignatureFromSourceString(sourceString: String, typeResolver: KoresTypeResolverFunc): GenericSignature {
+
+    val parser = VisitorGenericRepresentationParser(
+        genericContainerFactory(typeResolver),
+        genericAddBoundFunction()
+    )
+
+    val genericTypes = runBlocking {
+        parser.parse(sourceString, ParseOptions(parseMode = ParseMode.GenericSignature))
+    }
+
+    return GenericSignature.create(genericTypes)
+}
+
+
+// GenericType
+
+/**
+ * Parse [generic source string][String] and construct [GenericType].
+ *
+ * @param sourceString Source string.
+ * @return Construct a [GenericType] from `generic source string`;
+ */
+fun genericTypeFromSourceString(sourceString: String): GenericType {
+    return genericTypeFromSourceString(sourceString) { s ->
+        try {
+            TypeUtil.resolveClass<Any>(s).koresType
+        } catch (e: Exception) {
+            PlainKoresType(s, false)
+        }
+    }
+}
+
+
 /**
  * Parse [generic source string][String] and construct [GenericType].
 
@@ -560,14 +665,91 @@ fun GenericType.toSourceString(): String {
  * *
  * @return Construct a [GenericType] from `generic source string`;
  */
+fun genericTypeFromSourceString(sourceString: String, classLoader: ClassLoader? = null): GenericType {
+    return genericTypeFromSourceString(sourceString) { s ->
+        try {
+            resolveClass<Any>(s, classLoader).koresType
+        } catch (e: Exception) {
+            PlainKoresType(s, false)
+        }
+    }
+}
+
+
+
+/**
+ * Parse [generic source string][String] and construct [GenericType].
+
+ * @param sourceString Source string.
+ * *
+ * @return Construct a [GenericType] from `generic source string`;
+ */
+fun genericTypeFromSourceString(sourceString: String, typeResolver: (String) -> KoresType): GenericType {
+    return genericTypeFromSourceString(sourceString, KoresTypeResolverFunc.fromKtFunction(typeResolver))
+}
+
+/**
+ * Parse [generic source string][String] and construct [GenericType].
+
+ * @param sourceString Source string.
+ * *
+ * @return Construct a [GenericType] from `generic source string`;
+ */
+fun genericTypeFromSourceString(sourceString: String, typeResolver: KoresTypeResolverFunc): GenericType {
+
+    val parser = VisitorGenericRepresentationParser(
+        genericContainerFactory(typeResolver),
+        genericAddBoundFunction()
+    )
+
+    val genericTypes = runBlocking {
+        parser.parse(sourceString, ParseOptions(parseMode = ParseMode.TypeArgument))
+    }
+
+    return genericTypes.single()
+}
+
+
+/**
+ * Parse [generic source string][String] and construct [GenericType].
+
+ * @param sourceString Source string.
+ * *
+ * @return Construct a [GenericType] from `generic source string`;
+ */
+@Deprecated(
+    message = "This function is not reliable and is not able to parse some scenarios correctly",
+    replaceWith = ReplaceWith("genericTypeFromSourceString")
+)
 fun fromSourceString(sourceString: String): GenericType {
-    return fromSourceString(sourceString, { s ->
+    return fromSourceString(sourceString) { s ->
         try {
             TypeUtil.resolveClass<Any>(s).koresType
         } catch (e: Exception) {
             PlainKoresType(s, false)
         }
-    })
+    }
+}
+
+/**
+ * Parse [generic source string][String] and construct [GenericType].
+
+ * @param sourceString Source string.
+ * *
+ * @return Construct a [GenericType] from `generic source string`;
+ */
+@Deprecated(
+    message = "This function is not reliable and is not able to parse some scenarios correctly",
+    replaceWith = ReplaceWith("genericTypeFromSourceString")
+)
+fun fromSourceString(sourceString: String, classLoader: ClassLoader? = null): GenericType {
+    return fromSourceString(sourceString) { s ->
+        try {
+            resolveClass<Any>(s, classLoader).koresType
+        } catch (e: Exception) {
+            PlainKoresType(s, false)
+        }
+    }
 }
 
 /**
@@ -577,6 +759,10 @@ fun fromSourceString(sourceString: String): GenericType {
  * @param typeResolver Resolves [KoresType] from [string type][String].
  * @return Construct a [GenericType] from `generic source string`;
  */
+@Deprecated(
+    message = "This function is not reliable and is not able to parse some scenarios correctly",
+    replaceWith = ReplaceWith("genericTypeFromSourceString")
+)
 fun fromSourceString(sourceString: String, typeResolver: (String) -> KoresType): GenericType {
     return fromSourceString(sourceString, KoresTypeResolverFunc.fromKtFunction(typeResolver))
 }
@@ -588,8 +774,14 @@ fun fromSourceString(sourceString: String, typeResolver: (String) -> KoresType):
  * @param typeResolver Resolves [KoresType] from [string type][String].
  * @return Construct a [GenericType] from `generic source string`;
  */
+@Deprecated(
+    message = "This function is not reliable and is not able to parse some scenarios correctly",
+    replaceWith = ReplaceWith("genericTypeFromSourceString")
+)
 fun fromSourceString(sourceString: String, typeResolver: KoresTypeResolverFunc): GenericType {
-    if (sourceString.contains("<")) {
+    if (sourceString.contains("<")
+        && sourceString.containsBefore(" extends ", "<")
+        && sourceString.containsBefore(" super ", "<")) {
         Conditions.require(
             sourceString.endsWith(">"),
             "The input generic string: '$sourceString' MUST end with '>'."
@@ -598,16 +790,48 @@ fun fromSourceString(sourceString: String, typeResolver: KoresTypeResolverFunc):
         val type = extractType(sourceString)
         val generic = extractGeneric(sourceString)
 
-        val apply = typeResolver.invoke(type)
+        val apply = fromSourceString(type, typeResolver)
 
         val genericType = Generic.type(apply)
 
         return fromSourceString(genericType, generic, typeResolver)
+    } else if (sourceString.contains(" extends ") || sourceString.contains(" super ")) {
+        val extendsIndex = sourceString.indexOf(" extends ")
+        val superIndex = sourceString.indexOf(" super ")
+        val nameIndex = if (extendsIndex != -1) extendsIndex else superIndex
+        val nameIndexEnds = if (extendsIndex != -1) (extendsIndex + " extends ".length)  else (superIndex + " super ".length)
+
+        val name = sourceString.substring(0, nameIndex)
+
+        if (!name.isPrimitiveName()) {
+            val after = sourceString.substring(nameIndexEnds)
+
+            if (after.isNotEmpty()) {
+                val types = after.split(" & ")
+
+                if (types.isNotEmpty()) {
+                    val parsedTypes = Array(types.size) {
+                        fromSourceString(types[it], typeResolver)
+                    }
+
+                    return if (extendsIndex != -1)
+                        if (name == "?") Generic.wildcard().`extends$`(*parsedTypes)
+                        else Generic.type(name).`extends$`(*parsedTypes)
+                    else
+                        if (name == "?") Generic.wildcard().`super$`(*parsedTypes)
+                        else Generic.type(name).`super$`(*parsedTypes)
+                }
+            }
+        }
     }
 
     return Generic.type(typeResolver.invoke(sourceString))
 }
 
+@Deprecated(
+    message = "This function is not reliable and is not able to parse some scenarios correctly",
+    replaceWith = ReplaceWith("genericTypeFromSourceString")
+)
 private fun fromSourceString(
     generic: Generic,
     sourceString: String,
@@ -616,12 +840,10 @@ private fun fromSourceString(
     @Suppress("NAME_SHADOWING")
     var generic = generic
 
-    val types: Array<String>
-
-    if (sourceString.containsBefore(",", "<"))
-        types = sourceString.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+    val types: Array<String> = if (sourceString.containsBefore(",", "<"))
+        sourceString.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
     else
-        types = arrayOf(sourceString)
+        arrayOf(sourceString)
 
     for (type_ in types) {
         @Suppress("NAME_SHADOWING")
@@ -643,20 +865,24 @@ private fun fromSourceString(
 
             val base = if (isWildcard) Generic.wildcard() else Generic.type(varName)
 
-            val codeType = if (genericStr == null) typeResolver.invoke(type_) else fromSourceString(
-                "$type_<$genericStr>",
-                typeResolver
-            )
+            val intersectionTypes = type_.split(" & ")
 
-            if (isExtends) {
-                generic = generic.of(base.`extends$`(codeType))
+            val codeTypes =
+                if (genericStr == null) if (intersectionTypes.size > 1) {
+                    Array(intersectionTypes.size) {
+                        fromSourceString(intersectionTypes[it], typeResolver)
+                    }
+                } else arrayOf(typeResolver.invoke(type_))
+                else arrayOf(fromSourceString("$type_<$genericStr>", typeResolver))
+            val gen = if (isExtends) base.`extends$`(*codeTypes)
+            else base.`super$`(*codeTypes)
+            generic = if (isExtends) {
+                generic.of(gen)
             } else
             /* if(isSuper) */ {
-                generic = generic.of(base.`super$`(codeType))
+                generic.of(gen)
             }
-
         } else {
-
             generic = if (type_ == "?") {
                 generic.of(Generic.wildcard())
             } else {

@@ -445,7 +445,7 @@ class Generic private constructor(name: String?, codeType: KoresType?, bounds: A
          * @return Generic of type.
          */
         @JvmStatic
-        fun type(type: Type): Generic = Generic(null, type.koresType, emptyArray())
+        fun type(type: Type): Generic = if (type is Generic) type else Generic(null, type.koresType, emptyArray())
 
         /**
          * Create a generic wildcard (? in Java Language, * in JVM).

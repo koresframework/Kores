@@ -89,7 +89,7 @@ public class GenTest {
 
     @Test
     public void fromStringTest() throws Exception {
-        GenericType genericType = GenericTypeUtil.fromSourceString("java.util.Map<java.lang.String,java.lang.Object>");
+        GenericType genericType = GenericTypeUtil.genericTypeFromSourceString("java.util.Map<java.lang.String,java.lang.Object>");
 
         Assert.assertTrue(Generic.type(Map.class).of(String.class, Object.class).is(genericType));
     }

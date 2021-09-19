@@ -41,6 +41,10 @@ repositories {
         name "gitlab-maven"
         url "https://gitlab.com/api/v4/projects/28895078/packages/maven"
     }
+    maven {
+        name "gitlab-generic-parser"
+        url "https://gitlab.com/api/v4/projects/29701822/packages/maven"
+    }
 }
 
 shadowJar {
@@ -118,6 +122,8 @@ dependencies {
     api "com.github.jonathanxd:jwiutils-kt:$iutils_version"
     api "com.github.jonathanxd:specializations:$iutils_version"
     // Kotlin
+    implementation "com.koresframework:generic-parser:$generic_parser_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinx_serialization_version"
