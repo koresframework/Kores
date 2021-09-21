@@ -25,6 +25,10 @@ repositories {
         name "gitlab-maven"
         url "https://gitlab.com/api/v4/projects/28895078/packages/maven"
     }
+    maven {
+        name "gitlab-generic-parser"
+        url "https://gitlab.com/api/v4/projects/29701822/packages/maven"
+    }
 }
 
 dependencies {
