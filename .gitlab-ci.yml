@@ -16,6 +16,7 @@ image: gradle:jdk16
 # isolated from any previous builds.
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  CACHE_FALLBACK_KEY: "master"
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -25,7 +26,7 @@ build:
   script: gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
-    policy: push
+    policy: pull-push
     paths:
       - build
       - .gradle
