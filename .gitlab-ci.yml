@@ -33,13 +33,17 @@ build:
 
 test:
   stage: test
-  script: gradle check
+  script: gradle test
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
       - build
       - .gradle
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
 
 deploy:
   stage: deploy
