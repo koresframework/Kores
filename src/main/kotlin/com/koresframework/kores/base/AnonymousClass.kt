@@ -66,16 +66,20 @@ data class AnonymousClass(
     override val specifiedName: String,
     override val superClass: @Serializable(with = TypeSerializer::class) Type,
     override val implementations: List<@Serializable(with = TypeSerializer::class) Type>,
-    val constructorSpec: TypeSpec,
-    override val arguments: List<Instruction>,
-    val constructorBody: Instructions,
+    val mainConstructor: MainConstructor,
+    val additionalConstructors: List<ConstructorDeclaration>,
     override val staticBlock: StaticBlock,
     override val fields: List<FieldDeclaration>,
-    override val constructors: List<ConstructorDeclaration>,
     override val methods: List<MethodDeclaration>,
     override val innerTypes: List<TypeDeclaration>
 ) : TypeDeclaration, SuperClassHolder,
     ArgumentsHolder, ImplementationHolder, ConstructorsHolder {
+
+    override val constructors: List<ConstructorDeclaration>
+        get() = listOf(this.mainConstructor.declaration) + this.additionalConstructors
+
+    override val arguments: List<Instruction>
+        get() = this.mainConstructor.arguments
 
     override val data: KoresData = KoresData()
     override val qualifiedName: String = specifiedName
@@ -92,7 +96,7 @@ data class AnonymousClass(
         get() = setOf(KoresModifier.PACKAGE_PRIVATE)
 
     override val types: List<Type>
-        get() = this.constructorSpec.parameterTypes
+        get() = this.mainConstructor.declaration.parameters.map { it.type }
 
     override val genericSignature: GenericSignature
         get() = GenericSignature.empty()
@@ -117,13 +121,11 @@ data class AnonymousClass(
         override lateinit var specifiedName: String
         override var superClass: Type? = Types.OBJECT
         override var implementations: List<Type> = emptyList()
-        lateinit var constructorSpec: TypeSpec
-        override var arguments: List<Instruction> = emptyList()
-        lateinit var constructorBody: Instructions
 
+        lateinit var mainConstructor: MainConstructor
+        var additionalConstructors: List<ConstructorDeclaration> = emptyList()
         override var staticBlock: StaticBlock = StaticBlock(Comments.Absent, emptyList(), Instructions.empty())
         override var fields: List<FieldDeclaration> = emptyList()
-        override var constructors: List<ConstructorDeclaration> = emptyList()
         override var methods: List<MethodDeclaration> = emptyList()
         override var innerTypes: List<TypeDeclaration> = emptyList()
 
@@ -135,6 +137,18 @@ data class AnonymousClass(
             get() = GenericSignature.empty()
             set(value) {}
 
+        override var arguments: List<Instruction>
+            get() = this.mainConstructor.arguments
+            set(value) {
+                this.mainConstructor = this.mainConstructor.copy(arguments = value)
+            }
+
+        override var constructors: List<ConstructorDeclaration>
+            get() = listOf(this.mainConstructor.declaration) + this.additionalConstructors
+            set(value) {
+                this.additionalConstructors = value
+            }
+
         constructor(defaults: AnonymousClass) : this() {
             this.comments = defaults.comments
             this.outerType = defaults.outerType
@@ -142,9 +156,9 @@ data class AnonymousClass(
             this.specifiedName = defaults.specifiedName
             this.superClass = defaults.superClass
             this.implementations = defaults.implementations
-            this.constructorSpec = defaults.constructorSpec
+            this.mainConstructor = defaults.mainConstructor
             this.arguments = defaults.arguments
-            this.constructorBody = defaults.constructorBody
+            this.additionalConstructors = defaults.additionalConstructors
 
             this.staticBlock = defaults.staticBlock
             this.fields = defaults.fields
@@ -161,20 +175,21 @@ data class AnonymousClass(
         override fun genericSignature(value: GenericSignature): Builder = self()
 
         /**
-         * See [AnonymousClass.constructorSpec]
+         * See [AnonymousClass.mainConstructor]
          */
-        fun constructorSpec(value: TypeSpec): Builder {
-            this.constructorSpec = value
+        fun mainConstructor(value: MainConstructor): Builder {
+            this.mainConstructor = value
             return this
         }
 
         /**
-         * See [AnonymousClass.constructorBody]
+         * See [AnonymousClass.additionalConstructors]
          */
-        fun constructorBody(value: Instructions): Builder {
-            this.constructorBody = value
+        fun additionalConstructors(value: List<ConstructorDeclaration>): Builder {
+            this.additionalConstructors = value
             return this
         }
+
 
         override fun buildBasic(): AnonymousClass = AnonymousClass(
             this.comments,
@@ -183,12 +198,10 @@ data class AnonymousClass(
             this.specifiedName,
             this.superClass ?: Types.OBJECT,
             this.implementations,
-            this.constructorSpec,
-            this.arguments,
-            this.constructorBody,
+            this.mainConstructor,
+            this.additionalConstructors,
             this.staticBlock,
             this.fields,
-            this.constructors,
             this.methods,
             this.innerTypes
         )

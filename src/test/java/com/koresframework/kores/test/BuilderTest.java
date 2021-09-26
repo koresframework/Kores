@@ -30,56 +30,7 @@ package com.koresframework.kores.test;
 import com.koresframework.kores.Instructions;
 import com.koresframework.kores.Defaults;
 import com.koresframework.kores.Types;
-import com.koresframework.kores.base.Alias;
-import com.koresframework.kores.base.Annotation;
-import com.koresframework.kores.base.AnnotationDeclaration;
-import com.koresframework.kores.base.AnnotationProperty;
-import com.koresframework.kores.base.AnonymousClass;
-import com.koresframework.kores.base.ArrayConstructor;
-import com.koresframework.kores.base.ArrayLength;
-import com.koresframework.kores.base.ArrayLoad;
-import com.koresframework.kores.base.ArrayStore;
-import com.koresframework.kores.base.Case;
-import com.koresframework.kores.base.Cast;
-import com.koresframework.kores.base.CatchStatement;
-import com.koresframework.kores.base.ClassDeclaration;
-import com.koresframework.kores.base.KoresModifier;
-import com.koresframework.kores.base.Retention;
-import com.koresframework.kores.base.Concat;
-import com.koresframework.kores.base.ConstructorDeclaration;
-import com.koresframework.kores.base.ControlFlow;
-import com.koresframework.kores.base.EnumDeclaration;
-import com.koresframework.kores.base.EnumEntry;
-import com.koresframework.kores.base.EnumValue;
-import com.koresframework.kores.base.FieldAccess;
-import com.koresframework.kores.base.FieldDeclaration;
-import com.koresframework.kores.base.FieldDefinition;
-import com.koresframework.kores.base.ForEachStatement;
-import com.koresframework.kores.base.ForStatement;
-import com.koresframework.kores.base.IfExpr;
-import com.koresframework.kores.base.IfStatement;
-import com.koresframework.kores.base.InstanceOfCheck;
-import com.koresframework.kores.base.InterfaceDeclaration;
-import com.koresframework.kores.base.InvokeDynamic;
-import com.koresframework.kores.base.InvokeType;
-import com.koresframework.kores.base.IterationType;
-import com.koresframework.kores.base.Label;
-import com.koresframework.kores.base.LocalCode;
-import com.koresframework.kores.base.MethodDeclaration;
-import com.koresframework.kores.base.MethodInvocation;
-import com.koresframework.kores.base.Operate;
-import com.koresframework.kores.base.Return;
-import com.koresframework.kores.base.StaticBlock;
-import com.koresframework.kores.base.SwitchStatement;
-import com.koresframework.kores.base.SwitchType;
-import com.koresframework.kores.base.ThrowException;
-import com.koresframework.kores.base.TryStatement;
-import com.koresframework.kores.base.TryWithResources;
-import com.koresframework.kores.base.TypeSpec;
-import com.koresframework.kores.base.VariableAccess;
-import com.koresframework.kores.base.VariableDeclaration;
-import com.koresframework.kores.base.VariableDefinition;
-import com.koresframework.kores.base.WhileStatement;
+import com.koresframework.kores.base.*;
 import com.koresframework.kores.base.comment.Code;
 import com.koresframework.kores.base.comment.Comments;
 import com.koresframework.kores.base.comment.Link;
@@ -152,9 +103,14 @@ public class BuilderTest {
         AnonymousClass.Builder.Companion.builder()
                 .qualifiedName("MyAnonymous")
                 .array(false)
-                .constructorBody(Instructions.empty())
+                .mainConstructor(
+                        new MainConstructor(
+                                ConstructorDeclaration.Builder.builder()
+                                        .returnType(Types.VOID).build(),
+                                Collections.emptyList()
+                        )
+                )
                 .modifiers(KoresModifier.PUBLIC)
-                .constructorSpec(new TypeSpec(Void.TYPE))
                 .build();
     }
 

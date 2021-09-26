@@ -29,12 +29,7 @@ package com.koresframework.kores.test;
 
 import com.koresframework.kores.Instructions;
 import com.koresframework.kores.Types;
-import com.koresframework.kores.base.Alias;
-import com.koresframework.kores.base.AnonymousClass;
-import com.koresframework.kores.base.KoresModifier;
-import com.koresframework.kores.base.InvokeType;
-import com.koresframework.kores.base.MethodDeclaration;
-import com.koresframework.kores.base.TypeDeclaration;
+import com.koresframework.kores.base.*;
 import com.koresframework.kores.factory.Factories;
 import com.koresframework.kores.helper.ConcatHelper;
 import com.koresframework.kores.helper.Predefined;
@@ -44,6 +39,8 @@ import com.koresframework.kores.base.Alias;
 import com.koresframework.kores.base.AnonymousClass;
 import com.koresframework.kores.base.KoresModifier;
 import org.junit.Test;
+
+import java.util.List;
 
 public class AnonymousClassTest_ {
     //
@@ -57,9 +54,13 @@ public class AnonymousClassTest_ {
                         .outerType(predefinedTest.getTypeRef())
                         .specifiedName("AnonymousGreeter")
                         .superClass(Greeter2.class)
-                        .constructorSpec(Factories.constructorTypeSpec(String.class))
-                        .arguments(Literals.STRING("[AnonymousClass]"))
-                        .constructorBody(Instructions.fromPart(Predefined.invokePrintlnStr(Literals.STRING("Created!"))))
+                        .mainConstructor(new MainConstructor(
+                                ConstructorDeclaration.Builder.builder()
+                                        .parameters(Factories.parameter(String.class, "a"))
+                                        .body(Instructions.fromPart(Predefined.invokePrintlnStr(Literals.STRING("Created!"))))
+                                        .build(),
+                                List.of(Literals.STRING("[AnonymousClass]"))
+                         ))
                         .methods(
                                 MethodDeclaration.Builder.builder()
                                         .modifiers(KoresModifier.PUBLIC)
