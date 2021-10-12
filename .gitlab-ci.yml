@@ -49,7 +49,7 @@ deploy:
   stage: deploy
   image: gradle:jdk16
   script:
-    - 'gradle publishAllPublicationsToGitLabRepository'
+    - 'gradle publishAllPublicationsToGitLabRepository publishAllPublicationsToGitLabJgangRepository'
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull

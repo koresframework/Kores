@@ -119,6 +119,23 @@ publishing {
                 header(HttpHeaderAuthentication)
             }
         }
+        maven {
+            name = "GitLabJgang"
+            url "https://gitlab.com/api/v4/projects/30392813/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                def ciToken = System.getenv("CI_JOB_TOKEN")
+                if (ciToken != null && !ciToken.isEmpty()) {
+                    name = "Job-Token"
+                    value = System.getenv("CI_JOB_TOKEN")
+                } else {
+                    name = "Private-Token"
+                    value = project.findProperty("GITLAB_TOKEN") ?: System.getenv("GITLAB_TOKEN")
+                }
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
     }
     publications {
         maven(MavenPublication) {
