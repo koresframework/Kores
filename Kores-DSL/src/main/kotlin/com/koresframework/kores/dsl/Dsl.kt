@@ -98,12 +98,10 @@ fun anonymousClass(
     name: String,
     superClass: Type = Types.OBJECT,
     implementations: List<Type> = emptyList(),
-    constructorSpec: TypeSpec = constructorTypeSpec(),
-    arguments: List<Instruction> = emptyList(),
-    constructorBody: Instructions = Instructions.empty(),
+    mainConstructor: MainConstructor,
+    additionalConstructors: List<ConstructorDeclaration>,
     staticBlock: StaticBlock = staticBlock(),
     fields: List<FieldDeclaration> = emptyList(),
-    constructors: List<ConstructorDeclaration> = emptyList(),
     methods: List<MethodDeclaration> = emptyList(),
     innerTypes: List<TypeDeclaration> = emptyList()
 ) = AnonymousClass(
@@ -113,12 +111,10 @@ fun anonymousClass(
     specifiedName = name,
     superClass = superClass,
     implementations = implementations,
-    constructorSpec = constructorSpec,
-    arguments = arguments,
-    constructorBody = constructorBody,
+    mainConstructor = mainConstructor,
+    additionalConstructors = additionalConstructors,
     staticBlock = staticBlock,
     fields = fields,
-    constructors = constructors,
     methods = methods,
     innerTypes = innerTypes
 )
