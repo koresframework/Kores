@@ -81,6 +81,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 task testSourcesJar(type: Jar, dependsOn: testClasses) {
+    archiveBaseName.set("test-${project.archivesBaseName}")
     archiveClassifier.set('sources')
     from sourceSets.test.allSource
 }
