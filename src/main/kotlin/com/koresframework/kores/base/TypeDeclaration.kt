@@ -32,6 +32,7 @@ import com.koresframework.kores.builder.self
 import com.koresframework.kores.type.KoresType
 import com.koresframework.kores.type.KoresTypeResolver
 import com.koresframework.kores.type.TypeRef
+import com.koresframework.kores.type.canonicalName
 import java.lang.reflect.Type
 import kotlin.reflect.KMutableProperty
 
@@ -97,7 +98,14 @@ interface TypeDeclaration : ModifiersHolder, KoresType, QualifiedNamed, GenericS
 
         override var qualifiedName: String
             get() = this.specifiedName
-            set(value) { this.specifiedName = value }
+            set(value) {
+                val newValue = outerType?.canonicalName?.let { outerName ->
+                    if (value.startsWith("$outerName.")) value.substring("$outerName.".length)
+                    else value
+                } ?: value
+
+                this.specifiedName = newValue
+            }
 
         override fun qualifiedName(value: String): S = this.specifiedName(value)
 

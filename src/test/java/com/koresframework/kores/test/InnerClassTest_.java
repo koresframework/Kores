@@ -48,6 +48,7 @@ import com.koresframework.kores.base.KoresModifier;
 import com.koresframework.kores.base.ScopeAccess;
 import com.koresframework.kores.literal.Literals;
 import com.koresframework.kores.type.TypeRef;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -144,7 +145,11 @@ public class InnerClassTest_ {
 
     @Test
     public void test() {
-        $();
+        TypeDeclaration $ = $();
+        Assert.assertEquals("test.InnerClass", $.getQualifiedName());
+        Assert.assertEquals("test.InnerClass.Inner", $.getInnerTypes().get(0).getQualifiedName());
+        Assert.assertEquals("test/InnerClass$Inner", $.getInnerTypes().get(0).getInternalName());
+        Assert.assertEquals("test/InnerClass$Inner", $.getInnerTypes().get(0).builder().build().getInternalName());
     }
 
 
