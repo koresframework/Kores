@@ -7,7 +7,7 @@
 # https://gradle.org/
 # https://github.com/gradle/gradle
 
-image: gradle:jdk16
+image: gradle:jdk18
 
 
 # Disable the Gradle daemon for Continuous Integration servers as correctness
