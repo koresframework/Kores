@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2021 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2022 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -54,7 +54,7 @@ object TypeSerializer : KSerializer<Type> {
     }
 
     override fun deserialize(decoder: Decoder): Type {
-        decoder.decodeStructure(descriptor) {
+        return decoder.decodeStructure(descriptor) {
             val type = LateInit.lateRef<String>("type")
             val canonicalName = LateInit.lateRef<String>("canonicalName")
             val isInterface = LateInit.lateRef<Boolean>("interface")
@@ -81,7 +81,7 @@ object TypeSerializer : KSerializer<Type> {
                 else -> TypeUtil.resolveClass<Any>(canonicalName.value) // TODO: ??
             }
 
-            return if (annotations.value.isNotEmpty()) {
+            return@decodeStructure if (annotations.value.isNotEmpty()) {
                 AnnotatedKoresType.annotatedType(resolvedType, annotations.value)
             } else {
                 resolvedType

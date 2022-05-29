@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2021 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2022 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -51,7 +51,7 @@ object AnnotationSerializer : KSerializer<KoresAnnotation> {
     }
 
     override fun deserialize(decoder: Decoder): KoresAnnotation {
-        decoder.decodeStructure(descriptor) {
+        return decoder.decodeStructure(descriptor) {
             val type = LateInit.lateRef<Type>("type")
             val properties = LateInit.lateRef<Map<String, Any>>("type")
             val retention = LateInit.lateRef<Retention>("retention")
@@ -66,7 +66,7 @@ object AnnotationSerializer : KSerializer<KoresAnnotation> {
                 }
             }
 
-            return KoresAnnotation(type.value, properties.value, retention.value)
+            return@decodeStructure KoresAnnotation(type.value, properties.value, retention.value)
         }
     }
 

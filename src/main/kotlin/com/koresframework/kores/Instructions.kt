@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2021 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2022 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -195,7 +195,7 @@ abstract class Instructions : Iterable<Instruction>, KoresPart {
          */
         @JvmStatic
         fun empty(): Instructions {
-            return Instructions.EMPTY_INSTRUCTIONS
+            return EMPTY_INSTRUCTIONS
         }
 
         /**
@@ -597,6 +597,7 @@ fun Instruction.getLeaveType(): Type? {
             when (this) {
                 Access.SUPER -> return Alias.SUPER
                 Access.THIS -> return Alias.THIS
+                else -> return null
             }
         }
         is IfStatement -> {

@@ -20,25 +20,19 @@ license {
 
 defaultTasks 'licenseFormat', 'build', 'test', 'jar', 'shadowJar'
 
-sourceCompatibility = 16
+sourceCompatibility = 18
 
 def GITHUB_USERNAME = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
 def GITHUB_PAT = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
 
 repositories {
     mavenCentral()
-    // jcenter()
-    maven { url 'https://dl.bintray.com/kotlin/dokka' }
-    // maven { url "https://jitpack.io" }
-    /*maven {
-        url "https://maven.pkg.github.com/jonathanxd/jwiutils"
-        credentials {
-            username = GITHUB_USERNAME
-            password = GITHUB_PAT
-        }
-    }*/
     maven {
         name "gitlab-maven"
+        url "https://gitlab.com/api/v4/projects/30392813/packages/maven"
+    }
+    maven {
+        name = "JGang"
         url "https://gitlab.com/api/v4/projects/30392813/packages/maven"
     }
 }
@@ -107,11 +101,11 @@ artifacts {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "16"
+    kotlinOptions.jvmTarget = "18"
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "16"
+    kotlinOptions.jvmTarget = "18"
 }
 
 dependencies {

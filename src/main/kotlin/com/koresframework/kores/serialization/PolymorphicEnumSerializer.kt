@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2021 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
+ *      Copyright (c) 2022 TheRealBuggy/JonathanxD (https://github.com/JonathanxD/) <jonathan.scripter@programmer.net>
  *      Copyright (c) contributors
  *
  *
@@ -43,7 +43,7 @@ class PolymorphicEnumSerializer<T : Enum<T>>(private val enumSerializer: KSerial
     override fun deserialize(decoder: Decoder): T =
         decoder.decodeStructure(descriptor) {
             decodeElementIndex(descriptor)
-            return decodeSerializableElement(descriptor, 0, enumSerializer)
+            return@decodeStructure decodeSerializableElement(descriptor, 0, enumSerializer)
         }
 
     override fun serialize(encoder: Encoder, value: T) =

@@ -14,15 +14,8 @@ jar {
 
 repositories {
     mavenCentral()
-    /*maven {
-        url "https://maven.pkg.github.com/jonathanxd/jwiutils"
-        credentials {
-            username = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
-            password = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
-        }
-    }*/
     maven {
-        name "gitlab-maven"
+        name = "JGang"
         url "https://gitlab.com/api/v4/projects/30392813/packages/maven"
     }
 }
@@ -33,11 +26,11 @@ dependencies {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "16"
+    kotlinOptions.jvmTarget = "18"
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "16"
+    kotlinOptions.jvmTarget = "18"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
